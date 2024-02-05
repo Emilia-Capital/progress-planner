@@ -33,4 +33,13 @@ class Progress_Planner {
 	private function register_stats() {
 		$this->stats->add_stat( 'posts', new Stats\Stat_Posts() );
 	}
+
+	/**
+	 * Get the stats object.
+	 *
+	 * @return \ProgressPlanner\Stats
+	 */
+	public function get_stats() {
+		return $this->stats;
+	}
 }

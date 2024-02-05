@@ -32,11 +32,21 @@ class Stats {
 	}
 
 	/**
-	 * Get the individual stats.
+	 * Get all stats.
 	 *
 	 * @return array
 	 */
-	public function get_stats() {
+	public function get_all_stats() {
 		return $this->stats;
+	}
+
+	/**
+	 * Get an individual stat.
+	 *
+	 * @param string $id The ID of the stat.
+	 * @return Stat
+	 */
+	public function get_stat( $id ) {
+		return $this->stats[ $id ];
 	}
 }
