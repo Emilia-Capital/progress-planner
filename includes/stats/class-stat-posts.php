@@ -21,9 +21,12 @@ class Stat_Posts extends Stat {
 	 * Set the post-type for this stat.
 	 *
 	 * @param string $post_type The post-type.
+	 *
+	 * @return Stat_Posts Returns this object to allow chaining methods.
 	 */
 	public function set_post_type( $post_type ) {
 		$this->post_type = $post_type;
+		return $this;
 	}
 
 	/**
