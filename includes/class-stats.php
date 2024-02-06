@@ -63,6 +63,5 @@ class Stats {
 	private function register_stats() {
 		$this->add_stat( 'posts', new Stats\Stat_Posts() );
 		$this->add_stat( 'terms', new Stats\Stat_Terms() );
-		$this->add_stat( 'words', new Stats\Stat_Words() );
 	}
 }

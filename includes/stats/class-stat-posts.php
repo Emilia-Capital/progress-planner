@@ -101,9 +101,16 @@ class Stat_Posts extends Stat {
 
 		$posts = get_posts( $args );
 
+		// Get the number of words.
+		$word_count = 0;
+		foreach ( $posts as $post ) {
+			$word_count += str_word_count( $post->post_content );
+		}
+
 		return array(
-			'count'    => count( $posts ),
-			'post_ids' => \wp_list_pluck( $posts, 'ID' ),
+			'count'      => count( $posts ),
+			'post_ids'   => \wp_list_pluck( $posts, 'ID' ),
+			'word_count' => $word_count,
 		);
 	}
 }
