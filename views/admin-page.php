@@ -5,7 +5,6 @@
  * @package ProgressPlanner
  */
 
-$progress_planner = \ProgressPlanner\Progress_Planner::get_instance();
 ?>
 
 <div class="wrap">
@@ -19,13 +18,56 @@ $progress_planner = \ProgressPlanner\Progress_Planner::get_instance();
 			<?php continue; ?>
 		<?php endif; ?>
 		<h3><?php echo esc_html( $post_type_object->label ); ?></h3>
+		<table>
+			<tr>
+				<th style="padding: 0.25em 1em;">
+					<?php esc_html_e( 'Period', 'progress-planner' ); ?>
+				</th>
+				<th style="padding: 0.25em 1em;">
+					<?php esc_html_e( 'Number of posts', 'progress-planner' ); ?>
+				</th>
+				<th style="padding: 0.25em 1em;">
+					<?php esc_html_e( 'Number of words', 'progress-planner' ); ?>
+				</th>
+			</tr>
+			<?php
+			foreach ( [
+				'day' => esc_html__( 'Day', 'progress-planner' ),
+				'week' => esc_html__( 'Week', 'progress-planner' ),
+				'month' => esc_html__( 'Month', 'progress-planner' ),
+				'year' => esc_html__( 'Year', 'progress-planner' ),
+			] as $period => $period_label ) :
+			?>
+				<tr>
+					<td>
+						<?php echo esc_html( $period_label ); ?>
+					</td>
+					<td style="text-align:center;">
+						<?php echo (int) \ProgressPlanner\Progress_Planner::get_instance()
+							->get_stats()
+							->get_stat( 'posts' )
+							->set_post_type( $post_type )
+							->get_data( $period )['count'];
+						?>
+					</td>
+					<td style="text-align:center;">
+						<?php echo (int) \ProgressPlanner\Progress_Planner::get_instance()
+							->get_stats()
+							->get_stat( 'posts' )
+							->set_post_type( $post_type )
+							->get_data( $period )['word_count'];
+						?>
+					</td>
+				</tr>
+			<?php endforeach; ?>
+		</table>
 
 		<p>
 			<?php
 			printf(
 				esc_html__( 'All: %d', 'progress-planner' ),
 				esc_html(
-					$progress_planner
+					\ProgressPlanner\Progress_Planner::get_instance()
 						->get_stats()
 						->get_stat( 'posts' )
 						->set_post_type( $post_type )
@@ -35,37 +77,5 @@ $progress_planner = \ProgressPlanner\Progress_Planner::get_instance();
 			?>
 		</p>
 
-		<?php
-		$lines = [
-			[
-				'period'          => esc_html__( 'Day', 'progress-planner' ),
-				'period'          => 'day',
-				'post_type'       => $post_type,
-				'post_type_label' => $post_type_object->label,
-			],
-			[
-				'period'          => esc_html__( 'Week', 'progress-planner' ),
-				'period'          => 'week',
-				'post_type'       => $post_type,
-				'post_type_label' => $post_type_object->label,
-			],
-			[
-				'period'          => esc_html__( 'Month', 'progress-planner' ),
-				'period'          => 'month',
-				'post_type'       => $post_type,
-				'post_type_label' => $post_type_object->label,
-			],
-			[
-				'period'          => esc_html__( 'Year', 'progress-planner' ),
-				'period'          => 'year',
-				'post_type'       => $post_type,
-				'post_type_label' => $post_type_object->label,
-			],
-		];
-
-		foreach ( $lines as $line ) {
-			include PROGRESS_PLANNER_DIR . '/views/stat-posts.php';
-		}
-		?>
 	<?php endforeach; ?>
 </div>
