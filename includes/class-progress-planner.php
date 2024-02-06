@@ -20,9 +20,17 @@ class Progress_Planner {
 	private $stats;
 
 	/**
+	 * The Admin object.
+	 *
+	 * @var \ProgressPlanner\Admin
+	 */
+	private $admin;
+
+	/**
 	 * Constructor.
 	 */
 	public function __construct() {
+		$this->admin = new Admin();
 		$this->stats = new Stats();
 		$this->register_stats();
 	}
