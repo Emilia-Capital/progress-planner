@@ -60,7 +60,7 @@ $progress_planner = \ProgressPlanner\Progress_Planner::get_instance();
 		];
 
 		foreach ( $lines as $line ) {
-			include PROGRESS_PLANNER_DIR . '/views/stat.php';
+			include PROGRESS_PLANNER_DIR . '/views/stat-posts.php';
 		}
 		?>
 	<?php endforeach; ?>
