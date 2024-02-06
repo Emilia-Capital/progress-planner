@@ -56,40 +56,63 @@ class Stat_Posts extends Stat {
 
 		switch ( $period ) {
 			case 'all':
-				$stats = (array) \wp_count_posts( $this->post_type );
-
-				self::$stats[ $this->post_type ][ $period ] = $stats;
-				return $stats;
+				self::$stats[ $this->post_type ][ $period ] = (array) \wp_count_posts( $this->post_type );
+				return self::$stats[ $this->post_type ][ $period ];
 
 			case 'day':
-				$stats = $this->get_posts_stats_by_date( 'today' );
-
-				self::$stats[ $this->post_type ][ $period ] = $stats;
-				return $stats;
+				self::$stats[ $this->post_type ][ $period ] = $this->get_posts_stats_by_date(
+					[
+						[
+							'after'     => 'today',
+							'inclusive' => true,
+						],
+					]
+				);
+				return self::$stats[ $this->post_type ][ $period ];
 
 			case 'week':
-				$stats = $this->get_posts_stats_by_date( '-1 week' );
-
-				self::$stats[ $this->post_type ][ $period ] = $stats;
-				return $stats;
+				self::$stats[ $this->post_type ][ $period ] = $this->get_posts_stats_by_date(
+					[
+						[
+							'after'     => '-1 week',
+							'inclusive' => true,
+						],
+					]
+				);
+				return self::$stats[ $this->post_type ][ $period ];
 
 			case 'month':
-				$stats = $this->get_posts_stats_by_date( '-1 month' );
-
-				self::$stats[ $this->post_type ][ $period ] = $stats;
-				return $stats;
+				self::$stats[ $this->post_type ][ $period ] = $this->get_posts_stats_by_date(
+					[
+						[
+							'after'     => '-1 month',
+							'inclusive' => true,
+						],
+					]
+				);
+				return self::$stats[ $this->post_type ][ $period ];
 
 			case 'year':
-				$stats = $this->get_posts_stats_by_date( '-1 year' );
-
-				self::$stats[ $this->post_type ][ $period ] = $stats;
-				return $stats;
+				self::$stats[ $this->post_type ][ $period ] = $this->get_posts_stats_by_date(
+					[
+						[
+							'after'     => '-1 year',
+							'inclusive' => true,
+						],
+					]
+				);
+				return self::$stats[ $this->post_type ][ $period ];
 
 			default:
-				$stats = $this->get_posts_stats_by_date( $period );
-
-				self::$stats[ $this->post_type ][ $period ] = $stats;
-				return $stats;
+				self::$stats[ $this->post_type ][ $period ] = $this->get_posts_stats_by_date(
+					[
+						[
+							'after'     => $period,
+							'inclusive' => true,
+						],
+					]
+				);
+				return self::$stats[ $this->post_type ][ $period ];
 		}
 	}
 
@@ -104,12 +127,7 @@ class Stat_Posts extends Stat {
 			'posts_per_page'   => 1000, // phpcs:ignore WordPress.WP.PostsPerPage.posts_per_page_posts_per_page
 			'post_type'        => $this->post_type,
 			'post_status'      => 'publish',
-			'date_query'       => [
-				[
-					'after'     => $date_query,
-					'inclusive' => true,
-				],
-			],
+			'date_query'       => $date_query,
 			'suppress_filters' => false,
 		];
 
