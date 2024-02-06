@@ -32,14 +32,6 @@ class Progress_Planner {
 	public function __construct() {
 		$this->admin = new Admin();
 		$this->stats = new Stats();
-		$this->register_stats();
-	}
-
-	/**
-	 * Register the individual stats.
-	 */
-	private function register_stats() {
-		$this->stats->add_stat( 'posts', new Stats\Stat_Posts() );
 	}
 
 	/**

@@ -22,6 +22,13 @@ class Stats {
 	private $stats = array();
 
 	/**
+	 * Constructor.
+	 */
+	public function __construct() {
+		$this->register_stats();
+	}
+
+	/**
 	 * Add a stat to the collection.
 	 *
 	 * @param string $id   The ID of the stat.
@@ -48,5 +55,14 @@ class Stats {
 	 */
 	public function get_stat( $id ) {
 		return $this->stats[ $id ];
+	}
+
+	/**
+	 * Register the individual stats.
+	 */
+	private function register_stats() {
+		$this->add_stat( 'posts', new Stats\Stat_Posts() );
+		$this->add_stat( 'terms', new Stats\Stat_Terms() );
+		$this->add_stat( 'words', new Stats\Stat_Words() );
 	}
 }
