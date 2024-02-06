@@ -34,6 +34,13 @@ class Progress_Planner {
 	private $admin;
 
 	/**
+	 * The Settings object.
+	 *
+	 * @var \ProgressPlanner\Settings
+	 */
+	private $settings;
+
+	/**
 	 * Get the single instance of this class.
 	 *
 	 * @return \ProgressPlanner\Progress_Planner
@@ -50,8 +57,18 @@ class Progress_Planner {
 	 * Constructor.
 	 */
 	private function __construct() {
-		$this->admin = new Admin();
-		$this->stats = new Stats();
+		$this->admin    = new Admin();
+		$this->settings = new Settings();
+		$this->stats    = new Stats();
+	}
+
+	/**
+	 * Get the settings object.
+	 *
+	 * @return \ProgressPlanner\Settings
+	 */
+	public function get_settings() {
+		return $this->settings;
 	}
 
 	/**
