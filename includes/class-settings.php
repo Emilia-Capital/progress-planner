@@ -93,7 +93,7 @@ class Settings {
 	 *
 	 * @return bool Returns the result of the update_option function.
 	 */
-	public function update_value_previous_unsaved_week( $interval_type = 'weeks', $interval_value = 0 ) {
+	public function update_value_previous_unsaved_interval( $interval_type = 'weeks', $interval_value = 0 ) {
 		// Get the saved value.
 		$saved_value = \get_option( $this->option_name, [] );
 
