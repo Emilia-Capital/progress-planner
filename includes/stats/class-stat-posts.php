@@ -122,7 +122,7 @@ class Stat_Posts extends Stat {
 	 * @param array $date_query The date query.
 	 * @return array
 	 */
-	private function get_posts_stats_by_date( $date_query ) {
+	public function get_posts_stats_by_date( $date_query ) {
 		$args = [
 			'posts_per_page'   => 1000, // phpcs:ignore WordPress.WP.PostsPerPage.posts_per_page_posts_per_page
 			'post_type'        => $this->post_type,

@@ -86,6 +86,47 @@ class Settings {
 	}
 
 	/**
-	 * Update value for previous week.
+	 * Update value for a previous, unsaved week.
+	 *
+	 * @param string $interval_type  The interval type. Can be "week" or "month".
+	 * @param int    $interval_value The number of weeks or months back to update the value for.
+	 *
+	 * @return bool Returns the result of the update_option function.
 	 */
+	public function update_value_previous_unsaved_week( $interval_type = 'weeks', $interval_value = 0 ) {
+		// Get the saved value.
+		$saved_value = \get_option( $this->option_name, [] );
+
+		// Get the year & week numbers for the defined week/month.
+		$year             = \gmdate( 'Y', strtotime( "-$interval_value $interval_type" ) );
+		$interval_type_nr = \gmdate(
+			'weeks' === $interval_type ? 'W' : 'n',
+			strtotime( "-$interval_value $interval_type" )
+		);
+
+		foreach ( \array_keys( \get_post_types( [ 'public' => true ] ) ) as $post_type ) {
+			$interval_stats = Progress_Planner::get_instance()
+				->get_stats()
+				->get_stat( 'posts' )
+				->set_post_type( $post_type )
+				->get_posts_stats_by_date(
+					[
+						[
+							'after'     => '-' . ( $interval_value + 1 ) . $interval_type,
+							'inclusive' => true,
+						],
+						[
+							'before'    => '-' . $interval_value . $interval_type,
+							'inclusive' => false,
+						],
+					]
+				);
+
+			// Set the value.
+			$saved_values['stats'][ $year ][ $interval_type ][ $interval_type_nr ]['posts'][ $post_type ] = $interval_stats['count'];
+		}
+
+		// Update the option value.
+		return \update_option( $this->option_name, $saved_value );
+	}
 }
