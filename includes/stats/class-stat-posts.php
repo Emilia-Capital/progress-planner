@@ -11,13 +11,29 @@ namespace ProgressPlanner\Stats;
 class Stat_Posts extends Stat {
 
 	/**
+	 * The post-type for this stat.
+	 *
+	 * @var string
+	 */
+	protected $post_type = 'post';
+
+	/**
+	 * Set the post-type for this stat.
+	 *
+	 * @param string $post_type The post-type.
+	 */
+	public function set_post_type( $post_type ) {
+		$this->post_type = $post_type;
+	}
+
+	/**
 	 * Get the stat data.
 	 *
 	 * @return array
 	 */
 	public function get_data() {
 		return array(
-			'total' => (array) wp_count_posts(),
+			'total' => (array) \wp_count_posts(),
 			'day'   => $this->get_posts_stats_by_date( [
 				[
 					'after'     => 'today',
@@ -54,7 +70,7 @@ class Stat_Posts extends Stat {
 	private function get_posts_stats_by_date( $date_query ) {
 		$args = array(
 			'posts_per_page'  => 1000,
-			'post_type'       => 'post',
+			'post_type'       => $this->post_type,
 			'post_status'     => 'publish',
 			'date_query'      => $date_query,
 			'suppress_filters' => false,
@@ -64,7 +80,7 @@ class Stat_Posts extends Stat {
 
 		return array(
 			'count'    => count( $posts ),
-			'post_ids' => wp_list_pluck( $posts, 'ID' ),
+			'post_ids' => \wp_list_pluck( $posts, 'ID' ),
 		);
 	}
 }
