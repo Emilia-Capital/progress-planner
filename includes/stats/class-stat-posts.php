@@ -29,36 +29,56 @@ class Stat_Posts extends Stat {
 	/**
 	 * Get the stat data.
 	 *
+	 * @param string $period The period to get the data for.
+	 *
 	 * @return array
 	 */
-	public function get_data() {
-		return array(
-			'total' => (array) \wp_count_posts(),
-			'day'   => $this->get_posts_stats_by_date( [
-				[
-					'after'     => 'today',
-					'inclusive' => true,
-				],
-			] ),
-			'week'  => $this->get_posts_stats_by_date( [
-				[
-					'after'     => '-1 week',
-					'inclusive' => true,
-				],
-			] ),
-			'month' => $this->get_posts_stats_by_date( [
-				[
-					'after'     => '-1 month',
-					'inclusive' => true,
-				],
-			] ),
-			'year'  => $this->get_posts_stats_by_date( [
-				[
-					'after'     => '-1 year',
-					'inclusive' => true,
-				],
-			] ),
-		);
+	public function get_data( $period = 'week' ) {
+
+		switch ( $period ) {
+			case 'all':
+				return (array) \wp_count_posts( $this->post_type );
+
+			case 'day':
+				return $this->get_posts_stats_by_date( [
+					[
+						'after'     => 'today',
+						'inclusive' => true,
+					],
+				] );
+
+			case 'week':
+				return $this->get_posts_stats_by_date( [
+					[
+						'after'     => '-1 week',
+						'inclusive' => true,
+					],
+				] );
+
+			case 'month':
+				return $this->get_posts_stats_by_date( [
+					[
+						'after'     => '-1 month',
+						'inclusive' => true,
+					],
+				] );
+
+			case 'year':
+				return $this->get_posts_stats_by_date( [
+					[
+						'after'     => '-1 year',
+						'inclusive' => true,
+					],
+				] );
+
+			default:
+				return $this->get_posts_stats_by_date( [
+					[
+						'after'     => $period,
+						'inclusive' => true,
+					],
+				] );
+		}
 	}
 
 	/**

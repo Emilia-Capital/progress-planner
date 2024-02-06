@@ -17,7 +17,9 @@ abstract class Stat {
 	/**
 	 * Get the stat data.
 	 *
+	 * @param string $period The period to get the data for.
+	 *
 	 * @return array
 	 */
-	abstract public function get_data();
+	abstract public function get_data( $period = 'week' );
 }
