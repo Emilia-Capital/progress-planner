@@ -1,6 +1,8 @@
 <?php
 /**
  * Stats about posts.
+ *
+ * @package ProgressPlanner
  */
 
 namespace ProgressPlanner\Stats;
@@ -98,18 +100,18 @@ class Stat_Posts extends Stat {
 	 * @return array
 	 */
 	private function get_posts_stats_by_date( $date_query ) {
-		$args = array(
-			'posts_per_page'  => 1000,
-			'post_type'       => $this->post_type,
-			'post_status'     => 'publish',
-			'date_query'      => [
+		$args = [
+			'posts_per_page'   => 1000, // phpcs:ignore WordPress.WP.PostsPerPage.posts_per_page_posts_per_page
+			'post_type'        => $this->post_type,
+			'post_status'      => 'publish',
+			'date_query'       => [
 				[
 					'after'     => $date_query,
 					'inclusive' => true,
 				],
 			],
 			'suppress_filters' => false,
-		);
+		];
 
 		$posts = get_posts( $args );
 
@@ -119,10 +121,10 @@ class Stat_Posts extends Stat {
 			$word_count += str_word_count( $post->post_content );
 		}
 
-		return array(
+		return [
 			'count'      => count( $posts ),
 			'post_ids'   => \wp_list_pluck( $posts, 'ID' ),
 			'word_count' => $word_count,
-		);
+		];
 	}
 }

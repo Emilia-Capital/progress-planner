@@ -19,7 +19,7 @@ class Stats {
 	 *
 	 * @var array
 	 */
-	private $stats = array();
+	private $stats = [];
 
 	/**
 	 * Constructor.

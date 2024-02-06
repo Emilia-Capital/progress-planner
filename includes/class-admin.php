@@ -1,6 +1,8 @@
 <?php
 /**
  * Create the admin page, menu etc.
+ *
+ * @package ProgressPlanner
  */
 
 namespace ProgressPlanner;

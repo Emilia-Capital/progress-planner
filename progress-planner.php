@@ -1,6 +1,8 @@
 <?php
 /**
  * Plugin name: Progress Planner
+ *
+ * @package ProgressPlanner
  */
 
 define( 'PROGRESS_PLANNER_DIR', __DIR__ );

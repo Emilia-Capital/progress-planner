@@ -3,6 +3,8 @@
  * An object containing info about an individual stat.
  *
  * This is an abstract class, meant to be extended by individual stat classes.
+ *
+ * @package ProgressPlanner
  */
 
 namespace ProgressPlanner\Stats;
