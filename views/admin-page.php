@@ -38,24 +38,28 @@ $progress_planner = \ProgressPlanner\Progress_Planner::get_instance();
 		<?php
 		$lines = [
 			[
-				'label'     => esc_html__( 'Day', 'progress-planner' ),
-				'period'    => 'day',
-				'post_type' => $post_type,
+				'period'          => esc_html__( 'Day', 'progress-planner' ),
+				'period'          => 'day',
+				'post_type'       => $post_type,
+				'post_type_label' => $post_type_object->label,
 			],
 			[
-				'label'     => esc_html__( 'Week', 'progress-planner' ),
-				'period'    => 'week',
-				'post_type' => $post_type,
+				'period'          => esc_html__( 'Week', 'progress-planner' ),
+				'period'          => 'week',
+				'post_type'       => $post_type,
+				'post_type_label' => $post_type_object->label,
 			],
 			[
-				'label'     => esc_html__( 'Month', 'progress-planner' ),
-				'period'    => 'month',
-				'post_type' => $post_type,
+				'period'          => esc_html__( 'Month', 'progress-planner' ),
+				'period'          => 'month',
+				'post_type'       => $post_type,
+				'post_type_label' => $post_type_object->label,
 			],
 			[
-				'label'     => esc_html__( 'Year', 'progress-planner' ),
-				'period'    => 'year',
-				'post_type' => $post_type,
+				'period'          => esc_html__( 'Year', 'progress-planner' ),
+				'period'          => 'year',
+				'post_type'       => $post_type,
+				'post_type_label' => $post_type_object->label,
 			],
 		];
 
