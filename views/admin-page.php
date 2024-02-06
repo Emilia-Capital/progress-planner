@@ -32,10 +32,12 @@
 			</tr>
 			<?php
 			foreach ( [
-				'day' => esc_html__( 'Day', 'progress-planner' ),
-				'week' => esc_html__( 'Week', 'progress-planner' ),
-				'month' => esc_html__( 'Month', 'progress-planner' ),
-				'year' => esc_html__( 'Year', 'progress-planner' ),
+				'day'      => esc_html__( 'Day', 'progress-planner' ),
+				'week'     => esc_html__( 'Week', 'progress-planner' ),
+				'-2 weeks' => esc_html__( '2 Weeks', 'progress-planner' ),
+				'-3 weeks' => esc_html__( '3 Weeks', 'progress-planner' ),
+				'month'    => esc_html__( 'Month', 'progress-planner' ),
+				'year'     => esc_html__( 'Year', 'progress-planner' ),
 			] as $period => $period_label ) :
 			?>
 				<tr>
