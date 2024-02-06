@@ -18,6 +18,13 @@ class Stat_Posts extends Stat {
 	protected $post_type = 'post';
 
 	/**
+	 * Static var to hold the stats and avoid multiple queries.
+	 *
+	 * @var array
+	 */
+	private static $stats = [];
+
+	/**
 	 * Set the post-type for this stat.
 	 *
 	 * @param string $post_type The post-type.
@@ -38,49 +45,62 @@ class Stat_Posts extends Stat {
 	 */
 	public function get_data( $period = 'week' ) {
 
+		if ( ! isset( self::$stats[ $this->post_type ] ) ) {
+			self::$stats[ $this->post_type ] = [];
+		}
+		if ( isset( self::$stats[ $this->post_type ][ $period ] ) ) {
+			return self::$stats[ $this->post_type ][ $period ];
+		}
+
 		switch ( $period ) {
 			case 'all':
-				return (array) \wp_count_posts( $this->post_type );
+				self::$stats[ $this->post_type ][ $period ] = (array) \wp_count_posts( $this->post_type );
+				return self::$stats[ $this->post_type ][ $period ];
 
 			case 'day':
-				return $this->get_posts_stats_by_date( [
+				self::$stats[ $this->post_type ][ $period ] = $this->get_posts_stats_by_date( [
 					[
 						'after'     => 'today',
 						'inclusive' => true,
 					],
 				] );
+				return self::$stats[ $this->post_type ][ $period ];
 
 			case 'week':
-				return $this->get_posts_stats_by_date( [
+				self::$stats[ $this->post_type ][ $period ] = $this->get_posts_stats_by_date( [
 					[
 						'after'     => '-1 week',
 						'inclusive' => true,
 					],
 				] );
+				return self::$stats[ $this->post_type ][ $period ];
 
 			case 'month':
-				return $this->get_posts_stats_by_date( [
+				self::$stats[ $this->post_type ][ $period ] = $this->get_posts_stats_by_date( [
 					[
 						'after'     => '-1 month',
 						'inclusive' => true,
 					],
 				] );
+				return self::$stats[ $this->post_type ][ $period ];
 
 			case 'year':
-				return $this->get_posts_stats_by_date( [
+				self::$stats[ $this->post_type ][ $period ] = $this->get_posts_stats_by_date( [
 					[
 						'after'     => '-1 year',
 						'inclusive' => true,
 					],
 				] );
+				return self::$stats[ $this->post_type ][ $period ];
 
 			default:
-				return $this->get_posts_stats_by_date( [
+				self::$stats[ $this->post_type ][ $period ] = $this->get_posts_stats_by_date( [
 					[
 						'after'     => $period,
 						'inclusive' => true,
 					],
 				] );
+				return self::$stats[ $this->post_type ][ $period ];
 		}
 	}
 
