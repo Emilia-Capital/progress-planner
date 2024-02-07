@@ -31,11 +31,9 @@ class Stat_Terms extends Stat {
 	/**
 	 * Get the stat data.
 	 *
-	 * @param string $period The period to get the data for.
-	 *
 	 * @return array
 	 */
-	public function get_data( $period = 'week' ) {
+	public function get_data() {
 		return [
 			'total' => (array) \wp_count_terms( [ 'taxonomy' => $this->taxonomy ] ),
 		];

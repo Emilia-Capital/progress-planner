@@ -17,11 +17,30 @@ namespace ProgressPlanner\Stats;
 abstract class Stat {
 
 	/**
-	 * Get the stat data.
+	 * Date Query.
 	 *
-	 * @param string $period The period to get the data for.
+	 * The date query, which will be then passed-on to the WP_Date_Query object.
+	 *
+	 * @var array
+	 */
+	protected $date_query = [];
+
+	/**
+	 * Set the date query.
+	 *
+	 * @param array $date_query The date query.
+	 *
+	 * @return Stat Returns this object to allow chaining methods.
+	 */
+	public function set_date_query( $date_query ) {
+		$this->date_query = $date_query;
+		return $this;
+	}
+
+	/**
+	 * Get the stat data.
 	 *
 	 * @return array
 	 */
-	abstract public function get_data( $period = 'week' );
+	abstract public function get_data();
 }

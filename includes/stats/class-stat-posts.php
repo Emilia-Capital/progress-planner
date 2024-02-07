@@ -39,95 +39,16 @@ class Stat_Posts extends Stat {
 	}
 
 	/**
-	 * Get the stat data.
-	 *
-	 * @param string $period The period to get the data for.
+	 * Get the data.
 	 *
 	 * @return array
 	 */
-	public function get_data( $period = 'week' ) {
-
-		if ( ! isset( self::$stats[ $this->post_type ] ) ) {
-			self::$stats[ $this->post_type ] = [];
-		}
-		if ( isset( self::$stats[ $this->post_type ][ $period ] ) ) {
-			return self::$stats[ $this->post_type ][ $period ];
-		}
-
-		switch ( $period ) {
-			case 'all':
-				self::$stats[ $this->post_type ][ $period ] = (array) \wp_count_posts( $this->post_type );
-				return self::$stats[ $this->post_type ][ $period ];
-
-			case 'day':
-				self::$stats[ $this->post_type ][ $period ] = $this->get_posts_stats_by_date(
-					[
-						[
-							'after'     => 'today',
-							'inclusive' => true,
-						],
-					]
-				);
-				return self::$stats[ $this->post_type ][ $period ];
-
-			case 'week':
-				self::$stats[ $this->post_type ][ $period ] = $this->get_posts_stats_by_date(
-					[
-						[
-							'after'     => '-1 week',
-							'inclusive' => true,
-						],
-					]
-				);
-				return self::$stats[ $this->post_type ][ $period ];
-
-			case 'month':
-				self::$stats[ $this->post_type ][ $period ] = $this->get_posts_stats_by_date(
-					[
-						[
-							'after'     => '-1 month',
-							'inclusive' => true,
-						],
-					]
-				);
-				return self::$stats[ $this->post_type ][ $period ];
-
-			case 'year':
-				self::$stats[ $this->post_type ][ $period ] = $this->get_posts_stats_by_date(
-					[
-						[
-							'after'     => '-1 year',
-							'inclusive' => true,
-						],
-					]
-				);
-				return self::$stats[ $this->post_type ][ $period ];
-
-			default:
-				self::$stats[ $this->post_type ][ $period ] = $this->get_posts_stats_by_date(
-					[
-						[
-							'after'     => $period,
-							'inclusive' => true,
-						],
-					]
-				);
-				return self::$stats[ $this->post_type ][ $period ];
-		}
-	}
-
-	/**
-	 * Get posts by dates.
-	 *
-	 * @param array $date_query The date query.
-	 * @return array
-	 */
-	public function get_posts_stats_by_date( $date_query ) {
+	public function get_data() {
 		$args = [
 			'posts_per_page'   => 1000, // phpcs:ignore WordPress.WP.PostsPerPage.posts_per_page_posts_per_page
 			'post_type'        => $this->post_type,
 			'post_status'      => 'publish',
-			'date_query'       => $date_query,
+			'date_query'       => $this->date_query,
 			'suppress_filters' => false,
 		];
 

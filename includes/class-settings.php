@@ -22,9 +22,15 @@ class Settings {
 	/**
 	 * Get the option value.
 	 *
+	 * @param string[] ...$args Get the value for a specific key in the array.
+	 *                          This will go over the array recursively, returning the value for the last key.
+	 *                          Example: If the value is ['a' => ['b' => 'c']], get_value('a', 'b') will return 'c'.
+	 *                          If the key does not exist, it will return null.
+	 *                          If no keys are provided, it will return the entire array.
+	 *
 	 * @return array
 	 */
-	public function get_value() {
+	public function get_value( ...$args ) {
 		// Get the saved value.
 		$saved_value = \get_option( $this->option_name, [] );
 
@@ -32,7 +38,17 @@ class Settings {
 		$current_value = $this->get_current_value();
 
 		// Merge the saved value with the default value.
-		return \array_replace_recursive( $current_value, $saved_value );
+		$value = \array_replace_recursive( $current_value, $saved_value );
+
+		// Get the value for a specific key.
+		foreach ( $args as $arg ) {
+			if ( ! isset( $value[ $arg ] ) ) {
+				$value = null;
+				break;
+			}
+			$value = $value[ $arg ];
+		}
+		return $value;
 	}
 
 	/**
@@ -42,9 +58,9 @@ class Settings {
 	 */
 	private function get_current_value() {
 		// Get the values for current week and month.
-		$curr_y     = \gmdate( 'Y' );
-		$curr_m     = \gmdate( 'n' );
-		$curr_w     = \gmdate( 'W' );
+		$curr_y     = (int) \gmdate( 'Y' );
+		$curr_m     = (int) \gmdate( 'n' );
+		$curr_w     = (int) \gmdate( 'W' );
 		$curr_value = [
 			'stats' => [
 				$curr_y => [
@@ -63,18 +79,31 @@ class Settings {
 				],
 			],
 		];
-		foreach ( \array_keys( \get_post_types( [ 'public' => true ] ) ) as $post_type ) {
-			$week_stats = Progress_Planner::get_instance()
-				->get_stats()
-				->get_stat( 'posts' )
-				->set_post_type( $post_type )
-				->get_data( 'this week' );
 
-			$month_stats = Progress_Planner::get_instance()
-				->get_stats()
-				->get_stat( 'posts' )
-				->set_post_type( $post_type )
-				->get_data( gmdate( 'F Y' ) );
+		$stats = Progress_Planner::get_instance()->get_stats()->get_stat( 'posts' );
+		foreach ( \array_keys( \get_post_types( [ 'public' => true ] ) ) as $post_type ) {
+			// Set the post-type.
+			$stats->set_post_type( $post_type );
+
+			// Get weekly stats.
+			$week_stats = $stats->set_date_query(
+				[
+					[
+						'after'     => '-1 week',
+						'inclusive' => true,
+					],
+				]
+			)->get_data();
+
+			// Get monthly stats.
+			$month_stats = $stats->set_date_query(
+				[
+					[
+						'after'     => gmdate( 'F Y' ),
+						'inclusive' => true,
+					],
+				]
+			)->get_data();
 
 			$curr_value['stats'][ $curr_y ]['weeks'][ $curr_w ]['posts'][ $post_type ]  = $week_stats['count'];
 			$curr_value['stats'][ $curr_y ]['weeks'][ $curr_w ]['words'][ $post_type ]  = $week_stats['word_count'];
@@ -95,35 +124,40 @@ class Settings {
 	 */
 	public function update_value_previous_unsaved_interval( $interval_type = 'weeks', $interval_value = 0 ) {
 		// Get the saved value.
-		$saved_value = \get_option( $this->option_name, [] );
+		$saved_value = $this->get_value();
 
 		// Get the year & week numbers for the defined week/month.
-		$year             = \gmdate( 'Y', strtotime( "-$interval_value $interval_type" ) );
-		$interval_type_nr = \gmdate(
+		$year             = (int) \gmdate( 'Y', strtotime( "-$interval_value $interval_type" ) );
+		$interval_type_nr = (int) \gmdate(
 			'weeks' === $interval_type ? 'W' : 'n',
 			strtotime( "-$interval_value $interval_type" )
 		);
 
+		$stats = Progress_Planner::get_instance()->get_stats()->get_stat( 'posts' );
 		foreach ( \array_keys( \get_post_types( [ 'public' => true ] ) ) as $post_type ) {
-			$interval_stats = Progress_Planner::get_instance()
-				->get_stats()
-				->get_stat( 'posts' )
-				->set_post_type( $post_type )
-				->get_posts_stats_by_date(
+			if (
+				isset( $saved_value['stats'][ $year ][ $interval_type ][ $interval_type_nr ]['posts'][ $post_type ] ) &&
+				isset( $saved_value['stats'][ $year ][ $interval_type ][ $interval_type_nr ]['words'][ $post_type ] )
+			) {
+				continue;
+			}
+
+			$interval_stats = $stats->set_post_type( $post_type )->set_date_query(
+				[
 					[
-						[
-							'after'     => '-' . ( $interval_value + 1 ) . $interval_type,
-							'inclusive' => true,
-						],
-						[
-							'before'    => '-' . $interval_value . $interval_type,
-							'inclusive' => false,
-						],
-					]
-				);
+						'after'     => '-' . ( $interval_value + 1 ) . ' ' . $interval_type,
+						'inclusive' => true,
+					],
+					[
+						'before'    => '-' . $interval_value . ' ' . $interval_type,
+						'inclusive' => false,
+					],
+				]
+			)->get_data();
 
 			// Set the value.
-			$saved_values['stats'][ $year ][ $interval_type ][ $interval_type_nr ]['posts'][ $post_type ] = $interval_stats['count'];
+			$saved_value['stats'][ $year ][ $interval_type ][ $interval_type_nr ]['posts'][ $post_type ] = $interval_stats['count'];
+			$saved_value['stats'][ $year ][ $interval_type ][ $interval_type_nr ]['words'][ $post_type ] = $interval_stats['word_count'];
 		}
 
 		// Update the option value.
