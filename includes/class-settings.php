@@ -40,15 +40,30 @@ class Settings {
 		// Merge the saved value with the default value.
 		$value = \array_replace_recursive( $current_value, $saved_value );
 
-		// Get the value for a specific key.
-		foreach ( $args as $arg ) {
-			if ( ! isset( $value[ $arg ] ) ) {
-				$value = null;
-				break;
-			}
-			$value = $value[ $arg ];
-		}
-		return $value;
+		return empty( $args )
+			? $value
+			: \_wp_array_get( $value, $args );
+	}
+
+	/**
+	 * Update the option value.
+	 *
+	 * @param string[] $args  The keys to update.
+	 *                        This will go over the array recursively, updating the value for the last key.
+	 *                        See get_value for more info.
+	 * @param mixed    $value The new value.
+	 *
+	 * @return bool Returns the result of the update_option function.
+	 */
+	public function set_value( $args, $value ) {
+		// Get the saved value.
+		$saved_value = \get_option( $this->option_name, [] );
+
+		// Update item in the array.
+		\_wp_array_set( $saved_value, $args, $value );
+
+		// Update the option value.
+		return \update_option( $this->option_name, $saved_value );
 	}
 
 	/**
@@ -120,11 +135,9 @@ class Settings {
 	 * @param string $interval_type  The interval type. Can be "week" or "month".
 	 * @param int    $interval_value The number of weeks or months back to update the value for.
 	 *
-	 * @return bool Returns the result of the update_option function.
+	 * @return void
 	 */
 	public function update_value_previous_unsaved_interval( $interval_type = 'weeks', $interval_value = 0 ) {
-		// Get the saved value.
-		$saved_value = $this->get_value();
 
 		// Get the year & week numbers for the defined week/month.
 		$year             = (int) \gmdate( 'Y', strtotime( "-$interval_value $interval_type" ) );
@@ -135,13 +148,6 @@ class Settings {
 
 		$stats = Progress_Planner::get_instance()->get_stats()->get_stat( 'posts' );
 		foreach ( \array_keys( \get_post_types( [ 'public' => true ] ) ) as $post_type ) {
-			if (
-				isset( $saved_value['stats'][ $year ][ $interval_type ][ $interval_type_nr ]['posts'][ $post_type ] ) &&
-				isset( $saved_value['stats'][ $year ][ $interval_type ][ $interval_type_nr ]['words'][ $post_type ] )
-			) {
-				continue;
-			}
-
 			$interval_stats = $stats->set_post_type( $post_type )->set_date_query(
 				[
 					[
@@ -155,12 +161,14 @@ class Settings {
 				]
 			)->get_data();
 
-			// Set the value.
-			$saved_value['stats'][ $year ][ $interval_type ][ $interval_type_nr ]['posts'][ $post_type ] = $interval_stats['count'];
-			$saved_value['stats'][ $year ][ $interval_type ][ $interval_type_nr ]['words'][ $post_type ] = $interval_stats['word_count'];
+			$this->set_value(
+				[ 'stats', $year, $interval_type, $interval_type_nr, 'posts', $post_type ],
+				$interval_stats['count']
+			);
+			$this->set_value(
+				[ 'stats', $year, $interval_type, $interval_type_nr, 'words', $post_type ],
+				$interval_stats['word_count']
+			);
 		}
-
-		// Update the option value.
-		return \update_option( $this->option_name, $saved_value );
 	}
 }
