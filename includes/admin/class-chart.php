@@ -13,27 +13,6 @@ namespace ProgressPlanner\Admin;
 class Chart {
 
 	/**
-	 * Constructor.
-	 */
-	public function __construct() {
-		$this->register_hooks();
-	}
-
-	/**
-	 * Register the hooks.
-	 */
-	private function register_hooks() {
-		\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
-	}
-
-	/**
-	 * Enqueue the scripts and styles.
-	 */
-	public function enqueue_scripts() {
-		\wp_enqueue_script( 'chartjs', 'https://cdn.jsdelivr.net/npm/chart.js', [], '4.4.1', true );
-	}
-
-	/**
 	 * Render the chart.
 	 *
 	 * @param string $id      The ID of the chart.
@@ -45,7 +24,12 @@ class Chart {
 	 */
 	public function render_chart( $id, $type, $data, $options ) {
 		$id = 'progress-planner-chart-' . $id;
+
+		// TODO: This should be properly enqueued.
+		// phpcs:ignore
+		echo '<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>';
 		?>
+
 		<canvas id="<?php echo sanitize_key( $id ); ?>" width="400" height="400"></canvas>
 		<script>
 			var chart = new Chart( document.getElementById( '<?php echo sanitize_key( $id ); ?>' ), {

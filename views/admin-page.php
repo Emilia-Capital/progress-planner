@@ -17,7 +17,6 @@ foreach ( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ] as $prpl_i ) {
 }
 
 ?>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <div class="wrap">
 	<h1><?php esc_html_e( 'Progress Planner', 'progress-planner' ); ?></h1>
 
@@ -32,20 +31,20 @@ foreach ( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ] as $prpl_i ) {
 		<div style="display:flex;">
 			<div style="max-height: 300px;">
 				<?php
-				$prpl_settings = \ProgressPlanner\Progress_Planner::get_instance()->get_settings()->get_value( [ 'stats' ], 'ASC' );
-				$data          = [
+				$prpl_settings   = \ProgressPlanner\Progress_Planner::get_instance()->get_settings()->get_value( [ 'stats' ], 'ASC' );
+				$prpl_chart_data = [
 					'labels'   => [],
 					'datasets' => [ [ 'data' => [] ] ],
 				];
-				foreach ( $prpl_settings as $year => $prpl_setting ) {
+				foreach ( $prpl_settings as $prpl_chart_data_year => $prpl_setting ) {
 					if ( ! isset( $prpl_setting['weeks'] ) ) {
 						continue;
 					}
-					foreach ( $prpl_setting['weeks'] as $week => $prpl_week ) {
-						$data['labels'][] = $year . 'W' . $week;
-						foreach ( $prpl_week['posts'] as $post_type => $nr ) {
-							if ( $prpl_post_type === $post_type ) {
-								$data['datasets'][0]['data'][] = $nr;
+					foreach ( $prpl_setting['weeks'] as $prpl_week_nr => $prpl_week ) {
+						$prpl_chart_data['labels'][] = $prpl_chart_data_year . 'W' . $prpl_week_nr;
+						foreach ( $prpl_week['posts'] as $prpl_pt => $prpl_chart_nr ) {
+							if ( $prpl_post_type === $prpl_pt ) {
+								$prpl_chart_data['datasets'][0]['data'][] = $prpl_chart_nr;
 							}
 						}
 					}
@@ -53,7 +52,7 @@ foreach ( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ] as $prpl_i ) {
 				\ProgressPlanner\Progress_Planner::get_instance()->get_admin()->get_chart()->render_chart(
 					$prpl_post_type,
 					'line',
-					$data,
+					$prpl_chart_data,
 					[ 'scales' => [ 'y' => [ 'beginAtZero' => true ] ] ]
 				);
 				?>
