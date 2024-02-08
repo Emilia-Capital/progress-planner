@@ -76,26 +76,9 @@ class Settings {
 		$curr_y     = (int) \gmdate( 'Y' );
 		$curr_m     = (int) \gmdate( 'n' );
 		$curr_w     = (int) \gmdate( 'W' );
-		$curr_value = [
-			'stats' => [
-				$curr_y => [
-					'weeks'  => [
-						$curr_w => [
-							'posts' => [],
-							'words' => [],
-						],
-					],
-					'months' => [
-						$curr_m => [
-							'posts' => [],
-							'words' => [],
-						],
-					],
-				],
-			],
-		];
+		$curr_value = [];
+		$stats      = Progress_Planner::get_instance()->get_stats()->get_stat( 'posts' );
 
-		$stats = Progress_Planner::get_instance()->get_stats()->get_stat( 'posts' );
 		foreach ( \array_keys( \get_post_types( [ 'public' => true ] ) ) as $post_type ) {
 			// Set the post-type.
 			$stats->set_post_type( $post_type );
@@ -110,6 +93,10 @@ class Settings {
 				]
 			)->get_data();
 
+			// Set weekly stats.
+			\_wp_array_set( $curr_value, [ 'stats', $curr_y, 'weeks', $curr_w, 'posts', $post_type ], $week_stats['count'] );
+			\_wp_array_set( $curr_value, [ 'stats', $curr_y, 'weeks', $curr_w, 'words', $post_type ], $week_stats['word_count'] );
+
 			// Get monthly stats.
 			$month_stats = $stats->set_date_query(
 				[
@@ -120,10 +107,9 @@ class Settings {
 				]
 			)->get_data();
 
-			$curr_value['stats'][ $curr_y ]['weeks'][ $curr_w ]['posts'][ $post_type ]  = $week_stats['count'];
-			$curr_value['stats'][ $curr_y ]['weeks'][ $curr_w ]['words'][ $post_type ]  = $week_stats['word_count'];
-			$curr_value['stats'][ $curr_y ]['months'][ $curr_m ]['posts'][ $post_type ] = $month_stats['count'];
-			$curr_value['stats'][ $curr_y ]['months'][ $curr_m ]['words'][ $post_type ] = $month_stats['word_count'];
+			// Set monthly stats.
+			\_wp_array_set( $curr_value, [ 'stats', $curr_y, 'months', $curr_m, 'posts', $post_type ], $month_stats['count'] );
+			\_wp_array_set( $curr_value, [ 'stats', $curr_y, 'months', $curr_m, 'words', $post_type ], $month_stats['word_count'] );
 		}
 
 		return $curr_value;

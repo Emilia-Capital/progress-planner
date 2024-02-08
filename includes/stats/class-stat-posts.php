@@ -20,13 +20,6 @@ class Stat_Posts extends Stat {
 	protected $post_type = 'post';
 
 	/**
-	 * Static var to hold the stats and avoid multiple queries.
-	 *
-	 * @var array
-	 */
-	private static $stats = [];
-
-	/**
 	 * Set the post-type for this stat.
 	 *
 	 * @param string $post_type The post-type.
