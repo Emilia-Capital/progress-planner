@@ -79,4 +79,13 @@ class Progress_Planner {
 	public function get_stats() {
 		return $this->stats;
 	}
+
+	/**
+	 * Get the admin object.
+	 *
+	 * @return \ProgressPlanner\Admin
+	 */
+	public function get_admin() {
+		return $this->admin;
+	}
 }

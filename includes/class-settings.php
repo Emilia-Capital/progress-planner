@@ -22,15 +22,17 @@ class Settings {
 	/**
 	 * Get the option value.
 	 *
-	 * @param string[] ...$args Get the value for a specific key in the array.
-	 *                          This will go over the array recursively, returning the value for the last key.
-	 *                          Example: If the value is ['a' => ['b' => 'c']], get_value('a', 'b') will return 'c'.
-	 *                          If the key does not exist, it will return null.
-	 *                          If no keys are provided, it will return the entire array.
+	 * @param string[] $args  Get the value for a specific key in the array.
+	 *                        This will go over the array recursively, returning the value for the last key.
+	 *                        Example: If the value is ['a' => ['b' => 'c']], get_value('a', 'b') will return 'c'.
+	 *                        If the key does not exist, it will return null.
+	 *                        If no keys are provided, it will return the entire array.
+	 * @param string   $order The order. Can be "ASC" or "DESC".
+	 *                        If null, then the order will be the same as the saved value.
 	 *
 	 * @return array
 	 */
-	public function get_value( ...$args ) {
+	public function get_value( $args, $order = null ) {
 		// Get the saved value.
 		$saved_value = \get_option( $this->option_name, [] );
 
@@ -40,9 +42,39 @@ class Settings {
 		// Merge the saved value with the default value.
 		$value = \array_replace_recursive( $current_value, $saved_value );
 
-		return empty( $args )
+		$value = empty( $args )
 			? $value
 			: \_wp_array_get( $value, $args );
+
+		return null === $order
+			? $value
+			: $this->order( $value, $order );
+	}
+
+	/**
+	 * Get the value, ordered by date.
+	 *
+	 * @param mixed  $value The value.
+	 * @param string $order The order. Can be "ASC" or "DESC".
+	 *
+	 * @return array
+	 */
+	public function order( $value, $order = 'ASC' ) {
+		if ( ! is_array( $value ) ) {
+			return $value;
+		}
+
+		// Order the array.
+		if ( 'ASC' === $order ) {
+			\ksort( $value );
+		} else {
+			\krsort( $value );
+		}
+
+		foreach ( $value as $key => $val ) {
+			$value[ $key ] = $this->order( $val, $order );
+		}
+		return $value;
 	}
 
 	/**
