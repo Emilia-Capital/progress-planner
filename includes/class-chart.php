@@ -5,7 +5,7 @@
  * @package ProgressPlanner
  */
 
-namespace ProgressPlanner\Admin;
+namespace ProgressPlanner;
 
 /**
  * Render a chart.
@@ -35,7 +35,7 @@ class Chart {
 			var chart = new Chart( document.getElementById( '<?php echo sanitize_key( $id ); ?>' ), {
 				type: '<?php echo esc_js( $type ); ?>',
 				data: <?php echo wp_json_encode( $data ); ?>,
-				options: <?php echo wp_json_encode( $options ); ?>,
+				// options: <?php echo wp_json_encode( $options ); ?>,
 			} );
 		</script>
 		<?php

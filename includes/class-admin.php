@@ -24,7 +24,6 @@ class Admin {
 	 */
 	public function __construct() {
 		$this->admin_page = new Admin\Page();
-		$this->chart      = new Admin\Chart();
 	}
 
 	/**
@@ -34,14 +33,5 @@ class Admin {
 	 */
 	public function get_admin_page() {
 		return $this->admin_page;
-	}
-
-	/**
-	 * Get the chart object.
-	 *
-	 * @return \ProgressPlanner\Admin\Chart
-	 */
-	public function get_chart() {
-		return $this->chart;
 	}
 }
