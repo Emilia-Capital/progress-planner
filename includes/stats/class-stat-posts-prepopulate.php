@@ -17,7 +17,7 @@ class Stat_Posts_Prepopulate extends Stat_Posts {
 	 *
 	 * @var int
 	 */
-	private $posts_per_page = 100;
+	const POSTS_PER_PAGE = 10;
 
 	/**
 	 * Key used to store the last page that was prepopulated from the API.
@@ -78,7 +78,7 @@ class Stat_Posts_Prepopulate extends Stat_Posts {
 		}
 
 		// Calculate the total number of pages.
-		return (int) ceil( $total / $this->posts_per_page );
+		return (int) ceil( $total / self::POSTS_PER_PAGE );
 	}
 
 	/**
@@ -128,7 +128,7 @@ class Stat_Posts_Prepopulate extends Stat_Posts {
 		}
 		$posts = \get_posts(
 			[
-				'posts_per_page'   => $this->posts_per_page,
+				'posts_per_page'   => self::POSTS_PER_PAGE,
 				'paged'            => $this->last_page + 1,
 				'post_type'        => array_keys( \get_post_types( [ 'public' => true ] ) ),
 				'post_status'      => 'publish',
