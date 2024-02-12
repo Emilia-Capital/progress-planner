@@ -53,6 +53,15 @@ if ( ! $prpl_stats_posts->get_value( $prpl_prepopulate::FINISHED_KEY ) ) {
 			<input type="submit" class="button button-primary" value="<?php esc_html_e( 'Reset Stats', 'progress-planner' ); ?>">
 		</form>
 
+		<hr>
+
+		<details>
+			<summary><?php esc_html_e( 'Debug', 'progress-planner' ); ?></summary>
+			<pre><?php print_r( $prpl_stats_posts->get_value() ); ?></pre>
+		</details>
+
+		<hr>
+
 		<h2><?php esc_html_e( 'Post Types', 'progress-planner' ); ?></h2>
 		<div style="max-height: 300px;display:flex;">
 			<div>
