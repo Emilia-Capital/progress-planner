@@ -1,11 +1,8 @@
 /**
  * Loaded on edit-tags admin pages, this file contains the JavaScript for the ProgressPlanner plugin.
- *
- * @file   This files contains the functionality for the ProgressPlanner plugin.
- * @author Joost de Valk
  */
 
-/* global progressPlanner, tb_remove */
+/* global progressPlanner */
 
 /**
  * A helper to make AJAX requests.
@@ -48,20 +45,39 @@ const progressPlannerAjaxRequest = ( { url, data, successAction, failAction } ) 
 
 const progressPlannerTriggerScan = () => {
 	document.getElementById( 'progress-planner-scan-progress' ).style.display = 'block';
+	const successAction = ( response ) => {
+		const progressBar = document.querySelector( '#progress-planner-scan-progress progress' );
+		// Update the progressbar.
+		if ( response.data.progress > progressBar.value ) {
+			progressBar.value = response.data.progress;
+		}
+
+		// Refresh the page when scan has finished.
+		if ( response.data.progress >= 100 ) {
+			location.reload();
+			return;
+		}
+
+		progressPlannerTriggerScan();
+	};
+	const failAction = ( response ) => {
+		if ( response && response.data && response.data.progress ) {
+			successAction( response );
+			return;
+		}
+		// Wait 1 second and re-trigger.
+		setTimeout( () => {
+			progressPlannerTriggerScan();
+		}, 1000 );
+	};
 	progressPlannerAjaxRequest( {
 		url: progressPlanner.ajaxUrl,
 		data: {
 			action: 'progress_planner_scan_posts',
 			_ajax_nonce: progressPlanner.nonce,
 		},
-		successAction: ( response ) => {
-			document.querySelector( '#progress-planner-scan-progress progress' ).value = response.data.progress;
-
-			progressPlannerTriggerScan();
-			if ( response.data.progress >= 100 ) {
-				location.reload();
-			}
-		},
+		successAction: successAction,
+		failAction: failAction,
 	} );
 };
 

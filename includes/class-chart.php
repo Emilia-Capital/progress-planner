@@ -22,20 +22,22 @@ class Chart {
 	 *
 	 * @return void
 	 */
-	public function render_chart( $id, $type, $data, $options ) {
+	public function render_chart( $id, $type, $data, $options = [] ) {
 		$id = 'progress-planner-chart-' . $id;
+
+		$options['responsive'] = true;
 
 		// TODO: This should be properly enqueued.
 		// phpcs:ignore
 		echo '<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>';
 		?>
 
-		<canvas id="<?php echo sanitize_key( $id ); ?>" width="400" height="400"></canvas>
+		<canvas id="<?php echo sanitize_key( $id ); ?>" style="max-height:500px;"></canvas>
 		<script>
 			var chart = new Chart( document.getElementById( '<?php echo sanitize_key( $id ); ?>' ), {
 				type: '<?php echo esc_js( $type ); ?>',
 				data: <?php echo wp_json_encode( $data ); ?>,
-				// options: <?php echo wp_json_encode( $options ); ?>,
+				options: <?php echo wp_json_encode( $options ); ?>,
 			} );
 		</script>
 		<?php

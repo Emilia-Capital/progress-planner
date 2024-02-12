@@ -17,103 +17,41 @@ class Stat_Posts_Prepopulate extends Stat_Posts {
 	 *
 	 * @var int
 	 */
-	const POSTS_PER_PAGE = 10;
+	const POSTS_PER_PAGE = 30;
 
 	/**
-	 * Key used to store the last page that was prepopulated from the API.
-	 *
-	 * @var string
-	 */
-	const LAST_PAGE_KEY = 'last_posts_prepopulated_page';
-
-	/**
-	 * Key used to determine if prepopulating is complete.
-	 *
-	 * @var string
-	 */
-	const FINISHED_KEY = 'posts_prepopulated_complete';
-
-	/**
-	 * The last page that was prepopulated from the API.
+	 * The last post-ID.
 	 *
 	 * @var int
 	 */
-	private $last_page = 0;
+	private $last_post_id = 0;
 
 	/**
-	 * Constructor.
+	 * The last scanned post-ID.
+	 *
+	 * @var int
 	 */
-	public function __construct() {
-		parent::__construct();
-
-		// Set the $last_page property.
-		$this->last_page = $this->get_last_prepopulated_page();
-	}
+	private $last_scanned_post_id = 0;
 
 	/**
 	 * Get the last page that was prepopulated from the API.
 	 *
 	 * @return int
 	 */
-	public function get_last_prepopulated_page() {
-		$option_value = $this->get_value();
-
-		return ( isset( $option_value[ self::LAST_PAGE_KEY ] ) )
-			? $option_value[ self::LAST_PAGE_KEY ]
-			: 0;
-	}
-
-	/**
-	 * Get the total number of pages that need to be prepopulated.
-	 *
-	 * @return int
-	 */
-	public function get_total_pages() {
-
-		$post_types = array_keys( \get_post_types( [ 'public' => true ] ) );
-		$total      = 0;
-
-		foreach ( $post_types as $post_type ) {
-			$total += (int) \wp_count_posts( $post_type )->publish;
+	public function get_last_prepopulated_post() {
+		if ( $this->last_scanned_post_id ) {
+			return $this->last_scanned_post_id;
 		}
 
-		// Calculate the total number of pages.
-		return (int) ceil( $total / self::POSTS_PER_PAGE );
-	}
-
-	/**
-	 * Set the last page that was prepopulated from the API.
-	 *
-	 * @param int $page The page number.
-	 *
-	 * @return void
-	 */
-	private function set_last_prepopulated_page( $page ) {
 		$option_value = $this->get_value();
-
-		$option_value[ self::LAST_PAGE_KEY ] = $page;
-		$this->set_value( [], $option_value );
-	}
-
-	/**
-	 * Whether prepopulating is complete.
-	 *
-	 * @return bool
-	 */
-	public function is_prepopulating_complete() {
-		$option_value = $this->get_value();
-		if (
-			isset( $option_value[ self::FINISHED_KEY ] ) &&
-			$option_value[ self::FINISHED_KEY ]
-		) {
-			// Remove the last page key. It's no longer needed.
-			if ( isset( $option_value[ self::LAST_PAGE_KEY ] ) ) {
-				unset( $option_value[ self::LAST_PAGE_KEY ] );
-				$this->set_value( [], $option_value );
+		foreach ( $option_value as $posts ) {
+			foreach ( $posts as $post_id => $details ) {
+				if ( $post_id > $this->last_scanned_post_id ) {
+					$this->last_scanned_post_id = $post_id;
+				}
 			}
-			return true;
 		}
-		return false;
+		return $this->last_scanned_post_id;
 	}
 
 	/**
@@ -122,38 +60,51 @@ class Stat_Posts_Prepopulate extends Stat_Posts {
 	 * @return void
 	 */
 	public function prepopulate() {
-		// Bail early if prepopulating is complete.
-		if ( $this->is_prepopulating_complete() ) {
-			return;
+		// Get the last post we processed.
+		$last_id = $this->get_last_prepopulated_post();
+
+		// Build an array of posts to save.
+		$post_ids = \range( $last_id, $last_id + self::POSTS_PER_PAGE );
+
+		foreach ( $post_ids as $post_id ) {
+			$post = get_post( $post_id );
+
+			// If the post doesn't exist or is not publish, skip it.
+			if ( ! $post || 'publish' !== $post->post_status ) {
+				if ( $post ) {
+					$this->last_scanned_post_id = $post->ID;
+				}
+				continue;
+			}
+
+			$this->save_post( $post );
+			$this->last_scanned_post_id = $post->ID;
 		}
-		$posts = \get_posts(
+	}
+
+	/**
+	 * Get the last post-ID created.
+	 *
+	 * @return int
+	 */
+	public function get_last_post_id() {
+		if ( $this->last_post_id ) {
+			return $this->last_post_id;
+		}
+		$last_post = \get_posts(
 			[
-				'posts_per_page'   => self::POSTS_PER_PAGE,
-				'paged'            => $this->last_page + 1,
-				'post_type'        => array_keys( \get_post_types( [ 'public' => true ] ) ),
+				'posts_per_page'   => 1,
+				'post_type'        => $this->get_post_types_names(),
 				'post_status'      => 'publish',
 				'suppress_filters' => false,
-				// Start from oldest to newest.
-				'order'            => 'ASC',
-				'orderby'          => 'date',
+				'order'            => 'DESC',
+				'orderby'          => 'ID',
 			]
 		);
-
-		// If there are no posts for this page, then prepopulating is complete.
-		if ( empty( $posts ) ) {
-			$option_value = $this->get_value();
-
-			$option_value[ self::FINISHED_KEY ] = true;
-			$this->set_value( [], $option_value );
-			return;
+		if ( empty( $last_post ) ) {
+			return 0;
 		}
-
-		// Save the posts stats.
-		foreach ( $posts as $post ) {
-			$this->save_post( $post );
-		}
-
-		// Set the last page that was prepopulated from the API.
-		$this->set_last_prepopulated_page( $this->last_page + 1 );
+		$this->last_post_id = $last_post[0]->ID;
+		return $this->last_post_id;
 	}
 }

@@ -92,16 +92,17 @@ class Stat {
 	 */
 	public function set_value( $index, $value ) {
 		// Call $this->get_value, to populate $this->stats.
-		$this->get_value();
+		$stats = \get_option( self::SETTING_NAME, [ $this->type => [] ] );
 
 		// Add $this->type to the beginning of the index array.
 		\array_unshift( $index, $this->type );
 
 		// Update the value in the array.
-		\_wp_array_set( $this->stats, $index, $value );
+		\_wp_array_set( $stats, $index, $value );
 
 		// Save the option.
-		\update_option( self::SETTING_NAME, $this->stats );
+		\update_option( self::SETTING_NAME, $stats );
+		$this->stats = $stats;
 	}
 
 	/**

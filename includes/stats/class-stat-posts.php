@@ -44,8 +44,11 @@ class Stat_Posts extends Stat {
 	 * Save a post to the stats.
 	 *
 	 * @param \WP_Post $post The post.
+	 *
+	 * @return bool
 	 */
 	protected function save_post( $post ) {
+		// error_log( $post->post_date . ' => ' . mysql2date( 'Ymd', $post->post_date ) );
 		// Get the date.
 		$date = (int) mysql2date( 'Ymd', $post->post_date );
 
@@ -113,7 +116,7 @@ class Stat_Posts extends Stat {
 	 */
 	public function build_chart( $post_types = [], $context = 'count', $interval = 'weeks', $range = 10, $offset = 0 ) {
 		$post_types = empty( $post_types )
-			? array_keys( \get_post_types( [ 'public' => true ] ) )
+			? $this->get_post_types_names()
 			: $post_types;
 
 		$range_array_end   = \range( $offset, $range - 1 );
@@ -177,4 +180,17 @@ class Stat_Posts extends Stat {
 	public function reset_stats() {
 		$this->set_value( [], [] );
 	}
+
+	/**
+	 * Get an array of post-types names for the stats.
+	 *
+	 * @return array
+	 */
+	public function get_post_types_names() {
+		$post_types = \get_post_types( [ 'public' => true ] );
+		unset( $post_types['attachment'] );
+
+		return array_keys( $post_types );
+	}
+
 }
