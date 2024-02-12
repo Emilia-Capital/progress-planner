@@ -47,7 +47,7 @@ class Stat_Posts extends Stat {
 	 */
 	protected function save_post( $post ) {
 		// Get the date.
-		$date = (int) gmdate( 'Ymd', strtotime( $post->post_date ) );
+		$date = (int) mysql2date( 'Ymd', $post->post_date );
 
 		// Add the post to the stats.
 		$this->set_value(
