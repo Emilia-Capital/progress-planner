@@ -39,10 +39,19 @@ class Stat_Posts_Prepopulate extends Stat_Posts {
 	 * @return int
 	 */
 	public function get_last_prepopulated_post() {
+		// If we have the last scanned post, return it.
 		if ( $this->last_scanned_post_id ) {
 			return $this->last_scanned_post_id;
 		}
 
+		// Try to get the value from the transient.
+		$cached = \get_transient( 'progress_planner_last_prepopulated_post' );
+		if ( $cached ) {
+			$this->last_scanned_post_id = $cached;
+			return $this->last_scanned_post_id;
+		}
+
+		// Get the last scanned post-ID from the stats.
 		$option_value = $this->get_value();
 		foreach ( $option_value as $posts ) {
 			foreach ( $posts as $post_id => $details ) {
@@ -52,6 +61,13 @@ class Stat_Posts_Prepopulate extends Stat_Posts {
 			}
 		}
 		return $this->last_scanned_post_id;
+	}
+
+	/**
+	 * Set the last prepopulated post.
+	 */
+	public function save_last_prepopulated_post() {
+		\set_transient( 'progress_planner_last_prepopulated_post', $this->last_scanned_post_id, \HOUR_IN_SECONDS );
 	}
 
 	/**
@@ -71,14 +87,14 @@ class Stat_Posts_Prepopulate extends Stat_Posts {
 
 			// If the post doesn't exist or is not publish, skip it.
 			if ( ! $post || 'publish' !== $post->post_status ) {
-				if ( $post ) {
-					$this->last_scanned_post_id = $post->ID;
-				}
+				$this->last_scanned_post_id = $post_id;
+				$this->save_last_prepopulated_post();
 				continue;
 			}
 
 			$this->save_post( $post );
 			$this->last_scanned_post_id = $post->ID;
+			$this->save_last_prepopulated_post();
 		}
 	}
 
