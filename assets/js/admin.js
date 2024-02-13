@@ -64,7 +64,7 @@ const progressPlannerTriggerScan = () => {
 
 		// Refresh the page when scan has finished.
 		if ( response.data.progress >= 100 ) {
-			// location.reload();
+			location.reload();
 			return;
 		}
 
