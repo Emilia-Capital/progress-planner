@@ -45,6 +45,14 @@ const progressPlannerAjaxRequest = ( { url, data, successAction, failAction } ) 
 
 const progressPlannerTriggerScan = () => {
 	document.getElementById( 'progress-planner-scan-progress' ).style.display = 'block';
+
+	/**
+	 * The action to run on a successful AJAX request.
+	 * This function should update the UI and re-trigger the scan if necessary.
+	 *
+	 * @param {Object} response The response from the server.
+	 *                          The response should contain a `progress` property.
+	 */
 	const successAction = ( response ) => {
 		const progressBar = document.querySelector( '#progress-planner-scan-progress progress' );
 		// Update the progressbar.
@@ -52,24 +60,42 @@ const progressPlannerTriggerScan = () => {
 			progressBar.value = response.data.progress;
 		}
 
+		console.info( `Progress: ${response.data.progress}%, (${response.data.lastScanned}/${response.data.lastPost})` );
+
 		// Refresh the page when scan has finished.
 		if ( response.data.progress >= 100 ) {
-			location.reload();
+			// location.reload();
 			return;
 		}
 
-		progressPlannerTriggerScan();
+		// Wait half a second and re-trigger.
+		setTimeout( () => {
+			progressPlannerTriggerScan();
+		}, 500 );
 	};
+
+	/**
+	 * The action to run on a failed AJAX request.
+	 * This function should re-trigger the scan if necessary.
+	 * If the response contains a `progress` property, the successAction should be run instead.
+	 *
+	 * @param {Object} response The response from the server.
+	 */
 	const failAction = ( response ) => {
 		if ( response && response.data && response.data.progress ) {
 			successAction( response );
 			return;
 		}
-		// Wait 1 second and re-trigger.
+
+		// Wait 2 seconds and re-trigger.
 		setTimeout( () => {
 			progressPlannerTriggerScan();
 		}, 1000 );
 	};
+
+	/**
+	 * The AJAX request to run.
+	 */
 	progressPlannerAjaxRequest( {
 		url: progressPlanner.ajaxUrl,
 		data: {
@@ -98,16 +124,27 @@ function progressPlannerDomReady( callback ) {
 progressPlannerDomReady( () => {
 	const scanForm = document.getElementById( 'progress-planner-scan' );
 	const resetForm = document.getElementById( 'progress-planner-stats-reset' );
+
+	/**
+	 * Add an event listener for the scan form.
+	 */
 	if ( scanForm ) {
 		scanForm.addEventListener( 'submit', ( e ) => {
 			e.preventDefault();
+			scanForm.querySelector( 'input[type="submit"]' ).disabled = true;
 			progressPlannerTriggerScan();
 		} );
 	}
+
+	/**
+	 * Add an event listener for the reset form.
+	 */
 	if ( resetForm ) {
 		resetForm.addEventListener( 'submit', ( e ) => {
 			e.preventDefault();
 			resetForm.querySelector( 'input[type="submit"]' ).disabled = true;
+
+			// Make an AJAX request to reset the stats.
 			progressPlannerAjaxRequest( {
 				url: progressPlanner.ajaxUrl,
 				data: {

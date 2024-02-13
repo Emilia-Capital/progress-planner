@@ -45,7 +45,7 @@ class Stat_Posts extends Stat {
 	 *
 	 * @param \WP_Post $post The post.
 	 *
-	 * @return bool
+	 * @return void
 	 */
 	protected function save_post( $post ) {
 		// error_log( $post->post_date . ' => ' . mysql2date( 'Ymd', $post->post_date ) );
@@ -192,5 +192,4 @@ class Stat_Posts extends Stat {
 
 		return array_keys( $post_types );
 	}
-
 }

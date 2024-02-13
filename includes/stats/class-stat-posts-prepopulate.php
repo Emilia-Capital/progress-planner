@@ -17,7 +17,7 @@ class Stat_Posts_Prepopulate extends Stat_Posts {
 	 *
 	 * @var int
 	 */
-	const POSTS_PER_PAGE = 30;
+	const POSTS_PER_PAGE = 100;
 
 	/**
 	 * The last post-ID.

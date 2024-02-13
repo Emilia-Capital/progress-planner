@@ -17,8 +17,10 @@ $prpl_filters_intervals = [
 	'weeks'  => __( 'Weeks', 'progress-planner' ),
 	'months' => __( 'Months', 'progress-planner' ),
 ];
-$prpl_filters_interval  = isset( $_POST['interval'] ) ? sanitize_key( $_POST['interval'] ) : 'weeks';
-$prpl_filters_number    = isset( $_POST['number'] ) ? (int) $_POST['number'] : 10;
+// phpcs:ignore WordPress.Security.NonceVerification.Missing
+$prpl_filters_interval = isset( $_POST['interval'] ) ? sanitize_key( $_POST['interval'] ) : 'weeks';
+// phpcs:ignore WordPress.Security.NonceVerification.Missing
+$prpl_filters_number = isset( $_POST['number'] ) ? (int) $_POST['number'] : 10;
 
 // Check if we have a scan pending.
 $prpl_scan_pending  = false;
@@ -67,7 +69,7 @@ if ( empty( $prpl_stats_posts->get_value() ) ) {
 					<?php endforeach; ?>
 				</select>
 				<input name="number" type="number" value="<?php echo esc_attr( $prpl_filters_number ); ?>">
-				<input type="submit" class="button button-secondary" value="<?php esc_attr_e( 'Update' ); ?>">
+				<input type="submit" class="button button-secondary" value="<?php esc_attr_e( 'Update', 'progress-planner' ); ?>">
 			</form>
 		</div>
 
