@@ -69,7 +69,7 @@ class Goals {
 			new Goals\Goal(
 				[
 					'id'          => 'weekly_post',
-					'title'       => esc_html__( 'Write a weekly blog post', 'progress-planner' ),
+					'title'       => \esc_html__( 'Write a weekly blog post', 'progress-planner' ),
 					'description' => '',
 					'type'        => 'post',
 					'frequency'   => 'weekly',

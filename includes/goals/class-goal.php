@@ -90,7 +90,7 @@ class Goal {
 	 * @param array $args The goal arguments.
 	 */
 	public function __construct( $args = [] ) {
-		$args              = wp_parse_args(
+		$args              = \wp_parse_args(
 			$args,
 			[
 				'id'          => '',

@@ -78,11 +78,27 @@ if ( empty( $prpl_stats_posts->get_value() ) ) {
 		<h2><?php esc_html_e( 'Post Types', 'progress-planner' ); ?></h2>
 		<div style="max-width:1000px;">
 			<h3><?php esc_html_e( 'Posts count progress', 'progress-planner' ); ?></h3>
-			<?php $prpl_stats_posts->build_chart( [], 'count', $prpl_filters_interval, $prpl_filters_number, 0 ); ?>
+			<?php
+			( new \ProgressPlanner\Charts\Posts() )->render(
+				$prpl_stats_posts->get_post_types_names(),
+				'count',
+				$prpl_filters_interval,
+				$prpl_filters_number,
+				0
+			);
+			?>
 		</div>
 		<div style="max-width:1000px;">
 			<h3><?php esc_html_e( 'Words count progress', 'progress-planner' ); ?></h3>
-			<?php $prpl_stats_posts->build_chart( [], 'words', $prpl_filters_interval, $prpl_filters_number, 0 ); ?>
+			<?php
+			( new \ProgressPlanner\Charts\Posts() )->render(
+				$prpl_stats_posts->get_post_types_names(),
+				'words',
+				$prpl_filters_interval,
+				$prpl_filters_number,
+				0
+			);
+			?>
 		</div>
 
 		<hr>

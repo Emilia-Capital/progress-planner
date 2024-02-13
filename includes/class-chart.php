@@ -32,12 +32,12 @@ class Chart {
 		echo '<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>';
 		?>
 
-		<canvas id="<?php echo sanitize_key( $id ); ?>" style="max-height:500px;"></canvas>
+		<canvas id="<?php echo \sanitize_key( $id ); ?>" style="max-height:500px;"></canvas>
 		<script>
-			var chart = new Chart( document.getElementById( '<?php echo sanitize_key( $id ); ?>' ), {
-				type: '<?php echo esc_js( $type ); ?>',
-				data: <?php echo wp_json_encode( $data ); ?>,
-				options: <?php echo wp_json_encode( $options ); ?>,
+			var chart = new Chart( document.getElementById( '<?php echo \sanitize_key( $id ); ?>' ), {
+				type: '<?php echo \esc_js( $type ); ?>',
+				data: <?php echo \wp_json_encode( $data ); ?>,
+				options: <?php echo \wp_json_encode( $options ); ?>,
 			} );
 		</script>
 		<?php
