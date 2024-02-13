@@ -34,6 +34,13 @@ class Progress_Planner {
 	private $admin;
 
 	/**
+	 * The Goals object.
+	 *
+	 * @var \ProgressPlanner\Goals
+	 */
+	private $goals;
+
+	/**
 	 * Get the single instance of this class.
 	 *
 	 * @return \ProgressPlanner\Progress_Planner
@@ -52,6 +59,7 @@ class Progress_Planner {
 	private function __construct() {
 		$this->admin = new Admin();
 		$this->stats = new Stats();
+		$this->goals = new Goals();
 	}
 
 	/**
@@ -70,5 +78,14 @@ class Progress_Planner {
 	 */
 	public function get_admin() {
 		return $this->admin;
+	}
+
+	/**
+	 * Get the goals object.
+	 *
+	 * @return \ProgressPlanner\Goals
+	 */
+	public function get_goals() {
+		return $this->goals;
 	}
 }
