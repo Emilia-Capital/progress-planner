@@ -10,7 +10,7 @@ namespace ProgressPlanner;
 /**
  * Goals class.
  */
-class Goals extends Base {
+class Goals {
 
 	/**
 	 * Constructor.
@@ -30,10 +30,10 @@ class Goals extends Base {
 	 * Register weekly-post goal.
 	 */
 	private function register_weekly_post_goal() {
-		$stats = $this->get_stats();
+		$stats = new Stats();
 
 		// Get the start date for all stats.
-		$start_date = array_keys( $this->get_stats()->get_stat( 'posts' )->get_value() );
+		$start_date = array_keys( $stats->get_stat( 'posts' )->get_value() );
 		sort( $start_date );
 		$start_date = $start_date[0];
 
