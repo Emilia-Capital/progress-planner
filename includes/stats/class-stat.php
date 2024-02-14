@@ -43,15 +43,6 @@ class Stat {
 	protected $value;
 
 	/**
-	 * Date Query.
-	 *
-	 * The date query, which will be then passed-on to the WP_Date_Query object.
-	 *
-	 * @var array
-	 */
-	protected $date_query = [];
-
-	/**
 	 * Constructor.
 	 */
 	public function __construct() {
@@ -103,14 +94,5 @@ class Stat {
 		// Save the option.
 		\update_option( self::SETTING_NAME, $stats );
 		$this->stats = $stats;
-	}
-
-	/**
-	 * Set the date query.
-	 *
-	 * @param array $date_query The date query.
-	 */
-	public function set_date_query( $date_query ) {
-		$this->date_query = $date_query;
 	}
 }

@@ -7,7 +7,7 @@
 
 namespace ProgressPlanner\Stats;
 
-use ProgressPlanner\Charts\Posts as Posts_Chart;
+use ProgressPlanner\Date;
 
 /**
  * Stats about posts.
@@ -44,7 +44,7 @@ class Stat_Posts extends Stat {
 	 */
 	protected function save_post( $post ) {
 		// Get the date.
-		$date = (int) mysql2date( 'Ymd', $post->post_date );
+		$date = (int) mysql2date( Date::FORMAT, $post->post_date );
 
 		// Add the post to the stats.
 		$this->set_value(

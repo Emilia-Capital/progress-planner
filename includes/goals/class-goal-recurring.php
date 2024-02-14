@@ -7,6 +7,8 @@
 
 namespace ProgressPlanner\Goals;
 
+use ProgressPlanner\Date;
+
 /**
  * A recurring goal.
  */
@@ -72,7 +74,8 @@ class Goal_Recurring {
 			return $this->occurences;
 		}
 
-		$ranges = $this->get_date_periods();
+		$date = new Date();
+		$ranges = $date->get_periods( $this->start, $this->end, $this->frequency );
 
 		foreach ( $ranges as $range ) {
 			$goal = clone $this->goal;
@@ -82,50 +85,5 @@ class Goal_Recurring {
 		}
 
 		return $this->occurences;
-	}
-
-	/**
-	 * Get an array of periods with start and end dates.
-	 *
-	 * @return array
-	 */
-	public function get_date_periods() {
-		$start = \DateTime::createFromFormat( 'Ymd', $this->start );
-		$end   = \DateTime::createFromFormat( 'Ymd', $this->end );
-		$end   = $end->modify( '+1 day' );
-
-		switch ( $this->frequency ) {
-			case 'daily':
-				$interval = new \DateInterval( 'P1D' );
-				break;
-
-			case 'weekly':
-				$interval = new \DateInterval( 'P1W' );
-				break;
-
-			case 'monthly':
-				$interval = new \DateInterval( 'P1M' );
-				break;
-		}
-
-		$period      = new \DatePeriod( $start, $interval, 100 );
-		$dates_array = [];
-		foreach ( $period as $date ) {
-			$dates_array[] = $date->format( 'Ymd' );
-		}
-
-		$date_ranges = [];
-		foreach ( $dates_array as $key => $date ) {
-			if ( isset( $dates_array[ $key + 1 ] ) ) {
-				$date_ranges[] = [
-					'start' => $date,
-					'end'   => \DateTime::createFromFormat( 'Ymd', $dates_array[ $key + 1 ] )
-						->modify( '-1 day' )
-						->format( 'Ymd' ),
-				];
-			}
-		}
-
-		return $date_ranges;
 	}
 }

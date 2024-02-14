@@ -7,6 +7,8 @@
 
 namespace ProgressPlanner;
 
+use ProgressPlanner\Date;
+
 /**
  * Goals class.
  */
@@ -53,7 +55,7 @@ class Goals {
 			),
 			'weekly',
 			array_keys( $stats->get_stat( 'posts' )->get_value() )[0], // Beginning of the stats.
-			gmdate( 'Ymd' ) // Today.
+			gmdate( Date::FORMAT ) // Today.
 		);
 	}
 }

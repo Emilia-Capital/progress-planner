@@ -8,6 +8,7 @@
 namespace ProgressPlanner\Charts;
 
 use ProgressPlanner\Chart;
+use ProgressPlanner\Date;
 use ProgressPlanner\Stats\Stat_Posts;
 
 /**
@@ -49,8 +50,8 @@ class Posts extends Chart {
 		$stat_posts = new Stat_Posts();
 		foreach ( $range_array as $start => $end ) {
 			$stats = $stat_posts->get_stats(
-				(int) gmdate( 'Ymd', strtotime( "-$start $interval" ) ),
-				(int) gmdate( 'Ymd', strtotime( "-$end $interval" ) ),
+				(int) gmdate( Date::FORMAT, strtotime( "-$start $interval" ) ),
+				(int) gmdate( Date::FORMAT, strtotime( "-$end $interval" ) ),
 				$post_types
 			);
 
