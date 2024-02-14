@@ -32,11 +32,6 @@ class Goals {
 	private function register_weekly_post_goal() {
 		$stats = new Stats();
 
-		// Get the start date for all stats.
-		$start_date = array_keys( $stats->get_stat( 'posts' )->get_value() );
-		sort( $start_date );
-		$start_date = $start_date[0];
-
 		new \ProgressPlanner\Goals\Goal_Recurring(
 			new \ProgressPlanner\Goals\Goal_Posts(
 				[
@@ -57,7 +52,7 @@ class Goals {
 				]
 			),
 			'weekly',
-			$start_date, // Beginning of the stats.
+			array_keys( $stats->get_stat( 'posts' )->get_value() )[0], // Beginning of the stats.
 			gmdate( 'Ymd' ) // Today.
 		);
 	}

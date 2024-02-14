@@ -22,6 +22,20 @@ class Stat_Posts extends Stat {
 	protected $type = 'posts';
 
 	/**
+	 * Get the value.
+	 *
+	 * @param array $index The index. This is an array of keys, which will be used to get the value.
+	 *                     This will go over the array recursively, getting the value for the last key.
+	 *                     See _wp_array_get for more info.
+	 * @return mixed
+	 */
+	public function get_value( $index = [] ) {
+		$value = parent::get_value( $index );
+		ksort( $value );
+		return $value;
+	}
+
+	/**
 	 * Save a post to the stats.
 	 *
 	 * @param \WP_Post $post The post.
