@@ -34,6 +34,13 @@ class Base {
 	private $admin;
 
 	/**
+	 * The Goals object.
+	 *
+	 * @var \ProgressPlanner\Goals
+	 */
+	private $goals;
+
+	/**
 	 * Get the single instance of this class.
 	 *
 	 * @return \ProgressPlanner\Base

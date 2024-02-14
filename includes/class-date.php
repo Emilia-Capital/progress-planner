@@ -32,18 +32,18 @@ class Date {
 	 *               ].
 	 */
 	public function get_range( $start, $end ) {
-		$start = \DateTime::createFromFormat( $this->format, $start );
-		$end   = \DateTime::createFromFormat( $this->format, $end );
+		$start = \DateTime::createFromFormat( self::FORMAT, $start );
+		$end   = \DateTime::createFromFormat( self::FORMAT, $end );
 
 		$dates = [];
 		$range = new \DatePeriod( $start, new \DateInterval( 'P1D' ), $end );
 		foreach ( $range as $date ) {
-			$dates[] = $date->format( $this->format );
+			$dates[] = $date->format( self::FORMAT );
 		}
 
 		return [
-			'start' => $start->format( $this->format ),
-			'end'   => $end->format( $this->format ),
+			'start' => $start->format( self::FORMAT ),
+			'end'   => $end->format( self::FORMAT ),
 			'dates' => $dates,
 		];
 	}
@@ -58,8 +58,8 @@ class Date {
 	 * @return array
 	 */
 	public function get_periods( $start, $end, $frequency ) {
-		$start = \DateTime::createFromFormat( $this->format, $start );
-		$end   = \DateTime::createFromFormat( $this->format, $end );
+		$start = \DateTime::createFromFormat( self::FORMAT, $start );
+		$end   = \DateTime::createFromFormat( self::FORMAT, $end );
 		$end   = $end->modify( '+1 day' );
 
 		switch ( $frequency ) {
@@ -79,7 +79,7 @@ class Date {
 		$period      = new \DatePeriod( $start, $interval, 100 );
 		$dates_array = [];
 		foreach ( $period as $date ) {
-			$dates_array[] = $date->format( $this->format );
+			$dates_array[] = $date->format( self::FORMAT );
 		}
 
 		$date_ranges = [];
@@ -87,7 +87,7 @@ class Date {
 			if ( isset( $dates_array[ $key + 1 ] ) ) {
 				$date_ranges[] = $this->get_range(
 					$date,
-					\DateTime::createFromFormat( $this->format, $dates_array[ $key + 1 ] )
+					\DateTime::createFromFormat( self::FORMAT, $dates_array[ $key + 1 ] )
 				);
 			}
 		}
