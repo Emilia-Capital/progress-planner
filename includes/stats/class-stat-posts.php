@@ -29,7 +29,6 @@ class Stat_Posts extends Stat {
 	 * @return void
 	 */
 	protected function save_post( $post ) {
-		// error_log( $post->post_date . ' => ' . mysql2date( 'Ymd', $post->post_date ) );
 		// Get the date.
 		$date = (int) mysql2date( 'Ymd', $post->post_date );
 
@@ -54,10 +53,6 @@ class Stat_Posts extends Stat {
 	 */
 	public function get_stats( $start_date, $end_date, $post_types = [] ) {
 		$stats = $this->get_value();
-
-		// Format the start and end dates.
-		$start_date = (int) gmdate( 'Ymd', strtotime( $start_date ) );
-		$end_date   = (int) gmdate( 'Ymd', strtotime( $end_date ) );
 
 		// Get the stats for the date range and post types.
 		foreach ( array_keys( $stats ) as $key ) {

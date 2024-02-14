@@ -12,7 +12,7 @@ namespace ProgressPlanner\Goals;
 /**
  * An object containing info about an individual goal.
  */
-class Goal {
+abstract class Goal {
 
 	/**
 	 * The goal ID.
@@ -41,13 +41,6 @@ class Goal {
 	 * @var string
 	 */
 	protected $type;
-
-	/**
-	 * The goal frequency.
-	 *
-	 * @var string
-	 */
-	protected $frequency;
 
 	/**
 	 * The goal start date.
@@ -85,6 +78,13 @@ class Goal {
 	protected $progress;
 
 	/**
+	 * The goal evaluation function.
+	 *
+	 * @var string|callable
+	 */
+	protected $evaluate;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param array $args The goal arguments.
@@ -97,24 +97,24 @@ class Goal {
 				'title'       => '',
 				'description' => '',
 				'type'        => '',
-				'frequency'   => '',
 				'start_date'  => '',
 				'end_date'    => '',
 				'status'      => '',
 				'priority'    => '',
 				'progress'    => '',
+				'evaluate'    => '__return_false',
 			]
 		);
 		$this->id          = $args['id'];
 		$this->title       = $args['title'];
 		$this->description = $args['description'];
 		$this->type        = $args['type'];
-		$this->frequency   = $args['frequency'];
 		$this->start_date  = $args['start_date'];
 		$this->end_date    = $args['end_date'];
 		$this->status      = $args['status'];
 		$this->priority    = $args['priority'];
 		$this->progress    = $args['progress'];
+		$this->evaluate    = $args['evaluate'];
 	}
 
 	/**
@@ -128,12 +128,37 @@ class Goal {
 			'title'       => $this->title,
 			'description' => $this->description,
 			'type'        => $this->type,
-			'frequency'   => $this->frequency,
 			'start_date'  => $this->start_date,
 			'end_date'    => $this->end_date,
 			'status'      => $this->status,
 			'priority'    => $this->priority,
 			'progress'    => $this->progress,
+			'evaluate'    => $this->evaluate,
 		];
 	}
+
+	/**
+	 * Set the start date.
+	 *
+	 * @param string $start_date The start date.
+	 */
+	public function set_start_date( $start_date ) {
+		$this->start_date = $start_date;
+	}
+
+	/**
+	 * Set the end date.
+	 *
+	 * @param string $end_date The end date.
+	 */
+	public function set_end_date( $end_date ) {
+		$this->end_date = $end_date;
+	}
+
+	/**
+	 * Whether the goal is accomplished for a date-range.
+	 *
+	 * @return bool
+	 */
+	abstract public function evaluate();
 }

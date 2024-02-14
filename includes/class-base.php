@@ -10,12 +10,12 @@ namespace ProgressPlanner;
 /**
  * Main plugin class.
  */
-class Progress_Planner {
+class Base {
 
 	/**
 	 * An instance of this class.
 	 *
-	 * @var \ProgressPlanner\Progress_Planner
+	 * @var \ProgressPlanner\Base
 	 */
 	private static $instance;
 
@@ -34,16 +34,9 @@ class Progress_Planner {
 	private $admin;
 
 	/**
-	 * The Goals object.
-	 *
-	 * @var \ProgressPlanner\Goals
-	 */
-	private $goals;
-
-	/**
 	 * Get the single instance of this class.
 	 *
-	 * @return \ProgressPlanner\Progress_Planner
+	 * @return \ProgressPlanner\Base
 	 */
 	public static function get_instance() {
 		if ( null === self::$instance ) {
@@ -78,14 +71,5 @@ class Progress_Planner {
 	 */
 	public function get_admin() {
 		return $this->admin;
-	}
-
-	/**
-	 * Get the goals object.
-	 *
-	 * @return \ProgressPlanner\Goals
-	 */
-	public function get_goals() {
-		return $this->goals;
 	}
 }

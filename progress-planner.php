@@ -10,4 +10,4 @@ define( 'PROGRESS_PLANNER_URL', plugin_dir_url( __FILE__ ) );
 
 require_once PROGRESS_PLANNER_DIR . '/includes/autoload.php';
 
-\ProgressPlanner\Progress_Planner::get_instance();
+\ProgressPlanner\Base::get_instance();

@@ -48,7 +48,11 @@ class Posts extends Chart {
 
 		$stat_posts = new Stat_Posts();
 		foreach ( $range_array as $start => $end ) {
-			$stats = $stat_posts->get_stats( "-$start $interval", "-$end $interval", $post_types );
+			$stats = $stat_posts->get_stats(
+				(int) gmdate( 'Ymd', strtotime( "-$start $interval" ) ),
+				(int) gmdate( 'Ymd', strtotime( "-$end $interval" ) ),
+				$post_types
+			);
 
 			// TODO: Format the date depending on the user's locale.
 			$data['labels'][] = gmdate( 'Y-m-d', strtotime( "-$start $interval" ) );
