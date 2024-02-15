@@ -164,7 +164,9 @@ class Page {
 		}
 		return [
 			'stats'           => $stats,
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing
 			'filter_interval' => isset( $_POST['interval'] ) ? sanitize_key( $_POST['interval'] ) : 'weeks',
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing
 			'filter_number'   => isset( $_POST['number'] ) ? (int) $_POST['number'] : 10,
 			'scan_pending'    => empty( $stats->get_value() ),
 		];

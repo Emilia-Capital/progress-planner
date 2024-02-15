@@ -80,7 +80,7 @@ class Stat {
 		\_wp_array_set( $stats, $index, $value );
 
 		// Save the option.
-		$updated = \update_option( self::SETTING_NAME, $stats );
+		$updated     = \update_option( self::SETTING_NAME, $stats );
 		$this->stats = $stats;
 
 		return $updated;

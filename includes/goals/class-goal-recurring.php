@@ -74,7 +74,7 @@ class Goal_Recurring {
 			return $this->occurences;
 		}
 
-		$date = new Date();
+		$date   = new Date();
 		$ranges = $date->get_periods( $this->start, $this->end, $this->frequency );
 
 		foreach ( $ranges as $range ) {
