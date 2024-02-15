@@ -14,6 +14,8 @@
 	<?php else : ?>
 		<?php include 'admin-page-form-filters.php'; ?>
 		<hr>
+		<?php include 'admin-page-streak.php'; ?>
+		<hr>
 		<div style="max-width:1000px;">
 			<?php include 'admin-page-posts-count-progress.php'; ?>
 		</div>

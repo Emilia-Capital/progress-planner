@@ -46,7 +46,6 @@ class Base {
 		$this->admin = new Admin();
 
 		new Stats();
-		new Goals();
 	}
 
 	/**

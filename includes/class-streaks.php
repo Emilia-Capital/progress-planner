@@ -1,36 +1,48 @@
 <?php
 /**
- * Goals class.
+ * Handle streaks.
  *
  * @package ProgressPlanner
  */
 
 namespace ProgressPlanner;
 
-use ProgressPlanner\Date;
-use ProgressPlanner\Stats\Stat_Posts;
-use ProgressPlanner\Goals\Goal_Recurring;
 use ProgressPlanner\Goals\Goal_Posts;
+use ProgressPlanner\Goals\Goal_Recurring;
+use ProgressPlanner\Stats\Stat_Posts;
 
 /**
- * Goals class.
+ * Streaks class.
  */
-class Goals {
+class Streaks {
 
 	/**
-	 * Constructor.
-	 */
-	public function __construct() {
-		$this->register_core_goals();
-	}
-
-	/**
-	 * Register the goals.
+	 * Get the streak for weekly posts.
 	 *
-	 * @return void
+	 * @return int The number of weeks for this streak.
 	 */
-	private function register_core_goals() {
-		$this->register_weekly_post_goal();
+	public function get_weekly_post_streak() {
+		$goal = $this->get_weekly_post_goal();
+
+		// Bail early if there is no goal.
+		if ( ! $goal ) {
+			return 0;
+		}
+
+		// Reverse the order of the occurences.
+		$occurences = array_reverse( $goal->get_occurences() );
+		$streak_nr  = 0;
+
+		foreach ( $occurences as $occurence ) {
+			// If the goal was not met, break the streak.
+			if ( ! $occurence->evaluate() ) {
+				break;
+			}
+
+			++$streak_nr;
+		}
+
+		return $streak_nr;
 	}
 
 	/**
@@ -38,7 +50,7 @@ class Goals {
 	 *
 	 * @return void
 	 */
-	private function register_weekly_post_goal() {
+	private function get_weekly_post_goal() {
 		$stats = new Stat_Posts();
 
 		$stats_value = $stats->get_value();
@@ -48,7 +60,7 @@ class Goals {
 			return;
 		}
 
-		new Goal_Recurring(
+		return new Goal_Recurring(
 			new Goal_Posts(
 				[
 					'id'          => 'weekly_post',
