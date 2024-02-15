@@ -41,6 +41,13 @@ class Goals {
 	private function register_weekly_post_goal() {
 		$stats = new Stat_Posts();
 
+		$stats_value = $stats->get_value();
+
+		// Bail early if there are no stats.
+		if ( empty( $stats_value ) ) {
+			return;
+		}
+
 		new Goal_Recurring(
 			new Goal_Posts(
 				[
@@ -61,7 +68,7 @@ class Goals {
 				]
 			),
 			'weekly',
-			array_keys( $stats->get_value() )[0], // Beginning of the stats.
+			array_keys( $stats_value )[0], // Beginning of the stats.
 			gmdate( Date::FORMAT ) // Today.
 		);
 	}
