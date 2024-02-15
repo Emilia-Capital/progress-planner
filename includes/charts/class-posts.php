@@ -24,6 +24,8 @@ class Posts extends Chart {
 	 * @param string $interval   The interval for the chart. Can be 'days', 'weeks', 'months', 'years'.
 	 * @param int    $range      The number of intervals to show.
 	 * @param int    $offset     The offset for the intervals.
+	 *
+	 * @return void
 	 */
 	public function render( $post_types = [], $context = 'count', $interval = 'weeks', $range = 10, $offset = 0 ) {
 		$range_array_end   = \range( $offset, $range - 1 );

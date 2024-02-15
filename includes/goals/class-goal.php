@@ -120,7 +120,7 @@ abstract class Goal {
 	/**
 	 * Get the goal ID.
 	 *
-	 * @return string
+	 * @return array
 	 */
 	public function get_details() {
 		return [
@@ -141,6 +141,8 @@ abstract class Goal {
 	 * Set the start date.
 	 *
 	 * @param string $start_date The start date.
+	 *
+	 * @return void
 	 */
 	public function set_start_date( $start_date ) {
 		$this->start_date = $start_date;
@@ -150,6 +152,8 @@ abstract class Goal {
 	 * Set the end date.
 	 *
 	 * @param string $end_date The end date.
+	 *
+	 * @return void
 	 */
 	public function set_end_date( $end_date ) {
 		$this->end_date = $end_date;

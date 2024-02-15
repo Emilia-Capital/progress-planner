@@ -22,8 +22,8 @@ class Date {
 	/**
 	 * Get a range of dates.
 	 *
-	 * @param string $start The start date.
-	 * @param string $end   The end date.
+	 * @param string|int $start The start date.
+	 * @param string|int $end   The end date.
 	 *
 	 * @return array [
 	 *                 'start' => 'Ymd',
@@ -51,9 +51,9 @@ class Date {
 	/**
 	 * Get an array of periods with start and end dates.
 	 *
-	 * @param string $start     The start date.
-	 * @param string $end       The end date.
-	 * @param string $frequency The frequency. Can be 'daily', 'weekly', 'monthly'.
+	 * @param int|string $start     The start date.
+	 * @param int|string $end       The end date.
+	 * @param string     $frequency The frequency. Can be 'daily', 'weekly', 'monthly'.
 	 *
 	 * @return array
 	 */
@@ -67,12 +67,12 @@ class Date {
 				$interval = new \DateInterval( 'P1D' );
 				break;
 
-			case 'weekly':
-				$interval = new \DateInterval( 'P1W' );
-				break;
-
 			case 'monthly':
 				$interval = new \DateInterval( 'P1M' );
+				break;
+
+			default: // Default to weekly.
+				$interval = new \DateInterval( 'P1W' );
 				break;
 		}
 
@@ -85,9 +85,13 @@ class Date {
 		$date_ranges = [];
 		foreach ( $dates_array as $key => $date ) {
 			if ( isset( $dates_array[ $key + 1 ] ) ) {
+				$datetime = \DateTime::createFromFormat( self::FORMAT, $dates_array[ $key + 1 ] );
+				if ( ! $datetime ) {
+					continue;
+				}
 				$date_ranges[] = $this->get_range(
 					$date,
-					\DateTime::createFromFormat( self::FORMAT, $dates_array[ $key + 1 ] )
+					$datetime->format( self::FORMAT )
 				);
 			}
 		}

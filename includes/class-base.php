@@ -20,25 +20,11 @@ class Base {
 	private static $instance;
 
 	/**
-	 * The Stats object.
-	 *
-	 * @var \ProgressPlanner\Stats
-	 */
-	private $stats;
-
-	/**
 	 * The Admin object.
 	 *
 	 * @var \ProgressPlanner\Admin
 	 */
 	private $admin;
-
-	/**
-	 * The Goals object.
-	 *
-	 * @var \ProgressPlanner\Goals
-	 */
-	private $goals;
 
 	/**
 	 * Get the single instance of this class.
@@ -58,17 +44,9 @@ class Base {
 	 */
 	private function __construct() {
 		$this->admin = new Admin();
-		$this->stats = new Stats();
-		$this->goals = new Goals();
-	}
 
-	/**
-	 * Get the stats object.
-	 *
-	 * @return \ProgressPlanner\Stats
-	 */
-	public function get_stats() {
-		return $this->stats;
+		new Stats();
+		new Goals();
 	}
 
 	/**

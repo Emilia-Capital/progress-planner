@@ -65,6 +65,8 @@ class Stat_Posts_Prepopulate extends Stat_Posts {
 
 	/**
 	 * Set the last prepopulated post.
+	 *
+	 * @return void
 	 */
 	public function save_last_prepopulated_post() {
 		\set_transient( 'progress_planner_last_prepopulated_post', $this->last_scanned_post_id, \HOUR_IN_SECONDS );

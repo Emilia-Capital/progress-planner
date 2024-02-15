@@ -10,9 +10,9 @@ esc_html_e( 'Words count progress', 'progress-planner' );
 echo '</h2>';
 
 ( new \ProgressPlanner\Charts\Posts() )->render(
-	$prpl_stats_posts->get_post_types_names(),
+	\ProgressPlanner\Admin\Page::get_params()['stats']->get_post_types_names(),
 	'words',
-	$prpl_filters_interval,
-	$prpl_filters_number,
+	\ProgressPlanner\Admin\Page::get_params()['filter_interval'],
+	\ProgressPlanner\Admin\Page::get_params()['filter_number'],
 	0
 );

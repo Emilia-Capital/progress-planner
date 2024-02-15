@@ -13,5 +13,5 @@
 </form>
 <div id="progress-planner-scan-progress" style="display:none;">
 	<p><?php esc_html_e( 'Scanning...', 'progress-planner' ); ?></p>
-	<progress value="<?php echo esc_attr( $prpl_scan_progress ); ?>" max="100"></progress>
+	<progress value="0" max="100"></progress>
 </div>

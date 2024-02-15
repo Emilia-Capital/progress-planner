@@ -5,25 +5,11 @@
  * @package ProgressPlanner
  */
 
-// Get the stats object.
-$prpl_stats_posts = new ProgressPlanner\Stats\Stat_Posts();
-
-// phpcs:ignore WordPress.Security.NonceVerification.Missing
-$prpl_filters_interval = isset( $_POST['interval'] ) ? sanitize_key( $_POST['interval'] ) : 'weeks';
-// phpcs:ignore WordPress.Security.NonceVerification.Missing
-$prpl_filters_number = isset( $_POST['number'] ) ? (int) $_POST['number'] : 10;
-
-// Check if we have a scan pending.
-$prpl_scan_pending  = false;
-$prpl_scan_progress = 0;
-if ( empty( $prpl_stats_posts->get_value() ) ) {
-	$prpl_scan_pending = true;
-}
 ?>
 <div class="wrap">
 	<h1><?php esc_html_e( 'Progress Planner', 'progress-planner' ); ?></h1>
 
-	<?php if ( $prpl_scan_pending ) : ?>
+	<?php if ( \ProgressPlanner\Admin\Page::get_params()['scan_pending'] ) : ?>
 		<?php include 'admin-page-form-scan.php'; ?>
 	<?php else : ?>
 		<?php include 'admin-page-form-filters.php'; ?>

@@ -13,5 +13,5 @@
 <hr>
 <details>
 	<summary><?php esc_html_e( 'Raw data', 'progress-planner' ); ?></summary>
-	<pre><?php print_r( $prpl_stats_posts->get_value() ); ?></pre>
+	<pre><?php print_r( \ProgressPlanner\Admin\Page::get_params()['stats']->get_value() ); ?></pre>
 </details>

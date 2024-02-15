@@ -24,7 +24,7 @@ class Stat_Posts extends Stat {
 	/**
 	 * Get the value.
 	 *
-	 * @param array $index The index. This is an array of keys, which will be used to get the value.
+	 * @param string[]|int[] $index The index. This is an array of keys, which will be used to get the value.
 	 *                     This will go over the array recursively, getting the value for the last key.
 	 *                     See _wp_array_get for more info.
 	 * @return mixed
@@ -59,9 +59,9 @@ class Stat_Posts extends Stat {
 	/**
 	 * Get stats for date range.
 	 *
-	 * @param string $start_date The start date.
-	 * @param string $end_date   The end date.
-	 * @param array  $post_types The post types.
+	 * @param int|string $start_date The start date.
+	 * @param int|string $end_date   The end date.
+	 * @param string[]   $post_types The post types.
 	 *
 	 * @return array
 	 */
@@ -107,7 +107,7 @@ class Stat_Posts extends Stat {
 	/**
 	 * Get an array of post-types names for the stats.
 	 *
-	 * @return array
+	 * @return string[]
 	 */
 	public function get_post_types_names() {
 		$post_types = \get_post_types( [ 'public' => true ] );

@@ -7,8 +7,6 @@
 
 namespace ProgressPlanner\Admin;
 
-use PROGRESS_PLANNER_URL;
-
 /**
  * Admin page class.
  */
@@ -23,6 +21,8 @@ class Page {
 
 	/**
 	 * Register the hooks.
+	 *
+	 * @return void
 	 */
 	private function register_hooks() {
 		\add_action( 'admin_menu', [ $this, 'add_page' ] );
@@ -33,6 +33,8 @@ class Page {
 
 	/**
 	 * Add the admin page.
+	 *
+	 * @return void
 	 */
 	public function add_page() {
 		\add_menu_page(
@@ -47,6 +49,8 @@ class Page {
 
 	/**
 	 * Render the admin page.
+	 *
+	 * @return void
 	 */
 	public function render_page() {
 		include PROGRESS_PLANNER_DIR . '/views/admin-page.php';
@@ -56,6 +60,8 @@ class Page {
 	 * Enqueue scripts and styles.
 	 *
 	 * @param string $hook The current admin page.
+	 *
+	 * @return void
 	 */
 	public function enqueue_scripts( $hook ) {
 		if ( 'toplevel_page_progress-planner' !== $hook ) {
@@ -93,6 +99,8 @@ class Page {
 
 	/**
 	 * Ajax scan.
+	 *
+	 * @return void
 	 */
 	public function ajax_scan() {
 		// Check the nonce.
@@ -124,6 +132,8 @@ class Page {
 
 	/**
 	 * Ajax reset stats.
+	 *
+	 * @return void
 	 */
 	public function ajax_reset_stats() {
 		// Check the nonce.
@@ -140,5 +150,23 @@ class Page {
 				'message' => \esc_html__( 'Stats reset. Refreshing the page...', 'progress-planner' ),
 			]
 		);
+	}
+
+	/**
+	 * Get params for the admin page.
+	 *
+	 * @return array The params.
+	 */
+	public static function get_params() {
+		static $stats = null;
+		if ( null === $stats ) {
+			$stats = new \ProgressPlanner\Stats\Stat_Posts();
+		}
+		return [
+			'stats'           => $stats,
+			'filter_interval' => isset( $_POST['interval'] ) ? sanitize_key( $_POST['interval'] ) : 'weeks',
+			'filter_number'   => isset( $_POST['number'] ) ? (int) $_POST['number'] : 10,
+			'scan_pending'    => empty( $stats->get_value() ),
+		];
 	}
 }

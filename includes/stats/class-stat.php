@@ -36,32 +36,16 @@ class Stat {
 	protected $stats;
 
 	/**
-	 * The value.
-	 *
-	 * @var array
-	 */
-	protected $value;
-
-	/**
-	 * Constructor.
-	 */
-	public function __construct() {
-		$this->value = $this->get_value();
-	}
-
-	/**
 	 * Get the value.
 	 *
-	 * @param array $index The index. This is an array of keys, which will be used to get the value.
-	 *                     This will go over the array recursively, getting the value for the last key.
-	 *                     See _wp_array_get for more info.
+	 * @param string[]|int[] $index The index. This is an array of keys,
+	 *                              which will be used to get the value.
+	 *                              It will go over the array recursively,
+	 *                              getting the value for the last key.
+	 *                              See _wp_array_get for more info.
 	 * @return mixed
 	 */
-	public function get_value( $index = [] ) {
-		if ( $this->value ) {
-			return $this->value;
-		}
-
+	public function get_value( array $index = [] ) {
 		if ( ! isset( $this->stats[ $this->type ] ) ) {
 			$this->stats = \get_option( self::SETTING_NAME, [ $this->type => [] ] );
 		}
@@ -76,12 +60,16 @@ class Stat {
 	/**
 	 * Set the value.
 	 *
-	 * @param array $index The index. This is an array of keys, which will be used to set the value.
-	 *                                This will go over the array recursively, updating the value for the last key.
-	 *                                See _wp_array_set for more info.
-	 * @param mixed $value The value.
+	 * @param string[]|int[] $index The index. This is an array of keys,
+	 *                              which will be used to set the value.
+	 *                              It will go over the array recursively,
+	 *                              updating the value for the last key.
+	 *                              See _wp_array_set for more info.
+	 * @param mixed          $value The value.
+	 *
+	 * @return bool
 	 */
-	public function set_value( $index, $value ) {
+	public function set_value( array $index, $value ): bool {
 		// Call $this->get_value, to populate $this->stats.
 		$stats = \get_option( self::SETTING_NAME, [ $this->type => [] ] );
 
@@ -92,7 +80,9 @@ class Stat {
 		\_wp_array_set( $stats, $index, $value );
 
 		// Save the option.
-		\update_option( self::SETTING_NAME, $stats );
+		$updated = \update_option( self::SETTING_NAME, $stats );
 		$this->stats = $stats;
+
+		return $updated;
 	}
 }

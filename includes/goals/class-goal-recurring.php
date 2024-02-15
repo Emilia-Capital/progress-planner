@@ -31,21 +31,21 @@ class Goal_Recurring {
 	/**
 	 * The start date.
 	 *
-	 * @var string
+	 * @var int|string
 	 */
 	private $start;
 
 	/**
 	 * The end date.
 	 *
-	 * @var string
+	 * @var int|string
 	 */
 	private $end;
 
 	/**
 	 * An array of occurences.
 	 *
-	 * @var array
+	 * @var Goal[]
 	 */
 	private $occurences = [];
 
@@ -54,8 +54,8 @@ class Goal_Recurring {
 	 *
 	 * @param \ProgressPlanner\Goals\Goal $goal      The goal object.
 	 * @param string                      $frequency The goal frequency.
-	 * @param string                      $start     The start date.
-	 * @param string                      $end       The end date.
+	 * @param int|string                  $start     The start date.
+	 * @param int|string                  $end       The end date.
 	 */
 	public function __construct( $goal, $frequency, $start, $end ) {
 		$this->goal      = $goal;

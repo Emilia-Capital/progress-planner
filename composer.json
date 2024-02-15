@@ -32,8 +32,11 @@
 			"@php -r \"exit( intval( is_null( json_decode( file_get_contents( './.wordpress-org/blueprints/blueprint.json' ) ) ) ) );\""
 		],
 		"test": [
-            "@php ./vendor/phpunit/phpunit/phpunit"
-        ]
+			"@php ./vendor/phpunit/phpunit/phpunit"
+		],
+		"phpstan": [
+			"@php ./vendor/bin/phpstan analyse --memory-limit=2048M"
+		]
 	},
 	"config": {
 		"allow-plugins": {
