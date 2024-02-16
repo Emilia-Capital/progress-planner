@@ -65,6 +65,15 @@ class Goal_Recurring {
 	}
 
 	/**
+	 * Get the goal title.
+	 *
+	 * @return string
+	 */
+	public function get_goal() {
+		return $this->goal;
+	}
+
+	/**
 	 * Build an array of occurences for the goal.
 	 *
 	 * @return Goal[]

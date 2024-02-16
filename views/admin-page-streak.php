@@ -5,12 +5,21 @@
  * @package ProgressPlanner
  */
 
-$prpl_streak_nr    = ( new \ProgressPlanner\Streaks() )->get_weekly_post_streak();
-$prpl_streak_color = 'hsl(' . min( 100, $prpl_streak_nr * 10 ) . ', 100%, 40%)';
+$prpl_streaks = [
+	'weekly_post'  => 10, // Number of posts per week, targetting for 10 weeks.
+	'weekly_words' => 10, // Number of words per week, targetting for 10 weeks.
+];
 ?>
-<div>
-	<h2><?php esc_html_e( 'Streak (weekly post)', 'progress-planner' ); ?></h2>
-	<p class="prpl-streak" style="font-size:6em;color:<?php echo esc_attr( $prpl_streak_color ); ?>;">
-		<?php echo esc_html( $prpl_streak_nr ); ?>
-	</p>
+
+<div style="display:flex;">
+	<?php foreach ( $prpl_streaks as $prpl_streak_id => $prpl_streak_goal ) : ?>
+		<div style="text-align:center;border-right:1px dashed;padding:0 1em;max-width: 20em;">
+			<?php $prpl_streak = \ProgressPlanner\Streaks::get_instance()->get_streak( $prpl_streak_id, $prpl_streak_goal ); ?>
+			<h2><?php echo esc_html( $prpl_streak['title'] ); ?></h2>
+			<p><?php echo esc_html( $prpl_streak['description'] ); ?></p>
+			<p class="prpl-streak" style="font-size:6em;color:<?php echo esc_attr( $prpl_streak['color'] ); ?>;">
+				<?php echo esc_html( $prpl_streak['number'] ); ?>
+			</p>
+		</div>
+	<?php endforeach; ?>
 </div>
