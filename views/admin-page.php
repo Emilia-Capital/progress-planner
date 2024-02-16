@@ -16,12 +16,8 @@
 		<hr>
 		<?php include 'admin-page-streak.php'; ?>
 		<hr>
-		<div style="max-width:1000px;">
-			<?php include 'admin-page-posts-count-progress.php'; ?>
-		</div>
-		<div style="max-width:1000px;">
-			<?php include 'admin-page-words-count-progress.php'; ?>
-		</div>
+		<?php include 'admin-page-posts-count-progress.php'; ?>
+		<?php include 'admin-page-words-count-progress.php'; ?>
 		<hr>
 		<?php include 'admin-page-debug.php'; ?>
 		<hr>

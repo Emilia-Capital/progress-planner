@@ -5,6 +5,7 @@
  * @package ProgressPlanner
  */
 
+echo '<div style="max-width:1000px;">';
 echo '<h2>';
 esc_html_e( 'Posts count progress', 'progress-planner' );
 echo '</h2>';
@@ -16,3 +17,5 @@ echo '</h2>';
 	\ProgressPlanner\Admin\Page::get_params()['filter_number'],
 	0
 );
+
+echo '</div>';

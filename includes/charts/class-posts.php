@@ -46,6 +46,7 @@ class Posts extends Chart {
 			$datasets[ $post_type ]               = [
 				'label' => \get_post_type_object( $post_type )->label,
 				'data'  => [],
+				'fill'  => true,
 			];
 		}
 
