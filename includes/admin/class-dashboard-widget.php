@@ -37,10 +37,21 @@ class Dashboard_Widget {
 		?>
 		<div class="prpl-dashboard-widget">
 			<?php if ( \ProgressPlanner\Admin\Page::get_params()['scan_pending'] ) : ?>
-				<?php include PROGRESS_PLANNER_DIR . '/views/admin-page-form-scan.php'; ?>
+				<p>
+					<?php
+					printf(
+						/* translators: %s: URL to the admin page, with text "the Progress Planner admin page" */
+						esc_html__( 'You haven\'t scanned your posts yet. Please visit %s to scan your site and get started!', 'progress-planner' ),
+						'<a href="' . esc_url( \get_admin_url( null, 'admin.php?page=progress-planner' ) ) . '">' . esc_html__( 'the Progress Planner admin page', 'progress-planner' ) . '</a>'
+					)
+					?>
+				</p>
 			<?php else : ?>
 				<?php include PROGRESS_PLANNER_DIR . '/views/admin-page-streak.php'; ?>
 				<?php include PROGRESS_PLANNER_DIR . '/views/admin-page-posts-count-progress.php'; ?>
+				<a href="<?php echo esc_url( \get_admin_url( null, 'admin.php?page=progress-planner' ) ); ?>">
+					<?php esc_html_e( 'See more details', 'progress-planner' ); ?>
+				</a>
 			<?php endif; ?>
 		</div>
 		<?php
