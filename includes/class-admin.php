@@ -24,6 +24,8 @@ class Admin {
 	 */
 	public function __construct() {
 		$this->admin_page = new Admin\Page();
+
+		new Admin\Dashboard_Widget();
 	}
 
 	/**
