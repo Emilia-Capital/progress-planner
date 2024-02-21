@@ -51,6 +51,21 @@ class Posts extends Chart {
 		}
 
 		$stat_posts = new Stat_Posts();
+
+		// Calculate zero stats to be used as the baseline.
+		$zero_stats = $stat_posts->get_stats(
+			19700101,
+			(int) gmdate( Date::FORMAT, strtotime( "-$range $interval" ) ),
+			$post_types
+		);
+		foreach ( $zero_stats as $zero_posts ) {
+			foreach ( $zero_posts as $zero_post ) {
+				$post_type_count_totals[ $zero_post['post_type'] ] += 'words' === $context
+					? $zero_post['words']
+					: 1;
+			}
+		}
+
 		foreach ( $range_array as $start => $end ) {
 			$stats = $stat_posts->get_stats(
 				(int) gmdate( Date::FORMAT, strtotime( "-$start $interval" ) ),
@@ -65,11 +80,9 @@ class Posts extends Chart {
 				foreach ( $stats as $posts ) {
 					foreach ( $posts as $post_details ) {
 						if ( $post_details['post_type'] === $post_type ) {
-							if ( 'words' === $context ) {
-								$post_type_count_totals[ $post_type ] += $post_details['words'];
-								continue;
-							}
-							++$post_type_count_totals[ $post_type ];
+							$post_type_count_totals[ $post_type ] += 'words' === $context
+								? $post_details['words']
+								: 1;
 						}
 					}
 				}
