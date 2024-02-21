@@ -16,7 +16,7 @@ class Dashboard_Widget {
 	 * Constructor.
 	 */
 	public function __construct() {
-		\add_action( 'wp_dashboard_setup', array( $this, 'add_dashboard_widget' ) );
+		\add_action( 'wp_dashboard_setup', [ $this, 'add_dashboard_widget' ] );
 	}
 
 	/**
