@@ -56,6 +56,9 @@ class Stat_Posts {
 	 */
 	private function register_hooks() {
 		\add_action( 'save_post', [ $this, 'save_post' ], 10, 2 );
+		\add_action( 'wp_insert_post', [ $this, 'save_post' ], 10, 2 );
+		\add_action( 'delete_post', [ $this, 'delete_post' ] );
+		\add_action( 'transition_post_status', [ $this, 'transition_post_status' ], 10, 3 );
 	}
 
 	/**
@@ -77,6 +80,45 @@ class Stat_Posts {
 		}
 
 		$this->save_post_stats( $post );
+	}
+
+	/**
+	 * Delete a post from stats.
+	 *
+	 * @param int $post_id The post ID.
+	 */
+	public function delete_post( $post_id ) {
+		$value   = \get_option( static::SETTING_NAME, [] );
+		$updated = false;
+		// Remove the post from stats if it's already stored in another date.
+		foreach ( $value as $date_key => $date_value ) {
+			if ( isset( $date_value[ $post_id ] ) ) {
+				unset( $value[ $date_key ][ $post_id ] );
+				$updated = true;
+			}
+		}
+
+		if ( $updated ) {
+			\update_option( static::SETTING_NAME, $value );
+		}
+	}
+
+	/**
+	 * Run actions when transitioning a post status.
+	 *
+	 * @param string   $new_status The new status.
+	 * @param string   $old_status The old status.
+	 * @param \WP_Post $post       The post object.
+	 */
+	public function transition_post_status( $new_status, $old_status, $post ) {
+		// Delete the post from stats.
+		if ( 'publish' === $old_status && 'publish' !== $new_status ) {
+			$this->delete_post( $post->ID );
+		}
+		// Add the post to stats.
+		if ( 'publish' !== $old_status && 'publish' === $new_status ) {
+			$this->save_post_stats( $post );
+		}
 	}
 
 	/**
