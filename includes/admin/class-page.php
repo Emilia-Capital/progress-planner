@@ -110,19 +110,19 @@ class Page {
 
 		// Scan the posts.
 		$prepopulate = new \ProgressPlanner\Stats\Stat_Posts_Prepopulate();
-		$prepopulate->prepopulate();
+		$prepopulate->update_stats();
 
-		// Get the last scanned post ID.
-		$last_scanned_id = $prepopulate->get_last_prepopulated_post();
+		// Get the last scanned page.
+		$last_scanned_page = $prepopulate->get_last_scanned_page();
 
 		// Get the last post-ID that exists on the site.
-		$last_post_id = $prepopulate->get_last_post_id();
+		$total_pages_to_scan = $prepopulate->get_total_pages_to_scan();
 
 		\wp_send_json_success(
 			[
-				'lastScanned' => $last_scanned_id,
-				'lastPost'    => $last_post_id,
-				'progress'    => round( ( $last_scanned_id / $last_post_id ) * 100 ),
+				'lastScanned' => $last_scanned_page,
+				'lastPost'    => $total_pages_to_scan,
+				'progress'    => round( ( $last_scanned_page / $total_pages_to_scan ) * 100 ),
 				'messages'    => [
 					'scanComplete' => \esc_html__( 'Scan complete.', 'progress-planner' ),
 				],
@@ -142,8 +142,8 @@ class Page {
 		}
 
 		// Reset the stats.
-		$stats = new \ProgressPlanner\Stats\Stat_Posts();
-		$stats->reset_stats();
+		\delete_option( static::SETTING_NAME );
+		\delete_option( static::LAST_SCANNED_PAGE_OPTION );
 
 		\wp_send_json_success(
 			[

@@ -12,25 +12,20 @@ use ProgressPlanner\Date;
 /**
  * Stats about posts.
  */
-class Stat_Posts extends Stat {
+class Stat_Posts {
 
 	/**
-	 * The stat type. This is used as a key in the settings array.
-	 *
-	 * @var string
+	 * The setting name.
 	 */
-	protected $type = 'posts';
+	const SETTING_NAME = 'progress_planner_stats_posts';
 
 	/**
 	 * Get the value.
 	 *
-	 * @param string[]|int[] $index The index. This is an array of keys, which will be used to get the value.
-	 *                     This will go over the array recursively, getting the value for the last key.
-	 *                     See _wp_array_get for more info.
 	 * @return mixed
 	 */
-	public function get_value( $index = [] ) {
-		$value = parent::get_value( $index );
+	public function get_value() {
+		$value = \get_option( static::SETTING_NAME, [] );
 		ksort( $value );
 		return $value;
 	}
@@ -40,20 +35,20 @@ class Stat_Posts extends Stat {
 	 *
 	 * @param \WP_Post $post The post.
 	 *
-	 * @return void
+	 * @return bool
 	 */
 	protected function save_post( $post ) {
-		// Get the date.
-		$date = (int) mysql2date( Date::FORMAT, $post->post_date );
+		$value = \get_option( static::SETTING_NAME, [] );
+		$date  = (int) mysql2date( Date::FORMAT, $post->post_date );
 
-		// Add the post to the stats.
-		$this->set_value(
-			[ $date, $post->ID ],
-			[
-				'post_type' => $post->post_type,
-				'words'     => \str_word_count( $post->post_content ),
-			],
-		);
+		if ( ! isset( $value[ $date ] ) ) {
+			$value[ $date ] = [];
+		}
+		$value[ $date ][ $post->ID ] = [
+			'post_type' => $post->post_type,
+			'words'     => $this->get_word_count( $post->post_content ),
+		];
+		return \update_option( static::SETTING_NAME, $value );
 	}
 
 	/**
@@ -96,15 +91,6 @@ class Stat_Posts extends Stat {
 	}
 
 	/**
-	 * Reset the stats in our database.
-	 *
-	 * @return void
-	 */
-	public function reset_stats() {
-		$this->set_value( [], [] );
-	}
-
-	/**
 	 * Get an array of post-types names for the stats.
 	 *
 	 * @return string[]
@@ -114,5 +100,26 @@ class Stat_Posts extends Stat {
 		unset( $post_types['attachment'] );
 
 		return array_keys( $post_types );
+	}
+
+	/**
+	 * Get words count from content.
+	 *
+	 * This method will render shortcodes, blocks,
+	 * and strip HTML before counting the words.
+	 *
+	 * @param string $content The content.
+	 *
+	 * @return int
+	 */
+	protected function get_word_count( $content ) {
+		// Parse blocks and shortcodes.
+		$content = \do_blocks( \do_shortcode( $content ) );
+
+		// Strip HTML.
+		$content = \wp_strip_all_tags( $content, true );
+
+		// Count words.
+		return \str_word_count( $content );
 	}
 }

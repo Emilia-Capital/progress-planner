@@ -7,13 +7,12 @@
 
 namespace ProgressPlanner;
 
-use ProgressPlanner\Stats\Stat;
 use ProgressPlanner\Stats\Stat_Posts;
 
 /**
  * Stats class.
  *
- * This is a collection of individual Stat objects.
+ * This is a collection of objects.
  */
 class Stats {
 
@@ -35,11 +34,11 @@ class Stats {
 	 * Add a stat to the collection.
 	 *
 	 * @param string $id   The ID of the stat.
-	 * @param Stat   $stat The stat object.
+	 * @param Object $stat The stat object.
 	 *
 	 * @return void
 	 */
-	public function add_stat( $id, Stat $stat ) {
+	public function add_stat( $id, $stat ) {
 		$this->stats[ $id ] = $stat;
 	}
 
@@ -57,9 +56,9 @@ class Stats {
 	 *
 	 * @param string $id The ID of the stat.
 	 *
-	 * @return Stat
+	 * @return Object
 	 */
-	public function get_stat( $id ): Stat {
+	public function get_stat( $id ) {
 		return $this->stats[ $id ];
 	}
 
