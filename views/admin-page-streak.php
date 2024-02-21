@@ -5,6 +5,9 @@
  * @package ProgressPlanner
  */
 
+// TODO: DISABLE THIS FOR NOW, IT'S NOT WORKING.
+return;
+
 $prpl_streaks = [
 	'weekly_post'  => 10, // Number of posts per week, targetting for 10 weeks.
 	'weekly_words' => 10, // Number of words per week, targetting for 10 weeks.
