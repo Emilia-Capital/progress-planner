@@ -143,6 +143,7 @@ progressPlannerDomReady( () => {
 		resetForm.addEventListener( 'submit', ( e ) => {
 			e.preventDefault();
 			resetForm.querySelector( 'input[type="submit"]' ).disabled = true;
+			resetForm.querySelector( 'input[type="submit"]' ).value = progressPlanner.l10n.resettingStats;
 
 			// Make an AJAX request to reset the stats.
 			progressPlannerAjaxRequest( {
@@ -152,7 +153,6 @@ progressPlannerDomReady( () => {
 					_ajax_nonce: progressPlanner.nonce,
 				},
 				successAction: ( response ) => {
-					resetForm.querySelector( 'input[type="submit"]' ).value = progressPlanner.l10n.resettingStats;
 					// Refresh the page.
 					location.reload();
 				},
