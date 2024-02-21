@@ -60,7 +60,7 @@ const progressPlannerTriggerScan = () => {
 			progressBar.value = response.data.progress;
 		}
 
-		console.info( `Progress: ${response.data.progress}%, (${response.data.lastScanned}/${response.data.lastPost})` );
+		console.info( `Progress: ${response.data.progress}%, (${response.data.lastScanned}/${response.data.lastPage})` );
 
 		// Refresh the page when scan has finished.
 		if ( response.data.progress >= 100 ) {
