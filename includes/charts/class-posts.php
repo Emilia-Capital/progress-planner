@@ -44,9 +44,9 @@ class Posts extends Chart {
 		foreach ( $post_types as $post_type ) {
 			$post_type_count_totals[ $post_type ] = 0;
 			$datasets[ $post_type ]               = [
-				'label' => \get_post_type_object( $post_type )->label,
-				'data'  => [],
-				'fill'  => true,
+				'label'   => \get_post_type_object( $post_type )->label,
+				'data'    => [],
+				'tension' => 0.2,
 			];
 		}
 
