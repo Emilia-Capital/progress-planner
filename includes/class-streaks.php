@@ -96,9 +96,12 @@ class Streaks {
 			$streak_nr = $occurence->evaluate() ? $streak_nr + 1 : 0;
 		}
 
+		// Calculate the hue for the color.
+		$hue = (int) min( 125, $streak_nr * 125 / $target );
+
 		return [
 			'number'      => $streak_nr,
-			'color'       => 'hsl(' . (int) min( 100, $streak_nr * 100 / $target ) . ', 100%, 40%)',
+			'color'       => "hsl($hue, 100%, 40%)",
 			'title'       => $goal->get_goal()->get_details()['title'],
 			'description' => $goal->get_goal()->get_details()['description'],
 		];
