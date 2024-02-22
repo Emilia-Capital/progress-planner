@@ -86,6 +86,14 @@ class Goal_Recurring {
 		$date   = new Date();
 		$ranges = $date->get_periods( $this->start, $this->end, $this->frequency );
 
+		// If the last range ends before today, add a new range.
+		if ( (int) gmdate( Date::FORMAT ) > (int) end( $ranges )['end'] ) {
+			$ranges[] = $date->get_range(
+				end( $ranges )['end'],
+				gmdate( Date::FORMAT, strtotime( '+1 day' ) ),
+			);
+		}
+
 		foreach ( $ranges as $range ) {
 			$goal = clone $this->goal;
 			$goal->set_start_date( $range['start'] );

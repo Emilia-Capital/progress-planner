@@ -73,10 +73,13 @@ class Date {
 
 			default: // Default to weekly.
 				$interval = new \DateInterval( 'P1W' );
+				// Make sure we start and end on a Monday.
+				$start->modify( 'last Monday' );
+				$end->modify( 'next Monday' );
 				break;
 		}
 
-		$period      = new \DatePeriod( $start, $interval, 100 );
+		$period      = new \DatePeriod( $start, $interval, $end );
 		$dates_array = [];
 		foreach ( $period as $date ) {
 			$dates_array[] = $date->format( self::FORMAT );

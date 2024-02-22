@@ -83,21 +83,22 @@ class Streaks {
 		}
 
 		// Reverse the order of the occurences.
-		$occurences = array_reverse( $goal->get_occurences() );
-		$streak_nr  = 0;
+		$occurences = $goal->get_occurences();
 
+		// Calculate the streak number.
+		$streak_nr = 0;
 		foreach ( $occurences as $occurence ) {
-			// If the goal was not met, break the streak.
-			if ( ! $occurence->evaluate() ) {
-				break;
-			}
-
-			++$streak_nr;
+			/**
+			 * Evaluate the occurence.
+			 * If the occurence is true, then increment the streak number.
+			 * Otherwise, reset the streak number.
+			 */
+			$streak_nr = $occurence->evaluate() ? $streak_nr + 1 : 0;
 		}
 
 		return [
 			'number'      => $streak_nr,
-			'color'       => 'hsl(' . (int) min( 100, $streak_nr * 100 / $target ) . ', 100%, 40%)',
+			'color'       => 'hsl(' . (int) min( 100, $streak_nr * 200 / $target ) . ', 100%, 40%)',
 			'title'       => $goal->get_goal()->get_details()['title'],
 			'description' => $goal->get_goal()->get_details()['description'],
 		];
