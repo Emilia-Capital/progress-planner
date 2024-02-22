@@ -98,7 +98,7 @@ class Streaks {
 
 		return [
 			'number'      => $streak_nr,
-			'color'       => 'hsl(' . (int) min( 100, $streak_nr * 200 / $target ) . ', 100%, 40%)',
+			'color'       => 'hsl(' . (int) min( 100, $streak_nr * 100 / $target ) . ', 100%, 40%)',
 			'title'       => $goal->get_goal()->get_details()['title'],
 			'description' => $goal->get_goal()->get_details()['description'],
 		];
