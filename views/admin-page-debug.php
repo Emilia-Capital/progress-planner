@@ -13,5 +13,10 @@
 <hr>
 <details>
 	<summary><?php esc_html_e( 'Raw data', 'progress-planner' ); ?></summary>
-	<pre><?php print_r( \ProgressPlanner\Admin\Page::get_params()['stats']->get_value() ); ?></pre>
+	<pre style="max-height:600px;overflow-y:scroll">
+		<?php
+		//phpcs:ignore WordPress.PHP.DevelopmentFunctions
+		print_r( \ProgressPlanner\Admin\Page::get_params()['stats']->get_value() );
+		?>
+	</pre>
 </details>
