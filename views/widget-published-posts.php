@@ -14,6 +14,7 @@ $prpl_query_args = [
 		'post_type' => 'post',
 	],
 ];
+
 $prpl_last_week_posts = Admin\Page::get_posts_published_this_week();
 $prpl_all_posts_count = count(
 	Activities\Query::get_instance()->query_activities( $prpl_query_args )
@@ -47,7 +48,7 @@ $prpl_all_posts_count = count(
 	</div>
 	<div class="graph-wrapper">
 		<?php
-		( new Charts\Posts() )->the_chart(
+		( new Chart() )->the_chart(
 			[
 				'category' => 'post',
 				'type'     => 'publish',
@@ -56,11 +57,11 @@ $prpl_all_posts_count = count(
 				],
 			],
 			[
-				'start'    => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01', \strtotime( 'now' ) ) )->modify( '-6 months' ),
-				'end'      => new \DateTime( 'now' ),
-				'interval' => 'months',
-				'range'    => 6,
-				'format'   => 'M',
+				'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01', \strtotime( 'now' ) ) )->modify( '-5 months' ),
+				'end'       => new \DateTime( 'now' ),
+				'frequency' => 'monthly',
+				'range'     => 6,
+				'format'    => 'M',
 			]
 		);
 		?>

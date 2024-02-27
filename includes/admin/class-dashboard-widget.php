@@ -7,6 +7,8 @@
 
 namespace ProgressPlanner\Admin;
 
+use ProgressPlanner\Activities\Query;
+
 /**
  * Class Dashboard_Widget
  */
@@ -34,9 +36,18 @@ class Dashboard_Widget {
 	 * Render the dashboard widget.
 	 */
 	public function render_dashboard_widget() {
+		$scan_pending = empty(
+			Query::get_instance()->query_activities(
+				[
+					'category' => 'post',
+					'type'     => 'publish'
+				]
+			)
+		);
+
 		?>
 		<div class="prpl-dashboard-widget">
-			<?php if ( \ProgressPlanner\Admin\Page::get_params()['scan_pending'] ) : ?>
+			<?php if ( $scan_pending ) : ?>
 				<p>
 					<?php
 					printf(

@@ -8,6 +8,7 @@
 namespace ProgressPlanner;
 
 use ProgressPlanner\Activities\Query;
+use ProgressPlanner\Date;
 
 /**
  * Render a chart.
@@ -17,17 +18,17 @@ class Chart {
 	/**
 	 * Build a chart for the stats.
 	 *
-	 * @param array $query_params             The query parameters.
-	 *       string $query_params['category'] The category for the query.
-	 *       string $query_params['type']     The type for the query.
-	 *       array  $query_params['data']     The data for the query.
-	 * @param array $dates_params             The dates parameters for the query.
-	 *       string $dates_params['start']    The start date for the query.
-	 *       string $dates_params['end']      The end date for the query.
-	 *       string $dates_params['interval'] The interval for the query.
-	 *       string $dates_params['format']   The format for the query.
-	 *       int    $dates_params['range']    The range for the query.
-	 * @param array $chart_params             The chart parameters.
+	 * @param array $query_params              The query parameters.
+	 *       string $query_params['category']  The category for the query.
+	 *       string $query_params['type']      The type for the query.
+	 *       array  $query_params['data']      The data for the query.
+	 * @param array $dates_params              The dates parameters for the query.
+	 *       string $dates_params['start']     The start date for the chart.
+	 *       string $dates_params['end']       The end date for the chart.
+	 *       string $dates_params['frequency'] The frequency for the chart.
+	 *       string $dates_params['format']    The format for the chart.
+	 *       int    $dates_params['range']     The range for the chart.
+	 * @param array $chart_params              The chart parameters.
 	 *
 	 * @return void
 	 */
@@ -47,12 +48,11 @@ class Chart {
 			]
 		);
 
-		$range_array_end   = \range( 0, $dates_params['range'] - 1 );
-		$range_array_start = \range( 1, $dates_params['range'] );
-		\krsort( $range_array_start );
-		\krsort( $range_array_end );
-
-		$range_array = \array_combine( $range_array_start, $range_array_end );
+		$periods = Date::get_periods(
+			$dates_params['start'],
+			$dates_params['end'],
+			'monthly'
+		);
 
 		$data     = [
 			'labels'   => [],
@@ -67,37 +67,31 @@ class Chart {
 		];
 
 		// Calculate zero stats to be used as the baseline.
-		$zero_activities = Query::get_instance()->query_activities(
-			array_merge(
-				$query_params,
-				[
-					'start_date' => \DateTime::createFromFormat( 'Y-m-d', '1970-01-01' ),
-					'end_date'   => new \DateTime( "-{$dates_params['range']} {$dates_params['interval']}" ),
-				]
+		$activities_count = count(
+			Query::get_instance()->query_activities(
+				array_merge(
+					$query_params,
+					[
+						'start_date' => Query::get_instance()->get_oldest_activity()->get_date(),
+						'end_date'   => $periods[0]['dates'][0]->modify( '-1 day' ),
+					]
+				)
 			)
 		);
-		$activities_count = count( $zero_activities );
 
-		foreach ( $range_array as $start => $end ) {
+		foreach ( $periods as $period ) {
 			$activities = Query::get_instance()->query_activities(
 				array_merge(
 					$query_params,
 					[
-						'start_date' => new \DateTime(
-							"-$start {$dates_params['interval']}"
-						),
-						'end_date'   => new \DateTime(
-							"-$end {$dates_params['interval']}"
-						),
+						'start_date' => $period['dates'][0],
+						'end_date'   => end( $period['dates'] ),
 					]
 				)
 			);
 
 			// TODO: Format the date depending on the user's locale.
-			$data['labels'][] = gmdate(
-				$dates_params['format'],
-				strtotime( "-$start {$dates_params['interval']}" )
-			);
+			$data['labels'][] = $period['start']->format( $dates_params['format'] );
 
 			$activities_count     += count( $activities );
 			$datasets[0]['data'][] = $activities_count;

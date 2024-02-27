@@ -24,7 +24,7 @@ class Date {
 	 *                 'dates' => [ 'Ymd', 'Ymd', ... ],
 	 *               ].
 	 */
-	public function get_range( $start, $end ) {
+	public static function get_range( $start, $end ) {
 		return [
 			'start' => $start,
 			'end'   => $end,
@@ -41,7 +41,7 @@ class Date {
 	 *
 	 * @return array
 	 */
-	public function get_periods( $start, $end, $frequency ) {
+	public static function get_periods( $start, $end, $frequency ) {
 		$end = $end->modify( '+1 day' );
 
 		switch ( $frequency ) {
@@ -66,8 +66,11 @@ class Date {
 		$date_ranges = [];
 		foreach ( $period as $key => $date ) {
 			if ( isset( $period[ $key + 1 ] ) ) {
-				$date_ranges[] = $this->get_range( $date, $period[ $key + 1 ] );
+				$date_ranges[] = static::get_range( $date, $period[ $key + 1 ] );
 			}
+		}
+		if ( $end->format( 'z' ) !== end( $date_ranges )['end']->format( 'z' ) ) {
+			$date_ranges[] = static::get_range( end( $date_ranges )['end'], $end );
 		}
 
 		return $date_ranges;
@@ -82,5 +85,29 @@ class Date {
 	 */
 	public static function get_datetime_from_mysql_date( $date ) {
 		return \DateTime::createFromFormat( 'U', (int) mysql2date( 'U', $date ) );
+	}
+
+	/**
+	 * Get start of week from a date.
+	 *
+	 * @param \DateTime $date The date.
+	 *
+	 * @return \DateTime
+	 */
+	public static function get_start_of_week( $date ) {
+		$day_of_week = (int) $date->format( 'N' );
+		$day_of_week = $day_of_week === 7 ? 0 : $day_of_week;
+		return $date->modify( "-{$day_of_week} days" );
+	}
+
+	/**
+	 * Get start of month from a date.
+	 *
+	 * @param \DateTime $date The date.
+	 *
+	 * @return \DateTime
+	 */
+	public static function get_start_of_month( $date ) {
+		return $date->modify( 'first day of this month' );
 	}
 }

@@ -147,28 +147,6 @@ class Page {
 	}
 
 	/**
-	 * Get params for the admin page.
-	 *
-	 * @return array The params.
-	 */
-	public static function get_params() {
-		return [
-			// phpcs:ignore WordPress.Security.NonceVerification.Missing
-			'filter_interval' => isset( $_POST['interval'] ) ? sanitize_key( $_POST['interval'] ) : 'weeks',
-			// phpcs:ignore WordPress.Security.NonceVerification.Missing
-			'filter_number'   => isset( $_POST['number'] ) ? (int) $_POST['number'] : 10,
-			'scan_pending'    => empty(
-				Query::get_instance()->query_activities(
-					[
-						'category' => 'post',
-						'type'     => 'publish',
-					]
-				)
-			),
-		];
-	}
-
-	/**
 	 * Get total number of published posts.
 	 *
 	 * @return int
