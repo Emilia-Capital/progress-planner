@@ -1,5 +1,58 @@
+/*
+Set variables.
+*/
+.prpl-wrap {
+	--prpl-color-gray-1: #e5e7eb;
+	--prpl-color-gray-2: #d1d5db;
+	--prpl-color-gray-3: #9ca3af;
+	--prpl-color-gray-4: #6b7280;
+	--prpl-color-gray-5: #4b5563;
+	--prpl-color-gray-6: #374151;
+
+	--prpl-color-accent-orange: #faa310;
+	--prpl-color-accent-purple: #0d6b9e;
+	--prpl-color-accent-green: #14b8a6;
+}
+
+.prpl-wrap {
+	background: #fff;
+	border: 1px solid var(--prpl-color-gray-3);
+	border-radius: 5px;
+	padding: 20px;
+}
+
 #progress-planner-scan-progress progress{
 	width: 100%;
 	max-width: 500px;
 	min-height: 1px;
+}
+
+.prpl-widget-wrapper {
+	max-width: 300px; /* TODO: This should be dynamic based on the columns. */
+	border: 1px solid var(--prpl-color-gray-3);
+	border-radius: 5px;
+	padding: 20px;
+}
+
+.prpl-wrap .counter-big-wrapper {
+	background-color: var(--prpl-color-gray-1);
+	padding: 20px;
+	border-radius: 5px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.prpl-wrap .counter-big-number {
+	font-size: 4rem;
+	line-height: 5rem;
+	font-weight: 700;
+}
+
+.prpl-wrap .counter-big-text {
+	font-size: 1.5rem;
+}
+
+.prpl-wrap .prpl-widget-content p {
+	font-size: 1.25em;
 }

@@ -6,19 +6,13 @@
  */
 
 ?>
-<div class="wrap">
+<div class="wrap prpl-wrap">
 	<h1><?php esc_html_e( 'Progress Planner', 'progress-planner' ); ?></h1>
 
 	<?php if ( \ProgressPlanner\Admin\Page::get_params()['scan_pending'] ) : ?>
 		<?php include 'admin-page-form-scan.php'; ?>
 	<?php else : ?>
-		<?php include 'admin-page-streak.php'; ?>
-		<hr>
-		<?php include 'admin-page-form-filters.php'; ?>
-		<hr>
-		<?php include 'admin-page-posts-count-progress.php'; ?>
-		<?php include 'admin-page-words-count-progress.php'; ?>
-		<hr>
+		<?php include 'widget-published-posts.php'; ?>
 		<?php include 'admin-page-debug.php'; ?>
 		<hr>
 	<?php endif; ?>

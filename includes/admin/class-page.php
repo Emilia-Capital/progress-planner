@@ -167,4 +167,44 @@ class Page {
 			),
 		];
 	}
+
+	/**
+	 * Get total number of published posts.
+	 *
+	 * @return int
+	 */
+	public static function get_posts_published_all() {
+		$activities = Query::get_instance()->query_activities(
+			[
+				'category' => 'post',
+				'type'     => 'publish',
+				'data'     => [
+					'post_type' => 'post',
+				],
+			]
+		);
+
+		return count( $activities );
+	}
+
+	/**
+	 * Get number of posts published in the past week.
+	 *
+	 * @return int
+	 */
+	public static function get_posts_published_this_week() {
+		$activities = Query::get_instance()->query_activities(
+			[
+				'category'   => 'post',
+				'type'       => 'publish',
+				'start_date' => new \DateTime( '-7 days' ),
+				'end_date'   => new \DateTime( 'now' ),
+				'data'       => [
+					'post_type' => 'post',
+				],
+			]
+		);
+
+		return count( $activities );
+	}
 }
