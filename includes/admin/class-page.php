@@ -7,6 +7,8 @@
 
 namespace ProgressPlanner\Admin;
 
+use ProgressPlanner\Activities\Query;
+
 /**
  * Admin page class.
  */
@@ -150,17 +152,19 @@ class Page {
 	 * @return array The params.
 	 */
 	public static function get_params() {
-		static $stats = null;
-		if ( null === $stats ) {
-			$stats = new \ProgressPlanner\Stats\Stat_Posts();
-		}
 		return [
-			'stats'           => $stats,
 			// phpcs:ignore WordPress.Security.NonceVerification.Missing
 			'filter_interval' => isset( $_POST['interval'] ) ? sanitize_key( $_POST['interval'] ) : 'weeks',
 			// phpcs:ignore WordPress.Security.NonceVerification.Missing
 			'filter_number'   => isset( $_POST['number'] ) ? (int) $_POST['number'] : 10,
-			'scan_pending'    => empty( $stats->get_value() ),
+			'scan_pending'    => empty(
+				Query::get_instance()->query_activities(
+					[
+						'category' => 'post',
+						'type'     => 'publish',
+					]
+				)
+			),
 		];
 	}
 }
