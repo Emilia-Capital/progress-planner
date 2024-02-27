@@ -9,7 +9,7 @@ namespace ProgressPlanner;
 
 use ProgressPlanner\Goals\Goal_Posts;
 use ProgressPlanner\Goals\Goal_Recurring;
-use ProgressPlanner\Stats\Stat_Posts;
+use ProgressPlanner\Activities\Query;
 
 /**
  * Streaks class.
@@ -113,15 +113,6 @@ class Streaks {
 	 * @return void
 	 */
 	private function get_weekly_post_goal() {
-		$stats = new Stat_Posts();
-
-		$stats_value = $stats->get_value();
-
-		// Bail early if there are no stats.
-		if ( empty( $stats_value ) ) {
-			return;
-		}
-
 		return new Goal_Recurring(
 			new Goal_Posts(
 				[
@@ -130,20 +121,26 @@ class Streaks {
 					'description' => \esc_html__( 'Streak: The number of weeks this goal has been accomplished consistently.', 'progress-planner' ),
 					'status'      => 'active',
 					'priority'    => 'low',
-					'evaluate'    => function ( $goal_object ) use ( $stats ) {
+					'evaluate'    => function ( $goal_object ) {
 						return (bool) count(
-							$stats->get_stats(
-								$goal_object->get_details()['start_date'],
-								$goal_object->get_details()['end_date'],
-								[]
+							Query::get_instance()->query_activities(
+								[
+									'category'   => 'post',
+									'type'       => 'publish',
+									'start_date' => $goal_object->get_details()['start_date'],
+									'end_date'   => $goal_object->get_details()['end_date'],
+									'data'       => [
+										'post_type' => 'post',
+									],
+								]
 							)
 						);
 					},
 				]
 			),
 			'weekly',
-			array_keys( $stats_value )[0], // Beginning of the stats.
-			gmdate( Date::FORMAT ) // Today.
+			Query::get_instance()->get_oldest_activity()->get_date(), // Beginning of the stats.
+			new \DateTime( 'now' ) // Today.
 		);
 	}
 
@@ -153,42 +150,37 @@ class Streaks {
 	 * @return void
 	 */
 	private function get_weekly_words_goal() {
-		$stats = new Stat_Posts();
-
-		$stats_value = $stats->get_value();
-
-		// Bail early if there are no stats.
-		if ( empty( $stats_value ) ) {
-			return;
-		}
-
 		return new Goal_Recurring(
 			new Goal_Posts(
 				[
-					'id'          => 'weekly_words',
-					'title'       => \esc_html__( 'Write 500 words/week', 'progress-planner' ),
+					'id'          => 'weekly_post',
+					'title'       => \esc_html__( 'Write a weekly blog post', 'progress-planner' ),
 					'description' => \esc_html__( 'Streak: The number of weeks this goal has been accomplished consistently.', 'progress-planner' ),
 					'status'      => 'active',
 					'priority'    => 'low',
-					'evaluate'    => function ( $goal_object ) use ( $stats ) {
-						$words = 0;
-						$posts = $stats->get_stats(
-							$goal_object->get_details()['start_date'],
-							$goal_object->get_details()['end_date'],
-							[ 'post' ]
+					'evaluate'    => function ( $goal_object ) {
+						$activities = Query::get_instance()->query_activities(
+							[
+								'category'   => 'post',
+								'type'       => 'publish',
+								'start_date' => $goal_object->get_details()['start_date'],
+								'end_date'   => $goal_object->get_details()['end_date'],
+								'data'       => [
+									'post_type' => 'post',
+								],
+							]
 						);
-						foreach ( $posts as $post_dates ) {
-							foreach ( $post_dates as $post_details ) {
-								$words += $post_details['words'];
-							}
+						$words      = 0;
+						foreach ( $activities as $activity ) {
+							$words += $activity->get_data()['word_count'];
 						}
 						return $words >= 500;
 					},
 				]
 			),
 			'weekly',
-			array_keys( $stats_value )[0], // Beginning of the stats.
-			gmdate( Date::FORMAT ) // Today.
+			Query::get_instance()->get_oldest_activity()->get_date(), // Beginning of the stats.
+			new \DateTime( 'now' ) // Today.
 		);
 	}
 }

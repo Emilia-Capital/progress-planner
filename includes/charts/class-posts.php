@@ -8,8 +8,7 @@
 namespace ProgressPlanner\Charts;
 
 use ProgressPlanner\Chart;
-use ProgressPlanner\Date;
-use ProgressPlanner\Stats\Stat_Posts;
+use ProgressPlanner\Activities\Query;
 
 /**
  * Posts chart.
@@ -19,7 +18,7 @@ class Posts extends Chart {
 	/**
 	 * Build a chart for the stats.
 	 *
-	 * @param array  $post_types The post types.
+	 * @param string $post_type  The post type.
 	 * @param string $context    The context for the chart. Can be 'count' or 'words'.
 	 * @param string $interval   The interval for the chart. Can be 'days', 'weeks', 'months', 'years'.
 	 * @param int    $range      The number of intervals to show.
@@ -27,7 +26,7 @@ class Posts extends Chart {
 	 *
 	 * @return void
 	 */
-	public function render( $post_types = [], $context = 'count', $interval = 'weeks', $range = 10, $offset = 0 ) {
+	public function render( $post_type = 'post', $context = 'count', $interval = 'weeks', $range = 10, $offset = 0 ) {
 		$range_array_end   = \range( $offset, $range - 1 );
 		$range_array_start = \range( $offset + 1, $range );
 		\krsort( $range_array_start );
@@ -40,59 +39,60 @@ class Posts extends Chart {
 			'datasets' => [],
 		];
 		$datasets               = [];
-		$post_type_count_totals = [];
-		foreach ( $post_types as $post_type ) {
-			$post_type_count_totals[ $post_type ] = 0;
-			$datasets[ $post_type ]               = [
-				'label'   => \get_post_type_object( $post_type )->label,
-				'data'    => [],
-				'tension' => 0.2,
-			];
-		}
-
-		$stat_posts = new Stat_Posts();
+		$post_type_count_totals = 0;
+		$dataset                = [
+			'label'   => \get_post_type_object( $post_type )->label,
+			'data'    => [],
+			'tension' => 0.2,
+		];
 
 		// Calculate zero stats to be used as the baseline.
-		$zero_stats = $stat_posts->get_stats(
-			19700101,
-			(int) gmdate( Date::FORMAT, strtotime( "-$range $interval" ) ),
-			$post_types
+		$zero_activities = Query::get_instance()->query_activities(
+			[
+				'category'   => 'post',
+				'type'       => 'publish',
+				'start_date' => \DateTime::createFromFormat( 'Y-m-d', '1970-01-01' ),
+				'end_date'   => new \DateTime( "-$range $interval" ),
+				'data'       => [
+					'post_type' => $post_type,
+				],
+			]
 		);
-		foreach ( $zero_stats as $zero_posts ) {
-			foreach ( $zero_posts as $zero_post ) {
-				$post_type_count_totals[ $zero_post['post_type'] ] += 'words' === $context
-					? $zero_post['words']
-					: 1;
-			}
+		foreach ( $zero_activities as $zero_activity ) {
+			$activity_data           = $zero_activity->get_data();
+			$post_type_count_totals += 'words' === $context
+				? $activity_data['word_count']
+				: 1;
 		}
 
 		foreach ( $range_array as $start => $end ) {
-			$stats = $stat_posts->get_stats(
-				(int) gmdate( Date::FORMAT, strtotime( "-$start $interval" ) ),
-				(int) gmdate( Date::FORMAT, strtotime( "-$end $interval" ) ),
-				$post_types
+			$activities = Query::get_instance()->query_activities(
+				[
+					'category'   => 'post',
+					'type'       => 'publish',
+					'start_date' => new \DateTime( "-$start $interval" ),
+					'end_date'   => new \DateTime( "-$end $interval" ),
+					'data'       => [
+						'post_type' => $post_type,
+					],
+				]
 			);
 
 			// TODO: Format the date depending on the user's locale.
 			$data['labels'][] = gmdate( 'Y-m-d', strtotime( "-$start $interval" ) );
 
-			foreach ( $post_types as $post_type ) {
-				foreach ( $stats as $posts ) {
-					foreach ( $posts as $post_details ) {
-						if ( $post_details['post_type'] === $post_type ) {
-							$post_type_count_totals[ $post_type ] += 'words' === $context
-								? $post_details['words']
-								: 1;
-						}
-					}
-				}
-				$datasets[ $post_type ]['data'][] = $post_type_count_totals[ $post_type ];
+			foreach ( $activities as $activity ) {
+				$activity_data           = $activity->get_data();
+				$post_type_count_totals += 'words' === $context
+					? $activity_data['word_count']
+					: 1;
 			}
+			$datasets[ $post_type ]['data'][] = $post_type_count_totals;
 		}
 		$data['datasets'] = \array_values( $datasets );
 
 		$this->render_chart(
-			md5( wp_json_encode( [ $post_types, $context, $interval, $range, $offset ] ) ),
+			md5( wp_json_encode( [ [ $post_type ], $context, $interval, $range, $offset ] ) ),
 			'line',
 			$data,
 			[]

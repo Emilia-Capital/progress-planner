@@ -70,4 +70,20 @@ class Stats {
 	private function register_stats() {
 		$this->add_stat( 'posts', new Stat_Posts() );
 	}
+
+	/**
+	 * Get number of activities for date range.
+	 *
+	 * @param \DateTime $start_date The start date.
+	 * @param \DateTime $end_date   The end date.
+	 * @param array     $args       The query arguments.
+	 *
+	 * @return int
+	 */
+	public function get_number_of_activities( $start_date, $end_date, $args = [] ) {
+		$args['start_date'] = $start_date;
+		$args['end_date']   = $end_date;
+		$activities = Query::get_instance()->query_activities( $args );
+		return count( $activities );
+	}
 }

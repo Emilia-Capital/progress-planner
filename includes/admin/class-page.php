@@ -109,8 +109,7 @@ class Page {
 		}
 
 		// Scan the posts.
-		$posts_stats   = new \ProgressPlanner\Stats\Stat_Posts();
-		$updated_stats = $posts_stats->update_stats();
+		$updated_stats = \ProgressPlanner\Scan\Posts::update_stats();
 
 		\wp_send_json_success(
 			[
@@ -136,8 +135,7 @@ class Page {
 		}
 
 		// Reset the stats.
-		$posts_stats = new \ProgressPlanner\Stats\Stat_Posts();
-		$posts_stats->reset_stats();
+		\ProgressPlanner\Scan\Posts::reset_stats();
 
 		\wp_send_json_success(
 			[
