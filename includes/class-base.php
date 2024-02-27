@@ -7,6 +7,8 @@
 
 namespace ProgressPlanner;
 
+use ProgressPlanner\Activities\Activity_Post;
+
 /**
  * Main plugin class.
  */
@@ -44,6 +46,8 @@ class Base {
 	 */
 	private function __construct() {
 		$this->admin = new Admin();
+
+		( new Activity_Post() )->register_hooks();
 
 		new Stats();
 	}

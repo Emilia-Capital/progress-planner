@@ -149,16 +149,17 @@ class Activity_Post extends Activity {
 	 * @return bool
 	 */
 	public function pre_post_update( $post_id, $post ) {
+		$post_array = (array) $post;
 		// Add an update activity.
 		$activity = new Activity();
 		$activity->set_category( 'post' );
 		$activity->set_type( 'update' );
-		$activity->set_date( Date::get_datetime_from_mysql_date( $post->post_modified ) );
-		$activity->set_data_id( $post->ID );
+		$activity->set_date( Date::get_datetime_from_mysql_date( $post_array['post_modified'] ) );
+		$activity->set_data_id( $post_id );
 		$activity->set_data(
 			[
-				'post_type'  => $post->post_type,
-				'word_count' => static::get_word_count( $post->post_content ),
+				'post_type'  => $post_array['post_type'],
+				'word_count' => static::get_word_count( $post_array['post_content'] ),
 			]
 		);
 		return $activity->save();
