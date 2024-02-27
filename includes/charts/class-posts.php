@@ -23,10 +23,11 @@ class Posts extends Chart {
 	 * @param string $interval   The interval for the chart. Can be 'days', 'weeks', 'months', 'years'.
 	 * @param int    $range      The number of intervals to show.
 	 * @param int    $offset     The offset for the intervals.
+	 * @param string $date_format The date format.
 	 *
 	 * @return void
 	 */
-	public function render( $post_type = 'post', $context = 'count', $interval = 'weeks', $range = 10, $offset = 0 ) {
+	public function render( $post_type = 'post', $context = 'count', $interval = 'weeks', $range = 10, $offset = 0, $date_format = 'Y-m-d' ) {
 		$range_array_end   = \range( $offset, $range - 1 );
 		$range_array_start = \range( $offset + 1, $range );
 		\krsort( $range_array_start );
@@ -51,7 +52,7 @@ class Posts extends Chart {
 			[
 				'category'   => 'post',
 				'type'       => 'publish',
-				'start_date' => \DateTime::createFromFormat( 'Y-m-d', '1970-01-01' ),
+				'start_date' => \DateTime::createFromFormat( $date_format, '1970-01-01' ),
 				'end_date'   => new \DateTime( "-$range $interval" ),
 				'data'       => [
 					'post_type' => $post_type,
@@ -79,7 +80,7 @@ class Posts extends Chart {
 			);
 
 			// TODO: Format the date depending on the user's locale.
-			$data['labels'][] = gmdate( 'Y-m-d', strtotime( "-$start $interval" ) );
+			$data['labels'][] = gmdate( $date_format, strtotime( "-$start $interval" ) );
 
 			foreach ( $activities as $activity ) {
 				$activity_data           = $activity->get_data();
