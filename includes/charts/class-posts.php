@@ -96,7 +96,7 @@ class Posts extends Chart {
 			md5( wp_json_encode( [ [ $post_type ], $context, $interval, $range, $offset ] ) ),
 			'line',
 			$data,
-			[]
+			[ 'pointStyle' => false ]
 		);
 	}
 }
