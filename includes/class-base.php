@@ -7,6 +7,7 @@
 
 namespace ProgressPlanner;
 
+use ProgressPlanner\Activities\Query;
 use ProgressPlanner\Activities\Activity_Post;
 use ProgressPlanner\Admin;
 
@@ -58,5 +59,14 @@ class Base {
 	 */
 	public function get_admin() {
 		return $this->admin;
+	}
+
+	/**
+	 * Get the query object.
+	 *
+	 * @return \ProgressPlanner\Activities\Query
+	 */
+	public function get_query() {
+		return Query::get_instance();
 	}
 }

@@ -10,7 +10,6 @@ namespace ProgressPlanner\Scan;
 use ProgressPlanner\Activities\Activity;
 use ProgressPlanner\Date;
 use ProgressPlanner\Activities\Activity_Post;
-use ProgressPlanner\Activities\Query;
 
 /**
  * Scan existing posts and populate the options.
@@ -114,7 +113,7 @@ class Posts {
 	 * @return void
 	 */
 	public static function reset_stats() {
-		Query::get_instance()->delete_category_activities( 'post' );
+		\progress_planner()->get_query()->delete_category_activities( 'post' );
 		\delete_option( static::LAST_SCANNED_PAGE_OPTION );
 	}
 }

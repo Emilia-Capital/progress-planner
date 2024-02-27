@@ -17,7 +17,7 @@ $prpl_query_args = [
 
 $prpl_last_week_posts = Admin\Page::get_posts_published_this_week();
 $prpl_all_posts_count = count(
-	Activities\Query::get_instance()->query_activities( $prpl_query_args )
+	\progress_planner()->get_query()->query_activities( $prpl_query_args )
 );
 
 ?>

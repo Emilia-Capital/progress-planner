@@ -7,8 +7,6 @@
 
 namespace ProgressPlanner\Admin;
 
-use ProgressPlanner\Activities\Query;
-
 /**
  * Admin page class.
  */
@@ -152,7 +150,7 @@ class Page {
 	 * @return int
 	 */
 	public static function get_posts_published_all() {
-		$activities = Query::get_instance()->query_activities(
+		$activities = \progress_planner()->get_query()->query_activities(
 			[
 				'category' => 'post',
 				'type'     => 'publish',
@@ -171,7 +169,7 @@ class Page {
 	 * @return int
 	 */
 	public static function get_posts_published_this_week() {
-		$activities = Query::get_instance()->query_activities(
+		$activities = \progress_planner()->get_query()->query_activities(
 			[
 				'category'   => 'post',
 				'type'       => 'publish',

@@ -7,7 +7,6 @@
 
 namespace ProgressPlanner\Activities;
 
-use ProgressPlanner\Activities\Query;
 use ProgressPlanner\Activities\Activity;
 use ProgressPlanner\Date;
 
@@ -95,7 +94,7 @@ class Activity_Post extends Activity {
 		// If the post is published, check if it was previously published,
 		// and if so, delete the old activity and create a new one.
 		if ( 'publish' !== $old_status && 'publish' === $new_status ) {
-			$old_publish_activities = Query::get_instance()->query_activities(
+			$old_publish_activities = \progress_planner()->get_query()->query_activities(
 				[
 					'category' => 'post',
 					'type'     => 'publish',
@@ -215,7 +214,7 @@ class Activity_Post extends Activity {
 		}
 
 		// Update existing activities, and remove the words count.
-		$activities = Query::get_instance()->query_activities(
+		$activities = \progress_planner()->get_query()->query_activities(
 			[
 				'category' => 'post',
 				'data_id'  => $post->ID,
@@ -226,7 +225,7 @@ class Activity_Post extends Activity {
 				$activity->set_data( [ 'post_type' => $post->post_type ] );
 				$activity->save();
 			}
-			Query::get_instance()->delete_activities( $activities );
+			\progress_planner()->get_query()->delete_activities( $activities );
 		}
 
 		$activity = new Activity();

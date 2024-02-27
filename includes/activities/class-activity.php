@@ -172,7 +172,7 @@ class Activity {
 	 * @return void
 	 */
 	public function save() {
-		$existing = Query::get_instance()->query_activities(
+		$existing = \progress_planner()->get_query()->query_activities(
 			[
 				'category' => $this->category,
 				'type'     => $this->type,
@@ -180,9 +180,9 @@ class Activity {
 			]
 		);
 		if ( ! empty( $existing ) ) {
-			Query::get_instance()->update_activity( $existing[0]->id, $this );
+			\progress_planner()->get_query()->update_activity( $existing[0]->id, $this );
 		} else {
-			Query::get_instance()->insert_activity( $this );
+			\progress_planner()->get_query()->insert_activity( $this );
 		}
 	}
 
@@ -192,6 +192,6 @@ class Activity {
 	 * @return void
 	 */
 	public function delete() {
-		Query::get_instance()->delete_activity( $this );
+		\progress_planner()->get_query()->delete_activity( $this );
 	}
 }

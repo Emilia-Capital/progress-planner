@@ -16,7 +16,7 @@
 	<pre style="max-height:600px;overflow-y:scroll;color:#fff;background:#000;padding:2em">
 		<?php
 		//phpcs:ignore WordPress.PHP.DevelopmentFunctions
-		print_r( \ProgressPlanner\Activities\Query::get_instance()->query_activities( [] ) );
+		print_r( \progress_planner()->get_query()->query_activities( [] ) );
 		?>
 	</pre>
 </details>

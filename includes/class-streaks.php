@@ -9,7 +9,6 @@ namespace ProgressPlanner;
 
 use ProgressPlanner\Goals\Goal_Posts;
 use ProgressPlanner\Goals\Goal_Recurring;
-use ProgressPlanner\Activities\Query;
 
 /**
  * Streaks class.
@@ -123,7 +122,7 @@ class Streaks {
 					'priority'    => 'low',
 					'evaluate'    => function ( $goal_object ) {
 						return (bool) count(
-							Query::get_instance()->query_activities(
+							\progress_planner()->get_query()->query_activities(
 								[
 									'category'   => 'post',
 									'type'       => 'publish',
@@ -139,7 +138,7 @@ class Streaks {
 				]
 			),
 			'weekly',
-			Query::get_instance()->get_oldest_activity()->get_date(), // Beginning of the stats.
+			\progress_planner()->get_query()->get_oldest_activity()->get_date(), // Beginning of the stats.
 			new \DateTime( 'now' ) // Today.
 		);
 	}
@@ -159,7 +158,7 @@ class Streaks {
 					'status'      => 'active',
 					'priority'    => 'low',
 					'evaluate'    => function ( $goal_object ) {
-						$activities = Query::get_instance()->query_activities(
+						$activities = \progress_planner()->get_query()->query_activities(
 							[
 								'category'   => 'post',
 								'type'       => 'publish',
@@ -179,7 +178,7 @@ class Streaks {
 				]
 			),
 			'weekly',
-			Query::get_instance()->get_oldest_activity()->get_date(), // Beginning of the stats.
+			\progress_planner()->get_query()->get_oldest_activity()->get_date(), // Beginning of the stats.
 			new \DateTime( 'now' ) // Today.
 		);
 	}

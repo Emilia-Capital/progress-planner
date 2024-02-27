@@ -7,7 +7,6 @@
 
 namespace ProgressPlanner;
 
-use ProgressPlanner\Activities\Query;
 use ProgressPlanner\Date;
 
 /**
@@ -68,11 +67,11 @@ class Chart {
 
 		// Calculate zero stats to be used as the baseline.
 		$activities_count = count(
-			Query::get_instance()->query_activities(
+			\progress_planner()->get_query()->query_activities(
 				array_merge(
 					$query_params,
 					[
-						'start_date' => Query::get_instance()->get_oldest_activity()->get_date(),
+						'start_date' => \progress_planner()->get_query()->get_oldest_activity()->get_date(),
 						'end_date'   => $periods[0]['dates'][0]->modify( '-1 day' ),
 					]
 				)
@@ -80,7 +79,7 @@ class Chart {
 		);
 
 		foreach ( $periods as $period ) {
-			$activities = Query::get_instance()->query_activities(
+			$activities = \progress_planner()->get_query()->query_activities(
 				array_merge(
 					$query_params,
 					[
@@ -91,7 +90,7 @@ class Chart {
 			);
 
 			// TODO: Format the date depending on the user's locale.
-			$data['labels'][] = $period['start']->format( $dates_params['format'] );
+			$data['labels'][] = $period['dates'][0]->format( $dates_params['format'] );
 
 			$activities_count     += count( $activities );
 			$datasets[0]['data'][] = $activities_count;

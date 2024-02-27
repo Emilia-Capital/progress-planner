@@ -7,10 +7,8 @@
 
 namespace ProgressPlanner;
 
-use ProgressPlanner\Activities\Query;
-
 $prpl_scan_pending = empty(
-	Query::get_instance()->query_activities(
+	\progress_planner()->get_query()->query_activities(
 		[
 			'category' => 'post',
 			'type'     => 'publish'

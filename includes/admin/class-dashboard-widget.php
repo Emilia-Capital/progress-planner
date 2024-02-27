@@ -7,8 +7,6 @@
 
 namespace ProgressPlanner\Admin;
 
-use ProgressPlanner\Activities\Query;
-
 /**
  * Class Dashboard_Widget
  */
@@ -37,7 +35,7 @@ class Dashboard_Widget {
 	 */
 	public function render_dashboard_widget() {
 		$scan_pending = empty(
-			Query::get_instance()->query_activities(
+			\progress_planner()->get_query()->query_activities(
 				[
 					'category' => 'post',
 					'type'     => 'publish'
