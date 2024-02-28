@@ -114,32 +114,43 @@ class Query {
 
 		$args = \wp_parse_args( $args, $defaults );
 
-		// If start and end dates are defined, then get activities by date.
-		if ( $args['start_date'] && $args['end_date'] ) {
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-			$results = $wpdb->get_results(
-				$wpdb->prepare(
-					'SELECT * FROM %i WHERE date >= %s AND date <= %s AND category LIKE %s AND type LIKE %s AND data_id LIKE %s',
-					$wpdb->prefix . static::TABLE_NAME,
-					$args['start_date']->format( 'Y-m-d' ),
-					$args['end_date']->format( 'Y-m-d' ),
-					$args['category'],
-					$args['type'],
-					$args['data_id']
-				)
-			);
-		} else {
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-			$results = $wpdb->get_results(
-				$wpdb->prepare(
-					'SELECT * FROM %i WHERE category LIKE %s AND type LIKE %s AND data_id LIKE %s',
-					$wpdb->prefix . static::TABLE_NAME,
-					$args['category'],
-					$args['type'],
-					$args['data_id']
-				)
-			);
+		$where_args   = [];
+		$prepare_args = [];
+		if ( $args['start_date'] ) {
+			$where_args[]   = 'date >= %s';
+			$prepare_args[] = $args['start_date']->format( 'Y-m-d H:i:s' );
 		}
+		if ( $args['end_date'] ) {
+			$where_args[]   = 'date <= %s';
+			$prepare_args[] = $args['end_date']->format( 'Y-m-d H:i:s' );
+		}
+		if ( $args['category'] !== '%' ) {
+			$where_args[]   = 'category = %s';
+			$prepare_args[] = $args['category'];
+		}
+		if ( $args['type'] !== '%' ) {
+			$where_args[]   = 'type = %s';
+			$prepare_args[] = $args['type'];
+		}
+		if ( $args['data_id'] !== '%' ) {
+			$where_args[]   = 'data_id = %s';
+			$prepare_args[] = $args['data_id'];
+		}
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		$results = $wpdb->get_results(
+			// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- This is a false positive.
+			$wpdb->prepare(
+				sprintf(
+					'SELECT * FROM %%i WHERE %s',
+					\implode( ' AND ', $where_args )
+				),
+				array_merge(
+					[ $wpdb->prefix . static::TABLE_NAME ],
+					$prepare_args
+				)
+			)
+		);
 
 		$activities = $this->get_activities_from_results( $results );
 
