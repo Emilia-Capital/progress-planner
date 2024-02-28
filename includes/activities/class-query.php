@@ -97,42 +97,43 @@ class Query {
 	/**
 	 * Query the database for activities.
 	 *
-	 * @param array $args The arguments for the query.
+	 * @param array  $args        The arguments for the query.
+	 * @param string $return_type The type of the return value. Can be "RAW" or "ACTIVITIES".
 	 *
 	 * @return \ProgressPlanner\Activities\Activity[] The activities.
 	 */
-	public function query_activities( $args ) {
+	public function query_activities( $args, $return_type = 'ACTIVITIES' ) {
 		global $wpdb;
 
 		$defaults = [
 			'start_date' => null,
 			'end_date'   => null,
-			'category'   => '%',
-			'type'       => '%',
-			'data_id'    => '%',
+			'category'   => null,
+			'type'       => null,
+			'data_id'    => null,
 		];
 
 		$args = \wp_parse_args( $args, $defaults );
 
 		$where_args   = [];
 		$prepare_args = [];
-		if ( $args['start_date'] ) {
+		if ( $args['start_date'] !== null ) {
 			$where_args[]   = 'date >= %s';
 			$prepare_args[] = $args['start_date']->format( 'Y-m-d H:i:s' );
 		}
-		if ( $args['end_date'] ) {
+		if ( $args['end_date'] !== null ) {
 			$where_args[]   = 'date <= %s';
 			$prepare_args[] = $args['end_date']->format( 'Y-m-d H:i:s' );
 		}
-		if ( $args['category'] !== '%' ) {
+		if ( $args['category'] !== null ) {
 			$where_args[]   = 'category = %s';
 			$prepare_args[] = $args['category'];
 		}
-		if ( $args['type'] !== '%' ) {
+		if ( $args['type'] !== null ) {
 			$where_args[]   = 'type = %s';
 			$prepare_args[] = $args['type'];
 		}
-		if ( $args['data_id'] !== '%' ) {
+		if ( $args['data_id'] !== null ) {
 			$where_args[]   = 'data_id = %s';
 			$prepare_args[] = $args['data_id'];
 		}
@@ -157,20 +158,20 @@ class Query {
 				)
 			);
 
-		$activities = $this->get_activities_from_results( $results );
-
 		if ( isset( $args['data'] ) && ! empty( $args['data'] ) ) {
-			foreach ( $activities as $key => $activity ) {
-				$data = $activity->get_data();
+			foreach ( $results as $key => $activity ) {
+				$data = \json_decode( $activity->data, true );
 				foreach ( $args['data'] as $data_key => $data_value ) {
 					if ( ! isset( $data[ $data_key ] ) || $data[ $data_key ] !== $data_value ) {
-						unset( $activities[ $key ] );
+						unset( $results[ $key ] );
 					}
 				}
 			}
-			$activities = \array_values( $activities );
+			$results = \array_values( $results );
 		}
-		return $activities;
+		return 'RAW' === $return_type
+			? $results
+			: $this->get_activities_from_results( $results );
 	}
 
 	/**
@@ -308,12 +309,23 @@ class Query {
 	 * @return void
 	 */
 	public function delete_activity( $activity ) {
+		$this->delete_activity_by_id( $activity->get_id() );
+	}
+
+	/**
+	 * Delete activitiy by ID.
+	 *
+	 * @param int $id The ID of the activity to delete.
+	 *
+	 * @return void
+	 */
+	public function delete_activity_by_id( $id ) {
 		global $wpdb;
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 		$wpdb->delete(
 			$wpdb->prefix . static::TABLE_NAME,
-			[ 'id' => $activity->get_id() ],
+			[ 'id' => $id ],
 			[ '%d' ]
 		);
 	}

@@ -68,29 +68,7 @@ const progressPlannerTriggerScan = () => {
 			return;
 		}
 
-		// Wait half a second and re-trigger.
-		setTimeout( () => {
-			progressPlannerTriggerScan();
-		}, 500 );
-	};
-
-	/**
-	 * The action to run on a failed AJAX request.
-	 * This function should re-trigger the scan if necessary.
-	 * If the response contains a `progress` property, the successAction should be run instead.
-	 *
-	 * @param {Object} response The response from the server.
-	 */
-	const failAction = ( response ) => {
-		if ( response && response.data && response.data.progress ) {
-			successAction( response );
-			return;
-		}
-
-		// Wait 2 seconds and re-trigger.
-		setTimeout( () => {
-			progressPlannerTriggerScan();
-		}, 1000 );
+		progressPlannerTriggerScan();
 	};
 
 	/**
@@ -103,7 +81,6 @@ const progressPlannerTriggerScan = () => {
 			_ajax_nonce: progressPlanner.nonce,
 		},
 		successAction: successAction,
-		failAction: failAction,
 	} );
 };
 

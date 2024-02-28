@@ -11,7 +11,7 @@ $prpl_scan_pending = empty(
 	\progress_planner()->get_query()->query_activities(
 		[
 			'category' => 'post',
-			'type'     => 'publish'
+			'type'     => 'publish',
 		]
 	)
 );

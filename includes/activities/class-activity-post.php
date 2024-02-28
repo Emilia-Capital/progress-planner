@@ -221,10 +221,6 @@ class Activity_Post extends Activity {
 			]
 		);
 		if ( ! empty( $activities ) ) {
-			foreach ( $activities as $activity ) {
-				$activity->set_data( [ 'post_type' => $post->post_type ] );
-				$activity->save();
-			}
 			\progress_planner()->get_query()->delete_activities( $activities );
 		}
 

@@ -21,7 +21,7 @@ class Posts {
 	 *
 	 * @var int
 	 */
-	const SCAN_POSTS_PER_PAGE = 50;
+	const SCAN_POSTS_PER_PAGE = 30;
 
 	/**
 	 * The option used to store the last scanned page.
@@ -59,20 +59,21 @@ class Posts {
 				'posts_per_page' => static::SCAN_POSTS_PER_PAGE,
 				'paged'          => $current_page,
 				'post_type'      => Activity_Post::get_post_types_names(),
-				'post_status'    => 'any',
+				'post_status'    => 'publish',
 			]
 		);
 
 		if ( ! $posts ) {
 			\delete_option( static::LAST_SCANNED_PAGE_OPTION );
 			return [
-				'lastScannedPage' => $last_page,
+				'lastScannedPage' => $current_page,
 				'lastPage'        => $total_pages,
 				'progress'        => 100,
 			];
 		}
 
 		// Loop through the posts and update the stats.
+		$activities = [];
 		foreach ( $posts as $post ) {
 			$activity = new Activity();
 			$activity->set_category( 'post' );
@@ -83,25 +84,15 @@ class Posts {
 					'word_count' => Activity_Post::get_word_count( $post->post_content ),
 				]
 			);
-
-			switch ( $post->post_status ) {
-				case 'publish':
-					$activity->set_type( 'publish' );
-					$activity->set_date( Date::get_datetime_from_mysql_date( $post->post_date ) );
-					break;
-
-				default:
-					$activity->set_type( 'update' );
-					$activity->set_date( Date::get_datetime_from_mysql_date( $post->post_modified ) );
-			}
-
-			$activity->save();
+			$activity->set_type( 'publish' );
+			$activity->set_date( Date::get_datetime_from_mysql_date( $post->post_date ) );
+			$activities[ $post->ID ] = $activity;
 		}
-
+		\progress_planner()->get_query()->insert_activities( $activities );
 		\update_option( static::LAST_SCANNED_PAGE_OPTION, $current_page );
 
 		return [
-			'lastScannedPage' => $last_page,
+			'lastScannedPage' => $current_page,
 			'lastPage'        => $total_pages,
 			'progress'        => round( ( $current_page / max( 1, $total_pages ) ) * 100 ),
 		];
