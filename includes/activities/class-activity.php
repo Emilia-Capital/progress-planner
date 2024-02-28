@@ -160,10 +160,15 @@ class Activity {
 	/**
 	 * Get the data of the activity.
 	 *
-	 * @return array
+	 * @param string|null $key The key of the data to get. If null, then all data is returned.
+	 *
+	 * @return mixed
 	 */
-	public function get_data() {
-		return $this->data;
+	public function get_data( $key = null ) {
+		if ( null === $key ) {
+			return $this->data;
+		}
+		return isset( $this->data[ $key ] ) ? $this->data[ $key ] : null;
 	}
 
 	/**

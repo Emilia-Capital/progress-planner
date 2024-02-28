@@ -27,11 +27,19 @@ Set variables.
 	min-height: 1px;
 }
 
+.prpl-widgets-container {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+	grid-gap: 20px;
+}
+
 .prpl-widget-wrapper {
-	max-width: 300px; /* TODO: This should be dynamic based on the columns. */
 	border: 1px solid var(--prpl-color-gray-3);
 	border-radius: 5px;
 	padding: 20px;
+	max-height: 500px;
+	display: flex;
+	flex-direction: column;
 }
 
 .prpl-wrap .counter-big-wrapper {
@@ -55,4 +63,9 @@ Set variables.
 
 .prpl-wrap .prpl-widget-content p {
 	font-size: 1.25em;
+}
+
+.prpl-graph-wrapper {
+	position: relative;
+	height: 100%;
 }

@@ -171,7 +171,7 @@ class Streaks {
 						);
 						$words      = 0;
 						foreach ( $activities as $activity ) {
-							$words += $activity->get_data()['word_count'];
+							$words += $activity->get_data( 'word_count' );
 						}
 						return $words >= 500;
 					},

@@ -166,9 +166,11 @@ class Page {
 	/**
 	 * Get number of posts published in the past week.
 	 *
+	 * @param string $post_type The post type.
+	 *
 	 * @return int
 	 */
-	public static function get_posts_published_this_week() {
+	public static function get_posts_published_this_week( $post_type ) {
 		$activities = \progress_planner()->get_query()->query_activities(
 			[
 				'category'   => 'post',
@@ -176,7 +178,7 @@ class Page {
 				'start_date' => new \DateTime( '-7 days' ),
 				'end_date'   => new \DateTime( 'now' ),
 				'data'       => [
-					'post_type' => 'post',
+					'post_type' => $post_type,
 				],
 			]
 		);

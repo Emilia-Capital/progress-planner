@@ -11,12 +11,12 @@ $prpl_query_args = [
 	'category' => 'post',
 	'type'     => 'publish',
 	'data'     => [
-		'post_type' => 'post',
+		'post_type' => 'page',
 	],
 ];
 
-$prpl_last_week_posts = Admin\Page::get_posts_published_this_week( 'post' );
-$prpl_all_posts_count = count(
+$prpl_last_week_pages = Admin\Page::get_posts_published_this_week( 'page' );
+$prpl_all_pages_count = count(
 	\progress_planner()->get_query()->query_activities( $prpl_query_args )
 );
 
@@ -24,23 +24,23 @@ $prpl_all_posts_count = count(
 <div class="prpl-widget-wrapper">
 	<div class="counter-big-wrapper">
 		<span class="counter-big-number">
-			<?php echo esc_html( $prpl_last_week_posts ); ?>
+			<?php echo esc_html( $prpl_last_week_pages ); ?>
 		</span>
 		<span class="counter-big-text">
-			<?php esc_html_e( 'posts published', 'progress-planner' ); ?>
+			<?php esc_html_e( 'pages published', 'progress-planner' ); ?>
 		</span>
 	</div>
 	<div class="prpl-widget-content">
 		<p>
-			<?php if ( 0 === $prpl_last_week_posts ) : ?>
-				<?php esc_html_e( 'No posts last week', 'progress-planner' ); ?>
+			<?php if ( 0 === $prpl_last_week_pages ) : ?>
+				<?php esc_html_e( 'No pages last week', 'progress-planner' ); ?>
 			<?php else : ?>
 				<?php
 				printf(
-					/* translators: %1$d: number of posts published this week. %2$d: Total number of posts. */
-					esc_html__( 'Good job! You added %1$s posts in the past week. You now have %2$s posts in total.', 'progress-planner' ),
-					esc_html( $prpl_last_week_posts ),
-					esc_html( $prpl_all_posts_count )
+					/* translators: %1$d: number of posts published this week. %2$d: Total number of pages. */
+					esc_html__( 'Good job! You added %1$s pages in the past week. You now have %2$s pages in total.', 'progress-planner' ),
+					esc_html( $prpl_last_week_pages ),
+					esc_html( $prpl_all_pages_count )
 				);
 				?>
 			<?php endif; ?>
@@ -54,7 +54,7 @@ $prpl_all_posts_count = count(
 					'category' => 'post',
 					'type'     => 'publish',
 					'data'     => [
-						'post_type' => 'post',
+						'post_type' => 'page',
 					],
 				],
 				'dates_params' => [
@@ -66,7 +66,7 @@ $prpl_all_posts_count = count(
 				'chart_params' => [
 					'type' => 'line',
 				],
-			],
+			]
 		);
 		?>
 	</div>

@@ -22,7 +22,12 @@ $prpl_scan_pending = empty(
 	<?php if ( $prpl_scan_pending ) : ?>
 		<?php include 'admin-page-form-scan.php'; ?>
 	<?php else : ?>
-		<?php include 'widget-published-posts.php'; ?>
+		<div class="prpl-widgets-container">
+			<?php include 'widget-published-pages.php'; ?>
+			<?php include 'widget-published-posts.php'; ?>
+			<?php include 'widget-published-words.php'; ?>
+			<?php include 'widget-activity-scores.php'; ?>
+		</div>
 		<?php include 'admin-page-debug.php'; ?>
 		<hr>
 	<?php endif; ?>
