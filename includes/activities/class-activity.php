@@ -177,7 +177,8 @@ class Activity {
 				'category' => $this->category,
 				'type'     => $this->type,
 				'data_id'  => $this->data_id,
-			]
+			],
+			'RAW'
 		);
 		if ( ! empty( $existing ) ) {
 			\progress_planner()->get_query()->update_activity( $existing[0]->id, $this );
