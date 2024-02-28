@@ -137,20 +137,25 @@ class Query {
 			$prepare_args[] = $args['data_id'];
 		}
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-		$results = $wpdb->get_results(
-			// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- This is a false positive.
-			$wpdb->prepare(
-				sprintf(
-					'SELECT * FROM %%i WHERE %s',
-					\implode( ' AND ', $where_args )
-				),
-				array_merge(
-					[ $wpdb->prefix . static::TABLE_NAME ],
-					$prepare_args
-				)
+		$results = ( empty( $where_args ) )
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+			? $wpdb->get_results(
+				$wpdb->prepare( 'SELECT * FROM %i', $wpdb->prefix . static::TABLE_NAME )
 			)
-		);
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+			: $wpdb->get_results(
+				// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- This is a false positive.
+				$wpdb->prepare(
+					sprintf(
+						'SELECT * FROM %%i WHERE %s',
+						\implode( ' AND ', $where_args )
+					),
+					array_merge(
+						[ $wpdb->prefix . static::TABLE_NAME ],
+						$prepare_args
+					)
+				)
+			);
 
 		$activities = $this->get_activities_from_results( $results );
 
