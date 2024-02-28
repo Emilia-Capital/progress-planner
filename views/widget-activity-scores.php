@@ -18,7 +18,7 @@ namespace ProgressPlanner;
 			[
 				'query_params' => [],
 				'dates_params' => [
-					'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01', \strtotime( 'now' ) ) )->modify( '-4 months' ),
+					'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01', \strtotime( 'now' ) ) )->modify( '-11 months' ),
 					'end'       => new \DateTime( 'now' ),
 					'frequency' => 'monthly',
 					'format'    => 'M',
