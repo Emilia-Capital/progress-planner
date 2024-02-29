@@ -7,6 +7,16 @@
 
 namespace ProgressPlanner;
 
+$prpl_color_callback = function ( $number ) {
+	if ( $number > 90 ) {
+		return '#14b8a6';
+	}
+	if ( $number > 30 ) {
+		return '#faa310';
+	}
+	return '#f43f5e';
+};
+
 ?>
 <div class="prpl-widget-wrapper">
 	<h2 class="prpl-widget-title">
@@ -28,24 +38,8 @@ namespace ProgressPlanner;
 				],
 				'additive'     => false,
 				'colors'       => [
-					'background' => function ( $number ) {
-						if ( $number > 90 ) {
-							return '#14b8a6';
-						}
-						if ( $number > 30 ) {
-							return '#faa310';
-						}
-						return '#f43f5e';
-					},
-					'border'     => function ( $number ) {
-						if ( $number > 90 ) {
-							return '#14b8a6';
-						}
-						if ( $number > 70 ) {
-							return '#faa310';
-						}
-						return '#f43f5e';
-					},
+					'background' => $prpl_color_callback,
+					'border'     => $prpl_color_callback,
 				],
 			]
 		);
