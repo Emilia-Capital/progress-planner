@@ -56,8 +56,7 @@ class Dashboard_Widget {
 					?>
 				</p>
 			<?php else : ?>
-				<?php include PROGRESS_PLANNER_DIR . '/views/admin-page-streak.php'; ?>
-				<?php include PROGRESS_PLANNER_DIR . '/views/admin-page-posts-count-progress.php'; ?>
+				<?php include PROGRESS_PLANNER_DIR . '/views/widgets/activity-scores.php'; ?>
 				<a href="<?php echo esc_url( \get_admin_url( null, 'admin.php?page=progress-planner' ) ); ?>">
 					<?php esc_html_e( 'See more details', 'progress-planner' ); ?>
 				</a>
