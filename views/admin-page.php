@@ -23,12 +23,18 @@ $prpl_scan_pending = empty(
 		<?php include 'admin-page-form-scan.php'; ?>
 	<?php else : ?>
 		<div class="prpl-widgets-container">
-			<?php include 'widget-published-content-density.php'; ?>
-			<?php include 'widget-published-content.php'; ?>
-			<?php include 'widget-published-pages.php'; ?>
-			<?php include 'widget-published-posts.php'; ?>
-			<?php include 'widget-published-words.php'; ?>
-			<?php include 'widget-activity-scores.php'; ?>
+			<?php
+			foreach ( [
+				'published-pages',
+				'published-posts',
+				'published-words',
+				'activity-scores',
+				'published-content-density',
+				'published-content',
+			] as $prpl_widget ) {
+				include "widgets/{$prpl_widget}.php";
+			}
+			?>
 		</div>
 		<?php include 'admin-page-debug.php'; ?>
 		<hr>
