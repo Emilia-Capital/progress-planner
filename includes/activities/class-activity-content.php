@@ -7,7 +7,7 @@
 
 namespace ProgressPlanner\Activities;
 
-use ProgressPlanner\Activities\Activity;
+use ProgressPlanner\Activity;
 use ProgressPlanner\Date;
 
 /**
@@ -228,7 +228,7 @@ class Activity_Content extends Activity {
 	 *
 	 * @param \WP_Post $post The post object.
 	 *
-	 * @return \ProgressPlanner\Activities\Activity
+	 * @return \ProgressPlanner\Activity
 	 */
 	public static function get_activity_from_post( $post ) {
 		$type = 'publish' === $post->post_status ? 'publish' : 'update';

@@ -9,6 +9,8 @@
 
 namespace ProgressPlanner\Activities;
 
+use \ProgressPlanner\Activity;
+
 // phpcs:disable WordPress.DB.PreparedSQLPlaceholders.UnsupportedIdentifierPlaceholder
 
 /**
@@ -100,7 +102,7 @@ class Query {
 	 * @param array  $args        The arguments for the query.
 	 * @param string $return_type The type of the return value. Can be "RAW" or "ACTIVITIES".
 	 *
-	 * @return \ProgressPlanner\Activities\Activity[] The activities.
+	 * @return \ProgressPlanner\Activity[] The activities.
 	 */
 	public function query_activities( $args, $return_type = 'ACTIVITIES' ) {
 		global $wpdb;
@@ -177,7 +179,7 @@ class Query {
 	/**
 	 * Insert multiple activities into the database.
 	 *
-	 * @param \ProgressPlanner\Activities\Activity[] $activities The activities to insert.
+	 * @param \ProgressPlanner\Activity[] $activities The activities to insert.
 	 *
 	 * @return int[]|false The IDs of the inserted activities, or false on failure.
 	 */
@@ -200,7 +202,7 @@ class Query {
 	/**
 	 * Insert an activity into the database.
 	 *
-	 * @param \ProgressPlanner\Activities\Activity $activity The activity to insert.
+	 * @param \ProgressPlanner\Activity $activity The activity to insert.
 	 *
 	 * @return int|false The ID of the inserted activity, or false on failure.
 	 */
@@ -237,7 +239,7 @@ class Query {
 	 *
 	 * @param array $results The results.
 	 *
-	 * @return \ProgressPlanner\Activities\Activity[] The activities.
+	 * @return \ProgressPlanner\Activity[] The activities.
 	 */
 	private function get_activities_from_results( $results ) {
 		$activities = [];
@@ -259,7 +261,7 @@ class Query {
 	 * Update an activity in the database.
 	 *
 	 * @param int                                  $id       The ID of the activity to update.
-	 * @param \ProgressPlanner\Activities\Activity $activity The activity to update.
+	 * @param \ProgressPlanner\Activity $activity The activity to update.
 	 *
 	 * @return void
 	 */
@@ -291,7 +293,7 @@ class Query {
 	/**
 	 * Delete activities from the database.
 	 *
-	 * @param \ProgressPlanner\Activities\Activity[] $activities The activity to delete.
+	 * @param \ProgressPlanner\Activity[] $activities The activity to delete.
 	 *
 	 * @return void
 	 */
@@ -304,7 +306,7 @@ class Query {
 	/**
 	 * Delete an activity from the database.
 	 *
-	 * @param \ProgressPlanner\Activities\Activity $activity The activity to delete.
+	 * @param \ProgressPlanner\Activity $activity The activity to delete.
 	 *
 	 * @return void
 	 */
@@ -351,7 +353,7 @@ class Query {
 	/**
 	 * Get oldest activity.
 	 *
-	 * @return \ProgressPlanner\Activities\Activity
+	 * @return \ProgressPlanner\Activity
 	 */
 	public function get_oldest_activity() {
 		global $wpdb;

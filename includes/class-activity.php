@@ -5,7 +5,7 @@
  * @package ProgressPlanner
  */
 
-namespace ProgressPlanner\Activities;
+namespace ProgressPlanner;
 
 /**
  * Activity class.
