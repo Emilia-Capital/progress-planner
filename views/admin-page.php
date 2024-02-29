@@ -40,4 +40,3 @@ $prpl_scan_pending = empty(
 		<hr>
 	<?php endif; ?>
 </div>
-<?php

@@ -7,15 +7,26 @@
 
 namespace ProgressPlanner;
 
-$prpl_query_args = [
-	'category' => 'content',
-	'type'     => 'publish',
-];
+use ProgressPlanner\Activities\Content_Helpers;
 
-$prpl_last_week_content = Admin\Page::get_content_published_this_week();
-$prpl_all_content_count = count(
-	\progress_planner()->get_query()->query_activities( $prpl_query_args )
+$prpl_last_week_content = count(
+	get_posts(
+		[
+			'post_status'    => 'publish',
+			'post_type'      => Content_Helpers::get_post_types_names(),
+			'date_query'     => [
+				[
+					'after' => '1 week ago',
+				],
+			],
+			'posts_per_page' => 100,
+		]
+	)
 );
+$prpl_all_content_count = 0;
+foreach ( Content_Helpers::get_post_types_names() as $prpl_post_type ) {
+	$prpl_all_content_count += wp_count_posts( $prpl_post_type )->publish;
+}
 
 ?>
 <div class="prpl-widget-wrapper">

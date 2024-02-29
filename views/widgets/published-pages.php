@@ -10,13 +10,14 @@ namespace ProgressPlanner;
 $prpl_last_week_pages = count(
 	get_posts(
 		[
-			'post_type'   => 'page',
-			'post_status' => 'publish',
-			'date_query'  => [
+			'post_type'      => 'page',
+			'post_status'    => 'publish',
+			'date_query'     => [
 				[
 					'after' => '1 week ago',
 				],
 			],
+			'posts_per_page' => 100,
 		]
 	)
 );
@@ -52,7 +53,7 @@ $prpl_all_pages_count = wp_count_posts( 'page' );
 		<?php
 		( new Chart() )->the_chart(
 			[
-				'query_params' => [
+				'query_params'   => [
 					'category' => 'content',
 					'type'     => 'publish',
 				],
@@ -64,13 +65,13 @@ $prpl_all_pages_count = wp_count_posts( 'page' );
 					}
 					return $activities;
 				},
-				'dates_params' => [
+				'dates_params'   => [
 					'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) )->modify( '-5 months' ),
 					'end'       => new \DateTime(),
 					'frequency' => 'monthly',
 					'format'    => 'M',
 				],
-				'chart_params' => [
+				'chart_params'   => [
 					'type' => 'line',
 				],
 			]

@@ -10,13 +10,14 @@ namespace ProgressPlanner;
 $prpl_last_week_posts = count(
 	get_posts(
 		[
-			'post_type'   => 'post',
-			'post_status' => 'publish',
-			'date_query'  => [
+			'post_type'      => 'post',
+			'post_status'    => 'publish',
+			'date_query'     => [
 				[
 					'after' => '1 week ago',
 				],
 			],
+			'posts_per_page' => 100,
 		]
 	)
 );
