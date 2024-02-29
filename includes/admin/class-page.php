@@ -109,7 +109,7 @@ class Page {
 		}
 
 		// Scan the posts.
-		$updated_stats = \ProgressPlanner\Scan\Posts::update_stats();
+		$updated_stats = \ProgressPlanner\Scan\Content::update_stats();
 
 		\wp_send_json_success(
 			[
@@ -135,7 +135,7 @@ class Page {
 		}
 
 		// Reset the stats.
-		\ProgressPlanner\Scan\Posts::reset_stats();
+		\ProgressPlanner\Scan\Content::reset_stats();
 
 		\wp_send_json_success(
 			[
@@ -170,18 +170,18 @@ class Page {
 	 *
 	 * @return int
 	 */
-	public static function get_content_published_this_week( $post_type ) {
-		$activities = \progress_planner()->get_query()->query_activities(
-			[
-				'category'   => 'content',
-				'type'       => 'publish',
-				'start_date' => new \DateTime( '-7 days' ),
-				'end_date'   => new \DateTime( 'now' ),
-				'data'       => [
-					'post_type' => $post_type,
-				],
-			]
-		);
+	public static function get_content_published_this_week( $post_type = null ) {
+		$args = [
+			'category'   => 'content',
+			'type'       => 'publish',
+			'start_date' => new \DateTime( '-7 days' ),
+			'end_date'   => new \DateTime( 'now' ),
+		];
+		if ( $post_type ) {
+			$args['data'] = [ 'post_type' => $post_type ];
+		}
+
+		$activities = \progress_planner()->get_query()->query_activities( $args );
 
 		return count( $activities );
 	}

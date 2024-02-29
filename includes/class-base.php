@@ -8,7 +8,7 @@
 namespace ProgressPlanner;
 
 use ProgressPlanner\Activities\Query;
-use ProgressPlanner\Activities\Activity_Post;
+use ProgressPlanner\Activities\Activity_Content;
 use ProgressPlanner\Admin;
 
 /**
@@ -49,7 +49,7 @@ class Base {
 	private function __construct() {
 		$this->admin = new Admin();
 
-		( new Activity_Post() )->register_hooks();
+		( new Activity_Content() )->register_hooks();
 	}
 
 	/**

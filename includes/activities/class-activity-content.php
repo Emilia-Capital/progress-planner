@@ -13,7 +13,7 @@ use ProgressPlanner\Date;
 /**
  * Handler for posts activities.
  */
-class Activity_Post extends Activity {
+class Activity_Content extends Activity {
 
 	/**
 	 * Category of the activity.
