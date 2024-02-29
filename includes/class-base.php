@@ -7,7 +7,7 @@
 
 namespace ProgressPlanner;
 
-use ProgressPlanner\Activities\Query;
+use ProgressPlanner\Query;
 use ProgressPlanner\Activities\Activity_Content;
 use ProgressPlanner\Admin;
 
@@ -64,7 +64,7 @@ class Base {
 	/**
 	 * Get the query object.
 	 *
-	 * @return \ProgressPlanner\Activities\Query
+	 * @return \ProgressPlanner\Query
 	 */
 	public function get_query() {
 		return Query::get_instance();

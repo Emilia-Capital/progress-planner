@@ -19,7 +19,7 @@ class Chart {
 	 *
 	 * @param array $args The arguments for the chart.
 	 *                    ['query_params'] The query parameters.
-	 *                                     See Query::query_activities for the available parameters.
+	 *                                     See \ProgressPlanner\Query::query_activities for the available parameters.
 	 *
 	 *                    ['dates_params'] The dates parameters for the query.
 	 *                                   ['start']     The start date for the chart.

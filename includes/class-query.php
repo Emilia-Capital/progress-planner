@@ -7,9 +7,9 @@
  * @package ProgressPlanner
  */
 
-namespace ProgressPlanner\Activities;
+namespace ProgressPlanner;
 
-use \ProgressPlanner\Activity;
+use ProgressPlanner\Activity;
 
 // phpcs:disable WordPress.DB.PreparedSQLPlaceholders.UnsupportedIdentifierPlaceholder
 
