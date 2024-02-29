@@ -152,7 +152,7 @@ class Page {
 	public static function get_posts_published_all() {
 		$activities = \progress_planner()->get_query()->query_activities(
 			[
-				'category' => 'post',
+				'category' => 'content',
 				'type'     => 'publish',
 				'data'     => [
 					'post_type' => 'post',
@@ -170,10 +170,10 @@ class Page {
 	 *
 	 * @return int
 	 */
-	public static function get_posts_published_this_week( $post_type ) {
+	public static function get_content_published_this_week( $post_type ) {
 		$activities = \progress_planner()->get_query()->query_activities(
 			[
-				'category'   => 'post',
+				'category'   => 'content',
 				'type'       => 'publish',
 				'start_date' => new \DateTime( '-7 days' ),
 				'end_date'   => new \DateTime( 'now' ),

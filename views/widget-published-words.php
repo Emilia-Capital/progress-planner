@@ -8,7 +8,7 @@
 namespace ProgressPlanner;
 
 $prpl_query_args = [
-	'category' => 'post',
+	'category' => 'content',
 	'type'     => 'publish',
 ];
 
@@ -66,24 +66,24 @@ $prpl_this_week_words = $prpl_count_words_callback(
 		<?php
 		( new Chart() )->the_chart(
 			[
-				'query_params' => [
-					'category' => 'post',
+				'query_params'   => [
+					'category' => 'content',
 					'type'     => 'publish',
 					'data'     => [
 						'post_type' => 'post',
 					],
 				],
-				'dates_params' => [
+				'dates_params'   => [
 					'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01', \strtotime( 'now' ) ) )->modify( '-5 months' ),
 					'end'       => new \DateTime( 'now' ),
 					'frequency' => 'monthly',
 					'format'    => 'M',
 				],
-				'chart_params' => [
+				'chart_params'   => [
 					'type' => 'line',
 				],
 				'count_callback' => $prpl_count_words_callback,
-				'additive'	   => false,
+				'additive'       => false,
 			],
 		);
 		?>

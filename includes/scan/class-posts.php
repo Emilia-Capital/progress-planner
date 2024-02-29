@@ -76,7 +76,7 @@ class Posts {
 		$activities = [];
 		foreach ( $posts as $post ) {
 			$activity = new Activity();
-			$activity->set_category( 'post' );
+			$activity->set_category( 'content' );
 			$activity->set_data_id( $post->ID );
 			$activity->set_data(
 				[
@@ -104,7 +104,7 @@ class Posts {
 	 * @return void
 	 */
 	public static function reset_stats() {
-		\progress_planner()->get_query()->delete_category_activities( 'post' );
+		\progress_planner()->get_query()->delete_category_activities( 'content' );
 		\delete_option( static::LAST_SCANNED_PAGE_OPTION );
 	}
 }

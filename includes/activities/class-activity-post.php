@@ -20,7 +20,7 @@ class Activity_Post extends Activity {
 	 *
 	 * @var string
 	 */
-	protected $category = 'post';
+	protected $category = 'content';
 
 	/**
 	 * Register hooks.
@@ -69,7 +69,7 @@ class Activity_Post extends Activity {
 
 		// Add a publish activity.
 		$activity = new Activity();
-		$activity->set_category( 'post' );
+		$activity->set_category( 'content' );
 		$activity->set_type( 'publish' );
 		$activity->set_date( Date::get_datetime_from_mysql_date( $post->post_date ) );
 		$activity->set_data_id( $post_id );
@@ -96,7 +96,7 @@ class Activity_Post extends Activity {
 		if ( 'publish' !== $old_status && 'publish' === $new_status ) {
 			$old_publish_activities = \progress_planner()->get_query()->query_activities(
 				[
-					'category' => 'post',
+					'category' => 'content',
 					'type'     => 'publish',
 					'data_id'  => $post->ID,
 				]
@@ -109,7 +109,7 @@ class Activity_Post extends Activity {
 
 			// Add a publish activity.
 			$activity = new Activity();
-			$activity->set_category( 'post' );
+			$activity->set_category( 'content' );
 			$activity->set_type( 'publish' );
 			$activity->set_date( Date::get_datetime_from_mysql_date( $post->post_date ) );
 			$activity->set_data_id( $post->ID );
@@ -124,7 +124,7 @@ class Activity_Post extends Activity {
 
 		// Add an update activity.
 		$activity = new Activity();
-		$activity->set_category( 'post' );
+		$activity->set_category( 'content' );
 		$activity->set_type( 'update' );
 		$activity->set_date( Date::get_datetime_from_mysql_date( $post->post_modified ) );
 		$activity->set_data_id( $post->ID );
@@ -151,7 +151,7 @@ class Activity_Post extends Activity {
 		$post_array = (array) $post;
 		// Add an update activity.
 		$activity = new Activity();
-		$activity->set_category( 'post' );
+		$activity->set_category( 'content' );
 		$activity->set_type( 'update' );
 		$activity->set_date( Date::get_datetime_from_mysql_date( $post_array['post_modified'] ) );
 		$activity->set_data_id( $post_id );
@@ -183,7 +183,7 @@ class Activity_Post extends Activity {
 
 		// Add an update activity.
 		$activity = new Activity();
-		$activity->set_category( 'post' );
+		$activity->set_category( 'content' );
 		$activity->set_type( 'update' );
 		$activity->set_date( Date::get_datetime_from_mysql_date( $post->post_modified ) );
 		$activity->set_data_id( $post->ID );
@@ -216,7 +216,7 @@ class Activity_Post extends Activity {
 		// Update existing activities, and remove the words count.
 		$activities = \progress_planner()->get_query()->query_activities(
 			[
-				'category' => 'post',
+				'category' => 'content',
 				'data_id'  => $post->ID,
 			]
 		);
@@ -225,7 +225,7 @@ class Activity_Post extends Activity {
 		}
 
 		$activity = new Activity();
-		$activity->set_category( 'post' );
+		$activity->set_category( 'content' );
 		$activity->set_type( 'delete' );
 		$activity->set_date( Date::get_datetime_from_mysql_date( $post->post_date ) );
 		$activity->set_data_id( $post->ID );

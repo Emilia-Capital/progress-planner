@@ -37,7 +37,7 @@ class Dashboard_Widget {
 		$scan_pending = empty(
 			\progress_planner()->get_query()->query_activities(
 				[
-					'category' => 'post',
+					'category' => 'content',
 					'type'     => 'publish',
 				]
 			)

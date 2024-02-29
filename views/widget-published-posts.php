@@ -8,14 +8,14 @@
 namespace ProgressPlanner;
 
 $prpl_query_args = [
-	'category' => 'post',
+	'category' => 'content',
 	'type'     => 'publish',
 	'data'     => [
 		'post_type' => 'post',
 	],
 ];
 
-$prpl_last_week_posts = Admin\Page::get_posts_published_this_week( 'post' );
+$prpl_last_week_posts = Admin\Page::get_content_published_this_week( 'post' );
 $prpl_all_posts_count = count(
 	\progress_planner()->get_query()->query_activities( $prpl_query_args )
 );
@@ -51,7 +51,7 @@ $prpl_all_posts_count = count(
 		( new Chart() )->the_chart(
 			[
 				'query_params' => [
-					'category' => 'post',
+					'category' => 'content',
 					'type'     => 'publish',
 					'data'     => [
 						'post_type' => 'post',

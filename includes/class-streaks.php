@@ -124,7 +124,7 @@ class Streaks {
 						return (bool) count(
 							\progress_planner()->get_query()->query_activities(
 								[
-									'category'   => 'post',
+									'category'   => 'content',
 									'type'       => 'publish',
 									'start_date' => $goal_object->get_details()['start_date'],
 									'end_date'   => $goal_object->get_details()['end_date'],
@@ -160,7 +160,7 @@ class Streaks {
 					'evaluate'    => function ( $goal_object ) {
 						$activities = \progress_planner()->get_query()->query_activities(
 							[
-								'category'   => 'post',
+								'category'   => 'content',
 								'type'       => 'publish',
 								'start_date' => $goal_object->get_details()['start_date'],
 								'end_date'   => $goal_object->get_details()['end_date'],
