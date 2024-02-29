@@ -52,8 +52,8 @@ $prpl_all_content_count = count(
 					'type'     => 'publish',
 				],
 				'dates_params' => [
-					'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01', \strtotime( 'now' ) ) )->modify( '-5 months' ),
-					'end'       => new \DateTime( 'now' ),
+					'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) )->modify( '-5 months' ),
+					'end'       => new \DateTime(),
 					'frequency' => 'weekly',
 					'format'    => 'M, d',
 				],

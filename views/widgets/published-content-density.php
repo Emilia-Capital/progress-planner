@@ -78,8 +78,8 @@ $prpl_weekly_activities_density = $prpl_count_density_callback(
 					'type'     => 'publish',
 				],
 				'dates_params'   => [
-					'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01', \strtotime( 'now' ) ) )->modify( '-12 months' ),
-					'end'       => new \DateTime( 'now' ),
+					'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) )->modify( '-12 months' ),
+					'end'       => new \DateTime(),
 					'frequency' => 'weekly',
 					'format'    => 'M',
 				],

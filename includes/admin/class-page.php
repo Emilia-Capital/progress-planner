@@ -170,7 +170,7 @@ class Page {
 			'category'   => 'content',
 			'type'       => 'publish',
 			'start_date' => new \DateTime( '-7 days' ),
-			'end_date'   => new \DateTime( 'now' ),
+			'end_date'   => new \DateTime(),
 		];
 
 		$activities = \progress_planner()->get_query()->query_activities( $args );

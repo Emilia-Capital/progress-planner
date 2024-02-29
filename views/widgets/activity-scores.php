@@ -28,8 +28,8 @@ $prpl_color_callback = function ( $number ) {
 			[
 				'query_params' => [],
 				'dates_params' => [
-					'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01', \strtotime( 'now' ) ) )->modify( '-11 months' ),
-					'end'       => new \DateTime( 'now' ),
+					'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) )->modify( '-11 months' ),
+					'end'       => new \DateTime(),
 					'frequency' => 'monthly',
 					'format'    => 'M',
 				],

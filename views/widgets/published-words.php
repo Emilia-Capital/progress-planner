@@ -76,8 +76,8 @@ $prpl_this_week_words = $prpl_count_words_callback(
 					'type'     => 'publish',
 				],
 				'dates_params'   => [
-					'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01', \strtotime( 'now' ) ) )->modify( '-5 months' ),
-					'end'       => new \DateTime( 'now' ),
+					'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) )->modify( '-5 months' ),
+					'end'       => new \DateTime(),
 					'frequency' => 'monthly',
 					'format'    => 'M',
 				],

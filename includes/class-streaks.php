@@ -137,7 +137,7 @@ class Streaks {
 			),
 			'weekly',
 			\progress_planner()->get_query()->get_oldest_activity()->get_date(), // Beginning of the stats.
-			new \DateTime( 'now' ) // Today.
+			new \DateTime() // Today.
 		);
 	}
 
@@ -177,7 +177,7 @@ class Streaks {
 			),
 			'weekly',
 			\progress_planner()->get_query()->get_oldest_activity()->get_date(), // Beginning of the stats.
-			new \DateTime( 'now' ) // Today.
+			new \DateTime() // Today.
 		);
 	}
 }
