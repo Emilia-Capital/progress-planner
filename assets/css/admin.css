@@ -29,7 +29,15 @@ Set variables.
 
 .prpl-widgets-container {
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+	grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+	grid-gap: 20px;
+}
+
+.prpl-widgets-container > .main,
+.prpl-widgets-container > .secondary {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+	grid-auto-flow: dense;
 	grid-gap: 20px;
 }
 
@@ -68,4 +76,9 @@ Set variables.
 .prpl-graph-wrapper {
 	position: relative;
 	height: 100%;
+}
+
+.prpl-widget-wrapper.prpl-website-activity-score,
+.prpl-widget-wrapper.prpl-published-words {
+	grid-column: span 2;
 }

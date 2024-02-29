@@ -1,6 +1,6 @@
 <?php
 /**
- * Print the graph for words count progress.
+ * ProgressPlanner widget.
  *
  * @package ProgressPlanner
  */
@@ -48,48 +48,46 @@ $prpl_weekly_activities_density = $prpl_count_density_callback(
 );
 
 ?>
-<div class="prpl-widget-wrapper">
-	<div class="counter-big-wrapper">
-		<span class="counter-big-number">
-			<?php echo esc_html( $prpl_weekly_activities_density ); ?>
-		</span>
-		<span class="counter-big-text">
-			<?php esc_html_e( 'content density', 'progress-planner' ); ?>
-		</span>
-	</div>
-	<div class="prpl-widget-content">
-		<p>
-			<?php
-			printf(
-				/* translators: %d: number of words/post published this week. */
-				esc_html__( 'You have written content with an average density of %1$d words/post in the past 7 days. Your all-time average is %2$d', 'progress-planner' ),
-				esc_html( $prpl_weekly_activities_density ),
-				esc_html( $prpl_all_activities_density )
-			);
-			?>
-		</p>
-	</div>
-	<div class="prpl-graph-wrapper">
+<div class="counter-big-wrapper">
+	<span class="counter-big-number">
+		<?php echo esc_html( $prpl_weekly_activities_density ); ?>
+	</span>
+	<span class="counter-big-text">
+		<?php esc_html_e( 'content density', 'progress-planner' ); ?>
+	</span>
+</div>
+<div class="prpl-widget-content">
+	<p>
 		<?php
-		( new Chart() )->the_chart(
-			[
-				'query_params'   => [
-					'category' => 'content',
-					'type'     => 'publish',
-				],
-				'dates_params'   => [
-					'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) )->modify( '-12 months' ),
-					'end'       => new \DateTime(),
-					'frequency' => 'weekly',
-					'format'    => 'M',
-				],
-				'chart_params'   => [
-					'type' => 'line',
-				],
-				'count_callback' => $prpl_count_density_callback,
-				'additive'       => false,
-			],
+		printf(
+			/* translators: %d: number of words/post published this week. */
+			esc_html__( 'You have written content with an average density of %1$d words/post in the past 7 days. Your all-time average is %2$d', 'progress-planner' ),
+			esc_html( $prpl_weekly_activities_density ),
+			esc_html( $prpl_all_activities_density )
 		);
 		?>
-	</div>
+	</p>
+</div>
+<div class="prpl-graph-wrapper">
+	<?php
+	( new Chart() )->the_chart(
+		[
+			'query_params'   => [
+				'category' => 'content',
+				'type'     => 'publish',
+			],
+			'dates_params'   => [
+				'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) )->modify( '-12 months' ),
+				'end'       => new \DateTime(),
+				'frequency' => 'weekly',
+				'format'    => 'M',
+			],
+			'chart_params'   => [
+				'type' => 'line',
+			],
+			'count_callback' => $prpl_count_density_callback,
+			'additive'       => false,
+		],
+	);
+	?>
 </div>
