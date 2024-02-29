@@ -75,18 +75,7 @@ class Posts {
 		// Loop through the posts and update the stats.
 		$activities = [];
 		foreach ( $posts as $post ) {
-			$activity = new Activity();
-			$activity->set_category( 'content' );
-			$activity->set_data_id( $post->ID );
-			$activity->set_data(
-				[
-					'post_type'  => $post->post_type,
-					'word_count' => Activity_Post::get_word_count( $post->post_content ),
-				]
-			);
-			$activity->set_type( 'publish' );
-			$activity->set_date( Date::get_datetime_from_mysql_date( $post->post_date ) );
-			$activities[ $post->ID ] = $activity;
+			$activities[ $post->ID ] = Activity_Post::get_activity_from_post( $post );
 		}
 		\progress_planner()->get_query()->insert_activities( $activities );
 		\update_option( static::LAST_SCANNED_PAGE_OPTION, $current_page );

@@ -68,17 +68,7 @@ class Activity_Post extends Activity {
 		}
 
 		// Add a publish activity.
-		$activity = new Activity();
-		$activity->set_category( 'content' );
-		$activity->set_type( 'publish' );
-		$activity->set_date( Date::get_datetime_from_mysql_date( $post->post_date ) );
-		$activity->set_data_id( $post_id );
-		$activity->set_data(
-			[
-				'post_type'  => $post->post_type,
-				'word_count' => static::get_word_count( $post->post_content ),
-			]
-		);
+		$activity = self::get_activity_from_post( $post );
 		$activity->save();
 	}
 
@@ -108,32 +98,12 @@ class Activity_Post extends Activity {
 			}
 
 			// Add a publish activity.
-			$activity = new Activity();
-			$activity->set_category( 'content' );
-			$activity->set_type( 'publish' );
-			$activity->set_date( Date::get_datetime_from_mysql_date( $post->post_date ) );
-			$activity->set_data_id( $post->ID );
-			$activity->set_data(
-				[
-					'post_type'  => $post->post_type,
-					'word_count' => static::get_word_count( $post->post_content ),
-				]
-			);
+			$activity = self::get_activity_from_post( $post );
 			return $activity->save();
 		}
 
 		// Add an update activity.
-		$activity = new Activity();
-		$activity->set_category( 'content' );
-		$activity->set_type( 'update' );
-		$activity->set_date( Date::get_datetime_from_mysql_date( $post->post_modified ) );
-		$activity->set_data_id( $post->ID );
-		$activity->set_data(
-			[
-				'post_type'  => $post->post_type,
-				'word_count' => static::get_word_count( $post->post_content ),
-			]
-		);
+		$activity = self::get_activity_from_post( $post );
 		return $activity->save();
 	}
 
@@ -182,17 +152,9 @@ class Activity_Post extends Activity {
 		}
 
 		// Add an update activity.
-		$activity = new Activity();
-		$activity->set_category( 'content' );
+		$activity = self::get_activity_from_post( $post );
 		$activity->set_type( 'update' );
 		$activity->set_date( Date::get_datetime_from_mysql_date( $post->post_modified ) );
-		$activity->set_data_id( $post->ID );
-		$activity->set_data(
-			[
-				'post_type'  => $post->post_type,
-				'word_count' => static::get_word_count( $post->post_content ),
-			]
-		);
 		return $activity->save();
 	}
 
@@ -224,11 +186,7 @@ class Activity_Post extends Activity {
 			\progress_planner()->get_query()->delete_activities( $activities );
 		}
 
-		$activity = new Activity();
-		$activity->set_category( 'content' );
-		$activity->set_type( 'delete' );
-		$activity->set_date( Date::get_datetime_from_mysql_date( $post->post_date ) );
-		$activity->set_data_id( $post->ID );
+		$activity = self::get_activity_from_post( $post );
 		$activity->save();
 	}
 
@@ -263,5 +221,30 @@ class Activity_Post extends Activity {
 
 		// Count words.
 		return \str_word_count( $content );
+	}
+
+	/**
+	 * Get Activity from WP_Post object.
+	 *
+	 * @param \WP_Post $post The post object.
+	 *
+	 * @return \ProgressPlanner\Activities\Activity
+	 */
+	public static function get_activity_from_post( $post ) {
+		$type = 'publish' === $post->post_status ? 'publish' : 'update';
+		$date = 'publish' === $post->post_status ? $post->post_date : $post->post_modified;
+
+		$activity = new Activity();
+		$activity->set_category( 'content' );
+		$activity->set_type( $type );
+		$activity->set_date( Date::get_datetime_from_mysql_date( $date ) );
+		$activity->set_data_id( $post->ID );
+		$activity->set_data(
+			[
+				'post_type'  => $post->post_type,
+				'word_count' => static::get_word_count( $post->post_content ),
+			]
+		);
+		return $activity;
 	}
 }
