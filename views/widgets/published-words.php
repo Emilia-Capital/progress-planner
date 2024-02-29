@@ -7,17 +7,22 @@
 
 namespace ProgressPlanner;
 
+use ProgressPlanner\Activities\Content_Helpers;
+
 $prpl_query_args = [
 	'category' => 'content',
 	'type'     => 'publish',
 ];
 
 $prpl_count_words_callback = function ( $activities ) {
-	$words = 0;
-	foreach ( $activities as $activity ) {
-		$words += $activity->get_data( 'word_count' );
-	}
-	return $words;
+	return Content_Helpers::get_posts_stats_by_ids(
+		array_map(
+			function ( $activity ) {
+				return $activity->get_data_id();
+			},
+			$activities
+		)
+	)['words'];
 };
 
 $prpl_all_time_words = $prpl_count_words_callback(
@@ -69,9 +74,6 @@ $prpl_this_week_words = $prpl_count_words_callback(
 				'query_params'   => [
 					'category' => 'content',
 					'type'     => 'publish',
-					'data'     => [
-						'post_type' => 'post',
-					],
 				],
 				'dates_params'   => [
 					'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01', \strtotime( 'now' ) ) )->modify( '-5 months' ),

@@ -7,7 +7,7 @@
 
 namespace ProgressPlanner\Scan;
 
-use ProgressPlanner\Activities\Activity_Content;
+use ProgressPlanner\Activities\Content_Helpers;
 
 /**
  * Scan existing posts and populate the options.
@@ -41,7 +41,7 @@ class Content {
 
 		// Get the total number of posts.
 		$total_posts_count = 0;
-		foreach ( Activity_Content::get_post_types_names() as $post_type ) {
+		foreach ( Content_Helpers::get_post_types_names() as $post_type ) {
 			$total_posts_count += \wp_count_posts( $post_type )->publish;
 		}
 		// Calculate the total pages to scan.
@@ -56,7 +56,7 @@ class Content {
 			[
 				'posts_per_page' => static::SCAN_POSTS_PER_PAGE,
 				'paged'          => $current_page,
-				'post_type'      => Activity_Content::get_post_types_names(),
+				'post_type'      => Content_Helpers::get_post_types_names(),
 				'post_status'    => 'publish',
 			]
 		);
@@ -73,7 +73,7 @@ class Content {
 		// Loop through the posts and update the stats.
 		$activities = [];
 		foreach ( $posts as $post ) {
-			$activities[ $post->ID ] = Activity_Content::get_activity_from_post( $post );
+			$activities[ $post->ID ] = Content_Helpers::get_activity_from_post( $post );
 		}
 		\progress_planner()->get_query()->insert_activities( $activities );
 		\update_option( static::LAST_SCANNED_PAGE_OPTION, $current_page );

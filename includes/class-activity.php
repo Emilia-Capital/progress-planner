@@ -43,13 +43,6 @@ class Activity {
 	protected $data_id;
 
 	/**
-	 * The data of the activity.
-	 *
-	 * @var array
-	 */
-	protected $data = [];
-
-	/**
 	 * ID of the activity.
 	 *
 	 * @var int
@@ -146,29 +139,6 @@ class Activity {
 	 */
 	public function get_data_id() {
 		return $this->data_id;
-	}
-
-	/**
-	 * Set the data of the activity.
-	 *
-	 * @param array $data The data of the activity.
-	 */
-	public function set_data( array $data ) {
-		$this->data = $data;
-	}
-
-	/**
-	 * Get the data of the activity.
-	 *
-	 * @param string|null $key The key of the data to get. If null, then all data is returned.
-	 *
-	 * @return mixed
-	 */
-	public function get_data( $key = null ) {
-		if ( null === $key ) {
-			return $this->data;
-		}
-		return isset( $this->data[ $key ] ) ? $this->data[ $key ] : null;
 	}
 
 	/**

@@ -9,6 +9,7 @@ namespace ProgressPlanner;
 
 use ProgressPlanner\Goals\Goal_Posts;
 use ProgressPlanner\Goals\Goal_Recurring;
+use ProgressPlanner\Activities\Content_Helpers;
 
 /**
  * Streaks class.
@@ -128,9 +129,6 @@ class Streaks {
 									'type'       => 'publish',
 									'start_date' => $goal_object->get_details()['start_date'],
 									'end_date'   => $goal_object->get_details()['end_date'],
-									'data'       => [
-										'post_type' => 'post',
-									],
 								]
 							)
 						);
@@ -164,16 +162,16 @@ class Streaks {
 								'type'       => 'publish',
 								'start_date' => $goal_object->get_details()['start_date'],
 								'end_date'   => $goal_object->get_details()['end_date'],
-								'data'       => [
-									'post_type' => 'post',
-								],
 							]
 						);
-						$words      = 0;
-						foreach ( $activities as $activity ) {
-							$words += $activity->get_data( 'word_count' );
-						}
-						return $words >= 500;
+						return Content_Helpers::get_posts_stats_by_ids(
+							array_map(
+								function ( $activity ) {
+									return $activity->get_data_id();
+								},
+								$activities
+							)
+						)['words'] >= 500;
 					},
 				]
 			),

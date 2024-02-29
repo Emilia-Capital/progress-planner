@@ -7,17 +7,22 @@
 
 namespace ProgressPlanner;
 
+use ProgressPlanner\Activities\Content_Helpers;
+
 $prpl_query_args = [
 	'category' => 'content',
 	'type'     => 'publish',
 ];
 
 $prpl_count_words_callback = function ( $activities ) {
-	$words = 0;
-	foreach ( $activities as $activity ) {
-		$words += $activity->get_data( 'word_count' );
-	}
-	return $words;
+	return Content_Helpers::get_posts_stats_by_ids(
+		array_map(
+			function ( $activity ) {
+				return $activity->get_data_id();
+			},
+			$activities
+		)
+	)['words'];
 };
 
 $prpl_count_density_callback = function ( $activities ) use ( $prpl_count_words_callback ) {

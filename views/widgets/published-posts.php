@@ -7,18 +7,20 @@
 
 namespace ProgressPlanner;
 
-$prpl_query_args = [
-	'category' => 'content',
-	'type'     => 'publish',
-	'data'     => [
-		'post_type' => 'post',
-	],
-];
-
-$prpl_last_week_posts = Admin\Page::get_content_published_this_week( 'post' );
-$prpl_all_posts_count = count(
-	\progress_planner()->get_query()->query_activities( $prpl_query_args )
+$prpl_last_week_posts = count(
+	get_posts(
+		[
+			'post_type'   => 'post',
+			'post_status' => 'publish',
+			'date_query'  => [
+				[
+					'after' => '1 week ago',
+				],
+			],
+		]
+	)
 );
+$prpl_all_posts_count = wp_count_posts();
 
 ?>
 <div class="prpl-widget-wrapper">
@@ -38,9 +40,9 @@ $prpl_all_posts_count = count(
 				<?php
 				printf(
 					/* translators: %1$d: number of posts published this week. %2$d: Total number of posts. */
-					esc_html__( 'Good job! You added %1$s posts in the past week. You now have %2$s posts in total.', 'progress-planner' ),
+					esc_html__( 'Good job! You added %1$d posts in the past week. You now have %2$d posts in total.', 'progress-planner' ),
 					esc_html( $prpl_last_week_posts ),
-					esc_html( $prpl_all_posts_count )
+					esc_html( $prpl_all_posts_count->publish )
 				);
 				?>
 			<?php endif; ?>
@@ -50,20 +52,25 @@ $prpl_all_posts_count = count(
 		<?php
 		( new Chart() )->the_chart(
 			[
-				'query_params' => [
+				'query_params'   => [
 					'category' => 'content',
 					'type'     => 'publish',
-					'data'     => [
-						'post_type' => 'post',
-					],
 				],
-				'dates_params' => [
+				'filter_results' => function ( $activities ) {
+					foreach ( $activities as $key => $activity ) {
+						if ( 'post' !== $activity->get_post()->post_type ) {
+							unset( $activities[ $key ] );
+						}
+					}
+					return $activities;
+				},
+				'dates_params'   => [
 					'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01', \strtotime( 'now' ) ) )->modify( '-5 months' ),
 					'end'       => new \DateTime( 'now' ),
 					'frequency' => 'monthly',
 					'format'    => 'M',
 				],
-				'chart_params' => [
+				'chart_params'   => [
 					'type' => 'line',
 				],
 			],

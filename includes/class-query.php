@@ -9,8 +9,6 @@
 
 namespace ProgressPlanner;
 
-use ProgressPlanner\Activity;
-
 // phpcs:disable WordPress.DB.PreparedSQLPlaceholders.UnsupportedIdentifierPlaceholder
 
 /**
@@ -80,7 +78,6 @@ class Query {
 		 * - category: The category of the activity.
 		 * - type: The type of the activity.
 		 * - data_id: The ID of the data of the activity.
-		 * - data: The data of the activity.
 		 */
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL
 		$wpdb->query(
@@ -90,7 +87,6 @@ class Query {
 				category VARCHAR(255) NOT NULL,
 				type VARCHAR(255) NOT NULL,
 				data_id BIGINT(20) UNSIGNED NOT NULL,
-				data LONGTEXT NOT NULL,
 				PRIMARY KEY (id)
 			) $charset_collate;"
 		);
@@ -160,17 +156,6 @@ class Query {
 				)
 			);
 
-		if ( isset( $args['data'] ) && ! empty( $args['data'] ) ) {
-			foreach ( $results as $key => $activity ) {
-				$data = \json_decode( $activity->data, true );
-				foreach ( $args['data'] as $data_key => $data_value ) {
-					if ( ! isset( $data[ $data_key ] ) || $data[ $data_key ] !== $data_value ) {
-						unset( $results[ $key ] );
-					}
-				}
-			}
-			$results = \array_values( $results );
-		}
 		return 'RAW' === $return_type
 			? $results
 			: $this->get_activities_from_results( $results );
@@ -217,7 +202,6 @@ class Query {
 				'category' => $activity->get_category(),
 				'type'     => $activity->get_type(),
 				'data_id'  => $activity->get_data_id(),
-				'data'     => \wp_json_encode( $activity->get_data() ),
 			],
 			[
 				'%s',
@@ -244,12 +228,12 @@ class Query {
 	private function get_activities_from_results( $results ) {
 		$activities = [];
 		foreach ( $results as $result ) {
-			$activity = new Activity();
+			$class_name = $this->get_activity_class_name( $result->category );
+			$activity   = new $class_name();
 			$activity->set_date( new \DateTime( $result->date ) );
 			$activity->set_category( $result->category );
 			$activity->set_type( $result->type );
 			$activity->set_data_id( (int) $result->data_id );
-			$activity->set_data( \json_decode( $result->data, true ) );
 			$activity->set_id( (int) $result->id );
 			$activities[] = $activity;
 		}
@@ -260,7 +244,7 @@ class Query {
 	/**
 	 * Update an activity in the database.
 	 *
-	 * @param int                                  $id       The ID of the activity to update.
+	 * @param int                       $id       The ID of the activity to update.
 	 * @param \ProgressPlanner\Activity $activity The activity to update.
 	 *
 	 * @return void
@@ -276,7 +260,6 @@ class Query {
 				'category' => $activity->get_category(),
 				'type'     => $activity->get_type(),
 				'data_id'  => $activity->get_data_id(),
-				'data'     => \wp_json_encode( $activity->get_data() ),
 			],
 			[ 'id' => $id ],
 			[
@@ -366,15 +349,29 @@ class Query {
 			)
 		);
 
-		$activity = new Activity();
+		$class_name = $this->get_activity_class_name( $result->category );
+		$activity   = new $class_name();
 		$activity->set_date( new \DateTime( $result->date ) );
 		$activity->set_category( $result->category );
 		$activity->set_type( $result->type );
 		$activity->set_data_id( (int) $result->data_id );
-		$activity->set_data( \json_decode( $result->data, true ) );
 		$activity->set_id( (int) $result->id );
 
 		return $activity;
+	}
+
+	/**
+	 * Get activity class name from its category.
+	 *
+	 * @param string $category The category of the activity.
+	 *
+	 * @return string The class name of the Activity.
+	 */
+	protected function get_activity_class_name( $category ) {
+		if ( class_exists( '\ProgressPlanner\Activities\\' . ucfirst( $category ) ) ) {
+			return '\ProgressPlanner\Activities\\' . ucfirst( $category );
+		}
+		return '\ProgressPlanner\Activity';
 	}
 }
 // phpcs:enable

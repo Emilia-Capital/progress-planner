@@ -7,18 +7,20 @@
 
 namespace ProgressPlanner;
 
-$prpl_query_args = [
-	'category' => 'content',
-	'type'     => 'publish',
-	'data'     => [
-		'post_type' => 'page',
-	],
-];
-
-$prpl_last_week_pages = Admin\Page::get_content_published_this_week( 'page' );
-$prpl_all_pages_count = count(
-	\progress_planner()->get_query()->query_activities( $prpl_query_args )
+$prpl_last_week_pages = count(
+	get_posts(
+		[
+			'post_type'   => 'page',
+			'post_status' => 'publish',
+			'date_query'  => [
+				[
+					'after' => '1 week ago',
+				],
+			],
+		]
+	)
 );
+$prpl_all_pages_count = wp_count_posts( 'page' );
 
 ?>
 <div class="prpl-widget-wrapper">
@@ -40,7 +42,7 @@ $prpl_all_pages_count = count(
 					/* translators: %1$d: number of posts published this week. %2$d: Total number of pages. */
 					esc_html__( 'Good job! You added %1$s pages in the past week. You now have %2$s pages in total.', 'progress-planner' ),
 					esc_html( $prpl_last_week_pages ),
-					esc_html( $prpl_all_pages_count )
+					esc_html( $prpl_all_pages_count->publish )
 				);
 				?>
 			<?php endif; ?>
@@ -53,10 +55,15 @@ $prpl_all_pages_count = count(
 				'query_params' => [
 					'category' => 'content',
 					'type'     => 'publish',
-					'data'     => [
-						'post_type' => 'page',
-					],
 				],
+				'filter_results' => function ( $activities ) {
+					foreach ( $activities as $key => $activity ) {
+						if ( 'page' !== $activity->get_post()->post_type ) {
+							unset( $activities[ $key ] );
+						}
+					}
+					return $activities;
+				},
 				'dates_params' => [
 					'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01', \strtotime( 'now' ) ) )->modify( '-5 months' ),
 					'end'       => new \DateTime( 'now' ),

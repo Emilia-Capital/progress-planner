@@ -55,7 +55,7 @@ $prpl_all_content_count = count(
 					'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01', \strtotime( 'now' ) ) )->modify( '-5 months' ),
 					'end'       => new \DateTime( 'now' ),
 					'frequency' => 'weekly',
-					'format'    => 'M - d',
+					'format'    => 'M, d',
 				],
 				'chart_params' => [
 					'type' => 'line',

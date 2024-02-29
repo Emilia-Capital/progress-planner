@@ -154,9 +154,6 @@ class Page {
 			[
 				'category' => 'content',
 				'type'     => 'publish',
-				'data'     => [
-					'post_type' => 'post',
-				],
 			]
 		);
 
@@ -166,20 +163,15 @@ class Page {
 	/**
 	 * Get number of posts published in the past week.
 	 *
-	 * @param string $post_type The post type.
-	 *
 	 * @return int
 	 */
-	public static function get_content_published_this_week( $post_type = null ) {
+	public static function get_content_published_this_week() {
 		$args = [
 			'category'   => 'content',
 			'type'       => 'publish',
 			'start_date' => new \DateTime( '-7 days' ),
 			'end_date'   => new \DateTime( 'now' ),
 		];
-		if ( $post_type ) {
-			$args['data'] = [ 'post_type' => $post_type ];
-		}
 
 		$activities = \progress_planner()->get_query()->query_activities( $args );
 

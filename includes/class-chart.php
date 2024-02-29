@@ -18,14 +18,15 @@ class Chart {
 	 * Build a chart for the stats.
 	 *
 	 * @param array $args The arguments for the chart.
-	 *                    ['query_params'] The query parameters.
-	 *                                     See \ProgressPlanner\Query::query_activities for the available parameters.
+	 *                    ['query_params']   The query parameters.
+	 *                                       See \ProgressPlanner\Query::query_activities for the available parameters.
 	 *
-	 *                    ['dates_params'] The dates parameters for the query.
-	 *                                   ['start']     The start date for the chart.
-	 *                                   ['end']       The end date for the chart.
-	 *                                   ['frequency'] The frequency for the chart nodes.
-	 *                                   ['format']    The format for the label
+	 *                    ['filter_results'] The callback to filter the results. Leave empty/null to skip filtering.
+	 *                    ['dates_params']   The dates parameters for the query.
+	 *                                    ['start']     The start date for the chart.
+	 *                                    ['end']       The end date for the chart.
+	 *                                    ['frequency'] The frequency for the chart nodes.
+	 *                                    ['format']    The format for the label
 	 *
 	 *                     ['chart_params'] The chart parameters.
 	 *
@@ -38,6 +39,7 @@ class Chart {
 			$args,
 			[
 				'query_params'   => [],
+				'filter_results' => null,
 				'dates_params'   => [],
 				'chart_params'   => [],
 				'additive'       => true,
@@ -92,18 +94,22 @@ class Chart {
 		];
 
 		// Calculate zero stats to be used as the baseline.
-		$activities_count = $args['additive']
-			? $args['count_callback'](
-				\progress_planner()->get_query()->query_activities(
-					array_merge(
-						$args['query_params'],
-						[
-							'start_date' => \progress_planner()->get_query()->get_oldest_activity()->get_date(),
-							'end_date'   => $periods[0]['dates'][0]->modify( '-1 day' ),
-						]
-					)
+		$activities_count = 0;
+		if ( $args['additive'] ) {
+			$activities = \progress_planner()->get_query()->query_activities(
+				array_merge(
+					$args['query_params'],
+					[
+						'start_date' => \progress_planner()->get_query()->get_oldest_activity()->get_date(),
+						'end_date'   => $periods[0]['dates'][0]->modify( '-1 day' ),
+					]
 				)
-			) : 0;
+			);
+			if ( $args['filter_results'] ) {
+				$activities = $args['filter_results']( $activities );
+			}
+			$activities_count = $args['count_callback']( $activities );
+		}
 
 		foreach ( $periods as $period ) {
 			$activities = \progress_planner()->get_query()->query_activities(
@@ -115,6 +121,9 @@ class Chart {
 					]
 				)
 			);
+			if ( $args['filter_results'] ) {
+				$activities = $args['filter_results']( $activities );
+			}
 
 			$data['labels'][] = $period['dates'][0]->format( $args['dates_params']['format'] );
 
