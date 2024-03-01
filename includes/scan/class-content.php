@@ -73,9 +73,8 @@ class Content {
 	 * @return void
 	 */
 	public function insert_post( $post_id, $post ) {
-		// Bail if the post is not included in the post-types we're tracking.
-		$post_types = Content_Helpers::get_post_types_names();
-		if ( ! \in_array( $post->post_type, $post_types, true ) ) {
+		// Bail if we should skip saving.
+		if ( $this->should_skip_saving( $post ) ) {
 			return;
 		}
 
@@ -92,9 +91,13 @@ class Content {
 	 * @param \WP_Post $post       The post object.
 	 */
 	public function transition_post_status( $new_status, $old_status, $post ) {
+		// Bail if we should skip saving.
+		if ( $this->should_skip_saving( $post ) ) {
+			return;
+		}
 
 		// If the post is published, check if it was previously published,
-		// and if so, delete the old activity and create a new one.
+		// and if so, delete the old activity before creating the new one.
 		if ( 'publish' !== $old_status && 'publish' === $new_status ) {
 			$old_publish_activities = \progress_planner()->get_query()->query_activities(
 				[
@@ -108,13 +111,9 @@ class Content {
 					$activity->delete();
 				}
 			}
-
-			// Add a publish activity.
-			$activity = Content_Helpers::get_activity_from_post( $post );
-			return $activity->save();
 		}
 
-		// Add an update activity.
+		// Add activity.
 		$activity = Content_Helpers::get_activity_from_post( $post );
 		return $activity->save();
 	}
@@ -130,6 +129,11 @@ class Content {
 	 * @return bool
 	 */
 	public function pre_post_update( $post_id, $post ) {
+		// Bail if we should skip saving.
+		if ( get_post( $post_id ) && $this->should_skip_saving( get_post( $post_id ) ) ) {
+			return;
+		}
+
 		$post_array = (array) $post;
 		// Add an update activity.
 		$activity = new Content();
@@ -152,9 +156,8 @@ class Content {
 	public function trash_post( $post_id ) {
 		$post = \get_post( $post_id );
 
-		// Bail if the post is not included in the post-types we're tracking.
-		$post_types = Content_Helpers::get_post_types_names();
-		if ( ! \in_array( $post->post_type, $post_types, true ) ) {
+		// Bail if we should skip saving.
+		if ( $this->should_skip_saving( $post ) ) {
 			return;
 		}
 
@@ -176,13 +179,12 @@ class Content {
 	public function delete_post( $post_id ) {
 		$post = \get_post( $post_id );
 
-		// Bail if the post is not included in the post-types we're tracking.
-		$post_types = Content_Helpers::get_post_types_names();
-		if ( ! \in_array( $post->post_type, $post_types, true ) ) {
+		// Bail if we should skip saving.
+		if ( $this->should_skip_saving( $post ) ) {
 			return;
 		}
 
-		// Update existing activities, and remove the words count.
+		// Update existing activities.
 		$activities = \progress_planner()->get_query()->query_activities(
 			[
 				'category' => 'content',
@@ -195,6 +197,33 @@ class Content {
 
 		$activity = Content_Helpers::get_activity_from_post( $post );
 		$activity->save();
+	}
+
+	/**
+	 * Basic conditions to determine if we should skip saving.
+	 *
+	 * @param \WP_Post $post The post object.
+	 *
+	 * @return bool
+	 */
+	private function should_skip_saving( $post ) {
+		// Bail if the post is not included in the post-types we're tracking.
+		$post_types = Content_Helpers::get_post_types_names();
+		if ( ! \in_array( $post->post_type, $post_types, true ) ) {
+			return true;
+		}
+
+		// Bail if this is an auto-save.
+		if ( \defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+			return true;
+		}
+
+		// Bail if this is a revision.
+		if ( \wp_is_post_revision( $post->ID ) ) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
