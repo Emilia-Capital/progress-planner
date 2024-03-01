@@ -7,28 +7,12 @@
 
 namespace ProgressPlanner\Scan;
 
-use ProgressPlanner\Activity;
+use ProgressPlanner\Activities\Maintenance as Activity_Maintenance;
 
 /**
  * Handle activities for Core updates.
  */
-class Maintenance extends Activity {
-
-	/**
-	 * Category of the activity.
-	 *
-	 * @var string
-	 */
-	protected $category = 'maintenance';
-
-	/**
-	 * The data ID.
-	 *
-	 * This is not relevant for maintenance activities.
-	 *
-	 * @var int
-	 */
-	protected $data_id = 0;
+class Maintenance {
 
 	/**
 	 * Constructor.
@@ -73,9 +57,9 @@ class Maintenance extends Activity {
 		if ( 'update' !== $options['action'] ) {
 			return;
 		}
-		// Get the type of the update.
-		$this->type = 'update_' . $this->get_update_type( $options );
-		$this->save();
+		$activity = new Activity_Maintenance();
+		$activity->set_type( 'update_' . $this->get_update_type( $options ) );
+		$activity->save();
 	}
 
 	/**
@@ -91,8 +75,9 @@ class Maintenance extends Activity {
 			return;
 		}
 
-		$this->type = 'delete_plugin';
-		$this->save();
+		$activity = new Activity_Maintenance();
+		$activity->set_type( 'delete_plugin' );
+		$activity->save();
 	}
 
 	/**
@@ -108,8 +93,9 @@ class Maintenance extends Activity {
 			return;
 		}
 
-		$this->type = 'delete_theme';
-		$this->save();
+		$activity = new Activity_Maintenance();
+		$activity->set_type( 'delete_theme' );
+		$activity->save();
 	}
 
 	/**
@@ -118,8 +104,9 @@ class Maintenance extends Activity {
 	 * @return void
 	 */
 	public function on_activate_plugin() {
-		$this->type = 'activate_plugin';
-		$this->save();
+		$activity = new Activity_Maintenance();
+		$activity->set_type( 'activate_plugin' );
+		$activity->save();
 	}
 
 	/**
@@ -128,8 +115,9 @@ class Maintenance extends Activity {
 	 * @return void
 	 */
 	public function on_deactivate_plugin() {
-		$this->type = 'deactivate_plugin';
-		$this->save();
+		$activity = new Activity_Maintenance();
+		$activity->set_type( 'deactivate_plugin' );
+		$activity->save();
 	}
 
 	/**
@@ -138,20 +126,9 @@ class Maintenance extends Activity {
 	 * @return void
 	 */
 	public function on_switch_theme() {
-		$this->type = 'switch_theme';
-		$this->save();
-	}
-
-	/**
-	 * Save the activity.
-	 *
-	 * @return void
-	 */
-	public function save() {
-		$this->set_date( new \DateTime() );
-		$this->set_user_id( get_current_user_id() );
-
-		parent::save();
+		$activity = new Activity_Maintenance();
+		$activity->set_type( 'switch_theme' );
+		$activity->save();
 	}
 
 	/**
