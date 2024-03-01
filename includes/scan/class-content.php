@@ -8,6 +8,8 @@
 namespace ProgressPlanner\Scan;
 
 use ProgressPlanner\Activities\Content_Helpers;
+use ProgressPlanner\Activities\Content as Content_Activity;
+use ProgressPlanner\Date;
 
 /**
  * Scan existing posts and populate the options.
@@ -136,8 +138,7 @@ class Content {
 
 		$post_array = (array) $post;
 		// Add an update activity.
-		$activity = new Content();
-		$activity->set_category( 'content' );
+		$activity = new Content_Activity();
 		$activity->set_type( 'update' );
 		$activity->set_date( Date::get_datetime_from_mysql_date( $post_array['post_modified'] ) );
 		$activity->set_data_id( $post_id );
