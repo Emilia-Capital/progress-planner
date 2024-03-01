@@ -187,5 +187,22 @@ class Badges {
 				},
 			]
 		);
+
+		// 100 maintenance tasks.
+		$this->register_badge(
+			'100_maintenance_tasks',
+			[
+				'name'              => __( '100 Maintenance Tasks', 'progress-planner' ),
+				'description'       => __( 'You completed 100 maintenance tasks.', 'progress-planner' ),
+				'progress_callback' => function () {
+					$activities = \progress_planner()->get_query()->query_activities(
+						[
+							'category' => 'maintenance',
+						]
+					);
+					return min( count( $activities ), 100 );
+				},
+			]
+		);
 	}
 }
