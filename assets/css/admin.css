@@ -9,9 +9,12 @@ Set variables.
 	--prpl-color-gray-5: #4b5563;
 	--prpl-color-gray-6: #374151;
 
+	--prpl-color-accent-red: #f43f5e;
 	--prpl-color-accent-orange: #faa310;
 	--prpl-color-accent-purple: #0d6b9e;
 	--prpl-color-accent-green: #14b8a6;
+
+	--prpl-background-orange: #fff9f0;
 }
 
 .prpl-wrap {
@@ -81,4 +84,42 @@ Set variables.
 .prpl-widget-wrapper.prpl-website-activity-score,
 .prpl-widget-wrapper.prpl-published-words {
 	grid-column: span 2;
+}
+
+.prpl-widget-wrapper.prpl-website-activity-score .prpl-widget-content {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(10em, 1fr));
+	grid-gap: 40px;
+}
+
+.prpl-gauge-container {
+	padding: 20px;
+	background-color: var(--prpl-background-orange);
+	border-radius: 5px;
+	height: 50%;
+	overflow: hidden;
+}
+
+.prpl-gauge {
+	--deg: calc(var(--percent) * 1.8deg); /* 100% = 180deg */
+	--thickness: 2rem;
+	width: 100%;
+	aspect-ratio: 1;
+	background-image:
+		radial-gradient(closest-side, var(--prpl-background-orange) 0%, var(--prpl-background-orange) calc(100% - var(--thickness)), transparent calc(100% - var(--thickness))),
+		conic-gradient(from -90deg, var(--accent) 0deg var(--deg), transparent var(--deg) 180deg),
+		conic-gradient(from -90deg, var(--prpl-color-gray-1) 0deg 180deg, transparent 180deg);
+	border-radius: 50%;
+	display: flex;
+	justify-content: center;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	align-items: center;
+}
+
+.prpl-gauge-number {
+	font-size: 3em;
+	line-height: 1;
+	margin-top: -1em;
 }
