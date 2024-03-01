@@ -33,6 +33,7 @@ $prpl_scan_pending = empty(
 				'published-posts',
 				'published-content-density',
 				'published-words',
+				'badges-progress',
 			] as $prpl_widget ) {
 				echo '<div class="prpl-widget-wrapper prpl-' . esc_attr( $prpl_widget ) . '">';
 				include "widgets/{$prpl_widget}.php";

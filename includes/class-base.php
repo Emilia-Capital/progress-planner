@@ -52,4 +52,13 @@ class Base {
 	public function get_query() {
 		return Query::get_instance();
 	}
+
+	/**
+	 * Get the badges object.
+	 *
+	 * @return \ProgressPlanner\Badges
+	 */
+	public function get_badges() {
+		return new Badges();
+	}
 }

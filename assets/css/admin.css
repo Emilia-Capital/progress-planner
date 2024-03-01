@@ -129,3 +129,24 @@ Set variables.
 	line-height: 1;
 	margin-top: -1em;
 }
+
+.progress-wrapper {
+	display:
+}
+
+.progress-wrapper .progress-bar {
+	height: 1em;
+	background-color: var(--prpl-color-gray-1);
+	width: calc(100% - 6em);
+	display: inline-block;
+}
+
+.progress-wrapper .progress-bar > span {
+	background-color: var(--color);
+	height: 1em;
+	display: block;
+}
+
+.progress-wrapper .progress-label {
+	display: inline-block;
+}
