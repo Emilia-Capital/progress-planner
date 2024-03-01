@@ -7,40 +7,51 @@
 
 namespace ProgressPlanner;
 
-$prpl_activities_weights = [
-	'content'     => [
-		'weight' => 0.7,
-		'target' => 5,
-	],
-	'maintenance' => [
-		'weight' => 0.2,
-		'target' => 1,
-	],
-	'comments'    => [
-		'weight' => 0.1,
-		'target' => 1,
-	],
-];
-
-$prpl_get_score = function ( $activities, $weight, $target ) {
-	return $weight * min( count( $activities ), $target );
-};
-
-$prpl_score = 0;
-foreach ( $prpl_activities_weights as $prpl_activity_category => $prpl_activity_category_data ) {
-	$prpl_score += $prpl_activity_category_data['weight'] * min(
-		count(
-			\progress_planner()->get_query()->query_activities(
-				[
-					'start_date' => new \DateTime( '-7 days' ),
-					'end_date'   => new \DateTime( 'tomorrow' ),
-					'category'   => $prpl_activity_category,
-				]
-			)
+/*
+ * Get the content score.
+ */
+$prpl_content_count = count(
+	array_merge(
+		\progress_planner()->get_query()->query_activities(
+			[
+				'start_date' => new \DateTime( '-7 days' ),
+				'end_date'   => new \DateTime( 'tomorrow' ),
+				'category'   => 'content',
+			]
 		),
-		$prpl_activity_category_data['target']
-	) / $prpl_activity_category_data['target'];
-}
+		\progress_planner()->get_query()->query_activities(
+			[
+				'start_date' => new \DateTime( '-7 days' ),
+				'end_date'   => new \DateTime( 'tomorrow' ),
+				'category'   => 'comments',
+			]
+		)
+	)
+);
+// Target 5 content activities per week.
+$prpl_content_score = min( $prpl_content_count, 5 ) / 5;
+
+/*
+ * Get the maintenance score.
+ */
+$prpl_maintenance_count = count(
+	\progress_planner()->get_query()->query_activities(
+		[
+			'start_date' => new \DateTime( '-7 days' ),
+			'end_date'   => new \DateTime( 'tomorrow' ),
+			'category'   => 'maintenance',
+		]
+	)
+);
+$prpl_pending_updates = wp_get_update_data()['counts']['total'];
+
+// Target is the number of pending updates + the ones that have already been done.
+$prpl_maintenance_score = max( 1, $prpl_maintenance_count ) / max( 1, $prpl_maintenance_count + $prpl_pending_updates );
+
+/**
+ * Calculate the score.
+ */
+$prpl_score = 0.7 * $prpl_content_score + 0.3 * $prpl_maintenance_score;
 
 $prpl_score       = round( 100 * $prpl_score );
 $prpl_gauge_color = 'var(--prpl-color-accent-red)';
