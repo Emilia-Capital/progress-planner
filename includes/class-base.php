@@ -10,6 +10,7 @@ namespace ProgressPlanner;
 use ProgressPlanner\Query;
 use ProgressPlanner\Admin;
 use ProgressPlanner\Scan\Content as Scan_Content;
+use ProgressPlanner\Scan\Maintenance_Updates as Scan_Maintenance_Updates;
 
 /**
  * Main plugin class.
@@ -42,6 +43,7 @@ class Base {
 	private function __construct() {
 		new Admin();
 		new Scan_Content();
+		new Scan_Maintenance_Updates();
 	}
 
 	/**
