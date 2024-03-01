@@ -137,6 +137,7 @@ class Content {
 		$activity->set_type( 'update' );
 		$activity->set_date( Date::get_datetime_from_mysql_date( $post_array['post_modified'] ) );
 		$activity->set_data_id( $post_id );
+		$activity->set_user_id( (int) $post_array['post_author'] );
 		return $activity->save();
 	}
 

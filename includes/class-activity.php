@@ -50,6 +50,13 @@ class Activity {
 	protected $id;
 
 	/**
+	 * User ID.
+	 *
+	 * @var int
+	 */
+	protected $user_id;
+
+	/**
 	 * Set the ID of the activity.
 	 *
 	 * @param int $id The ID of the activity.
@@ -139,6 +146,24 @@ class Activity {
 	 */
 	public function get_data_id() {
 		return $this->data_id;
+	}
+
+	/**
+	 * Set the user ID.
+	 *
+	 * @param int $user_id The user ID.
+	 */
+	public function set_user_id( int $user_id ) {
+		$this->user_id = (int) $user_id;
+	}
+
+	/**
+	 * Get the user ID.
+	 *
+	 * @return int
+	 */
+	public function get_user_id() {
+		return (int) $this->user_id;
 	}
 
 	/**

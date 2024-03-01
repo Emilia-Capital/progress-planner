@@ -87,6 +87,7 @@ class Query {
 				category VARCHAR(255) NOT NULL,
 				type VARCHAR(255) NOT NULL,
 				data_id BIGINT(20) UNSIGNED NOT NULL,
+				user_id BIGINT(20) UNSIGNED NOT NULL,
 				PRIMARY KEY (id)
 			) $charset_collate;"
 		);
@@ -109,6 +110,7 @@ class Query {
 			'category'   => null,
 			'type'       => null,
 			'data_id'    => null,
+			'user_id'    => null,
 		];
 
 		$args = \wp_parse_args( $args, $defaults );
@@ -117,11 +119,15 @@ class Query {
 		$prepare_args = [];
 		if ( $args['start_date'] !== null ) {
 			$where_args[]   = 'date >= %s';
-			$prepare_args[] = $args['start_date']->format( 'Y-m-d H:i:s' );
+			$prepare_args[] = ( $args['start_date'] instanceof \Datetime )
+				? $args['start_date']->format( 'Y-m-d H:i:s' )
+				: $args['start_date'];
 		}
 		if ( $args['end_date'] !== null ) {
 			$where_args[]   = 'date <= %s';
-			$prepare_args[] = $args['end_date']->format( 'Y-m-d H:i:s' );
+			$prepare_args[] = ( $args['end_date'] instanceof \Datetime )
+				? $args['end_date']->format( 'Y-m-d H:i:s' )
+				: $args['end_date'];
 		}
 		if ( $args['category'] !== null ) {
 			$where_args[]   = 'category = %s';
@@ -134,6 +140,11 @@ class Query {
 		if ( $args['data_id'] !== null ) {
 			$where_args[]   = 'data_id = %s';
 			$prepare_args[] = $args['data_id'];
+		}
+
+		if ( $args['user_id'] !== null ) {
+			$where_args[]   = 'user_id = %s';
+			$prepare_args[] = $args['user_id'];
 		}
 
 		$results = ( empty( $where_args ) )
@@ -202,12 +213,14 @@ class Query {
 				'category' => $activity->get_category(),
 				'type'     => $activity->get_type(),
 				'data_id'  => $activity->get_data_id(),
+				'user_id'  => $activity->get_user_id(),
 			],
 			[
 				'%s',
 				'%s',
 				'%s',
-				'%s',
+				'%d',
+				'%d',
 			]
 		);
 
@@ -235,6 +248,7 @@ class Query {
 			$activity->set_type( $result->type );
 			$activity->set_data_id( (int) $result->data_id );
 			$activity->set_id( (int) $result->id );
+			$activity->set_user_id( (int) $result->user_id );
 			$activities[] = $activity;
 		}
 
@@ -260,14 +274,15 @@ class Query {
 				'category' => $activity->get_category(),
 				'type'     => $activity->get_type(),
 				'data_id'  => $activity->get_data_id(),
+				'user_id'  => $activity->get_user_id(),
 			],
 			[ 'id' => $id ],
 			[
 				'%s',
 				'%s',
 				'%s',
-				'%s',
-				'%s',
+				'%d',
+				'%d',
 			],
 			[ '%d' ]
 		);
@@ -356,6 +371,7 @@ class Query {
 		$activity->set_type( $result->type );
 		$activity->set_data_id( (int) $result->data_id );
 		$activity->set_id( (int) $result->id );
+		$activity->set_user_id( (int) $result->user_id );
 
 		return $activity;
 	}
