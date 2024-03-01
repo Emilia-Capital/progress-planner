@@ -42,8 +42,8 @@ $prpl_this_week_words = $prpl_count_words_callback(
 );
 
 ?>
-<div style="display:grid;grid-template-columns:1fr 1fr;height: 100%;">
-	<div>
+<div class="two-col">
+	<div class="prpl-top-counter-bottom-content">
 		<div class="counter-big-wrapper">
 			<span class="counter-big-number">
 				<?php echo esc_html( $prpl_this_week_words ); ?>

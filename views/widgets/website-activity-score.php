@@ -56,7 +56,7 @@ if ( $prpl_score > 75 ) {
 	<?php esc_html_e( 'Website activity score', 'progress-planner' ); ?>
 </h2>
 
-<div class="prpl-widget-content">
+<div class="two-col">
 	<div class="prpl-gauge-container" style="--percent: <?php echo esc_attr( $prpl_score ); ?>;--accent: <?php echo esc_attr( $prpl_gauge_color ); ?>;">
 		<div class="prpl-gauge">
 			<span class="prpl-gauge-number">

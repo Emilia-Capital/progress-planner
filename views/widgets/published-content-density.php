@@ -48,25 +48,27 @@ $prpl_weekly_activities_density = $prpl_count_density_callback(
 );
 
 ?>
-<div class="counter-big-wrapper">
-	<span class="counter-big-number">
-		<?php echo esc_html( $prpl_weekly_activities_density ); ?>
-	</span>
-	<span class="counter-big-text">
-		<?php esc_html_e( 'content density', 'progress-planner' ); ?>
-	</span>
-</div>
-<div class="prpl-widget-content">
-	<p>
-		<?php
-		printf(
-			/* translators: %d: number of words/post published this week. */
-			esc_html__( 'You have written content with an average density of %1$d words/post in the past 7 days. Your all-time average is %2$d', 'progress-planner' ),
-			esc_html( $prpl_weekly_activities_density ),
-			esc_html( $prpl_all_activities_density )
-		);
-		?>
-	</p>
+<div class="prpl-top-counter-bottom-content">
+	<div class="counter-big-wrapper">
+		<span class="counter-big-number">
+			<?php echo esc_html( $prpl_weekly_activities_density ); ?>
+		</span>
+		<span class="counter-big-text">
+			<?php esc_html_e( 'content density', 'progress-planner' ); ?>
+		</span>
+	</div>
+	<div class="prpl-widget-content">
+		<p>
+			<?php
+			printf(
+				/* translators: %d: number of words/post published this week. */
+				esc_html__( 'You have written content with an average density of %1$d words/post in the past 7 days. Your all-time average is %2$d', 'progress-planner' ),
+				esc_html( $prpl_weekly_activities_density ),
+				esc_html( $prpl_all_activities_density )
+			);
+			?>
+		</p>
+	</div>
 </div>
 <div class="prpl-graph-wrapper">
 	<?php

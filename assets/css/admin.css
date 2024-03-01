@@ -36,14 +36,6 @@ Set variables.
 	grid-gap: 20px;
 }
 
-.prpl-widgets-container > .main,
-.prpl-widgets-container > .secondary {
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-	grid-auto-flow: dense;
-	grid-gap: 20px;
-}
-
 .prpl-widget-wrapper {
 	border: 1px solid var(--prpl-color-gray-3);
 	border-radius: 5px;
@@ -81,15 +73,29 @@ Set variables.
 	height: 100%;
 }
 
-.prpl-widget-wrapper.prpl-website-activity-score,
-.prpl-widget-wrapper.prpl-published-words {
+.prpl-widget-wrapper:has( > .two-col) {
 	grid-column: span 2;
 }
 
-.prpl-widget-wrapper.prpl-website-activity-score .prpl-widget-content {
+.prpl-widget-wrapper:has( > .two-col) .two-col {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(10em, 1fr));
-	grid-gap: 40px;
+	grid-template-columns: 1fr 1fr;
+	height: 100%;
+	grid-gap: 20px;
+}
+
+.prpl-top-counter-bottom-content {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	height: 100%;
+}
+
+.prpl-top-counter-bottom-content .counter-big-wrapper {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 }
 
 .prpl-gauge-container {
