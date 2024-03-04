@@ -15,14 +15,14 @@ $prpl_content_count = count(
 		\progress_planner()->get_query()->query_activities(
 			[
 				'start_date' => new \DateTime( '-7 days' ),
-				'end_date'   => new \DateTime( 'tomorrow' ),
+				'end_date'   => new \DateTime(),
 				'category'   => 'content',
 			]
 		),
 		\progress_planner()->get_query()->query_activities(
 			[
 				'start_date' => new \DateTime( '-7 days' ),
-				'end_date'   => new \DateTime( 'tomorrow' ),
+				'end_date'   => new \DateTime(),
 				'category'   => 'comments',
 			]
 		)
@@ -38,7 +38,7 @@ $prpl_maintenance_count = count(
 	\progress_planner()->get_query()->query_activities(
 		[
 			'start_date' => new \DateTime( '-7 days' ),
-			'end_date'   => new \DateTime( 'tomorrow' ),
+			'end_date'   => new \DateTime(),
 			'category'   => 'maintenance',
 		]
 	)

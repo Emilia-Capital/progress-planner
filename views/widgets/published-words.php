@@ -35,7 +35,7 @@ $prpl_this_week_words = $prpl_count_words_callback(
 			$prpl_query_args,
 			[
 				'start_date' => new \DateTime( '-7 days' ),
-				'end_date'   => new \DateTime( 'tomorrow' ),
+				'end_date'   => new \DateTime(),
 			]
 		)
 	)
