@@ -2,6 +2,13 @@
 Set variables.
 */
 .prpl-wrap {
+	--prpl-gap: 20px;
+	--prpl-column-min-width: 22rem;
+	--prpl-max-columns: 4;
+	--prpl-border-radius: 7px;
+
+	--prpl-container-max-width: calc(var(--prpl-column-min-width) * var(--prpl-max-columns) + var(--prpl-gap) * (var(--prpl-max-columns) - 1));
+
 	--prpl-color-gray-1: #e5e7eb;
 	--prpl-color-gray-2: #d1d5db;
 	--prpl-color-gray-3: #9ca3af;
@@ -14,17 +21,58 @@ Set variables.
 	--prpl-color-accent-purple: #0d6b9e;
 	--prpl-color-accent-green: #14b8a6;
 
+	--prpl-color-headings: #38296d;
+	--prpl-color-text: var(--prpl-color-gray-6);
+	--prpl-color-link: #1e40af;
+
+	--prpl-color-notification-green: #16a34a;
+	--prpl-color-notification-red: #e73136;
+
 	--prpl-background-orange: #fff9f0;
+	--prpl-background-purple: #f6f5fb;
+	--prpl-background-green: #f2faf9;
+	--prpl-background-red: #fff6f7;
+	--prpl-background-blue: #effbfe;
+
+	--prpl-font-size-small: 0.875rem; /* 14px */
+	--prpl-font-size-base: 1rem;      /* 16px */
+	--prpl-font-size-lg: 1.125rem;    /* 18px */
+	--prpl-font-size-xl: 1.25rem;     /* 20px */
+	--prpl-font-size-2xl: 1.5rem;     /* 24px */
+	--prpl-font-size-3xl: 2rem;       /* 32px */
+	--prpl-font-size-4xl: 3rem;       /* 48px */
+	--prpl-font-size-5xl: 4rem;       /* 64px */
 }
 
 .prpl-wrap {
 	background: #fff;
 	border: 1px solid var(--prpl-color-gray-3);
-	border-radius: 5px;
-	padding: 20px;
+	border-radius: var(--prpl-border-radius);
+	padding: var(--prpl-gap);
+	max-width: var(--prpl-container-max-width);
+	color: var(--prpl-color-text);
+	font-size: var(--prpl-font-size-base);
+	line-height: 1.4
 }
 
-#progress-planner-scan-progress progress{
+.prpl-wrap p {
+	font-size: var(--prpl-font-size-base);
+}
+
+.prpl-wrap h1,
+.prpl-wrap h2,
+.prpl-wrap h3,
+.prpl-wrap h4,
+.prpl-wrap h5,
+.prpl-wrap h6 {
+	color: var(--prpl-color-headings);
+}
+
+.prpl-wrap a {
+	color: var(--prpl-color-link);
+}
+
+#progress-planner-scan-progress progress {
 	width: 100%;
 	max-width: 500px;
 	min-height: 1px;
@@ -32,39 +80,35 @@ Set variables.
 
 .prpl-widgets-container {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-	grid-gap: 20px;
+	grid-template-columns: repeat(auto-fit, minmax(var(--prpl-column-min-width), 1fr));
+	grid-gap: var(--prpl-gap);
 }
 
 .prpl-widget-wrapper {
-	border: 1px solid var(--prpl-color-gray-3);
-	border-radius: 5px;
-	padding: 20px;
+	border: 1px solid var(--prpl-color-gray-2);
+	border-radius: var(--prpl-border-radius);
+	padding: var(--prpl-gap);
 	display: flex;
 	flex-direction: column;
 }
 
 .prpl-wrap .counter-big-wrapper {
-	background-color: var(--prpl-color-gray-1);
-	padding: 20px;
-	border-radius: 5px;
+	background-color: var(--prpl-background-purple);
+	padding: var(--prpl-gap);
+	border-radius: var(--prpl-border-radius);
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 }
 
 .prpl-wrap .counter-big-number {
-	font-size: 4rem;
-	line-height: 5rem;
+	font-size: var(--prpl-font-size-5xl);
+	line-height: 1;
 	font-weight: 700;
 }
 
 .prpl-wrap .counter-big-text {
-	font-size: 1.5rem;
-}
-
-.prpl-wrap .prpl-widget-content p {
-	font-size: 1.25em;
+	font-size: var(--prpl-font-size-2xl);
 }
 
 .prpl-graph-wrapper {
@@ -80,7 +124,7 @@ Set variables.
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 	height: 100%;
-	grid-gap: 20px;
+	grid-gap: var(--prpl-gap);
 }
 
 .prpl-top-counter-bottom-content {
@@ -98,9 +142,9 @@ Set variables.
 }
 
 .prpl-gauge-container {
-	padding: 20px;
+	padding: var(--prpl-gap);
 	background-color: var(--prpl-background-orange);
-	border-radius: 5px;
+	border-radius: var(--prpl-border-radius);
 	height: 50%;
 	overflow: hidden;
 }
@@ -124,7 +168,7 @@ Set variables.
 }
 
 .prpl-gauge-number {
-	font-size: 3em;
+	font-size: var(--prpl-font-size-4xl);
 	line-height: 1;
 	margin-top: -1em;
 }
