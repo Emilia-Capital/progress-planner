@@ -9,11 +9,19 @@ namespace ProgressPlanner;
 
 use ProgressPlanner\Activities\Content_Helpers;
 
+// Arguments for the query.
 $prpl_query_args = [
 	'category' => 'content',
 	'type'     => 'publish',
 ];
 
+/**
+ * Callback to count the words in the activities.
+ *
+ * @param \ProgressPlanner\Activity[] $activities The activities array.
+ *
+ * @return int
+ */
 $prpl_count_words_callback = function ( $activities ) {
 	return Content_Helpers::get_posts_stats_by_ids(
 		array_map(
@@ -25,16 +33,27 @@ $prpl_count_words_callback = function ( $activities ) {
 	)['words'];
 };
 
+/**
+ * Callback to count the density of the activities.
+ *
+ * Returns the average number of words per activity.
+ *
+ * @param \ProgressPlanner\Activity[] $activities The activities array.
+ *
+ * @return int
+ */
 $prpl_count_density_callback = function ( $activities ) use ( $prpl_count_words_callback ) {
 	$words = $prpl_count_words_callback( $activities );
 	$count = count( $activities );
 	return round( $words / max( 1, $count ) );
 };
 
+// Get the all-time average.
 $prpl_all_activities_density = $prpl_count_density_callback(
 	\progress_planner()->get_query()->query_activities( $prpl_query_args )
 );
 
+// Get the weekly average.
 $prpl_weekly_activities_density = $prpl_count_density_callback(
 	\progress_planner()->get_query()->query_activities(
 		array_merge(

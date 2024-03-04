@@ -7,6 +7,7 @@
 
 namespace ProgressPlanner;
 
+// Get the posts published in the last week.
 $prpl_last_week_posts = count(
 	get_posts(
 		[
@@ -21,6 +22,8 @@ $prpl_last_week_posts = count(
 		]
 	)
 );
+
+// Get the total number of posts.
 $prpl_all_posts_count = wp_count_posts();
 
 ?>

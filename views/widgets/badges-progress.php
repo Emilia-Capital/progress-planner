@@ -7,8 +7,16 @@
 
 namespace ProgressPlanner;
 
+// Get an array of badges.
 $prpl_badges = \progress_planner()->get_badges()->get_badges();
 
+/**
+ * Callback to get the progress color.
+ *
+ * @param int $progress The progress.
+ *
+ * @return string The color.
+ */
 $prpl_get_progress_color = function ( $progress ) {
 	$color = 'var(--prpl-color-accent-red)';
 	if ( $progress > 50 ) {

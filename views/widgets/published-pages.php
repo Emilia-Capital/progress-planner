@@ -7,6 +7,7 @@
 
 namespace ProgressPlanner;
 
+// Get the pages published in the last week.
 $prpl_last_week_pages = count(
 	get_posts(
 		[
@@ -21,6 +22,8 @@ $prpl_last_week_pages = count(
 		]
 	)
 );
+
+// Get the total number of pages.
 $prpl_all_pages_count = wp_count_posts( 'page' );
 
 ?>

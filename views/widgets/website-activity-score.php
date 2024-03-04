@@ -28,6 +28,7 @@ $prpl_content_count = count(
 		)
 	)
 );
+
 // Target 5 content activities per week.
 $prpl_content_score = min( $prpl_content_count, 5 ) / 5;
 
@@ -43,7 +44,9 @@ $prpl_maintenance_count = count(
 		]
 	)
 );
-$prpl_pending_updates   = wp_get_update_data()['counts']['total'];
+
+// Get the number of pending updates.
+$prpl_pending_updates = wp_get_update_data()['counts']['total'];
 
 // Target is the number of pending updates + the ones that have already been done.
 $prpl_maintenance_score = max( 1, $prpl_maintenance_count ) / max( 1, $prpl_maintenance_count + $prpl_pending_updates );
@@ -53,7 +56,10 @@ $prpl_maintenance_score = max( 1, $prpl_maintenance_count ) / max( 1, $prpl_main
  */
 $prpl_score = 0.7 * $prpl_content_score + 0.3 * $prpl_maintenance_score;
 
+// Get the score.
 $prpl_score       = round( 100 * $prpl_score );
+
+// Calculate the color.
 $prpl_gauge_color = 'var(--prpl-color-accent-red)';
 if ( $prpl_score > 50 ) {
 	$prpl_gauge_color = 'var(--prpl-color-accent-orange)';

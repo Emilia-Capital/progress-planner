@@ -9,11 +9,19 @@ namespace ProgressPlanner;
 
 use ProgressPlanner\Activities\Content_Helpers;
 
+// Arguments for the query.
 $prpl_query_args = [
 	'category' => 'content',
 	'type'     => 'publish',
 ];
 
+/**
+ * Callback to count the words in the activities.
+ *
+ * @param \ProgressPlanner\Activity[] $activities The activities array.
+ *
+ * @return int
+ */
 $prpl_count_words_callback = function ( $activities ) {
 	return Content_Helpers::get_posts_stats_by_ids(
 		array_map(
@@ -25,10 +33,12 @@ $prpl_count_words_callback = function ( $activities ) {
 	)['words'];
 };
 
+// Get the all-time words count.
 $prpl_all_time_words = $prpl_count_words_callback(
 	\progress_planner()->get_query()->query_activities( $prpl_query_args )
 );
 
+// Get the weekly words count.
 $prpl_this_week_words = $prpl_count_words_callback(
 	\progress_planner()->get_query()->query_activities(
 		array_merge(
@@ -41,6 +51,11 @@ $prpl_this_week_words = $prpl_count_words_callback(
 	)
 );
 
+/**
+ * Callback to get the color for the chart.
+ *
+ * @return string
+ */
 $prpl_color_callback = function () {
 	return '#14b8a6';
 };

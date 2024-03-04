@@ -9,6 +9,7 @@ namespace ProgressPlanner;
 
 use ProgressPlanner\Activities\Content_Helpers;
 
+// Get the content published this week.
 $prpl_last_week_content = count(
 	get_posts(
 		[
@@ -23,6 +24,8 @@ $prpl_last_week_content = count(
 		]
 	)
 );
+
+// Get the total number of posts for this week.
 $prpl_all_content_count = 0;
 foreach ( Content_Helpers::get_post_types_names() as $prpl_post_type ) {
 	$prpl_all_content_count += wp_count_posts( $prpl_post_type )->publish;

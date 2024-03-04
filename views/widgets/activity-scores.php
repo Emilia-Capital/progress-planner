@@ -7,6 +7,13 @@
 
 namespace ProgressPlanner;
 
+/**
+ * Callback to calculate the color of the chart.
+ *
+ * @param int $number The number to calculate the color for.
+ *
+ * @return string The color.
+ */
 $prpl_color_callback = function ( $number ) {
 	if ( $number > 90 ) {
 		return '#14b8a6';
