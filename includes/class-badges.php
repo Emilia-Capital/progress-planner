@@ -7,7 +7,8 @@
 
 namespace ProgressPlanner;
 
-use ProgressPlanner\Query;
+use ProgressPlanner\Goals\Goal_Recurring;
+use ProgressPlanner\Goals\Goal_Posts;
 
 /**
  * Badges class.
@@ -201,6 +202,84 @@ class Badges {
 						]
 					);
 					return min( count( $activities ), 100 );
+				},
+			]
+		);
+
+		// Write a post for 10 consecutive weeks.
+		$this->register_badge(
+			'10_weeks_consecutive_posts',
+			[
+				'name'              => __( '10 Weeks Consecutive Posts', 'progress-planner' ),
+				'description'       => __( 'You wrote a post for 10 consecutive weeks.', 'progress-planner' ),
+				'progress_callback' => function () {
+					$goal = new Goal_Recurring(
+						new Goal_Posts(
+							[
+								'id'          => 'weekly_post',
+								'title'       => \esc_html__( 'Write a weekly blog post', 'progress-planner' ),
+								'description' => \esc_html__( 'Streak: The number of weeks this goal has been accomplished consistently.', 'progress-planner' ),
+								'status'      => 'active',
+								'priority'    => 'low',
+								'evaluate'    => function ( $goal_object ) {
+									return (bool) count(
+										\progress_planner()->get_query()->query_activities(
+											[
+												'category'   => 'content',
+												'type'       => 'publish',
+												'start_date' => $goal_object->get_details()['start_date'],
+												'end_date'   => $goal_object->get_details()['end_date'],
+											]
+										)
+									);
+								},
+							]
+						),
+						'weekly',
+						\progress_planner()->get_query()->get_oldest_activity()->get_date(), // Beginning of the stats.
+						new \DateTime() // Today.
+					);
+
+					return ( min( 100, $goal->get_streak()['max_streak'] * 10 ) );
+				},
+			]
+		);
+
+		// Write a post for 100 consecutive weeks.
+		$this->register_badge(
+			'100_weeks_consecutive_posts',
+			[
+				'name'              => __( '100 Weeks Consecutive Posts', 'progress-planner' ),
+				'description'       => __( 'You wrote a post for 10 consecutive weeks.', 'progress-planner' ),
+				'progress_callback' => function () {
+					$goal = new Goal_Recurring(
+						new Goal_Posts(
+							[
+								'id'          => 'weekly_post',
+								'title'       => \esc_html__( 'Write a weekly blog post', 'progress-planner' ),
+								'description' => \esc_html__( 'Streak: The number of weeks this goal has been accomplished consistently.', 'progress-planner' ),
+								'status'      => 'active',
+								'priority'    => 'low',
+								'evaluate'    => function ( $goal_object ) {
+									return (bool) count(
+										\progress_planner()->get_query()->query_activities(
+											[
+												'category'   => 'content',
+												'type'       => 'publish',
+												'start_date' => $goal_object->get_details()['start_date'],
+												'end_date'   => $goal_object->get_details()['end_date'],
+											]
+										)
+									);
+								},
+							]
+						),
+						'weekly',
+						\progress_planner()->get_query()->get_oldest_activity()->get_date(), // Beginning of the stats.
+						new \DateTime() // Today.
+					);
+
+					return ( min( 100, $goal->get_streak()['max_streak'] ) );
 				},
 			]
 		);

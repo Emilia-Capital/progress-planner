@@ -102,4 +102,48 @@ class Goal_Recurring {
 
 		return $this->occurences;
 	}
+
+	/**
+	 * Get the streak for weekly posts.
+	 *
+	 * @return int The number of weeks for this streak.
+	 */
+	public function get_streak() {
+		// Bail early if there is no goal.
+		if ( ! $this ) {
+			return [
+				'number'      => 0,
+				'title'       => $this->get_goal()->get_details()['title'],
+				'description' => $this->get_goal()->get_details()['description'],
+			];
+		}
+
+		// Reverse the order of the occurences.
+		$occurences = $this->get_occurences();
+
+		// Calculate the streak number.
+		$streak_nr  = 0;
+		$max_streak = 0;
+		foreach ( $occurences as $occurence ) {
+			/**
+			 * Evaluate the occurence.
+			 * If the occurence is true, then increment the streak number.
+			 * Otherwise, reset the streak number.
+			 */
+			$evaluation = $occurence->evaluate();
+			if ( $evaluation ) {
+				++$streak_nr;
+				$max_streak = max( $max_streak, $streak_nr );
+				continue;
+			}
+			$streak_nr = 0;
+		}
+
+		return [
+			'max_streak'     => $max_streak,
+			'current_streak' => $streak_nr,
+			'title'          => $this->get_goal()->get_details()['title'],
+			'description'    => $this->get_goal()->get_details()['description'],
+		];
+	}
 }
