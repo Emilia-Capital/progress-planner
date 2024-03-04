@@ -129,14 +129,10 @@ Set variables.
 	margin-top: -1em;
 }
 
-.progress-wrapper {
-	display:
-}
-
 .progress-wrapper .progress-bar {
 	height: 1em;
 	background-color: var(--prpl-color-gray-1);
-	width: calc(100% - 6em);
+	width: 100%;
 	display: inline-block;
 }
 
