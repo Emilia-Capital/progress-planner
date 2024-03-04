@@ -90,7 +90,17 @@ class Badges {
 			return 0;
 		}
 
-		return $badge['progress_callback']();
+		$progress = [];
+
+		foreach ( $badge['steps'] as $step ) {
+			$progress[] = [
+				'name'     => $step['name'],
+				'icon'     => $step['icon'],
+				'progress' => $badge['progress_callback']( $step['target'] ),
+			];
+		}
+
+		return $progress;
 	}
 
 	/**
@@ -99,120 +109,103 @@ class Badges {
 	 * @return void
 	 */
 	private function register_badges() {
-		// First Post.
+		// Badges for number of posts.
 		$this->register_badge(
-			'first_post',
+			'content_published_count',
 			[
-				'name'              => __( 'First Post', 'progress-planner' ),
-				'description'       => __( 'You published your first post.', 'progress-planner' ),
-				'progress_callback' => function () {
+				'steps'             => [
+					[
+						'target' => 100,
+						'name'   => __( '100 Posts', 'progress-planner' ),
+						'icon'   => '🏆',
+					],
+					[
+						'target' => 1000,
+						'name'   => __( '1000 Posts', 'progress-planner' ),
+						'icon'   => '🏆',
+					],
+					[
+						'target' => 2000,
+						'name'   => __( '2000 Posts', 'progress-planner' ),
+						'icon'   => '🏆',
+					],
+					[
+						'target' => 5000,
+						'name'   => __( '5000 Posts', 'progress-planner' ),
+						'icon'   => '🏆',
+					],
+				],
+				'progress_callback' => function ( $target ) {
 					$activities = \progress_planner()->get_query()->query_activities(
 						[
 							'category' => 'content',
 							'type'     => 'publish',
 						]
 					);
-					return empty( $activities ) ? 0 : 100;
-				},
-			]
-		);
-
-		// 100 posts.
-		$this->register_badge(
-			'100_posts',
-			[
-				'name'              => __( '100 Posts', 'progress-planner' ),
-				'description'       => __( 'You published 100 posts.', 'progress-planner' ),
-				'progress_callback' => function () {
-					$activities = \progress_planner()->get_query()->query_activities(
-						[
-							'category' => 'content',
-							'type'     => 'publish',
-						]
-					);
-					return min( count( $activities ), 100 );
-				},
-			]
-		);
-
-		// 1000 posts
-		$this->register_badge(
-			'1000_posts',
-			[
-				'name'              => __( '1000 Posts', 'progress-planner' ),
-				'description'       => __( 'You published 1000 posts.', 'progress-planner' ),
-				'progress_callback' => function () {
-					$activities = \progress_planner()->get_query()->query_activities(
-						[
-							'category' => 'content',
-							'type'     => 'publish',
-						]
-					);
-					return min( floor( count( $activities ) / 10 ), 100 );
-				},
-			]
-		);
-
-		// 2000 posts
-		$this->register_badge(
-			'2000_posts',
-			[
-				'name'              => __( '1000 Posts', 'progress-planner' ),
-				'description'       => __( 'You published 1000 posts.', 'progress-planner' ),
-				'progress_callback' => function () {
-					$activities = \progress_planner()->get_query()->query_activities(
-						[
-							'category' => 'content',
-							'type'     => 'publish',
-						]
-					);
-					return min( floor( count( $activities ) / 20 ), 100 );
-				},
-			]
-		);
-
-		// 5000 posts
-		$this->register_badge(
-			'5000_posts',
-			[
-				'name'              => __( '5000 Posts', 'progress-planner' ),
-				'description'       => __( 'You published 5000 posts.', 'progress-planner' ),
-				'progress_callback' => function () {
-					$activities = \progress_planner()->get_query()->query_activities(
-						[
-							'category' => 'content',
-							'type'     => 'publish',
-						]
-					);
-					return min( floor( count( $activities ) / 50 ), 100 );
+					return min( floor( 100 * count( $activities ) / $target ), 100 );
 				},
 			]
 		);
 
 		// 100 maintenance tasks.
 		$this->register_badge(
-			'100_maintenance_tasks',
+			'maintenance_tasks',
 			[
-				'name'              => __( '100 Maintenance Tasks', 'progress-planner' ),
-				'description'       => __( 'You completed 100 maintenance tasks.', 'progress-planner' ),
-				'progress_callback' => function () {
+				'steps'             => [
+					[
+						'target' => 10,
+						'name'   => __( '10 maintenance tasks', 'progress-planner' ),
+						'icon'   => '🏆',
+					],
+					[
+						'target' => 100,
+						'name'   => __( '100 maintenance tasks', 'progress-planner' ),
+						'icon'   => '🏆',
+					],
+					[
+						'target' => 1000,
+						'name'   => __( '1000 maintenance tasks', 'progress-planner' ),
+						'icon'   => '🏆',
+					],
+				],
+				'progress_callback' => function ( $target ) {
 					$activities = \progress_planner()->get_query()->query_activities(
 						[
 							'category' => 'maintenance',
 						]
 					);
-					return min( count( $activities ), 100 );
+					return min( floor( 100 * count( $activities ) / $target ), 100 );
 				},
 			]
 		);
 
 		// Write a post for 10 consecutive weeks.
 		$this->register_badge(
-			'10_weeks_consecutive_posts',
+			'consecutive_weeks_posts',
 			[
-				'name'              => __( '10 Weeks Consecutive Posts', 'progress-planner' ),
-				'description'       => __( 'You wrote a post for 10 consecutive weeks.', 'progress-planner' ),
-				'progress_callback' => function () {
+				'steps'             => [
+					[
+						'target' => 10,
+						'name'   => __( '10 weeks posting streak', 'progress-planner' ),
+						'icon'   => '🏆',
+					],
+					[
+						'target' => 52,
+						'name'   => __( '52 weeks posting streak', 'progress-planner' ),
+						'icon'   => '🏆',
+					],
+					[
+						'target' => 104,
+						'name'   => __( '104 weeks posting streak', 'progress-planner' ),
+						'icon'   => '🏆',
+					],
+					[
+						'target' => 208,
+						'name'   => __( '208 weeks posting streak', 'progress-planner' ),
+						'icon'   => '🏆',
+					],
+				],
+				'progress_callback' => function ( $target ) {
 					$goal = new Goal_Recurring(
 						new Goal_Posts(
 							[
@@ -240,46 +233,7 @@ class Badges {
 						new \DateTime() // Today.
 					);
 
-					return ( min( 100, $goal->get_streak()['max_streak'] * 10 ) );
-				},
-			]
-		);
-
-		// Write a post for 100 consecutive weeks.
-		$this->register_badge(
-			'100_weeks_consecutive_posts',
-			[
-				'name'              => __( '100 Weeks Consecutive Posts', 'progress-planner' ),
-				'description'       => __( 'You wrote a post for 10 consecutive weeks.', 'progress-planner' ),
-				'progress_callback' => function () {
-					$goal = new Goal_Recurring(
-						new Goal_Posts(
-							[
-								'id'          => 'weekly_post',
-								'title'       => \esc_html__( 'Write a weekly blog post', 'progress-planner' ),
-								'description' => \esc_html__( 'Streak: The number of weeks this goal has been accomplished consistently.', 'progress-planner' ),
-								'status'      => 'active',
-								'priority'    => 'low',
-								'evaluate'    => function ( $goal_object ) {
-									return (bool) count(
-										\progress_planner()->get_query()->query_activities(
-											[
-												'category' => 'content',
-												'type'     => 'publish',
-												'start_date' => $goal_object->get_details()['start_date'],
-												'end_date' => $goal_object->get_details()['end_date'],
-											]
-										)
-									);
-								},
-							]
-						),
-						'weekly',
-						\progress_planner()->get_query()->get_oldest_activity()->get_date(), // Beginning of the stats.
-						new \DateTime() // Today.
-					);
-
-					return ( min( 100, $goal->get_streak()['max_streak'] ) );
+					return min( floor( 100 * $goal->get_streak()['max_streak'] / $target ), 100 );
 				},
 			]
 		);
