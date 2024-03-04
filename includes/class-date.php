@@ -25,10 +25,11 @@ class Date {
 	 *               ].
 	 */
 	public static function get_range( $start, $end ) {
+		$dates = iterator_to_array( new \DatePeriod( $start, new \DateInterval( 'P1D' ), $end ), false );
 		return [
-			'start' => $start,
-			'end'   => $end,
-			'dates' => iterator_to_array( new \DatePeriod( $start, new \DateInterval( 'P1D' ), $end ), false ),
+			'start' => $dates[0],
+			'end'   => end( $dates ),
+			'dates' => $dates,
 		];
 	}
 
