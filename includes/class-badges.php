@@ -225,10 +225,10 @@ class Badges {
 									return (bool) count(
 										\progress_planner()->get_query()->query_activities(
 											[
-												'category'   => 'content',
-												'type'       => 'publish',
+												'category' => 'content',
+												'type'     => 'publish',
 												'start_date' => $goal_object->get_details()['start_date'],
-												'end_date'   => $goal_object->get_details()['end_date'],
+												'end_date' => $goal_object->get_details()['end_date'],
 											]
 										)
 									);
@@ -264,10 +264,10 @@ class Badges {
 									return (bool) count(
 										\progress_planner()->get_query()->query_activities(
 											[
-												'category'   => 'content',
-												'type'       => 'publish',
+												'category' => 'content',
+												'type'     => 'publish',
 												'start_date' => $goal_object->get_details()['start_date'],
-												'end_date'   => $goal_object->get_details()['end_date'],
+												'end_date' => $goal_object->get_details()['end_date'],
 											]
 										)
 									);

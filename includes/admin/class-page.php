@@ -66,6 +66,16 @@ class Page {
 			return;
 		}
 
+		// Enqueue Chart.js.
+		// TODO: Use a local copy of Chart.js.
+		\wp_enqueue_script(
+			'chart-js',
+			'https://cdn.jsdelivr.net/npm/chart.js',
+			[],
+			'4.4.2',
+			false
+		);
+
 		\wp_enqueue_script(
 			'progress-planner-admin',
 			PROGRESS_PLANNER_URL . 'assets/js/admin.js',

@@ -40,7 +40,6 @@ Set variables.
 	border: 1px solid var(--prpl-color-gray-3);
 	border-radius: 5px;
 	padding: 20px;
-	max-height: 500px;
 	display: flex;
 	flex-direction: column;
 }

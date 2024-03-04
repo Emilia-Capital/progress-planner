@@ -43,7 +43,7 @@ $prpl_maintenance_count = count(
 		]
 	)
 );
-$prpl_pending_updates = wp_get_update_data()['counts']['total'];
+$prpl_pending_updates   = wp_get_update_data()['counts']['total'];
 
 // Target is the number of pending updates + the ones that have already been done.
 $prpl_maintenance_score = max( 1, $prpl_maintenance_count ) / max( 1, $prpl_maintenance_count + $prpl_pending_updates );

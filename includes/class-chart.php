@@ -156,10 +156,6 @@ class Chart {
 	 */
 	public function render_chart( $id, $type, $data, $options = [] ) {
 		$id = 'progress-planner-chart-' . $id;
-
-		// TODO: This should be properly enqueued.
-		// phpcs:ignore
-		echo '<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>';
 		?>
 
 		<div class="prpl-chart-container" style="position: relative; height:100%; width:100%">

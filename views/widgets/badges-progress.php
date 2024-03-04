@@ -33,7 +33,9 @@ $prpl_badges = \progress_planner()->get_badges()->get_badges();
 		</div>
 		<div class="progress-label">
 			<?php echo esc_attr( $prpl_badge_progress ); ?>%
-			<?php if ( $prpl_badge_progress === 100 ) : ?>🏆<?php endif;?>
+			<?php if ( $prpl_badge_progress === 100 ) : ?>
+				🏆
+			<?php endif; ?>
 		</div>
 	</div>
 <?php endforeach; ?>
