@@ -8,7 +8,8 @@
 namespace ProgressPlanner;
 
 use ProgressPlanner\Query;
-use ProgressPlanner\Admin;
+use ProgressPlanner\Admin\Page as Admin_page;
+use ProgressPlanner\Admin\Dashboard_Widget as Admin_Dashboard_Widget;
 use ProgressPlanner\Scan\Content as Scan_Content;
 use ProgressPlanner\Scan\Maintenance as Scan_Maintenance;
 
@@ -41,7 +42,8 @@ class Base {
 	 * Constructor.
 	 */
 	private function __construct() {
-		new Admin();
+		new Admin_Page();
+		new Admin_Dashboard_Widget();
 		new Scan_Content();
 		new Scan_Maintenance();
 	}
