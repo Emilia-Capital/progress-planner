@@ -41,6 +41,10 @@ $prpl_this_week_words = $prpl_count_words_callback(
 	)
 );
 
+$prpl_color_callback = function () {
+	return '#14b8a6';
+};
+
 ?>
 <div class="two-col">
 	<div class="prpl-top-counter-bottom-content">
@@ -88,6 +92,10 @@ $prpl_this_week_words = $prpl_count_words_callback(
 				],
 				'count_callback' => $prpl_count_words_callback,
 				'additive'       => false,
+				'colors'       => [
+					'background' => $prpl_color_callback,
+					'border'     => $prpl_color_callback,
+				],
 			],
 		);
 		?>
