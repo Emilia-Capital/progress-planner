@@ -116,8 +116,8 @@ class Chart {
 				array_merge(
 					$args['query_params'],
 					[
-						'start_date' => $period['dates'][0],
-						'end_date'   => end( $period['dates'] ),
+						'start_date' => $period['start'],
+						'end_date'   => $period['end'],
 					]
 				)
 			);
