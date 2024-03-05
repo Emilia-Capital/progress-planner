@@ -11,6 +11,8 @@ use ProgressPlanner\Activities\Content_Helpers;
 
 // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 $prpl_active_range = isset( $_GET['range'] ) ? sanitize_text_field( wp_unslash( $_GET['range'] ) ) : '-6 months';
+// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+$prpl_active_frequency = isset( $_GET['frequency'] ) ? sanitize_text_field( wp_unslash( $_GET['frequency'] ) ) : 'monthly';
 
 // Arguments for the query.
 $prpl_query_args = [
@@ -103,7 +105,7 @@ $prpl_weekly_activities_density = $prpl_count_density_callback(
 			'dates_params'   => [
 				'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) )->modify( $prpl_active_range ),
 				'end'       => new \DateTime(),
-				'frequency' => 'weekly',
+				'frequency' => $prpl_active_frequency,
 				'format'    => 'M',
 			],
 			'chart_params'   => [

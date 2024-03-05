@@ -148,7 +148,7 @@ class Chart {
 		$data['datasets'] = $datasets;
 
 		$this->render_chart(
-			md5( wp_json_encode( $args ) ),
+			md5( wp_json_encode( $args ) ) . wp_rand( 0, 1000 ),
 			$args['chart_params']['type'],
 			$data,
 			$args['chart_params']['options']
