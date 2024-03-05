@@ -9,6 +9,9 @@ namespace ProgressPlanner;
 
 use ProgressPlanner\Activities\Content_Helpers;
 
+// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+$prpl_active_range = isset( $_GET['range'] ) ? sanitize_text_field( wp_unslash( $_GET['range'] ) ) : '-6 months';
+
 // Get the content published this week.
 $prpl_last_week_content = count(
 	get_posts(
@@ -67,7 +70,7 @@ foreach ( Content_Helpers::get_post_types_names() as $prpl_post_type ) {
 				'type'     => 'publish',
 			],
 			'dates_params' => [
-				'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) )->modify( '-5 months' ),
+				'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) )->modify( $prpl_active_range ),
 				'end'       => new \DateTime(),
 				'frequency' => 'weekly',
 				'format'    => 'M, d',

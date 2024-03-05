@@ -7,6 +7,9 @@
 
 namespace ProgressPlanner;
 
+// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+$prpl_active_range = isset( $_GET['range'] ) ? sanitize_text_field( wp_unslash( $_GET['range'] ) ) : '-6 months';
+
 // Get the posts published in the last week.
 $prpl_last_week_posts = count(
 	get_posts(
@@ -70,7 +73,7 @@ $prpl_all_posts_count = wp_count_posts();
 				return $activities;
 			},
 			'dates_params'   => [
-				'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) )->modify( '-5 months' ),
+				'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) )->modify( $prpl_active_range ),
 				'end'       => new \DateTime(),
 				'frequency' => 'monthly',
 				'format'    => 'M',

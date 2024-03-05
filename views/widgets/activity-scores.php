@@ -7,6 +7,9 @@
 
 namespace ProgressPlanner;
 
+// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+$prpl_active_range = isset( $_GET['range'] ) ? sanitize_text_field( wp_unslash( $_GET['range'] ) ) : '-6 months';
+
 /**
  * Callback to calculate the color of the chart.
  *
@@ -34,7 +37,7 @@ $prpl_color_callback = function ( $number ) {
 		[
 			'query_params'   => [],
 			'dates_params'   => [
-				'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) )->modify( '-12 months' ),
+				'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) )->modify( $prpl_active_range ),
 				'end'       => new \DateTime(),
 				'frequency' => 'monthly',
 				'format'    => 'M',

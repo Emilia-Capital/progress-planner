@@ -9,6 +9,9 @@ namespace ProgressPlanner;
 
 use ProgressPlanner\Activities\Content_Helpers;
 
+// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+$prpl_active_range = isset( $_GET['range'] ) ? sanitize_text_field( wp_unslash( $_GET['range'] ) ) : '-6 months';
+
 // Arguments for the query.
 $prpl_query_args = [
 	'category' => 'content',
@@ -98,7 +101,7 @@ $prpl_weekly_activities_density = $prpl_count_density_callback(
 				'type'     => 'publish',
 			],
 			'dates_params'   => [
-				'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) )->modify( '-12 months' ),
+				'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) )->modify( $prpl_active_range ),
 				'end'       => new \DateTime(),
 				'frequency' => 'weekly',
 				'format'    => 'M',
