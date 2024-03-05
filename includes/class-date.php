@@ -111,4 +111,14 @@ class Date {
 	public static function get_start_of_month( $date ) {
 		return $date->modify( 'first day of this month' );
 	}
+
+	/**
+	 * Get number of days between two dates.
+	 *
+	 * @param \DateTime $date1 The first date.
+	 * @param \DateTime $date2 The second date.
+	 */
+	public static function get_days_between_dates( $date1, $date2 ) {
+		return (int) $date1->diff( $date2 )->format( '%R%a' );
+	}
 }

@@ -43,4 +43,51 @@ class Content extends Activity {
 	public function get_post() {
 		return \get_post( $this->data_id );
 	}
+
+	/**
+	 * Get the points for an activity.
+	 *
+	 * @param \DateTime $date The date for which we want to get the points of the activity.
+	 *
+	 * @return int
+	 */
+	public function get_points( $date ) {
+		$points = self::ACTIVITIES_POINTS[ $this->get_type() ];
+		$post   = $this->get_post();
+		if ( ! $post ) {
+			return 0;
+		}
+		$words = Content_Helpers::get_word_count( $post->post_content );
+		if ( $words > 1000 ) {
+			$points -= 10;
+		} elseif ( $words > 350 ) {
+			$points += 5;
+		} elseif ( $words > 100 ) {
+			$points += 2;
+		} else {
+			$points -= 2;
+		}
+
+		// Decay the points based on the age of the activity.
+		$days = Date::get_days_between_dates( $date, $this->get_date() );
+
+		// If $days is > 0, then the activity is in the future.
+		if ( $days > 0 ) {
+			return 0;
+		}
+		$days = absint( $days );
+
+		// Maximum range for awarded points is 30 days.
+		if ( $days >= 30 ) {
+			return 0;
+		}
+
+		// If the activity is new (less than 7 days old), award full points.
+		if ( $days < 7 ) {
+			return (int) $points;
+		}
+
+		// Decay the points based on the age of the activity.
+		return (int) $points * ( 1 - $days / 30 );
+	}
 }

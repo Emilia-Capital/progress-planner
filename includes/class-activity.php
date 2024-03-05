@@ -7,6 +7,8 @@
 
 namespace ProgressPlanner;
 
+use ProgressPlanner\Date;
+
 /**
  * Activity class.
  */
@@ -194,5 +196,19 @@ class Activity {
 	 */
 	public function delete() {
 		\progress_planner()->get_query()->delete_activity( $this );
+	}
+
+	/**
+	 * Get the points for an activity.
+	 *
+	 * @param \DateTime $date The date for which we want to get the points of the activity.
+	 *
+	 * @return int
+	 */
+	public function get_points( $date ) {
+		$days = Date::get_days_between_dates( $date, $this->get_date() );
+		return ( $days > 0 && $days < 7 )
+			? 10
+			: 10 * ( 1 - $days / 30 );
 	}
 }
