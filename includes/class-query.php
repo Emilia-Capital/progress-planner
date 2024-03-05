@@ -154,7 +154,7 @@ class Query {
 			$results = ( empty( $where_args ) )
 				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 				? $wpdb->get_results(
-					$wpdb->prepare( 'SELECT * FROM %i SORT BY date', $wpdb->prefix . static::TABLE_NAME )
+					$wpdb->prepare( 'SELECT * FROM %i ORDER BY date', $wpdb->prefix . static::TABLE_NAME )
 				)
 				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 				: $wpdb->get_results(
