@@ -43,7 +43,7 @@ class Chart {
 				'dates_params'   => [],
 				'chart_params'   => [],
 				'additive'       => false,
-				'rolling'        => false,
+				'normalized'     => false,
 				'colors'         => [
 					'background' => function () {
 						return '#534786';
@@ -113,7 +113,7 @@ class Chart {
 		}
 
 		foreach ( $periods as $period ) {
-			$activities = $args['rolling']
+			$activities = $args['normalized']
 				? \progress_planner()->get_query()->query_activities(
 					array_merge(
 						$args['query_params'],

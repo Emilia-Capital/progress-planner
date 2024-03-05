@@ -54,7 +54,7 @@ $prpl_color_callback = function ( $number ) {
 				return round( ( $score / $target ) * 100 );
 			},
 			'additive'       => false,
-			'rolling'        => true,
+			'normalized'     => true,
 			'colors'         => [
 				'background' => $prpl_color_callback,
 				'border'     => $prpl_color_callback,
