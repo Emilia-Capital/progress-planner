@@ -8,11 +8,25 @@
 namespace ProgressPlanner\Activities;
 
 use ProgressPlanner\Activity;
+use ProgressPlanner\Date;
+use ProgressPlanner\Activities\Content_Helpers;
 
 /**
  * Handler for posts activities.
  */
 class Content extends Activity {
+
+	/**
+	 * The points awarded for each activity.
+	 *
+	 * @var array
+	 */
+	const ACTIVITIES_POINTS = [
+		'publish' => 50,
+		'update'  => 10,
+		'delete'  => 5,
+		'comment' => 2,
+	];
 
 	/**
 	 * Category of the activity.

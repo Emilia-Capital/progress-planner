@@ -46,6 +46,23 @@ class Maintenance {
 	}
 
 	/**
+	 * On install.
+	 *
+	 * @param \WP_Upgrader $upgrader The upgrader object.
+	 * @param array        $options   The options.
+	 *
+	 * @return void
+	 */
+	public function on_install( $upgrader, $options ) {
+		if ( 'install' !== $options['action'] ) {
+			return;
+		}
+		$activity = new Activity_Maintenance();
+		$activity->set_type( 'install_' . $this->get_install_type( $options ) );
+		$activity->save();
+	}
+
+	/**
 	 * On upgrade.
 	 *
 	 * @param \WP_Upgrader $upgrader The upgrader object.
