@@ -52,7 +52,7 @@ $prpl_color_callback = function ( $number ) {
 				foreach ( $activities as $activity ) {
 					$score += $activity->get_points( $date );
 				}
-				$target = 200; // 200 points is 4 posts per week.
+				$target = \progress_planner()->get_dev_config( 'activity-score-target' );
 				return round( min( 100, ( $score / $target ) * 100 ) );
 			},
 			'additive'       => false,

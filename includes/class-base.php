@@ -65,4 +65,37 @@ class Base {
 	public function get_badges() {
 		return new Badges();
 	}
+
+	/**
+	 * THIS SHOULD BE DELETED.
+	 * WE ONLY HAVE IT HERE TO EXPERIMENT WITH THE NUMBERS
+	 * WE'LL HAVE TO USE FOR STATS/SCORES.
+	 *
+	 * TODO: DELETE THIS METHOD.
+	 *
+	 * @param string $param The parameter to get. Null to get all.
+	 *
+	 * @return mixed
+	 */
+	public function get_dev_config( $param = null ) {
+		$config = [
+			'content-publish'                    => 50,
+			'content-update'                     => 10,
+			'content-delete'                     => 5,
+			'content-100-minus-words-multiplier' => 0.8,
+			'content-100-plus-words-multiplier'  => 1.1,
+			'content-350-plus-words-multiplier'  => 1.25,
+			'content-1000-plus-words-multiplier' => 0.8,
+			'maintenance'                        => 10,
+			'activity-score-target'              => 200,
+		];
+
+		// phpcs:disable WordPress.Security
+		foreach ( $config as $key => $value ) {
+			$config[ $key ] = isset( $_GET[ $key ] ) ? (float) $_GET[ $key ] : $value;
+		}
+		// phpcs:enable WordPress.Security
+
+		return null === $param ? $config : $config[ $param ];
+	}
 }

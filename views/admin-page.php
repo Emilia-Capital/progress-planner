@@ -29,12 +29,13 @@ $prpl_scan_pending = empty(
 				'website-activity-score',
 				'published-content',
 				'activity-scores',
-				'latest-badge',
+				// 'latest-badge',
 				'published-pages',
 				'published-posts',
 				'published-content-density',
 				'published-words',
 				'badges-progress',
+				'__filter-numbers',
 			] as $prpl_widget ) {
 				echo '<div class="prpl-widget-wrapper prpl-' . esc_attr( $prpl_widget ) . '">';
 				include "widgets/{$prpl_widget}.php";

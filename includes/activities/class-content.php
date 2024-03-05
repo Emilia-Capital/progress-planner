@@ -17,18 +17,6 @@ use ProgressPlanner\Activities\Content_Helpers;
 class Content extends Activity {
 
 	/**
-	 * The points awarded for each activity.
-	 *
-	 * @var array
-	 */
-	const ACTIVITIES_POINTS = [
-		'publish' => 50,
-		'update'  => 20,
-		'delete'  => 10,
-		'comment' => 5,
-	];
-
-	/**
 	 * Category of the activity.
 	 *
 	 * @var string
@@ -52,20 +40,25 @@ class Content extends Activity {
 	 * @return int
 	 */
 	public function get_points( $date ) {
-		$points = self::ACTIVITIES_POINTS[ $this->get_type() ];
-		$post   = $this->get_post();
+
+		$dev_config = \progress_planner()->get_dev_config();
+		$points     = isset( $dev_config[ $this->get_type() ] )
+			? $dev_config[ $this->get_type() ]
+			: $dev_config['content-publish'];
+		$post       = $this->get_post();
+
 		if ( ! $post ) {
 			return 0;
 		}
 		$words = Content_Helpers::get_word_count( $post->post_content );
 		if ( $words > 1000 ) {
-			$points *= 0.8;
+			$points *= $dev_config['content-1000-plus-words-multiplier'];
 		} elseif ( $words > 350 ) {
-			$points *= 1.25;
+			$points *= $dev_config['content-350-plus-words-multiplier'];
 		} elseif ( $words > 100 ) {
-			$points *= 1.1;
+			$points *= $dev_config['content-100-plus-words-multiplier'];
 		} else {
-			$points *= 0.9;
+			$points *= $dev_config['content-100-minus-words-multiplier'];
 		}
 
 		$days = absint( Date::get_days_between_dates( $date, $this->get_date() ) );

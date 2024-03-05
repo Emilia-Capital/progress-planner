@@ -51,13 +51,8 @@ class Maintenance extends Activity {
 	 * @return int
 	 */
 	public function get_points( $date ) {
-		$points = 2;
-		if ( str_starts_with( $this->type, 'install_' ) || str_starts_with( $this->type, 'delete_' ) ) {
-			$points = 1;
-		}
-
-		// Decay the points based on the age of the activity.
-		$days = abs( Date::get_days_between_dates( $date, $this->get_date() ) );
+		$points = \progress_planner()->get_dev_config( 'maintenance' );
+		$days   = abs( Date::get_days_between_dates( $date, $this->get_date() ) );
 
 		return ( $days < 7 ) ? $points : 0;
 	}

@@ -150,3 +150,14 @@ document.getElementById( 'prpl-select-frequency' ).addEventListener( 'change', f
 	url.searchParams.set( 'frequency', frequency );
 	window.location.href = url.href;
 } );
+
+document.getElementById( 'prpl-dev-stats-numbers' ).addEventListener( 'submit', function( event ) {
+	event.preventDefault();
+	const inputs = this.querySelectorAll( 'input' );
+	const url = new URL( window.location.href );
+
+	inputs.forEach( input => {
+		url.searchParams.set( input.name, input.value );
+	} );
+	window.location.href = url.href;
+} );
