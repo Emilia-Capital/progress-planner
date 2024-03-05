@@ -17,7 +17,8 @@ $prpl_scan_pending = empty(
 );
 ?>
 <div class="wrap prpl-wrap">
-	<h1><?php \esc_html_e( 'Progress Planner', 'progress-planner' ); ?></h1>
+	<h1 class="screen-reader-text"><?php \esc_html_e( 'Progress Planner', 'progress-planner' ); ?></h1>
+	<?php require 'admin-page-header.php'; ?>
 
 	<?php if ( $prpl_scan_pending ) : ?>
 		<?php include 'admin-page-form-scan.php'; ?>

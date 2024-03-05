@@ -137,3 +137,10 @@ progressPlannerDomReady( () => {
 		} );
 	}
 } );
+
+document.getElementById( 'prpl-select-range' ).addEventListener( 'change', function() {
+	const range = this.value;
+	const url = new URL( window.location.href );
+	url.searchParams.set( 'range', range );
+	window.location.href = url.href;
+} );
