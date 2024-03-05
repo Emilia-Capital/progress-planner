@@ -22,10 +22,10 @@ class Content extends Activity {
 	 * @var array
 	 */
 	const ACTIVITIES_POINTS = [
-		'publish' => 20,
-		'update'  => 7,
-		'delete'  => 3,
-		'comment' => 2,
+		'publish' => 50,
+		'update'  => 20,
+		'delete'  => 10,
+		'comment' => 5,
 	];
 
 	/**
@@ -68,7 +68,6 @@ class Content extends Activity {
 			$points -= 2;
 		}
 
-		// Decay the points based on the age of the activity.
 		$days = Date::get_days_between_dates( $date, $this->get_date() );
 
 		// If $days is > 0, then the activity is in the future.
@@ -83,12 +82,12 @@ class Content extends Activity {
 			return 0;
 		}
 
-		// If the activity is new (less than 7 days old), award full points.
-		if ( $days < 7 ) {
-			return round( $points );
-		}
+		$points = ( $days < 7 )
+			? round( $points ) // If the activity is new (less than 7 days old), award full points.
+			: round( $points * ( 1 - $days / 30 ) ); // Decay the points based on the age of the activity.
 
-		// Decay the points based on the age of the activity.
-		return round( $points * ( 1 - $days / 30 ) );
+		error_log( 'Days: ' . $days . ' Points: ' . $points );
+
+		return $points;
 	}
 }

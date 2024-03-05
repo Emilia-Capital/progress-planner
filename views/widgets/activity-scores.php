@@ -34,7 +34,7 @@ $prpl_color_callback = function ( $number ) {
 		[
 			'query_params'   => [],
 			'dates_params'   => [
-				'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) )->modify( '-24 months' ),
+				'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) )->modify( '-12 months' ),
 				'end'       => new \DateTime(),
 				'frequency' => 'monthly',
 				'format'    => 'M',
@@ -47,7 +47,8 @@ $prpl_color_callback = function ( $number ) {
 				foreach ( $activities as $activity ) {
 					$score += $activity->get_points( $date );
 				}
-				return round( min( 100, $score ) );
+				$target = 200; // 200 points is 4 posts per week.
+				return round( ( $score / $target ) * 100 );
 			},
 			'additive'       => false,
 			'rolling'        => true,

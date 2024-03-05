@@ -118,7 +118,7 @@ class Chart {
 					array_merge(
 						$args['query_params'],
 						[
-							'start_date' => $period['start']->modify( '-61 days' ),
+							'start_date' => $period['start']->modify( '-31 days' ),
 							'end_date'   => $period['end'],
 						]
 					)
@@ -137,9 +137,9 @@ class Chart {
 
 			$data['labels'][] = $period['dates'][0]->format( $args['dates_params']['format'] );
 
-			$score                            = $args['additive']
-				? $score + $args['count_callback']( $activities, $period['start'] )
-				: $args['count_callback']( $activities, $period['start'] );
+			$period_score = $args['count_callback']( $activities, $period['start'] );
+			$score        = $args['additive'] ? $score + $period_score : $period_score;
+
 			$datasets[0]['data'][]            = $score;
 			$datasets[0]['backgroundColor'][] = $args['colors']['background']( $score );
 			$datasets[0]['borderColor'][]     = $args['colors']['border']( $score );

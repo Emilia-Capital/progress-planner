@@ -207,8 +207,12 @@ class Activity {
 	 */
 	public function get_points( $date ) {
 		$days = Date::get_days_between_dates( $date, $this->get_date() );
-		return ( $days > 0 && $days < 7 )
+		if ( $days > 0 ) {
+			return 0;
+		}
+		$days = abs( $days );
+		return ( $days < 0 && $days < 7 )
 			? 10
-			: 10 * ( 1 - $days / 30 );
+			: round( 10 * ( 1 - $days / 30 ) );
 	}
 }

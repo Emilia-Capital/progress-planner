@@ -14,7 +14,7 @@ $prpl_activities = \progress_planner()->get_query()->query_activities(
 	]
 );
 
-$prpl_score = 0;
+$prpl_score        = 0;
 $prpl_current_date = new \DateTime();
 foreach ( $prpl_activities as $prpl_activity ) {
 	$prpl_score += $prpl_activity->get_points( $prpl_current_date ) / 2;
@@ -26,7 +26,7 @@ $prpl_pending_updates = wp_get_update_data()['counts']['total'];
 
 // Reduce points for pending updates.
 $prpl_pending_updates_penalty = min( min( $prpl_score / 2, 25 ), $prpl_pending_updates * 5 );
-$prpl_score -= $prpl_pending_updates_penalty;
+$prpl_score                  -= $prpl_pending_updates_penalty;
 
 // Calculate the color.
 $prpl_gauge_color = 'var(--prpl-color-accent-red)';
