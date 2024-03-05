@@ -59,23 +59,16 @@ class Content extends Activity {
 		}
 		$words = Content_Helpers::get_word_count( $post->post_content );
 		if ( $words > 1000 ) {
-			$points -= 10;
+			$points *= 0.8;
 		} elseif ( $words > 350 ) {
-			$points += 5;
+			$points *= 1.25;
 		} elseif ( $words > 100 ) {
-			$points += 2;
+			$points *= 1.1;
 		} else {
-			$points -= 2;
+			$points *= 0.9;
 		}
 
-		$days = Date::get_days_between_dates( $date, $this->get_date() );
-
-		// If $days is > 0, then the activity is in the future.
-		if ( $days > 0 ) {
-			return 0;
-		}
-
-		$days = absint( $days );
+		$days = absint( Date::get_days_between_dates( $date, $this->get_date() ) );
 
 		// Maximum range for awarded points is 30 days.
 		if ( $days >= 30 ) {
@@ -84,9 +77,7 @@ class Content extends Activity {
 
 		$points = ( $days < 7 )
 			? round( $points ) // If the activity is new (less than 7 days old), award full points.
-			: round( $points * ( 1 - $days / 30 ) ); // Decay the points based on the age of the activity.
-
-		error_log( 'Days: ' . $days . ' Points: ' . $points );
+			: round( $points * max( 0, ( 1 - $days / 30 ) ) ); // Decay the points based on the age of the activity.
 
 		return $points;
 	}

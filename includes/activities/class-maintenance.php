@@ -57,12 +57,8 @@ class Maintenance extends Activity {
 		}
 
 		// Decay the points based on the age of the activity.
-		$days = Date::get_days_between_dates( $date, $this->get_date() );
-		if ( $days > 0 ) {
-			return 0;
-		}
-		$days = abs( $days );
+		$days = abs( Date::get_days_between_dates( $date, $this->get_date() ) );
 
-		return ( $days > 0 && $days < 7 ) ? $points : 0;
+		return ( $days < 7 ) ? $points : 0;
 	}
 }

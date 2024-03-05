@@ -9,6 +9,8 @@ namespace ProgressPlanner;
 
 $prpl_activities = \progress_planner()->get_query()->query_activities(
 	[
+		// Use 31 days to take into account
+		// the activities score decay from previous activities.
 		'start_date' => new \DateTime( '-31 days' ),
 		'end_date'   => new \DateTime(),
 	]

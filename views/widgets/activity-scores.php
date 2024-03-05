@@ -51,7 +51,7 @@ $prpl_color_callback = function ( $number ) {
 					$score += $activity->get_points( $date );
 				}
 				$target = 200; // 200 points is 4 posts per week.
-				return round( ( $score / $target ) * 100 );
+				return round( min( 100, ( $score / $target ) * 100 ) );
 			},
 			'additive'       => false,
 			'normalized'     => true,

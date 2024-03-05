@@ -35,7 +35,7 @@ class Chart {
 	 * @return void
 	 */
 	public function the_chart( $args = [] ) {
-		$args                 = wp_parse_args(
+		$args = wp_parse_args(
 			$args,
 			[
 				'query_params'   => [],
