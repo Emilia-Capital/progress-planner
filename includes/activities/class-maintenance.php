@@ -51,11 +51,9 @@ class Maintenance extends Activity {
 	 * @return int
 	 */
 	public function get_points( $date ) {
-		$points = 7;
-		if ( str_starts_with( $this->type, 'install_' ) ) {
-			$points = 5;
-		} elseif ( str_starts_with( $this->type, 'delete_' ) ) {
-			$points = 3;
+		$points = 2;
+		if ( str_starts_with( $this->type, 'install_' ) || str_starts_with( $this->type, 'delete_' ) ) {
+			$points = 1;
 		}
 
 		// Decay the points based on the age of the activity.

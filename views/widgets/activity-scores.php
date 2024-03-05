@@ -32,18 +32,26 @@ $prpl_color_callback = function ( $number ) {
 	<?php
 	( new Chart() )->the_chart(
 		[
-			'query_params' => [],
-			'dates_params' => [
-				'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) )->modify( '-11 months' ),
+			'query_params'   => [],
+			'dates_params'   => [
+				'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) )->modify( '-24 months' ),
 				'end'       => new \DateTime(),
 				'frequency' => 'monthly',
 				'format'    => 'M',
 			],
-			'chart_params' => [
+			'chart_params'   => [
 				'type' => 'bar',
 			],
-			'additive'     => false,
-			'colors'       => [
+			'count_callback' => function ( $activities, $date ) {
+				$score = 0;
+				foreach ( $activities as $activity ) {
+					$score += $activity->get_points( $date );
+				}
+				return round( min( 100, $score ) );
+			},
+			'additive'       => false,
+			'rolling'        => true,
+			'colors'         => [
 				'background' => $prpl_color_callback,
 				'border'     => $prpl_color_callback,
 			],

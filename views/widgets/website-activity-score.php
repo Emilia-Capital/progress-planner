@@ -7,57 +7,26 @@
 
 namespace ProgressPlanner;
 
-/*
- * Get the content score.
- */
-$prpl_content_count = count(
-	array_merge(
-		\progress_planner()->get_query()->query_activities(
-			[
-				'start_date' => new \DateTime( '-7 days' ),
-				'end_date'   => new \DateTime(),
-				'category'   => 'content',
-			]
-		),
-		\progress_planner()->get_query()->query_activities(
-			[
-				'start_date' => new \DateTime( '-7 days' ),
-				'end_date'   => new \DateTime(),
-				'category'   => 'comments',
-			]
-		)
-	)
+$prpl_activities = \progress_planner()->get_query()->query_activities(
+	[
+		'start_date' => new \DateTime( '-31 days' ),
+		'end_date'   => new \DateTime(),
+	]
 );
 
-// Target 5 content activities per week.
-$prpl_content_score = min( $prpl_content_count, 5 ) / 5;
-
-/*
- * Get the maintenance score.
- */
-$prpl_maintenance_count = count(
-	\progress_planner()->get_query()->query_activities(
-		[
-			'start_date' => new \DateTime( '-7 days' ),
-			'end_date'   => new \DateTime(),
-			'category'   => 'maintenance',
-		]
-	)
-);
+$prpl_score = 0;
+$prpl_current_date = new \DateTime();
+foreach ( $prpl_activities as $prpl_activity ) {
+	$prpl_score += $prpl_activity->get_points( $prpl_current_date ) / 2;
+}
+$prpl_score = min( 100, max( 0, $prpl_score / 2 ) );
 
 // Get the number of pending updates.
 $prpl_pending_updates = wp_get_update_data()['counts']['total'];
 
-// Target is the number of pending updates + the ones that have already been done.
-$prpl_maintenance_score = max( 1, $prpl_maintenance_count ) / max( 1, $prpl_maintenance_count + $prpl_pending_updates );
-
-/**
- * Calculate the score.
- */
-$prpl_score = 0.7 * $prpl_content_score + 0.3 * $prpl_maintenance_score;
-
-// Get the score.
-$prpl_score       = round( 100 * $prpl_score );
+// Reduce points for pending updates.
+$prpl_pending_updates_penalty = min( min( $prpl_score / 2, 25 ), $prpl_pending_updates * 5 );
+$prpl_score -= $prpl_pending_updates_penalty;
 
 // Calculate the color.
 $prpl_gauge_color = 'var(--prpl-color-accent-red)';

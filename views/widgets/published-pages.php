@@ -78,6 +78,7 @@ $prpl_all_pages_count = wp_count_posts( 'page' );
 			'chart_params'   => [
 				'type' => 'line',
 			],
+			'additive'       => true,
 		]
 	);
 	?>

@@ -107,7 +107,7 @@ $prpl_color_callback = function () {
 				],
 				'count_callback' => $prpl_count_words_callback,
 				'additive'       => false,
-				'colors'       => [
+				'colors'         => [
 					'background' => $prpl_color_callback,
 					'border'     => $prpl_color_callback,
 				],

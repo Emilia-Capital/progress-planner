@@ -22,9 +22,9 @@ class Content extends Activity {
 	 * @var array
 	 */
 	const ACTIVITIES_POINTS = [
-		'publish' => 50,
-		'update'  => 10,
-		'delete'  => 5,
+		'publish' => 20,
+		'update'  => 7,
+		'delete'  => 3,
 		'comment' => 2,
 	];
 
@@ -75,6 +75,7 @@ class Content extends Activity {
 		if ( $days > 0 ) {
 			return 0;
 		}
+
 		$days = absint( $days );
 
 		// Maximum range for awarded points is 30 days.
@@ -84,10 +85,10 @@ class Content extends Activity {
 
 		// If the activity is new (less than 7 days old), award full points.
 		if ( $days < 7 ) {
-			return (int) $points;
+			return round( $points );
 		}
 
 		// Decay the points based on the age of the activity.
-		return (int) $points * ( 1 - $days / 30 );
+		return round( $points * ( 1 - $days / 30 ) );
 	}
 }

@@ -42,7 +42,8 @@ class Chart {
 				'filter_results' => null,
 				'dates_params'   => [],
 				'chart_params'   => [],
-				'additive'       => true,
+				'additive'       => false,
+				'rolling'        => false,
 				'colors'         => [
 					'background' => function () {
 						return '#534786';
@@ -94,7 +95,7 @@ class Chart {
 		];
 
 		// Calculate zero stats to be used as the baseline.
-		$activities_count = 0;
+		$score = 0;
 		if ( $args['additive'] ) {
 			$activities = \progress_planner()->get_query()->query_activities(
 				array_merge(
@@ -108,31 +109,40 @@ class Chart {
 			if ( $args['filter_results'] ) {
 				$activities = $args['filter_results']( $activities );
 			}
-			$activities_count = $args['count_callback']( $activities );
+			$score = $args['count_callback']( $activities );
 		}
 
 		foreach ( $periods as $period ) {
-			$activities = \progress_planner()->get_query()->query_activities(
-				array_merge(
-					$args['query_params'],
-					[
-						'start_date' => $period['start'],
-						'end_date'   => $period['end'],
-					]
-				)
-			);
+			$activities = $args['rolling']
+				? \progress_planner()->get_query()->query_activities(
+					array_merge(
+						$args['query_params'],
+						[
+							'start_date' => $period['start']->modify( '-61 days' ),
+							'end_date'   => $period['end'],
+						]
+					)
+				) : \progress_planner()->get_query()->query_activities(
+					array_merge(
+						$args['query_params'],
+						[
+							'start_date' => $period['start'],
+							'end_date'   => $period['end'],
+						]
+					)
+				);
 			if ( $args['filter_results'] ) {
 				$activities = $args['filter_results']( $activities );
 			}
 
 			$data['labels'][] = $period['dates'][0]->format( $args['dates_params']['format'] );
 
-			$activities_count                 = $args['additive']
-				? $activities_count + $args['count_callback']( $activities )
-				: $args['count_callback']( $activities );
-			$datasets[0]['data'][]            = $activities_count;
-			$datasets[0]['backgroundColor'][] = $args['colors']['background']( $activities_count );
-			$datasets[0]['borderColor'][]     = $args['colors']['border']( $activities_count );
+			$score                            = $args['additive']
+				? $score + $args['count_callback']( $activities, $period['start'] )
+				: $args['count_callback']( $activities, $period['start'] );
+			$datasets[0]['data'][]            = $score;
+			$datasets[0]['backgroundColor'][] = $args['colors']['background']( $score );
+			$datasets[0]['borderColor'][]     = $args['colors']['border']( $score );
 		}
 		$data['datasets'] = $datasets;
 
