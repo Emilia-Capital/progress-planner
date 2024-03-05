@@ -52,7 +52,8 @@ class Chart {
 						return '#534786';
 					},
 				],
-				'count_callback' => function ( $activities ) {
+				// phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter
+				'count_callback' => function ( $activities, $date = null ) {
 					return count( $activities );
 				},
 			]

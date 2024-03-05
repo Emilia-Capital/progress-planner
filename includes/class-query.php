@@ -115,57 +115,64 @@ class Query {
 
 		$args = \wp_parse_args( $args, $defaults );
 
-		$where_args   = [];
-		$prepare_args = [];
-		if ( $args['start_date'] !== null ) {
-			$where_args[]   = 'date >= %s';
-			$prepare_args[] = ( $args['start_date'] instanceof \Datetime )
-				? $args['start_date']->format( 'Y-m-d H:i:s' )
-				: $args['start_date'];
-		}
-		if ( $args['end_date'] !== null ) {
-			$where_args[]   = 'date <= %s';
-			$prepare_args[] = ( $args['end_date'] instanceof \Datetime )
-				? $args['end_date']->format( 'Y-m-d H:i:s' )
-				: $args['end_date'];
-		}
-		if ( $args['category'] !== null ) {
-			$where_args[]   = 'category = %s';
-			$prepare_args[] = $args['category'];
-		}
-		if ( $args['type'] !== null ) {
-			$where_args[]   = 'type = %s';
-			$prepare_args[] = $args['type'];
-		}
-		if ( $args['data_id'] !== null ) {
-			$where_args[]   = 'data_id = %s';
-			$prepare_args[] = $args['data_id'];
-		}
+		$cache_key = 'progress-planner-activities-' . md5( wp_json_encode( $args ) );
+		$results   = wp_cache_get( $cache_key );
 
-		if ( $args['user_id'] !== null ) {
-			$where_args[]   = 'user_id = %s';
-			$prepare_args[] = $args['user_id'];
-		}
+		if ( false === $results ) {
+			$where_args   = [];
+			$prepare_args = [];
+			if ( $args['start_date'] !== null ) {
+				$where_args[]   = 'date >= %s';
+				$prepare_args[] = ( $args['start_date'] instanceof \Datetime )
+					? $args['start_date']->format( 'Y-m-d H:i:s' )
+					: $args['start_date'];
+			}
+			if ( $args['end_date'] !== null ) {
+				$where_args[]   = 'date <= %s';
+				$prepare_args[] = ( $args['end_date'] instanceof \Datetime )
+					? $args['end_date']->format( 'Y-m-d H:i:s' )
+					: $args['end_date'];
+			}
+			if ( $args['category'] !== null ) {
+				$where_args[]   = 'category = %s';
+				$prepare_args[] = $args['category'];
+			}
+			if ( $args['type'] !== null ) {
+				$where_args[]   = 'type = %s';
+				$prepare_args[] = $args['type'];
+			}
+			if ( $args['data_id'] !== null ) {
+				$where_args[]   = 'data_id = %s';
+				$prepare_args[] = $args['data_id'];
+			}
 
-		$results = ( empty( $where_args ) )
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-			? $wpdb->get_results(
-				$wpdb->prepare( 'SELECT * FROM %i', $wpdb->prefix . static::TABLE_NAME )
-			)
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-			: $wpdb->get_results(
-				// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- This is a false positive.
-				$wpdb->prepare(
-					sprintf(
-						'SELECT * FROM %%i WHERE %s',
-						\implode( ' AND ', $where_args )
-					),
-					array_merge(
-						[ $wpdb->prefix . static::TABLE_NAME ],
-						$prepare_args
-					)
+			if ( $args['user_id'] !== null ) {
+				$where_args[]   = 'user_id = %s';
+				$prepare_args[] = $args['user_id'];
+			}
+
+			$results = ( empty( $where_args ) )
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+				? $wpdb->get_results(
+					$wpdb->prepare( 'SELECT * FROM %i SORT BY date', $wpdb->prefix . static::TABLE_NAME )
 				)
-			);
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+				: $wpdb->get_results(
+					// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- This is a false positive.
+					$wpdb->prepare(
+						sprintf(
+							'SELECT * FROM %%i WHERE %s',
+							\implode( ' AND ', $where_args )
+						),
+						array_merge(
+							[ $wpdb->prefix . static::TABLE_NAME ],
+							$prepare_args
+						)
+					)
+				);
+
+			wp_cache_set( $cache_key, $results );
+		}
 
 		return 'RAW' === $return_type
 			? $results
