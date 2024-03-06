@@ -206,6 +206,10 @@ class Badges {
 					],
 				],
 				'progress_callback' => function ( $target ) {
+					$oldest_activity = \progress_planner()->get_query()->get_oldest_activity();
+					if ( null === $oldest_activity ) {
+						return 0;
+					}
 					$goal = new Goal_Recurring(
 						new Goal_Posts(
 							[
@@ -229,7 +233,7 @@ class Badges {
 							]
 						),
 						'weekly',
-						\progress_planner()->get_query()->get_oldest_activity()->get_date(), // Beginning of the stats.
+						$oldest_activity->get_date(), // Beginning of the stats.
 						new \DateTime() // Today.
 					);
 

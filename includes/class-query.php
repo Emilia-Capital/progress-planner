@@ -358,7 +358,7 @@ class Query {
 	/**
 	 * Get oldest activity.
 	 *
-	 * @return \ProgressPlanner\Activity
+	 * @return \ProgressPlanner\Activity|null Returns null if there are no activities.
 	 */
 	public function get_oldest_activity() {
 		global $wpdb;
@@ -370,6 +370,10 @@ class Query {
 				$wpdb->prefix . static::TABLE_NAME
 			)
 		);
+
+		if ( empty( $results ) ) {
+			return null;
+		}
 
 		$class_name = $this->get_activity_class_name( $result->category );
 		$activity   = new $class_name();

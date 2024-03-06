@@ -98,19 +98,22 @@ class Chart {
 		// Calculate zero stats to be used as the baseline.
 		$score = 0;
 		if ( $args['additive'] ) {
-			$activities = \progress_planner()->get_query()->query_activities(
-				array_merge(
-					$args['query_params'],
-					[
-						'start_date' => \progress_planner()->get_query()->get_oldest_activity()->get_date(),
-						'end_date'   => $periods[0]['dates'][0]->modify( '-1 day' ),
-					]
-				)
-			);
-			if ( $args['filter_results'] ) {
-				$activities = $args['filter_results']( $activities );
+			$oldest_activity = \progress_planner()->get_query()->get_oldest_activity();
+			if ( null !== $oldest_activity ) {
+				$activities = \progress_planner()->get_query()->query_activities(
+					array_merge(
+						$args['query_params'],
+						[
+							'start_date' => $oldest_activity->get_date(),
+							'end_date'   => $periods[0]['dates'][0]->modify( '-1 day' ),
+						]
+					)
+				);
+				if ( $args['filter_results'] ) {
+					$activities = $args['filter_results']( $activities );
+				}
+				$score = $args['count_callback']( $activities );
 			}
-			$score = $args['count_callback']( $activities );
 		}
 
 		foreach ( $periods as $period ) {
