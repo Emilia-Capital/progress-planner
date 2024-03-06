@@ -151,13 +151,15 @@ document.getElementById( 'prpl-select-frequency' ).addEventListener( 'change', f
 	window.location.href = url.href;
 } );
 
-document.getElementById( 'prpl-dev-stats-numbers' ).addEventListener( 'submit', function( event ) {
-	event.preventDefault();
-	const inputs = this.querySelectorAll( 'input' );
-	const url = new URL( window.location.href );
+if ( document.getElementById( 'prpl-dev-stats-numbers' ) ) {
+	document.getElementById( 'prpl-dev-stats-numbers' ).addEventListener( 'submit', function( event ) {
+		event.preventDefault();
+		const inputs = this.querySelectorAll( 'input' );
+		const url = new URL( window.location.href );
 
-	inputs.forEach( input => {
-		url.searchParams.set( input.name, input.value );
+		inputs.forEach( input => {
+			url.searchParams.set( input.name, input.value );
+		} );
+		window.location.href = url.href;
 	} );
-	window.location.href = url.href;
-} );
+}
