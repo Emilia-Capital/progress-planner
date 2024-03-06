@@ -37,15 +37,25 @@ class Content_Helpers {
 	 *
 	 * @return int
 	 */
-	public static function get_word_count( $content ) {
+	public static function get_word_count( $content, $post_id = 0 ) {
+		static $counts = [];
+		if ( $post_id && isset( $counts[ $post_id ] ) ) {
+			return $counts[ $post_id ];
+		}
+
 		// Parse blocks and shortcodes.
 		$content = \do_blocks( \do_shortcode( $content ) );
 
 		// Strip HTML.
 		$content = \wp_strip_all_tags( $content, true );
 
-		// Count words.
-		return \str_word_count( $content );
+		$count = \str_word_count( $content );
+
+		if ( $post_id ) {
+			$counts[ $post_id ] = $count;
+		}
+
+		return $count;
 	}
 
 	/**

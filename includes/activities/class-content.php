@@ -50,7 +50,7 @@ class Content extends Activity {
 		if ( ! $post ) {
 			return 0;
 		}
-		$words = Content_Helpers::get_word_count( $post->post_content );
+		$words = Content_Helpers::get_word_count( $post->post_content, $post->ID );
 		if ( $words > 1000 ) {
 			$points *= $dev_config['content-1000-plus-words-multiplier'];
 		} elseif ( $words > 350 ) {

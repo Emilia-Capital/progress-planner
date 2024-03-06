@@ -31,7 +31,8 @@ $prpl_count_words_callback = function ( $activities ) {
 	$words = 0;
 	foreach ( $activities as $activity ) {
 		$words += Content_Helpers::get_word_count(
-			$activity->get_post()->post_content
+			$activity->get_post()->post_content,
+			$activity->get_data_id()
 		);
 	}
 	return $words;
