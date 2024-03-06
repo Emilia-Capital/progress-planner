@@ -371,7 +371,7 @@ class Query {
 			)
 		);
 
-		if ( empty( $results ) ) {
+		if ( ! $result ) {
 			return null;
 		}
 
