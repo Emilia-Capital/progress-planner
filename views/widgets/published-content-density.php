@@ -28,14 +28,13 @@ $prpl_query_args = [
  * @return int
  */
 $prpl_count_words_callback = function ( $activities ) {
-	return Content_Helpers::get_posts_stats_by_ids(
-		array_map(
-			function ( $activity ) {
-				return $activity->get_data_id();
-			},
-			$activities
-		)
-	)['words'];
+	$words = 0;
+	foreach ( $activities as $activity ) {
+		$words += Content_Helpers::get_word_count(
+			$activity->get_post()->post_content
+		);
+	}
+	return $words;
 };
 
 /**

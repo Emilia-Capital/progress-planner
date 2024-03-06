@@ -67,47 +67,4 @@ class Content_Helpers {
 		$activity->set_user_id( $post->post_author );
 		return $activity;
 	}
-
-	/**
-	 * Get posts by dates.
-	 *
-	 * @param array $query_args The query arguments. See WP_Query for more details.
-	 *
-	 * @return array
-	 */
-	private static function get_posts_stats_by_query( $query_args ) {
-		$key           = md5( wp_json_encode( $query_args ) );
-		static $cached = [];
-		if ( ! isset( $cached[ $key ] ) ) {
-			$cached[ $key ] = get_posts(
-				wp_parse_args(
-					$query_args,
-					[ 'posts_per_page' => -1 ]
-				)
-			);
-		}
-
-		$posts = $cached[ $key ];
-
-		return [
-			'count' => count( $posts ),
-			'words' => array_sum( array_map( [ __CLASS__, 'get_word_count' ], wp_list_pluck( $posts, 'post_content' ) ) ),
-		];
-	}
-
-	/**
-	 * Get posts stats from an array of post-IDs.
-	 *
-	 * @param int[] $post_ids The post-IDs.
-	 *
-	 * @return array
-	 */
-	public static function get_posts_stats_by_ids( $post_ids ) {
-		return self::get_posts_stats_by_query(
-			[
-				'post__in'       => $post_ids,
-				'posts_per_page' => count( $post_ids ),
-			]
-		);
-	}
 }
