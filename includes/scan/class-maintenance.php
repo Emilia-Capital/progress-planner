@@ -82,16 +82,9 @@ class Maintenance {
 	/**
 	 * On delete plugin.
 	 *
-	 * @param string $plugin The plugin.
-	 * @param bool   $deleted Whether the plugin was deleted.
-	 *
 	 * @return void
 	 */
-	public function on_delete_plugin( $plugin, $deleted ) {
-		if ( ! $deleted ) {
-			return;
-		}
-
+	public function on_delete_plugin() {
 		$activity = new Activity_Maintenance();
 		$activity->set_type( 'delete_plugin' );
 		$activity->save();
@@ -105,11 +98,7 @@ class Maintenance {
 	 *
 	 * @return void
 	 */
-	public function on_delete_theme( $theme, $deleted ) {
-		if ( ! $deleted ) {
-			return;
-		}
-
+	public function on_delete_theme() {
 		$activity = new Activity_Maintenance();
 		$activity->set_type( 'delete_theme' );
 		$activity->save();
@@ -156,6 +145,17 @@ class Maintenance {
 	 * @return string
 	 */
 	protected function get_update_type( $options ) {
+		return isset( $options['type'] ) ? $options['type'] : 'unknown';
+	}
+
+	/**
+	 * Get the type of the install.
+	 *
+	 * @param array $options The options.
+	 *
+	 * @return string
+	 */
+	protected function get_install_type( $options ) {
 		return isset( $options['type'] ) ? $options['type'] : 'unknown';
 	}
 }
