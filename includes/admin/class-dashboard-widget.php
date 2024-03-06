@@ -34,15 +34,7 @@ class Dashboard_Widget {
 	 * Render the dashboard widget.
 	 */
 	public function render_dashboard_widget() {
-		$scan_pending = empty(
-			\progress_planner()->get_query()->query_activities(
-				[
-					'category' => 'content',
-					'type'     => 'publish',
-				]
-			)
-		);
-
+		$scan_pending = empty( \progress_planner()->get_query()->query_activities( [] ) );
 		?>
 		<div class="prpl-dashboard-widget">
 			<?php if ( $scan_pending ) : ?>

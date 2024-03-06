@@ -7,14 +7,7 @@
 
 namespace ProgressPlanner;
 
-$prpl_scan_pending = empty(
-	\progress_planner()->get_query()->query_activities(
-		[
-			'category' => 'content',
-			'type'     => 'publish',
-		]
-	)
-);
+$prpl_scan_pending = empty( \progress_planner()->get_query()->query_activities( [] ) );
 ?>
 <div class="wrap prpl-wrap">
 	<h1 class="screen-reader-text"><?php \esc_html_e( 'Progress Planner', 'progress-planner' ); ?></h1>
