@@ -56,6 +56,7 @@ class Chart {
 				'count_callback' => function ( $activities, $date = null ) {
 					return count( $activities );
 				},
+				'max'            => null,
 			]
 		);
 		$args['chart_params'] = wp_parse_args(
@@ -164,7 +165,9 @@ class Chart {
 
 			$score = $args['additive'] ? $score + $period_score : $period_score;
 
-			$datasets[0]['data'][]            = $score;
+			$datasets[0]['data'][]            = null === $args['max']
+				? $score
+				: min( $score, $args['max'] );
 			$datasets[0]['backgroundColor'][] = $args['colors']['background']( $score );
 			$datasets[0]['borderColor'][]     = $args['colors']['border']( $score );
 		}

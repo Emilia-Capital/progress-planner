@@ -53,7 +53,7 @@ $prpl_color_callback = function ( $number ) {
 					$score += $activity->get_points( $date );
 				}
 				$target = \progress_planner()->get_dev_config( 'activity-score-target' );
-				return round( min( 100, ( $score / $target ) * 100 ) );
+				return $score / $target;
 			},
 			'additive'       => false,
 			'normalized'     => true,
