@@ -61,6 +61,7 @@ $prpl_color_callback = function ( $number ) {
 				'background' => $prpl_color_callback,
 				'border'     => $prpl_color_callback,
 			],
+			'max'            => 100,
 		]
 	);
 	?>
