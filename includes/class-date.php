@@ -70,6 +70,9 @@ class Date {
 				$date_ranges[] = static::get_range( $date, $period[ $key + 1 ] );
 			}
 		}
+		if ( empty( $date_ranges ) ) {
+			return [];
+		}
 		if ( $end->format( 'z' ) !== end( $date_ranges )['end']->format( 'z' ) ) {
 			$date_ranges[] = static::get_range( end( $date_ranges )['end'], $end );
 		}
