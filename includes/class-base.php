@@ -67,6 +67,21 @@ class Base {
 	}
 
 	/**
+	 * Get the activation date.
+	 *
+	 * @return \DateTime
+	 */
+	public static function get_activation_date() {
+		$activation_date = get_option( 'progress_planner_activation_date' );
+		if ( ! $activation_date ) {
+			$activation_date = new \DateTime();
+			update_option( 'progress_planner_activation_date', $activation_date->format( 'Y-m-d' ) );
+			return $activation_date;
+		}
+		return \DateTime::createFromFormat( 'Y-m-d', $activation_date );
+	}
+
+	/**
 	 * THIS SHOULD BE DELETED.
 	 * WE ONLY HAVE IT HERE TO EXPERIMENT WITH THE NUMBERS
 	 * WE'LL HAVE TO USE FOR STATS/SCORES.

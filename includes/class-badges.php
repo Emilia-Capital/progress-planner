@@ -9,6 +9,7 @@ namespace ProgressPlanner;
 
 use ProgressPlanner\Goals\Goal_Recurring;
 use ProgressPlanner\Goals\Goal_Posts;
+use ProgressPlanner\Base;
 
 /**
  * Badges class.
@@ -111,105 +112,111 @@ class Badges {
 	private function register_badges() {
 		// Badges for number of posts.
 		$this->register_badge(
-			'content_published_count',
+			'content_writing',
 			[
 				'steps'             => [
 					[
-						'target' => 100,
-						'name'   => __( '100 Posts', 'progress-planner' ),
+						'target' => 'wonderful-writer',
+						'name'   => __( 'Wonderful Writer', 'progress-planner' ),
 						'icon'   => '🏆',
 					],
 					[
-						'target' => 1000,
-						'name'   => __( '1000 Posts', 'progress-planner' ),
+						'target' => 'awesome-author',
+						'name'   => __( 'Awesome Author', 'progress-planner' ),
 						'icon'   => '🏆',
 					],
 					[
-						'target' => 2000,
-						'name'   => __( '2000 Posts', 'progress-planner' ),
-						'icon'   => '🏆',
-					],
-					[
-						'target' => 5000,
-						'name'   => __( '5000 Posts', 'progress-planner' ),
+						'target' => 'notorious-novelist',
+						'name'   => __( 'Notorious Novelist', 'progress-planner' ),
 						'icon'   => '🏆',
 					],
 				],
 				'progress_callback' => function ( $target ) {
-					$activities = \progress_planner()->get_query()->query_activities(
-						[
-							'category' => 'content',
-							'type'     => 'publish',
-						]
-					);
-					return min( floor( 100 * count( $activities ) / $target ), 100 );
-				},
-			]
-		);
+					// Evaluation for the "Wonderful writer" badge.
+					if ( 'wonderful-writer' === $target ) {
+						$existing_count = count(
+							\progress_planner()->get_query()->query_activities(
+								[
+									'category' => 'content',
+									'type'     => 'publish',
+								]
+							)
+						);
+						// Targeting 200 existing posts.
+						$existing_progress = max( 100, floor( $existing_count / 2 ) );
+						if ( 100 <= $existing_progress ) {
+							return 100;
+						}
+						$new_count = count(
+							\progress_planner()->get_query()->query_activities(
+								[
+									'category'   => 'content',
+									'type'       => 'publish',
+									'start_date' => Base::get_activation_date(),
+								],
+							)
+						);
+						// Targeting 10 new posts.
+						$new_progress = max( 100, floor( $new_count * 10 ) );
 
-		// 100 maintenance tasks.
-		$this->register_badge(
-			'maintenance_tasks',
-			[
-				'steps'             => [
-					[
-						'target' => 10,
-						'name'   => __( '10 maintenance tasks', 'progress-planner' ),
-						'icon'   => '🏆',
-					],
-					[
-						'target' => 100,
-						'name'   => __( '100 maintenance tasks', 'progress-planner' ),
-						'icon'   => '🏆',
-					],
-					[
-						'target' => 1000,
-						'name'   => __( '1000 maintenance tasks', 'progress-planner' ),
-						'icon'   => '🏆',
-					],
-				],
-				'progress_callback' => function ( $target ) {
-					$activities = \progress_planner()->get_query()->query_activities(
-						[
-							'category' => 'maintenance',
-						]
-					);
-					return min( floor( 100 * count( $activities ) / $target ), 100 );
+						return max( $existing_progress, $new_progress );
+					}
+
+					// Evaluation for the "Awesome author" badge.
+					if ( 'awesome-author' === $target ) {
+						$new_count = count(
+							\progress_planner()->get_query()->query_activities(
+								[
+									'category'   => 'content',
+									'type'       => 'publish',
+									'start_date' => Base::get_activation_date(),
+								],
+							)
+						);
+						// Targeting 30 new posts.
+						return min( 100, floor( 100 * $new_count / 30 ) );
+					}
+
+					// Evaluation for the "Notorious novelist" badge.
+					if ( 'notorious-novelist' === $target ) {
+						$new_count = count(
+							\progress_planner()->get_query()->query_activities(
+								[
+									'category'   => 'content',
+									'type'       => 'publish',
+									'start_date' => Base::get_activation_date(),
+								],
+							)
+						);
+						// Targeting 50 new posts.
+						return min( 100, floor( 50 * $new_count / 100 ) );
+					}
 				},
 			]
 		);
 
 		// Write a post for 10 consecutive weeks.
 		$this->register_badge(
-			'consecutive_weeks_posts',
+			'streak_any_task',
 			[
 				'steps'             => [
 					[
-						'target' => 10,
-						'name'   => __( '10 weeks posting streak', 'progress-planner' ),
+						'target' => 6,
+						'name'   => __( 'Progress Professional', 'progress-planner' ),
+						'icon'   => '🏆',
+					],
+					[
+						'target' => 26,
+						'name'   => __( 'Maintenance Maniac', 'progress-planner' ),
 						'icon'   => '🏆',
 					],
 					[
 						'target' => 52,
-						'name'   => __( '52 weeks posting streak', 'progress-planner' ),
-						'icon'   => '🏆',
-					],
-					[
-						'target' => 104,
-						'name'   => __( '104 weeks posting streak', 'progress-planner' ),
-						'icon'   => '🏆',
-					],
-					[
-						'target' => 208,
-						'name'   => __( '208 weeks posting streak', 'progress-planner' ),
+						'name'   => __( 'Super Site Specialist', 'progress-planner' ),
 						'icon'   => '🏆',
 					],
 				],
 				'progress_callback' => function ( $target ) {
-					$oldest_activity = \progress_planner()->get_query()->get_oldest_activity();
-					if ( null === $oldest_activity ) {
-						return 0;
-					}
 					$goal = new Goal_Recurring(
 						new Goal_Posts(
 							[
@@ -233,7 +240,7 @@ class Badges {
 							]
 						),
 						'weekly',
-						$oldest_activity->get_date(), // Beginning of the stats.
+						Base::get_activation_date(),
 						new \DateTime() // Today.
 					);
 

@@ -174,6 +174,10 @@ class Query {
 			wp_cache_set( $cache_key, $results );
 		}
 
+		if ( ! $results ) {
+			return [];
+		}
+
 		return 'RAW' === $return_type
 			? $results
 			: $this->get_activities_from_results( $results );
