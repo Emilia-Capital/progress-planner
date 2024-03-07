@@ -241,7 +241,8 @@ class Badges {
 						),
 						'weekly',
 						Base::get_activation_date(),
-						new \DateTime() // Today.
+						new \DateTime(), // Today.
+						1 // Allow break in the streak for 1 week.
 					);
 
 					return min( floor( 100 * $goal->get_streak()['max_streak'] / $target ), 100 );

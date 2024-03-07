@@ -43,6 +43,13 @@ class Goal_Recurring {
 	private $end;
 
 	/**
+	 * The number of breaks in the streak that are allowed.
+	 *
+	 * @var int
+	 */
+	private $allowed_break = 0;
+
+	/**
 	 * An array of occurences.
 	 *
 	 * @var Goal[]
@@ -54,14 +61,16 @@ class Goal_Recurring {
 	 *
 	 * @param \ProgressPlanner\Goals\Goal $goal      The goal object.
 	 * @param string                      $frequency The goal frequency.
-	 * @param int|string                  $start     The start date.
-	 * @param int|string                  $end       The end date.
+	 * @param \DateTime                   $start     The start date.
+	 * @param \DateTime                   $end       The end date.
+	 * @param int                         $allowed_break The number of breaks in the streak that are allowed.
 	 */
-	public function __construct( $goal, $frequency, $start, $end ) {
-		$this->goal      = $goal;
-		$this->frequency = $frequency;
-		$this->start     = $start;
-		$this->end       = $end;
+	public function __construct( $goal, $frequency, $start, $end, $allowed_break = 0 ) {
+		$this->goal          = $goal;
+		$this->frequency     = $frequency;
+		$this->start         = $start;
+		$this->end           = $end;
+		$this->allowed_break = $allowed_break;
 	}
 
 	/**
@@ -136,6 +145,12 @@ class Goal_Recurring {
 				$max_streak = max( $max_streak, $streak_nr );
 				continue;
 			}
+
+			if ( $this->allowed_break > 0 ) {
+				--$this->allowed_break;
+				continue;
+			}
+
 			$streak_nr = 0;
 		}
 
