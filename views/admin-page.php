@@ -6,7 +6,8 @@
  */
 
 namespace ProgressPlanner;
-$prpl_scan_pending = empty( \progress_planner()->get_query()->get_oldest_activity() );
+
+$prpl_scan_pending = null === \progress_planner()->get_query()->get_oldest_activity();
 ?>
 <div class="wrap prpl-wrap">
 	<h1 class="screen-reader-text"><?php \esc_html_e( 'Progress Planner', 'progress-planner' ); ?></h1>
