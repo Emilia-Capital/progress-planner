@@ -43,7 +43,7 @@ class Date {
 	 * @return array
 	 */
 	public static function get_periods( $start, $end, $frequency ) {
-		$end = $end->modify( '+1 day' );
+		$end->modify( '+1 day' );
 
 		switch ( $frequency ) {
 			case 'daily':
