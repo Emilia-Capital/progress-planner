@@ -20,12 +20,12 @@ $prpl_scan_pending = null === \progress_planner()->get_query()->get_oldest_activ
 			<?php
 			foreach ( [
 				'website-activity-score',
-				'published-content',
 				'activity-scores',
 				// 'latest-badge',
 				// 'published-pages',
 				// 'published-posts',
 				'published-content-density',
+				'published-content',
 				'published-words',
 				'badges-progress',
 				'__filter-numbers',
