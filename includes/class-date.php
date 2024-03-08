@@ -74,7 +74,8 @@ class Date {
 			return [];
 		}
 		if ( $end->format( 'z' ) !== end( $date_ranges )['end']->format( 'z' ) ) {
-			$date_ranges[] = static::get_range( end( $date_ranges )['end'], $end );
+			$final_end     = clone end( $date_ranges )['end'];
+			$date_ranges[] = static::get_range( $final_end->modify( '+1 day' ), $end );
 		}
 
 		return $date_ranges;

@@ -101,7 +101,8 @@ class Chart {
 		if ( $args['additive'] ) {
 			$oldest_activity = \progress_planner()->get_query()->get_oldest_activity();
 			if ( null !== $oldest_activity ) {
-				$end_date   = clone $periods[0]['dates'][0];
+				$end_date = clone $args['dates_params']['start'];
+				$end_date->modify( '-1 day' );
 				$activities = \progress_planner()->get_query()->query_activities(
 					array_merge(
 						$args['query_params'],
@@ -143,7 +144,7 @@ class Chart {
 					$args['query_params'],
 					[
 						'start_date' => $period['start'],
-						'end_date'   => $period['end']->modify( '-1 day' ),
+						'end_date'   => $period['end'],
 					]
 				)
 			);
