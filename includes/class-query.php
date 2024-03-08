@@ -124,13 +124,13 @@ class Query {
 			if ( $args['start_date'] !== null ) {
 				$where_args[]   = 'date >= %s';
 				$prepare_args[] = ( $args['start_date'] instanceof \Datetime )
-					? $args['start_date']->format( 'Y-m-d H:i:s' )
+					? $args['start_date']->format( 'Y-m-d' )
 					: $args['start_date'];
 			}
 			if ( $args['end_date'] !== null ) {
 				$where_args[]   = 'date <= %s';
 				$prepare_args[] = ( $args['end_date'] instanceof \Datetime )
-					? $args['end_date']->format( 'Y-m-d H:i:s' )
+					? $args['end_date']->format( 'Y-m-d' )
 					: $args['end_date'];
 			}
 			if ( $args['category'] !== null ) {
