@@ -122,15 +122,13 @@ class Chart {
 			if ( null !== $oldest_activity ) {
 				// Get the activities before the first period.
 				// We need to subtract one day from the start date to get the activities before the first period.
-				$end_date = clone $args['dates_params']['start'];
-				$end_date->modify( '-1 day' );
 				// Get all activities before the first period.
 				$activities = \progress_planner()->get_query()->query_activities(
 					array_merge(
 						$args['query_params'],
 						[
 							'start_date' => $oldest_activity->get_date(),
-							'end_date'   => $end_date,
+							'end_date'   => ( clone $periods[0]['start'] )->modify( '-1 day' ),
 						]
 					)
 				);
