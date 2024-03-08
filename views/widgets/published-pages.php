@@ -35,7 +35,7 @@ $prpl_all_pages_count = wp_count_posts( 'page' );
 <div class="prpl-top-counter-bottom-content">
 	<div class="counter-big-wrapper">
 		<span class="counter-big-number">
-			<?php echo esc_html( $prpl_last_week_pages ); ?>
+			<?php echo esc_html( number_format_i18n( $prpl_last_week_pages ) ); ?>
 		</span>
 		<span class="counter-big-text">
 			<?php esc_html_e( 'pages published', 'progress-planner' ); ?>
@@ -48,10 +48,10 @@ $prpl_all_pages_count = wp_count_posts( 'page' );
 			<?php else : ?>
 				<?php
 				printf(
-					/* translators: %1$d: number of posts published this week. %2$d: Total number of pages. */
+					/* translators: %1$s: number of posts published this week. %2$s: Total number of pages. */
 					esc_html__( 'Good job! You added %1$s pages in the past week. You now have %2$s pages in total.', 'progress-planner' ),
-					esc_html( $prpl_last_week_pages ),
-					esc_html( $prpl_all_pages_count->publish )
+					esc_html( number_format_i18n( $prpl_last_week_pages ) ),
+					esc_html( number_format_i18n( $prpl_all_pages_count->publish ) )
 				);
 				?>
 			<?php endif; ?>

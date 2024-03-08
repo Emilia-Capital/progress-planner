@@ -35,7 +35,7 @@ $prpl_all_posts_count = wp_count_posts();
 <div class="prpl-top-counter-bottom-content">
 	<div class="counter-big-wrapper">
 		<span class="counter-big-number">
-			<?php echo esc_html( $prpl_last_week_posts ); ?>
+			<?php echo esc_html( number_format_i18n( $prpl_last_week_posts ) ); ?>
 		</span>
 		<span class="counter-big-text">
 			<?php esc_html_e( 'posts published', 'progress-planner' ); ?>
@@ -48,10 +48,10 @@ $prpl_all_posts_count = wp_count_posts();
 			<?php else : ?>
 				<?php
 				printf(
-					/* translators: %1$d: number of posts published this week. %2$d: Total number of posts. */
-					esc_html__( 'Good job! You added %1$d posts in the past week. You now have %2$d posts in total.', 'progress-planner' ),
-					esc_html( $prpl_last_week_posts ),
-					esc_html( $prpl_all_posts_count->publish )
+					/* translators: %1$s: number of posts published this week. %2$s: Total number of posts. */
+					esc_html__( 'Good job! You added %1$s posts in the past week. You now have %2$s posts in total.', 'progress-planner' ),
+					esc_html( number_format_i18n( $prpl_last_week_posts ) ),
+					esc_html( number_format_i18n( $prpl_all_posts_count->publish ) )
 				);
 				?>
 			<?php endif; ?>

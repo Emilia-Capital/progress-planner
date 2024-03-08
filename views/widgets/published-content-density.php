@@ -75,7 +75,7 @@ $prpl_weekly_activities_density = $prpl_count_density_callback(
 <div class="prpl-top-counter-bottom-content">
 	<div class="counter-big-wrapper">
 		<span class="counter-big-number">
-			<?php echo esc_html( $prpl_weekly_activities_density ); ?>
+			<?php echo esc_html( number_format_i18n( $prpl_weekly_activities_density ) ); ?>
 		</span>
 		<span class="counter-big-text">
 			<?php esc_html_e( 'content density', 'progress-planner' ); ?>
@@ -85,10 +85,10 @@ $prpl_weekly_activities_density = $prpl_count_density_callback(
 		<p>
 			<?php
 			printf(
-				/* translators: %d: number of words/post published this week. */
-				esc_html__( 'You have written content with an average density of %1$d words/post in the past 7 days. Your all-time average is %2$d', 'progress-planner' ),
-				esc_html( $prpl_weekly_activities_density ),
-				esc_html( $prpl_all_activities_density )
+				/* translators: %1$s: number of words/post published this week. %2$s: All-time average number. */
+				esc_html__( 'You have written content with an average density of %1$s words/post in the past 7 days. Your all-time average is %2$s', 'progress-planner' ),
+				esc_html( number_format_i18n( $prpl_weekly_activities_density ) ),
+				esc_html( number_format_i18n( $prpl_all_activities_density ) )
 			);
 			?>
 		</p>
