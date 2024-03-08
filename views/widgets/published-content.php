@@ -99,7 +99,7 @@ foreach ( $prpl_post_types as $prpl_post_type ) {
 				'chart_params' => [
 					'type' => 'line',
 				],
-				'additive'     => false,
+				'additive'     => true,
 			],
 		);
 		?>
