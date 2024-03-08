@@ -45,7 +45,23 @@ $prpl_color_callback = function ( $number ) {
 				'format'    => 'M',
 			],
 			'chart_params'   => [
-				'type' => 'bar',
+				'type'    => 'bar',
+				'options' => [
+					'responsive'          => true,
+					'maintainAspectRatio' => false,
+					'pointStyle'          => false,
+					'plugins'             => [
+						'legend' => [
+							'display' => false,
+						],
+					],
+					'scales' => [
+						'yAxis' => [
+							'min' => 0,
+							'max' => 100,
+						],
+					],
+				],
 			],
 			'count_callback' => function ( $activities, $date ) {
 				$score = 0;

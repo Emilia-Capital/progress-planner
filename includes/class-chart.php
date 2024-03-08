@@ -94,6 +94,8 @@ class Chart {
 		$datasets = [
 			[
 				'label'           => '',
+				'xAxisID'         => 'xAxis',
+				'yAxisID'         => 'yAxis',
 				'data'            => [],
 				'tension'         => 0.2,
 				'backgroundColor' => [],
