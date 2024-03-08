@@ -19,9 +19,8 @@ class Date {
 	 * @param string|int $end   The end date.
 	 *
 	 * @return array [
-	 *                 'start' => 'Ymd',
-	 *                 'end'   => 'Ymd',
-	 *                 'dates' => [ 'Ymd', 'Ymd', ... ],
+	 *                 'start' => \DateTime,
+	 *                 'end'   => \DateTime,
 	 *               ].
 	 */
 	public static function get_range( $start, $end ) {
@@ -29,7 +28,6 @@ class Date {
 		return [
 			'start' => $dates[0],
 			'end'   => end( $dates ),
-			'dates' => $dates,
 		];
 	}
 
