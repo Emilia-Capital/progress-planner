@@ -70,6 +70,13 @@ class Chart {
 					'responsive'          => true,
 					'maintainAspectRatio' => false,
 					'pointStyle'          => false,
+					'scales'              => [
+						'yAxis' => [
+							'ticks' => [
+								'precision' => 0,
+							],
+						],
+					],
 					'plugins'             => [
 						'legend' => [
 							'display' => false,
