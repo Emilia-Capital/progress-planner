@@ -173,21 +173,27 @@ Set variables.
 	margin-top: -1em;
 }
 
-.progress-wrapper .progress-bar {
+.prpl-widget-wrapper.prpl-badges-progress .progress-bar {
 	height: 1em;
 	background-color: var(--prpl-color-gray-1);
 	width: 100%;
 	display: inline-block;
 }
 
-.progress-wrapper .progress-bar > span {
+.prpl-widget-wrapper.prpl-badges-progress .progress-bar > span {
 	background-color: var(--color);
 	height: 1em;
 	display: block;
 }
 
-.progress-wrapper .progress-label {
+.prpl-widget-wrapper.prpl-badges-progress .progress-label {
 	display: inline-block;
+}
+
+.prpl-widget-wrapper.prpl-badges-progress .progress-wrapper {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-gap: var(--prpl-gap);
 }
 
 .prpl-widget-wrapper.prpl-published-content table {

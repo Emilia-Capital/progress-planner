@@ -96,7 +96,7 @@ class Badges {
 		foreach ( $badge['steps'] as $step ) {
 			$progress[] = [
 				'name'     => $step['name'],
-				'icon'     => $step['icon'],
+				'icons'    => $step['icons-svg'],
 				'progress' => $badge['progress_callback']( $step['target'] ),
 			];
 		}
@@ -116,19 +116,28 @@ class Badges {
 			[
 				'steps'             => [
 					[
-						'target' => 'wonderful-writer',
-						'name'   => __( 'Wonderful Writer', 'progress-planner' ),
-						'icon'   => '🏆',
+						'target'    => 'wonderful-writer',
+						'name'      => __( 'Wonderful Writer', 'progress-planner' ),
+						'icons-svg' => [
+							\PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge1_gray.svg',
+							\PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge1.svg',
+						],
 					],
 					[
-						'target' => 'awesome-author',
-						'name'   => __( 'Awesome Author', 'progress-planner' ),
-						'icon'   => '🏆',
+						'target'    => 'awesome-author',
+						'name'      => __( 'Awesome Author', 'progress-planner' ),
+						'icons-svg' => [
+							\PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge2_gray.svg',
+							\PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge2.svg',
+						],
 					],
 					[
-						'target' => 'notorious-novelist',
-						'name'   => __( 'Notorious Novelist', 'progress-planner' ),
-						'icon'   => '🏆',
+						'target'    => 'notorious-novelist',
+						'name'      => __( 'Notorious Novelist', 'progress-planner' ),
+						'icons-svg' => [
+							\PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge3_gray.svg',
+							\PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge3.svg',
+						],
 					],
 				],
 				'progress_callback' => function ( $target ) {
@@ -201,19 +210,28 @@ class Badges {
 			[
 				'steps'             => [
 					[
-						'target' => 6,
-						'name'   => __( 'Progress Professional', 'progress-planner' ),
-						'icon'   => '🏆',
+						'target'    => 6,
+						'name'      => __( 'Progress Professional', 'progress-planner' ),
+						'icons-svg' => [
+							\PROGRESS_PLANNER_DIR . '/assets/images/badges/streak_badge1_gray.svg',
+							\PROGRESS_PLANNER_DIR . '/assets/images/badges/streak_badge1.svg',
+						],
 					],
 					[
-						'target' => 26,
-						'name'   => __( 'Maintenance Maniac', 'progress-planner' ),
-						'icon'   => '🏆',
+						'target'    => 26,
+						'name'      => __( 'Maintenance Maniac', 'progress-planner' ),
+						'icons-svg' => [
+							\PROGRESS_PLANNER_DIR . '/assets/images/badges/streak_badge2_gray.svg',
+							\PROGRESS_PLANNER_DIR . '/assets/images/badges/streak_badge2.svg',
+						],
 					],
 					[
-						'target' => 52,
-						'name'   => __( 'Super Site Specialist', 'progress-planner' ),
-						'icon'   => '🏆',
+						'target'    => 52,
+						'name'      => __( 'Super Site Specialist', 'progress-planner' ),
+						'icons-svg' => [
+							\PROGRESS_PLANNER_DIR . '/assets/images/badges/streak_badge3_gray.svg',
+							\PROGRESS_PLANNER_DIR . '/assets/images/badges/streak_badge3.svg',
+						],
 					],
 				],
 				'progress_callback' => function ( $target ) {
