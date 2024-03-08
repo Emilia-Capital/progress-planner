@@ -72,7 +72,7 @@ foreach ( $prpl_post_types as $prpl_post_type ) {
 			<tbody>
 				<?php foreach ( $prpl_post_types as $prpl_post_type ) : ?>
 					<tr>
-						<td><?php echo esc_html( $prpl_post_type ); ?></td>
+						<td><?php echo esc_html( get_post_type_object( $prpl_post_type )->labels->name ); ?></td>
 						<td><?php echo esc_html( number_format_i18n( $prpl_last_week_content[ $prpl_post_type ] ) ); ?></td>
 						<td><?php echo esc_html( number_format_i18n( $prpl_all_content_count[ $prpl_post_type ] ) ); ?></td>
 					</tr>
