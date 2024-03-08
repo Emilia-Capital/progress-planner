@@ -35,6 +35,9 @@ class Chart {
 	 * @return void
 	 */
 	public function the_chart( $args = [] ) {
+		/*
+		 * Set default values for the arguments.
+		 */
 		$args = wp_parse_args(
 			$args,
 			[
@@ -76,12 +79,14 @@ class Chart {
 			]
 		);
 
+		// Get the periods for the chart.
 		$periods = Date::get_periods(
 			$args['dates_params']['start'],
 			$args['dates_params']['end'],
 			$args['dates_params']['frequency']
 		);
 
+		// Prepare the data for the chart.
 		$data     = [
 			'labels'   => [],
 			'datasets' => [],
@@ -96,13 +101,21 @@ class Chart {
 			],
 		];
 
-		// Calculate zero stats to be used as the baseline.
+		/*
+		 * Calculate zero stats to be used as the baseline.
+		 *
+		 * If this is an "additive" chart,
+		 * we need to calculate the score for all activities before the first period.
+		 */
 		$score = 0;
 		if ( $args['additive'] ) {
 			$oldest_activity = \progress_planner()->get_query()->get_oldest_activity();
 			if ( null !== $oldest_activity ) {
+				// Get the activities before the first period.
+				// We need to subtract one day from the start date to get the activities before the first period.
 				$end_date = clone $args['dates_params']['start'];
 				$end_date->modify( '-1 day' );
+				// Get all activities before the first period.
 				$activities = \progress_planner()->get_query()->query_activities(
 					array_merge(
 						$args['query_params'],
@@ -112,13 +125,21 @@ class Chart {
 						]
 					)
 				);
+				// Filter the results if a callback is provided.
 				if ( $args['filter_results'] ) {
 					$activities = $args['filter_results']( $activities );
 				}
+				// Calculate the score for the activities.
 				$score = $args['count_callback']( $activities );
 			}
 		}
 
+		/*
+		 * "Normalized" charts decay the score of previous months activities,
+		 * and add them to the current month score.
+		 * This means that for "normalized" charts, we need to get activities
+		 * for the month prior to the first period.
+		 */
 		$previous_month_activities = [];
 		if ( $args['normalized'] ) {
 			$previous_month_start = clone $periods[0]['start'];
@@ -138,7 +159,9 @@ class Chart {
 			}
 		}
 
+		// Loop through the periods and calculate the score for each period.
 		foreach ( $periods as $period ) {
+			// Get the activities for the period.
 			$activities = \progress_planner()->get_query()->query_activities(
 				array_merge(
 					$args['query_params'],
@@ -148,13 +171,18 @@ class Chart {
 					]
 				)
 			);
+			// Filter the results if a callback is provided.
 			if ( $args['filter_results'] ) {
 				$activities = $args['filter_results']( $activities );
 			}
 
-			$data['labels'][] = $period['dates'][0]->format( $args['dates_params']['format'] );
+			// Add the label for the period.
+			$data['labels'][] = $period['start']->format( $args['dates_params']['format'] );
 
+			// Calculate the score for the period.
 			$period_score = $args['count_callback']( $activities, $period['start'] );
+
+			// If this is a "normalized" chart, we need to calculate the score for the previous month activities.
 			if ( $args['normalized'] ) {
 				// Add the previous month activities to the current month score.
 				$period_score += $args['count_callback']( $previous_month_activities, $period['start'] );
@@ -162,11 +190,15 @@ class Chart {
 				$previous_month_activities = $activities;
 			}
 
+			// "Additive" charts add the score for the period to the previous score.
 			$score = $args['additive'] ? $score + $period_score : $period_score;
 
-			$datasets[0]['data'][]            = null === $args['max']
+			// Apply a "max" limit to the score if max is defined in the arguments.
+			$datasets[0]['data'][] = null === $args['max']
 				? $score
 				: min( $score, $args['max'] );
+
+			// Calculate the colors for the score.
 			$datasets[0]['backgroundColor'][] = $args['colors']['background']( $score );
 			$datasets[0]['borderColor'][]     = $args['colors']['border']( $score );
 		}
