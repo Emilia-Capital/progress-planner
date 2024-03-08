@@ -14,33 +14,33 @@ $prpl_active_range = isset( $_GET['range'] ) ? sanitize_text_field( wp_unslash( 
 // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 $prpl_active_frequency = isset( $_GET['frequency'] ) ? sanitize_text_field( wp_unslash( $_GET['frequency'] ) ) : 'monthly';
 
-// Get the content published this week.
-$prpl_last_week_content = count(
-	get_posts(
-		[
-			'post_status'    => 'publish',
-			'post_type'      => Content_Helpers::get_post_types_names(),
-			'date_query'     => [
-				[
-					'after' => '1 week ago',
+$prpl_post_types        = Content_Helpers::get_post_types_names();
+$prpl_last_week_content = [];
+$prpl_all_content_count = [];
+foreach ( $prpl_post_types as $prpl_post_type ) {
+	// Get the content published this week.
+	$prpl_last_week_content[ $prpl_post_type ] = count(
+		get_posts(
+			[
+				'post_status'    => 'publish',
+				'post_type'      => $prpl_post_type,
+				'date_query'     => [
+					[
+						'after' => '1 week ago',
+					],
 				],
-			],
-			'posts_per_page' => 100,
-		]
-	)
-);
-
-// Get the total number of posts for this week.
-$prpl_all_content_count = 0;
-foreach ( Content_Helpers::get_post_types_names() as $prpl_post_type ) {
-	$prpl_all_content_count += wp_count_posts( $prpl_post_type )->publish;
+				'posts_per_page' => 100,
+			]
+		)
+	);
+	// Get the total number of posts for this post-type.
+	$prpl_all_content_count[ $prpl_post_type ] = wp_count_posts( $prpl_post_type )->publish;
 }
-
 ?>
 <div class="prpl-top-counter-bottom-content">
 	<div class="counter-big-wrapper">
 		<span class="counter-big-number">
-			<?php echo esc_html( number_format_i18n( $prpl_last_week_content ) ); ?>
+			<?php echo esc_html( number_format_i18n( array_sum( $prpl_last_week_content ) ) ); ?>
 		</span>
 		<span class="counter-big-text">
 			<?php esc_html_e( 'content published', 'progress-planner' ); ?>
@@ -55,12 +55,30 @@ foreach ( Content_Helpers::get_post_types_names() as $prpl_post_type ) {
 				printf(
 					/* translators: %1$s: number of posts/pages published this week. %2$s: Total number of posts. */
 					esc_html__( 'Good job! You added %1$s pieces of content in the past week. You now have %2$s in total.', 'progress-planner' ),
-					esc_html( number_format_i18n( $prpl_last_week_content ) ),
-					esc_html( number_format_i18n( $prpl_all_content_count ) )
+					esc_html( number_format_i18n( array_sum( $prpl_last_week_content ) ) ),
+					esc_html( number_format_i18n( array_sum( $prpl_all_content_count ) ) )
 				);
 				?>
 			<?php endif; ?>
 		</p>
+		<table>
+			<thead>
+				<tr>
+					<th><?php esc_html_e( 'Content type', 'progress-planner' ); ?></th>
+					<th><?php esc_html_e( 'Last week', 'progress-planner' ); ?></th>
+					<th><?php esc_html_e( 'Total', 'progress-planner' ); ?></th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php foreach ( $prpl_post_types as $prpl_post_type ) : ?>
+					<tr>
+						<td><?php echo esc_html( $prpl_post_type ); ?></td>
+						<td><?php echo esc_html( number_format_i18n( $prpl_last_week_content[ $prpl_post_type ] ) ); ?></td>
+						<td><?php echo esc_html( number_format_i18n( $prpl_all_content_count[ $prpl_post_type ] ) ); ?></td>
+					</tr>
+				<?php endforeach; ?>
+			</tbody>
+		</table>
 	</div>
 </div>
 <div class="prpl-graph-wrapper">
