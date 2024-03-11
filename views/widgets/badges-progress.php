@@ -38,17 +38,18 @@ $prpl_get_progress_color = function ( $progress ) {
 		<?php $prpl_badge_progress = \progress_planner()->get_badges()->get_badge_progress( $prpl_badge['id'] ); ?>
 		<?php foreach ( $prpl_badge_progress as $prpl_badge_step => $prpl_badge_step_progress ) : ?>
 			<?php $prpl_badge_completed = 100 === (int) $prpl_badge_step_progress['progress']; ?>
-			<span class="prpl-badge" data-value="<?php echo esc_attr( $prpl_badge_step_progress['progress'] ); ?>">
+			<span
+				class="prpl-badge"
+				data-value="<?php echo esc_attr( $prpl_badge_step_progress['progress'] ); ?>"
+			>
 				<p style="font-size:var(--prpl-font-size-small);">
 					<?php echo esc_html( $prpl_badge_step_progress['name'] ); ?>
 				</p>
-				<?php include ( $prpl_badge_completed ) ? $prpl_badge_step_progress['icons'][1] : $prpl_badge_step_progress['icons'][0]; ?>
-				<div class="progress-bar">
-					<span style="width: <?php echo esc_attr( $prpl_badge_step_progress['progress'] ); ?>%; --color: <?php echo esc_attr( $prpl_get_progress_color( $prpl_badge_step_progress['progress'] ) ); ?>;"></span>
-				</div>
-				<div class="progress-label">
-					<?php echo esc_attr( $prpl_badge_step_progress['progress'] ); ?>%
-				</div>
+				<?php
+				include $prpl_badge_completed
+					? $prpl_badge_step_progress['icons'][1]
+					: $prpl_badge_step_progress['icons'][0];
+				?>
 			</span>
 		<?php endforeach; ?>
 		<hr>

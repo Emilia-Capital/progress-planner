@@ -173,19 +173,6 @@ Set variables.
 	margin-top: -1em;
 }
 
-.prpl-widget-wrapper.prpl-badges-progress .progress-bar {
-	height: 1em;
-	background-color: var(--prpl-color-gray-1);
-	width: 100%;
-	display: inline-block;
-}
-
-.prpl-widget-wrapper.prpl-badges-progress .progress-bar > span {
-	background-color: var(--color);
-	height: 1em;
-	display: block;
-}
-
 .prpl-widget-wrapper.prpl-badges-progress .progress-label {
 	display: inline-block;
 }
@@ -217,4 +204,36 @@ Set variables.
 
 .prpl-widget-wrapper.prpl-published-content tr:last-child td {
 	border-bottom: none;
+}
+
+.prpl-badges-columns-wrapper {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-gap: var(--prpl-gap);
+}
+
+.prpl-badge-gauge {
+	--cutout: 50%;
+	width: 100%;
+	aspect-ratio: 1 / 1;
+	border-radius: 100%;
+	background:
+		radial-gradient( var(--prpl-background-blue) 0 var(--cutout), transparent var(--cutout) 100% ),
+		conic-gradient(
+			from -135deg,
+			var(--color) calc( 270deg * var(--value) ),
+			var(--prpl-color-gray-1) calc( 270deg * var(--value) ) 270deg,
+			transparent 270deg
+		);
+	text-align: center;
+}
+
+.prpl-badge-gauge svg {
+	aspect-ratio: 1.15;
+}
+
+.prpl-badge-wrapper {
+	background: var(--prpl-background-blue);
+	padding: var(--prpl-gap);
+	border-radius: var(--prpl-border-radius);
 }

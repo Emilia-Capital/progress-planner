@@ -28,6 +28,7 @@ $prpl_scan_pending = null === \progress_planner()->get_query()->get_oldest_activ
 				'published-content',
 				'published-words',
 				'badges-progress',
+				'badge-content',
 				'plugins',
 				'__filter-numbers',
 			] as $prpl_widget ) {
