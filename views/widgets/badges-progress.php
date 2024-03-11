@@ -42,16 +42,13 @@ $prpl_get_progress_color = function ( $progress ) {
 				class="prpl-badge"
 				data-value="<?php echo esc_attr( $prpl_badge_step_progress['progress'] ); ?>"
 			>
-				<p style="font-size:var(--prpl-font-size-small);">
-					<?php echo esc_html( $prpl_badge_step_progress['name'] ); ?>
-				</p>
 				<?php
 				include $prpl_badge_completed
 					? $prpl_badge_step_progress['icons'][1]
 					: $prpl_badge_step_progress['icons'][0];
 				?>
+				<p><?php echo esc_html( $prpl_badge_step_progress['name'] ); ?></p>
 			</span>
 		<?php endforeach; ?>
-		<hr>
 	</div>
 <?php endforeach; ?>

@@ -256,3 +256,24 @@ Set variables.
 	height: 100%;
 	max-height: 500px;
 }
+
+.prpl-widget-wrapper.prpl-badge-streak .prpl-badge-wrapper {
+	background-color: var(--prpl-background-red);
+}
+
+.prpl-widget-wrapper.prpl-badges-progress .progress-wrapper {
+	background-color: var(--prpl-background-blue);
+	padding: calc(var(--prpl-gap) / 2);
+	border-radius: var(--prpl-border-radius);
+	margin-bottom: var(--prpl-gap);
+}
+
+.prpl-widget-wrapper.prpl-badges-progress .progress-wrapper p {
+	margin: 0;
+	font-size:var(--prpl-font-size-small);
+	text-align:center;
+}
+
+.prpl-widget-wrapper.prpl-badges-progress .progress-wrapper + .progress-wrapper {
+	background-color: var(--prpl-background-red);
+}
