@@ -28,6 +28,7 @@ $prpl_scan_pending = null === \progress_planner()->get_query()->get_oldest_activ
 				'published-content',
 				'published-words',
 				'badges-progress',
+				'plugins',
 				'__filter-numbers',
 			] as $prpl_widget ) {
 				echo '<div class="prpl-widget-wrapper prpl-' . esc_attr( $prpl_widget ) . '">';
