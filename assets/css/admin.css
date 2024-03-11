@@ -2,7 +2,7 @@
 Set variables.
 */
 .prpl-wrap {
-	--prpl-gap: 20px;
+	--prpl-gap: 32px;
 	--prpl-column-min-width: 20rem;
 	--prpl-max-columns: 4;
 	--prpl-border-radius: 7px;
