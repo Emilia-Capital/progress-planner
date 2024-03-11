@@ -39,6 +39,8 @@ if ( $prpl_score > 75 ) {
 	$prpl_gauge_color = 'var(--prpl-color-accent-green)';
 }
 
+$prpl_score = floor( $prpl_score );
+
 ?>
 <h2 class="prpl-widget-title">
 	<?php esc_html_e( 'Website activity score', 'progress-planner' ); ?>
