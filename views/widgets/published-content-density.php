@@ -72,48 +72,50 @@ $prpl_weekly_activities_density = $prpl_count_density_callback(
 );
 
 ?>
-<div class="prpl-top-counter-bottom-content">
-	<div class="counter-big-wrapper">
-		<span class="counter-big-number">
-			<?php echo esc_html( number_format_i18n( $prpl_weekly_activities_density ) ); ?>
-		</span>
-		<span class="counter-big-text">
-			<?php esc_html_e( 'content density', 'progress-planner' ); ?>
-		</span>
+<div class="two-col">
+	<div class="prpl-top-counter-bottom-content">
+		<div class="counter-big-wrapper">
+			<span class="counter-big-number">
+				<?php echo esc_html( number_format_i18n( $prpl_weekly_activities_density ) ); ?>
+			</span>
+			<span class="counter-big-text">
+				<?php esc_html_e( 'content density', 'progress-planner' ); ?>
+			</span>
+		</div>
+		<div class="prpl-widget-content">
+			<p>
+				<?php
+				printf(
+					/* translators: %1$s: number of words/post published this week. %2$s: All-time average number. */
+					esc_html__( 'You have written content with an average density of %1$s words/post in the past 7 days. Your all-time average is %2$s', 'progress-planner' ),
+					esc_html( number_format_i18n( $prpl_weekly_activities_density ) ),
+					esc_html( number_format_i18n( $prpl_all_activities_density ) )
+				);
+				?>
+			</p>
+		</div>
 	</div>
-	<div class="prpl-widget-content">
-		<p>
-			<?php
-			printf(
-				/* translators: %1$s: number of words/post published this week. %2$s: All-time average number. */
-				esc_html__( 'You have written content with an average density of %1$s words/post in the past 7 days. Your all-time average is %2$s', 'progress-planner' ),
-				esc_html( number_format_i18n( $prpl_weekly_activities_density ) ),
-				esc_html( number_format_i18n( $prpl_all_activities_density ) )
-			);
-			?>
-		</p>
+	<div class="prpl-graph-wrapper">
+		<?php
+		( new Chart() )->the_chart(
+			[
+				'query_params'   => [
+					'category' => 'content',
+					'type'     => 'publish',
+				],
+				'dates_params'   => [
+					'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) )->modify( $prpl_active_range ),
+					'end'       => new \DateTime(),
+					'frequency' => $prpl_active_frequency,
+					'format'    => 'M',
+				],
+				'chart_params'   => [
+					'type' => 'line',
+				],
+				'count_callback' => $prpl_count_density_callback,
+				'additive'       => false,
+			],
+		);
+		?>
 	</div>
-</div>
-<div class="prpl-graph-wrapper">
-	<?php
-	( new Chart() )->the_chart(
-		[
-			'query_params'   => [
-				'category' => 'content',
-				'type'     => 'publish',
-			],
-			'dates_params'   => [
-				'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) )->modify( $prpl_active_range ),
-				'end'       => new \DateTime(),
-				'frequency' => $prpl_active_frequency,
-				'format'    => 'M',
-			],
-			'chart_params'   => [
-				'type' => 'line',
-			],
-			'count_callback' => $prpl_count_density_callback,
-			'additive'       => false,
-		],
-	);
-	?>
 </div>
