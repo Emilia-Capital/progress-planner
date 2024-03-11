@@ -48,6 +48,8 @@ $prpl_get_progress_color = function ( $progress ) {
 				class="prpl-badge-gauge"
 				style="
 					--value:<?php echo esc_attr( $prpl_badge['progress'] / 100 ); ?>;
+					--max: 360deg;
+					--start: 180deg;
 					--color:<?php echo esc_attr( $prpl_get_progress_color( $prpl_badge['progress'] ) ); ?>
 				">
 				<?php include $prpl_badge['icons'][1]; ?>
