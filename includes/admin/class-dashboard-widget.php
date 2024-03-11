@@ -34,25 +34,15 @@ class Dashboard_Widget {
 	 * Render the dashboard widget.
 	 */
 	public function render_dashboard_widget() {
-		$scan_pending = empty( \progress_planner()->get_query()->query_activities( [] ) );
+		// Enqueue Chart.js.
+		// TODO: Use a local copy of Chart.js and properly enqueue it.
+		echo '<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>';
 		?>
 		<div class="prpl-dashboard-widget">
-			<?php if ( $scan_pending ) : ?>
-				<p>
-					<?php
-					printf(
-						/* translators: %s: URL to the admin page, with text "the Progress Planner admin page" */
-						esc_html__( 'You haven\'t scanned your posts yet. Please visit %s to scan your site and get started!', 'progress-planner' ),
-						'<a href="' . esc_url( \get_admin_url( null, 'admin.php?page=progress-planner' ) ) . '">' . esc_html__( 'the Progress Planner admin page', 'progress-planner' ) . '</a>'
-					)
-					?>
-				</p>
-			<?php else : ?>
-				<?php include PROGRESS_PLANNER_DIR . '/views/widgets/activity-scores.php'; ?>
-				<a href="<?php echo esc_url( \get_admin_url( null, 'admin.php?page=progress-planner' ) ); ?>">
-					<?php esc_html_e( 'See more details', 'progress-planner' ); ?>
-				</a>
-			<?php endif; ?>
+			<?php include PROGRESS_PLANNER_DIR . '/views/widgets/activity-scores.php'; ?>
+			<a href="<?php echo esc_url( \get_admin_url( null, 'admin.php?page=progress-planner' ) ); ?>">
+				<?php esc_html_e( 'See more details', 'progress-planner' ); ?>
+			</a>
 		</div>
 		<?php
 	}

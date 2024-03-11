@@ -262,6 +262,7 @@ class Content {
 
 		if ( ! $posts ) {
 			\delete_option( static::LAST_SCANNED_PAGE_OPTION );
+			\update_option( 'progress_planner_content_scanned', true, false );
 			return [
 				'lastScannedPage' => $current_page,
 				'lastPage'        => $total_pages,
@@ -293,6 +294,7 @@ class Content {
 		\progress_planner()->get_query()->delete_category_activities( 'content' );
 		\progress_planner()->get_query()->delete_category_activities( 'maintenance' );
 		\delete_option( static::LAST_SCANNED_PAGE_OPTION );
+		\delete_option( 'progress_planner_content_scanned' );
 	}
 
 	/**
