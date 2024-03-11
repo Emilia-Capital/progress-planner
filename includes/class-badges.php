@@ -93,6 +93,10 @@ class Badges {
 
 		$progress = [];
 
+		if ( ! isset( $badge['steps'] ) ) {
+			return $badge['progress_callback']();
+		}
+
 		foreach ( $badge['steps'] as $step ) {
 			$progress[] = [
 				'name'     => $step['name'],
@@ -114,6 +118,7 @@ class Badges {
 		$this->register_badge(
 			'content_writing',
 			[
+				'public'            => true,
 				'steps'             => [
 					[
 						'target'    => 'wonderful-writer',
@@ -208,6 +213,7 @@ class Badges {
 		$this->register_badge(
 			'streak_any_task',
 			[
+				'public'            => true,
 				'steps'             => [
 					[
 						'target'    => 6,
@@ -264,6 +270,45 @@ class Badges {
 					);
 
 					return min( floor( 100 * $goal->get_streak()['max_streak'] / $target ), 100 );
+				},
+			]
+		);
+
+		// Write a post for 10 consecutive weeks.
+		$this->register_badge(
+			'personal_record_content',
+			[
+				'public'            => false,
+				'progress_callback' => function () {
+					$goal = new Goal_Recurring(
+						new Goal_Posts(
+							[
+								'id'          => 'weekly_post',
+								'title'       => \esc_html__( 'Write a weekly blog post', 'progress-planner' ),
+								'description' => \esc_html__( 'Streak: The number of weeks this goal has been accomplished consistently.', 'progress-planner' ),
+								'status'      => 'active',
+								'priority'    => 'low',
+								'evaluate'    => function ( $goal_object ) {
+									return (bool) count(
+										\progress_planner()->get_query()->query_activities(
+											[
+												'category' => 'content',
+												'type'     => 'publish',
+												'start_date' => $goal_object->get_details()['start_date'],
+												'end_date' => $goal_object->get_details()['end_date'],
+											]
+										)
+									);
+								},
+							]
+						),
+						'weekly',
+						new \DateTime( '-2 years' ), // 2 years ago.
+						new \DateTime(), // Today.
+						0 // Do not allow breaks in the streak.
+					);
+
+					return $goal->get_streak()['max_streak'];
 				},
 			]
 		);

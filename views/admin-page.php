@@ -30,6 +30,7 @@ $prpl_scan_pending = null === \progress_planner()->get_query()->get_oldest_activ
 				'plugins',
 				'badge-content',
 				'badge-streak',
+				'personal-record-content',
 			],
 			[
 				'latest-badge',

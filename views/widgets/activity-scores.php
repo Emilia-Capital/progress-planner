@@ -55,7 +55,7 @@ $prpl_color_callback = function ( $number ) {
 							'display' => false,
 						],
 					],
-					'scales' => [
+					'scales'              => [
 						'yAxis' => [
 							'min' => 0,
 							'max' => 100,

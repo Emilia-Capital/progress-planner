@@ -34,6 +34,11 @@ $prpl_get_progress_color = function ( $progress ) {
 </h2>
 
 <?php foreach ( $prpl_badges as $prpl_badge ) : ?>
+	<?php
+	if ( true !== $prpl_badge['public'] ) {
+		continue;
+	}
+	?>
 	<div class="progress-wrapper">
 		<?php $prpl_badge_progress = \progress_planner()->get_badges()->get_badge_progress( $prpl_badge['id'] ); ?>
 		<?php foreach ( $prpl_badge_progress as $prpl_badge_step => $prpl_badge_step_progress ) : ?>
