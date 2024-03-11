@@ -47,14 +47,21 @@ $prpl_score = floor( $prpl_score );
 </h2>
 
 <div class="two-col">
-	<div class="prpl-gauge-container" style="--percent: <?php echo esc_attr( $prpl_score ); ?>;--accent: <?php echo esc_attr( $prpl_gauge_color ); ?>;">
-		<div class="prpl-gauge">
+	<div class="prpl-activities-gauge-container">
+		<div
+			class="prpl-activities-gauge"
+			style="
+				--value:<?php echo esc_attr( $prpl_score / 100 ); ?>;
+				--background: var(--prpl-background-orange);
+				--max: 360deg;
+				--start: 180deg;
+				--color:<?php echo esc_attr( $prpl_gauge_color ); ?>"
+		>
 			<span class="prpl-gauge-number">
 				<?php echo esc_html( $prpl_score ); ?>
 			</span>
 		</div>
 	</div>
-
 	<div>
 		<p>Bla bla bla</p>
 		<p>Bla bla bli</p>

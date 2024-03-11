@@ -146,32 +146,6 @@ Set variables.
 	justify-content: center;
 }
 
-.prpl-gauge-container {
-	padding: var(--prpl-gap);
-	background-color: var(--prpl-background-orange);
-	border-radius: var(--prpl-border-radius);
-	height: 50%;
-	overflow: hidden;
-}
-
-.prpl-gauge {
-	--deg: calc(var(--percent) * 1.8deg); /* 100% = 180deg */
-	--thickness: 2rem;
-	width: 100%;
-	aspect-ratio: 1;
-	background-image:
-		radial-gradient(closest-side, var(--prpl-background-orange) 0%, var(--prpl-background-orange) calc(100% - var(--thickness)), transparent calc(100% - var(--thickness))),
-		conic-gradient(from -90deg, var(--accent) 0deg var(--deg), transparent var(--deg) 180deg),
-		conic-gradient(from -90deg, var(--prpl-color-gray-1) 0deg 180deg, transparent 180deg);
-	border-radius: 50%;
-	display: flex;
-	justify-content: center;
-	box-sizing: border-box;
-	margin: 0;
-	padding: 0;
-	align-items: center;
-}
-
 .progress-percent {
 	font-size: var(--prpl-font-size-3xl);
 	line-height: 1;
@@ -225,20 +199,43 @@ Set variables.
 	grid-gap: var(--prpl-gap);
 }
 
-.prpl-badge-gauge {
+.prpl-badge-gauge,
+.prpl-activities-gauge {
+	--background: var(--prpl-background-blue);
 	--cutout: 50%;
+	--max: 270deg;
+	--start: -135deg;
 	width: 100%;
 	aspect-ratio: 1 / 1;
 	border-radius: 100%;
+	position: relative;
 	background:
-		radial-gradient( var(--prpl-background-blue) 0 var(--cutout), transparent var(--cutout) 100% ),
+		radial-gradient( var(--background) 0 var(--cutout), transparent var(--cutout) 100% ),
 		conic-gradient(
-			from -135deg,
-			var(--color) calc( 270deg * var(--value) ),
-			var(--prpl-color-gray-1) calc( 270deg * var(--value) ) 270deg,
-			transparent 270deg
+			from var(--start),
+			var(--color) calc( var(--max) * var(--value) ),
+			var(--prpl-color-gray-1) calc( var(--max) * var(--value) ) var(--max),
+			transparent var(--max)
 		);
 	text-align: center;
+}
+
+.prpl-activities-gauge-container {
+	padding: var(--prpl-gap);
+	background: var(--prpl-background-orange);
+	border-radius: var(--prpl-border-radius);
+	aspect-ratio: 1 / 1;
+	top: 50%;
+}
+
+.prpl-activities-gauge-container .prpl-gauge-number {
+	display: block;
+	padding-top: 50%;
+	font-weight: 700;
+	text-align: center;
+	position: absolute;
+	width: 100%;
+	line-height: 2;
 }
 
 .prpl-badge-gauge svg {
@@ -258,7 +255,7 @@ Set variables.
 }
 
 .prpl-widget-wrapper.prpl-badge-streak .prpl-badge-wrapper {
-	background-color: var(--prpl-background-red);
+	background-color: var(--prpl-background-orange);
 }
 
 .prpl-widget-wrapper.prpl-badges-progress .progress-wrapper {
@@ -275,5 +272,5 @@ Set variables.
 }
 
 .prpl-widget-wrapper.prpl-badges-progress .progress-wrapper + .progress-wrapper {
-	background-color: var(--prpl-background-red);
+	background-color: var(--prpl-background-orange);
 }
