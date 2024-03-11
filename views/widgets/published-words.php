@@ -38,11 +38,6 @@ $prpl_count_words_callback = function ( $activities ) {
 	return $words;
 };
 
-// Get the all-time words count.
-$prpl_all_time_words = $prpl_count_words_callback(
-	\progress_planner()->get_query()->query_activities( $prpl_query_args )
-);
-
 // Get the weekly words count.
 $prpl_this_week_words = $prpl_count_words_callback(
 	\progress_planner()->get_query()->query_activities(
@@ -84,9 +79,8 @@ $prpl_color_callback = function () {
 					<?php
 					printf(
 						/* translators: %1$s: number of posts published this week. %2$s: Total number of posts. */
-						esc_html__( 'Great! You have written %1$s words in the past 7 days. You now have %2$s words in total.', 'progress-planner' ),
+						esc_html__( 'Great! You have written %1$s words in the past 7 days.', 'progress-planner' ),
 						esc_html( number_format_i18n( $prpl_this_week_words ) ),
-						esc_html( number_format_i18n( $prpl_all_time_words ) ),
 					);
 					?>
 				<?php endif; ?>
