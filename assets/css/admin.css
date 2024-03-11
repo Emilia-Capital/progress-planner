@@ -172,6 +172,14 @@ Set variables.
 	align-items: center;
 }
 
+.progress-percent {
+	font-size: var(--prpl-font-size-3xl);
+	line-height: 1;
+	font-weight: 600;
+	display: block;
+	text-align: center;
+}
+
 .prpl-gauge-number {
 	font-size: var(--prpl-font-size-4xl);
 	line-height: 1;

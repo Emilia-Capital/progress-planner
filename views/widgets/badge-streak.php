@@ -53,6 +53,7 @@ $prpl_get_progress_color = function ( $progress ) {
 				<?php include $prpl_badge['icons'][1]; ?>
 			</div>
 		</span>
+		<span class="progress-percent"><?php echo esc_attr( $prpl_badge['progress'] ); ?>%</span>
 	</div>
 	<div class="prpl-badge-content-wrapper">
 		<h2 class="prpl-widget-title">
