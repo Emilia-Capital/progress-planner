@@ -8,7 +8,7 @@
 namespace ProgressPlanner;
 
 // Get an array of badges.
-$prpl_badges = \progress_planner()->get_badges()->get_badge_progress( 'content_writing' );
+$prpl_badges = \progress_planner()->get_badges()->get_badge_progress( 'streak_any_task' );
 
 // Get the badge to display.
 foreach ( $prpl_badges as $prpl_badge_step ) {
