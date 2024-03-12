@@ -60,7 +60,7 @@ class Settings {
 	 *                              See _wp_array_set() for more information.
 	 * @param mixed        $value   The value.
 	 *
-	 * @return void
+	 * @return bool
 	 */
 	public static function set( $setting, $value ) {
 		self::load_settings();
@@ -69,7 +69,7 @@ class Settings {
 		} else {
 			self::$settings[ $setting ] = $value;
 		}
-		self::save_settings();
+		return self::save_settings();
 	}
 
 	/**
@@ -78,16 +78,19 @@ class Settings {
 	 * @return void
 	 */
 	private static function load_settings() {
+		if ( ! empty( self::$settings ) ) {
+			return;
+		}
 		self::$settings = \get_option( self::OPTION_NAME, [] );
 	}
 
 	/**
 	 * Save the settings.
 	 *
-	 * @return void
+	 * @return bool
 	 */
 	private static function save_settings() {
-		\update_option( self::OPTION_NAME, self::$settings, false );
+		return \update_option( self::OPTION_NAME, self::$settings, false );
 	}
 
 	/**
@@ -95,21 +98,21 @@ class Settings {
 	 *
 	 * @param string $setting The setting.
 	 *
-	 * @return void
+	 * @return bool
 	 */
 	public static function delete( $setting ) {
 		self::load_settings();
 		unset( self::$settings[ $setting ] );
-		self::save_settings();
+		return self::save_settings();
 	}
 
 	/**
 	 * Delete all settings.
 	 *
-	 * @return void
+	 * @return bool
 	 */
 	public static function delete_all() {
 		self::$settings = [];
-		self::save_settings();
+		return self::save_settings();
 	}
 }
