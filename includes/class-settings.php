@@ -39,6 +39,12 @@ class Settings {
 	 */
 	public static function get( $setting, $default_value = null ) {
 		self::load_settings();
+
+		// TODO: DELETE THIS PART. It's here for backward compatibility on test sites.
+		if ( 'activation_date' === $setting ) {
+			return \get_option( 'progress_planner_activation_date' );
+		}
+
 		if ( is_array( $setting ) ) {
 			return \_wp_array_get( self::$settings, $setting, $default_value );
 		}
