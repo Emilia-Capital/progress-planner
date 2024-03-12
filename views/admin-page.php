@@ -63,6 +63,6 @@ $prpl_existing_content_scanned = Settings::get( 'content_scanned', false );
 		<?php include 'admin-page-form-scan.php'; ?>
 	<?php endif; ?>
 	<hr>
-	<?php include 'admin-page-debug.php'; ?>
+	<?php require 'admin-page-debug.php'; ?>
 	<hr>
 </div>
