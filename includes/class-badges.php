@@ -10,18 +10,12 @@ namespace ProgressPlanner;
 use ProgressPlanner\Goals\Goal_Recurring;
 use ProgressPlanner\Goals\Goal_Posts;
 use ProgressPlanner\Base;
+use ProgressPlanner\Settings;
 
 /**
  * Badges class.
  */
 class Badges {
-
-	/**
-	 * The name of the badges option.
-	 *
-	 * @var string
-	 */
-	const OPTION_NAME = 'progress_planner_badges';
 
 	/**
 	 * Registered badges.
@@ -41,7 +35,7 @@ class Badges {
 	 * Constructor.
 	 */
 	public function __construct() {
-		$this->badges_progress = \get_option( self::OPTION_NAME, [] );
+		$this->badges_progress = Settings::get( 'badges', [] );
 		$this->register_badges();
 	}
 

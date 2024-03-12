@@ -7,7 +7,9 @@
 
 namespace ProgressPlanner;
 
-$prpl_existing_content_scanned = get_option( 'progress_planner_content_scanned', false );
+use ProgressPlanner\Settings;
+
+$prpl_existing_content_scanned = Settings::get( 'content_scanned', false );
 ?>
 <div class="wrap prpl-wrap">
 	<h1 class="screen-reader-text"><?php \esc_html_e( 'Progress Planner', 'progress-planner' ); ?></h1>
@@ -57,7 +59,7 @@ $prpl_existing_content_scanned = get_option( 'progress_planner_content_scanned',
 			</div>
 		<?php endforeach; ?>
 	</div>
-	<?php if ( ! get_option( 'progress_planner_content_scanned', false ) ) : ?>
+	<?php if ( ! Settings::get( 'content_scanned', false ) ) : ?>
 		<?php include 'admin-page-form-scan.php'; ?>
 	<?php endif; ?>
 	<hr>

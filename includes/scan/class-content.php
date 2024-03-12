@@ -10,6 +10,7 @@ namespace ProgressPlanner\Scan;
 use ProgressPlanner\Activities\Content_Helpers;
 use ProgressPlanner\Activities\Content as Content_Activity;
 use ProgressPlanner\Date;
+use ProgressPlanner\Settings;
 
 /**
  * Scan existing posts and populate the options.
@@ -28,7 +29,7 @@ class Content {
 	 *
 	 * @var string
 	 */
-	const LAST_SCANNED_PAGE_OPTION = 'progress_planner_stats_last_scanned_page';
+	const LAST_SCANNED_PAGE_OPTION = 'content_last_scanned_page';
 
 	/**
 	 * Constructor.
@@ -246,7 +247,7 @@ class Content {
 		// Calculate the total pages to scan.
 		$total_pages = \ceil( $total_posts_count / static::SCAN_POSTS_PER_PAGE );
 		// Get the last scanned page.
-		$last_page = (int) \get_option( static::LAST_SCANNED_PAGE_OPTION, 0 );
+		$last_page = (int) Settings::get( static::LAST_SCANNED_PAGE_OPTION, 0 );
 		// The current page to scan.
 		$current_page = $last_page + 1;
 
@@ -261,8 +262,8 @@ class Content {
 		);
 
 		if ( ! $posts ) {
-			\delete_option( static::LAST_SCANNED_PAGE_OPTION );
-			\update_option( 'progress_planner_content_scanned', true, false );
+			Settings::delete( static::LAST_SCANNED_PAGE_OPTION );
+			Settings::set( 'content_scanned', true );
 			return [
 				'lastScannedPage' => $current_page,
 				'lastPage'        => $total_pages,
@@ -276,7 +277,7 @@ class Content {
 			$activities[ $post->ID ] = Content_Helpers::get_activity_from_post( $post );
 		}
 		\progress_planner()->get_query()->insert_activities( $activities );
-		\update_option( static::LAST_SCANNED_PAGE_OPTION, $current_page );
+		Settings::set( static::LAST_SCANNED_PAGE_OPTION, $current_page );
 
 		return [
 			'lastScannedPage' => $current_page,
@@ -293,8 +294,7 @@ class Content {
 	public static function reset_stats() {
 		\progress_planner()->get_query()->delete_category_activities( 'content' );
 		\progress_planner()->get_query()->delete_category_activities( 'maintenance' );
-		\delete_option( static::LAST_SCANNED_PAGE_OPTION );
-		\delete_option( 'progress_planner_content_scanned' );
+		Settings::delete_all();
 	}
 
 	/**

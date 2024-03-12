@@ -12,6 +12,7 @@ use ProgressPlanner\Admin\Page as Admin_page;
 use ProgressPlanner\Admin\Dashboard_Widget as Admin_Dashboard_Widget;
 use ProgressPlanner\Scan\Content as Scan_Content;
 use ProgressPlanner\Scan\Maintenance as Scan_Maintenance;
+use ProgressPlanner\Settings;
 
 /**
  * Main plugin class.
@@ -72,10 +73,10 @@ class Base {
 	 * @return \DateTime
 	 */
 	public static function get_activation_date() {
-		$activation_date = get_option( 'progress_planner_activation_date' );
+		$activation_date = Settings::get( 'activation_date' );
 		if ( ! $activation_date ) {
 			$activation_date = new \DateTime();
-			update_option( 'progress_planner_activation_date', $activation_date->format( 'Y-m-d' ) );
+			Settings::set( 'activation_date', $activation_date->format( 'Y-m-d' ) );
 			return $activation_date;
 		}
 		return \DateTime::createFromFormat( 'Y-m-d', $activation_date );
