@@ -29,27 +29,40 @@ class Settings {
 	/**
 	 * Get the value of a setting.
 	 *
-	 * @param string $setting       The setting.
-	 * @param mixed  $default_value The default value.
+	 * @param string|array $setting       The setting.
+	 *                                    If a string, the name of the setting.
+	 *                                    If an array, get value recursively from the settings.
+	 *                                    See _wp_array_get() for more information.
+	 * @param mixed        $default_value The default value.
 	 *
 	 * @return mixed The value of the setting.
 	 */
 	public static function get( $setting, $default_value = null ) {
 		self::load_settings();
+		if ( is_array( $setting ) ) {
+			return \_wp_array_get( self::$settings, $setting, $default_value );
+		}
 		return self::$settings[ $setting ] ?? $default_value;
 	}
 
 	/**
 	 * Set the value of a setting.
 	 *
-	 * @param string $setting The setting.
-	 * @param mixed  $value   The value.
+	 * @param string|array $setting The setting.
+	 *                              If a string, the name of the setting.
+	 *                              If an array, set value recursively in the settings.
+	 *                              See _wp_array_set() for more information.
+	 * @param mixed        $value   The value.
 	 *
 	 * @return void
 	 */
 	public static function set( $setting, $value ) {
 		self::load_settings();
-		self::$settings[ $setting ] = $value;
+		if ( is_array( $setting ) ) {
+			\_wp_array_set( self::$settings, $setting, $value );
+		} else {
+			self::$settings[ $setting ] = $value;
+		}
 		self::save_settings();
 	}
 

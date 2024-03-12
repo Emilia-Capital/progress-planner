@@ -140,6 +140,11 @@ class Badges {
 					],
 				],
 				'progress_callback' => function ( $target ) {
+					$saved_progress = (int) Settings::get( [ 'badges', 'content_writing', $target, 'progress' ], 0 );
+					if ( 100 === $saved_progress ) {
+						return 100;
+					}
+
 					// Evaluation for the "Wonderful writer" badge.
 					if ( 'wonderful-writer' === $target ) {
 						$existing_count = count(
@@ -153,6 +158,15 @@ class Badges {
 						// Targeting 200 existing posts.
 						$existing_progress = max( 100, floor( $existing_count / 2 ) );
 						if ( 100 <= $existing_progress ) {
+							if ( $saved_progress !== $existing_progress ) {
+								Settings::set(
+									[ 'badges', 'content_writing', $target, 'progress' ],
+									[
+										'progress' => 100,
+										'date'     => ( new \DateTime() )->format( 'Y-m-d H:i:s' ),
+									]
+								);
+							}
 							return 100;
 						}
 						$new_count = count(
@@ -166,8 +180,17 @@ class Badges {
 						);
 						// Targeting 10 new posts.
 						$new_progress = max( 100, floor( $new_count * 10 ) );
-
-						return max( $existing_progress, $new_progress );
+						$final        = max( $existing_progress, $new_progress );
+						if ( $saved_progress !== $final ) {
+							Settings::set(
+								[ 'badges', 'content_writing', $target, 'progress' ],
+								[
+									'progress' => $final,
+									'date'     => ( new \DateTime() )->format( 'Y-m-d H:i:s' ),
+								]
+							);
+						}
+						return $final;
 					}
 
 					// Evaluation for the "Awesome author" badge.
@@ -181,8 +204,20 @@ class Badges {
 								],
 							)
 						);
+
 						// Targeting 30 new posts.
-						return min( 100, floor( 100 * $new_count / 30 ) );
+						$final = min( 100, floor( 100 * $new_count / 30 ) );
+
+						if ( $saved_progress !== $final ) {
+							Settings::set(
+								[ 'badges', 'content_writing', $target, 'progress' ],
+								[
+									'progress' => $final,
+									'date'     => ( new \DateTime() )->format( 'Y-m-d H:i:s' ),
+								]
+							);
+						}
+						return $final;
 					}
 
 					// Evaluation for the "Notorious novelist" badge.
@@ -197,7 +232,17 @@ class Badges {
 							)
 						);
 						// Targeting 50 new posts.
-						return min( 100, floor( 50 * $new_count / 100 ) );
+						$final = min( 100, floor( 50 * $new_count / 100 ) );
+						if ( $saved_progress !== $final ) {
+							Settings::set(
+								[ 'badges', 'content_writing', $target, 'progress' ],
+								[
+									'progress' => $final,
+									'date'     => ( new \DateTime() )->format( 'Y-m-d H:i:s' ),
+								]
+							);
+						}
+						return $final;
 					}
 				},
 			]
@@ -263,7 +308,23 @@ class Badges {
 						1 // Allow break in the streak for 1 week.
 					);
 
-					return min( floor( 100 * $goal->get_streak()['max_streak'] / $target ), 100 );
+					$saved_progress = (int) Settings::get( [ 'badges', 'streak_any_task', $target, 'progress' ], 0 );
+					if ( 100 === $saved_progress ) {
+						return 100;
+					}
+
+					$final = min( floor( 100 * $goal->get_streak()['max_streak'] / $target ), 100 );
+
+					if ( $saved_progress !== $final ) {
+						Settings::set(
+							[ 'badges', 'streak_any_task', $target, 'progress' ],
+							[
+								'progress' => $final,
+								'date'     => ( new \DateTime() )->format( 'Y-m-d H:i:s' ),
+							]
+						);
+					}
+					return $final;
 				},
 			]
 		);
@@ -300,6 +361,21 @@ class Badges {
 						new \DateTime( '-2 years' ), // 2 years ago.
 						new \DateTime(), // Today.
 						0 // Do not allow breaks in the streak.
+					);
+
+					$saved_progress = Settings::get( [ 'badges', 'personal_record_content', 'date' ], false );
+					// If the date is set and shorter than 2 days, return it without querying.
+					if ( $saved_progress && ( new \DateTime() )->diff( new \DateTime( $saved_progress ) )->days < 2 ) {
+						return Settings::get( [ 'badges', 'personal_record_content', 'progress' ], 0 );
+					}
+
+					$final = $goal->get_streak()['max_streak'];
+					Settings::set(
+						[ 'badges', 'personal_record_content' ],
+						[
+							'progress' => $final,
+							'date'     => ( new \DateTime() )->format( 'Y-m-d H:i:s' ),
+						]
 					);
 
 					return $goal->get_streak()['max_streak'];
