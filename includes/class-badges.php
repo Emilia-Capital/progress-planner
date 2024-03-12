@@ -160,7 +160,7 @@ class Badges {
 						if ( 100 <= $existing_progress ) {
 							if ( $saved_progress !== $existing_progress ) {
 								Settings::set(
-									[ 'badges', 'content_writing', $target, 'progress' ],
+									[ 'badges', 'content_writing', $target ],
 									[
 										'progress' => 100,
 										'date'     => ( new \DateTime() )->format( 'Y-m-d H:i:s' ),
@@ -183,7 +183,7 @@ class Badges {
 						$final        = max( $existing_progress, $new_progress );
 						if ( $saved_progress !== $final ) {
 							Settings::set(
-								[ 'badges', 'content_writing', $target, 'progress' ],
+								[ 'badges', 'content_writing', $target ],
 								[
 									'progress' => $final,
 									'date'     => ( new \DateTime() )->format( 'Y-m-d H:i:s' ),
@@ -210,7 +210,7 @@ class Badges {
 
 						if ( $saved_progress !== $final ) {
 							Settings::set(
-								[ 'badges', 'content_writing', $target, 'progress' ],
+								[ 'badges', 'content_writing', $target ],
 								[
 									'progress' => $final,
 									'date'     => ( new \DateTime() )->format( 'Y-m-d H:i:s' ),
@@ -235,7 +235,7 @@ class Badges {
 						$final = min( 100, floor( 50 * $new_count / 100 ) );
 						if ( $saved_progress !== $final ) {
 							Settings::set(
-								[ 'badges', 'content_writing', $target, 'progress' ],
+								[ 'badges', 'content_writing', $target ],
 								[
 									'progress' => $final,
 									'date'     => ( new \DateTime() )->format( 'Y-m-d H:i:s' ),
@@ -317,7 +317,7 @@ class Badges {
 
 					if ( $saved_progress !== $final ) {
 						Settings::set(
-							[ 'badges', 'streak_any_task', $target, 'progress' ],
+							[ 'badges', 'streak_any_task', $target ],
 							[
 								'progress' => $final,
 								'date'     => ( new \DateTime() )->format( 'Y-m-d H:i:s' ),
