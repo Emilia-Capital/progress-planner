@@ -3,11 +3,13 @@ Set variables.
 */
 .prpl-wrap {
 	--prpl-gap: 32px;
-	--prpl-column-min-width: 22rem;
+	--prpl-padding: 20px;
+	--prpl-column-min-width: 16rem;
+	--prpl-column-max-width: 30rem;
 	--prpl-max-columns: 4;
 	--prpl-border-radius: 7px;
 
-	--prpl-container-max-width: calc(var(--prpl-column-min-width) * var(--prpl-max-columns) + var(--prpl-gap) * (var(--prpl-max-columns) - 1));
+	--prpl-container-max-width: calc(var(--prpl-column-max-width) * var(--prpl-max-columns) + var(--prpl-gap) * (var(--prpl-max-columns) - 1));
 
 	--prpl-color-gray-1: #e5e7eb;
 	--prpl-color-gray-2: #d1d5db;
@@ -34,6 +36,7 @@ Set variables.
 	--prpl-background-red: #fff6f7;
 	--prpl-background-blue: #effbfe;
 
+	--prpl-font-size-xs: 0.75rem;     /* 12px */
 	--prpl-font-size-small: 0.875rem; /* 14px */
 	--prpl-font-size-base: 1rem;      /* 16px */
 	--prpl-font-size-lg: 1.125rem;    /* 18px */
@@ -48,8 +51,8 @@ Set variables.
 	background: #fff;
 	border: 1px solid var(--prpl-color-gray-3);
 	border-radius: var(--prpl-border-radius);
-	padding: var(--prpl-gap);
-	/* max-width: var(--prpl-container-max-width); */
+	padding: var(--prpl-padding);
+	max-width: var(--prpl-container-max-width);
 	color: var(--prpl-color-text);
 	font-size: var(--prpl-font-size-base);
 	line-height: 1.4
@@ -80,7 +83,7 @@ Set variables.
 
 .prpl-widgets-container {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(var(--prpl-column-min-width), 1fr));
+	grid-template-columns: repeat(auto-fit, minmax(calc(var(--prpl-column-min-width) * 2), 1fr));
 	grid-gap: var(--prpl-gap);
 }
 
@@ -105,14 +108,14 @@ Set variables.
 .prpl-widget-wrapper {
 	border: 1px solid var(--prpl-color-gray-2);
 	border-radius: var(--prpl-border-radius);
-	padding: var(--prpl-gap);
+	padding: var(--prpl-padding);
 	display: flex;
 	flex-direction: column;
 }
 
 .prpl-wrap .counter-big-wrapper {
 	background-color: var(--prpl-background-purple);
-	padding: var(--prpl-gap);
+	padding: var(--prpl-padding);
 	border-radius: var(--prpl-border-radius);
 	display: flex;
 	flex-direction: column;
@@ -167,13 +170,13 @@ Set variables.
 .prpl-widget-wrapper.prpl-badges-progress .progress-wrapper {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
-	grid-gap: var(--prpl-gap);
+	grid-gap: calc(var(--prpl-gap) / 2);
 }
 
 .prpl-widget-wrapper.prpl-published-content table {
 	width: 100%;
 	margin-bottom: 1em;
-	padding: calc(var(--prpl-gap) / 2) 0;
+	padding: var(--prpl-padding) 0;
 	/* border: 1px solid var(--prpl-color-gray-2); */
 	/* border-radius: var(--prpl-border-radius); */
 	border-top: 1px solid var(--prpl-color-gray-3);
@@ -196,7 +199,7 @@ Set variables.
 .prpl-badges-columns-wrapper {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
-	grid-gap: var(--prpl-gap);
+	grid-gap: var(--prpl-padding);
 }
 
 .prpl-badge-gauge,
@@ -221,7 +224,7 @@ Set variables.
 }
 
 .prpl-activities-gauge-container {
-	padding: var(--prpl-gap);
+	padding: var(--prpl-padding);
 	background: var(--prpl-background-orange);
 	border-radius: var(--prpl-border-radius);
 	aspect-ratio: 1 / 1;
@@ -244,7 +247,7 @@ Set variables.
 
 .prpl-badge-wrapper {
 	background: var(--prpl-background-blue);
-	padding: var(--prpl-gap);
+	padding: var(--prpl-padding);
 	border-radius: var(--prpl-border-radius);
 }
 
@@ -260,14 +263,14 @@ Set variables.
 
 .prpl-widget-wrapper.prpl-badges-progress .progress-wrapper {
 	background-color: var(--prpl-background-blue);
-	padding: calc(var(--prpl-gap) / 2);
+	padding: calc(var(--prpl-padding) / 2);
 	border-radius: var(--prpl-border-radius);
-	margin-bottom: var(--prpl-gap);
+	margin-bottom: var(--prpl-padding);
 }
 
 .prpl-widget-wrapper.prpl-badges-progress .progress-wrapper p {
 	margin: 0;
-	font-size:var(--prpl-font-size-small);
+	font-size:var(--prpl-font-size-xs);
 	text-align:center;
 }
 
