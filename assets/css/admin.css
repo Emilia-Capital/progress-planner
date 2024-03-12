@@ -169,7 +169,8 @@ Set variables.
 .prpl-widget-wrapper.prpl-badges-progress .progress-wrapper {
 	display: flex;
 	gap: calc(var(--prpl-gap) / 2);
-	justify-content: space-between;
+	justify-content: center;
+	flex-wrap: wrap;
 }
 
 .prpl-widget-wrapper.prpl-badges-progress .progress-wrapper .prpl-badge {
@@ -178,6 +179,10 @@ Set variables.
 	align-items: center;
 	justify-content: space-between;
 	flex-wrap: wrap;
+}
+
+.prpl-widget-wrapper.prpl-badges-progress .progress-wrapper .prpl-badge > svg {
+	width: 100px;
 }
 
 .prpl-widget-wrapper.prpl-published-content table {

@@ -118,24 +118,42 @@ class Badges {
 						'target'    => 'wonderful-writer',
 						'name'      => __( 'Wonderful Writer', 'progress-planner' ),
 						'icons-svg' => [
-							\PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge1_gray.svg',
-							\PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge1.svg',
+							'pending'  => [
+								'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge1_gray.svg',
+								'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge1_gray.svg',
+							],
+							'complete' => [
+								'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge1.svg',
+								'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge1.svg',
+							],
 						],
 					],
 					[
 						'target'    => 'awesome-author',
 						'name'      => __( 'Awesome Author', 'progress-planner' ),
 						'icons-svg' => [
-							\PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge2_gray.svg',
-							\PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge2.svg',
+							'pending'  => [
+								'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge2_gray.svg',
+								'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge2_gray.svg',
+							],
+							'complete' => [
+								'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge2.svg',
+								'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge2.svg',
+							],
 						],
 					],
 					[
 						'target'    => 'notorious-novelist',
 						'name'      => __( 'Notorious Novelist', 'progress-planner' ),
 						'icons-svg' => [
-							\PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge3_gray.svg',
-							\PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge3.svg',
+							'pending'  => [
+								'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge3_gray.svg',
+								'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge3_gray.svg',
+							],
+							'complete' => [
+								'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge3.svg',
+								'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge3.svg',
+							],
 						],
 					],
 				],
@@ -258,24 +276,42 @@ class Badges {
 						'target'    => 6,
 						'name'      => __( 'Progress Professional', 'progress-planner' ),
 						'icons-svg' => [
-							\PROGRESS_PLANNER_DIR . '/assets/images/badges/streak_badge1_gray.svg',
-							\PROGRESS_PLANNER_DIR . '/assets/images/badges/streak_badge1.svg',
+							'pending'  => [
+								'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/streak_badge1_gray.svg',
+								'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/streak_badge1_gray.svg',
+							],
+							'complete' => [
+								'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/streak_badge1.svg',
+								'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/streak_badge1.svg',
+							],
 						],
 					],
 					[
 						'target'    => 26,
 						'name'      => __( 'Maintenance Maniac', 'progress-planner' ),
 						'icons-svg' => [
-							\PROGRESS_PLANNER_DIR . '/assets/images/badges/streak_badge2_gray.svg',
-							\PROGRESS_PLANNER_DIR . '/assets/images/badges/streak_badge2.svg',
+							'pending'  => [
+								'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/streak_badge2_gray.svg',
+								'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/streak_badge2_gray.svg',
+							],
+							'complete' => [
+								'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/streak_badge2.svg',
+								'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/streak_badge2.svg',
+							],
 						],
 					],
 					[
 						'target'    => 52,
 						'name'      => __( 'Super Site Specialist', 'progress-planner' ),
 						'icons-svg' => [
-							\PROGRESS_PLANNER_DIR . '/assets/images/badges/streak_badge3_gray.svg',
-							\PROGRESS_PLANNER_DIR . '/assets/images/badges/streak_badge3.svg',
+							'pending'  => [
+								'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/streak_badge3_gray.svg',
+								'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/streak_badge3_gray.svg',
+							],
+							'complete' => [
+								'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/streak_badge3.svg',
+								'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/streak_badge3.svg',
+							],
 						],
 					],
 				],

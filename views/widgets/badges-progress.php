@@ -49,8 +49,8 @@ $prpl_get_progress_color = function ( $progress ) {
 			>
 				<?php
 				include $prpl_badge_completed
-					? $prpl_badge_step_progress['icons'][1]
-					: $prpl_badge_step_progress['icons'][0];
+					? $prpl_badge_step_progress['icons']['complete']['path']
+					: $prpl_badge_step_progress['icons']['pending']['path'];
 				?>
 				<p><?php echo esc_html( $prpl_badge_step_progress['name'] ); ?></p>
 			</span>

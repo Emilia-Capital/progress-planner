@@ -52,7 +52,7 @@ $prpl_get_progress_color = function ( $progress ) {
 					--start: 180deg;
 					--color:<?php echo esc_attr( $prpl_get_progress_color( $prpl_badge['progress'] ) ); ?>
 				">
-				<?php require $prpl_badge['icons'][1]; ?>
+				<?php require $prpl_badge['icons']['complete']['path']; ?>
 			</div>
 		</span>
 		<span class="progress-percent"><?php echo esc_attr( $prpl_badge['progress'] ); ?>%</span>
