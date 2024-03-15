@@ -211,7 +211,8 @@ class Chart {
 		}
 		$data['datasets'] = $datasets;
 
-		$this->render_chart(
+		// Render the chart.
+		$this->render_chart_js(
 			md5( wp_json_encode( $args ) ) . wp_rand( 0, 1000 ),
 			$args['chart_params']['type'],
 			$data,
@@ -220,7 +221,7 @@ class Chart {
 	}
 
 	/**
-	 * Render the chart.
+	 * Render the chart using Chart.js.
 	 *
 	 * @param string $id      The ID of the chart.
 	 * @param string $type    The type of chart.
@@ -229,7 +230,7 @@ class Chart {
 	 *
 	 * @return void
 	 */
-	public function render_chart( $id, $type, $data, $options = [] ) {
+	public function render_chart_js( $id, $type, $data, $options = [] ) {
 		$id = 'progress-planner-chart-' . $id;
 		?>
 
@@ -243,6 +244,66 @@ class Chart {
 				options: <?php echo \wp_json_encode( $options ); ?>,
 			} );
 		</script>
+		<?php
+	}
+
+	/**
+	 * Render the chart using Chart.CSS.
+	 *
+	 * @param string $id      The ID of the chart.
+	 * @param string $type    The type of chart.
+	 * @param array  $data    The data for the chart.
+	 * @param array  $options The options for the chart.
+	 *
+	 * @return void
+	 */
+	public function render_chart_css( $id, $type, $data, $options = [] ) {
+		$id = 'progress-planner-chart-' . $id;
+		static $css_loaded = false;
+		if ( ! $css_loaded ) {
+			echo '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/charts.css/dist/charts.min.css">';
+			$css_loaded = true;
+			?>
+			<style>
+				table.charts-css td {
+					border: 1px solid #fff;
+					margin: -1px;
+				}
+			</style>
+			<?php
+		}
+
+		$max_value = max( $data['datasets'][0]['data'] );
+
+		$type = 'column';
+		?>
+		<table class="charts-css column hide-data show-labels">
+			<thead>
+				<tr>
+					<?php foreach ( $data['labels'] as $label ) : ?>
+						<th scope="row"><?php echo esc_html( $label ); ?></th>
+					<?php endforeach; ?>
+				</tr>
+			</thead>
+
+			<tbody>
+				<?php foreach ( $data['datasets'] as $dataset ) : ?>
+					<?php foreach ( $dataset['data'] as $key => $value ) : ?>
+						<tr>
+							<th scope="row"><?php echo esc_html( $data['labels'][ $key ] ); ?></th>
+							<td style="
+								--size: <?php echo esc_attr( $value / $max_value ); ?>;
+								background-color: <?php echo esc_attr( $dataset['backgroundColor'][ $key ] ); ?>;
+							">
+								<!-- <?php echo esc_html( $data['labels'][ $key ] ); ?>:
+								<?php echo esc_html( $value ); ?> -->
+							</td>
+						</tr>
+					<?php endforeach; ?>
+				<?php endforeach; ?>
+			</tbody>
+
+		</table>
 		<?php
 	}
 }
