@@ -27,6 +27,13 @@ class Base {
 	private static $instance;
 
 	/**
+	 * The remote server ROOT URL.
+	 *
+	 * @var string
+	 */
+	const REMOTE_SERVER_ROOT_URL = 'https://joost.blog';
+
+	/**
 	 * Get the single instance of this class.
 	 *
 	 * @return \ProgressPlanner\Base
@@ -80,6 +87,25 @@ class Base {
 			return $activation_date;
 		}
 		return \DateTime::createFromFormat( 'Y-m-d', $activation_date );
+	}
+
+	/**
+	 * Get the feed from the blog.
+	 *
+	 * @return array
+	 */
+	public function get_blog_feed() {
+		$feed = get_transient( 'prpl_blog_feed' );
+		if ( false === $feed ) {
+			// Get the feed using the REST API.
+			$response = wp_remote_get( self::REMOTE_SERVER_ROOT_URL . '/wp-json/wp/v2/posts/?per_page=3' );
+			if ( is_wp_error( $response ) ) {
+				return [];
+			}
+			$feed = json_decode( wp_remote_retrieve_body( $response ), true );
+			set_transient( 'prpl_blog_feed', $feed, 1 * DAY_IN_SECONDS );
+		}
+		return $feed;
 	}
 
 	/**

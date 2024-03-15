@@ -37,6 +37,7 @@ $prpl_existing_content_scanned = Settings::get( 'content_scanned', false );
 			'second' => [
 				'latest-badge',
 				'badges-progress',
+				'whats-new',
 				'__filter-numbers',
 			],
 		],

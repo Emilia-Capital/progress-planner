@@ -363,3 +363,18 @@
 .prpl-widget-wrapper.prpl-personal-record-content .counter-big-wrapper {
 	background-color: var(--prpl-background-green);
 }
+
+/*------------------------------------*\
+	What's new widget.
+\*------------------------------------*/
+.prpl-widget-wrapper.prpl-whats-new li > a {
+	color: var(--prpl-color-gray-6);
+	text-decoration: none;
+}
+
+.prpl-widget-wrapper.prpl-whats-new li > a:active,
+.prpl-widget-wrapper.prpl-whats-new li > a:focus,
+.prpl-widget-wrapper.prpl-whats-new li > a:hover,
+.prpl-widget-wrapper.prpl-whats-new li > a > h3 {
+	text-decoration: underline;
+}
