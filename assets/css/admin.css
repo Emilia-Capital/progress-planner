@@ -228,6 +228,13 @@
 }
 
 /*------------------------------------*\
+	Activity scores
+\*------------------------------------*/
+.prpl-widget-wrapper.prpl-activity-scores .prpl-graph-wrapper {
+	max-height: 300px;
+}
+
+/*------------------------------------*\
 	Badges progress widget.
 \*------------------------------------*/
 .prpl-widget-wrapper.prpl-badges-progress .progress-label {
@@ -344,7 +351,7 @@
 }
 
 /*------------------------------------*\
-  Personal record widget.
+	Personal record widget.
 \*------------------------------------*/
 .prpl-widget-wrapper.prpl-personal-record-content .counter-big-wrapper {
 	background-color: var(--prpl-background-green);

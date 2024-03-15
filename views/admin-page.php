@@ -16,8 +16,8 @@ $prpl_existing_content_scanned = Settings::get( 'content_scanned', false );
 	<?php require 'admin-page-header.php'; ?>
 	<?php
 	$prpl_admin_page_columns = [
-		[
-			[
+		'primary'   => [
+			'first' => [
 				'website-activity-score',
 				'published-content-density',
 				'published-content',
@@ -26,15 +26,15 @@ $prpl_existing_content_scanned = Settings::get( 'content_scanned', false );
 				'published-words',
 			],
 		],
-		[
-			[
+		'secondary' => [
+			'first'  => [
 				'activity-scores',
 				'personal-record-content',
 				'plugins',
 				'badge-content',
 				'badge-streak',
 			],
-			[
+			'second' => [
 				'latest-badge',
 				'badges-progress',
 				'__filter-numbers',
@@ -43,12 +43,11 @@ $prpl_existing_content_scanned = Settings::get( 'content_scanned', false );
 	];
 	?>
 
-
 	<div class="prpl-widgets-container">
-		<?php foreach ( $prpl_admin_page_columns as $prpl_column_main ) : ?>
-			<div class="prpl-column-main">
-				<?php foreach ( $prpl_column_main as $prpl_column ) : ?>
-					<div class="prpl-column">
+		<?php foreach ( $prpl_admin_page_columns as $prpl_column_main_key => $prpl_column_main ) : ?>
+			<div class="prpl-column-main prpl-column-main-<?php echo esc_attr( $prpl_column_main_key ); ?>">
+				<?php foreach ( $prpl_column_main as $prpl_column_key => $prpl_column ) : ?>
+					<div class="prpl-column prpl-column-<?php echo esc_attr( $prpl_column_key ); ?>">
 						<?php foreach ( $prpl_column as $prpl_widget ) : ?>
 							<div class="prpl-widget-wrapper prpl-<?php echo esc_attr( $prpl_widget ); ?>">
 								<?php include "widgets/{$prpl_widget}.php"; ?>
