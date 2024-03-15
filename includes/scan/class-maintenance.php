@@ -93,9 +93,6 @@ class Maintenance {
 	/**
 	 * On delete theme.
 	 *
-	 * @param string $theme The theme.
-	 * @param bool   $deleted Whether the theme was deleted.
-	 *
 	 * @return void
 	 */
 	public function on_delete_theme() {

@@ -62,46 +62,46 @@ foreach ( $prpl_post_types as $prpl_post_type ) {
 					?>
 				<?php endif; ?>
 			</p>
-			<table>
-				<thead>
-					<tr>
-						<th><?php esc_html_e( 'Content type', 'progress-planner' ); ?></th>
-						<th><?php esc_html_e( 'Last week', 'progress-planner' ); ?></th>
-						<th><?php esc_html_e( 'Total', 'progress-planner' ); ?></th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php foreach ( $prpl_post_types as $prpl_post_type ) : ?>
-						<tr>
-							<td><?php echo esc_html( get_post_type_object( $prpl_post_type )->labels->name ); ?></td>
-							<td><?php echo esc_html( number_format_i18n( $prpl_last_week_content[ $prpl_post_type ] ) ); ?></td>
-							<td><?php echo esc_html( number_format_i18n( $prpl_all_content_count[ $prpl_post_type ] ) ); ?></td>
-						</tr>
-					<?php endforeach; ?>
-				</tbody>
-			</table>
+		</div>
+		<div class="prpl-graph-wrapper">
+			<?php
+			( new Chart() )->the_chart(
+				[
+					'query_params' => [
+						'category' => 'content',
+						'type'     => 'publish',
+					],
+					'dates_params' => [
+						'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) )->modify( $prpl_active_range ),
+						'end'       => new \DateTime(),
+						'frequency' => $prpl_active_frequency,
+						'format'    => 'M',
+					],
+					'chart_params' => [
+						'type' => 'line',
+					],
+					'additive'     => true,
+				],
+			);
+			?>
 		</div>
 	</div>
-	<div class="prpl-graph-wrapper">
-		<?php
-		( new Chart() )->the_chart(
-			[
-				'query_params' => [
-					'category' => 'content',
-					'type'     => 'publish',
-				],
-				'dates_params' => [
-					'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) )->modify( $prpl_active_range ),
-					'end'       => new \DateTime(),
-					'frequency' => $prpl_active_frequency,
-					'format'    => 'M',
-				],
-				'chart_params' => [
-					'type' => 'line',
-				],
-				'additive'     => true,
-			],
-		);
-		?>
-	</div>
+	<table>
+		<thead>
+			<tr>
+				<th><?php esc_html_e( 'Content type', 'progress-planner' ); ?></th>
+				<th><?php esc_html_e( 'Last week', 'progress-planner' ); ?></th>
+				<th><?php esc_html_e( 'Total', 'progress-planner' ); ?></th>
+			</tr>
+		</thead>
+		<tbody>
+			<?php foreach ( $prpl_post_types as $prpl_post_type ) : ?>
+				<tr>
+					<td><?php echo esc_html( get_post_type_object( $prpl_post_type )->labels->name ); ?></td>
+					<td><?php echo esc_html( number_format_i18n( $prpl_last_week_content[ $prpl_post_type ] ) ); ?></td>
+					<td><?php echo esc_html( number_format_i18n( $prpl_all_content_count[ $prpl_post_type ] ) ); ?></td>
+				</tr>
+			<?php endforeach; ?>
+		</tbody>
+	</table>
 </div>

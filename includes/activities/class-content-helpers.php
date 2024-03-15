@@ -34,6 +34,7 @@ class Content_Helpers {
 	 * and strip HTML before counting the words.
 	 *
 	 * @param string $content The content.
+	 * @param int    $post_id The post ID. Used for caching the number of words per post.
 	 *
 	 * @return int
 	 */

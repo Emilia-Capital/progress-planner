@@ -1,6 +1,6 @@
-/*
-Set variables.
-*/
+/*------------------------------------*\
+	Set variables.
+\*------------------------------------*/
 .prpl-wrap {
 	--prpl-gap: 32px;
 	--prpl-padding: 20px;
@@ -47,6 +47,9 @@ Set variables.
 	--prpl-font-size-5xl: 4rem;       /* 64px */
 }
 
+/*------------------------------------*\
+	Styles for the container of the page.
+\*------------------------------------*/
 .prpl-wrap {
 	background: #fff;
 	border: 1px solid var(--prpl-color-gray-3);
@@ -58,6 +61,9 @@ Set variables.
 	line-height: 1.4
 }
 
+/*------------------------------------*\
+	Generic styles.
+\*------------------------------------*/
 .prpl-wrap p {
 	font-size: var(--prpl-font-size-base);
 }
@@ -75,11 +81,26 @@ Set variables.
 	color: var(--prpl-color-link);
 }
 
+/*------------------------------------*\
+	Charts container.
+\*------------------------------------*/
+.prpl-chart-container {
+	position: relative;
+	height: 100%;
+	max-height: 500px;
+}
+
+/*------------------------------------*\
+	Progress bar styles for the posts scanner.
+\*------------------------------------*/
 #progress-planner-scan-progress progress {
 	width: 100%;
 	min-height: 1px;
 }
 
+/*------------------------------------*\
+	Layout for widgets.
+\*------------------------------------*/
 .prpl-widgets-container {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(calc(var(--prpl-column-min-width) * 2), 1fr));
@@ -98,12 +119,18 @@ Set variables.
 	gap: var(--prpl-gap);
 }
 
+/*------------------------------------*\
+	Widgets with 2 columns.
+\*------------------------------------*/
 .two-col {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(var(--prpl-column-min-width), 1fr));
-	grid-gap: var(--prpl-gap);
+	grid-gap: var(--prpl-padding);
 }
 
+/*------------------------------------*\
+	Generic styles for individual widgets.
+\*------------------------------------*/
 .prpl-widget-wrapper {
 	border: 1px solid var(--prpl-color-gray-2);
 	border-radius: var(--prpl-border-radius);
@@ -112,6 +139,9 @@ Set variables.
 	flex-direction: column;
 }
 
+/*------------------------------------*\
+	The big counters in widgets.
+\*------------------------------------*/
 .prpl-wrap .counter-big-wrapper {
 	background-color: var(--prpl-background-purple);
 	padding: var(--prpl-padding);
@@ -131,11 +161,18 @@ Set variables.
 	font-size: var(--prpl-font-size-2xl);
 }
 
+/*------------------------------------*\
+	Generic styles for the graph wrappers.
+\*------------------------------------*/
 .prpl-graph-wrapper {
 	position: relative;
 	height: 100%;
 }
 
+/*------------------------------------*\
+	The wrapper for widgets that have a
+	big counter at the top, and content at the bottom.
+\*------------------------------------*/
 .prpl-top-counter-bottom-content {
 	display: flex;
 	flex-direction: column;
@@ -148,7 +185,10 @@ Set variables.
 	justify-content: center;
 }
 
-.progress-percent {
+/*------------------------------------*\
+	Percent display for badges.
+\*------------------------------------*/
+.prpl-badge-wrapper .progress-percent {
 	font-size: var(--prpl-font-size-3xl);
 	line-height: 1;
 	font-weight: 600;
@@ -156,12 +196,40 @@ Set variables.
 	text-align: center;
 }
 
-.prpl-gauge-number {
+/*------------------------------------*\
+	Activity-score widget.
+\*------------------------------------*/
+.prpl-widget-wrapper.prpl-website-activity-score .two-col {
+	grid-template-columns: 6fr 4fr;
+}
+
+.prpl-widget-wrapper.prpl-website-activity-score .prpl-gauge-number {
 	font-size: var(--prpl-font-size-4xl);
 	line-height: 1;
 	margin-top: -1em;
 }
 
+.prpl-activities-gauge-container {
+	padding: var(--prpl-padding);
+	background: var(--prpl-background-orange);
+	border-radius: var(--prpl-border-radius);
+	aspect-ratio: 1 / 1;
+	top: 50%;
+}
+
+.prpl-activities-gauge-container .prpl-gauge-number {
+	display: block;
+	padding-top: 50%;
+	font-weight: 700;
+	text-align: center;
+	position: absolute;
+	width: 100%;
+	line-height: 2;
+}
+
+/*------------------------------------*\
+	Badges progress widget.
+\*------------------------------------*/
 .prpl-widget-wrapper.prpl-badges-progress .progress-label {
 	display: inline-block;
 }
@@ -185,12 +253,34 @@ Set variables.
 	width: 100px;
 }
 
+.prpl-widget-wrapper.prpl-badges-progress .progress-wrapper {
+	background-color: var(--prpl-background-blue);
+	padding: calc(var(--prpl-padding) / 2);
+	border-radius: var(--prpl-border-radius);
+	margin-bottom: var(--prpl-padding);
+}
+
+.prpl-widget-wrapper.prpl-badges-progress .progress-wrapper p {
+	margin: 0;
+	font-size:var(--prpl-font-size-xs);
+	text-align:center;
+}
+
+.prpl-widget-wrapper.prpl-badges-progress .progress-wrapper + .progress-wrapper {
+	background-color: var(--prpl-background-orange);
+}
+
+/*------------------------------------*\
+	Published content widget.
+\*------------------------------------*/
+.prpl-widget-wrapper.prpl-published-content .two-col {
+	align-items: flex-start;
+}
+
 .prpl-widget-wrapper.prpl-published-content table {
 	width: 100%;
 	margin-bottom: 1em;
 	padding: var(--prpl-padding) 0;
-	/* border: 1px solid var(--prpl-color-gray-2); */
-	/* border-radius: var(--prpl-border-radius); */
 	border-top: 1px solid var(--prpl-color-gray-3);
 	border-bottom: 1px solid var(--prpl-color-gray-3);
 }
@@ -199,15 +289,23 @@ Set variables.
 	text-align: start;
 }
 
-.prpl-widget-wrapper.prpl-published-content td {
+.prpl-widget-wrapper.prpl-published-content th:not(:first-child),
+.prpl-widget-wrapper.prpl-published-content td:not(:first-child) {
 	padding: 0.5em;
-	border-bottom: 1px solid var(--prpl-color-gray-1);
+	text-align: center;
+}
+
+.prpl-widget-wrapper.prpl-published-content tr:nth-child(even) {
+	background-color: var(--prpl-background-purple);
 }
 
 .prpl-widget-wrapper.prpl-published-content tr:last-child td {
 	border-bottom: none;
 }
 
+/*------------------------------------*\
+	Individual badge widgets.
+\*------------------------------------*/
 .prpl-badges-columns-wrapper {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
@@ -235,24 +333,6 @@ Set variables.
 	text-align: center;
 }
 
-.prpl-activities-gauge-container {
-	padding: var(--prpl-padding);
-	background: var(--prpl-background-orange);
-	border-radius: var(--prpl-border-radius);
-	aspect-ratio: 1 / 1;
-	top: 50%;
-}
-
-.prpl-activities-gauge-container .prpl-gauge-number {
-	display: block;
-	padding-top: 50%;
-	font-weight: 700;
-	text-align: center;
-	position: absolute;
-	width: 100%;
-	line-height: 2;
-}
-
 .prpl-badge-gauge svg {
 	aspect-ratio: 1.15;
 }
@@ -261,31 +341,4 @@ Set variables.
 	background: var(--prpl-background-blue);
 	padding: var(--prpl-padding);
 	border-radius: var(--prpl-border-radius);
-}
-
-.prpl-chart-container {
-	position: relative;
-	height: 100%;
-	max-height: 500px;
-}
-
-.prpl-widget-wrapper.prpl-badge-streak .prpl-badge-wrapper {
-	background-color: var(--prpl-background-orange);
-}
-
-.prpl-widget-wrapper.prpl-badges-progress .progress-wrapper {
-	background-color: var(--prpl-background-blue);
-	padding: calc(var(--prpl-padding) / 2);
-	border-radius: var(--prpl-border-radius);
-	margin-bottom: var(--prpl-padding);
-}
-
-.prpl-widget-wrapper.prpl-badges-progress .progress-wrapper p {
-	margin: 0;
-	font-size:var(--prpl-font-size-xs);
-	text-align:center;
-}
-
-.prpl-widget-wrapper.prpl-badges-progress .progress-wrapper + .progress-wrapper {
-	background-color: var(--prpl-background-orange);
 }
