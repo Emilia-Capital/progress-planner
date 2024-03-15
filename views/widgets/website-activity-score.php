@@ -41,6 +41,40 @@ if ( $prpl_score > 75 ) {
 
 $prpl_score = floor( $prpl_score );
 
+$prpl_checklist = [
+	[
+		'label'    => esc_html__( 'Publish or update content', 'progress-planner' ),
+		'callback' => function () {
+			$events = \progress_planner()->get_query()->query_activities(
+				[
+					'start_date' => new \DateTime( '-7 days' ),
+					'end_date'   => new \DateTime(),
+					'category'   => 'content',
+				]
+			);
+			return count( $events ) > 0;
+		},
+	],
+	[
+		'label'    => esc_html__( 'Update plugins', 'progress-planner' ),
+		'callback' => function () {
+			return ! wp_get_update_data()['counts']['plugins'];
+		},
+	],
+	[
+		'label'    => esc_html__( 'Update themes', 'progress-planner' ),
+		'callback' => function () {
+			return ! wp_get_update_data()['counts']['themes'];
+		},
+	],
+	[
+		'label'    => esc_html__( 'Update WordPress', 'progress-planner' ),
+		'callback' => function () {
+			return ! wp_get_update_data()['counts']['wordpress'];
+		},
+	],
+];
+
 ?>
 <h2 class="prpl-widget-title">
 	<?php esc_html_e( 'Website activity score', 'progress-planner' ); ?>
@@ -63,8 +97,13 @@ $prpl_score = floor( $prpl_score );
 		</div>
 	</div>
 	<div>
-		<p>Bla bla bla</p>
-		<p>Bla bla bli</p>
-		<p>Bla bla blo</p>
+		<ul>
+			<?php foreach ( $prpl_checklist as $prpl_item ) : ?>
+				<li class="prpl-checklist-item">
+					<?php echo ( $prpl_item['callback']() ) ? '✔️' : '❌'; ?>
+					<?php echo esc_html( $prpl_item['label'] ); ?>
+				</li>
+			<?php endforeach; ?>
+		</ul>
 	</div>
 </div>
