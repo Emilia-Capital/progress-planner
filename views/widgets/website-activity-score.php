@@ -43,13 +43,28 @@ $prpl_score = floor( $prpl_score );
 
 $prpl_checklist = [
 	[
-		'label'    => esc_html__( 'Publish or update content', 'progress-planner' ),
+		'label'    => esc_html__( 'Publish content', 'progress-planner' ),
 		'callback' => function () {
 			$events = \progress_planner()->get_query()->query_activities(
 				[
 					'start_date' => new \DateTime( '-7 days' ),
 					'end_date'   => new \DateTime(),
 					'category'   => 'content',
+					'type'       => 'publish',
+				]
+			);
+			return count( $events ) > 0;
+		},
+	],
+	[
+		'label'    => esc_html__( 'Update content', 'progress-planner' ),
+		'callback' => function () {
+			$events = \progress_planner()->get_query()->query_activities(
+				[
+					'start_date' => new \DateTime( '-7 days' ),
+					'end_date'   => new \DateTime(),
+					'category'   => 'content',
+					'type'       => 'update',
 				]
 			);
 			return count( $events ) > 0;
