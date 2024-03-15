@@ -29,10 +29,10 @@ $prpl_existing_content_scanned = Settings::get( 'content_scanned', false );
 		[
 			[
 				'activity-scores',
+				'personal-record-content',
 				'plugins',
 				'badge-content',
 				'badge-streak',
-				'personal-record-content',
 			],
 			[
 				'latest-badge',

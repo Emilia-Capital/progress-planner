@@ -342,3 +342,10 @@
 	padding: var(--prpl-padding);
 	border-radius: var(--prpl-border-radius);
 }
+
+/*------------------------------------*\
+  Personal record widget.
+\*------------------------------------*/
+.prpl-widget-wrapper.prpl-personal-record-content .counter-big-wrapper {
+	background-color: var(--prpl-background-green);
+}

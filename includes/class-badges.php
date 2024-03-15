@@ -399,13 +399,13 @@ class Badges {
 						0 // Do not allow breaks in the streak.
 					);
 
-					$saved_progress = Settings::get( [ 'badges', 'personal_record_content', 'date' ], false );
+					$saved_progress = Settings::get( [ 'badges', 'personal_record_content' ], false );
 					// If the date is set and shorter than 2 days, return it without querying.
-					if ( $saved_progress && ( new \DateTime() )->diff( new \DateTime( $saved_progress ) )->days < 2 ) {
-						return Settings::get( [ 'badges', 'personal_record_content', 'progress' ], 0 );
+					if ( $saved_progress && is_array( $saved_progress['progress'] ) && ( new \DateTime() )->diff( new \DateTime( $saved_progress['date'] ) )->days < 2 ) {
+						return $saved_progress['progress'];
 					}
 
-					$final = $goal->get_streak()['max_streak'];
+					$final = $goal->get_streak();
 					Settings::set(
 						[ 'badges', 'personal_record_content' ],
 						[
@@ -414,7 +414,7 @@ class Badges {
 						]
 					);
 
-					return $goal->get_streak()['max_streak'];
+					return $goal->get_streak();
 				},
 			]
 		);
