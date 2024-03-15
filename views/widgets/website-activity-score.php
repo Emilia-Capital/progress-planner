@@ -102,8 +102,8 @@ $prpl_checklist = [
 			style="
 				--value:<?php echo esc_attr( $prpl_score / 100 ); ?>;
 				--background: var(--prpl-background-orange);
-				--max: 360deg;
-				--start: 180deg;
+				--max: 180deg;
+				--start: 270deg;
 				--color:<?php echo esc_attr( $prpl_gauge_color ); ?>"
 		>
 			<span class="prpl-gauge-number">
