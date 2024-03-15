@@ -33,7 +33,7 @@ $prpl_personal_record_content = \progress_planner()->get_badges()->get_badge_pro
 				<?php
 				printf(
 					/* translators: %1$s: number of weeks for the current streak. %2$s: number of weeks for the maximum streak. %3$s: The number of weeks to go in order to break the record. */
-					esc_html__( 'Keep it up! You have been adding content to your site consistently every week for the past %1$s weeks! Your longest streaks was %2$s weeks, you have %3$s weeks to go to break your record!', 'progress-planner' ),
+					esc_html__( 'Keep it up! You have been adding content to your site consistently every week for the past %1$s weeks! Your longest streak was %2$s weeks, you have %3$s weeks to go to break your record!', 'progress-planner' ),
 					esc_html( number_format_i18n( $prpl_personal_record_content['current_streak'] ) ),
 					esc_html( number_format_i18n( $prpl_personal_record_content['max_streak'] ) ),
 					esc_html( number_format_i18n( $prpl_personal_record_content['max_streak'] - $prpl_personal_record_content['current_streak'] ) )
@@ -43,7 +43,7 @@ $prpl_personal_record_content = \progress_planner()->get_badges()->get_badge_pro
 				<?php
 				printf(
 					/* translators: %s: number of weeks for the maximum streak. */
-					esc_html__( 'Your longest streaks was %s weeks. Keep adding content to your site every week and break your record!', 'progress-planner' ),
+					esc_html__( 'Your longest streak was %s weeks. Keep adding content to your site every week and break your record!', 'progress-planner' ),
 					esc_html( number_format_i18n( $prpl_personal_record_content['max_streak'] ) ),
 				);
 				?>
