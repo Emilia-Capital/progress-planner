@@ -96,22 +96,26 @@ $prpl_checklist = [
 </h2>
 
 <div class="two-col">
-	<div class="prpl-activities-gauge-container">
-		<div
-			class="prpl-activities-gauge"
-			style="
-				--value:<?php echo esc_attr( $prpl_score / 100 ); ?>;
-				--background: var(--prpl-background-orange);
-				--max: 180deg;
-				--start: 270deg;
-				--color:<?php echo esc_attr( $prpl_gauge_color ); ?>"
-		>
-			<span class="prpl-gauge-number">
-				<?php echo esc_html( $prpl_score ); ?>
-			</span>
+	<div style="text-align: center;">
+		<div class="prpl-activities-gauge-container">
+			<div
+				class="prpl-activities-gauge"
+				style="
+					--value:<?php echo esc_attr( $prpl_score / 100 ); ?>;
+					--background: var(--prpl-background-orange);
+					--max: 180deg;
+					--start: 270deg;
+					--color:<?php echo esc_attr( $prpl_gauge_color ); ?>"
+			>
+				<span class="prpl-gauge-number">
+					<?php echo esc_html( $prpl_score ); ?>
+				</span>
+			</div>
 		</div>
+		<?php esc_html_e( 'Based on your activity over the past 30 days', 'progress-planner' ); ?>
 	</div>
 	<div>
+		<?php esc_html_e( 'Over the past week:', 'progress-planner' ); ?>
 		<ul>
 			<?php foreach ( $prpl_checklist as $prpl_item ) : ?>
 				<li class="prpl-checklist-item">
