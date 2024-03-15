@@ -258,7 +258,7 @@ class Chart {
 	 * @return void
 	 */
 	public function render_chart_css( $id, $type, $data, $options = [] ) {
-		$id = 'progress-planner-chart-' . $id;
+		$id                = 'progress-planner-chart-' . $id;
 		static $css_loaded = false;
 		if ( ! $css_loaded ) {
 			echo '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/charts.css/dist/charts.min.css">';
