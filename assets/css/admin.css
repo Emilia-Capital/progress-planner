@@ -128,6 +128,10 @@
 	grid-gap: var(--prpl-padding);
 }
 
+.two-col.narrow {
+	grid-template-columns: repeat(auto-fit, minmax(calc(var(--prpl-column-min-width) / 2), 1fr));
+}
+
 /*------------------------------------*\
 	Generic styles for individual widgets.
 \*------------------------------------*/
@@ -149,6 +153,8 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	text-align: center;
+	align-content: center;
 }
 
 .prpl-wrap .counter-big-number {

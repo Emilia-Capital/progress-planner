@@ -10,7 +10,7 @@ namespace ProgressPlanner;
 $prpl_personal_record_content = \progress_planner()->get_badges()->get_badge_progress( 'personal_record_content' );
 
 ?>
-<div class="prpl-top-counter-bottom-content">
+<div class="two-col narrow">
 	<div class="counter-big-wrapper">
 		<span class="counter-big-number">
 			<?php echo esc_html( number_format_i18n( $prpl_personal_record_content['max_streak'] ) ); ?>

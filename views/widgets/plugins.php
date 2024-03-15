@@ -13,7 +13,7 @@ $prpl_plugins_count = count( \get_plugins() );
 $prpl_pending_plugin_updates = wp_get_update_data()['counts']['plugins'];
 ?>
 
-<div class="prpl-top-counter-bottom-content">
+<div class="two-col narrow">
 	<div class="counter-big-wrapper">
 		<span class="counter-big-number">
 			<?php echo esc_html( number_format_i18n( $prpl_plugins_count ) ); ?>
