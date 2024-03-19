@@ -71,7 +71,9 @@ $prpl_checklist = [
 		},
 	],
 	[
-		'label'    => esc_html__( 'Perform all updates', 'progress-planner' ),
+		'label'    => 0 === wp_get_update_data()['counts']['total']
+			? esc_html__( 'Perform all updates', 'progress-planner' )
+			: '<a href="' . esc_url( admin_url( 'update-core.php' ) ) . '">' . esc_html__( 'Perform all updates', 'progress-planner' ) . '</a>',
 		'callback' => function () {
 			return ! wp_get_update_data()['counts']['total'];
 		},
@@ -108,7 +110,7 @@ $prpl_checklist = [
 			<?php foreach ( $prpl_checklist as $prpl_item ) : ?>
 				<li class="prpl-checklist-item">
 					<?php echo ( $prpl_item['callback']() ) ? '✔️' : '❌'; ?>
-					<?php echo esc_html( $prpl_item['label'] ); ?>
+					<?php echo $prpl_item['label']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 				</li>
 			<?php endforeach; ?>
 		</ul>
