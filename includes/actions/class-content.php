@@ -42,28 +42,56 @@ class Content {
 	 * Register hooks.
 	 */
 	public function register_hooks() {
-		\add_action( 'save_post', [ $this, 'save_post' ], 10, 2 );
+		// Add activity when a post is updated.
+		\add_action( 'post_updated', [ $this, 'post_updated' ], 10, 2 );
+
+		// Add activity when a post is added.
 		\add_action( 'wp_insert_post', [ $this, 'insert_post' ], 10, 2 );
 		\add_action( 'transition_post_status', [ $this, 'transition_post_status' ], 10, 3 );
+
+		// Add activity when a post is trashed or deleted.
 		\add_action( 'wp_trash_post', [ $this, 'trash_post' ] );
 		\add_action( 'delete_post', [ $this, 'delete_post' ] );
-		\add_action( 'pre_post_update', [ $this, 'pre_post_update' ], 10, 2 );
 
+		// Add hooks to handle scanning existing posts.
 		\add_action( 'wp_ajax_progress_planner_scan_posts', [ $this, 'ajax_scan' ] );
 		\add_action( 'wp_ajax_progress_planner_reset_stats', [ $this, 'ajax_reset_stats' ] );
 	}
 
-
 	/**
-	 * Save post stats.
+	 * Post updated.
 	 *
-	 * Runs on save_post hook.
+	 * Runs on post_updated hook.
 	 *
 	 * @param int     $post_id The post ID.
 	 * @param WP_Post $post    The post object.
+	 *
+	 * @return void
 	 */
-	public function save_post( $post_id, $post ) {
-		$this->insert_post( $post_id, $post );
+	public function post_updated( $post_id, $post ) {
+		// Bail if we should skip saving.
+		if ( $this->should_skip_saving( $post ) ) {
+			return;
+		}
+
+		// Check if there is an update activity for this post, on this date.
+		$existing = \progress_planner()->get_query()->query_activities(
+			[
+				'category'   => 'content',
+				'type'       => 'update',
+				'data_id'    => $post_id,
+				'start_date' => Date::get_datetime_from_mysql_date( $post->post_modified )->modify( '-12 hours' ),
+				'end_date'   => Date::get_datetime_from_mysql_date( $post->post_modified )->modify( '+12 hours' ),
+			],
+			'RAW'
+		);
+
+		// If there is an update activity for this post, on this date, bail.
+		if ( ! empty( $existing ) ) {
+			return;
+		}
+
+		$this->add_post_activity( $post, 'update' );
 	}
 
 	/**
@@ -81,9 +109,23 @@ class Content {
 			return;
 		}
 
+		// Check if there is an publish activity for this post.
+		$existing = \progress_planner()->get_query()->query_activities(
+			[
+				'category' => 'content',
+				'type'     => 'publish',
+				'data_id'  => $post_id,
+			],
+			'RAW'
+		);
+
+		// If there is a publish activity for this post, bail.
+		if ( ! empty( $existing ) ) {
+			return;
+		}
+
 		// Add a publish activity.
-		$activity = Content_Helpers::get_activity_from_post( $post );
-		$activity->save();
+		$this->add_post_activity( $post, 'publish' );
 	}
 
 	/**
@@ -95,56 +137,15 @@ class Content {
 	 */
 	public function transition_post_status( $new_status, $old_status, $post ) {
 		// Bail if we should skip saving.
-		if ( $this->should_skip_saving( $post ) ) {
+		if ( $this->should_skip_saving( $post ) ||
+			$new_status === $old_status ||
+			( 'publish' !== $new_status && 'publish' !== $old_status )
+		) {
 			return;
-		}
-
-		// If the post is published, check if it was previously published,
-		// and if so, delete the old activity before creating the new one.
-		if ( 'publish' !== $old_status && 'publish' === $new_status ) {
-			$old_publish_activities = \progress_planner()->get_query()->query_activities(
-				[
-					'category' => 'content',
-					'type'     => 'publish',
-					'data_id'  => $post->ID,
-				]
-			);
-			if ( ! empty( $old_publish_activities ) ) {
-				foreach ( $old_publish_activities as $activity ) {
-					$activity->delete();
-				}
-			}
 		}
 
 		// Add activity.
-		$activity = Content_Helpers::get_activity_from_post( $post );
-		return $activity->save();
-	}
-
-	/**
-	 * Update a post.
-	 *
-	 * Runs on pre_post_update hook.
-	 *
-	 * @param int     $post_id The post ID.
-	 * @param WP_Post $post    The post object.
-	 *
-	 * @return bool
-	 */
-	public function pre_post_update( $post_id, $post ) {
-		// Bail if we should skip saving.
-		if ( get_post( $post_id ) && $this->should_skip_saving( get_post( $post_id ) ) ) {
-			return;
-		}
-
-		$post_array = (array) $post;
-		// Add an update activity.
-		$activity = new Content_Activity();
-		$activity->set_type( 'update' );
-		$activity->set_date( Date::get_datetime_from_mysql_date( $post_array['post_modified'] ) );
-		$activity->set_data_id( $post_id );
-		$activity->set_user_id( (int) $post_array['post_author'] );
-		return $activity->save();
+		$this->add_post_activity( $post, $new_status === 'publish' ? 'publish' : 'update' );
 	}
 
 	/**
@@ -163,11 +164,7 @@ class Content {
 			return;
 		}
 
-		// Add an update activity.
-		$activity = Content_Helpers::get_activity_from_post( $post );
-		$activity->set_type( 'update' );
-		$activity->set_date( Date::get_datetime_from_mysql_date( $post->post_modified ) );
-		return $activity->save();
+		$this->add_post_activity( $post, 'trash' );
 	}
 
 	/**
@@ -186,18 +183,13 @@ class Content {
 			return;
 		}
 
-		// Update existing activities.
-		$activities = \progress_planner()->get_query()->query_activities(
-			[
-				'category' => 'content',
-				'data_id'  => $post->ID,
-			]
-		);
-		if ( ! empty( $activities ) ) {
-			\progress_planner()->get_query()->delete_activities( $activities );
-		}
-
-		$activity = Content_Helpers::get_activity_from_post( $post );
+		// Add activity.
+		$activity = new Content_Activity();
+		$activity->set_category( 'content' );
+		$activity->set_type( 'delete' );
+		$activity->set_data_id( $post_id );
+		$activity->set_date( new \DateTime() );
+		$activity->set_user_id( get_current_user_id() );
 		$activity->save();
 	}
 
@@ -210,8 +202,11 @@ class Content {
 	 */
 	private function should_skip_saving( $post ) {
 		// Bail if the post is not included in the post-types we're tracking.
-		$post_types = Content_Helpers::get_post_types_names();
-		if ( ! \in_array( $post->post_type, $post_types, true ) ) {
+		if ( ! \in_array(
+			$post->post_type,
+			Content_Helpers::get_post_types_names(),
+			true
+		) ) {
 			return true;
 		}
 
@@ -226,6 +221,56 @@ class Content {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Add an update activity.
+	 *
+	 * @param \WP_Post $post The post object.
+	 * @param string   $type The type of activity.
+	 *
+	 * @return void
+	 */
+	private function add_post_activity( $post, $type ) {
+		if ( 'update' === $type ) {
+			if ( 'publish' === $post->post_status ) {
+				// Check if there is a publish activity for this post.
+				$existing = \progress_planner()->get_query()->query_activities(
+					[
+						'category' => 'content',
+						'type'     => 'publish',
+						'data_id'  => $post_id,
+					],
+					'RAW'
+				);
+
+				// If there is no publish activity for this post, add it.
+				if ( empty( $existing ) ) {
+					$this->add_post_activity( $post, 'publish' );
+					return;
+				}
+			}
+
+			// Check if there are any activities for this post, on this date.
+			$existing = \progress_planner()->get_query()->query_activities(
+				[
+					'category'   => 'content',
+					'data_id'    => $post->ID,
+					'start_date' => Date::get_datetime_from_mysql_date( $post->post_modified )->modify( '-12 hours' ),
+					'end_date'   => Date::get_datetime_from_mysql_date( $post->post_modified )->modify( '+12 hours' ),
+				],
+				'RAW'
+			);
+
+			// If there are activities for this post, on this date, bail.
+			if ( ! empty( $existing ) ) {
+				return;
+			}
+		}
+
+		$activity = Content_Helpers::get_activity_from_post( $post );
+		$activity->set_type( $type );
+		$activity->save();
 	}
 
 	/**
