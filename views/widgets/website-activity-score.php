@@ -71,21 +71,9 @@ $prpl_checklist = [
 		},
 	],
 	[
-		'label'    => esc_html__( 'Update plugins', 'progress-planner' ),
+		'label'    => esc_html__( 'Perform all updates', 'progress-planner' ),
 		'callback' => function () {
-			return ! wp_get_update_data()['counts']['plugins'];
-		},
-	],
-	[
-		'label'    => esc_html__( 'Update themes', 'progress-planner' ),
-		'callback' => function () {
-			return ! wp_get_update_data()['counts']['themes'];
-		},
-	],
-	[
-		'label'    => esc_html__( 'Update WordPress', 'progress-planner' ),
-		'callback' => function () {
-			return ! wp_get_update_data()['counts']['wordpress'];
+			return ! wp_get_update_data()['counts']['total'];
 		},
 	],
 ];
