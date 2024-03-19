@@ -5,7 +5,7 @@
  * @package ProgressPlanner
  */
 
-namespace ProgressPlanner\Scan;
+namespace ProgressPlanner\Actions;
 
 use ProgressPlanner\Activities\Content_Helpers;
 use ProgressPlanner\Activities\Content as Content_Activity;

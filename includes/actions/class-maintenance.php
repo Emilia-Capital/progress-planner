@@ -5,7 +5,7 @@
  * @package ProgressPlanner
  */
 
-namespace ProgressPlanner\Scan;
+namespace ProgressPlanner\Actions;
 
 use ProgressPlanner\Activities\Maintenance as Activity_Maintenance;
 
