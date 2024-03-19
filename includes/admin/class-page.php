@@ -67,10 +67,9 @@ class Page {
 		}
 
 		// Enqueue Chart.js.
-		// TODO: Use a local copy of Chart.js.
 		\wp_enqueue_script(
 			'chart-js',
-			'https://cdn.jsdelivr.net/npm/chart.js',
+			PROGRESS_PLANNER_URL . 'assets/js/chart.min.js',
 			[],
 			'4.4.2',
 			false
