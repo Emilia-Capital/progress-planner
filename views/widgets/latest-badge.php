@@ -51,4 +51,18 @@ if ( $prpl_latest_badge_details ) {
 		);
 		?>
 	</p>
+	<div class="prpl-badge-wrapper prpl-badge-latest two-col narrow">
+		<div class="badge-svg">
+			<?php include $prpl_latest_badge['icons-svg']['complete']['path']; ?>
+		</div>
+		<div>
+			<?php
+			printf(
+				/* translators: %s: The badge name. */
+				esc_html__( 'Yes! I have earned a new Progress Planner badge: I am a %s!', 'progress-planner' ),
+				'<strong>' . esc_html( $prpl_latest_badge['name'] ) . '</strong>'
+			);
+			?>
+		</div>
+	</div>
 <?php endif; ?>
