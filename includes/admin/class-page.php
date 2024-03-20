@@ -69,7 +69,7 @@ class Page {
 		// Enqueue Chart.js.
 		\wp_enqueue_script(
 			'chart-js',
-			PROGRESS_PLANNER_URL . 'assets/js/chart.min.js',
+			PROGRESS_PLANNER_URL . '/assets/js/chart.min.js',
 			[],
 			'4.4.2',
 			false
@@ -77,7 +77,7 @@ class Page {
 
 		\wp_enqueue_script(
 			'progress-planner-admin',
-			PROGRESS_PLANNER_URL . 'assets/js/admin.js',
+			PROGRESS_PLANNER_URL . '/assets/js/admin.js',
 			[],
 			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/admin.js' ),
 			true
@@ -98,7 +98,7 @@ class Page {
 
 		\wp_enqueue_style(
 			'progress-planner-admin',
-			PROGRESS_PLANNER_URL . 'assets/css/admin.css',
+			PROGRESS_PLANNER_URL . '/assets/css/admin.css',
 			[],
 			filemtime( PROGRESS_PLANNER_DIR . '/assets/css/admin.css' )
 		);

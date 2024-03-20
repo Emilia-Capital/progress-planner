@@ -14,7 +14,7 @@ $prpl_active_frequency = isset( $_GET['frequency'] ) ? sanitize_text_field( wp_u
 <div class="logo" style="margin-bottom: 2em; display:flex; justify-content: space-between; align-items: center;">
 	<div class="prpl-header-logo">
 		<img
-			src="<?php echo esc_url( PROGRESS_PLANNER_URL . 'assets/images/logo.png' ); ?>"
+			src="<?php echo esc_url( PROGRESS_PLANNER_URL . '/assets/images/logo.png' ); ?>"
 			alt="<?php esc_attr_e( 'Progress Planner', 'progress-planner' ); ?>"
 			style="max-width: 200px;"
 		/>
