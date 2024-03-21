@@ -26,7 +26,7 @@ class Page {
 	 */
 	private function register_hooks() {
 		\add_action( 'admin_menu', [ $this, 'add_page' ] );
-		\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
+		\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 	}
 
 	/**
@@ -61,11 +61,21 @@ class Page {
 	 *
 	 * @return void
 	 */
-	public function enqueue_scripts( $hook ) {
+	public function enqueue_assets( $hook ) {
 		if ( 'toplevel_page_progress-planner' !== $hook ) {
 			return;
 		}
 
+		self::enqueue_scripts();
+		self::enqueue_styles();
+	}
+
+	/**
+	 * Enqueue scripts.
+	 *
+	 * @return void
+	 */
+	public static function enqueue_scripts() {
 		// Enqueue Chart.js.
 		\wp_enqueue_script(
 			'chart-js',
@@ -95,7 +105,14 @@ class Page {
 				],
 			]
 		);
+	}
 
+	/**
+	 * Enqueue styles.
+	 *
+	 * @return void
+	 */
+	public static function enqueue_styles() {
 		\wp_enqueue_style(
 			'progress-planner-admin',
 			PROGRESS_PLANNER_URL . '/assets/css/admin.css',
