@@ -27,14 +27,21 @@ $prpl_pending_plugin_updates = \wp_get_update_data()['counts']['plugins'];
 			<?php if ( 0 === $prpl_pending_plugin_updates ) : ?>
 				<?php \esc_html_e( 'Well done! All your plugins are up to date.', 'progress-planner' ); ?>
 			<?php else : ?>
-				<?php
-				printf(
-					/* translators: %1$s: number of plugins. %2$s: Total number of pending updates. */
-					\esc_html__( 'You have %1$s plugins installed. There are %2$s pending updates.', 'progress-planner' ),
-					\esc_html( \number_format_i18n( $prpl_plugins_count ) ),
-					'<span class="accent">' . \esc_html( \number_format_i18n( $prpl_pending_plugin_updates ) ) . '</span>'
-				);
-				?>
+				<p>
+					<?php
+					printf(
+						/* translators: %1$s: number of plugins. %2$s: Total number of pending updates. */
+						\esc_html__( 'You have %1$s plugins installed. There are %2$s pending updates.', 'progress-planner' ),
+						\esc_html( \number_format_i18n( $prpl_plugins_count ) ),
+						'<span class="accent">' . \esc_html( \number_format_i18n( $prpl_pending_plugin_updates ) ) . '</span>'
+					);
+					?>
+				</p>
+				<p>
+					<a href="<?php echo \esc_url( \admin_url( 'update-core.php' ) ); ?>" style="font-weight: 600; color:var(--prpl-color-gray-6);">
+						<?php \esc_html_e( 'Update your plugins now.', 'progress-planner' ); ?>
+					</a>
+				</p>
 			<?php endif; ?>
 		</p>
 	</div>
