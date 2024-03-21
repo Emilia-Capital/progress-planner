@@ -318,7 +318,7 @@
 \*------------------------------------*/
 .prpl-badges-columns-wrapper {
 	display: grid;
-	grid-template-columns: 1fr 1fr;
+	grid-template-columns: repeat(auto-fit, minmax(calc(var(--prpl-column-min-width) / 2), 1fr));
 	grid-gap: var(--prpl-padding);
 }
 
