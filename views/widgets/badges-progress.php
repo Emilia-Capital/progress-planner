@@ -7,8 +7,12 @@
 
 namespace ProgressPlanner;
 
-// Get an array of badges.
-$prpl_badges = \progress_planner()->get_badges()->get_badges();
+use ProgressPlanner\Badges;
+
+$prpl_badges = [
+	'content'     => [ 'wonderful-writer', 'awesome-author', 'notorious-novelist' ],
+	'maintenance' => [ 'progress-professional', 'maintenance-maniac', 'super-site-specialist' ],
+];
 
 /**
  * Callback to get the progress color.
@@ -33,26 +37,24 @@ $prpl_get_progress_color = function ( $progress ) {
 	<?php esc_html_e( 'Badges progress', 'progress-planner' ); ?>
 </h2>
 
-<?php foreach ( $prpl_badges as $prpl_badge ) : ?>
-	<?php
-	if ( true !== $prpl_badge['public'] ) {
-		continue;
-	}
-	?>
+<?php foreach ( $prpl_badges as $prpl_badge_category => $prpl_category_badges ) : ?>
 	<div class="progress-wrapper">
-		<?php $prpl_badge_progress = \progress_planner()->get_badges()->get_badge_progress( $prpl_badge['id'] ); ?>
-		<?php foreach ( $prpl_badge_progress as $prpl_badge_step => $prpl_badge_step_progress ) : ?>
-			<?php $prpl_badge_completed = 100 === (int) $prpl_badge_step_progress['progress']; ?>
+		<?php foreach ( $prpl_category_badges as $prpl_category_badge ) : ?>
+			<?php
+			$prpl_badge_progress  = Badges::get_badge_progress( $prpl_category_badge );
+			$prpl_badge_completed = 100 === (int) $prpl_badge_progress['percent'];
+			$prpl_badge_args      = Badges::get_badge( $prpl_category_badge );
+			?>
 			<span
 				class="prpl-badge"
-				data-value="<?php echo esc_attr( $prpl_badge_step_progress['progress'] ); ?>"
+				data-value="<?php echo esc_attr( $prpl_badge_progress['percent'] ); ?>"
 			>
 				<?php
 				include $prpl_badge_completed
-					? $prpl_badge_step_progress['icons']['complete']['path']
-					: $prpl_badge_step_progress['icons']['pending']['path'];
+					? $prpl_badge_args['icons-svg']['complete']['path']
+					: $prpl_badge_args['icons-svg']['pending']['path'];
 				?>
-				<p><?php echo esc_html( $prpl_badge_step_progress['name'] ); ?></p>
+				<p><?php echo esc_html( Badges::get_badge( $prpl_category_badge )['name'] ); ?></p>
 			</span>
 		<?php endforeach; ?>
 	</div>

@@ -57,6 +57,33 @@ class Goal_Recurring {
 	private $occurences = [];
 
 	/**
+	 * An array of instances for this class.
+	 *
+	 * @var Goal_Recurring[]
+	 */
+	private static $instances = [];
+
+	/**
+	 * Get an instance of this class.
+	 *
+	 * @param string $id        The recurring goal ID.
+	 * @param array  $goal_args The goal arguments.
+	 * @param array  $args      The recurring goal arguments.
+	 */
+	public static function get_instance( $id, $goal_args, $args ) {
+		if ( ! isset( self::$instances[ $id ] ) ) {
+			self::$instances[ $id ] = new self(
+				new $goal_args['class_name']( $goal_args ),
+				$args['frequency'],
+				$args['start'],
+				$args['end'],
+				$args['allowed_break']
+			);
+		}
+		return self::$instances[ $id ];
+	}
+
+	/**
 	 * Constructor.
 	 *
 	 * @param \ProgressPlanner\Goals\Goal $goal      The goal object.
@@ -65,7 +92,7 @@ class Goal_Recurring {
 	 * @param \DateTime                   $end       The end date.
 	 * @param int                         $allowed_break The number of breaks in the streak that are allowed.
 	 */
-	public function __construct( $goal, $frequency, $start, $end, $allowed_break = 0 ) {
+	private function __construct( $goal, $frequency, $start, $end, $allowed_break = 0 ) {
 		$this->goal          = $goal;
 		$this->frequency     = $frequency;
 		$this->start         = $start;

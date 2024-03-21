@@ -7,7 +7,9 @@
 
 namespace ProgressPlanner;
 
-$prpl_personal_record_content = \progress_planner()->get_badges()->get_badge_progress( 'personal_record_content' );
+use ProgressPlanner\Badges;
+
+$prpl_personal_record_content = Badges::get_badge_progress( 'personal_record_content' );
 
 ?>
 <div class="two-col narrow">

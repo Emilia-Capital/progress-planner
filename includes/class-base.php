@@ -54,6 +54,17 @@ class Base {
 		new Admin_Dashboard_Widget();
 		new Actions_Content();
 		new Actions_Maintenance();
+
+		// Require the badges files.
+		require_once \PROGRESS_PLANNER_DIR . '/includes/badges/content-wonderful-writer.php';
+		require_once \PROGRESS_PLANNER_DIR . '/includes/badges/content-awesome-author.php';
+		require_once \PROGRESS_PLANNER_DIR . '/includes/badges/content-notorious-novelist.php';
+
+		require_once \PROGRESS_PLANNER_DIR . '/includes/badges/maintenance-progress-professional.php';
+		require_once \PROGRESS_PLANNER_DIR . '/includes/badges/maintenance-maintenance-maniac.php';
+		require_once \PROGRESS_PLANNER_DIR . '/includes/badges/maintenance-super-site-specialist.php';
+
+		require_once \PROGRESS_PLANNER_DIR . '/includes/badges/streak-content.php';
 	}
 
 	/**
@@ -63,15 +74,6 @@ class Base {
 	 */
 	public function get_query() {
 		return Query::get_instance();
-	}
-
-	/**
-	 * Get the badges object.
-	 *
-	 * @return \ProgressPlanner\Badges
-	 */
-	public function get_badges() {
-		return new Badges();
 	}
 
 	/**
