@@ -30,6 +30,9 @@ $prpl_query_args = [
 $prpl_count_words_callback = function ( $activities ) {
 	$words = 0;
 	foreach ( $activities as $activity ) {
+		if ( ! $activity->get_post() ) {
+			continue;
+		}
 		$words += Content_Helpers::get_word_count(
 			$activity->get_post()->post_content,
 			$activity->get_data_id()
