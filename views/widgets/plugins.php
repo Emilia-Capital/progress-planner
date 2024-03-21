@@ -13,7 +13,7 @@ $prpl_plugins_count = count( \get_plugins() );
 $prpl_pending_plugin_updates = \wp_get_update_data()['counts']['plugins'];
 ?>
 
-<div class="two-col narrow">
+<div class="two-col narrow<?php echo $prpl_pending_plugin_updates ? ' pending-updates' : ''; ?>">
 	<div class="counter-big-wrapper">
 		<span class="counter-big-number">
 			<?php echo \esc_html( \number_format_i18n( $prpl_plugins_count ) ); ?>
@@ -32,7 +32,7 @@ $prpl_pending_plugin_updates = \wp_get_update_data()['counts']['plugins'];
 					/* translators: %1$s: number of plugins. %2$s: Total number of pending updates. */
 					\esc_html__( 'You have %1$s plugins installed. There are %2$s pending updates.', 'progress-planner' ),
 					\esc_html( \number_format_i18n( $prpl_plugins_count ) ),
-					\esc_html( \number_format_i18n( $prpl_pending_plugin_updates ) )
+					'<span class="accent">' . \esc_html( \number_format_i18n( $prpl_pending_plugin_updates ) ) . '</span>'
 				);
 				?>
 			<?php endif; ?>

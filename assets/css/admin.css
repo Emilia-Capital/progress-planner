@@ -386,3 +386,21 @@
 .prpl-badge-wrapper.prpl-badge-latest .badge-svg {
 	align-self: start;
 }
+
+/*------------------------------------*\
+	Plugins widget.
+\*------------------------------------*/
+.prpl-widget-wrapper.prpl-plugins:has(.pending-updates) {
+	border-color: var(--prpl-color-notification-red);
+	border-width: 2px;
+	background-color: var(--prpl-background-orange);
+}
+
+.prpl-widget-wrapper.prpl-plugins:has(.pending-updates) .counter-big-wrapper {
+	background-color: var(--prpl-background-orange);
+}
+
+.prpl-widget-wrapper.prpl-plugins:has(.pending-updates) .accent {
+	color: var(--prpl-color-notification-red);
+	font-weight: 700;
+}
