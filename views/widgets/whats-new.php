@@ -19,10 +19,10 @@ $prpl_blog_feed = \progress_planner()->get_blog_feed();
 		<li>
 			<a href="<?php echo \esc_url( $prpl_blog_post['link'] ); ?>" target="_blank">
 				<h3><?php echo \esc_html( $prpl_blog_post['title']['rendered'] ); ?></h3>
-				<p>
-					<?php echo \esc_html( \wp_strip_all_tags( $prpl_blog_post['excerpt']['rendered'] ) ); ?>
-				</p>
 			</a>
+			<p>
+				<?php echo \esc_html( \wp_strip_all_tags( $prpl_blog_post['excerpt']['rendered'] ) ); ?>
+			</p>
 		</li>
 	<?php endforeach; ?>
 </ul>

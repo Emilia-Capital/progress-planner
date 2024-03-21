@@ -368,11 +368,9 @@
 	text-decoration: none;
 }
 
-.prpl-widget-wrapper.prpl-whats-new li > a:active,
-.prpl-widget-wrapper.prpl-whats-new li > a:focus,
-.prpl-widget-wrapper.prpl-whats-new li > a:hover,
-.prpl-widget-wrapper.prpl-whats-new li > a > h3 {
-	text-decoration: underline;
+.prpl-widget-wrapper.prpl-whats-new li > a h3:before {
+	content: "🔗";
+	margin-right: 0.5em;
 }
 
 /*------------------------------------*\
