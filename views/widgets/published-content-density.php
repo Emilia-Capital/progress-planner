@@ -10,9 +10,9 @@ namespace ProgressPlanner;
 use ProgressPlanner\Activities\Content_Helpers;
 
 // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-$prpl_active_range = isset( $_GET['range'] ) ? sanitize_text_field( wp_unslash( $_GET['range'] ) ) : '-6 months';
+$prpl_active_range = isset( $_GET['range'] ) ? \sanitize_text_field( \wp_unslash( $_GET['range'] ) ) : '-6 months';
 // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-$prpl_active_frequency = isset( $_GET['frequency'] ) ? sanitize_text_field( wp_unslash( $_GET['frequency'] ) ) : 'monthly';
+$prpl_active_frequency = isset( $_GET['frequency'] ) ? \sanitize_text_field( \wp_unslash( $_GET['frequency'] ) ) : 'monthly';
 
 // Arguments for the query.
 $prpl_query_args = [
@@ -79,10 +79,10 @@ $prpl_weekly_activities_density = $prpl_count_density_callback(
 	<div class="prpl-top-counter-bottom-content">
 		<div class="counter-big-wrapper">
 			<span class="counter-big-number">
-				<?php echo esc_html( number_format_i18n( $prpl_weekly_activities_density ) ); ?>
+				<?php echo \esc_html( \number_format_i18n( $prpl_weekly_activities_density ) ); ?>
 			</span>
 			<span class="counter-big-text">
-				<?php esc_html_e( 'content density', 'progress-planner' ); ?>
+				<?php \esc_html_e( 'content density', 'progress-planner' ); ?>
 			</span>
 		</div>
 		<div class="prpl-widget-content">
@@ -90,9 +90,9 @@ $prpl_weekly_activities_density = $prpl_count_density_callback(
 				<?php
 				printf(
 					/* translators: %1$s: number of words/post published this week. %2$s: All-time average number. */
-					esc_html__( 'You have written content with an average density of %1$s words/post in the past 7 days. Your all-time average is %2$s', 'progress-planner' ),
-					esc_html( number_format_i18n( $prpl_weekly_activities_density ) ),
-					esc_html( number_format_i18n( $prpl_all_activities_density ) )
+					\esc_html__( 'You have written content with an average density of %1$s words/post in the past 7 days. Your all-time average is %2$s', 'progress-planner' ),
+					\esc_html( \number_format_i18n( $prpl_weekly_activities_density ) ),
+					\esc_html( \number_format_i18n( $prpl_all_activities_density ) )
 				);
 				?>
 			</p>

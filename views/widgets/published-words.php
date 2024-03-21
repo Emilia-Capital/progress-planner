@@ -10,9 +10,9 @@ namespace ProgressPlanner;
 use ProgressPlanner\Activities\Content_Helpers;
 
 // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-$prpl_active_range = isset( $_GET['range'] ) ? sanitize_text_field( wp_unslash( $_GET['range'] ) ) : '-6 months';
+$prpl_active_range = isset( $_GET['range'] ) ? \sanitize_text_field( \wp_unslash( $_GET['range'] ) ) : '-6 months';
 // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-$prpl_active_frequency = isset( $_GET['frequency'] ) ? sanitize_text_field( wp_unslash( $_GET['frequency'] ) ) : 'monthly';
+$prpl_active_frequency = isset( $_GET['frequency'] ) ? \sanitize_text_field( \wp_unslash( $_GET['frequency'] ) ) : 'monthly';
 
 // Arguments for the query.
 $prpl_query_args = [
@@ -68,22 +68,22 @@ $prpl_color_callback = function () {
 	<div class="prpl-top-counter-bottom-content">
 		<div class="counter-big-wrapper">
 			<span class="counter-big-number">
-				<?php echo esc_html( number_format_i18n( $prpl_this_week_words ) ); ?>
+				<?php echo \esc_html( \number_format_i18n( $prpl_this_week_words ) ); ?>
 			</span>
 			<span class="counter-big-text">
-				<?php esc_html_e( 'words written', 'progress-planner' ); ?>
+				<?php \esc_html_e( 'words written', 'progress-planner' ); ?>
 			</span>
 		</div>
 		<div class="prpl-widget-content">
 			<p>
 				<?php if ( 0 === $prpl_this_week_words ) : ?>
-					<?php esc_html_e( 'No words written last week', 'progress-planner' ); ?>
+					<?php \esc_html_e( 'No words written last week', 'progress-planner' ); ?>
 				<?php else : ?>
 					<?php
 					printf(
 						/* translators: %1$s: number of posts published this week. %2$s: Total number of posts. */
-						esc_html__( 'Great! You have written %1$s words in the past 7 days.', 'progress-planner' ),
-						esc_html( number_format_i18n( $prpl_this_week_words ) ),
+						\esc_html__( 'Great! You have written %1$s words in the past 7 days.', 'progress-planner' ),
+						\esc_html( \number_format_i18n( $prpl_this_week_words ) ),
 					);
 					?>
 				<?php endif; ?>

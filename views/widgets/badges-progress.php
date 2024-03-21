@@ -47,14 +47,14 @@ $prpl_get_progress_color = function ( $progress ) {
 			?>
 			<span
 				class="prpl-badge"
-				data-value="<?php echo esc_attr( $prpl_badge_progress['percent'] ); ?>"
+				data-value="<?php echo \esc_attr( $prpl_badge_progress['percent'] ); ?>"
 			>
 				<?php
 				include $prpl_badge_completed
 					? $prpl_badge_args['icons-svg']['complete']['path']
 					: $prpl_badge_args['icons-svg']['pending']['path'];
 				?>
-				<p><?php echo esc_html( Badges::get_badge( $prpl_category_badge )['name'] ); ?></p>
+				<p><?php echo \esc_html( Badges::get_badge( $prpl_category_badge )['name'] ); ?></p>
 			</span>
 		<?php endforeach; ?>
 	</div>

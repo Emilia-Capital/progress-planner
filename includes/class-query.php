@@ -115,8 +115,8 @@ class Query {
 
 		$args = \wp_parse_args( $args, $defaults );
 
-		$cache_key = 'progress-planner-activities-' . md5( wp_json_encode( $args ) );
-		$results   = wp_cache_get( $cache_key );
+		$cache_key = 'progress-planner-activities-' . md5( \wp_json_encode( $args ) );
+		$results   = \wp_cache_get( $cache_key );
 
 		if ( false === $results ) {
 			$where_args   = [];
@@ -171,7 +171,7 @@ class Query {
 					)
 				);
 
-			wp_cache_set( $cache_key, $results );
+			\wp_cache_set( $cache_key, $results );
 		}
 
 		if ( ! $results ) {

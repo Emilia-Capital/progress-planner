@@ -38,7 +38,7 @@ class Chart {
 		/*
 		 * Set default values for the arguments.
 		 */
-		$args = wp_parse_args(
+		$args = \wp_parse_args(
 			$args,
 			[
 				'query_params'   => [],
@@ -62,7 +62,7 @@ class Chart {
 				'max'            => null,
 			]
 		);
-		$args['chart_params'] = wp_parse_args(
+		$args['chart_params'] = \wp_parse_args(
 			$args['chart_params'],
 			[
 				'type'    => 'line',
@@ -213,7 +213,7 @@ class Chart {
 
 		// Render the chart.
 		$this->render_chart_js(
-			md5( wp_json_encode( $args ) ) . wp_rand( 0, 1000 ),
+			md5( \wp_json_encode( $args ) ) . \wp_rand( 0, 1000 ),
 			$args['chart_params']['type'],
 			$data,
 			$args['chart_params']['options']

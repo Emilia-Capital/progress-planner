@@ -8,9 +8,9 @@
 namespace ProgressPlanner;
 
 // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-$prpl_active_range = isset( $_GET['range'] ) ? sanitize_text_field( wp_unslash( $_GET['range'] ) ) : '-6 months';
+$prpl_active_range = isset( $_GET['range'] ) ? \sanitize_text_field( \wp_unslash( $_GET['range'] ) ) : '-6 months';
 // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-$prpl_active_frequency = isset( $_GET['frequency'] ) ? sanitize_text_field( wp_unslash( $_GET['frequency'] ) ) : 'monthly';
+$prpl_active_frequency = isset( $_GET['frequency'] ) ? \sanitize_text_field( \wp_unslash( $_GET['frequency'] ) ) : 'monthly';
 
 /**
  * Callback to calculate the color of the chart.
@@ -31,7 +31,7 @@ $prpl_color_callback = function ( $number ) {
 
 ?>
 <h2 class="prpl-widget-title">
-	<?php esc_html_e( 'Activity scores', 'progress-planner' ); ?>
+	<?php \esc_html_e( 'Activity scores', 'progress-planner' ); ?>
 </h2>
 <div class="prpl-graph-wrapper">
 	<?php

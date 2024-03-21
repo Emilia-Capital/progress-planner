@@ -52,17 +52,17 @@ if ( $prpl_latest_badge_id ) {
 }
 ?>
 <h2 class="prpl-widget-title">
-	<?php esc_html_e( 'Latest badge', 'progress-planner' ); ?>
+	<?php \esc_html_e( 'Latest badge', 'progress-planner' ); ?>
 </h2>
 <?php if ( ! $prpl_latest_badge ) : ?>
-	<p><?php esc_html_e( 'No badges earned yet.', 'progress-planner' ); ?></p>
+	<p><?php \esc_html_e( 'No badges earned yet.', 'progress-planner' ); ?></p>
 <?php else : ?>
 	<p>
 		<?php
 		printf(
 			/* translators: %s: The badge name. */
-			esc_html__( 'Congratulations! You have earned a new badge. You are now a %s.', 'progress-planner' ),
-			'<strong>' . esc_html( $prpl_latest_badge['name'] ) . '</strong>'
+			\esc_html__( 'Congratulations! You have earned a new badge. You are now a %s.', 'progress-planner' ),
+			'<strong>' . \esc_html( $prpl_latest_badge['name'] ) . '</strong>'
 		);
 		?>
 	</p>
@@ -74,8 +74,8 @@ if ( $prpl_latest_badge_id ) {
 			<?php
 			printf(
 				/* translators: %s: The badge name. */
-				esc_html__( 'Yes! I have earned a new Progress Planner badge: I am a %s!', 'progress-planner' ),
-				'<strong>' . esc_html( $prpl_latest_badge['name'] ) . '</strong>'
+				\esc_html__( 'Yes! I have earned a new Progress Planner badge: I am a %s!', 'progress-planner' ),
+				'<strong>' . \esc_html( $prpl_latest_badge['name'] ) . '</strong>'
 			);
 			?>
 		</div>
