@@ -14,6 +14,7 @@ use ProgressPlanner\Actions\Content as Actions_Content;
 use ProgressPlanner\Actions\Maintenance as Actions_Maintenance;
 use ProgressPlanner\Settings;
 use ProgressPlanner\Tracker;
+use ProgressPlanner\Badges\Content_Wonderful_Writer as Badge_Content_Wonderful_Writer;
 use ProgressPlanner\Badges\Content_Awesome_Author as Badge_Content_Awesome_Author;
 use ProgressPlanner\Badges\Content_Notorious_Novelist as Badge_Content_Notorious_Novelist;
 
@@ -58,8 +59,7 @@ class Base {
 		new Actions_Content();
 		new Actions_Maintenance();
 
-		// Require the badges files.
-		require_once \PROGRESS_PLANNER_DIR . '/includes/badges/content-wonderful-writer.php';
+		new Badge_Content_Wonderful_Writer();
 		new Badge_Content_Awesome_Author();
 		new Badge_Content_Notorious_Novelist();
 
