@@ -58,22 +58,33 @@ class Base {
 	 * Constructor.
 	 */
 	private function __construct() {
+		$this->init();
+	}
+
+	/**
+	 * Init.
+	 *
+	 * @return void
+	 */
+	public function init() {
+		// Basic classes.
 		new Admin_Page();
 		new Admin_Dashboard_Widget();
 		new Actions_Content();
 		new Actions_Maintenance();
 
+		// Content badges.
 		new Badge_Wonderful_Writer();
 		new Badge_Awesome_Author();
 		new Badge_Notorious_Novelist();
 
+		// Maintenance badges.
 		new Badge_Progress_Professional();
 		new Badge_Maintenance_Maniac();
 		new Badge_Super_Site_Specialist();
 
+		// Tracker.
 		add_action( 'init', [ $this, 'init_tracker' ] );
-
-		require_once \PROGRESS_PLANNER_DIR . '/includes/badges/streak-content.php';
 	}
 
 	/**
