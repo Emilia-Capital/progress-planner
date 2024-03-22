@@ -13,6 +13,8 @@ use ProgressPlanner\Admin\Dashboard_Widget as Admin_Dashboard_Widget;
 use ProgressPlanner\Actions\Content as Actions_Content;
 use ProgressPlanner\Actions\Maintenance as Actions_Maintenance;
 use ProgressPlanner\Settings;
+use ProgressPlanner\Tracker;
+use ProgressPlanner\Badges\Content_Awesome_Author as Badge_Content_Awesome_Author;
 
 /**
  * Main plugin class.
@@ -57,7 +59,7 @@ class Base {
 
 		// Require the badges files.
 		require_once \PROGRESS_PLANNER_DIR . '/includes/badges/content-wonderful-writer.php';
-		require_once \PROGRESS_PLANNER_DIR . '/includes/badges/content-awesome-author.php';
+		new Badge_Content_Awesome_Author();
 		require_once \PROGRESS_PLANNER_DIR . '/includes/badges/content-notorious-novelist.php';
 
 		require_once \PROGRESS_PLANNER_DIR . '/includes/badges/maintenance-progress-professional.php';
