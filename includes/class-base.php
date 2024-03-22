@@ -14,12 +14,12 @@ use ProgressPlanner\Actions\Content as Actions_Content;
 use ProgressPlanner\Actions\Maintenance as Actions_Maintenance;
 use ProgressPlanner\Settings;
 use ProgressPlanner\Tracker;
-use ProgressPlanner\Badges\Wonderful_Writer as Badge_Wonderful_Writer;
-use ProgressPlanner\Badges\Awesome_Author as Badge_Awesome_Author;
-use ProgressPlanner\Badges\Notorious_Novelist as Badge_Notorious_Novelist;
-use ProgressPlanner\Badges\Progress_Professional as Badge_Progress_Professional;
-use ProgressPlanner\Badges\Maintenance_Maniac as Badge_Maintenance_Maniac;
-use ProgressPlanner\Badges\Super_Site_Specialist as Badge_Super_Site_Specialist;
+use ProgressPlanner\Badges\Badge\Wonderful_Writer as Badge_Wonderful_Writer;
+use ProgressPlanner\Badges\Badge\Awesome_Author as Badge_Awesome_Author;
+use ProgressPlanner\Badges\Badge\Notorious_Novelist as Badge_Notorious_Novelist;
+use ProgressPlanner\Badges\Badge\Progress_Professional as Badge_Progress_Professional;
+use ProgressPlanner\Badges\Badge\Maintenance_Maniac as Badge_Maintenance_Maniac;
+use ProgressPlanner\Badges\Badge\Super_Site_Specialist as Badge_Super_Site_Specialist;
 
 /**
  * Main plugin class.

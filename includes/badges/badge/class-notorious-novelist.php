@@ -5,15 +5,16 @@
  * @package ProgressPlanner
  */
 
-namespace ProgressPlanner\Badges;
+namespace ProgressPlanner\Badges\Badge;
 
 use ProgressPlanner\Base;
 use ProgressPlanner\Settings;
+use ProgressPlanner\Badges\Badge_Content;
 
 /**
  * Badge class.
  */
-class Notorious_Novelist extends Badge {
+final class Notorious_Novelist extends Badge_Content {
 
 	/**
 	 * The badge ID.
@@ -21,13 +22,6 @@ class Notorious_Novelist extends Badge {
 	 * @var string
 	 */
 	protected $id = 'notorious-novelist';
-
-	/**
-	 * The badge category.
-	 *
-	 * @var string
-	 */
-	protected $category = 'content_writing';
 
 	/**
 	 * The badge name.
