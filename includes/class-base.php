@@ -14,6 +14,7 @@ use ProgressPlanner\Actions\Content as Actions_Content;
 use ProgressPlanner\Actions\Maintenance as Actions_Maintenance;
 use ProgressPlanner\Settings;
 use ProgressPlanner\Tracker;
+use ProgressPlanner\Badges;
 use ProgressPlanner\Badges\Badge\Wonderful_Writer as Badge_Wonderful_Writer;
 use ProgressPlanner\Badges\Badge\Awesome_Author as Badge_Awesome_Author;
 use ProgressPlanner\Badges\Badge\Notorious_Novelist as Badge_Notorious_Novelist;
@@ -193,6 +194,8 @@ class Base {
 				'maintenance-maniac'    => ( new Badge_Maintenance_Maniac() )->progress_callback(),
 				'super-site-specialist' => ( new Badge_Super_Site_Specialist() )->progress_callback(),
 			];
+
+			$data['latest_badge'] = Badges::get_latest_completed_badge();
 
 			// The website URL.
 			$data['website'] = \home_url();

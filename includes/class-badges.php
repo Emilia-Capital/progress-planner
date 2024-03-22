@@ -7,6 +7,8 @@
 
 namespace ProgressPlanner;
 
+use ProgressPlanner\Settings;
+
 /**
  * Badges class.
  */
@@ -80,5 +82,52 @@ class Badges {
 		}
 
 		return $progress;
+	}
+
+	/**
+	 * Get the latest completed badge.
+	 *
+	 * @return string Returns the badge ID.
+	 */
+	public static function get_latest_completed_badge() {
+		// Get the settings for badges.
+		$settings = Settings::get( 'badges', [] );
+
+		$latest_date = null;
+		$latest_id   = null;
+
+		// Loop badges to find the one that was completed last.
+		foreach ( array_keys( self::$badges ) as $badge_id ) {
+			$badge_progress = self::get_badge_progress( $badge_id );
+
+			// Skip if the badge is not completed.
+			if ( 100 !== $badge_progress['percent'] ) {
+				continue;
+			}
+
+			// Set the first badge as the latest.
+			if ( null === $latest_date ) {
+				$latest_id = $badge_id;
+				if ( isset( $settings[ $badge_id ]['date'] ) ) {
+					$latest_date = $settings[ $badge_id ]['date'];
+				}
+				continue;
+			}
+
+			// Skip if the badge has no date.
+			if ( ! isset( $settings[ $badge_id ]['date'] ) ) {
+				continue;
+			}
+
+			// Compare dates.
+			if ( null === $latest_date ||
+				\DateTime::createFromFormat( 'Y-m-d H:i:s', $settings[ $badge_id ]['date'] )->format( 'U' ) > \DateTime::createFromFormat( 'Y-m-d H:i:s', $latest_date )->format( 'U' )
+			) {
+				$latest_date = $settings[ $badge_id ]['date'];
+				$latest_id   = $badge_id;
+			}
+		}
+
+		return $latest_id;
 	}
 }
