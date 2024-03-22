@@ -13,7 +13,7 @@ use ProgressPlanner\Settings;
 /**
  * Badge class.
  */
-class Content_Wonderful_Writer extends Badge {
+class Wonderful_Writer extends Badge {
 
 	/**
 	 * The badge ID.

@@ -13,14 +13,14 @@ use ProgressPlanner\Settings;
 /**
  * Badge class.
  */
-class Content_Notorious_Novelist extends Badge {
+class Awesome_Author extends Badge {
 
 	/**
 	 * The badge ID.
 	 *
 	 * @var string
 	 */
-	protected $id = 'notorious-novelist';
+	protected $id = 'awesome-author';
 
 	/**
 	 * The badge category.
@@ -35,7 +35,7 @@ class Content_Notorious_Novelist extends Badge {
 	 * @return string
 	 */
 	public function get_name() {
-		return __( 'Notorious Novelist', 'progress-planner' );
+		return __( 'Awesome Author', 'progress-planner' );
 	}
 
 	/**
@@ -46,12 +46,12 @@ class Content_Notorious_Novelist extends Badge {
 	public function get_icons_svg() {
 		return [
 			'pending'  => [
-				'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge3_gray.svg',
-				'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge3_gray.svg',
+				'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge2_gray.svg',
+				'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge2_gray.svg',
 			],
 			'complete' => [
-				'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge3.svg',
-				'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge3.svg',
+				'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge2.svg',
+				'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge2.svg',
 			],
 		];
 	}
@@ -60,7 +60,7 @@ class Content_Notorious_Novelist extends Badge {
 	 * Progress callback.
 	 */
 	public function progress_callback() {
-		$saved_progress = (int) Settings::get( [ 'badges', 'notorious-novelist' ], [] );
+		$saved_progress = (int) Settings::get( [ 'badges', 'awesome-author' ], [] );
 
 		// If the badge is already complete, return 100% progress.
 		if ( isset( $saved_progress['progress'] ) && 100 === $saved_progress ) {
@@ -81,13 +81,13 @@ class Content_Notorious_Novelist extends Badge {
 			)
 		);
 
-		$percent   = min( 100, floor( 100 * $new_count / 50 ) );
-		$remaining = 50 - min( 50, $new_count );
+		$percent   = min( 100, floor( 100 * $new_count / 30 ) );
+		$remaining = 30 - min( 30, $new_count );
 
-		// If the user has published 50 new posts, save the badge as complete and return.
+		// If the user has published 30 new posts, save the badge as complete and return.
 		if ( 0 === $remaining ) {
 			Settings::set(
-				[ 'badges', 'notorious-novelist' ],
+				[ 'badges', 'awesome-author' ],
 				[
 					'progress' => 100,
 					'date'     => ( new \DateTime() )->format( 'Y-m-d H:i:s' ),
