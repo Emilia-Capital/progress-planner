@@ -116,7 +116,7 @@ $prpl_weekly_activities_density = $prpl_count_density_callback(
 					'type' => 'line',
 				],
 				'count_callback' => $prpl_count_density_callback,
-				'additive'       => false,
+				'compound'       => false,
 			],
 		);
 		?>

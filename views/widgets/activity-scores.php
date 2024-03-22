@@ -71,7 +71,7 @@ $prpl_color_callback = function ( $number ) {
 				$target = \progress_planner()->get_dev_config( 'activity-score-target' );
 				return $score * 100 / $target;
 			},
-			'additive'       => false,
+			'compound'       => false,
 			'normalized'     => true,
 			'colors'         => [
 				'background' => $prpl_color_callback,

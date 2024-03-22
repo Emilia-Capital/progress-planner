@@ -30,7 +30,7 @@ class Chart {
 	 *
 	 *                     ['chart_params'] The chart parameters.
 	 *
-	 *                     [additive]       Whether to add the stats for next node to the previous one.
+	 *                     [compound]       Whether to add the stats for next node to the previous one.
 	 *
 	 * @return void
 	 */
@@ -45,7 +45,7 @@ class Chart {
 				'filter_results' => null,
 				'dates_params'   => [],
 				'chart_params'   => [],
-				'additive'       => false,
+				'compound'       => false,
 				'normalized'     => false,
 				'colors'         => [
 					'background' => function () {
@@ -113,11 +113,11 @@ class Chart {
 		/*
 		 * Calculate zero stats to be used as the baseline.
 		 *
-		 * If this is an "additive" chart,
+		 * If this is an "compound" chart,
 		 * we need to calculate the score for all activities before the first period.
 		 */
 		$score = 0;
-		if ( $args['additive'] ) {
+		if ( $args['compound'] ) {
 			$oldest_activity = \progress_planner()->get_query()->get_oldest_activity();
 			if ( null !== $oldest_activity ) {
 				// Get the activities before the first period.
@@ -149,9 +149,8 @@ class Chart {
 		 */
 		$previous_month_activities = [];
 		if ( $args['normalized'] ) {
-			$previous_month_start = clone $periods[0]['start'];
-			$previous_month_start->modify( '-1 month' );
-			$previous_month_end        = clone $periods[0]['start'];
+			$previous_month_start      = ( clone $periods[0]['start'] )->modify( '-1 month' );
+			$previous_month_end        = ( clone $periods[0]['start'] )->modify( '-1 day' );
 			$previous_month_activities = \progress_planner()->get_query()->query_activities(
 				array_merge(
 					$args['query_params'],
@@ -198,7 +197,7 @@ class Chart {
 			}
 
 			// "Additive" charts add the score for the period to the previous score.
-			$score = $args['additive'] ? $score + $period_score : $period_score;
+			$score = $args['compound'] ? $score + $period_score : $period_score;
 
 			// Apply a "max" limit to the score if max is defined in the arguments.
 			$datasets[0]['data'][] = null === $args['max']
