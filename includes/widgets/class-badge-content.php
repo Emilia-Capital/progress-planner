@@ -90,10 +90,10 @@ final class Badge_Content extends Widget {
 		$result['badge']    = Badges::get_badge( $badge );
 
 		$result['color'] = 'var(--prpl-color-accent-red)';
-		if ( $result['percent'] > 50 ) {
+		if ( $result['progress']['percent'] > 50 ) {
 			$result['color'] = 'var(--prpl-color-accent-orange)';
 		}
-		if ( $result['percent'] > 75 ) {
+		if ( $result['progress']['percent'] > 75 ) {
 			$result['color'] = 'var(--prpl-color-accent-green)';
 		}
 		return $result;

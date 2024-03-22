@@ -10,6 +10,7 @@ namespace ProgressPlanner\Badges\Badge;
 use ProgressPlanner\Base;
 use ProgressPlanner\Settings;
 use ProgressPlanner\Badges\Badge_Content;
+use ProgressPlanner\Activities\Content_Helpers;
 
 /**
  * Badge class.
