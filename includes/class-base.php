@@ -17,6 +17,7 @@ use ProgressPlanner\Tracker;
 use ProgressPlanner\Badges\Wonderful_Writer as Badge_Wonderful_Writer;
 use ProgressPlanner\Badges\Awesome_Author as Badge_Awesome_Author;
 use ProgressPlanner\Badges\Notorious_Novelist as Badge_Notorious_Novelist;
+use ProgressPlanner\Badges\Maintenance_Maniac as Badge_Maintenance_Maniac;
 
 /**
  * Main plugin class.
@@ -64,7 +65,7 @@ class Base {
 		new Badge_Notorious_Novelist();
 
 		require_once \PROGRESS_PLANNER_DIR . '/includes/badges/maintenance-progress-professional.php';
-		require_once \PROGRESS_PLANNER_DIR . '/includes/badges/maintenance-maintenance-maniac.php';
+		new Badge_Maintenance_Maniac();
 		require_once \PROGRESS_PLANNER_DIR . '/includes/badges/maintenance-super-site-specialist.php';
 
 		require_once \PROGRESS_PLANNER_DIR . '/includes/badges/streak-content.php';
