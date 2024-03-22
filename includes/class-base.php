@@ -142,4 +142,53 @@ class Base {
 
 		return null === $param ? $config : $config[ $param ];
 	}
+
+	/**
+	 * Init the tracker.
+	 *
+	 * @return void
+	 */
+	public function init_tracker() {
+		$data_callback = function () {
+			$data = [];
+
+			// Get the number of pending updates.
+			$data['pending_updates'] = \wp_get_update_data()['counts']['total'];
+
+			// Get number of content from any public post-type, published in the past week.
+			$data['weekly_posts'] = count(
+				\get_posts(
+					[
+						'post_status'    => 'publish',
+						'post_type'      => 'post',
+						'date_query'     => [ [ 'after' => '1 week ago' ] ],
+						'posts_per_page' => 10,
+					]
+				)
+			);
+
+			// Get the number of activities in the past week.
+			$data['activities'] = count(
+				\progress_planner()->get_query()->query_activities(
+					[
+						'start_date' => new \DateTime( '-7 days' ),
+					]
+				)
+			);
+
+			// Get the badges.
+			$data['badges'] = Settings::get( 'badges' );
+
+			return $data;
+		};
+
+		new Tracker(
+			[
+				'namespace'     => 'progress-planner',
+				'interval'      => WEEK_IN_SECONDS,
+				'remote-server' => 'https://progressplanner.com/',
+				'collect-data'  => $data_callback,
+			]
+		);
+	}
 }
