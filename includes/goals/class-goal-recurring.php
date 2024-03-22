@@ -74,10 +74,7 @@ class Goal_Recurring {
 		if ( ! isset( self::$instances[ $id ] ) ) {
 			self::$instances[ $id ] = new self(
 				new $goal_args['class_name']( $goal_args ),
-				$args['frequency'],
-				$args['start'],
-				$args['end'],
-				$args['allowed_break']
+				$args
 			);
 		}
 		return self::$instances[ $id ];
@@ -87,17 +84,20 @@ class Goal_Recurring {
 	 * Constructor.
 	 *
 	 * @param \ProgressPlanner\Goals\Goal $goal      The goal object.
-	 * @param string                      $frequency The goal frequency.
-	 * @param \DateTime                   $start     The start date.
-	 * @param \DateTime                   $end       The end date.
-	 * @param int                         $allowed_break The number of breaks in the streak that are allowed.
+	 * @param array                       $args      The arguments.
+	 *                                    [
+	 *                                      string    'frequency'     The goal frequency.
+	 *                                      \DateTime 'start'         The start date.
+	 *                                      \DateTime 'end'           The end date.
+	 *                                      int       'allowed_break' The number of breaks in the streak that are allowed.
+	 *                                    ].
 	 */
-	private function __construct( $goal, $frequency, $start, $end, $allowed_break = 0 ) {
+	private function __construct( $goal, $args ) {
 		$this->goal          = $goal;
-		$this->frequency     = $frequency;
-		$this->start         = $start;
-		$this->end           = $end;
-		$this->allowed_break = $allowed_break;
+		$this->frequency     = $args['frequency'];
+		$this->start         = $args['start'];
+		$this->end           = $args['end'];
+		$this->allowed_break = $args['allowed_break'] ?? 0;
 	}
 
 	/**
@@ -150,11 +150,11 @@ class Goal_Recurring {
 	 */
 	public function get_streak() {
 		// Bail early if there is no goal.
-		if ( ! $this ) {
+		if ( ! $this->get_goal() ) {
 			return [
 				'number'      => 0,
-				'title'       => $this->get_goal()->get_details()['title'],
-				'description' => $this->get_goal()->get_details()['description'],
+				'title'       => '',
+				'description' => '',
 			];
 		}
 
