@@ -70,6 +70,8 @@ class Base {
 		new Badge_Maintenance_Maniac();
 		new Badge_Super_Site_Specialist();
 
+		add_action( 'init', [ $this, 'init_tracker' ] );
+
 		require_once \PROGRESS_PLANNER_DIR . '/includes/badges/streak-content.php';
 	}
 
@@ -183,7 +185,17 @@ class Base {
 			);
 
 			// Get the badges.
-			$data['badges'] = Settings::get( 'badges' );
+			$data['badges'] = [
+				'wonderful-writer'      => ( new Badge_Wonderful_Writer() )->progress_callback(),
+				'awesome-author'        => ( new Badge_Awesome_Author() )->progress_callback(),
+				'notorious-novelist'    => ( new Badge_Notorious_Novelist() )->progress_callback(),
+				'progress-professional' => ( new Badge_Progress_Professional() )->progress_callback(),
+				'maintenance-maniac'    => ( new Badge_Maintenance_Maniac() )->progress_callback(),
+				'super-site-specialist' => ( new Badge_Super_Site_Specialist() )->progress_callback(),
+			];
+
+			// The website URL.
+			$data['website'] = \home_url();
 
 			return $data;
 		};
