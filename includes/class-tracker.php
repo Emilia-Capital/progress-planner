@@ -88,7 +88,7 @@ class Tracker {
 	 */
 	public function send_data() {
 		$callback          = $this->collect_data_callback;
-		$remote_server_url = $this->remote_server . 'wp-json/stats/v1/track';
+		$remote_server_url = $this->remote_server . '?rest-route=/stats/v1/track';
 		$response          = wp_remote_post(
 			$remote_server_url,
 			[
