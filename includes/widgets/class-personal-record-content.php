@@ -8,7 +8,7 @@
 namespace ProgressPlanner\Widgets;
 
 use ProgressPlanner\Goals\Goal_Recurring;
-use ProgressPlanner\Goals\Goal_Posts;
+use ProgressPlanner\Goals\Goal;
 use ProgressPlanner\Settings;
 use ProgressPlanner\Widgets\Widget;
 
@@ -85,7 +85,7 @@ class Personal_Record_Content extends Widget {
 		$goal = Goal_Recurring::get_instance(
 			'weekly_post_record',
 			[
-				'class_name'  => Goal_Posts::class,
+				'class_name'  => Goal::class,
 				'id'          => 'weekly_post',
 				'title'       => \esc_html__( 'Write a weekly blog post', 'progress-planner' ),
 				'description' => \esc_html__( 'Streak: The number of weeks this goal has been accomplished consistently.', 'progress-planner' ),

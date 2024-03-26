@@ -12,7 +12,7 @@ namespace ProgressPlanner\Goals;
 /**
  * An object containing info about an individual goal.
  */
-abstract class Goal {
+class Goal {
 
 	/**
 	 * The goal ID.
@@ -160,9 +160,12 @@ abstract class Goal {
 	}
 
 	/**
-	 * Whether the goal is accomplished for a date-range.
+	 * Whether this goal has been accomplished or not.
 	 *
 	 * @return bool
 	 */
-	abstract public function evaluate();
+	public function evaluate() {
+		$callback = $this->get_details()['evaluate'];
+		return $callback( $this );
+	}
 }

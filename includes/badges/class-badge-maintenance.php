@@ -9,7 +9,7 @@ namespace ProgressPlanner\Badges;
 
 use ProgressPlanner\Base;
 use ProgressPlanner\Goals\Goal_Recurring;
-use ProgressPlanner\Goals\Goal_Posts;
+use ProgressPlanner\Goals\Goal;
 
 /**
  * Badge class.
@@ -32,7 +32,7 @@ abstract class Badge_Maintenance extends Badge {
 		return Goal_Recurring::get_instance(
 			'weekly_activity',
 			[
-				'class_name'  => Goal_Posts::class,
+				'class_name'  => Goal::class,
 				'id'          => 'weekly_activity',
 				'title'       => \esc_html__( 'Weekly activity', 'progress-planner' ),
 				'description' => \esc_html__( 'Streak: The number of weeks this goal has been accomplished consistently.', 'progress-planner' ),
