@@ -37,13 +37,12 @@ class Dashboard_Widget {
 		// Enqueue Chart.js.
 		// TODO: Use a local copy of Chart.js and properly enqueue it.
 		echo '<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>';
-		?>
-		<div class="prpl-dashboard-widget">
-			<?php include PROGRESS_PLANNER_DIR . '/views/widgets/activity-scores.php'; ?>
-			<a href="<?php echo \esc_url( \get_admin_url( null, 'admin.php?page=progress-planner' ) ); ?>">
-				<?php \esc_html_e( 'See more details', 'progress-planner' ); ?>
-			</a>
-		</div>
-		<?php
+		echo '<div class="prpl-dashboard-widget">';
+		new \ProgressPlanner\Widgets\Activity_Scores();
+
+		echo '<a href="' . \esc_url( \get_admin_url( null, 'admin.php?page=progress-planner' ) ) . '">';
+		\esc_html_e( 'See more details', 'progress-planner' );
+		echo '</a>';
+		echo '</div>';
 	}
 }
