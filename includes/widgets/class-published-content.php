@@ -30,7 +30,7 @@ final class Published_Content extends Widget {
 	 */
 	protected function the_content() {
 		$post_types = Content_Helpers::get_post_types_names();
-		$stats      = self::get_stats();
+		$stats      = $this->get_stats();
 		?>
 		<div class="two-col">
 			<div class="prpl-top-counter-bottom-content">
@@ -59,7 +59,7 @@ final class Published_Content extends Widget {
 					</p>
 				</div>
 				<div class="prpl-graph-wrapper">
-					<?php ( new Chart() )->the_chart( self::get_chart_args() ); ?>
+					<?php ( new Chart() )->the_chart( $this->get_chart_args() ); ?>
 				</div>
 			</div>
 			<table>
@@ -89,7 +89,7 @@ final class Published_Content extends Widget {
 	 *
 	 * @return array The stats.
 	 */
-	public static function get_stats() {
+	public function get_stats() {
 		$post_types = Content_Helpers::get_post_types_names();
 		$weekly     = [];
 		$all        = [];
@@ -124,16 +124,16 @@ final class Published_Content extends Widget {
 	 *
 	 * @return array The chart args.
 	 */
-	public static function get_chart_args() {
+	public function get_chart_args() {
 		return [
 			'query_params' => [
 				'category' => 'content',
 				'type'     => 'publish',
 			],
 			'dates_params' => [
-				'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) )->modify( self::get_range() ),
+				'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) )->modify( $this->get_range() ),
 				'end'       => new \DateTime(),
-				'frequency' => self::get_frequency(),
+				'frequency' => $this->get_frequency(),
 				'format'    => 'M',
 			],
 			'chart_params' => [

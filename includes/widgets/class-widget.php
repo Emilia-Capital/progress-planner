@@ -31,7 +31,7 @@ abstract class Widget {
 	 *
 	 * @return string
 	 */
-	public static function get_range() {
+	public function get_range() {
 		// phpcs:ignore WordPress.Security.NonceVerification
 		return isset( $_GET['range'] )
 			// phpcs:ignore WordPress.Security.NonceVerification
@@ -44,7 +44,7 @@ abstract class Widget {
 	 *
 	 * @return string
 	 */
-	public static function get_frequency() {
+	public function get_frequency() {
 		// phpcs:ignore WordPress.Security.NonceVerification
 		return isset( $_GET['frequency'] )
 			// phpcs:ignore WordPress.Security.NonceVerification

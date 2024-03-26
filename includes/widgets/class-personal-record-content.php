@@ -30,7 +30,7 @@ class Personal_Record_Content extends Widget {
 	 * @return void
 	 */
 	protected function the_content() {
-		$record = self::personal_record_callback();
+		$record = $this->personal_record_callback();
 		?>
 		<div class="two-col narrow">
 			<div class="counter-big-wrapper">
@@ -81,7 +81,7 @@ class Personal_Record_Content extends Widget {
 	 *
 	 * @return array
 	 */
-	public static function personal_record_callback() {
+	public function personal_record_callback() {
 		$goal = Goal_Recurring::get_instance(
 			'weekly_post_record',
 			[

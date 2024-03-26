@@ -27,7 +27,7 @@ final class Badge_Streak extends Widget {
 	 * @return void
 	 */
 	protected function the_content() {
-		$details = self::get_badge_details();
+		$details = $this->get_badge_details();
 		?>
 		<div class="prpl-badges-columns-wrapper">
 			<div class="prpl-badge-wrapper">
@@ -71,7 +71,7 @@ final class Badge_Streak extends Widget {
 	 *
 	 * @return array
 	 */
-	public static function get_badge_details() {
+	public function get_badge_details() {
 		$result = [];
 		$badges = [
 			'progress-professional',

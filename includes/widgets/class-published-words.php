@@ -33,7 +33,7 @@ final class Published_Words extends Widget {
 			<div class="prpl-top-counter-bottom-content">
 				<div class="counter-big-wrapper">
 					<span class="counter-big-number">
-						<?php echo \esc_html( \number_format_i18n( self::get_weekly_words() ) ); ?>
+						<?php echo \esc_html( \number_format_i18n( $this->get_weekly_words() ) ); ?>
 					</span>
 					<span class="counter-big-text">
 						<?php \esc_html_e( 'words written', 'progress-planner' ); ?>
@@ -41,14 +41,14 @@ final class Published_Words extends Widget {
 				</div>
 				<div class="prpl-widget-content">
 					<p>
-						<?php if ( 0 === self::get_weekly_words() ) : ?>
+						<?php if ( 0 === $this->get_weekly_words() ) : ?>
 							<?php \esc_html_e( 'No words written last week', 'progress-planner' ); ?>
 						<?php else : ?>
 							<?php
 							printf(
 								/* translators: %1$s: number of posts published this week. %2$s: Total number of posts. */
 								\esc_html__( 'Great! You have written %1$s words in the past 7 days.', 'progress-planner' ),
-								\esc_html( \number_format_i18n( self::get_weekly_words() ) ),
+								\esc_html( \number_format_i18n( $this->get_weekly_words() ) ),
 							);
 							?>
 						<?php endif; ?>
@@ -56,7 +56,7 @@ final class Published_Words extends Widget {
 				</div>
 			</div>
 			<div class="prpl-graph-wrapper">
-				<?php ( new Chart() )->the_chart( self::get_chart_args() ); ?>
+				<?php ( new Chart() )->the_chart( $this->get_chart_args() ); ?>
 			</div>
 		</div>
 		<?php
@@ -67,22 +67,22 @@ final class Published_Words extends Widget {
 	 *
 	 * @return array The chart args.
 	 */
-	public static function get_chart_args() {
+	public function get_chart_args() {
 		return [
 			'query_params'   => [
 				'category' => 'content',
 				'type'     => 'publish',
 			],
 			'dates_params'   => [
-				'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) )->modify( self::get_range() ),
+				'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) )->modify( $this->get_range() ),
 				'end'       => new \DateTime(),
-				'frequency' => self::get_frequency(),
+				'frequency' => $this->get_frequency(),
 				'format'    => 'M',
 			],
 			'chart_params'   => [
 				'type' => 'line',
 			],
-			'count_callback' => [ self::class, 'count_words' ],
+			'count_callback' => [ $this, 'count_words' ],
 			'compound'       => false,
 			'colors'         => [
 				'background' => function () {
@@ -102,7 +102,7 @@ final class Published_Words extends Widget {
 	 *
 	 * @return int
 	 */
-	public static function count_words( $activities ) {
+	public function count_words( $activities ) {
 		$words = 0;
 		foreach ( $activities as $activity ) {
 			if ( ! $activity->get_post() ) {
@@ -121,10 +121,10 @@ final class Published_Words extends Widget {
 	 *
 	 * @return int The weekly words count.
 	 */
-	public static function get_weekly_words() {
+	public function get_weekly_words() {
 		static $weekly_words;
 		if ( null === $weekly_words ) {
-			$weekly_words = self::count_words(
+			$weekly_words = $this->count_words(
 				\progress_planner()->get_query()->query_activities(
 					[
 						'category'   => 'content',

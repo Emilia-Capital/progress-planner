@@ -31,7 +31,7 @@ final class Activity_Scores extends Widget {
 			<?php \esc_html_e( 'Activity scores', 'progress-planner' ); ?>
 		</h2>
 		<div class="prpl-graph-wrapper">
-			<?php ( new Chart() )->the_chart( self::get_chart_args() ); ?>
+			<?php ( new Chart() )->the_chart( $this->get_chart_args() ); ?>
 		</div>
 		<?php
 	}
@@ -43,7 +43,7 @@ final class Activity_Scores extends Widget {
 	 *
 	 * @return string The color.
 	 */
-	public static function get_color( $number ) {
+	public function get_color( $number ) {
 		if ( $number > 90 ) {
 			return '#14b8a6';
 		}
@@ -58,13 +58,14 @@ final class Activity_Scores extends Widget {
 	 *
 	 * @return array The chart args.
 	 */
-	public static function get_chart_args() {
+	public function get_chart_args() {
+		$this_object = $this;
 		return [
 			'query_params'   => [],
 			'dates_params'   => [
-				'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) )->modify( self::get_range() ),
+				'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) )->modify( $this->get_range() ),
 				'end'       => new \DateTime(),
-				'frequency' => self::get_frequency(),
+				'frequency' => $this->get_frequency(),
 				'format'    => 'M',
 			],
 			'chart_params'   => [
@@ -86,7 +87,7 @@ final class Activity_Scores extends Widget {
 					],
 				],
 			],
-			'count_callback' => function ( $activities, $date ) {
+			'count_callback' => function ( $activities, $date ) use ( $this_object ) {
 				$score = 0;
 				foreach ( $activities as $activity ) {
 					$score += $activity->get_points( $date );
@@ -97,8 +98,8 @@ final class Activity_Scores extends Widget {
 			'compound'       => false,
 			'normalized'     => true,
 			'colors'         => [
-				'background' => [ 'ProgressPlanner\Widgets\Activity_Scores', 'get_color' ],
-				'border'     => [ 'ProgressPlanner\Widgets\Activity_Scores', 'get_color' ],
+				'background' => [ $this_object, 'get_color' ],
+				'border'     => [ $this_object, 'get_color' ],
 			],
 			'max'            => 100,
 		];

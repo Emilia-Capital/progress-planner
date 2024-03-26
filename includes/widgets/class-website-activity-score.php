@@ -22,11 +22,55 @@ class Website_Activity_Score extends Widget {
 	protected $id = 'website-activity-score';
 
 	/**
+	 * Render the widget content.
+	 */
+	public function the_content() {
+		$score = $this->get_score();
+		?>
+		<h2 class="prpl-widget-title">
+			<?php \esc_html_e( 'Website activity score', 'progress-planner' ); ?>
+		</h2>
+
+		<div class="two-col">
+			<div style="text-align: center;">
+				<div class="prpl-activities-gauge-container">
+					<div
+						class="prpl-activities-gauge"
+						style="
+							--value:<?php echo \esc_attr( $score / 100 ); ?>;
+							--background: var(--prpl-background-orange);
+							--max: 180deg;
+							--start: 270deg;
+							--color:<?php echo \esc_attr( $this->get_gauge_color( $score ) ); ?>"
+					>
+						<span class="prpl-gauge-number">
+							<?php echo esc_html( $score ); ?>
+						</span>
+					</div>
+				</div>
+				<?php \esc_html_e( 'Based on your activity over the past 30 days', 'progress-planner' ); ?>
+			</div>
+			<div>
+				<?php \esc_html_e( 'Over the past week:', 'progress-planner' ); ?>
+				<ul>
+					<?php foreach ( $this->get_checklist() as $checklist_item ) : ?>
+						<li class="prpl-checklist-item">
+							<?php echo ( $checklist_item['callback']() ) ? '✔️' : '❌'; ?>
+							<?php echo $checklist_item['label']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+						</li>
+					<?php endforeach; ?>
+				</ul>
+			</div>
+		</div>
+		<?php
+	}
+
+	/**
 	 * Get the score.
 	 *
 	 * @return int The score.
 	 */
-	public static function get_score() {
+	public function get_score() {
 		$activities = \progress_planner()->get_query()->query_activities(
 			[
 				// Use 31 days to take into account
@@ -55,7 +99,7 @@ class Website_Activity_Score extends Widget {
 	 *
 	 * @return array The checklist items.
 	 */
-	public static function get_checklist() {
+	public function get_checklist() {
 		return [
 			[
 				'label'    => \esc_html__( 'Publish content', 'progress-planner' ),
@@ -101,7 +145,7 @@ class Website_Activity_Score extends Widget {
 	 *
 	 * @return string The color.
 	 */
-	public static function get_gauge_color( $score ) {
+	public function get_gauge_color( $score ) {
 		if ( $score >= 75 ) {
 			return 'var(--prpl-color-accent-green)';
 		}
@@ -109,49 +153,5 @@ class Website_Activity_Score extends Widget {
 			return 'var(--prpl-color-accent-orange)';
 		}
 		return 'var(--prpl-color-accent-red)';
-	}
-
-	/**
-	 * Render the widget content.
-	 */
-	public function the_content() {
-		$score = self::get_score();
-		?>
-		<h2 class="prpl-widget-title">
-			<?php \esc_html_e( 'Website activity score', 'progress-planner' ); ?>
-		</h2>
-
-		<div class="two-col">
-			<div style="text-align: center;">
-				<div class="prpl-activities-gauge-container">
-					<div
-						class="prpl-activities-gauge"
-						style="
-							--value:<?php echo \esc_attr( $score / 100 ); ?>;
-							--background: var(--prpl-background-orange);
-							--max: 180deg;
-							--start: 270deg;
-							--color:<?php echo \esc_attr( self::get_gauge_color( $score ) ); ?>"
-					>
-						<span class="prpl-gauge-number">
-							<?php echo esc_html( $score ); ?>
-						</span>
-					</div>
-				</div>
-				<?php \esc_html_e( 'Based on your activity over the past 30 days', 'progress-planner' ); ?>
-			</div>
-			<div>
-				<?php \esc_html_e( 'Over the past week:', 'progress-planner' ); ?>
-				<ul>
-					<?php foreach ( self::get_checklist() as $checklist_item ) : ?>
-						<li class="prpl-checklist-item">
-							<?php echo ( $checklist_item['callback']() ) ? '✔️' : '❌'; ?>
-							<?php echo $checklist_item['label']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-						</li>
-					<?php endforeach; ?>
-				</ul>
-			</div>
-		</div>
-		<?php
 	}
 }
