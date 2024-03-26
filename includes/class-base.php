@@ -35,6 +35,26 @@ class Base {
 	private static $instance;
 
 	/**
+	 * An array of configuration values for points awarded by action-type.
+	 *
+	 * @var array
+	 */
+	public static $points_config = [
+		'content'      => [
+			'publish'          => 50,
+			'update'           => 10,
+			'delete'           => 5,
+			'word-multipliers' => [
+				100  => 1.1,
+				350  => 1.25,
+				1000 => 0.8,
+			],
+		],
+		'score-target' => 200,
+		'maintenance'  => 10,
+	];
+
+	/**
 	 * The remote server ROOT URL.
 	 *
 	 * @var string
@@ -59,6 +79,9 @@ class Base {
 	 */
 	private function __construct() {
 		$this->init();
+
+		// TODO: DELETE THIS LINE.
+		$this->set_points_config();
 	}
 
 	/**
@@ -141,26 +164,38 @@ class Base {
 	 *
 	 * @return mixed
 	 */
-	public function get_dev_config( $param = null ) {
-		$config = [
-			'content-publish'                    => 50,
-			'content-update'                     => 10,
-			'content-delete'                     => 5,
-			'content-100-minus-words-multiplier' => 0.8,
-			'content-100-plus-words-multiplier'  => 1.1,
-			'content-350-plus-words-multiplier'  => 1.25,
-			'content-1000-plus-words-multiplier' => 0.8,
-			'maintenance'                        => 10,
-			'activity-score-target'              => 200,
-		];
-
-		// phpcs:disable WordPress.Security
-		foreach ( $config as $key => $value ) {
-			$config[ $key ] = isset( $_GET[ $key ] ) ? (float) $_GET[ $key ] : $value;
+	public function set_points_config() {
+		if ( isset( $_GET['content-publish'] ) ) {
+			self::$points_config['content']['publish'] = (float) $_GET['content-publish'];
 		}
-		// phpcs:enable WordPress.Security
 
-		return null === $param ? $config : $config[ $param ];
+		if ( isset( $_GET['content-update'] ) ) {
+			self::$points_config['content']['update'] = (float) $_GET['content-update'];
+		}
+
+		if ( isset( $_GET['content-delete'] ) ) {
+			self::$points_config['content']['delete'] = (float) $_GET['content-delete'];
+		}
+
+		if ( isset( $_GET['content-word-multiplier-100'] ) ) {
+			self::$points_config['content']['word-multipliers'][100] = (float) $_GET['content-word-multiplier-100'];
+		}
+
+		if ( isset( $_GET['content-word-multiplier-350'] ) ) {
+			self::$points_config['content']['word-multipliers'][350] = (float) $_GET['content-word-multiplier-350'];
+		}
+
+		if ( isset( $_GET['content-word-multiplier-1000'] ) ) {
+			self::$points_config['content']['word-multipliers'][1000] = (float) $_GET['content-word-multiplier-1000'];
+		}
+
+		if ( isset( $_GET['score-target'] ) ) {
+			self::$points_config['score_target'] = (float) $_GET['score-target'];
+		}
+
+		if ( isset( $_GET['maintenance'] ) ) {
+			self::$points_config['maintenance'] = (float) $_GET['maintenance'];
+		}
 	}
 
 	/**

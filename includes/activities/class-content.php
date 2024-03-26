@@ -7,6 +7,7 @@
 
 namespace ProgressPlanner\Activities;
 
+use ProgressPlanner\Base;
 use ProgressPlanner\Activity;
 use ProgressPlanner\Date;
 use ProgressPlanner\Activities\Content_Helpers;
@@ -40,25 +41,22 @@ class Content extends Activity {
 	 * @return int
 	 */
 	public function get_points( $date ) {
-
-		$dev_config = \progress_planner()->get_dev_config();
-		$points     = isset( $dev_config[ $this->get_type() ] )
-			? $dev_config[ $this->get_type() ]
-			: $dev_config['content-publish'];
-		$post       = $this->get_post();
+		$points = Base::$points_config['content']['publish'];
+		if ( isset( Base::$points_config['content'][ $this->get_type() ] ) ) {
+			$points = Base::$points_config['content'][ $this->get_type() ];
+		}
+		$post = $this->get_post();
 
 		if ( ! $post ) {
 			return 0;
 		}
 		$words = Content_Helpers::get_word_count( $post->post_content, $post->ID );
 		if ( $words > 1000 ) {
-			$points *= $dev_config['content-1000-plus-words-multiplier'];
+			$points *= Base::$points_config['content']['word-multipliers'][1000];
 		} elseif ( $words > 350 ) {
-			$points *= $dev_config['content-350-plus-words-multiplier'];
+			$points *= Base::$points_config['content']['word-multipliers'][350];
 		} elseif ( $words > 100 ) {
-			$points *= $dev_config['content-100-plus-words-multiplier'];
-		} else {
-			$points *= $dev_config['content-100-minus-words-multiplier'];
+			$points *= Base::$points_config['content']['word-multipliers'][100];
 		}
 
 		$days = absint( Date::get_days_between_dates( $date, $this->get_date() ) );

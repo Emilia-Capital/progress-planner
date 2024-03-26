@@ -1,6 +1,18 @@
 <?php // phpcs:disable
 
-$numbers = \progress_planner()->get_dev_config();
+Use ProgressPlanner\Base;
+
+$numbers = [
+	'content-publish'              => Base::$points_config['content']['publish'],
+	'content-update'               => Base::$points_config['content']['update'],
+	'content-delete'               => Base::$points_config['content']['delete'],
+	'content-word-multiplier-100'  => Base::$points_config['content']['word-multipliers'][100],
+	'content-word-multiplier-350'  => Base::$points_config['content']['word-multipliers'][350],
+	'content-word-multiplier-1000' => Base::$points_config['content']['word-multipliers'][1000],
+	'score-target'                 => Base::$points_config['score-target'],
+	'maintenance'                  => Base::$points_config['maintenance'],
+];
+
 ?>
 <h2>DEV - Weights, scores, multipliers</h2>
 <form id="prpl-dev-stats-numbers">

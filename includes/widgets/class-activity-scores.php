@@ -7,6 +7,7 @@
 
 namespace ProgressPlanner\Widgets;
 
+use ProgressPlanner\Base;
 use ProgressPlanner\Widgets\Widget;
 use ProgressPlanner\Chart;
 
@@ -92,7 +93,7 @@ final class Activity_Scores extends Widget {
 				foreach ( $activities as $activity ) {
 					$score += $activity->get_points( $date );
 				}
-				$target = \progress_planner()->get_dev_config( 'activity-score-target' );
+				$target = Base::$points_config['score-target'];
 				return $score * 100 / $target;
 			},
 			'compound'       => false,
