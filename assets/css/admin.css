@@ -11,7 +11,7 @@
 
 	--prpl-container-max-width: calc(var(--prpl-column-max-width) * var(--prpl-max-columns) + var(--prpl-gap) * (var(--prpl-max-columns) - 1));
 
-	--prpl-color-gray-1: #e5e7eb;
+	--prpl-color-gray-1: #e1e3e7;
 	--prpl-color-gray-2: #d1d5db;
 	--prpl-color-gray-3: #9ca3af;
 	--prpl-color-gray-4: #6b7280;
