@@ -7,6 +7,8 @@
 
 namespace ProgressPlanner\Admin;
 
+use ProgressPlanner\Admin\Page;
+
 /**
  * Class Dashboard_Widget
  */
@@ -34,11 +36,9 @@ class Dashboard_Widget {
 	 * Render the dashboard widget.
 	 */
 	public function render_dashboard_widget() {
-		// Enqueue Chart.js.
-		// TODO: Use a local copy of Chart.js and properly enqueue it.
-		echo '<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>';
+		Page::enqueue_styles();
 		echo '<div class="prpl-dashboard-widget">';
-		new \ProgressPlanner\Widgets\Activity_Scores();
+		\ProgressPlanner\Widgets\Website_Activity_Score::print_score_gauge();
 
 		echo '<a href="' . \esc_url( \get_admin_url( null, 'admin.php?page=progress-planner' ) ) . '">';
 		\esc_html_e( 'See more details', 'progress-planner' );

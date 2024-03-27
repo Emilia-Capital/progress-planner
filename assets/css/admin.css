@@ -1,7 +1,7 @@
 /*------------------------------------*\
 	Set variables.
 \*------------------------------------*/
-.prpl-wrap {
+:root {
 	--prpl-gap: 32px;
 	--prpl-padding: 20px;
 	--prpl-column-min-width: 16rem;
@@ -216,10 +216,16 @@
 	grid-template-columns: 6fr 4fr;
 }
 
-.prpl-widget-wrapper.prpl-website-activity-score .prpl-gauge-number {
+.prpl-gauge-number {
 	font-size: var(--prpl-font-size-4xl);
-	line-height: 1;
 	margin-top: -1em;
+	display: block;
+	padding-top: 50%;
+	font-weight: 700;
+	text-align: center;
+	position: absolute;
+	width: 100%;
+	line-height: 2;
 }
 
 .prpl-activities-gauge-container {
@@ -229,16 +235,6 @@
 	aspect-ratio: 2 / 1;
 	overflow: hidden;
 	top: 50%;
-}
-
-.prpl-activities-gauge-container .prpl-gauge-number {
-	display: block;
-	padding-top: 50%;
-	font-weight: 700;
-	text-align: center;
-	position: absolute;
-	width: 100%;
-	line-height: 2;
 }
 
 /*------------------------------------*\
