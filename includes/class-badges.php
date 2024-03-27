@@ -63,22 +63,13 @@ class Badges {
 	public static function get_badge_progress( $badge_id ) {
 		$badge = self::get_badge( $badge_id );
 		if ( empty( $badge ) ) {
-			return 0;
+			return [];
 		}
 
 		$progress = [];
 
 		if ( ! isset( $badge['steps'] ) ) {
 			return $badge['progress_callback']();
-		}
-
-		foreach ( $badge['steps'] as $step_id => $step ) {
-			$progress[] = [
-				'id'       => $step_id,
-				'name'     => $step['name'],
-				'icons'    => $step['icons-svg'],
-				'progress' => $badge['progress_callback']( $step['target'] ),
-			];
 		}
 
 		return $progress;
