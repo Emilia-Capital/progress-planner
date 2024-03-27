@@ -239,7 +239,7 @@ class Content {
 					[
 						'category' => 'content',
 						'type'     => 'publish',
-						'data_id'  => $post_id,
+						'data_id'  => $post->ID,
 					],
 					'RAW'
 				);
