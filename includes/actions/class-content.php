@@ -286,6 +286,9 @@ class Content {
 				Settings::set( [ 'badges', $badge_id ], [] );
 			}
 		}
+
+		// Reset the words count.
+		Settings::set( [ 'word_count', $post->ID ], false );
 	}
 
 	/**
@@ -334,8 +337,12 @@ class Content {
 		// Loop through the posts and update the stats.
 		$activities = [];
 		foreach ( $posts as $post ) {
+			// Set the activity.
 			$activities[ $post->ID ] = Content_Helpers::get_activity_from_post( $post );
+			// Set the word count.
+			Content_Helpers::get_word_count( $post->post_content, $post->ID );
 		}
+
 		\progress_planner()->get_query()->insert_activities( $activities );
 		Settings::set( static::LAST_SCANNED_PAGE_OPTION, $current_page );
 

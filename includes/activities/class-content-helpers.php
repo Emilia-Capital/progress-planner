@@ -9,6 +9,7 @@ namespace ProgressPlanner\Activities;
 
 use ProgressPlanner\Activities\Content;
 use ProgressPlanner\Date;
+use ProgressPlanner\Settings;
 
 /**
  * Handler for posts activities.
@@ -39,8 +40,8 @@ class Content_Helpers {
 	 * @return int
 	 */
 	public static function get_word_count( $content, $post_id = 0 ) {
-		static $counts = [];
-		if ( $post_id && isset( $counts[ $post_id ] ) ) {
+		$counts = Settings::get( [ 'word_count' ], [] );
+		if ( $post_id && isset( $counts[ $post_id ] ) && false !== $counts[ $post_id ] ) {
 			return $counts[ $post_id ];
 		}
 
@@ -52,8 +53,8 @@ class Content_Helpers {
 
 		$count = \str_word_count( $content );
 
-		if ( $post_id ) {
-			$counts[ $post_id ] = $count;
+		if ( $post_id && \is_int( $post_id ) ) {
+			Settings::set( [ 'word_count', $post_id ], $count );
 		}
 
 		return $count;
