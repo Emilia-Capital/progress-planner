@@ -138,7 +138,7 @@ class Base {
 		$feed = \get_transient( 'prpl_blog_feed' );
 		if ( false === $feed ) {
 			// Get the feed using the REST API.
-			$response = \wp_remote_get( self::REMOTE_SERVER_ROOT_URL . '/wp-json/wp/v2/posts/?per_page=3' );
+			$response = \wp_remote_get( self::REMOTE_SERVER_ROOT_URL . '/wp-json/wp/v2/posts/?per_page=2' );
 			if ( \is_wp_error( $response ) ) {
 				return [];
 			}
