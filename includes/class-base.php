@@ -158,11 +158,10 @@ class Base {
 	 *
 	 * TODO: DELETE THIS METHOD.
 	 *
-	 * @param string $param The parameter to get. Null to get all.
-	 *
 	 * @return mixed
 	 */
 	public function set_points_config() {
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended
 		if ( isset( $_GET['content-publish'] ) ) {
 			self::$points_config['content']['publish'] = (float) $_GET['content-publish'];
 		}
@@ -194,5 +193,6 @@ class Base {
 		if ( isset( $_GET['maintenance'] ) ) {
 			self::$points_config['maintenance'] = (float) $_GET['maintenance'];
 		}
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 	}
 }
