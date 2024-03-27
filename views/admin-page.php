@@ -35,7 +35,6 @@ namespace ProgressPlanner;
 				<?php new \ProgressPlanner\Widgets\Latest_Badge(); ?>
 				<?php new \ProgressPlanner\Widgets\Badges_Progress(); ?>
 				<?php new \ProgressPlanner\Widgets\Whats_New(); ?>
-				<?php require '__filter-numbers.php'; ?>
 			</div>
 		</div>
 	</div>

@@ -78,9 +78,6 @@ class Base {
 	 */
 	private function __construct() {
 		$this->init();
-
-		// TODO: DELETE THIS LINE.
-		$this->set_points_config();
 	}
 
 	/**
@@ -149,50 +146,5 @@ class Base {
 			\set_transient( 'prpl_blog_feed', $feed, 1 * DAY_IN_SECONDS );
 		}
 		return $feed;
-	}
-
-	/**
-	 * THIS SHOULD BE DELETED.
-	 * WE ONLY HAVE IT HERE TO EXPERIMENT WITH THE NUMBERS
-	 * WE'LL HAVE TO USE FOR STATS/SCORES.
-	 *
-	 * TODO: DELETE THIS METHOD.
-	 *
-	 * @return mixed
-	 */
-	public function set_points_config() {
-		// phpcs:disable WordPress.Security.NonceVerification.Recommended
-		if ( isset( $_GET['content-publish'] ) ) {
-			self::$points_config['content']['publish'] = (float) $_GET['content-publish'];
-		}
-
-		if ( isset( $_GET['content-update'] ) ) {
-			self::$points_config['content']['update'] = (float) $_GET['content-update'];
-		}
-
-		if ( isset( $_GET['content-delete'] ) ) {
-			self::$points_config['content']['delete'] = (float) $_GET['content-delete'];
-		}
-
-		if ( isset( $_GET['content-word-multiplier-100'] ) ) {
-			self::$points_config['content']['word-multipliers'][100] = (float) $_GET['content-word-multiplier-100'];
-		}
-
-		if ( isset( $_GET['content-word-multiplier-350'] ) ) {
-			self::$points_config['content']['word-multipliers'][350] = (float) $_GET['content-word-multiplier-350'];
-		}
-
-		if ( isset( $_GET['content-word-multiplier-1000'] ) ) {
-			self::$points_config['content']['word-multipliers'][1000] = (float) $_GET['content-word-multiplier-1000'];
-		}
-
-		if ( isset( $_GET['score-target'] ) ) {
-			self::$points_config['score_target'] = (float) $_GET['score-target'];
-		}
-
-		if ( isset( $_GET['maintenance'] ) ) {
-			self::$points_config['maintenance'] = (float) $_GET['maintenance'];
-		}
-		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 	}
 }
