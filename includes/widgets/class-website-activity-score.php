@@ -31,7 +31,7 @@ class Website_Activity_Score extends Widget {
 		</h2>
 
 		<div class="two-col">
-
+			<?php self::print_score_gauge(); ?>
 			<div>
 				<?php \esc_html_e( 'Over the past week:', 'progress-planner' ); ?>
 				<?php $this->print_weekly_activities_checklist(); ?>
@@ -77,7 +77,7 @@ class Website_Activity_Score extends Widget {
 	public static function print_weekly_activities_checklist() {
 		?>
 		<ul>
-			<?php foreach ( $this->get_checklist() as $checklist_item ) : ?>
+			<?php foreach ( self::get_checklist() as $checklist_item ) : ?>
 				<li class="prpl-checklist-item">
 					<?php echo ( $checklist_item['callback']() ) ? '✔️' : '❌'; ?>
 					<?php echo $checklist_item['label']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
@@ -121,7 +121,7 @@ class Website_Activity_Score extends Widget {
 	 *
 	 * @return array The checklist items.
 	 */
-	public function get_checklist() {
+	public static function get_checklist() {
 		return [
 			[
 				'label'    => \esc_html__( 'Publish content', 'progress-planner' ),
