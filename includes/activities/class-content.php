@@ -41,35 +41,42 @@ class Content extends Activity {
 	 * @return int
 	 */
 	public function get_points( $date ) {
-		$points = Base::$points_config['content']['publish'];
+		$date_ymd = $date->format( 'Ymd' );
+		if ( isset( $this->points[ $date_ymd ] ) ) {
+			return $this->points[ $date_ymd ];
+		}
+
+		$this->points[ $date_ymd ] = Base::$points_config['content']['publish'];
 		if ( isset( Base::$points_config['content'][ $this->get_type() ] ) ) {
-			$points = Base::$points_config['content'][ $this->get_type() ];
+			$this->points[ $date_ymd ] = Base::$points_config['content'][ $this->get_type() ];
 		}
 		$post = $this->get_post();
 
 		if ( ! $post ) {
-			return 0;
+			$this->points[ $date_ymd ] = 0;
+			return $this->points[ $date_ymd ];
 		}
 		$words = Content_Helpers::get_word_count( $post->post_content, $post->ID );
 		if ( $words > 1000 ) {
-			$points *= Base::$points_config['content']['word-multipliers'][1000];
+			$this->points[ $date_ymd ] *= Base::$points_config['content']['word-multipliers'][1000];
 		} elseif ( $words > 350 ) {
-			$points *= Base::$points_config['content']['word-multipliers'][350];
+			$this->points[ $date_ymd ] *= Base::$points_config['content']['word-multipliers'][350];
 		} elseif ( $words > 100 ) {
-			$points *= Base::$points_config['content']['word-multipliers'][100];
+			$this->points[ $date_ymd ] *= Base::$points_config['content']['word-multipliers'][100];
 		}
 
 		$days = absint( Date::get_days_between_dates( $date, $this->get_date() ) );
 
 		// Maximum range for awarded points is 30 days.
 		if ( $days >= 30 ) {
-			return 0;
+			$this->points[ $date_ymd ] = 0;
+			return $this->points[ $date_ymd ];
 		}
 
-		$points = ( $days < 7 )
-			? round( $points ) // If the activity is new (less than 7 days old), award full points.
-			: round( $points * max( 0, ( 1 - $days / 30 ) ) ); // Decay the points based on the age of the activity.
+		$this->points[ $date_ymd ] = ( $days < 7 )
+			? round( $this->points[ $date_ymd ] ) // If the activity is new (less than 7 days old), award full points.
+			: round( $this->points[ $date_ymd ] * max( 0, ( 1 - $days / 30 ) ) ); // Decay the points based on the age of the activity.
 
-		return $points;
+		return $this->points[ $date_ymd ];
 	}
 }

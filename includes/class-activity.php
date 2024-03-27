@@ -59,6 +59,13 @@ class Activity {
 	protected $user_id;
 
 	/**
+	 * Activity points by date.
+	 *
+	 * @var array
+	 */
+	protected $points = [];
+
+	/**
 	 * Set the ID of the activity.
 	 *
 	 * @param int $id The ID of the activity.
@@ -206,9 +213,15 @@ class Activity {
 	 * @return int
 	 */
 	public function get_points( $date ) {
-		$days = abs( Date::get_days_between_dates( $date, $this->get_date() ) );
-		return ( $days < 7 )
+		$date_ymd = $date->format( 'Ymd' );
+		if ( isset( $this->points[ $date_ymd ] ) ) {
+			return $this->points[ $date_ymd ];
+		}
+		$days                      = abs( Date::get_days_between_dates( $date, $this->get_date() ) );
+		$this->points[ $date_ymd ] = ( $days < 7 )
 			? 10
 			: round( 10 * max( 0, ( 1 - $days / 30 ) ) );
+
+		return $this->points[ $date_ymd ];
 	}
 }

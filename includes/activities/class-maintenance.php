@@ -52,9 +52,15 @@ class Maintenance extends Activity {
 	 * @return int
 	 */
 	public function get_points( $date ) {
-		$points = Base::$points_config['maintenance'];
-		$days   = abs( Date::get_days_between_dates( $date, $this->get_date() ) );
+		$date_ymd = $date->format( 'Ymd' );
+		if ( isset( $this->points[ $date_ymd ] ) ) {
+			return $this->points[ $date_ymd ];
+		}
+		$this->points[ $date_ymd ] = Base::$points_config['maintenance'];
+		$days                      = abs( Date::get_days_between_dates( $date, $this->get_date() ) );
 
-		return ( $days < 7 ) ? $points : 0;
+		$this->points[ $date_ymd ] = ( $days < 7 ) ? $this->points[ $date_ymd ] : 0;
+
+		return $this->points[ $date_ymd ];
 	}
 }

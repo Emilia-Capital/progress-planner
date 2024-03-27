@@ -60,7 +60,6 @@ final class Activity_Scores extends Widget {
 	 * @return array The chart args.
 	 */
 	public function get_chart_args() {
-		$this_object = $this;
 		return [
 			'query_params'   => [],
 			'dates_params'   => [
@@ -88,7 +87,7 @@ final class Activity_Scores extends Widget {
 					],
 				],
 			],
-			'count_callback' => function ( $activities, $date ) use ( $this_object ) {
+			'count_callback' => function ( $activities, $date ) {
 				$score = 0;
 				foreach ( $activities as $activity ) {
 					$score += $activity->get_points( $date );
@@ -99,8 +98,8 @@ final class Activity_Scores extends Widget {
 			'compound'       => false,
 			'normalized'     => true,
 			'colors'         => [
-				'background' => [ $this_object, 'get_color' ],
-				'border'     => [ $this_object, 'get_color' ],
+				'background' => [ $this, 'get_color' ],
+				'border'     => [ $this, 'get_color' ],
 			],
 			'max'            => 100,
 		];
