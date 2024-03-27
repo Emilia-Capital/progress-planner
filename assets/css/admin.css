@@ -203,6 +203,13 @@
 }
 
 /*------------------------------------*\
+	Welcome widget.
+\*------------------------------------*/
+.prpl-widget-wrapper.prpl-welcome {
+	margin-bottom: var(--prpl-gap);
+}
+
+/*------------------------------------*\
 	Activity-score widget.
 \*------------------------------------*/
 .prpl-widget-wrapper.prpl-website-activity-score .two-col {

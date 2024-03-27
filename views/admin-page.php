@@ -12,6 +12,8 @@ namespace ProgressPlanner;
 	<h1 class="screen-reader-text"><?php \esc_html_e( 'Progress Planner', 'progress-planner' ); ?></h1>
 	<?php require 'admin-page-header.php'; ?>
 
+	<?php require 'welcome.php'; ?>
+
 	<div class="prpl-widgets-container">
 		<div class="prpl-column-main prpl-column-main-primary">
 			<div class="prpl-column prpl-column-first">
