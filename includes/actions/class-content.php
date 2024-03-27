@@ -271,6 +271,21 @@ class Content {
 		$activity = Content_Helpers::get_activity_from_post( $post );
 		$activity->set_type( $type );
 		$activity->save();
+
+		// Update the badges.
+		if ( 'publish' === $type ) {
+			$badge_ids = [ 'wonderful-writer', 'awesome-author', 'notorious-novelist' ];
+			foreach ( $badge_ids as $badge_id ) {
+
+				// If the badge is already complete, skip it.
+				if ( 100 === Settings::get( 'badges', $badge_id, 'progress', 0 ) ) {
+					continue;
+				}
+
+				// Delete the badge value so it can be re-calculated.
+				Settings::set( [ 'badges', $badge_id ], [] );
+			}
+		}
 	}
 
 	/**

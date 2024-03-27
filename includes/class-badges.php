@@ -101,7 +101,7 @@ class Badges {
 			$badge_progress = self::get_badge_progress( $badge_id );
 
 			// Skip if the badge is not completed.
-			if ( 100 !== $badge_progress['percent'] ) {
+			if ( 100 !== $badge_progress['progress'] ) {
 				continue;
 			}
 

@@ -42,12 +42,12 @@ final class Badges_Progress extends Widget {
 				<?php foreach ( $category_badges as $category_badge ) : ?>
 					<?php
 					$badge_progress  = Badges::get_badge_progress( $category_badge );
-					$badge_completed = 100 === (int) $badge_progress['percent'];
+					$badge_completed = 100 === (int) $badge_progress['progress'];
 					$badge_args      = Badges::get_badge( $category_badge );
 					?>
 					<span
 						class="prpl-badge"
-						data-value="<?php echo \esc_attr( $badge_progress['percent'] ); ?>"
+						data-value="<?php echo \esc_attr( $badge_progress['progress'] ); ?>"
 					>
 						<?php
 						include $badge_completed

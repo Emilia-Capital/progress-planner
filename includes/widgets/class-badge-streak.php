@@ -33,12 +33,12 @@ final class Badge_Streak extends Widget {
 			<div class="prpl-badge-wrapper">
 				<span
 					class="prpl-badge"
-					data-value="<?php echo \esc_attr( $details['progress']['percent'] ); ?>"
+					data-value="<?php echo \esc_attr( $details['progress']['progress'] ); ?>"
 				>
 					<div
 						class="prpl-badge-gauge"
 						style="
-							--value:<?php echo \esc_attr( $details['progress']['percent'] / 100 ); ?>;
+							--value:<?php echo \esc_attr( $details['progress']['progress'] / 100 ); ?>;
 							--max: 360deg;
 							--start: 180deg;
 							--color:<?php echo \esc_attr( $details['color'] ); ?>
@@ -46,7 +46,7 @@ final class Badge_Streak extends Widget {
 						<?php require $details['badge']['icons-svg']['complete']['path']; ?>
 					</div>
 				</span>
-				<span class="progress-percent"><?php echo \esc_attr( $details['progress']['percent'] ); ?>%</span>
+				<span class="progress-percent"><?php echo \esc_attr( $details['progress']['progress'] ); ?>%</span>
 			</div>
 			<div class="prpl-badge-content-wrapper">
 				<h2 class="prpl-widget-title">
@@ -82,7 +82,7 @@ final class Badge_Streak extends Widget {
 		// Get the badge to display.
 		foreach ( $badges as $badge ) {
 			$progress = Badges::get_badge_progress( $badge );
-			if ( 100 > $progress['percent'] ) {
+			if ( 100 > $progress['progress'] ) {
 				break;
 			}
 		}
@@ -90,10 +90,10 @@ final class Badge_Streak extends Widget {
 		$result['badge']    = Badges::get_badge( $badge );
 
 		$result['color'] = 'var(--prpl-color-accent-red)';
-		if ( $result['progress']['percent'] > 50 ) {
+		if ( $result['progress']['progress'] > 50 ) {
 			$result['color'] = 'var(--prpl-color-accent-orange)';
 		}
-		if ( $result['progress']['percent'] > 75 ) {
+		if ( $result['progress']['progress'] > 75 ) {
 			$result['color'] = 'var(--prpl-color-accent-green)';
 		}
 		return $result;

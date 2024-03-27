@@ -57,4 +57,27 @@ abstract class Badge_Maintenance extends Badge {
 			]
 		);
 	}
+
+	/**
+	 * Get the saved progress.
+	 *
+	 * @return array
+	 */
+	protected function get_saved() {
+		$value = parent::get_saved();
+
+		if ( isset( $value['progress'] ) && 100 === $value['progress'] ) {
+			return $value;
+		}
+
+		if ( isset( $value['date'] ) ) {
+			$last_date = new \DateTime( $value['date'] );
+			$diff      = $last_date->diff( new \DateTime() );
+			if ( $diff->days <= 2 ) {
+				return $value;
+			}
+		}
+
+		return [];
+	}
 }

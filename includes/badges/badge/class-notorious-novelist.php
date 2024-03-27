@@ -8,7 +8,6 @@
 namespace ProgressPlanner\Badges\Badge;
 
 use ProgressPlanner\Base;
-use ProgressPlanner\Settings;
 use ProgressPlanner\Badges\Badge_Content;
 
 /**
@@ -54,14 +53,11 @@ final class Notorious_Novelist extends Badge_Content {
 	 * Progress callback.
 	 */
 	public function progress_callback() {
-		$saved_progress = (int) Settings::get( [ 'badges', 'notorious-novelist' ], [] );
+		$saved_progress = $this->get_saved();
 
-		// If the badge is already complete, return 100% progress.
-		if ( isset( $saved_progress['progress'] ) && 100 === $saved_progress ) {
-			return [
-				'percent'   => 100,
-				'remaining' => 0,
-			];
+		// If we have a saved value, return it.
+		if ( isset( $saved_progress['progress'] ) && isset( $saved_progress['remaining'] ) ) {
+			return $saved_progress;
 		}
 
 		// Get the number of new posts published.
@@ -78,19 +74,15 @@ final class Notorious_Novelist extends Badge_Content {
 		$percent   = min( 100, floor( 100 * $new_count / 50 ) );
 		$remaining = 50 - min( 50, $new_count );
 
-		// If the user has published 50 new posts, save the badge as complete and return.
-		if ( 0 === $remaining ) {
-			Settings::set(
-				[ 'badges', 'notorious-novelist' ],
-				[
-					'progress' => 100,
-					'date'     => ( new \DateTime() )->format( 'Y-m-d H:i:s' ),
-				]
-			);
-		}
+		$this->save_progress(
+			[
+				'progress'  => $percent,
+				'remaining' => $remaining,
+			]
+		);
 
 		return [
-			'percent'   => $percent,
+			'progress'  => $percent,
 			'remaining' => $remaining,
 		];
 	}
