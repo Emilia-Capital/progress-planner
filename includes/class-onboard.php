@@ -89,7 +89,7 @@ class Onboard {
 		if ( $stored_nonce ) {
 			return $stored_nonce;
 		}
-		$response = wp_remote_get( self::REMOTE_URL . '/wp-json/progress-planner-saas/v1/get-nonce' );
+		$response = wp_remote_get( self::REMOTE_URL . '/wp-json/progress-planner-saas/v1/get-nonce/site/' . md5( \site_url() ) );
 		if ( is_wp_error( $response ) ) {
 			return '';
 		}
