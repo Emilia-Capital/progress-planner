@@ -30,4 +30,6 @@ $prpl_api_url = \site_url() . '/wp-json/progress-planner/v1/get-stats/token/' . 
 
 	DEV NOTE: REST-API endpoint to get the data: <a href="<?php echo esc_url( $prpl_api_url ); ?>" target="_blank"><?php echo esc_html( $prpl_api_url ); ?></a>
 	</pre>
+
+	<?php Onboard::the_form(); ?>
 </div>

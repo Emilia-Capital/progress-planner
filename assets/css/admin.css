@@ -407,3 +407,11 @@
 	color: var(--prpl-color-notification-red);
 	font-weight: 700;
 }
+
+/*------------------------------------*\
+	Onboarding form.
+\*------------------------------------*/
+#prpl-onboarding-form label {
+	display: block;
+	margin-bottom: 0.5em;
+}
