@@ -91,30 +91,6 @@ class Date {
 	}
 
 	/**
-	 * Get start of week from a date.
-	 *
-	 * @param \DateTime $date The date.
-	 *
-	 * @return \DateTime
-	 */
-	public static function get_start_of_week( $date ) {
-		$day_of_week = (int) $date->format( 'N' );
-		$day_of_week = $day_of_week === 7 ? 0 : $day_of_week;
-		return $date->modify( "-{$day_of_week} days" );
-	}
-
-	/**
-	 * Get start of month from a date.
-	 *
-	 * @param \DateTime $date The date.
-	 *
-	 * @return \DateTime
-	 */
-	public static function get_start_of_month( $date ) {
-		return $date->modify( 'first day of this month' );
-	}
-
-	/**
 	 * Get number of days between two dates.
 	 *
 	 * @param \DateTime $date1 The first date.
