@@ -19,7 +19,7 @@ class Onboard {
 	 *
 	 * @var string
 	 */
-	const REMOTE_URL = 'http://progressplanner.com';
+	const REMOTE_URL = 'https://progressplanner.com';
 
 	/**
 	 * The onboarding form.
