@@ -19,7 +19,7 @@ class Onboard {
 	 *
 	 * @var string
 	 */
-	const REMOTE_URL = 'http://ubuntu.orb.local';
+	const REMOTE_URL = 'http://progressplanner.com';
 
 	/**
 	 * The onboarding form.
