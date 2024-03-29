@@ -57,17 +57,17 @@ class Onboard {
 
 			<input
 				type="hidden"
-				name="remote_nonce"
+				name="nonce"
 				value="<?php echo esc_attr( self::get_remote_nonce() ); ?>"
 			>
 			<input
 				type="hidden"
-				name="site_token"
+				name="token"
 				value="<?php echo esc_attr( API::get_api_token() ); ?>"
 			>
 			<input
 				type="hidden"
-				name="site_url"
+				name="site"
 				value="<?php echo esc_attr( site_url() ); ?>"
 			>
 			<input
@@ -89,7 +89,7 @@ class Onboard {
 		if ( $stored_nonce ) {
 			return $stored_nonce;
 		}
-		$response = wp_remote_get( self::REMOTE_URL . '/wp-json/progress-planner-saas/v1/get-nonce/site/' . md5( \site_url() ) );
+		$response = wp_remote_get( self::REMOTE_URL . '/wp-json/progress-planner-saas/v1/get-nonce/site/' . API::get_api_token() );
 		if ( is_wp_error( $response ) ) {
 			return '';
 		}
@@ -99,8 +99,21 @@ class Onboard {
 			return '';
 		}
 
+		if ( $data['token'] !== API::get_api_token() ) {
+			return '';
+		}
+
 		\set_transient( 'progress_planner_remote_nonce', $data['nonce'], HOUR_IN_SECONDS );
 
 		return $data['nonce'];
+	}
+
+	/**
+	 * Get the onboarding remote URL.
+	 *
+	 * @return string
+	 */
+	public static function get_remote_url() {
+		return self::REMOTE_URL . '/wp-json/progress-planner-saas/v1/onboard';
 	}
 }

@@ -163,3 +163,27 @@ if ( document.getElementById( 'prpl-dev-stats-numbers' ) ) {
 		window.location.href = url.href;
 	} );
 }
+
+if ( document.getElementById( 'prpl-onboarding-form' ) ) {
+	document.getElementById( 'prpl-onboarding-form' ).addEventListener( 'submit', function( event ) {
+		event.preventDefault();
+		const inputs = this.querySelectorAll( 'input' );
+		const data   = {};
+		inputs.forEach( input => {
+			if ( input.name ) {
+				data[ input.name ] = input.value;
+			}
+		} );
+		console.log( data );
+		progressPlannerAjaxRequest( {
+			url: progressPlanner.onboardAPIUrl,
+			data: data,
+			successAction: ( response ) => {
+				console.log( response );
+				if ( response.success ) {
+					// location.reload();
+				}
+			},
+		} );
+	} );
+}

@@ -7,6 +7,8 @@
 
 namespace ProgressPlanner\Admin;
 
+use ProgressPlanner\Onboard;
+
 /**
  * Admin page class.
  */
@@ -98,9 +100,10 @@ class Page {
 			'progress-planner-admin',
 			'progressPlanner',
 			[
-				'ajaxUrl' => \admin_url( 'admin-ajax.php' ),
-				'nonce'   => \wp_create_nonce( 'progress_planner_scan' ),
-				'l10n'    => [
+				'onboardAPIUrl' => Onboard::get_remote_url(),
+				'ajaxUrl'       => \admin_url( 'admin-ajax.php' ),
+				'nonce'         => \wp_create_nonce( 'progress_planner_scan' ),
+				'l10n'          => [
 					'resettingStats' => \esc_html__( 'Resetting stats...', 'progress-planner' ),
 				],
 			]
