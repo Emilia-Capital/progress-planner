@@ -99,7 +99,7 @@ class Onboard {
 			return '';
 		}
 
-		if ( $data['token'] !== API::get_api_token() ) {
+		if ( ! isset( $data['token'] ) || $data['token'] !== API::get_api_token() ) {
 			return '';
 		}
 
