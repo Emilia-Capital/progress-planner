@@ -32,4 +32,6 @@ $prpl_api_url = \site_url() . '/wp-json/progress-planner/v1/get-stats/token/' . 
 	</pre>
 
 	<?php Onboard::the_form(); ?>
+
+	<?php include 'admin-page-form-scan.php'; ?>
 </div>
