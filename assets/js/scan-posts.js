@@ -1,47 +1,5 @@
-/**
- * Loaded on edit-tags admin pages, this file contains the JavaScript for the ProgressPlanner plugin.
- */
-
 /* global progressPlanner */
 
-/**
- * A helper to make AJAX requests.
- *
- * @param {Object}   params               The callback parameters.
- * @param {string}   params.url           The URL to send the request to.
- * @param {Object}   params.data          The data to send with the request.
- * @param {Function} params.successAction The callback to run on success.
- * @param {Function} params.failAction    The callback to run on failure.
- */
-const progressPlannerAjaxRequest = ( { url, data, successAction, failAction } ) => {
-	const http = new XMLHttpRequest();
-	http.open( 'POST', url, true );
-	http.onreadystatechange = () => {
-		let response;
-		try {
-			response = JSON.parse( http.response );
-		} catch ( e ) {
-			if ( http.readyState === 4 && http.status !== 200 ) {
-				// eslint-disable-next-line no-console
-				console.warn( http, e );
-				return http.response;
-			}
-		}
-		if ( http.readyState === 4 && http.status === 200 ) {
-			return successAction ? successAction( response ) : response;
-		}
-		return failAction ? failAction( response ) : response;
-	};
-
-	const dataForm = new FormData();
-
-	// eslint-disable-next-line prefer-const
-	for ( let [ key, value ] of Object.entries( data ) ) {
-		dataForm.append( key, value );
-	}
-
-	http.send( dataForm );
-};
 
 const progressPlannerTriggerScan = () => {
 	document.getElementById( 'progress-planner-scan-progress' ).style.display = 'block';
@@ -75,6 +33,7 @@ const progressPlannerTriggerScan = () => {
 	 * The AJAX request to run.
 	 */
 	progressPlannerAjaxRequest( {
+		method: 'POST',
 		url: progressPlanner.ajaxUrl,
 		data: {
 			action: 'progress_planner_scan_posts',
@@ -124,6 +83,7 @@ progressPlannerDomReady( () => {
 
 			// Make an AJAX request to reset the stats.
 			progressPlannerAjaxRequest( {
+				method: 'POST',
 				url: progressPlanner.ajaxUrl,
 				data: {
 					action: 'progress_planner_reset_stats',
@@ -164,26 +124,3 @@ if ( document.getElementById( 'prpl-dev-stats-numbers' ) ) {
 	} );
 }
 
-if ( document.getElementById( 'prpl-onboarding-form' ) ) {
-	document.getElementById( 'prpl-onboarding-form' ).addEventListener( 'submit', function( event ) {
-		event.preventDefault();
-		const inputs = this.querySelectorAll( 'input' );
-		const data   = {};
-		inputs.forEach( input => {
-			if ( input.name ) {
-				data[ input.name ] = input.value;
-			}
-		} );
-		console.log( data );
-		progressPlannerAjaxRequest( {
-			url: progressPlanner.onboardAPIUrl,
-			data: data,
-			successAction: ( response ) => {
-				console.log( response );
-				if ( response.success ) {
-					// location.reload();
-				}
-			},
-		} );
-	} );
-}

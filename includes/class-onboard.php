@@ -54,17 +54,6 @@ class Onboard {
 				>
 				<?php esc_html_e( 'I consent to sending my data to the remote server.', 'progress-planner' ); ?>
 			</label>
-
-			<input
-				type="hidden"
-				name="nonce"
-				value="<?php echo esc_attr( self::get_remote_nonce() ); ?>"
-			>
-			<input
-				type="hidden"
-				name="token"
-				value="<?php echo esc_attr( API::get_api_token() ); ?>"
-			>
 			<input
 				type="hidden"
 				name="site"
@@ -80,32 +69,12 @@ class Onboard {
 	}
 
 	/**
-	 * Get a nonce from the remote server.
+	 * Get the remote nonce URL.
 	 *
 	 * @return string
 	 */
-	public static function get_remote_nonce() {
-		$stored_nonce = \get_transient( 'progress_planner_remote_nonce' );
-		if ( $stored_nonce ) {
-			return $stored_nonce;
-		}
-		$response = wp_remote_get( self::REMOTE_URL . '/wp-json/progress-planner-saas/v1/get-nonce/site/' . API::get_api_token() );
-		if ( is_wp_error( $response ) ) {
-			return '';
-		}
-		$response_body = wp_remote_retrieve_body( $response );
-		$data          = json_decode( $response_body, true );
-		if ( ! is_array( $data ) || ! isset( $data['nonce'] ) ) {
-			return '';
-		}
-
-		if ( ! isset( $data['token'] ) || $data['token'] !== API::get_api_token() ) {
-			return '';
-		}
-
-		\set_transient( 'progress_planner_remote_nonce', $data['nonce'], HOUR_IN_SECONDS );
-
-		return $data['nonce'];
+	public static function get_remote_nonce_url() {
+		return self::REMOTE_URL . '/wp-json/progress-planner-saas/v1/get-nonce';
 	}
 
 	/**

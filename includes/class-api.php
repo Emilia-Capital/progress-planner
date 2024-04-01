@@ -49,23 +49,12 @@ class API {
 					'args'     => [
 						'token' => [
 							'required'          => true,
-							'validate_callback' => [ $this, 'validate_token' ],
+							'validate_callback' => '__return_true' // TODO: Validate the token.
 						],
 					],
 				],
 			]
 		);
-	}
-
-	/**
-	 * Validate the token.
-	 *
-	 * @param string $token The token.
-	 *
-	 * @return bool
-	 */
-	public function validate_token( $token ) {
-		return str_replace( 'token/', '', $token ) === self::get_api_token();
 	}
 
 	/**
@@ -120,20 +109,5 @@ class API {
 		$data['website'] = \home_url();
 
 		return new \WP_REST_Response( $data );
-	}
-
-	/**
-	 * Get the API token.
-	 *
-	 * @return string
-	 */
-	public static function get_api_token() {
-		$token = Settings::get( 'api_token', false );
-
-		if ( ! $token ) {
-			$token = \wp_generate_password( 32, false );
-			Settings::set( 'api_token', $token );
-		}
-		return $token;
 	}
 }

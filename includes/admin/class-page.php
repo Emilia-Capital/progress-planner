@@ -87,11 +87,30 @@ class Page {
 			false
 		);
 
+		// Enqueue the ajax-request helper.
+		\wp_enqueue_script(
+			'progress-planner-ajax',
+			PROGRESS_PLANNER_URL . '/assets/js/ajax-request.js',
+			[],
+			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/ajax-request.js' ),
+			true
+		);
+
+		// Enqueue the admin script to scan posts.
 		\wp_enqueue_script(
 			'progress-planner-admin',
-			PROGRESS_PLANNER_URL . '/assets/js/admin.js',
-			[],
-			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/admin.js' ),
+			PROGRESS_PLANNER_URL . '/assets/js/scan-posts.js',
+			[ 'progress-planner-ajax' ],
+			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/scan-posts.js' ),
+			true
+		);
+
+		// Enqueue the admin script to handle onboarding.
+		\wp_enqueue_script(
+			'progress-planner-onboard',
+			PROGRESS_PLANNER_URL . '/assets/js/onboard.js',
+			[ 'progress-planner-ajax' ],
+			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/onboard.js' ),
 			true
 		);
 
@@ -100,10 +119,11 @@ class Page {
 			'progress-planner-admin',
 			'progressPlanner',
 			[
-				'onboardAPIUrl' => Onboard::get_remote_url(),
-				'ajaxUrl'       => \admin_url( 'admin-ajax.php' ),
-				'nonce'         => \wp_create_nonce( 'progress_planner_scan' ),
-				'l10n'          => [
+				'onboardGetNonceURL' => Onboard::get_remote_nonce_url(),
+				'onboardAPIUrl'      => Onboard::get_remote_url(),
+				'ajaxUrl'            => \admin_url( 'admin-ajax.php' ),
+				'nonce'              => \wp_create_nonce( 'progress_planner_scan' ),
+				'l10n'               => [
 					'resettingStats' => \esc_html__( 'Resetting stats...', 'progress-planner' ),
 				],
 			]
