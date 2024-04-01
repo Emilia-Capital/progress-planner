@@ -45,14 +45,14 @@ class Onboard {
 					value="<?php echo esc_attr( $current_user->user_email ); ?>"
 				>
 			</label>
-			<label>
+			<!-- <label>
 				<?php esc_html_e( 'Name', 'progress-planner' ); ?>
 				<input
 					type="text"
 					name="name"
 					value="<?php echo esc_attr( $current_user->display_name ); ?>"
 				>
-			</label>
+			</label> -->
 			<label>
 				<input
 					type="checkbox"
@@ -68,10 +68,24 @@ class Onboard {
 			>
 			<input
 				type="submit"
-				value="<?php esc_attr_e( 'Submit', 'progress-planner' ); ?>"
+				value="<?php esc_attr_e( 'Start the onboarding process!', 'progress-planner' ); ?>"
 				class="button button-primary"
 			>
 		</form>
+		<div id="progress-planner-onboard-responses">
+			<ul class="onboard-steps">
+				<li class="registering-site">
+					<?php esc_html_e( 'Registering your site...', 'progress-planner' ); ?>
+				</li>
+				<li class="scanning-posts">
+					<?php esc_html_e( 'Scanning your posts...', 'progress-planner' ); ?>
+				</li>
+			</ul>
+			<div id="progress-planner-scan-progress" style="display:none;">
+				<progress value="0" max="100"></progress>
+			</div>
+
+		</div>
 		<?php
 	}
 

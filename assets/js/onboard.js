@@ -21,6 +21,9 @@ const progressPlannerAjaxAPIRequest = ( data ) => {
 					key: response.license_key,
 				},
 				successAction: ( response ) => {
+					// Start scanning posts.
+					document.querySelector( '#progress-planner-onboard-responses .scanning-posts' ).style.display = 'list-item';
+					progressPlannerTriggerScan();
 					// TODO: Print a link in the UI so the user can directly go to change their password.
 					console.log( response );
 				},
@@ -41,6 +44,7 @@ const progressPlannerAjaxAPIRequest = ( data ) => {
  * @param {Object} data The data to send with the request.
  */
 const progressPlannerOnboardCall = ( data ) => {
+	document.querySelector( '#progress-planner-onboard-responses .registering-site' ).style.display = 'list-item';
 	progressPlannerAjaxRequest( {
 		method: 'POST',
 		url: progressPlanner.onboardNonceURL,
@@ -61,6 +65,7 @@ const progressPlannerOnboardCall = ( data ) => {
 if ( document.getElementById( 'prpl-onboarding-form' ) ) {
 	document.getElementById( 'prpl-onboarding-form' ).addEventListener( 'submit', function( event ) {
 		event.preventDefault();
+		document.querySelector( '#prpl-onboarding-form input[type="submit"]' ).disabled = true;
 		const inputs = this.querySelectorAll( 'input' );
 
 		// Build the data object.

@@ -62,17 +62,6 @@ progressPlannerDomReady( () => {
 	const resetForm = document.getElementById( 'progress-planner-stats-reset' );
 
 	/**
-	 * Add an event listener for the scan form.
-	 */
-	if ( scanForm ) {
-		scanForm.addEventListener( 'submit', ( e ) => {
-			e.preventDefault();
-			scanForm.querySelector( 'input[type="submit"]' ).disabled = true;
-			progressPlannerTriggerScan();
-		} );
-	}
-
-	/**
 	 * Add an event listener for the reset form.
 	 */
 	if ( resetForm ) {
@@ -97,30 +86,3 @@ progressPlannerDomReady( () => {
 		} );
 	}
 } );
-
-document.getElementById( 'prpl-select-range' ).addEventListener( 'change', function() {
-	const range = this.value;
-	const url = new URL( window.location.href );
-	url.searchParams.set( 'range', range );
-	window.location.href = url.href;
-} );
-document.getElementById( 'prpl-select-frequency' ).addEventListener( 'change', function() {
-	const frequency = this.value;
-	const url = new URL( window.location.href );
-	url.searchParams.set( 'frequency', frequency );
-	window.location.href = url.href;
-} );
-
-if ( document.getElementById( 'prpl-dev-stats-numbers' ) ) {
-	document.getElementById( 'prpl-dev-stats-numbers' ).addEventListener( 'submit', function( event ) {
-		event.preventDefault();
-		const inputs = this.querySelectorAll( 'input' );
-		const url = new URL( window.location.href );
-
-		inputs.forEach( input => {
-			url.searchParams.set( input.name, input.value );
-		} );
-		window.location.href = url.href;
-	} );
-}
-

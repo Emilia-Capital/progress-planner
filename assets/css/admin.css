@@ -415,3 +415,7 @@
 	display: block;
 	margin-bottom: 0.5em;
 }
+
+#progress-planner-onboard-responses ul li {
+	display: none;
+}

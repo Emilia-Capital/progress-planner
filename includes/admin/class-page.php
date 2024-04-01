@@ -88,7 +88,7 @@ class Page {
 		);
 
 		// Enqueue the ajax-request helper.
-		\wp_enqueue_script(
+		\wp_register_script(
 			'progress-planner-ajax',
 			PROGRESS_PLANNER_URL . '/assets/js/ajax-request.js',
 			[],
@@ -97,8 +97,8 @@ class Page {
 		);
 
 		// Enqueue the admin script to scan posts.
-		\wp_enqueue_script(
-			'progress-planner-admin',
+		\wp_register_script(
+			'progress-planner-scanner',
 			PROGRESS_PLANNER_URL . '/assets/js/scan-posts.js',
 			[ 'progress-planner-ajax' ],
 			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/scan-posts.js' ),
@@ -109,25 +109,33 @@ class Page {
 		\wp_enqueue_script(
 			'progress-planner-onboard',
 			PROGRESS_PLANNER_URL . '/assets/js/onboard.js',
-			[ 'progress-planner-ajax' ],
+			[ 'progress-planner-ajax', 'progress-planner-scanner' ],
 			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/onboard.js' ),
 			true
 		);
 
-		// Localize the script.
-		\wp_localize_script(
+		// Enqueue the admin script for the page.
+		\wp_enqueue_script(
 			'progress-planner-admin',
-			'progressPlanner',
-			[
-				'onboardNonceURL' => Onboard::get_remote_nonce_url(),
-				'onboardAPIUrl'   => Onboard::get_remote_url(),
-				'ajaxUrl'         => \admin_url( 'admin-ajax.php' ),
-				'nonce'           => \wp_create_nonce( 'progress_planner' ),
-				'l10n'            => [
-					'resettingStats' => \esc_html__( 'Resetting stats...', 'progress-planner' ),
-				],
-			]
+			PROGRESS_PLANNER_URL . '/assets/js/admin.js',
+			[],
+			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/admin.js' ),
+			true
 		);
+
+		$localize_data = [
+			'onboardNonceURL' => Onboard::get_remote_nonce_url(),
+			'onboardAPIUrl'   => Onboard::get_remote_url(),
+			'ajaxUrl'         => \admin_url( 'admin-ajax.php' ),
+			'nonce'           => \wp_create_nonce( 'progress_planner' ),
+			'l10n'            => [
+				'resettingStats' => \esc_html__( 'Resetting stats...', 'progress-planner' ),
+			],
+		];
+
+		// Localize the scripts.
+		\wp_localize_script( 'progress-planner-onboard', 'progressPlanner', $localize_data );
+		\wp_localize_script( 'progress-planner-admin', 'progressPlanner', $localize_data );
 	}
 
 	/**

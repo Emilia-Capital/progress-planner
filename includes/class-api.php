@@ -13,7 +13,6 @@
 namespace ProgressPlanner;
 
 use ProgressPlanner\Badges;
-use ProgressPlanner\Settings;
 use ProgressPlanner\Badges\Badge\Wonderful_Writer as Badge_Wonderful_Writer;
 use ProgressPlanner\Badges\Badge\Awesome_Author as Badge_Awesome_Author;
 use ProgressPlanner\Badges\Badge\Notorious_Novelist as Badge_Notorious_Novelist;
@@ -49,7 +48,7 @@ class API {
 					'args'     => [
 						'token' => [
 							'required'          => true,
-							'validate_callback' => '__return_true' // TODO: Validate the token.
+							'validate_callback' => '__return_true', // TODO: Validate the token.
 						],
 					],
 				],

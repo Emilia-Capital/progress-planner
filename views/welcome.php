@@ -19,17 +19,5 @@ if ( Settings::get( 'license_key' ) ) {
 ?>
 <div class="prpl-widget-wrapper prpl-welcome">
 	<h1><?php esc_html_e( 'Welcome to the Progress Planner plugin!', 'progress-planner' ); ?></h1>
-	<pre>
-	WIP - This is where the subscription form will be.
-
-	The form will contain the following:
-		- Email field
-		- Name field (optional, placeholder prepopulated from their profile)
-		- Consent checkbox to send the data to the remote server
-		- Submit button: Send the data and start scanning existing content to calculate the user's activity score as a baseline.
-	</pre>
-
 	<?php Onboard::the_form(); ?>
-
-	<?php include 'admin-page-form-scan.php'; ?>
 </div>
