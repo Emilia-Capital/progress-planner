@@ -11,10 +11,20 @@ const progressPlannerAjaxAPIRequest = ( data ) => {
 		url: progressPlanner.onboardAPIUrl,
 		data: data,
 		successAction: ( response ) => {
-			console.log( data );
-			console.log( response );
-			if ( response.success ) {
-			}
+			// Make a local request to save the response data.
+			progressPlannerAjaxRequest( {
+				method: 'POST',
+				url: progressPlanner.ajaxUrl,
+				data: {
+					action: 'progress_planner_save_onboard_data',
+					_ajax_nonce: progressPlanner.nonce,
+					key: response.license_key,
+				},
+				successAction: ( response ) => {
+					// TODO: Print a link in the UI so the user can directly go to change their password.
+					console.log( response );
+				},
+			} );
 		},
 		failAction: ( response ) => {
 			console.log( response );
@@ -25,19 +35,22 @@ const progressPlannerAjaxAPIRequest = ( data ) => {
 /**
  * Make the AJAX request.
  *
+ * Make a request to get the nonce.
+ * Once the nonce is received, make a request to the API.
+ *
  * @param {Object} data The data to send with the request.
  */
 const progressPlannerOnboardCall = ( data ) => {
 	progressPlannerAjaxRequest( {
 		method: 'POST',
-		url: progressPlanner.onboardGetNonceURL,
+		url: progressPlanner.onboardNonceURL,
 		data: data,
 		successAction: ( response ) => {
 			if ( 'ok' === response.status ) {
 
 				// Add the nonce to our data object.
 				data.nonce = response.nonce;
-console.log(data);
+
 				// Make the request to the API.
 				progressPlannerAjaxAPIRequest( data );
 			}
@@ -57,9 +70,6 @@ if ( document.getElementById( 'prpl-onboarding-form' ) ) {
 				data[ input.name ] = input.value;
 			}
 		} );
-
-		// Make a request to get the nonce.
-		// Once the nonce is received, make a request to the API.
 		progressPlannerOnboardCall( data );
 	} );
 }

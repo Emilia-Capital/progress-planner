@@ -22,6 +22,13 @@ class Onboard {
 	const REMOTE_URL = 'https://progressplanner.com';
 
 	/**
+	 * Constructor.
+	 */
+	public function __construct() {
+		\add_action( 'wp_ajax_progress_planner_save_onboard_data', [ $this, 'save_onboard_response' ] );
+	}
+
+	/**
 	 * The onboarding form.
 	 *
 	 * @return void
@@ -66,6 +73,31 @@ class Onboard {
 			>
 		</form>
 		<?php
+	}
+
+	/**
+	 * Save the onboarding response.
+	 *
+	 * @return void
+	 */
+	public function save_onboard_response() {
+		// Check the nonce.
+		if ( ! \check_ajax_referer( 'progress_planner', 'nonce', false ) ) {
+			\wp_send_json_error( [ 'message' => \esc_html__( 'Invalid nonce.', 'progress-planner' ) ] );
+		}
+
+		if ( ! isset( $_POST['license_key'] ) ) {
+			\wp_send_json_error( [ 'message' => \esc_html__( 'Missing data.', 'progress-planner' ) ] );
+		}
+
+		$license_key = \sanitize_text_field( wp_unslash( $_POST['license_key'] ) );
+
+		Settings::set( [ 'license_key' ], $license_key );
+		\wp_send_json_success(
+			[
+				'message' => \esc_html__( 'Onboarding data saved.', 'progress-planner' ),
+			]
+		);
 	}
 
 	/**

@@ -119,11 +119,11 @@ class Page {
 			'progress-planner-admin',
 			'progressPlanner',
 			[
-				'onboardGetNonceURL' => Onboard::get_remote_nonce_url(),
-				'onboardAPIUrl'      => Onboard::get_remote_url(),
-				'ajaxUrl'            => \admin_url( 'admin-ajax.php' ),
-				'nonce'              => \wp_create_nonce( 'progress_planner_scan' ),
-				'l10n'               => [
+				'onboardNonceURL' => Onboard::get_remote_nonce_url(),
+				'onboardAPIUrl'   => Onboard::get_remote_url(),
+				'ajaxUrl'         => \admin_url( 'admin-ajax.php' ),
+				'nonce'           => \wp_create_nonce( 'progress_planner' ),
+				'l10n'            => [
 					'resettingStats' => \esc_html__( 'Resetting stats...', 'progress-planner' ),
 				],
 			]

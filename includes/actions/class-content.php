@@ -371,7 +371,7 @@ class Content {
 	 */
 	public function ajax_scan() {
 		// Check the nonce.
-		if ( ! \check_ajax_referer( 'progress_planner_scan', 'nonce', false ) ) {
+		if ( ! \check_ajax_referer( 'progress_planner', 'nonce', false ) ) {
 			\wp_send_json_error( [ 'message' => \esc_html__( 'Invalid nonce.', 'progress-planner' ) ] );
 		}
 
@@ -397,7 +397,7 @@ class Content {
 	 */
 	public function ajax_reset_stats() {
 		// Check the nonce.
-		if ( ! \check_ajax_referer( 'progress_planner_scan', 'nonce', false ) ) {
+		if ( ! \check_ajax_referer( 'progress_planner', 'nonce', false ) ) {
 			\wp_send_json_error( [ 'message' => \esc_html__( 'Invalid nonce.', 'progress-planner' ) ] );
 		}
 

@@ -103,6 +103,10 @@ class Base {
 		new Badge_Super_Site_Specialist();
 
 		new API();
+
+		if ( ! Settings::get( 'license_key' ) ) {
+			new Onboard();
+		}
 	}
 
 	/**
