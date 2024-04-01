@@ -10,8 +10,10 @@ namespace ProgressPlanner;
 use ProgressPlanner\Settings;
 
 // If the user is already registered, do not show the welcome widget.
-if ( Settings::get( 'registered' ) ) {
-	return;
+if ( Settings::get( 'license_key' ) ) {
+	// TODO: This is commented-out just for now to facilitate building the welcome box.
+	// Once we're done, the line should be uncommented.
+	// return;
 }
 
 ?>

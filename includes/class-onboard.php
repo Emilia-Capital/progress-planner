@@ -86,13 +86,13 @@ class Onboard {
 			\wp_send_json_error( [ 'message' => \esc_html__( 'Invalid nonce.', 'progress-planner' ) ] );
 		}
 
-		if ( ! isset( $_POST['license_key'] ) ) {
+		if ( ! isset( $_POST['key'] ) ) {
 			\wp_send_json_error( [ 'message' => \esc_html__( 'Missing data.', 'progress-planner' ) ] );
 		}
 
-		$license_key = \sanitize_text_field( wp_unslash( $_POST['license_key'] ) );
+		$license_key = \sanitize_text_field( wp_unslash( $_POST['key'] ) );
 
-		Settings::set( [ 'license_key' ], $license_key );
+		Settings::set( 'license_key', $license_key );
 		\wp_send_json_success(
 			[
 				'message' => \esc_html__( 'Onboarding data saved.', 'progress-planner' ),
