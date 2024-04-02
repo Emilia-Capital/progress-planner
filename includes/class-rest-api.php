@@ -1,6 +1,6 @@
 <?php
 /**
- * ProgressPlanner API.
+ * ProgressPlanner REST-API.
  *
  * Adds a REST-API endpoint to get stats, in a URL like:
  * <site-url>/wp-json/progress-planner/v1/get-stats/token/<site-token>
@@ -22,9 +22,9 @@ use ProgressPlanner\Badges\Badge\Super_Site_Specialist as Badge_Super_Site_Speci
 
 
 /**
- * API class.
+ * Rest_API class.
  */
-class API {
+class Rest_API {
 	/**
 	 * Constructor.
 	 */

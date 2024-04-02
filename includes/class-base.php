@@ -19,7 +19,7 @@ use ProgressPlanner\Badges\Badge\Notorious_Novelist as Badge_Notorious_Novelist;
 use ProgressPlanner\Badges\Badge\Progress_Professional as Badge_Progress_Professional;
 use ProgressPlanner\Badges\Badge\Maintenance_Maniac as Badge_Maintenance_Maniac;
 use ProgressPlanner\Badges\Badge\Super_Site_Specialist as Badge_Super_Site_Specialist;
-use ProgressPlanner\API;
+use ProgressPlanner\Rest_API;
 
 /**
  * Main plugin class.
@@ -102,7 +102,7 @@ class Base {
 		new Badge_Maintenance_Maniac();
 		new Badge_Super_Site_Specialist();
 
-		new API();
+		new Rest_API();
 
 		if ( ! Settings::get( 'license_key' ) ) {
 			new Onboard();
