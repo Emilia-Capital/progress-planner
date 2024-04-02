@@ -48,7 +48,7 @@ class API {
 					'args'     => [
 						'token' => [
 							'required'          => true,
-							'validate_callback' => '__return_true', // TODO: Validate the token.
+							'validate_callback' => [ $this, 'validate_token' ],
 						],
 					],
 				],
@@ -108,5 +108,16 @@ class API {
 		$data['website'] = \home_url();
 
 		return new \WP_REST_Response( $data );
+	}
+
+	/**
+	 * Validate the token.
+	 *
+	 * @param string $token The token.
+	 */
+	public function validate_token( $token ) {
+		$token = str_replace( 'token/', '', $token );
+
+		return $token === Settings::get( 'license_key' );
 	}
 }
