@@ -105,6 +105,7 @@ class Query {
 		global $wpdb;
 
 		$defaults = [
+			'id'         => null,
 			'start_date' => null,
 			'end_date'   => null,
 			'category'   => null,
@@ -121,6 +122,10 @@ class Query {
 		if ( false === $results ) {
 			$where_args   = [];
 			$prepare_args = [];
+			if ( $args['id'] !== null ) {
+				$where_args[]   = 'id = %d';
+				$prepare_args[] = $args['id'];
+			}
 			if ( $args['start_date'] !== null ) {
 				$where_args[]   = 'date >= %s';
 				$prepare_args[] = ( $args['start_date'] instanceof \Datetime )
