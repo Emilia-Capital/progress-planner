@@ -1,4 +1,4 @@
-/* global progressPlanner */
+/* global progressPlanner, progressPlannerAjaxRequest */
 
 /**
  * Make the AJAX request.
@@ -7,13 +7,11 @@
  */
 const progressPlannerAjaxAPIRequest = ( data ) => {
 	progressPlannerAjaxRequest( {
-		method: 'POST',
 		url: progressPlanner.onboardAPIUrl,
 		data: data,
 		successAction: ( response ) => {
 			// Make a local request to save the response data.
 			progressPlannerAjaxRequest( {
-				method: 'POST',
 				url: progressPlanner.ajaxUrl,
 				data: {
 					action: 'progress_planner_save_onboard_data',
@@ -30,7 +28,7 @@ const progressPlannerAjaxAPIRequest = ( data ) => {
 			} );
 		},
 		failAction: ( response ) => {
-			console.log( response );
+			console.warn( response );
 		},
 	} );
 };
@@ -46,7 +44,6 @@ const progressPlannerAjaxAPIRequest = ( data ) => {
 const progressPlannerOnboardCall = ( data ) => {
 	document.querySelector( '#progress-planner-onboard-responses .registering-site' ).style.display = 'list-item';
 	progressPlannerAjaxRequest( {
-		method: 'POST',
 		url: progressPlanner.onboardNonceURL,
 		data: data,
 		successAction: ( response ) => {

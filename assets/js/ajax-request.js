@@ -8,9 +8,9 @@
  * @param {Function} params.successAction The callback to run on success.
  * @param {Function} params.failAction    The callback to run on failure.
  */
-const progressPlannerAjaxRequest = ( { method, url, data, successAction, failAction } ) => {
+const progressPlannerAjaxRequest = ( { url, data, successAction, failAction } ) => {
 	const http = new XMLHttpRequest();
-	http.open( method, url, true );
+	http.open( 'POST', url, true );
 	http.onreadystatechange = () => {
 		let response;
 		try {

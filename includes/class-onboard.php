@@ -84,7 +84,6 @@ class Onboard {
 			<div id="progress-planner-scan-progress" style="display:none;">
 				<progress value="0" max="100"></progress>
 			</div>
-
 		</div>
 		<?php
 	}

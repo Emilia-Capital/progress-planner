@@ -55,7 +55,6 @@ class Content {
 
 		// Add hooks to handle scanning existing posts.
 		\add_action( 'wp_ajax_progress_planner_scan_posts', [ $this, 'ajax_scan' ] );
-		\add_action( 'wp_ajax_progress_planner_reset_stats', [ $this, 'ajax_reset_stats' ] );
 	}
 
 	/**
@@ -354,17 +353,6 @@ class Content {
 	}
 
 	/**
-	 * Reset the stats in our database.
-	 *
-	 * @return void
-	 */
-	public static function reset_stats() {
-		\progress_planner()->get_query()->delete_category_activities( 'content' );
-		\progress_planner()->get_query()->delete_category_activities( 'maintenance' );
-		Settings::delete_all();
-	}
-
-	/**
 	 * Ajax scan.
 	 *
 	 * @return void
@@ -386,27 +374,6 @@ class Content {
 				'messages'    => [
 					'scanComplete' => \esc_html__( 'Scan complete.', 'progress-planner' ),
 				],
-			]
-		);
-	}
-
-	/**
-	 * Ajax reset stats.
-	 *
-	 * @return void
-	 */
-	public function ajax_reset_stats() {
-		// Check the nonce.
-		if ( ! \check_ajax_referer( 'progress_planner', 'nonce', false ) ) {
-			\wp_send_json_error( [ 'message' => \esc_html__( 'Invalid nonce.', 'progress-planner' ) ] );
-		}
-
-		// Reset the stats.
-		static::reset_stats();
-
-		\wp_send_json_success(
-			[
-				'message' => \esc_html__( 'Stats reset. Refreshing the page...', 'progress-planner' ),
 			]
 		);
 	}
