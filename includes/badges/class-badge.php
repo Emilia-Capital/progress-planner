@@ -23,13 +23,6 @@ abstract class Badge {
 	protected $id;
 
 	/**
-	 * The badge category.
-	 *
-	 * @var string
-	 */
-	protected $category;
-
-	/**
 	 * Constructor.
 	 */
 	public function __construct() {
@@ -43,7 +36,6 @@ abstract class Badge {
 		Badges::register_badge(
 			$this->id,
 			[
-				'category'          => $this->category,
 				'name'              => $this->get_name(),
 				'icons-svg'         => $this->get_icons_svg(),
 				'progress_callback' => [ $this, 'progress_callback' ],

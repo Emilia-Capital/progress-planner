@@ -37,13 +37,13 @@ final class Badges_Progress extends Widget {
 			<?php esc_html_e( 'Badges progress', 'progress-planner' ); ?>
 		</h2>
 
-		<?php foreach ( $badges as $category_badges ) : ?>
-			<div class="progress-wrapper">
-				<?php foreach ( $category_badges as $category_badge ) : ?>
+		<?php foreach ( $badges as $badge_group => $group_badges ) : ?>
+			<div class="progress-wrapper badge-group-<?php echo esc_attr( $badge_group ); ?>">
+				<?php foreach ( $group_badges as $badge ) : ?>
 					<?php
-					$badge_progress  = Badges::get_badge_progress( $category_badge );
+					$badge_progress  = Badges::get_badge_progress( $badge );
 					$badge_completed = 100 === (int) $badge_progress['progress'];
-					$badge_args      = Badges::get_badge( $category_badge );
+					$badge_args      = Badges::get_badge( $badge );
 					?>
 					<span
 						class="prpl-badge"
@@ -54,7 +54,7 @@ final class Badges_Progress extends Widget {
 							? $badge_args['icons-svg']['complete']['path']
 							: $badge_args['icons-svg']['pending']['path'];
 						?>
-						<p><?php echo \esc_html( Badges::get_badge( $category_badge )['name'] ); ?></p>
+						<p><?php echo \esc_html( Badges::get_badge( $badge )['name'] ); ?></p>
 					</span>
 				<?php endforeach; ?>
 			</div>

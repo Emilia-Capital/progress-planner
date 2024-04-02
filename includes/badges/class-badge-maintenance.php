@@ -17,13 +17,6 @@ use ProgressPlanner\Goals\Goal;
 abstract class Badge_Maintenance extends Badge {
 
 	/**
-	 * The badge category.
-	 *
-	 * @var string
-	 */
-	protected $category = 'streak_any_task';
-
-	/**
 	 * Get a recurring goal for any type of weekly activity.
 	 *
 	 * @return Goal_Recurring
