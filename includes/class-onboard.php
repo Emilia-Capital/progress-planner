@@ -45,14 +45,6 @@ class Onboard {
 					value="<?php echo esc_attr( $current_user->user_email ); ?>"
 				>
 			</label>
-			<!-- <label>
-				<?php esc_html_e( 'Name', 'progress-planner' ); ?>
-				<input
-					type="text"
-					name="name"
-					value="<?php echo esc_attr( $current_user->display_name ); ?>"
-				>
-			</label> -->
 			<label>
 				<input
 					type="checkbox"
