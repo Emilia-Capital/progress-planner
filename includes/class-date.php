@@ -15,8 +15,8 @@ class Date {
 	/**
 	 * Get a range of dates.
 	 *
-	 * @param string|int $start The start date.
-	 * @param string|int $end   The end date.
+	 * @param \DateTime $start The start date.
+	 * @param \DateTime $end   The end date.
 	 *
 	 * @return array [
 	 *                 'start' => \DateTime,
@@ -34,9 +34,9 @@ class Date {
 	/**
 	 * Get an array of periods with start and end dates.
 	 *
-	 * @param int|string $start     The start date.
-	 * @param int|string $end       The end date.
-	 * @param string     $frequency The frequency. Can be 'daily', 'weekly', 'monthly'.
+	 * @param \DateTime $start     The start date.
+	 * @param \DateTime $end       The end date.
+	 * @param string    $frequency The frequency. Can be 'daily', 'weekly', 'monthly'.
 	 *
 	 * @return array
 	 */
