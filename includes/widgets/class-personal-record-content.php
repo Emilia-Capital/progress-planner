@@ -43,7 +43,9 @@ class Personal_Record_Content extends Widget {
 			</div>
 			<div class="prpl-widget-content">
 				<p>
-					<?php if ( (int) $record['max_streak'] <= (int) $record['current_streak'] ) : ?>
+					<?php if ( (int) $record['max_streak'] === 0 ) : ?>
+						<?php \esc_html_e( 'This is your first streak. Start adding content to your site every week and set a personal record!', 'progress-planner' ); ?>
+					<?php elseif ( (int) $record['max_streak'] <= (int) $record['current_streak'] ) : ?>
 						<?php
 						printf(
 							/* translators: %s: number of weeks. */
