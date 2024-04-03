@@ -18,10 +18,12 @@ const progressPlannerAjaxAPIRequest = ( data ) => {
 					_ajax_nonce: progressPlanner.nonce,
 					key: response.license_key,
 				},
-				successAction: ( response ) => {
+				successAction: ( responseLocal ) => {
+					document.getElementById( 'prpl-password-reset-link' ).style.display = 'block';
+					document.getElementById( 'prpl-password-reset-link' ).href = response.password_reset_url;
 					// Start scanning posts.
 					document.querySelector( '#progress-planner-onboard-responses .scanning-posts' ).style.display = 'list-item';
-					progressPlannerTriggerScan();
+					// progressPlannerTriggerScan();
 					// TODO: Print a link in the UI so the user can directly go to change their password.
 					console.log( response );
 				},

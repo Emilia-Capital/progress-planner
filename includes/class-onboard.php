@@ -65,6 +65,9 @@ class Onboard {
 			>
 		</form>
 		<div id="progress-planner-onboard-responses">
+			<a style="display:none;" id="prpl-password-reset-link">
+				<?php esc_html_e( 'Registration successful. Set your password now and edit your profile', 'progress-planner' ); ?>
+			</a>
 			<ul class="onboard-steps">
 				<li class="registering-site">
 					<?php esc_html_e( 'Registering your site...', 'progress-planner' ); ?>
