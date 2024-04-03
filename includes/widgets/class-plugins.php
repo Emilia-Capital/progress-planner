@@ -35,14 +35,7 @@ final class Plugins extends Widget {
 		?>
 
 		<div class="two-col narrow<?php echo $pending_plugin_updates ? ' pending-updates' : ''; ?>">
-			<div class="counter-big-wrapper">
-				<span class="counter-big-number">
-					<?php echo \esc_html( \number_format_i18n( $plugins_count ) ); ?>
-				</span>
-				<span class="counter-big-text">
-					<?php \esc_html_e( 'plugins', 'progress-planner' ); ?>
-				</span>
-			</div>
+			<?php $this->render_big_counter( $plugins_count, __( 'plugins', 'progress-planner' ) ); ?>
 			<div class="prpl-widget-content">
 				<?php if ( 0 === $pending_plugin_updates ) : ?>
 					<p><?php \esc_html_e( 'Well done! All your plugins are up to date.', 'progress-planner' ); ?></p>

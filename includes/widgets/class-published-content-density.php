@@ -32,14 +32,7 @@ final class Published_Content_Density extends Widget {
 		?>
 		<div class="two-col">
 			<div class="prpl-top-counter-bottom-content">
-				<div class="counter-big-wrapper">
-					<span class="counter-big-number">
-						<?php echo \esc_html( \number_format_i18n( $this->get_weekly_activities_density() ) ); ?>
-					</span>
-					<span class="counter-big-text">
-						<?php \esc_html_e( 'content density', 'progress-planner' ); ?>
-					</span>
-				</div>
+				<?php $this->render_big_counter( $this->get_weekly_activities_density(), __( 'content density', 'progress-planner' ) ); ?>
 				<div class="prpl-widget-content">
 					<p>
 						<?php

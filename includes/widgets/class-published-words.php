@@ -31,14 +31,7 @@ final class Published_Words extends Widget {
 		?>
 		<div class="two-col">
 			<div class="prpl-top-counter-bottom-content">
-				<div class="counter-big-wrapper">
-					<span class="counter-big-number">
-						<?php echo \esc_html( \number_format_i18n( $this->get_weekly_words() ) ); ?>
-					</span>
-					<span class="counter-big-text">
-						<?php \esc_html_e( 'words written', 'progress-planner' ); ?>
-					</span>
-				</div>
+				<?php $this->render_big_counter( $this->get_weekly_words(), __( 'words written', 'progress-planner' ) ); ?>
 				<div class="prpl-widget-content">
 					<p>
 						<?php if ( 0 === $this->get_weekly_words() ) : ?>

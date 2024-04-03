@@ -64,6 +64,27 @@ abstract class Widget {
 	}
 
 	/**
+	 * Render a big counter.
+	 *
+	 * @param string $number The number to display.
+	 * @param string $text   The text to display.
+	 *
+	 * @return void
+	 */
+	protected function render_big_counter( $number, $text ) {
+		?>
+		<div class="counter-big-wrapper">
+			<span class="counter-big-number">
+				<?php echo \esc_html( \number_format_i18n( $number ) ); ?>
+			</span>
+			<span class="counter-big-text">
+				<?php echo esc_html( $text ); ?>
+			</span>
+		</div>
+		<?php
+	}
+
+	/**
 	 * The widget content.
 	 *
 	 * @return void

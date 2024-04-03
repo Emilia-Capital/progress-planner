@@ -34,14 +34,7 @@ final class Published_Content extends Widget {
 		?>
 		<div class="two-col">
 			<div class="prpl-top-counter-bottom-content">
-				<div class="counter-big-wrapper">
-					<span class="counter-big-number">
-						<?php echo \esc_html( \number_format_i18n( array_sum( $stats['weekly'] ) ) ); ?>
-					</span>
-					<span class="counter-big-text">
-						<?php \esc_html_e( 'content published', 'progress-planner' ); ?>
-					</span>
-				</div>
+				<?php $this->render_big_counter( array_sum( $stats['weekly'] ), __( 'content published', 'progress-planner' ) ); ?>
 				<div class="prpl-widget-content">
 					<p>
 						<?php if ( 0 === $stats['weekly'] ) : ?>

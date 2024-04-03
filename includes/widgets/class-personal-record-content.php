@@ -33,14 +33,7 @@ class Personal_Record_Content extends Widget {
 		$record = $this->personal_record_callback();
 		?>
 		<div class="two-col narrow">
-			<div class="counter-big-wrapper">
-				<span class="counter-big-number">
-					<?php echo \esc_html( \number_format_i18n( $record['max_streak'] ) ); ?>
-				</span>
-				<span class="counter-big-text">
-					<?php \esc_html_e( 'personal record', 'progress-planner' ); ?>
-				</span>
-			</div>
+			<?php $this->render_big_counter( $record['max_streak'], __( 'personal record', 'progress-planner' ) ); ?>
 			<div class="prpl-widget-content">
 				<p>
 					<?php if ( (int) $record['max_streak'] === 0 ) : ?>
