@@ -183,9 +183,7 @@ class Query {
 			return [];
 		}
 
-		// Remove duplicates.
-		// TODO: This is a temporary fix. We should not have duplicates in the first place.
-		// This has already been fixed, but for test-sites there are some duplicates remaining.
+		// Remove duplicates. This could be removed in a future release.
 		$results_unique = [];
 		foreach ( $results as $key => $result ) {
 			$results_unique[ $result->category . $result->type . $result->data_id . $result->date ] = $result;
