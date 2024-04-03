@@ -13,6 +13,11 @@ const progressPlannerAjaxRequest = ( { url, data, successAction, failAction } ) 
 	http.open( 'POST', url, true );
 	http.onreadystatechange = () => {
 		let response;
+		const defaultCallback = ( response ) => {
+			// eslint-disable-next-line no-console
+			console.info( response );
+		}
+
 		try {
 			response = JSON.parse( http.response );
 		} catch ( e ) {
@@ -23,9 +28,9 @@ const progressPlannerAjaxRequest = ( { url, data, successAction, failAction } ) 
 			}
 		}
 		if ( http.readyState === 4 && http.status === 200 ) {
-			return successAction ? successAction( response ) : response;
+			return successAction ? successAction( response ) : defaultCallback( response );
 		}
-		return failAction ? failAction( response ) : response;
+		return failAction ? failAction( response ) : defaultCallback( response );
 	};
 
 	const dataForm = new FormData();

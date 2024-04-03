@@ -22,7 +22,7 @@ const progressPlannerTriggerScan = () => {
 
 		// Refresh the page when scan has finished.
 		if ( response.data.progress >= 100 ) {
-			// location.reload();
+			document.getElementById( 'progress-planner-scan-progress' ).style.display = 'none';
 			return;
 		}
 

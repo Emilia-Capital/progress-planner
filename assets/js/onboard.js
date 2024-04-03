@@ -1,6 +1,22 @@
 /* global progressPlanner, progressPlannerAjaxRequest */
 
 /**
+ * Make a request to save the license key.
+ *
+ * @param {string} key The license key.
+ */
+const progressPlannerSaveLicenseKey = ( licenseKey ) => {
+	progressPlannerAjaxRequest( {
+		url: progressPlanner.ajaxUrl,
+		data: {
+			action: 'progress_planner_save_onboard_data',
+			_ajax_nonce: progressPlanner.nonce,
+			key: licenseKey
+		},
+	} );
+}
+
+/**
  * Make the AJAX request.
  *
  * @param {Object} data The data to send with the request.
@@ -10,24 +26,19 @@ const progressPlannerAjaxAPIRequest = ( data ) => {
 		url: progressPlanner.onboardAPIUrl,
 		data: data,
 		successAction: ( response ) => {
+
+			// Show link to reset password.
+			document.getElementById( 'prpl-password-reset-link' ).style.display = 'block';
+			document.getElementById( 'prpl-password-reset-link' ).href = response.password_reset_url;
+
+			// Hide the form.
+			document.getElementById( 'prpl-onboarding-form' ).style.display = 'none';
+
 			// Make a local request to save the response data.
-			progressPlannerAjaxRequest( {
-				url: progressPlanner.ajaxUrl,
-				data: {
-					action: 'progress_planner_save_onboard_data',
-					_ajax_nonce: progressPlanner.nonce,
-					key: response.license_key,
-				},
-				successAction: ( responseLocal ) => {
-					document.getElementById( 'prpl-password-reset-link' ).style.display = 'block';
-					document.getElementById( 'prpl-password-reset-link' ).href = response.password_reset_url;
-					// Start scanning posts.
-					document.querySelector( '#progress-planner-onboard-responses .scanning-posts' ).style.display = 'list-item';
-					// progressPlannerTriggerScan();
-					// TODO: Print a link in the UI so the user can directly go to change their password.
-					console.log( response );
-				},
-			} );
+			progressPlannerSaveLicenseKey( response.license_key );
+
+			// Start scanning posts.
+			progressPlannerTriggerScan();
 		},
 		failAction: ( response ) => {
 			console.warn( response );
@@ -44,7 +55,6 @@ const progressPlannerAjaxAPIRequest = ( data ) => {
  * @param {Object} data The data to send with the request.
  */
 const progressPlannerOnboardCall = ( data ) => {
-	document.querySelector( '#progress-planner-onboard-responses .registering-site' ).style.display = 'list-item';
 	progressPlannerAjaxRequest( {
 		url: progressPlanner.onboardNonceURL,
 		data: data,

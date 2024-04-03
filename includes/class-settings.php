@@ -40,6 +40,12 @@ class Settings {
 	public static function get( $setting, $default_value = null ) {
 		self::load_settings();
 
+		// phpcs:ignore Generic.Commenting.Todo.TaskFound
+		// TODO: Delete this bypass.
+		if ( 'license_key' === $setting ) {
+			return;
+		}
+
 		if ( is_array( $setting ) ) {
 			return \_wp_array_get( self::$settings, $setting, $default_value );
 		}

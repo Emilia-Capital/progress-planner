@@ -64,21 +64,13 @@ class Onboard {
 				class="button button-primary"
 			>
 		</form>
-		<div id="progress-planner-onboard-responses">
-			<a style="display:none;" id="prpl-password-reset-link">
-				<?php esc_html_e( 'Registration successful. Set your password now and edit your profile', 'progress-planner' ); ?>
-			</a>
-			<ul class="onboard-steps">
-				<li class="registering-site">
-					<?php esc_html_e( 'Registering your site...', 'progress-planner' ); ?>
-				</li>
-				<li class="scanning-posts">
-					<?php esc_html_e( 'Scanning your posts...', 'progress-planner' ); ?>
-				</li>
-			</ul>
-			<div id="progress-planner-scan-progress" style="display:none;">
-				<progress value="0" max="100"></progress>
-			</div>
+
+		<a style="display:none;" id="prpl-password-reset-link">
+			<?php esc_html_e( 'Registration successful. Set your password now and edit your profile', 'progress-planner' ); ?>
+		</a>
+
+		<div id="progress-planner-scan-progress" style="display:none;">
+			<progress value="0" max="100"></progress>
 		</div>
 		<?php
 	}
