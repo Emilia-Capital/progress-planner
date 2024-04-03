@@ -139,7 +139,7 @@ class Base {
 	 * @return array
 	 */
 	public function get_blog_feed() {
-		$feed = \get_transient( 'prpl_blog_feed' );
+		$feed = \get_site_transient( 'prpl_blog_feed' );
 		if ( false === $feed ) {
 			// Get the feed using the REST API.
 			$response = \wp_remote_get( self::REMOTE_SERVER_ROOT_URL . '/wp-json/wp/v2/posts/?per_page=2' );
@@ -147,7 +147,7 @@ class Base {
 				return [];
 			}
 			$feed = json_decode( \wp_remote_retrieve_body( $response ), true );
-			\set_transient( 'prpl_blog_feed', $feed, 1 * DAY_IN_SECONDS );
+			\set_site_transient( 'prpl_blog_feed', $feed, 1 * DAY_IN_SECONDS );
 		}
 		return $feed;
 	}
