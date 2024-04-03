@@ -15,6 +15,13 @@ use ProgressPlanner\Widgets\Widget;
 final class Whats_New extends Widget {
 
 	/**
+	 * The remote server ROOT URL.
+	 *
+	 * @var string
+	 */
+	const REMOTE_SERVER_ROOT_URL = 'https://joost.blog';
+
+	/**
 	 * The widget ID.
 	 *
 	 * @var string
@@ -26,7 +33,7 @@ final class Whats_New extends Widget {
 	 */
 	public function the_content() {
 		// Get the blog feed.
-		$prpl_blog_feed = \progress_planner()->get_blog_feed();
+		$prpl_blog_feed = $this->get_blog_feed();
 		?>
 		<h2 class="prpl-widget-title">
 			<?php \esc_html_e( 'What\'s new on the Progress Planner blog', 'progress-planner' ); ?>
@@ -45,6 +52,25 @@ final class Whats_New extends Widget {
 			<?php endforeach; ?>
 		</ul>
 		<?php
+	}
+
+	/**
+	 * Get the feed from the blog.
+	 *
+	 * @return array
+	 */
+	public function get_blog_feed() {
+		$feed = \get_site_transient( 'prpl_blog_feed' );
+		if ( false === $feed ) {
+			// Get the feed using the REST API.
+			$response = \wp_remote_get( self::REMOTE_SERVER_ROOT_URL . '/wp-json/wp/v2/posts/?per_page=2' );
+			if ( \is_wp_error( $response ) ) {
+				return [];
+			}
+			$feed = json_decode( \wp_remote_retrieve_body( $response ), true );
+			\set_site_transient( 'prpl_blog_feed', $feed, 1 * DAY_IN_SECONDS );
+		}
+		return $feed;
 	}
 }
 
