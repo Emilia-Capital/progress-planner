@@ -46,11 +46,17 @@ final class Whats_New extends Widget {
 						<h3><?php echo \esc_html( $prpl_blog_post['title']['rendered'] ); ?></h3>
 					</a>
 					<p>
-						<?php echo \esc_html( \wp_strip_all_tags( $prpl_blog_post['excerpt']['rendered'] ) ); ?>
+						<?php echo \esc_html( wp_trim_words( \wp_strip_all_tags( $prpl_blog_post['content']['rendered'] ), 55 ) ); ?>
 					</p>
+					<hr>
 				</li>
 			<?php endforeach; ?>
 		</ul>
+		<p>
+			<a href="<?php echo \esc_url( self::REMOTE_SERVER_ROOT_URL . '/blog' ); ?>" target="_blank">
+				<?php \esc_html_e( 'Read all posts', 'progress-planner' ); ?>
+			</a>
+		</p>
 		<?php
 	}
 
