@@ -51,6 +51,8 @@ final class Awesome_Author extends Badge_Content {
 
 	/**
 	 * Progress callback.
+	 *
+	 * @return array
 	 */
 	public function progress_callback() {
 		$saved_progress = $this->get_saved();

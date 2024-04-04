@@ -40,6 +40,8 @@ class Content {
 
 	/**
 	 * Register hooks.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		// Add activity when a post is updated.
@@ -62,8 +64,8 @@ class Content {
 	 *
 	 * Runs on post_updated hook.
 	 *
-	 * @param int     $post_id The post ID.
-	 * @param WP_Post $post    The post object.
+	 * @param int      $post_id The post ID.
+	 * @param \WP_Post $post    The post object.
 	 *
 	 * @return void
 	 */
@@ -98,8 +100,8 @@ class Content {
 	 *
 	 * Runs on wp_insert_post hook.
 	 *
-	 * @param int     $post_id The post ID.
-	 * @param WP_Post $post    The post object.
+	 * @param int      $post_id The post ID.
+	 * @param \WP_Post $post    The post object.
 	 * @return void
 	 */
 	public function insert_post( $post_id, $post ) {
@@ -133,6 +135,8 @@ class Content {
 	 * @param string   $new_status The new status.
 	 * @param string   $old_status The old status.
 	 * @param \WP_Post $post       The post object.
+	 *
+	 * @return void
 	 */
 	public function transition_post_status( $new_status, $old_status, $post ) {
 		// Bail if we should skip saving.
@@ -277,7 +281,7 @@ class Content {
 			foreach ( $badge_ids as $badge_id ) {
 
 				// If the badge is already complete, skip it.
-				if ( 100 === Settings::get( 'badges', $badge_id, 'progress', 0 ) ) {
+				if ( 100 === Settings::get( [ 'badges', $badge_id, 'progress' ], 0 ) ) {
 					continue;
 				}
 

@@ -32,7 +32,7 @@ final class Published_Content_Density extends Widget {
 		?>
 		<div class="two-col">
 			<div class="prpl-top-counter-bottom-content">
-				<?php $this->render_big_counter( $this->get_weekly_activities_density(), __( 'content density', 'progress-planner' ) ); ?>
+				<?php $this->render_big_counter( (int) $this->get_weekly_activities_density(), __( 'content density', 'progress-planner' ) ); ?>
 				<div class="prpl-widget-content">
 					<p>
 						<?php
@@ -81,7 +81,7 @@ final class Published_Content_Density extends Widget {
 	/**
 	 * Callback to count the words in the activities.
 	 *
-	 * @param \ProgressPlanner\Activity[] $activities The activities array.
+	 * @param \ProgressPlanner\Activities\Content[] $activities The activities array.
 	 *
 	 * @return int
 	 */
@@ -104,14 +104,14 @@ final class Published_Content_Density extends Widget {
 	 *
 	 * Returns the average number of words per activity.
 	 *
-	 * @param \ProgressPlanner\Activity[] $activities The activities array.
+	 * @param \ProgressPlanner\Activities\Content[] $activities The activities array.
 	 *
 	 * @return int
 	 */
 	public function count_density( $activities ) {
 		$words = $this->count_words( $activities );
 		$count = count( $activities );
-		return round( $words / max( 1, $count ) );
+		return (int) round( $words / max( 1, $count ) );
 	}
 
 	/**

@@ -50,6 +50,8 @@ final class Super_Site_Specialist extends Badge_Maintenance {
 
 	/**
 	 * Progress callback.
+	 *
+	 * @return array
 	 */
 	public function progress_callback() {
 		$saved_progress = $this->get_saved();

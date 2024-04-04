@@ -31,7 +31,7 @@ final class Published_Words extends Widget {
 		?>
 		<div class="two-col">
 			<div class="prpl-top-counter-bottom-content">
-				<?php $this->render_big_counter( $this->get_weekly_words(), __( 'words written', 'progress-planner' ) ); ?>
+				<?php $this->render_big_counter( (int) $this->get_weekly_words(), __( 'words written', 'progress-planner' ) ); ?>
 				<div class="prpl-widget-content">
 					<p>
 						<?php if ( 0 === $this->get_weekly_words() ) : ?>
@@ -91,14 +91,14 @@ final class Published_Words extends Widget {
 	/**
 	 * Callback to count the words in the activities.
 	 *
-	 * @param \ProgressPlanner\Activity[] $activities The activities array.
+	 * @param \ProgressPlanner\Activities\Content[] $activities The activities array.
 	 *
 	 * @return int
 	 */
 	public function count_words( $activities ) {
 		$words = 0;
 		foreach ( $activities as $activity ) {
-			if ( ! $activity->get_post() ) {
+			if ( null === $activity->get_post() ) {
 				continue;
 			}
 			$words += Content_Helpers::get_word_count(

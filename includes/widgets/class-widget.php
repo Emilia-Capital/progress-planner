@@ -66,12 +66,12 @@ abstract class Widget {
 	/**
 	 * Render a big counter.
 	 *
-	 * @param string $number The number to display.
+	 * @param int    $number The number to display.
 	 * @param string $text   The text to display.
 	 *
 	 * @return void
 	 */
-	protected function render_big_counter( $number, $text ) {
+	protected function render_big_counter( int $number, $text ) {
 		?>
 		<div class="counter-big-wrapper">
 			<span class="counter-big-number">

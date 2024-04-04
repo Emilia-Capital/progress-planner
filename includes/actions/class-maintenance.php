@@ -31,8 +31,8 @@ class Maintenance {
 		\add_action( 'upgrader_process_complete', [ $this, 'on_upgrade' ], 10, 2 );
 
 		// Deletions.
-		\add_action( 'delete_plugin', [ $this, 'on_delete_plugin' ], 10, 2 );
-		\add_action( 'delete_theme', [ $this, 'on_delete_plugin' ], 10, 2 );
+		\add_action( 'delete_plugin', [ $this, 'on_delete_plugin' ] );
+		\add_action( 'delete_theme', [ $this, 'on_delete_plugin' ] );
 
 		// Installations.
 		\add_action( 'upgrader_process_complete', [ $this, 'on_install' ], 10, 2 );
@@ -42,7 +42,7 @@ class Maintenance {
 		\add_action( 'deactivated_plugin', [ $this, 'on_deactivate_plugin' ], 10 );
 
 		// Theme switching.
-		\add_action( 'switch_theme', [ $this, 'on_switch_theme' ], 10, 2 );
+		\add_action( 'switch_theme', [ $this, 'on_switch_theme' ] );
 	}
 
 	/**

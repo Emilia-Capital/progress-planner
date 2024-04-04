@@ -114,6 +114,8 @@ class Rest_API {
 	 * Validate the token.
 	 *
 	 * @param string $token The token.
+	 *
+	 * @return bool
 	 */
 	public function validate_token( $token ) {
 		$token = str_replace( 'token/', '', $token );

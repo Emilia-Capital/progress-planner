@@ -53,14 +53,14 @@ class Website_Activity_Score extends Widget {
 				<div
 					class="prpl-activities-gauge"
 					style="
-						--value:<?php echo \esc_attr( $score / 100 ); ?>;
+						--value:<?php echo (float) ( $score / 100 ); ?>;
 						--background: var(--prpl-background-orange);
 						--max: 180deg;
 						--start: 270deg;
 						--color:<?php echo \esc_attr( self::get_gauge_color( $score ) ); ?>"
 				>
 					<span class="prpl-gauge-number">
-						<?php echo esc_html( $score ); ?>
+						<?php echo (int) $score; ?>
 					</span>
 				</div>
 			</div>
@@ -113,7 +113,7 @@ class Website_Activity_Score extends Widget {
 
 		// Reduce points for pending updates.
 		$score -= min( min( $score / 2, 25 ), $pending_updates * 5 );
-		return floor( $score );
+		return (int) floor( $score );
 	}
 
 	/**

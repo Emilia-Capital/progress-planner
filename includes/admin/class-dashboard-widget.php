@@ -23,6 +23,8 @@ class Dashboard_Widget {
 
 	/**
 	 * Add the dashboard widget.
+	 *
+	 * @return void
 	 */
 	public function add_dashboard_widget() {
 		\wp_add_dashboard_widget(
@@ -34,6 +36,8 @@ class Dashboard_Widget {
 
 	/**
 	 * Render the dashboard widget.
+	 *
+	 * @return void
 	 */
 	public function render_dashboard_widget() {
 		Page::enqueue_styles();

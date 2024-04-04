@@ -27,7 +27,7 @@ class Content extends Activity {
 	/**
 	 * Get WP_Post from the activity.
 	 *
-	 * @return \WP_Post
+	 * @return \WP_Post|null
 	 */
 	public function get_post() {
 		return \get_post( $this->data_id );
@@ -77,6 +77,6 @@ class Content extends Activity {
 			? round( $this->points[ $date_ymd ] ) // If the activity is new (less than 7 days old), award full points.
 			: round( $this->points[ $date_ymd ] * max( 0, ( 1 - $days / 30 ) ) ); // Decay the points based on the age of the activity.
 
-		return $this->points[ $date_ymd ];
+		return (int) $this->points[ $date_ymd ];
 	}
 }

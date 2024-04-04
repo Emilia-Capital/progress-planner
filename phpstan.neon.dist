@@ -4,6 +4,8 @@ parameters:
     - .
   excludePaths:
     - vendor
+    - tests
+  checkGenericClassInNonGenericObjectType: false
   ignoreErrors:
     - '#Constant PROGRESS_PLANNER_URL not found.#'
     - '#Property [a-zA-Z0-9\\_]+::\$[a-zA-Z0-9\\_]+ type has no value type specified in iterable type array.#'

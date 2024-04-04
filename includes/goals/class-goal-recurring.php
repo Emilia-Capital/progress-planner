@@ -8,6 +8,7 @@
 namespace ProgressPlanner\Goals;
 
 use ProgressPlanner\Date;
+use ProgressPlanner\Goals\Goal;
 
 /**
  * A recurring goal.
@@ -31,14 +32,14 @@ class Goal_Recurring {
 	/**
 	 * The start date.
 	 *
-	 * @var int|string
+	 * @var \DateTime
 	 */
 	private $start;
 
 	/**
 	 * The end date.
 	 *
-	 * @var int|string
+	 * @var \DateTime
 	 */
 	private $end;
 
@@ -69,6 +70,8 @@ class Goal_Recurring {
 	 * @param string $id        The recurring goal ID.
 	 * @param array  $goal_args The goal arguments.
 	 * @param array  $args      The recurring goal arguments.
+	 *
+	 * @return Goal_Recurring
 	 */
 	public static function get_instance( $id, $goal_args, $args ) {
 		if ( ! isset( self::$instances[ $id ] ) ) {
@@ -103,7 +106,7 @@ class Goal_Recurring {
 	/**
 	 * Get the goal title.
 	 *
-	 * @return string
+	 * @return Goal
 	 */
 	public function get_goal() {
 		return $this->goal;
@@ -146,18 +149,9 @@ class Goal_Recurring {
 	/**
 	 * Get the streak for weekly posts.
 	 *
-	 * @return int The number of weeks for this streak.
+	 * @return array
 	 */
 	public function get_streak() {
-		// Bail early if there is no goal.
-		if ( ! $this->get_goal() ) {
-			return [
-				'number'      => 0,
-				'title'       => '',
-				'description' => '',
-			];
-		}
-
 		// Reverse the order of the occurences.
 		$occurences = $this->get_occurences();
 

@@ -58,7 +58,7 @@ class Badges {
 	 *
 	 * @param string $badge_id The badge ID.
 	 *
-	 * @return int
+	 * @return array
 	 */
 	public static function get_badge_progress( $badge_id ) {
 		$badge = self::get_badge( $badge_id );
@@ -111,9 +111,7 @@ class Badges {
 			}
 
 			// Compare dates.
-			if ( null === $latest_date ||
-				\DateTime::createFromFormat( 'Y-m-d H:i:s', $settings[ $badge_id ]['date'] )->format( 'U' ) > \DateTime::createFromFormat( 'Y-m-d H:i:s', $latest_date )->format( 'U' )
-			) {
+			if ( \DateTime::createFromFormat( 'Y-m-d H:i:s', $settings[ $badge_id ]['date'] )->format( 'U' ) > \DateTime::createFromFormat( 'Y-m-d H:i:s', $latest_date )->format( 'U' ) ) {
 				$latest_date = $settings[ $badge_id ]['date'];
 				$latest_id   = $badge_id;
 			}

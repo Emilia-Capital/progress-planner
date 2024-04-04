@@ -52,6 +52,8 @@ final class Wonderful_Writer extends Badge_Content {
 
 	/**
 	 * Progress callback.
+	 *
+	 * @return array
 	 */
 	public function progress_callback() {
 		// Get the saved progress.

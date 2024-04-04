@@ -51,6 +51,8 @@ final class Maintenance_Maniac extends Badge_Maintenance {
 
 	/**
 	 * Progress callback.
+	 *
+	 * @return array
 	 */
 	public function progress_callback() {
 		$saved_progress = $this->get_saved();

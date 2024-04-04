@@ -87,7 +87,7 @@ class Date {
 	 * @return \DateTime
 	 */
 	public static function get_datetime_from_mysql_date( $date ) {
-		return \DateTime::createFromFormat( 'U', (int) \mysql2date( 'U', $date ) );
+		return \DateTime::createFromFormat( 'U', (string) \mysql2date( 'U', $date ) );
 	}
 
 	/**
@@ -95,6 +95,8 @@ class Date {
 	 *
 	 * @param \DateTime $date1 The first date.
 	 * @param \DateTime $date2 The second date.
+	 *
+	 * @return int
 	 */
 	public static function get_days_between_dates( $date1, $date2 ) {
 		return (int) $date1->diff( $date2 )->format( '%R%a' );

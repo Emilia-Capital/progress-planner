@@ -89,6 +89,8 @@ class Activity {
 	 * Set the date.
 	 *
 	 * @param \DateTime $date The date of the activity.
+	 *
+	 * @return void
 	 */
 	public function set_date( \DateTime $date ) {
 		$this->date = $date;
@@ -107,6 +109,8 @@ class Activity {
 	 * Set the category.
 	 *
 	 * @param string $category The category of the activity.
+	 *
+	 * @return void
 	 */
 	public function set_category( string $category ) {
 		$this->category = $category;
@@ -125,6 +129,8 @@ class Activity {
 	 * Set the type.
 	 *
 	 * @param string $type The type of the activity.
+	 *
+	 * @return void
 	 */
 	public function set_type( string $type ) {
 		$this->type = $type;
@@ -143,6 +149,8 @@ class Activity {
 	 * Set the data ID.
 	 *
 	 * @param int $data_id The data ID.
+	 *
+	 * @return void
 	 */
 	public function set_data_id( int $data_id ) {
 		$this->data_id = $data_id;
@@ -161,6 +169,8 @@ class Activity {
 	 * Set the user ID.
 	 *
 	 * @param int $user_id The user ID.
+	 *
+	 * @return void
 	 */
 	public function set_user_id( int $user_id ) {
 		$this->user_id = (int) $user_id;

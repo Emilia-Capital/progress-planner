@@ -31,6 +31,8 @@ abstract class Badge {
 
 	/**
 	 * Register the badge.
+	 *
+	 * @return void
 	 */
 	public function register_badge() {
 		Badges::register_badge(
@@ -59,6 +61,8 @@ abstract class Badge {
 
 	/**
 	 * Progress callback.
+	 *
+	 * @return array
 	 */
 	abstract public function progress_callback();
 
@@ -75,6 +79,8 @@ abstract class Badge {
 	 * Save the progress.
 	 *
 	 * @param array $progress The progress to save.
+	 *
+	 * @return void
 	 */
 	protected function save_progress( $progress ) {
 		$progress['date'] = ( new \DateTime() )->format( 'Y-m-d H:i:s' );

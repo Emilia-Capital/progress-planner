@@ -99,7 +99,7 @@ class Query {
 	 * @param array  $args        The arguments for the query.
 	 * @param string $return_type The type of the return value. Can be "RAW" or "ACTIVITIES".
 	 *
-	 * @return \ProgressPlanner\Activity[] The activities.
+	 * @return array The activities.
 	 */
 	public function query_activities( $args, $return_type = 'ACTIVITIES' ) {
 		global $wpdb;

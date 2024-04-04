@@ -38,7 +38,7 @@ final class Badge_Streak extends Widget {
 					<div
 						class="prpl-badge-gauge"
 						style="
-							--value:<?php echo \esc_attr( $details['progress']['progress'] / 100 ); ?>;
+							--value:<?php echo (float) ( $details['progress']['progress'] / 100 ); ?>;
 							--max: 360deg;
 							--start: 180deg;
 							--color:<?php echo \esc_attr( $details['color'] ); ?>

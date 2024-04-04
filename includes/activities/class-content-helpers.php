@@ -76,7 +76,7 @@ class Content_Helpers {
 		$activity->set_type( $type );
 		$activity->set_date( Date::get_datetime_from_mysql_date( $date ) );
 		$activity->set_data_id( $post->ID );
-		$activity->set_user_id( $post->post_author );
+		$activity->set_user_id( (int) $post->post_author );
 		return $activity;
 	}
 }

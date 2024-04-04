@@ -35,6 +35,8 @@ class Chart {
 	 * @return void
 	 */
 	public function the_chart( $args = [] ) {
+		$activities = [];
+
 		/*
 		 * Set default values for the arguments.
 		 */
