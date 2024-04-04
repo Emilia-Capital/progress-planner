@@ -237,10 +237,25 @@ class Chart {
 			<canvas id="<?php echo \sanitize_key( $id ); ?>"></canvas>
 		</div>
 		<script>
+			var chartOptions = <?php echo \wp_json_encode( $options ); ?>,
+				previousXAxisLabel = '';
+
+			chartOptions.scales = chartOptions.scales || {};
+			chartOptions.scales.xAxis = chartOptions.scales.xAxis || {};
+			chartOptions.scales.xAxis.ticks = {
+				callback: function( val, index ) {
+					var label = this.getLabelForValue( val );
+					if ( label !== previousXAxisLabel ) {
+						previousXAxisLabel = label;
+						return label;
+					}
+				},
+			};
+
 			var chart = new Chart( document.getElementById( '<?php echo \sanitize_key( $id ); ?>' ), {
 				type: '<?php echo \esc_js( $type ); ?>',
 				data: <?php echo \wp_json_encode( $data ); ?>,
-				options: <?php echo \wp_json_encode( $options ); ?>,
+				options: chartOptions,
 			} );
 		</script>
 		<?php
