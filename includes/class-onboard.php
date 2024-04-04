@@ -25,7 +25,31 @@ class Onboard {
 	 * Constructor.
 	 */
 	public function __construct() {
+		if ( Settings::get( 'license_key' ) ) {
+			return;
+		}
+
+		// Redirect on plugin activation.
+		\add_action( 'activated_plugin', [ $this, 'on_activate_plugin' ], 10 );
+
+		// Handle saving data from the onboarding form response.
 		\add_action( 'wp_ajax_progress_planner_save_onboard_data', [ $this, 'save_onboard_response' ] );
+	}
+
+	/**
+	 * On plugin activation.
+	 *
+	 * @param string $plugin The plugin file.
+	 *
+	 * @return void
+	 */
+	public function on_activate_plugin( $plugin ) {
+		if ( 'progress-planner/progress-planner.php' !== $plugin ) {
+			return;
+		}
+
+		\wp_safe_redirect( admin_url( 'admin.php?page=progress-planner' ) );
+		exit;
 	}
 
 	/**

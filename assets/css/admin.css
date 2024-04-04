@@ -207,6 +207,10 @@
 \*------------------------------------*/
 .prpl-widget-wrapper.prpl-welcome {
 	margin-bottom: var(--prpl-gap);
+	padding: calc(var(--prpl-gap) * 1.5);
+	background: var(--prpl-background-purple);
+	border: none;
+	box-shadow: 0 0 10px var(--prpl-color-gray-2)
 }
 
 /*------------------------------------*\

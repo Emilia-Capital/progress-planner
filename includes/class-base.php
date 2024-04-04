@@ -95,11 +95,11 @@ class Base {
 		new Badge_Maintenance_Maniac();
 		new Badge_Super_Site_Specialist();
 
+		// REST API.
 		new Rest_API();
 
-		if ( ! Settings::get( 'license_key' ) ) {
-			new Onboard();
-		}
+		// Onboarding.
+		new Onboard();
 	}
 
 	/**
