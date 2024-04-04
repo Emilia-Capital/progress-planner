@@ -1,7 +1,4 @@
 
 vendor/
-
-composer.lock
 ._*
-
 .phpunit.result.cache
