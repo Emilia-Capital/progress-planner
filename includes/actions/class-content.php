@@ -110,7 +110,7 @@ class Content {
 			return;
 		}
 
-		// Check if there is an publish activity for this post.
+		// Check if there is a publish activity for this post.
 		$existing = \progress_planner()->get_query()->query_activities(
 			[
 				'category' => 'content',
