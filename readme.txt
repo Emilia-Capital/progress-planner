@@ -1,5 +1,5 @@
 === Progress Planner ===
-Contributors: joostdevalk
+Contributors: joostdevalk, aristath
 Tags: tag, tags, seo
 Requires at least: 6.2
 Tested up to: 6.5
