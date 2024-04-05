@@ -11,6 +11,7 @@ use ProgressPlanner\Query;
 use ProgressPlanner\Admin\Page as Admin_page;
 use ProgressPlanner\Admin\Dashboard_Widget as Admin_Dashboard_Widget;
 use ProgressPlanner\Actions\Content as Actions_Content;
+use ProgressPlanner\Actions\Content_Scan as Actions_Content_Scan;
 use ProgressPlanner\Actions\Maintenance as Actions_Maintenance;
 use ProgressPlanner\Settings;
 use ProgressPlanner\Badges\Badge\Wonderful_Writer as Badge_Wonderful_Writer;
@@ -84,6 +85,7 @@ class Base {
 		new Admin_Dashboard_Widget();
 		new Actions_Content();
 		new Actions_Maintenance();
+		new Actions_Content_Scan();
 
 		// Content badges.
 		new Badge_Wonderful_Writer();
