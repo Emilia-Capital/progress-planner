@@ -201,9 +201,9 @@ class Activity {
 		);
 		if ( ! empty( $existing ) ) {
 			\progress_planner()->get_query()->update_activity( $existing[0]->id, $this );
-		} else {
-			\progress_planner()->get_query()->insert_activity( $this );
+			return;		
 		}
+		\progress_planner()->get_query()->insert_activity( $this );
 	}
 
 	/**
