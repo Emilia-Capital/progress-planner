@@ -235,7 +235,7 @@ class Chart {
 		$id = 'progress-planner-chart-' . $id;
 		?>
 
-		<div class="prpl-chart-container" style="position: relative; height:100%; width:100%">
+		<div class="prpl-chart-container">
 			<canvas id="<?php echo \sanitize_key( $id ); ?>"></canvas>
 		</div>
 		<script>
