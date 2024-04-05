@@ -5,8 +5,8 @@
 	"license": "GPL-3.0-or-later",
 	"authors": [
 		{
-			"name": "Joost de Valk",
-			"email": "joost@joost.blog"
+			"name": "Team Emilia Projects",
+			"email": "info@emilia.capital"
 		}
 	],
 	"require-dev": {
