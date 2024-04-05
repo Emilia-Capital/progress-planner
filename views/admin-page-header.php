@@ -11,13 +11,12 @@ $prpl_active_range = isset( $_GET['range'] ) ? \sanitize_text_field( \wp_unslash
 $prpl_active_frequency = isset( $_GET['frequency'] ) ? \sanitize_text_field( \wp_unslash( $_GET['frequency'] ) ) : 'monthly';
 
 ?>
-<div class="logo" style="margin-bottom: 2em; display:flex; justify-content: space-between; align-items: center;">
+<div class="prpl-header">
 	<div class="prpl-header-logo">
-		<img
-			src="<?php echo \esc_url( PROGRESS_PLANNER_URL . '/assets/images/logo.png' ); ?>"
-			alt="<?php \esc_attr_e( 'Progress Planner', 'progress-planner' ); ?>"
-			style="max-width: 200px;"
-		/>
+		<?php
+		// phpcs:ignore PEAR.Files.IncludingFile.UseRequire
+		include PROGRESS_PLANNER_DIR . '/assets/images/logo_progress_planner.svg';
+		?>
 	</div>
 
 	<div class="prpl-header-select-range">

@@ -82,6 +82,20 @@
 }
 
 /*------------------------------------*\
+	Header & logo.
+\*------------------------------------*/
+.prpl-header {
+	margin-bottom: 2em;
+	display:flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.prpl-header-logo svg {
+	height: 100px;
+}
+
+/*------------------------------------*\
 	Charts container.
 \*------------------------------------*/
 .prpl-chart-container {
