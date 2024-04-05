@@ -15,6 +15,32 @@ use ProgressPlanner\Date;
 class Chart {
 
 	/**
+	 * The default chart parameters.
+	 *
+	 * @var array
+	 */
+	const DEFAULT_CHART_PARAMS = [
+		'type'    => 'line',
+		'options' => [
+			'responsive'          => true,
+			'maintainAspectRatio' => false,
+			'pointStyle'          => false,
+			'scales'              => [
+				'yAxis' => [
+					'ticks' => [
+						'precision' => 0,
+					],
+				],
+			],
+			'plugins'             => [
+				'legend' => [
+					'display' => false,
+				],
+			],
+		],
+	];
+
+	/**
 	 * Build a chart for the stats.
 	 *
 	 * @param array $args The arguments for the chart.
@@ -64,29 +90,7 @@ class Chart {
 				'max'            => null,
 			]
 		);
-		$args['chart_params'] = \wp_parse_args(
-			$args['chart_params'],
-			[
-				'type'    => 'line',
-				'options' => [
-					'responsive'          => true,
-					'maintainAspectRatio' => false,
-					'pointStyle'          => false,
-					'scales'              => [
-						'yAxis' => [
-							'ticks' => [
-								'precision' => 0,
-							],
-						],
-					],
-					'plugins'             => [
-						'legend' => [
-							'display' => false,
-						],
-					],
-				],
-			]
-		);
+		$args['chart_params'] = \wp_parse_args( $args['chart_params'], static::DEFAULT_CHART_PARAMS );
 
 		// Get the periods for the chart.
 		$periods = Date::get_periods(
