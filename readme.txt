@@ -4,7 +4,7 @@ Tags: tag, tags, seo
 Requires at least: 6.3
 Tested up to: 6.5
 Requires PHP: 7.4
-Stable tag: 1.4.1
+Stable tag: 0.9
 License: GPL3+
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
