@@ -15,7 +15,7 @@ use ProgressPlanner\Widgets\Widget;
 /**
  * Personal record content widget.
  */
-class Personal_Record_Content extends Widget {
+final class Personal_Record_Content extends Widget {
 
 	/**
 	 * The widget ID.

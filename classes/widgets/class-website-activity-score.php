@@ -12,7 +12,7 @@ use ProgressPlanner\Widgets\Widget;
 /**
  * Website activity score widget.
  */
-class Website_Activity_Score extends Widget {
+final class Website_Activity_Score extends Widget {
 
 	/**
 	 * The widget ID.
