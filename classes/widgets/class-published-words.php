@@ -77,14 +77,6 @@ final class Published_Words extends Widget {
 			],
 			'count_callback' => [ $this, 'count_words' ],
 			'compound'       => false,
-			'colors'         => [
-				'background' => function () {
-					return '#14b8a6';
-				},
-				'border'     => function () {
-					return '#14b8a6';
-				},
-			],
 		];
 	}
 
