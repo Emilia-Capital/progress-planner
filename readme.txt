@@ -20,6 +20,6 @@ Fight procrastination and get things done.
 
 == Changelog ==
 
-= 1.0 =
+= 0.9 =
 
 Initial release on GitHub.
