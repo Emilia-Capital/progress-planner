@@ -17,7 +17,7 @@ class Chart {
 	/**
 	 * The default chart parameters.
 	 *
-	 * @var array
+	 * @var array<string, mixed>
 	 */
 	const DEFAULT_CHART_PARAMS = [
 		'type'    => 'line',
