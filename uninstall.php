@@ -15,8 +15,24 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 require_once __DIR__ . '/includes/class-settings.php';
 require_once __DIR__ . '/includes/class-query.php';
 
-// Delete the plugin options.
-delete_option( \ProgressPlanner\Settings::OPTION_NAME );
+/**
+ * Delete the plugin options.
+ *
+ * Keeps the badges and activation date.
+ *
+ * @return void
+ */
+function prpl_cleanup_options() {
+	$value = get_option( \ProgressPlanner\Settings::OPTION_NAME, [] );
+	$keep  = [ 'badges', 'activation_date' ];
+	foreach ( array_keys( $value ) as $key ) {
+		if ( ! in_array( $key, $keep, true ) ) {
+			unset( $value[ $key ] );
+		}
+	}
+	update_option( \ProgressPlanner\Settings::OPTION_NAME, $value );
+}
+prpl_cleanup_options();
 
 // Delete the custom database tables.
 global $wpdb;
