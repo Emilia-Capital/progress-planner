@@ -187,12 +187,12 @@ class Content {
 		}
 
 		// Add activity.
-		$activity = new Content_Activity();
-		$activity->set_category( 'content' );
-		$activity->set_type( 'delete' );
-		$activity->set_data_id( $post_id );
-		$activity->set_date( new \DateTime() );
-		$activity->set_user_id( get_current_user_id() );
+		$activity           = new Content_Activity();
+		$activity->category = 'content';
+		$activity->type     = 'delete';
+		$activity->data_id  = $post_id;
+		$activity->date     = new \DateTime();
+		$activity->user_id  = get_current_user_id();
 		$activity->save();
 	}
 
@@ -271,8 +271,8 @@ class Content {
 			}
 		}
 
-		$activity = Content_Helpers::get_activity_from_post( $post );
-		$activity->set_type( $type );
+		$activity       = Content_Helpers::get_activity_from_post( $post );
+		$activity->type = $type;
 		$activity->save();
 
 		// Update the badges.

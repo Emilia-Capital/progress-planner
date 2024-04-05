@@ -66,123 +66,22 @@ class Activity {
 	protected $points = [];
 
 	/**
-	 * Set the ID of the activity.
+	 * Use the __get magic method to get the protected properties.
 	 *
-	 * @param int $id The ID of the activity.
-	 *
-	 * @return void
+	 * @param string $name The name of the property.
 	 */
-	public function set_id( int $id ) {
-		$this->id = $id;
+	public function __get( $name ) {
+		return $this->$name;
 	}
 
 	/**
-	 * Get the ID of the activity.
+	 * Use the __set magic method to set the protected properties.
 	 *
-	 * @return int
+	 * @param string $name  The name of the property.
+	 * @param mixed  $value The value of the property.
 	 */
-	public function get_id() {
-		return $this->id;
-	}
-
-	/**
-	 * Set the date.
-	 *
-	 * @param \DateTime $date The date of the activity.
-	 *
-	 * @return void
-	 */
-	public function set_date( \DateTime $date ) {
-		$this->date = $date;
-	}
-
-	/**
-	 * Get the date of the activity.
-	 *
-	 * @return \DateTime
-	 */
-	public function get_date() {
-		return $this->date;
-	}
-
-	/**
-	 * Set the category.
-	 *
-	 * @param string $category The category of the activity.
-	 *
-	 * @return void
-	 */
-	public function set_category( string $category ) {
-		$this->category = $category;
-	}
-
-	/**
-	 * Get the category of the activity.
-	 *
-	 * @return string
-	 */
-	public function get_category() {
-		return $this->category;
-	}
-
-	/**
-	 * Set the type.
-	 *
-	 * @param string $type The type of the activity.
-	 *
-	 * @return void
-	 */
-	public function set_type( string $type ) {
-		$this->type = $type;
-	}
-
-	/**
-	 * Get the type of the activity.
-	 *
-	 * @return string
-	 */
-	public function get_type() {
-		return $this->type;
-	}
-
-	/**
-	 * Set the data ID.
-	 *
-	 * @param int $data_id The data ID.
-	 *
-	 * @return void
-	 */
-	public function set_data_id( int $data_id ) {
-		$this->data_id = $data_id;
-	}
-
-	/**
-	 * Get the data ID.
-	 *
-	 * @return int
-	 */
-	public function get_data_id() {
-		return $this->data_id;
-	}
-
-	/**
-	 * Set the user ID.
-	 *
-	 * @param int $user_id The user ID.
-	 *
-	 * @return void
-	 */
-	public function set_user_id( int $user_id ) {
-		$this->user_id = (int) $user_id;
-	}
-
-	/**
-	 * Get the user ID.
-	 *
-	 * @return int
-	 */
-	public function get_user_id() {
-		return (int) $this->user_id;
+	public function __set( $name, $value ) {
+		$this->$name = $value;
 	}
 
 	/**
@@ -201,7 +100,7 @@ class Activity {
 		);
 		if ( ! empty( $existing ) ) {
 			\progress_planner()->get_query()->update_activity( $existing[0]->id, $this );
-			return;		
+			return;
 		}
 		\progress_planner()->get_query()->insert_activity( $this );
 	}
@@ -227,7 +126,7 @@ class Activity {
 		if ( isset( $this->points[ $date_ymd ] ) ) {
 			return $this->points[ $date_ymd ];
 		}
-		$days                      = abs( Date::get_days_between_dates( $date, $this->get_date() ) );
+		$days                      = abs( Date::get_days_between_dates( $date, $this->date ) );
 		$this->points[ $date_ymd ] = ( $days < 7 )
 			? 10
 			: round( 10 * max( 0, ( 1 - $days / 30 ) ) );

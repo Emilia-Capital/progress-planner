@@ -47,8 +47,8 @@ class Content extends Activity {
 		}
 
 		$this->points[ $date_ymd ] = Base::$points_config['content']['publish'];
-		if ( isset( Base::$points_config['content'][ $this->get_type() ] ) ) {
-			$this->points[ $date_ymd ] = Base::$points_config['content'][ $this->get_type() ];
+		if ( isset( Base::$points_config['content'][ $this->type ] ) ) {
+			$this->points[ $date_ymd ] = Base::$points_config['content'][ $this->type ];
 		}
 		$post = $this->get_post();
 
@@ -65,7 +65,7 @@ class Content extends Activity {
 			$this->points[ $date_ymd ] *= Base::$points_config['content']['word-multipliers'][100];
 		}
 
-		$days = absint( Date::get_days_between_dates( $date, $this->get_date() ) );
+		$days = absint( Date::get_days_between_dates( $date, $this->date ) );
 
 		// Maximum range for awarded points is 30 days.
 		if ( $days >= 30 ) {

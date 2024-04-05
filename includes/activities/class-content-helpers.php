@@ -71,12 +71,12 @@ class Content_Helpers {
 		$type = 'publish' === $post->post_status ? 'publish' : 'update';
 		$date = 'publish' === $post->post_status ? $post->post_date : $post->post_modified;
 
-		$activity = new Content();
-		$activity->set_category( 'content' );
-		$activity->set_type( $type );
-		$activity->set_date( Date::get_datetime_from_mysql_date( $date ) );
-		$activity->set_data_id( $post->ID );
-		$activity->set_user_id( (int) $post->post_author );
+		$activity           = new Content();
+		$activity->category = 'content';
+		$activity->type     = $type;
+		$activity->date     = Date::get_datetime_from_mysql_date( $date );
+		$activity->data_id  = $post->ID;
+		$activity->user_id  = (int) $post->post_author;
 		return $activity;
 	}
 }

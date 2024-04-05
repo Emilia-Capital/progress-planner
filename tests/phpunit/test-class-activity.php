@@ -30,57 +30,12 @@ class Activity_Test extends \WP_UnitTestCase {
 	public function set_up() {
 		parent::set_up();
 
-		$this->activity = new Activity();
-		$this->activity->set_category( 'test_category' );
-		$this->activity->set_type( 'test_type' );
-		$this->activity->set_date( new \DateTime() );
-		$this->activity->set_data_id( 100 );
-		$this->activity->set_user_id( 1 );
-	}
-
-	/**
-	 * Test the get_category method.
-	 *
-	 * @return void
-	 */
-	public function test_get_category() {
-		$this->assertEquals( 'test_category', $this->activity->get_category() );
-	}
-
-	/**
-	 * Test the get_type method.
-	 *
-	 * @return void
-	 */
-	public function test_get_type() {
-		$this->assertEquals( 'test_type', $this->activity->get_type() );
-	}
-
-	/**
-	 * Test the get_date method.
-	 *
-	 * @return void
-	 */
-	public function test_get_date() {
-		$this->assertInstanceOf( \DateTime::class, $this->activity->get_date() );
-	}
-
-	/**
-	 * Test the get_data_id method.
-	 *
-	 * @return void
-	 */
-	public function test_get_data_id() {
-		$this->assertEquals( 100, $this->activity->get_data_id() );
-	}
-
-	/**
-	 * Test the get_user_id method.
-	 *
-	 * @return void
-	 */
-	public function test_get_user_id() {
-		$this->assertEquals( 1, $this->activity->get_user_id() );
+		$this->activity           = new Activity();
+		$this->activity->category = 'test_category';
+		$this->activity->type     = 'test_type';
+		$this->activity->date     = new \DateTime();
+		$this->activity->data_id  = 100;
+		$this->activity->user_id  = 1;
 	}
 
 	/**
@@ -93,16 +48,16 @@ class Activity_Test extends \WP_UnitTestCase {
 
 		$activity = \progress_planner()->get_query()->query_activities(
 			[
-				'category' => $this->activity->get_category(),
-				'type'     => $this->activity->get_type(),
+				'category' => $this->activity->category,
+				'type'     => $this->activity->type,
 				'user_id'  => 1,
 			]
 		)[0];
 
-		$this->assertEquals( $this->activity->get_category(), $activity->get_category() );
-		$this->assertEquals( $this->activity->get_type(), $activity->get_type() );
-		$this->assertEquals( $this->activity->get_date()->format( 'Y-m-d' ), $activity->get_date()->format( 'Y-m-d' ) );
-		$this->assertEquals( $this->activity->get_data_id(), $activity->get_data_id() );
-		$this->assertEquals( $this->activity->get_user_id(), $activity->get_user_id() );
+		$this->assertEquals( $this->activity->category, $activity->category );
+		$this->assertEquals( $this->activity->type, $activity->type );
+		$this->assertEquals( $this->activity->date->format( 'Y-m-d' ), $activity->date->format( 'Y-m-d' ) );
+		$this->assertEquals( $this->activity->data_id, $activity->data_id );
+		$this->assertEquals( $this->activity->user_id, $activity->user_id );
 	}
 }

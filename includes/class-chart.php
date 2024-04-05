@@ -129,7 +129,7 @@ class Chart {
 					array_merge(
 						$args['query_params'],
 						[
-							'start_date' => $oldest_activity->get_date(),
+							'start_date' => $oldest_activity->date,
 							'end_date'   => ( clone $periods[0]['start'] )->modify( '-1 day' ),
 						]
 					)

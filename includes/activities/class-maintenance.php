@@ -38,8 +38,8 @@ class Maintenance extends Activity {
 	 * @return void
 	 */
 	public function save() {
-		$this->set_date( new \DateTime() );
-		$this->set_user_id( get_current_user_id() );
+		$this->date    = new \DateTime();
+		$this->user_id = get_current_user_id();
 
 		parent::save();
 	}
@@ -57,7 +57,7 @@ class Maintenance extends Activity {
 			return $this->points[ $date_ymd ];
 		}
 		$this->points[ $date_ymd ] = Base::$points_config['maintenance'];
-		$days                      = abs( Date::get_days_between_dates( $date, $this->get_date() ) );
+		$days                      = abs( Date::get_days_between_dates( $date, $this->date ) );
 
 		$this->points[ $date_ymd ] = ( $days < 7 ) ? $this->points[ $date_ymd ] : 0;
 

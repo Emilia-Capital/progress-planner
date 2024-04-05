@@ -232,11 +232,11 @@ class Query {
 		$result = $wpdb->insert(
 			$wpdb->prefix . static::TABLE_NAME,
 			[
-				'date'     => $activity->get_date()->format( 'Y-m-d H:i:s' ),
-				'category' => $activity->get_category(),
-				'type'     => $activity->get_type(),
-				'data_id'  => $activity->get_data_id(),
-				'user_id'  => $activity->get_user_id(),
+				'date'     => $activity->date->format( 'Y-m-d H:i:s' ),
+				'category' => $activity->category,
+				'type'     => $activity->type,
+				'data_id'  => $activity->data_id,
+				'user_id'  => $activity->user_id,
 			],
 			[
 				'%s',
@@ -264,15 +264,15 @@ class Query {
 	private function get_activities_from_results( $results ) {
 		$activities = [];
 		foreach ( $results as $result ) {
-			$class_name = $this->get_activity_class_name( $result->category );
-			$activity   = new $class_name();
-			$activity->set_date( new \DateTime( $result->date ) );
-			$activity->set_category( $result->category );
-			$activity->set_type( $result->type );
-			$activity->set_data_id( (int) $result->data_id );
-			$activity->set_id( (int) $result->id );
-			$activity->set_user_id( (int) $result->user_id );
-			$activities[] = $activity;
+			$class_name         = $this->get_activity_class_name( $result->category );
+			$activity           = new $class_name();
+			$activity->date     = new \DateTime( $result->date );
+			$activity->category = $result->category;
+			$activity->type     = $result->type;
+			$activity->data_id  = (int) $result->data_id;
+			$activity->id       = (int) $result->id;
+			$activity->user_id  = (int) $result->user_id;
+			$activities[]       = $activity;
 		}
 
 		return $activities;
@@ -293,11 +293,11 @@ class Query {
 		$wpdb->update(
 			$wpdb->prefix . static::TABLE_NAME,
 			[
-				'date'     => $activity->get_date()->format( 'Y-m-d H:i:s' ),
-				'category' => $activity->get_category(),
-				'type'     => $activity->get_type(),
-				'data_id'  => $activity->get_data_id(),
-				'user_id'  => $activity->get_user_id(),
+				'date'     => $activity->date->format( 'Y-m-d H:i:s' ),
+				'category' => $activity->category,
+				'type'     => $activity->type,
+				'data_id'  => $activity->data_id,
+				'user_id'  => $activity->user_id,
 			],
 			[ 'id' => $id ],
 			[
@@ -332,7 +332,7 @@ class Query {
 	 * @return void
 	 */
 	public function delete_activity( $activity ) {
-		$this->delete_activity_by_id( $activity->get_id() );
+		$this->delete_activity_by_id( $activity->id );
 	}
 
 	/**
@@ -391,14 +391,14 @@ class Query {
 			return null;
 		}
 
-		$class_name = $this->get_activity_class_name( $result->category );
-		$activity   = new $class_name();
-		$activity->set_date( new \DateTime( $result->date ) );
-		$activity->set_category( $result->category );
-		$activity->set_type( $result->type );
-		$activity->set_data_id( (int) $result->data_id );
-		$activity->set_id( (int) $result->id );
-		$activity->set_user_id( (int) $result->user_id );
+		$class_name         = $this->get_activity_class_name( $result->category );
+		$activity           = new $class_name();
+		$activity->date     = new \DateTime( $result->date );
+		$activity->category = $result->category;
+		$activity->type     = $result->type;
+		$activity->data_id  = (int) $result->data_id;
+		$activity->id       = (int) $result->id;
+		$activity->user_id  = (int) $result->user_id;
 
 		return $activity;
 	}

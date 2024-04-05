@@ -57,8 +57,8 @@ class Maintenance {
 		if ( 'install' !== $options['action'] ) {
 			return;
 		}
-		$activity = new Activity_Maintenance();
-		$activity->set_type( 'install_' . $this->get_install_type( $options ) );
+		$activity       = new Activity_Maintenance();
+		$activity->type = 'install_' . $this->get_install_type( $options );
 		$activity->save();
 	}
 
@@ -74,8 +74,8 @@ class Maintenance {
 		if ( 'update' !== $options['action'] ) {
 			return;
 		}
-		$activity = new Activity_Maintenance();
-		$activity->set_type( 'update_' . $this->get_update_type( $options ) );
+		$activity       = new Activity_Maintenance();
+		$activity->type = 'update_' . $this->get_update_type( $options );
 		$activity->save();
 	}
 
@@ -85,8 +85,8 @@ class Maintenance {
 	 * @return void
 	 */
 	public function on_delete_plugin() {
-		$activity = new Activity_Maintenance();
-		$activity->set_type( 'delete_plugin' );
+		$activity       = new Activity_Maintenance();
+		$activity->type = 'delete_plugin';
 		$activity->save();
 	}
 
@@ -96,8 +96,8 @@ class Maintenance {
 	 * @return void
 	 */
 	public function on_delete_theme() {
-		$activity = new Activity_Maintenance();
-		$activity->set_type( 'delete_theme' );
+		$activity       = new Activity_Maintenance();
+		$activity->type = 'delete_theme';
 		$activity->save();
 	}
 
@@ -107,8 +107,8 @@ class Maintenance {
 	 * @return void
 	 */
 	public function on_activate_plugin() {
-		$activity = new Activity_Maintenance();
-		$activity->set_type( 'activate_plugin' );
+		$activity       = new Activity_Maintenance();
+		$activity->type = 'activate_plugin';
 		$activity->save();
 	}
 
@@ -118,8 +118,8 @@ class Maintenance {
 	 * @return void
 	 */
 	public function on_deactivate_plugin() {
-		$activity = new Activity_Maintenance();
-		$activity->set_type( 'deactivate_plugin' );
+		$activity       = new Activity_Maintenance();
+		$activity->type = 'deactivate_plugin';
 		$activity->save();
 	}
 
@@ -129,8 +129,8 @@ class Maintenance {
 	 * @return void
 	 */
 	public function on_switch_theme() {
-		$activity = new Activity_Maintenance();
-		$activity->set_type( 'switch_theme' );
+		$activity       = new Activity_Maintenance();
+		$activity->type = 'switch_theme';
 		$activity->save();
 	}
 

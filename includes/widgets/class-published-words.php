@@ -103,7 +103,7 @@ final class Published_Words extends Widget {
 			}
 			$words += Content_Helpers::get_word_count(
 				$activity->get_post()->post_content,
-				$activity->get_data_id()
+				$activity->data_id
 			);
 		}
 		return $words;
