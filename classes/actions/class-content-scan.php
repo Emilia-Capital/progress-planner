@@ -129,13 +129,15 @@ class Content_Scan extends Content_Action {
 			$total_posts_count += \wp_count_posts( $post_type )->publish;
 		}
 		// Calculate the total pages to scan.
-		return \ceil( $total_posts_count / static::SCAN_POSTS_PER_PAGE );
+		return (int) \ceil( $total_posts_count / static::SCAN_POSTS_PER_PAGE );
 	}
 
 	/**
 	 * Insert the activities and the word-count for posts in the db.
 	 *
 	 * @param \WP_Post[] $posts The posts to set the word count for.
+	 *
+	 * @return void
 	 */
 	public static function insert_activities( $posts ) {
 		$activities = [];

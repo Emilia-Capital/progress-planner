@@ -22,7 +22,7 @@ class Content extends Activity {
 	 *
 	 * @var string
 	 */
-	protected $category = 'content';
+	public $category = 'content';
 
 	/**
 	 * Get WP_Post from the activity.

@@ -19,21 +19,21 @@ class Activity {
 	 *
 	 * @var string
 	 */
-	protected $category;
+	public $category;
 
 	/**
 	 * Type of the activity.
 	 *
 	 * @var string
 	 */
-	protected $type;
+	public $type;
 
 	/**
 	 * The date of the activity.
 	 *
 	 * @var \DateTime
 	 */
-	protected $date;
+	public $date;
 
 	/**
 	 * The data ID.
@@ -42,47 +42,28 @@ class Activity {
 	 *
 	 * @var int
 	 */
-	protected $data_id;
+	public $data_id;
 
 	/**
 	 * ID of the activity.
 	 *
 	 * @var int
 	 */
-	protected $id;
+	public $id;
 
 	/**
 	 * User ID.
 	 *
 	 * @var int
 	 */
-	protected $user_id;
+	public $user_id;
 
 	/**
 	 * Activity points by date.
 	 *
 	 * @var array
 	 */
-	protected $points = [];
-
-	/**
-	 * Use the __get magic method to get the protected properties.
-	 *
-	 * @param string $name The name of the property.
-	 */
-	public function __get( $name ) {
-		return $this->$name;
-	}
-
-	/**
-	 * Use the __set magic method to set the protected properties.
-	 *
-	 * @param string $name  The name of the property.
-	 * @param mixed  $value The value of the property.
-	 */
-	public function __set( $name, $value ) {
-		$this->$name = $value;
-	}
+	public $points = [];
 
 	/**
 	 * Save the activity.

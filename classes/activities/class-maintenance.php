@@ -21,7 +21,7 @@ class Maintenance extends Activity {
 	 *
 	 * @var string
 	 */
-	protected $category = 'maintenance';
+	public $category = 'maintenance';
 
 	/**
 	 * The data ID.
@@ -30,7 +30,7 @@ class Maintenance extends Activity {
 	 *
 	 * @var int
 	 */
-	protected $data_id = 0;
+	public $data_id = 0;
 
 	/**
 	 * Save the activity.
