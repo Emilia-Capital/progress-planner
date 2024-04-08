@@ -4,7 +4,7 @@
 :root {
 	--prpl-gap: 32px;
 	--prpl-padding: 20px;
-	--prpl-column-min-width: 16rem;
+	--prpl-column-min-width: 15rem;
 	--prpl-column-max-width: 30rem;
 	--prpl-max-columns: 4;
 	--prpl-border-radius: 7px;
@@ -24,7 +24,7 @@
 	--prpl-color-accent-green: #14b8a6;
 
 	--prpl-color-headings: #38296d;
-	--prpl-color-text: var(--prpl-color-gray-6);
+	--prpl-color-text: var(--prpl-color-gray-5);
 	--prpl-color-link: #1e40af;
 
 	--prpl-color-notification-green: #16a34a;
@@ -66,6 +66,7 @@
 \*------------------------------------*/
 .prpl-wrap p {
 	font-size: var(--prpl-font-size-base);
+	color: var(--prpl-color-text);
 }
 
 .prpl-wrap h1,
@@ -106,7 +107,7 @@
 	position: relative;
 	height: 100%;
 	width: 100%;
-	max-height: 500px;
+	max-height: 300px;
 }
 
 /*------------------------------------*\
@@ -138,6 +139,16 @@
 	gap: var(--prpl-gap);
 }
 
+.prpl-column-main-primary .prpl-column {
+	display: flex;
+	flex-direction: column;
+}
+.prpl-column-main-primary .prpl-column-two-col {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(var(--prpl-column-min-width), 1fr));
+	grid-gap: var(--prpl-gap);
+}
+
 /*------------------------------------*\
 	Widgets with 2 columns.
 \*------------------------------------*/
@@ -160,6 +171,8 @@
 	padding: var(--prpl-padding);
 	display: flex;
 	flex-direction: column;
+	min-width: 0;
+	min-height: 0;
 }
 
 /*------------------------------------*\

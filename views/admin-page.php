@@ -18,9 +18,11 @@ namespace ProgressPlanner;
 		<div class="prpl-column-main prpl-column-main-primary">
 			<div class="prpl-column prpl-column-first">
 				<?php new \ProgressPlanner\Widgets\Website_Activity_Score(); ?>
-				<?php new \ProgressPlanner\Widgets\Published_Content_Density(); ?>
+				<div class="prpl-column prpl-column-two-col">
+					<?php new \ProgressPlanner\Widgets\Published_Content_Density(); ?>
+					<?php new \ProgressPlanner\Widgets\Published_Words(); ?>
+				</div>
 				<?php new \ProgressPlanner\Widgets\Published_Content(); ?>
-				<?php new \ProgressPlanner\Widgets\Published_Words(); ?>
 			</div>
 		</div>
 		<div class="prpl-column-main prpl-column-main-secondary">

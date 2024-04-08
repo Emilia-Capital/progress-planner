@@ -30,25 +30,23 @@ final class Published_Content_Density extends Widget {
 	 */
 	protected function the_content() {
 		?>
-		<div class="two-col">
-			<div class="prpl-top-counter-bottom-content">
-				<?php $this->render_big_counter( (int) $this->get_weekly_activities_density(), __( 'content density', 'progress-planner' ) ); ?>
-				<div class="prpl-widget-content">
-					<p>
-						<?php
-						printf(
-							/* translators: %1$s: number of words/post published this week. %2$s: All-time average number. */
-							\esc_html__( 'You have written content with an average density of %1$s words/post in the past 7 days. Your all-time average is %2$s', 'progress-planner' ),
-							\esc_html( \number_format_i18n( $this->get_weekly_activities_density() ) ),
-							\esc_html( \number_format_i18n( $this->get_all_activities_density() ) )
-						);
-						?>
-					</p>
-				</div>
+		<div class="prpl-top-counter-bottom-content">
+			<?php $this->render_big_counter( (int) $this->get_weekly_activities_density(), __( 'content density', 'progress-planner' ) ); ?>
+			<div class="prpl-widget-content">
+				<p>
+					<?php
+					printf(
+						/* translators: %1$s: number of words/post published this week. %2$s: All-time average number. */
+						\esc_html__( 'You have written content with an average density of %1$s words/post in the past 7 days. Your all-time average is %2$s', 'progress-planner' ),
+						\esc_html( \number_format_i18n( $this->get_weekly_activities_density() ) ),
+						\esc_html( \number_format_i18n( $this->get_all_activities_density() ) )
+					);
+					?>
+				</p>
 			</div>
-			<div class="prpl-graph-wrapper">
-				<?php ( new Chart() )->the_chart( $this->get_chart_args() ); ?>
-			</div>
+		</div>
+		<div class="prpl-graph-wrapper">
+			<?php ( new Chart() )->the_chart( $this->get_chart_args() ); ?>
 		</div>
 		<?php
 	}
