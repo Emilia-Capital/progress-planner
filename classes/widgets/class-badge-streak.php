@@ -41,7 +41,6 @@ final class Badge_Streak extends Widget {
 							--value:<?php echo (float) ( $details['progress']['progress'] / 100 ); ?>;
 							--max: 360deg;
 							--start: 180deg;
-							--color:<?php echo \esc_attr( $details['color'] ); ?>
 						">
 						<?php require $details['badge']['icons-svg']['complete']['path']; ?>
 					</div>
