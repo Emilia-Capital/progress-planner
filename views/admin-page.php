@@ -40,4 +40,8 @@ namespace ProgressPlanner;
 			</div>
 		</div>
 	</div>
+	<div id="prpl-popup-body-overlay"></div>
+	<div id="prpl-popup-container">
+		<div class="prpl-popup-body"></div>
+	</div>
 </div>

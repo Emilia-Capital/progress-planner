@@ -10,3 +10,19 @@ document.getElementById( 'prpl-select-frequency' ).addEventListener( 'change', f
 	url.searchParams.set( 'frequency', frequency );
 	window.location.href = url.href;
 } );
+
+window.progressPlannerPopup = ( context ) => {
+	document.body.classList.add( 'prpl-popup-open' );
+	document.body.classList.add( 'prpl-popup-' + context );
+	console.log( context );
+};
+
+document.getElementById( 'prpl-popup-body-overlay' ).addEventListener( 'click', function() {
+	const bodyClasses = document.body.classList;
+	bodyClasses.remove( 'prpl-popup-open' );
+	bodyClasses.forEach( ( className ) => {
+		if ( className.startsWith( 'prpl-popup-' ) ) {
+			bodyClasses.remove( className );
+		}
+	} );
+} );
