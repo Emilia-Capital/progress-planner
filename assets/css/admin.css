@@ -384,6 +384,7 @@
 
 .prpl-badge-gauge svg {
 	aspect-ratio: 1.15;
+	filter: drop-shadow(0 0 1px rgb(0 0 0 / 0.4));
 }
 
 .prpl-badge-wrapper {
