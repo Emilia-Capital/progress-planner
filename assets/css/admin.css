@@ -60,6 +60,7 @@
 	color: var(--prpl-color-text);
 	font-size: var(--prpl-font-size-base);
 	line-height: 1.4
+	position: relative;
 }
 
 /*------------------------------------*\
@@ -483,15 +484,13 @@ button.prpl-info-icon {
 }
 
 /*------------------------------------*\
-	Popups.
+	Popups overlay.
 \*------------------------------------*/
-#prpl-popup-container,
 #prpl-popup-body-overlay {
 	display: none;
-	position: fixed;
-}
-
-#prpl-popup-body-overlay {
+	position: absolute;
+	margin-left: -20px;
+	padding-left: 20px;
 	top: 0;
 	left: 0;
 	width: 100%;
@@ -504,8 +503,36 @@ button.prpl-info-icon {
 	display: block;
 }
 
+/*------------------------------------*\
+	Popups generic styles.
+\*------------------------------------*/
+#prpl-popup-container {
+	display: none;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background: #fff;
+	border: 1px solid var(--prpl-color-gray-3);
+	border-radius: var(--prpl-border-radius);
+	padding: var(--prpl-padding);
+	z-index: 1001;
+	min-width: 300px;
+	min-height: 200px;
+}
+
 .prpl-popup-open #prpl-popup-container {
 	display: block;
 	z-index: 1001;
 }
-/* prpl-popup-badges-details */
+
+/*------------------------------------*\
+	Popups generic styles.
+\*------------------------------------*/
+#prpl-popup-badges-details {
+	display: none;
+}
+
+body.prpl-popup-open.prpl-popup-badges-details #prpl-popup-badges-details {
+	display: block;
+}
