@@ -28,6 +28,8 @@ abstract class Popup {
 
 	/**
 	 * Render the widget content.
+	 *
+	 * @return void
 	 */
 	public function render() {
 		?>
@@ -39,6 +41,8 @@ abstract class Popup {
 
 	/**
 	 * Render the widget content.
+	 *
+	 * @return void
 	 */
 	abstract protected function the_content();
 }

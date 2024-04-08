@@ -289,6 +289,7 @@ button.prpl-info-icon {
 	aspect-ratio: 2 / 1;
 	overflow: hidden;
 	position: relative;
+	margin-bottom: var(--prpl-padding);
 }
 
 /*------------------------------------*\
@@ -460,7 +461,7 @@ button.prpl-info-icon {
 /*------------------------------------*\
 	Plugins widget.
 \*------------------------------------*/
-.prpl-widget-wrapper.prpl-plugins:has(.pending-updates) {
+/* .prpl-widget-wrapper.prpl-plugins:has(.pending-updates) {
 	border-color: var(--prpl-color-notification-red);
 	border-width: 2px;
 	background-color: var(--prpl-background-orange);
@@ -472,7 +473,11 @@ button.prpl-info-icon {
 
 .prpl-widget-wrapper.prpl-plugins:has(.pending-updates) .accent {
 	color: var(--prpl-color-notification-red);
-	font-weight: 700;
+	font-weight: 600;
+} */
+
+.prpl-widget-wrapper.prpl-plugins .counter-big-wrapper {
+	background-color: var(--prpl-background-green);
 }
 
 /*------------------------------------*\

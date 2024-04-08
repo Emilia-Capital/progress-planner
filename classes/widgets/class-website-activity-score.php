@@ -48,7 +48,7 @@ final class Website_Activity_Score extends Widget {
 	public static function print_score_gauge() {
 		$score = self::get_score();
 		?>
-		<div style="text-align: center;">
+		<div>
 			<div class="prpl-activities-gauge-container">
 				<div
 					class="prpl-activities-gauge"

@@ -21,6 +21,8 @@ final class Badges extends Popup {
 
 	/**
 	 * Render the widget content.
+	 *
+	 * @return void
 	 */
 	protected function the_content() {
 		?>
