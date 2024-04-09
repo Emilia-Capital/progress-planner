@@ -17,7 +17,7 @@ final class Badges extends Popup {
 	/**
 	 * An array of badge IDs.
 	 *
-	 * @var array
+	 * @var array<string, string[]>
 	 */
 	const BADGES = [
 		'content'     => [
@@ -65,7 +65,7 @@ final class Badges extends Popup {
 							<div class="indicators-maintenance">
 								<?php foreach ( self::BADGES['maintenance'] as $badge ) : ?>
 									<div class="indicator">
-										<?php $badge_progress = Root_Badges::get_badge_progress( $badge );?>
+										<?php $badge_progress = Root_Badges::get_badge_progress( $badge ); ?>
 										<span class="indicator-label">
 											<?php if ( 0 === (int) $badge_progress['remaining'] ) : ?>
 												✔️
