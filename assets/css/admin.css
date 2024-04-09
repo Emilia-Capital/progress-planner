@@ -526,7 +526,7 @@ button.prpl-info-icon {
 	border-radius: var(--prpl-border-radius);
 	padding: var(--prpl-padding);
 	z-index: 1001;
-	min-width: 300px;
+	min-width: 80%;
 	min-height: 200px;
 }
 
@@ -552,7 +552,7 @@ body.prpl-popup-open.prpl-popup-badges-details #prpl-popup-badges-details {
 #popup-badges-content {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
-	grid-gap: var(--prpl-gap);
+	grid-gap: var(--prpl-padding);
 }
 
 #popup-badges-content .inner {
@@ -579,7 +579,7 @@ body.prpl-popup-open.prpl-popup-badges-details #prpl-popup-badges-details {
 #prpl-popup-badges-details .indicators-maintenance {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
-	grid-gap: var(--prpl-gap);
+	grid-gap: var(--prpl-padding);
 }
 
 #prpl-popup-badges-details .indicators-maintenance .indicator {
@@ -592,4 +592,14 @@ body.prpl-popup-open.prpl-popup-badges-details #prpl-popup-badges-details {
 	font-size: var(--prpl-font-size-2xl);
 	font-weight: 500;
 	display: block;
+}
+
+#prpl-popup-badges-details .prpl-widgets-container {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(var(--prpl-column-min-width), 1fr));
+	grid-gap: var(--prpl-gap);
+}
+
+.string-freeze-explain {
+	max-width: 42em;
 }
