@@ -52,7 +52,7 @@ final class Badges extends Popup {
 		<div class="prpl-widgets-container">
 			<div class="prpl-column-container">
 				<div class="prpl-column">
-					<div>
+					<div class="prpl-widget-wrapper">
 						<h3><?php esc_html_e( 'Don’t break your streak by missing a week!', 'progress-planner' ); ?></h3>
 						<p><?php esc_html_e( 'Do at least one activity on your website every week. That could be publishing or adding content and updating a post or updating a plugin. Not able to work on your site? Use your streak freeze.', 'progress-planner' ); ?></p>
 						<div id="popup-badges-content">
@@ -61,7 +61,7 @@ final class Badges extends Popup {
 						<div class="progress-badges">
 							<span class="badges-popup-progress-total">
 								<span style="width: <?php echo (int) Root_Badges::get_badge_progress( 'super-site-specialist' )['progress']; ?>%"></span>
-							</div>
+							</span>
 							<div class="indicators-maintenance">
 								<?php foreach ( self::BADGES['maintenance'] as $badge ) : ?>
 									<div class="indicator">
@@ -83,10 +83,10 @@ final class Badges extends Popup {
 								<?php endforeach; ?>
 							</div>
 						</div>
-
-						<h2><?php esc_html_e( 'Streak freeze', 'progress-planner' ); ?></h2>
-						<p><?php esc_html_e( 'Going on a holiday? Don\'t have time to work on your site? You can skip your website maintenance for a maximum of one weeks. Your streak will continue afterward.', 'progress-planner' ); ?></p>
 					</div>
+
+					<h2><?php esc_html_e( 'Streak freeze', 'progress-planner' ); ?></h2>
+					<p><?php esc_html_e( 'Going on a holiday? Don\'t have time to work on your site? You can skip your website maintenance for a maximum of one weeks. Your streak will continue afterward.', 'progress-planner' ); ?></p>
 				</div>
 			</div>
 		</div>
