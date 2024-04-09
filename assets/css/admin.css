@@ -529,6 +529,7 @@ button.prpl-info-icon {
 	width: 80%;
 	max-width: 80em;
 	min-height: 200px;
+	max-height: 80vh;
 }
 
 .prpl-popup-open #prpl-popup-container {
