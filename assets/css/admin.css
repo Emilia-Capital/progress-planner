@@ -526,7 +526,8 @@ button.prpl-info-icon {
 	border-radius: var(--prpl-border-radius);
 	padding: var(--prpl-padding);
 	z-index: 1001;
-	min-width: 80%;
+	width: 80%;
+	max-width: 80em;
 	min-height: 200px;
 }
 
