@@ -162,6 +162,7 @@ button.prpl-info-icon {
 	display: flex;
 	flex-direction: column;
 }
+
 .prpl-column-main-primary .prpl-column-two-col {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(var(--prpl-column-min-width), 1fr));
@@ -542,5 +543,53 @@ button.prpl-info-icon {
 }
 
 body.prpl-popup-open.prpl-popup-badges-details #prpl-popup-badges-details {
+	display: block;
+}
+
+/*------------------------------------*\
+	Badges popup.
+\*------------------------------------*/
+#popup-badges-content {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-gap: var(--prpl-gap);
+}
+
+#popup-badges-content .inner {
+	background: var(--prpl-background-red);
+	border-radius: calc(var(--prpl-border-radius) * 2);
+	padding: var(--prpl-padding);
+	font-size: var(--prpl-font-size-small);
+	text-align: center;
+}
+
+.badges-popup-progress-total {
+	display: block;
+	width: 100%;
+	height: 20px;
+	background: var(--prpl-color-gray-1);
+}
+
+.badges-popup-progress-total > span {
+	display: block;
+	height: 100%;
+	background: var(--prpl-color-accent-red);
+}
+
+#prpl-popup-badges-details .indicators-maintenance {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-gap: var(--prpl-gap);
+}
+
+#prpl-popup-badges-details .indicators-maintenance .indicator {
+	text-align: center;
+	line-height: 1.2;
+	margin-top: 5px;
+}
+
+#prpl-popup-badges-details .indicators-maintenance .indicator .number {
+	font-size: var(--prpl-font-size-2xl);
+	font-weight: 500;
 	display: block;
 }

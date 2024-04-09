@@ -33,6 +33,15 @@ final class Wonderful_Writer extends Badge_Content {
 	}
 
 	/**
+	 * Get the badge description.
+	 *
+	 * @return string
+	 */
+	public function get_description() {
+		return esc_html__( '200+ existing posts/pages, or 10 new posts/pages', 'progress-planner' );
+	}
+
+	/**
 	 * The badge icons.
 	 *
 	 * @return array

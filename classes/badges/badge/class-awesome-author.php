@@ -32,6 +32,16 @@ final class Awesome_Author extends Badge_Content {
 	}
 
 	/**
+	 * Get the badge description.
+	 *
+	 * @return string
+	 */
+	public function get_description() {
+		/* translators: %d: The number of new posts to write. */
+		return sprintf( esc_html__( 'Write %d new posts or pages', 'progress-planner' ), 30 );
+	}
+
+	/**
 	 * The badge icons.
 	 *
 	 * @return array

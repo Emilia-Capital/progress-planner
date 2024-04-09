@@ -31,6 +31,16 @@ final class Super_Site_Specialist extends Badge_Maintenance {
 	}
 
 	/**
+	 * Get the badge description.
+	 *
+	 * @return string
+	 */
+	public function get_description() {
+		/* translators: %d: The number of weeks. */
+		return sprintf( esc_html__( '%d weeks streak', 'progress-planner' ), 52 );
+	}
+
+	/**
 	 * The badge icons.
 	 *
 	 * @return array
