@@ -29,6 +29,25 @@ const progressPlannerTriggerScan = () => {
 		progressPlannerTriggerScan();
 	};
 
+	const failAction = ( response ) => {
+		// If the window.progressPlannerFailScanCount is not defined, set it to 1.
+		if ( ! window.progressPlannerFailScanCount ) {
+			window.progressPlannerFailScanCount = 1;
+		} else {
+			window.progressPlannerFailScanCount++;
+		}
+
+		// If the scan has failed more than 10 times, stop retrying.
+		if ( window.progressPlannerFailScanCount > 10 ) {
+			return;
+		}
+
+		console.warn( 'Failed to scan posts. Retrying...' );
+		console.log( response );
+		// Retry after 200ms.
+		setTimeout( progressPlannerTriggerScan, 200 );
+	}
+
 	/**
 	 * The AJAX request to run.
 	 */
@@ -39,5 +58,6 @@ const progressPlannerTriggerScan = () => {
 			_ajax_nonce: progressPlanner.nonce,
 		},
 		successAction: successAction,
+		failAction: failAction,
 	} );
 };
