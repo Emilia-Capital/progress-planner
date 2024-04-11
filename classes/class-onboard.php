@@ -19,7 +19,14 @@ class Onboard {
 	 *
 	 * @var string
 	 */
-	const REMOTE_URL = 'https://progressplanner.com';
+	const REMOTE_DOMAIN = 'https://progressplanner.com';
+
+	/**
+	 * The remote API endpoints namespace URL.
+	 *
+	 * @var string
+	 */
+	const REMOTE_API_URL = '/wp-json/progress-planner-saas/v1/';
 
 	/**
 	 * Constructor.
@@ -138,7 +145,7 @@ class Onboard {
 	 * @return string
 	 */
 	public static function get_remote_nonce_url() {
-		return self::REMOTE_URL . '/wp-json/progress-planner-saas/v1/get-nonce';
+		return self::REMOTE_DOMAIN . self::REMOTE_API_URL . 'get-nonce';
 	}
 
 	/**
@@ -147,6 +154,6 @@ class Onboard {
 	 * @return string
 	 */
 	public static function get_remote_url() {
-		return self::REMOTE_URL . '/wp-json/progress-planner-saas/v1/onboard';
+		return self::REMOTE_DOMAIN . self::REMOTE_API_URL . 'onboard';
 	}
 }
