@@ -73,7 +73,7 @@ class Onboard {
 				<input
 					type="name"
 					name="name"
-					value="<?php echo \esc_attr( \get_user_meta( $current_user->id, 'first_name', true ) ); ?>"
+					value="<?php echo \esc_attr( \get_user_meta( $current_user->ID, 'first_name', true ) ); ?>"
 				>
 			</label>
 			<label>
