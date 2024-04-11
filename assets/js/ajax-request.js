@@ -1,3 +1,4 @@
+/* global XMLHttpRequest */
 
 /**
  * A helper to make AJAX requests.
@@ -8,16 +9,22 @@
  * @param {Function} params.successAction The callback to run on success.
  * @param {Function} params.failAction    The callback to run on failure.
  */
-const progressPlannerAjaxRequest = ( { url, data, successAction, failAction } ) => {
+// eslint-disable-next-line no-unused-vars
+const progressPlannerAjaxRequest = ( {
+	url,
+	data,
+	successAction,
+	failAction,
+} ) => {
 	const http = new XMLHttpRequest();
 	http.open( 'POST', url, true );
 	http.onreadystatechange = () => {
-		let response;
 		const defaultCallback = ( response ) => {
 			// eslint-disable-next-line no-console
 			console.info( response );
-		}
+		};
 
+		let response;
 		try {
 			response = JSON.parse( http.response );
 		} catch ( e ) {
@@ -28,9 +35,13 @@ const progressPlannerAjaxRequest = ( { url, data, successAction, failAction } ) 
 			}
 		}
 		if ( http.readyState === 4 && http.status === 200 ) {
-			return successAction ? successAction( response ) : defaultCallback( response );
+			return successAction
+				? successAction( response )
+				: defaultCallback( response );
 		}
-		return failAction ? failAction( response ) : defaultCallback( response );
+		return failAction
+			? failAction( response )
+			: defaultCallback( response );
 	};
 
 	const dataForm = new FormData();

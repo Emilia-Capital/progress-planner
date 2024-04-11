@@ -59,7 +59,7 @@
 	max-width: var(--prpl-container-max-width);
 	color: var(--prpl-color-text);
 	font-size: var(--prpl-font-size-base);
-	line-height: 1.4
+	line-height: 1.4;
 	position: relative;
 }
 
@@ -110,7 +110,7 @@ button.prpl-info-icon {
 \*------------------------------------*/
 .prpl-header {
 	margin-bottom: 2em;
-	display:flex;
+	display: flex;
 	justify-content: space-between;
 	align-items: center;
 }
@@ -262,7 +262,7 @@ button.prpl-info-icon {
 	padding: calc(var(--prpl-gap) * 1.5);
 	background: var(--prpl-background-purple);
 	border: none;
-	box-shadow: 0 0 10px var(--prpl-color-gray-2)
+	box-shadow: 0 0 10px var(--prpl-color-gray-2);
 }
 
 /*------------------------------------*\
@@ -312,6 +312,10 @@ button.prpl-info-icon {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	gap: calc(var(--prpl-gap) / 2);
+	background-color: var(--prpl-background-blue);
+	padding: calc(var(--prpl-padding) / 2);
+	border-radius: var(--prpl-border-radius);
+	margin-bottom: var(--prpl-padding);
 }
 
 .prpl-widget-wrapper.prpl-badges-progress .progress-wrapper .prpl-badge {
@@ -323,17 +327,10 @@ button.prpl-info-icon {
 	min-width: 0;
 }
 
-.prpl-widget-wrapper.prpl-badges-progress .progress-wrapper {
-	background-color: var(--prpl-background-blue);
-	padding: calc(var(--prpl-padding) / 2);
-	border-radius: var(--prpl-border-radius);
-	margin-bottom: var(--prpl-padding);
-}
-
 .prpl-widget-wrapper.prpl-badges-progress .progress-wrapper p {
 	margin: 0;
-	font-size:var(--prpl-font-size-xs);
-	text-align:center;
+	font-size: var(--prpl-font-size-xs);
+	text-align: center;
 }
 
 .prpl-widget-wrapper.prpl-badges-progress .progress-wrapper + .progress-wrapper {
@@ -397,13 +394,8 @@ button.prpl-info-icon {
 	border-radius: 100%;
 	position: relative;
 	background:
-		radial-gradient( var(--background) 0 var(--cutout), transparent var(--cutout) 100% ),
-		conic-gradient(
-			from var(--start),
-			var(--color) calc( var(--max) * var(--value) ),
-			var(--prpl-color-gray-1) calc( var(--max) * var(--value) ) var(--max),
-			transparent var(--max)
-		);
+		radial-gradient(var(--background) 0 var(--cutout), transparent var(--cutout) 100%),
+		conic-gradient(from var(--start), var(--color) calc(var(--max) * var(--value)), var(--prpl-color-gray-1) calc(var(--max) * var(--value)) var(--max), transparent var(--max));
 	text-align: center;
 }
 
@@ -444,7 +436,7 @@ button.prpl-info-icon {
 	text-decoration: none;
 }
 
-.prpl-widget-wrapper.prpl-whats-new li > a h3:before {
+.prpl-widget-wrapper.prpl-whats-new li > a h3::before {
 	content: "🔗";
 	margin-right: 0.5em;
 }
@@ -466,6 +458,7 @@ button.prpl-info-icon {
 /*------------------------------------*\
 	Plugins widget.
 \*------------------------------------*/
+
 /* .prpl-widget-wrapper.prpl-plugins:has(.pending-updates) {
 	border-color: var(--prpl-color-notification-red);
 	border-width: 2px;

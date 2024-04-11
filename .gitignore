@@ -1,4 +1,4 @@
-
-vendor/
+/vendor/
 ._*
 .phpunit.result.cache
+node_modules

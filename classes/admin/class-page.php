@@ -81,7 +81,7 @@ class Page {
 		// Enqueue Chart.js.
 		\wp_enqueue_script(
 			'chart-js',
-			PROGRESS_PLANNER_URL . '/assets/js/chart.min.js',
+			PROGRESS_PLANNER_URL . '/assets/js/vendor/chart.min.js',
 			[],
 			'4.4.2',
 			false

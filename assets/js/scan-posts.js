@@ -1,8 +1,9 @@
-/* global progressPlanner */
+/* global progressPlanner, progressPlannerAjaxRequest */
 
-
+// eslint-disable-next-line no-unused-vars
 const progressPlannerTriggerScan = () => {
-	document.getElementById( 'progress-planner-scan-progress' ).style.display = 'block';
+	document.getElementById( 'progress-planner-scan-progress' ).style.display =
+		'block';
 
 	/**
 	 * The action to run on a successful AJAX request.
@@ -12,17 +13,24 @@ const progressPlannerTriggerScan = () => {
 	 *                          The response should contain a `progress` property.
 	 */
 	const successAction = ( response ) => {
-		const progressBar = document.querySelector( '#progress-planner-scan-progress progress' );
+		const progressBar = document.querySelector(
+			'#progress-planner-scan-progress progress'
+		);
 		// Update the progressbar.
 		if ( response.data.progress > progressBar.value ) {
 			progressBar.value = response.data.progress;
 		}
 
-		console.info( `Progress: ${response.data.progress}%, (${response.data.lastScanned}/${response.data.lastPage})` );
+		// eslint-disable-next-line no-console
+		console.info(
+			`Progress: ${ response.data.progress }%, (${ response.data.lastScanned }/${ response.data.lastPage })`
+		);
 
 		// Refresh the page when scan has finished.
 		if ( response.data.progress >= 100 ) {
-			document.getElementById( 'progress-planner-scan-progress' ).style.display = 'none';
+			document.getElementById(
+				'progress-planner-scan-progress'
+			).style.display = 'none';
 			return;
 		}
 
@@ -42,11 +50,11 @@ const progressPlannerTriggerScan = () => {
 			return;
 		}
 
-		console.warn( 'Failed to scan posts. Retrying...' );
-		console.log( response );
+		console.warn( 'Failed to scan posts. Retrying...' ); // eslint-disable-line no-console
+		console.log( response ); // eslint-disable-line no-console
 		// Retry after 200ms.
 		setTimeout( progressPlannerTriggerScan, 200 );
-	}
+	};
 
 	/**
 	 * The AJAX request to run.
@@ -57,7 +65,7 @@ const progressPlannerTriggerScan = () => {
 			action: 'progress_planner_scan_posts',
 			_ajax_nonce: progressPlanner.nonce,
 		},
-		successAction: successAction,
-		failAction: failAction,
+		successAction,
+		failAction,
 	} );
 };
