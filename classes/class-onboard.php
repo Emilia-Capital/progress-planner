@@ -48,7 +48,7 @@ class Onboard {
 			return;
 		}
 
-		\wp_safe_redirect( admin_url( 'admin.php?page=progress-planner' ) );
+		\wp_safe_redirect( \admin_url( 'admin.php?page=progress-planner' ) );
 		exit;
 	}
 
@@ -58,15 +58,23 @@ class Onboard {
 	 * @return void
 	 */
 	public static function the_form() {
-		$current_user = wp_get_current_user();
+		$current_user = \wp_get_current_user();
 		?>
 		<form id="prpl-onboarding-form">
 			<label>
-				<?php esc_html_e( 'Email', 'progress-planner' ); ?>
+				<?php \esc_html_e( 'First Name', 'progress-planner' ); ?>
+				<input
+					type="name"
+					name="name"
+					value="<?php echo \esc_attr( \get_user_meta( $current_user->id, 'first_name', true ) ); ?>"
+				>
+			</label>
+			<label>
+				<?php \esc_html_e( 'Email', 'progress-planner' ); ?>
 				<input
 					type="email"
 					name="email"
-					value="<?php echo esc_attr( $current_user->user_email ); ?>"
+					value="<?php echo \esc_attr( $current_user->user_email ); ?>"
 				>
 			</label>
 			<label>
@@ -75,22 +83,22 @@ class Onboard {
 					name="consent"
 					required
 				>
-				<?php esc_html_e( 'I consent to sending my data to the remote server.', 'progress-planner' ); ?>
+				<?php \esc_html_e( 'I consent to sending my data to the remote server.', 'progress-planner' ); ?>
 			</label>
 			<input
 				type="hidden"
 				name="site"
-				value="<?php echo esc_attr( site_url() ); ?>"
+				value="<?php echo \esc_attr( \site_url() ); ?>"
 			>
 			<input
 				type="submit"
-				value="<?php esc_attr_e( 'Start the onboarding process!', 'progress-planner' ); ?>"
+				value="<?php \esc_attr_e( 'Start the onboarding process!', 'progress-planner' ); ?>"
 				class="button button-primary"
 			>
 		</form>
 
 		<a style="display:none;" id="prpl-password-reset-link">
-			<?php esc_html_e( 'Registration successful. Set your password now and edit your profile', 'progress-planner' ); ?>
+			<?php \esc_html_e( 'Registration successful. Set your password now and edit your profile', 'progress-planner' ); ?>
 		</a>
 
 		<div id="progress-planner-scan-progress" style="display:none;">
