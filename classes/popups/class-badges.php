@@ -86,7 +86,7 @@ final class Badges extends Popup {
 			<div class="prpl-widget-wrapper">
 				<h3><?php \esc_html_e( 'Keep adding post and pages', 'progress-planner' ); ?></h3>
 				<p><?php \esc_html_e( 'The more you write, the closer you come to winning your badges. You can earn level 1 of this badge immediately after installing the plugin if you have written more than 200 posts.', 'progress-planner' ); ?></p>
-				<div id="popup-badges-content">
+				<div id="popup-badges-maintenance">
 					<?php $this->print_badges( 'content' ); ?>
 				</div>
 			</div>

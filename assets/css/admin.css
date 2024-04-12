@@ -8,6 +8,7 @@
 	--prpl-column-max-width: 30rem;
 	--prpl-max-columns: 4;
 	--prpl-border-radius: 8px;
+	--prpl-border-radius-big: calc(var(--prpl-border-radius) * 2);
 
 	--prpl-container-max-width: calc(var(--prpl-column-max-width) * var(--prpl-max-columns) + var(--prpl-gap) * (var(--prpl-max-columns) - 1));
 
@@ -201,7 +202,7 @@ button.prpl-info-icon {
 .prpl-wrap .counter-big-wrapper {
 	background-color: var(--prpl-background-purple);
 	padding: var(--prpl-padding);
-	border-radius: calc(var(--prpl-border-radius) * 2);
+	border-radius: var(--prpl-border-radius-big);
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -545,18 +546,27 @@ body.prpl-popup-open.prpl-popup-badges-details #prpl-popup-badges-details {
 /*------------------------------------*\
 	Badges popup.
 \*------------------------------------*/
-#popup-badges-content {
+#popup-badges-content,
+#popup-badges-maintenance {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-gap: var(--prpl-padding);
 }
 
-#popup-badges-content .inner {
-	background: var(--prpl-background-red);
-	border-radius: calc(var(--prpl-border-radius) * 2);
+#popup-badges-content .inner,
+#popup-badges-maintenance .inner {
+	border-radius: var(--prpl-border-radius-big);
 	padding: var(--prpl-padding);
 	font-size: var(--prpl-font-size-small);
 	text-align: center;
+}
+
+#popup-badges-content .inner {
+	background: var(--prpl-background-red);
+}
+
+#popup-badges-maintenance .inner {
+	background: var(--prpl-background-blue);
 }
 
 .badges-popup-progress-total {
