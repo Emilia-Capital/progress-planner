@@ -71,7 +71,7 @@ class Onboard {
 			<label>
 				<?php \esc_html_e( 'First Name', 'progress-planner' ); ?>
 				<input
-					type="name"
+					type="text"
 					name="name"
 					value="<?php echo \esc_attr( \get_user_meta( $current_user->ID, 'first_name', true ) ); ?>"
 				>
