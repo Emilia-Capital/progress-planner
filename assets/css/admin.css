@@ -54,7 +54,7 @@
 \*------------------------------------*/
 .prpl-wrap {
 	background: #fff;
-	border: 1px solid var(--prpl-color-gray-3);
+	border: 1px solid var(--prpl-color-gray-2);
 	border-radius: var(--prpl-border-radius);
 	padding: calc(var(--prpl-padding) * 2);
 	max-width: var(--prpl-container-max-width);
@@ -325,6 +325,10 @@ button.prpl-info-icon {
 
 .prpl-widget-wrapper.prpl-badges-progress .progress-wrapper + .progress-wrapper {
 	background-color: var(--prpl-background-orange);
+}
+
+.prpl-widget-wrapper.prpl-badges-progress .progress-wrapper + .progress-wrapper.badge-group-maintenance {
+	background-color: var(--prpl-background-red);
 }
 
 /*------------------------------------*\
