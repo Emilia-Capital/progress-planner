@@ -28,8 +28,8 @@ final class Badges_Progress extends Widget {
 	 */
 	protected function the_content() {
 		$badges = [
-			'content'     => [ 'wonderful-writer', 'awesome-author', 'notorious-novelist' ],
-			'maintenance' => [ 'progress-professional', 'maintenance-maniac', 'super-site-specialist' ],
+			'content'     => [ 'wonderful-writer', 'bold-blogger', 'awesome-author' ],
+			'maintenance' => [ 'progress-padawan', 'maintenance-maniac', 'super-site-specialist' ],
 		];
 
 		?>
