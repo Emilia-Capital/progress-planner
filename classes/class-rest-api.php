@@ -14,9 +14,9 @@ namespace ProgressPlanner;
 
 use ProgressPlanner\Badges;
 use ProgressPlanner\Badges\Badge\Wonderful_Writer as Badge_Wonderful_Writer;
+use ProgressPlanner\Badges\Badge\Bold_Blogger as Badge_Bold_Blogger;
 use ProgressPlanner\Badges\Badge\Awesome_Author as Badge_Awesome_Author;
-use ProgressPlanner\Badges\Badge\Notorious_Novelist as Badge_Notorious_Novelist;
-use ProgressPlanner\Badges\Badge\Progress_Professional as Badge_Progress_Professional;
+use ProgressPlanner\Badges\Badge\Progress_Padawan as Badge_Progress_Padawan;
 use ProgressPlanner\Badges\Badge\Maintenance_Maniac as Badge_Maintenance_Maniac;
 use ProgressPlanner\Badges\Badge\Super_Site_Specialist as Badge_Super_Site_Specialist;
 
@@ -94,9 +94,9 @@ class Rest_API {
 		// Get the badges.
 		$data['badges'] = [
 			'wonderful-writer'      => ( new Badge_Wonderful_Writer() )->progress_callback(),
-			'awesome-author'        => ( new Badge_Awesome_Author() )->progress_callback(),
-			'notorious-novelist'    => ( new Badge_Notorious_Novelist() )->progress_callback(),
-			'progress-professional' => ( new Badge_Progress_Professional() )->progress_callback(),
+			'awesome-author'        => ( new Badge_Bold_Blogger() )->progress_callback(),
+			'notorious-novelist'    => ( new Badge_Awesome_Author() )->progress_callback(),
+			'progress-professional' => ( new Badge_Progress_Padawan() )->progress_callback(),
 			'maintenance-maniac'    => ( new Badge_Maintenance_Maniac() )->progress_callback(),
 			'super-site-specialist' => ( new Badge_Super_Site_Specialist() )->progress_callback(),
 		];

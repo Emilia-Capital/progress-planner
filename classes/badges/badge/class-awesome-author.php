@@ -13,14 +13,14 @@ use ProgressPlanner\Badges\Badge_Content;
 /**
  * Badge class.
  */
-final class Awesome_Author extends Badge_Content {
+final class Bold_Blogger extends Badge_Content {
 
 	/**
 	 * The badge ID.
 	 *
 	 * @var string
 	 */
-	protected $id = 'awesome-author';
+	protected $id = 'bold-blogger';
 
 	/**
 	 * The badge name.
@@ -28,7 +28,7 @@ final class Awesome_Author extends Badge_Content {
 	 * @return string
 	 */
 	public function get_name() {
-		return __( 'Awesome Author', 'progress-planner' );
+		return __( 'Bold Blogger', 'progress-planner' );
 	}
 
 	/**
