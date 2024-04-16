@@ -494,9 +494,10 @@ button.prpl-info-icon {
 	Onboarding form.
 \*------------------------------------*/
 #prpl-onboarding-form label:not(:has(input[type="checkbox"])) {
-	display: flex;
-	justify-content: space-between;
+	display: grid;
+	grid-template-columns: 1fr 3fr;
 	margin-bottom: 0.5em;
+	gap: var(--prpl-padding);
 }
 
 #prpl-onboarding-form input[type="submit"] {

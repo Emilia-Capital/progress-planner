@@ -69,18 +69,26 @@ class Onboard {
 		?>
 		<form id="prpl-onboarding-form">
 			<label>
-				<?php \esc_html_e( 'First Name', 'progress-planner' ); ?>
+				<span class="prpl-label-content">
+					<?php \esc_html_e( 'First Name', 'progress-planner' ); ?>
+				</span>
 				<input
 					type="text"
 					name="name"
+					class="prpl-input"
+					required
 					value="<?php echo \esc_attr( \get_user_meta( $current_user->ID, 'first_name', true ) ); ?>"
 				>
 			</label>
 			<label>
-				<?php \esc_html_e( 'Email', 'progress-planner' ); ?>
+				<span class="prpl-label-content">
+					<?php \esc_html_e( 'Email', 'progress-planner' ); ?>
+				</span>
 				<input
 					type="email"
 					name="email"
+					class="prpl-input"
+					required
 					value="<?php echo \esc_attr( $current_user->user_email ); ?>"
 				>
 			</label>
@@ -90,16 +98,25 @@ class Onboard {
 					name="consent"
 					required
 				>
-				<?php \esc_html_e( 'I consent to sending my data to the remote server.', 'progress-planner' ); ?>
+				<span class="prpl-label-content">
+					<?php
+						printf(
+							/* translators: %1$s: progressplanner.com link. %2$s: Link to https://progressplanner.com/onboarding-details/ with text "Learn more." */
+							\esc_html__( 'Create an account on %1$s, and subscribe to emails. %2$s', 'progress-planner' ),
+							'<a href="https://progressplanner.com" target="_blank">progressplanner.com</a>',
+							'<a href="https://progressplanner.com/onboarding-details/" target="_blank">' . \esc_html__( 'Learn more.', 'progress-planner' ) . '</a>'
+						);
+					?>
+				</span>
 			</label>
 			<input
 				type="hidden"
 				name="site"
-				value="<?php echo \esc_attr( \site_url() ); ?>"
+				value="<?php echo \esc_attr( \set_url_scheme( \site_url() ) ); ?>"
 			>
 			<input
 				type="submit"
-				value="<?php \esc_attr_e( 'Start the onboarding process!', 'progress-planner' ); ?>"
+				value="<?php \esc_attr_e( 'Register, and scan your existing content', 'progress-planner' ); ?>"
 				class="button button-primary"
 			>
 		</form>

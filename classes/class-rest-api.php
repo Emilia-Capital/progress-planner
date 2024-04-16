@@ -20,7 +20,6 @@ use ProgressPlanner\Badges\Badge\Progress_Professional as Badge_Progress_Profess
 use ProgressPlanner\Badges\Badge\Maintenance_Maniac as Badge_Maintenance_Maniac;
 use ProgressPlanner\Badges\Badge\Super_Site_Specialist as Badge_Super_Site_Specialist;
 
-
 /**
  * Rest_API class.
  */
