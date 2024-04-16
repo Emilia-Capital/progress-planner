@@ -19,7 +19,7 @@ final class Whats_New extends Widget {
 	 *
 	 * @var string
 	 */
-	const REMOTE_SERVER_ROOT_URL = 'https://joost.blog';
+	const REMOTE_SERVER_ROOT_URL = 'https://progressplanner.com';
 
 	/**
 	 * The widget ID.

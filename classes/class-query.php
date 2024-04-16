@@ -186,6 +186,12 @@ class Query {
 		// Remove duplicates. This could be removed in a future release.
 		$results_unique = [];
 		foreach ( $results as $key => $result ) {
+			$result_key = $result->category . $result->type . $result->data_id . $result->date;
+			// Cleanup any duplicates that may exist.
+			if ( isset( $results_unique[ $result_key ] ) ) {
+				$this->delete_activity_by_id( $result->id );
+				continue;
+			}
 			$results_unique[ $result->category . $result->type . $result->data_id . $result->date ] = $result;
 		}
 		$results = array_values( $results_unique );

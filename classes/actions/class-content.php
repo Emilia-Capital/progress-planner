@@ -58,6 +58,9 @@ class Content {
 			return;
 		}
 
+		// Reset the words count.
+		Settings::set( [ 'word_count', $post_id ], false );
+
 		// Check if there is an update activity for this post, on this date.
 		$existing = \progress_planner()->get_query()->query_activities(
 			[
@@ -151,6 +154,9 @@ class Content {
 		}
 
 		$this->add_post_activity( $post, 'trash' );
+
+		// Reset the words count.
+		Settings::set( [ 'word_count', $post_id ], false );
 	}
 
 	/**
@@ -168,6 +174,9 @@ class Content {
 		if ( $this->should_skip_saving( $post ) ) {
 			return;
 		}
+
+		// Reset the words count.
+		Settings::set( [ 'word_count', $post_id ], false );
 
 		// Add activity.
 		$activity           = new Content_Activity();
@@ -250,6 +259,9 @@ class Content {
 
 			// If there are activities for this post, on this date, bail.
 			if ( ! empty( $existing ) ) {
+				// Reset the words count.
+				Settings::set( [ 'word_count', $post->ID ], false );
+
 				return;
 			}
 		}
