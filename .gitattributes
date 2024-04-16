@@ -1,3 +1,6 @@
+.editorconfig export-ignore
+.gitattributes export-ignore
+.github/* export-ignore
 tests/* export-ignore
 .gitignore export-ignore
 composer.json export-ignore
