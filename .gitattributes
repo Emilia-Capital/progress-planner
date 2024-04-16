@@ -9,3 +9,4 @@ phpcs.xml.dist export-ignore
 phpstan.neon.dist export-ignore
 phpunit.xml.dist export-ignore
 README.md export-ignore
+.wordpress-org/* export-ignore
