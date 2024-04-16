@@ -15,9 +15,9 @@ use ProgressPlanner\Actions\Content_Scan as Actions_Content_Scan;
 use ProgressPlanner\Actions\Maintenance as Actions_Maintenance;
 use ProgressPlanner\Settings;
 use ProgressPlanner\Badges\Badge\Wonderful_Writer as Badge_Wonderful_Writer;
+use ProgressPlanner\Badges\Badge\Bold_Blogger as Badge_Bold_Blogger;
 use ProgressPlanner\Badges\Badge\Awesome_Author as Badge_Awesome_Author;
-use ProgressPlanner\Badges\Badge\Notorious_Novelist as Badge_Notorious_Novelist;
-use ProgressPlanner\Badges\Badge\Progress_Professional as Badge_Progress_Professional;
+use ProgressPlanner\Badges\Badge\Progress_Padawan as Badge_Progress_Padawan;
 use ProgressPlanner\Badges\Badge\Maintenance_Maniac as Badge_Maintenance_Maniac;
 use ProgressPlanner\Badges\Badge\Super_Site_Specialist as Badge_Super_Site_Specialist;
 use ProgressPlanner\Rest_API;
@@ -89,11 +89,11 @@ class Base {
 
 		// Content badges.
 		new Badge_Wonderful_Writer();
+		new Badge_Bold_Blogger();
 		new Badge_Awesome_Author();
-		new Badge_Notorious_Novelist();
 
 		// Maintenance badges.
-		new Badge_Progress_Professional();
+		new Badge_Progress_Padawan();
 		new Badge_Maintenance_Maniac();
 		new Badge_Super_Site_Specialist();
 

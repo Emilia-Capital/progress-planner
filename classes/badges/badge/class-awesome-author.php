@@ -32,16 +32,6 @@ final class Awesome_Author extends Badge_Content {
 	}
 
 	/**
-	 * Get the badge description.
-	 *
-	 * @return string
-	 */
-	public function get_description() {
-		/* translators: %d: The number of new posts to write. */
-		return sprintf( esc_html__( 'Write %d new posts or pages', 'progress-planner' ), 30 );
-	}
-
-	/**
 	 * The badge icons.
 	 *
 	 * @return array
@@ -49,14 +39,24 @@ final class Awesome_Author extends Badge_Content {
 	public function get_icons_svg() {
 		return [
 			'pending'  => [
-				'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge2_gray.svg',
-				'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge2_gray.svg',
+				'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge3_gray.svg',
+				'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge3_gray.svg',
 			],
 			'complete' => [
-				'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge2.svg',
-				'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge2.svg',
+				'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge3.svg',
+				'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge3.svg',
 			],
 		];
+	}
+
+	/**
+	 * Get the badge description.
+	 *
+	 * @return string
+	 */
+	public function get_description() {
+		/* translators: %d: The number of new posts to write. */
+		return sprintf( esc_html__( 'Write %d new posts or pages', 'progress-planner' ), 50 );
 	}
 
 	/**
@@ -83,8 +83,8 @@ final class Awesome_Author extends Badge_Content {
 			)
 		);
 
-		$percent   = min( 100, floor( 100 * $new_count / 30 ) );
-		$remaining = 30 - min( 30, $new_count );
+		$percent   = min( 100, floor( 100 * $new_count / 50 ) );
+		$remaining = 50 - min( 50, $new_count );
 
 		$this->save_progress(
 			[

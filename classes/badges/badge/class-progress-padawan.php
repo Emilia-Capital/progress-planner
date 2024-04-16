@@ -12,14 +12,14 @@ use ProgressPlanner\Badges\Badge_Maintenance;
 /**
  * Badge class.
  */
-final class Progress_Professional extends Badge_Maintenance {
+final class Progress_Padawan extends Badge_Maintenance {
 
 	/**
 	 * The badge ID.
 	 *
 	 * @var string
 	 */
-	protected $id = 'progress-professional';
+	protected $id = 'progress-padawan';
 
 	/**
 	 * The badge name.
@@ -27,7 +27,7 @@ final class Progress_Professional extends Badge_Maintenance {
 	 * @return string
 	 */
 	public function get_name() {
-		return __( 'Progress Professional', 'progress-planner' );
+		return __( 'Progress Padawan', 'progress-planner' );
 	}
 
 	/**

@@ -22,11 +22,11 @@ final class Badges extends Popup {
 	const BADGES = [
 		'content'     => [
 			'wonderful-writer',
+			'bold-blogger',
 			'awesome-author',
-			'notorious-novelist',
 		],
 		'maintenance' => [
-			'progress-professional',
+			'progress-padawan',
 			'maintenance-maniac',
 			'super-site-specialist',
 		],

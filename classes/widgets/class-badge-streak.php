@@ -73,7 +73,7 @@ final class Badge_Streak extends Widget {
 	public function get_badge_details() {
 		$result = [];
 		$badges = [
-			'progress-professional',
+			'progress-padawan',
 			'maintenance-maniac',
 			'super-site-specialist',
 		];
