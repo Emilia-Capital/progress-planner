@@ -31,6 +31,7 @@ final class Badge_Content extends Widget {
 		?>
 		<div class="prpl-badges-columns-wrapper">
 			<div class="prpl-badge-wrapper">
+				<span class="prpl-badge-watermark"></span>
 				<span
 					class="prpl-badge"
 					data-value="<?php echo \esc_attr( $details['progress']['progress'] ); ?>"

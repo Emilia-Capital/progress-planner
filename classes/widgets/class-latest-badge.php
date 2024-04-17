@@ -52,6 +52,7 @@ final class Latest_Badge extends Widget {
 				?>
 			</p>
 			<div class="prpl-badge-wrapper prpl-badge-latest two-col narrow">
+				<span class="prpl-badge-watermark"></span>
 				<div class="badge-svg">
 					<?php include $latest_badge['icons-svg']['complete']['path']; ?>
 				</div>
