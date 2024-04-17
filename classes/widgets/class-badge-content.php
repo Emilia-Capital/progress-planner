@@ -72,11 +72,7 @@ final class Badge_Content extends Widget {
 	 */
 	public function get_badge_details() {
 		$result = [];
-		$badges = [
-			'wonderful-writer',
-			'awesome-author',
-			'notorious-novelist',
-		];
+		$badges = [ 'wonderful-writer', 'bold-blogger', 'awesome-author' ];
 
 		// Get the badge to display.
 		foreach ( $badges as $badge ) {

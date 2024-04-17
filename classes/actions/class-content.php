@@ -272,7 +272,7 @@ class Content {
 
 		// Update the badges.
 		if ( 'publish' === $type ) {
-			$badge_ids = [ 'wonderful-writer', 'awesome-author', 'notorious-novelist' ];
+			$badge_ids = [ 'wonderful-writer', 'bold-blogger', 'awesome-author' ];
 			foreach ( $badge_ids as $badge_id ) {
 
 				// If the badge is already complete, skip it.
