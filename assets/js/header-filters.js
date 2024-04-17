@@ -1,3 +1,4 @@
+// Handle changes to the range dropdown.
 document
 	.getElementById( 'prpl-select-range' )
 	.addEventListener( 'change', function () {
@@ -6,6 +7,8 @@ document
 		url.searchParams.set( 'range', range );
 		window.location.href = url.href;
 	} );
+
+// Handle changes to the frequency dropdown.
 document
 	.getElementById( 'prpl-select-frequency' )
 	.addEventListener( 'change', function () {

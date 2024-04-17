@@ -117,9 +117,9 @@ class Page {
 		// Enqueue the admin script for the page.
 		\wp_enqueue_script(
 			'progress-planner-admin',
-			PROGRESS_PLANNER_URL . '/assets/js/admin.js',
+			PROGRESS_PLANNER_URL . '/assets/js/header-filters.js',
 			[],
-			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/admin.js' ),
+			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/header-filters.js' ),
 			true
 		);
 
