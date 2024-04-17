@@ -510,9 +510,7 @@ button.prpl-info-icon {
 \*------------------------------------*/
 #prpl-popup-body-overlay {
 	display: none;
-	position: absolute;
-	margin-left: -20px;
-	padding-left: 20px;
+	position: fixed;
 	top: 0;
 	left: 0;
 	width: 100%;
