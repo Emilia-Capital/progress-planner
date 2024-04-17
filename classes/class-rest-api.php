@@ -93,8 +93,8 @@ class Rest_API {
 
 		// Get the badges.
 		$data['badges'] = [
-			'bold-blogger'          => ( new Badge_Bold_Blogger() )->progress_callback(),
 			'wonderful-writer'      => ( new Badge_Wonderful_Writer() )->progress_callback(),
+			'bold-blogger'          => ( new Badge_Bold_Blogger() )->progress_callback(),
 			'awesome-author'        => ( new Badge_Awesome_Author() )->progress_callback(),
 			'progress-padawan'      => ( new Badge_Progress_Padawan() )->progress_callback(),
 			'maintenance-maniac'    => ( new Badge_Maintenance_Maniac() )->progress_callback(),
