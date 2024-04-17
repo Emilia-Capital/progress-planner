@@ -560,6 +560,25 @@ body.prpl-popup-open.prpl-popup-badges-details #prpl-popup-badges-details {
 }
 
 /*------------------------------------*\
+	Popups close button.
+\*------------------------------------*/
+#prpl-popup-close {
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 0.5em;
+	cursor: pointer;
+	background: none;
+	border: none;
+	color: var(--prpl-color-gray-4);
+}
+
+#prpl-popup-close:hover,
+#prpl-popup-close:focus {
+	color: var(--prpl-color-gray-6);
+}
+
+/*------------------------------------*\
 	Badges popup.
 \*------------------------------------*/
 #popup-badges-content,

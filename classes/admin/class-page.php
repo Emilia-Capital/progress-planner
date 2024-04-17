@@ -123,6 +123,15 @@ class Page {
 			true
 		);
 
+		// Enqueue the admin script for the page popups.
+		\wp_enqueue_script(
+			'progress-planner-admin-popups',
+			PROGRESS_PLANNER_URL . '/assets/js/popup.js',
+			[],
+			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/popup.js' ),
+			true
+		);
+
 		$localize_data = [
 			'onboardNonceURL' => Onboard::get_remote_nonce_url(),
 			'onboardAPIUrl'   => Onboard::get_remote_url(),

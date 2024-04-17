@@ -42,6 +42,9 @@ namespace ProgressPlanner;
 	</div>
 	<div id="prpl-popup-body-overlay"></div>
 	<div id="prpl-popup-container">
+		<button id="prpl-popup-close">
+			<span class="dashicons dashicons-no-alt"></span>
+		</button>
 		<?php new \ProgressPlanner\Popups\Badges(); ?>
 	</div>
 </div>
