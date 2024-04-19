@@ -72,6 +72,14 @@
 	color: var(--prpl-color-text);
 }
 
+.prpl-wrap h2:has(+ p) {
+	margin-bottom: 0;
+}
+
+.prpl-wrap h2 + p {
+	margin-top: 0.5em;
+}
+
 .prpl-wrap h1,
 .prpl-wrap h2,
 .prpl-wrap h3,
@@ -253,6 +261,7 @@ button.prpl-info-icon {
 	font-weight: 600;
 	display: block;
 	text-align: center;
+	padding-top: calc(var(--prpl-padding) / 2);
 }
 
 /*------------------------------------*\
@@ -401,7 +410,7 @@ button.prpl-info-icon {
 .prpl-badge-wrapper {
 	background: var(--prpl-background-blue);
 	padding: var(--prpl-padding);
-	border-radius: var(--prpl-border-radius);
+	border-radius: calc(var(--prpl-border-radius) * 2);
 	position: relative;
 	overflow: hidden;
 }
