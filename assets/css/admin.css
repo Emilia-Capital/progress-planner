@@ -330,6 +330,7 @@ button.prpl-info-icon {
 	margin: 0;
 	font-size: var(--prpl-font-size-xs);
 	text-align: center;
+	line-height: 1.2;
 }
 
 .prpl-widget-wrapper.prpl-badges-progress .prpl-badge {
