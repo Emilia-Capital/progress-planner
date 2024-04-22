@@ -332,6 +332,25 @@ button.prpl-info-icon {
 	text-align: center;
 }
 
+.prpl-widget-wrapper.prpl-badges-progress .prpl-badge {
+	/* Change this number to adjust the rate of growth of the badges size. */
+	--multiplier-default: 1.125;
+	--multiplier: var(--multiplier-default);
+}
+
+.prpl-widget-wrapper.prpl-badges-progress .prpl-badge + .prpl-badge {
+	--multiplier: calc(var(--multiplier-default) * var(--multiplier-default));
+}
+
+.prpl-widget-wrapper.prpl-badges-progress .prpl-badge + .prpl-badge + .prpl-badge {
+	--multiplier: calc(var(--multiplier-default) * var(--multiplier-default) * var(--multiplier-default));
+}
+
+.prpl-widget-wrapper.prpl-badges-progress .progress-wrapper svg {
+	width: calc(100% * var(--multiplier));
+	margin-left: calc(100% * (1 - var(--multiplier)) / 2)
+}
+
 .prpl-widget-wrapper.prpl-badges-progress .progress-wrapper + .progress-wrapper {
 	background-color: var(--prpl-background-orange);
 }
