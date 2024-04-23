@@ -525,33 +525,106 @@ button.prpl-info-icon {
 	Welcome widget.
 \*------------------------------------*/
 .prpl-widget-wrapper.prpl-welcome {
+	padding: 0;
 	margin-bottom: var(--prpl-gap);
-	padding: calc(var(--prpl-gap) * 1.5);
-	background: var(--prpl-background-purple);
-	border: none;
-	box-shadow: 0 0 10px var(--prpl-color-gray-2);
+	overflow: hidden;
 }
 
-.prpl-widget-wrapper.prpl-welcome .inner-grid {
+.prpl-welcome .welcome-header {
+	background: var(--prpl-color-accent-orange);
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.prpl-welcome .welcome-header h1 {
+	font-size: var(--prpl-font-size-3xl);
+	padding: var(--prpl-padding) calc(var(--prpl-gap) * 1.5);
+	font-weight: 600;
+}
+
+.welcome-header .welcome-header-icon {
+	background: var(--prpl-background-orange);
+	background: linear-gradient(105deg, var(--prpl-color-accent-orange) 25%, var(--prpl-background-orange) 25%);
 	padding: var(--prpl-padding);
+	padding-left: 100px;
+	padding-right: calc(var(--prpl-gap) * 1.5);
+}
+
+.welcome-header .welcome-header-icon svg {
+	height: 100px;
+}
+
+.prpl-welcome .welcome-subheader {
+	display: flex;
+	justify-content: space-around;
+	gap: var(--prpl-padding);
+}
+
+.prpl-welcome .welcome-subheader > div {
+	padding: var(--prpl-padding);
+	text-align: center;
+	color: var(--prpl-color-gray-3);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.prpl-welcome .welcome-subheader .icon {
+	--font-size: var(--prpl-font-size-4xl);
+	font-size: var(--font-size);
+	width: var(--font-size);
+	height: var(--font-size);
+}
+
+.prpl-widget-wrapper.prpl-welcome .inner-content {
+	padding: calc(var(--prpl-gap) * 1.5);
+	padding-bottom: 0;
+	margin-bottom: calc(var(--prpl-gap) * 1.5);
+	overflow: hidden;
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(var(--prpl-column-min-width), 1fr));
-	grid-gap: var(--prpl-gap);
+	grid-template-columns: 1fr 1px 1fr;
+	grid-gap: calc(var(--prpl-gap) / 2); /* halve it because we have a separator */
+}
+
+.prpl-widget-wrapper.prpl-welcome .inner-content .separator {
+	background: var(--prpl-color-gray-1);
+	display: block;
+	height: 100%;
 }
 
 /*------------------------------------*\
 	Onboarding form.
 \*------------------------------------*/
-#prpl-onboarding-form label:not(:has(input[type="checkbox"])) {
+#prpl-onboarding-form label,
+#prpl-onboarding-submit-grid-wrapper {
 	display: grid;
 	grid-template-columns: 1fr 3fr;
 	margin-bottom: 0.5em;
 	gap: var(--prpl-padding);
 }
 
+#prpl-onboarding-form label >span:has(input[type="checkbox"]) {
+	display: flex;
+	align-items: baseline;
+}
+
 #prpl-onboarding-form input[type="submit"] {
 	display: block;
 	margin: 1em 0;
+	padding: 0.5em 1em;
+	font-size: var(--prpl-font-size-base);
+	background: var(--prpl-color-accent-red);
+	box-shadow: none;
+	border: none;
+	border-radius: var(--prpl-border-radius);
+}
+
+#prpl-onboarding-form input[type="submit"]:hover,
+#prpl-onboarding-form input[type="submit"]:focus {
+	text-decoration: underline;
+	box-shadow: 3px 3px 10px var(--prpl-color-accent-red);
 }
 
 /*------------------------------------*\

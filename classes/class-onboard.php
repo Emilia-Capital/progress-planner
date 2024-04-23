@@ -93,20 +93,25 @@ class Onboard {
 				>
 			</label>
 			<label>
-				<input
-					type="checkbox"
-					name="consent"
-					required
-				>
-				<span class="prpl-label-content">
-					<?php
-						printf(
-							/* translators: %1$s: progressplanner.com link. %2$s: Link to https://progressplanner.com/onboarding-details/ with text "Learn more." */
-							\esc_html__( 'Create an account on %1$s, and subscribe to emails. %2$s', 'progress-planner' ),
-							'<a href="https://progressplanner.com" target="_blank">progressplanner.com</a>',
-							'<a href="https://progressplanner.com/onboarding-details/" target="_blank">' . \esc_html__( 'Learn more.', 'progress-planner' ) . '</a>'
-						);
-					?>
+				<span></span><!-- Empty span for styling (grid layout). -->
+				<span>
+					<span><!-- Wrapping the input in a span to align it vertically with the label. -->
+						<input
+							type="checkbox"
+							name="consent"
+							required
+						>
+					</span>
+					<span class="prpl-label-content">
+						<?php
+							printf(
+								/* translators: %1$s: progressplanner.com link. %2$s: Link to https://progressplanner.com/onboarding-details/ with text "Learn more." */
+								\esc_html__( 'Create an account on %1$s, and subscribe to emails. %2$s', 'progress-planner' ),
+								'<a href="https://progressplanner.com" target="_blank">progressplanner.com</a>',
+								'<a href="https://progressplanner.com/onboarding-details/" target="_blank">' . \esc_html__( 'Learn more.', 'progress-planner' ) . '</a>'
+							);
+						?>
+					</span>
 				</span>
 			</label>
 			<input
@@ -114,11 +119,16 @@ class Onboard {
 				name="site"
 				value="<?php echo \esc_attr( \set_url_scheme( \site_url() ) ); ?>"
 			>
-			<input
-				type="submit"
-				value="<?php \esc_attr_e( 'Register, and scan your existing content', 'progress-planner' ); ?>"
-				class="button button-primary"
-			>
+			<div id="prpl-onboarding-submit-grid-wrapper">
+				<span></span><!-- Empty span for styling (grid layout). -->
+				<span>
+					<input
+						type="submit"
+						value="<?php \esc_attr_e( 'Get started', 'progress-planner' ); ?>"
+						class="button button-primary"
+					>
+				</span>
+			</div>
 		</form>
 
 		<a style="display:none;" id="prpl-password-reset-link">
