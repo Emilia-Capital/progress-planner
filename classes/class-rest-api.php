@@ -14,6 +14,7 @@ namespace ProgressPlanner;
 
 use ProgressPlanner\Badges;
 use ProgressPlanner\Chart;
+use ProgressPlanner\Widgets\Website_Activity_Score;
 use ProgressPlanner\Badges\Badge\Wonderful_Writer as Badge_Wonderful_Writer;
 use ProgressPlanner\Badges\Badge\Bold_Blogger as Badge_Bold_Blogger;
 use ProgressPlanner\Badges\Badge\Awesome_Author as Badge_Awesome_Author;
@@ -91,6 +92,12 @@ class Rest_API {
 				]
 			)
 		);
+
+		// Get the website activity score.
+		$data['website_activity'] = [
+			'score'     => Website_Activity_Score::get_score(),
+			'checklist' => Website_Activity_Score::get_checklist_results(),
+		];
 
 		// Get the badges.
 		$data['badges'] = [

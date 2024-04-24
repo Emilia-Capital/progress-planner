@@ -77,10 +77,10 @@ final class Website_Activity_Score extends Widget {
 	public static function print_weekly_activities_checklist() {
 		?>
 		<ul>
-			<?php foreach ( self::get_checklist() as $checklist_item ) : ?>
+			<?php foreach ( self::get_checklist_results() as $label => $value ) : ?>
 				<li class="prpl-checklist-item">
-					<?php echo ( $checklist_item['callback']() ) ? '✔️' : '❌'; ?>
-					<?php echo $checklist_item['label']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+					<?php echo $value ? '✔️' : '❌'; ?>
+					<?php echo $label; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 				</li>
 			<?php endforeach; ?>
 		</ul>
@@ -92,7 +92,7 @@ final class Website_Activity_Score extends Widget {
 	 *
 	 * @return int The score.
 	 */
-	protected static function get_score() {
+	public static function get_score() {
 		$activities = \progress_planner()->get_query()->query_activities(
 			[
 				// Use 31 days to take into account
@@ -114,6 +114,20 @@ final class Website_Activity_Score extends Widget {
 		// Reduce points for pending updates.
 		$score -= min( min( $score / 2, 25 ), $pending_updates * 5 );
 		return (int) floor( $score );
+	}
+
+	/**
+	 * Get the checklist results.
+	 *
+	 * @return array<string, bool> The checklist results.
+	 */
+	public static function get_checklist_results() {
+		$items   = self::get_checklist();
+		$results = [];
+		foreach ( $items as $item ) {
+			$results[ $item['label'] ] = $item['callback']();
+		}
+		return $results;
 	}
 
 	/**
