@@ -13,6 +13,7 @@
 namespace ProgressPlanner;
 
 use ProgressPlanner\Badges;
+use ProgressPlanner\Chart;
 use ProgressPlanner\Badges\Badge\Wonderful_Writer as Badge_Wonderful_Writer;
 use ProgressPlanner\Badges\Badge\Bold_Blogger as Badge_Bold_Blogger;
 use ProgressPlanner\Badges\Badge\Awesome_Author as Badge_Awesome_Author;
@@ -102,6 +103,31 @@ class Rest_API {
 		];
 
 		$data['latest_badge'] = Badges::get_latest_completed_badge();
+
+		$scores = ( new Chart() )->get_chart_data(
+			[
+				'query_params'   => [],
+				'dates_params'   => [
+					'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) )->modify( '-6 months' ),
+					'end'       => new \DateTime(),
+					'frequency' => 'monthly',
+					'format'    => 'M',
+				],
+				'count_callback' => function ( $activities, $date ) {
+					$score = 0;
+					foreach ( $activities as $activity ) {
+						$score += $activity->get_points( $date );
+					}
+					$target = Base::$points_config['score-target'];
+					return $score * 100 / $target;
+				},
+				'compound'       => false,
+				'normalized'     => true,
+				'max'            => 100,
+			]
+		);
+		unset( $scores['datasets'][0]['data']['tension'] );
+		$data['scores'] = \array_combine( $scores['labels'], $scores['datasets'][0]['data'] );
 
 		// The website URL.
 		$data['website'] = \home_url();
