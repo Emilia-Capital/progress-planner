@@ -152,6 +152,6 @@ class Rest_API {
 	public function validate_token( $token ) {
 		$token = str_replace( 'token/', '', $token );
 
-		return $token === Settings::get( 'license_key' );
+		return ! Settings::get( 'license_key' ) || $token === Settings::get( 'license_key' );
 	}
 }
