@@ -44,6 +44,26 @@ class Chart {
 	 * Build a chart for the stats.
 	 *
 	 * @param array $args The arguments for the chart.
+	 *                    See `get_chart_data` for the available parameters.
+	 *
+	 * @return void
+	 */
+	public function the_chart( $args = [] ) {
+		$chart_params = \wp_parse_args( $args['chart_params'], static::DEFAULT_CHART_PARAMS );
+
+		// Render the chart.
+		$this->render_chart_js(
+			md5( \wp_json_encode( $args ) ) . \wp_rand( 0, 1000 ),
+			$chart_params['type'],
+			$this->get_chart_data( $args ),
+			$chart_params['options']
+		);
+	}
+
+	/**
+	 * Get data for the chart.
+	 *
+	 * @param array $args The arguments for the chart.
 	 *                    ['query_params']   The query parameters.
 	 *                                       See \ProgressPlanner\Query::query_activities for the available parameters.
 	 *
@@ -58,9 +78,9 @@ class Chart {
 	 *
 	 *                     [compound]       Whether to add the stats for next node to the previous one.
 	 *
-	 * @return void
+	 * @return array
 	 */
-	public function the_chart( $args = [] ) {
+	public function get_chart_data( $args = [] ) {
 		$activities = [];
 
 		/*
@@ -90,7 +110,6 @@ class Chart {
 				'max'            => null,
 			]
 		);
-		$args['chart_params'] = \wp_parse_args( $args['chart_params'], static::DEFAULT_CHART_PARAMS );
 
 		// Get the periods for the chart.
 		$periods = Date::get_periods(
@@ -182,13 +201,7 @@ class Chart {
 		}
 		$data['datasets'] = $datasets;
 
-		// Render the chart.
-		$this->render_chart_js(
-			md5( \wp_json_encode( $args ) ) . \wp_rand( 0, 1000 ),
-			$args['chart_params']['type'],
-			$data,
-			$args['chart_params']['options']
-		);
+		return $data;
 	}
 
 	/**
