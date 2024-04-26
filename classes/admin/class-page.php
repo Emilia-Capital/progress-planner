@@ -112,8 +112,8 @@ class Page {
 	/**
 	 * Render a column.
 	 *
-	 * @param string $key The column key.
-	 * @param array  $value The widgets to render.
+	 * @param string       $key   The column key.
+	 * @param string|array $value The widget(s) to render.
 	 *
 	 * @return void
 	 */
