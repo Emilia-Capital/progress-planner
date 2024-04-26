@@ -15,6 +15,36 @@ use ProgressPlanner\Onboard;
 class Page {
 
 	/**
+	 * The columns and widgets to display on the admin page.
+	 */
+	const COLUMNS = [
+		'prpl-column-main prpl-column-main-primary'   => [
+			'prpl-column prpl-column-first' => [
+				'\ProgressPlanner\Widgets\Website_Activity_Score',
+				'prpl-column prpl-column-two-col' => [
+					'\ProgressPlanner\Widgets\Published_Content_Density',
+					'\ProgressPlanner\Widgets\Published_Words',
+				],
+				'\ProgressPlanner\Widgets\Published_Content',
+			],
+		],
+		'prpl-column-main prpl-column-main-secondary' => [
+			'prpl-column prpl-column-first'  => [
+				'\ProgressPlanner\Widgets\Activity_Scores',
+				'\ProgressPlanner\Widgets\Personal_Record_Content',
+				'\ProgressPlanner\Widgets\Plugins',
+				'\ProgressPlanner\Widgets\Badge_Content',
+				'\ProgressPlanner\Widgets\Badge_Streak',
+			],
+			'prpl-column prpl-column-second' => [
+				'\ProgressPlanner\Widgets\Latest_Badge',
+				'\ProgressPlanner\Widgets\Badges_Progress',
+				'\ProgressPlanner\Widgets\Whats_New',
+			],
+		],
+	];
+
+	/**
 	 * Constructor.
 	 */
 	public function __construct() {
@@ -53,7 +83,56 @@ class Page {
 	 * @return void
 	 */
 	public function render_page() {
-		include PROGRESS_PLANNER_DIR . '/views/admin-page.php';
+		?>
+		<div class="wrap prpl-wrap">
+			<h1 class="screen-reader-text"><?php \esc_html_e( 'Progress Planner', 'progress-planner' ); ?></h1>
+			<?php require PROGRESS_PLANNER_DIR . '/views/admin-page-header.php'; ?>
+			<?php require PROGRESS_PLANNER_DIR . '/views/welcome.php'; ?>
+
+			<div class="prpl-widgets-container">
+				<?php
+				$columns = apply_filters( 'progress_planner_admin_columns_widgets', self::COLUMNS );
+
+				foreach ( $columns as $key => $value ) {
+					$this->render_column( $key, $value );
+				}
+				?>
+			</div>
+			<div id="prpl-popup-body-overlay"></div>
+			<div id="prpl-popup-container">
+				<button id="prpl-popup-close">
+					<span class="dashicons dashicons-no-alt"></span>
+				</button>
+				<?php new \ProgressPlanner\Popups\Badges(); ?>
+			</div>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Render a column.
+	 *
+	 * @param string $key The column key.
+	 * @param array  $value The widgets to render.
+	 *
+	 * @return void
+	 */
+	private function render_column( $key, $value ) {
+		echo '<div class="' . \esc_attr( $key ) . '">';
+
+		if ( \is_array( $value ) ) {
+			foreach ( $value as $sub_key => $sub_value ) {
+				if ( \is_string( $sub_value ) && \str_starts_with( $sub_value, '\\' ) ) {
+					new $sub_value();
+					continue;
+				}
+				$this->render_column( $sub_key, $sub_value );
+			}
+		} elseif ( \str_starts_with( $value, '\\' ) ) {
+			new $value();
+		}
+
+		echo '</div>';
 	}
 
 	/**
