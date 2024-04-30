@@ -59,8 +59,7 @@ class Content extends Activity {
 		$this->points[ $date_ymd ] = $this->get_points_on_publish_date();
 
 		// Bail early if the post score is 0.
-		if ( 0 === $post_score ) {
-			$this->points[ $date_ymd ] = 0;
+		if ( 0 === $this->points[ $date_ymd ] ) {
 			return $this->points[ $date_ymd ];
 		}
 
