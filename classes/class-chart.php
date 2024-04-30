@@ -255,8 +255,8 @@ class Chart {
 			: min( $score, $args['max'] );
 
 		// Calculate the colors for the score.
-		$datasets[0]['backgroundColor'][] = $args['colors']['background']( $score );
-		$datasets[0]['borderColor'][]     = $args['colors']['border']( $score );
+		$datasets[0]['backgroundColor'][] = $args['colors']['background']( $score, $period['start'] );
+		$datasets[0]['borderColor'][]     = $args['colors']['border']( $score, $period['start'] );
 
 		return [
 			'data'                      => $data,

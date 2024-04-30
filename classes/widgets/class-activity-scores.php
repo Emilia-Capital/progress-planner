@@ -40,11 +40,28 @@ final class Activity_Scores extends Widget {
 	/**
 	 * The color callback.
 	 *
-	 * @param int $number The number to calculate the color for.
+	 * @param int       $number The number to calculate the color for.
+	 * @param \DateTime $date   The date.
 	 *
 	 * @return string The color.
 	 */
-	public function get_color( $number ) {
+	public function get_color( $number, $date ) {
+		// If monthly and the latest month, return gray (in progress).
+		if (
+			'monthly' === $this->get_frequency() &&
+			\gmdate( 'Y-m-01' ) === $date->format( 'Y-m-01' )
+		) {
+			return '#d1d5db';
+		}
+
+		// If weekly and the current week, return gray (in progress).
+		if (
+			'weekly' === $this->get_frequency() &&
+			\gmdate( 'Y-W' ) === $date->format( 'Y-W' )
+		) {
+			return '#d1d5db';
+		}
+
 		if ( $number > 90 ) {
 			return '#14b8a6';
 		}
