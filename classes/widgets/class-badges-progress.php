@@ -35,9 +35,7 @@ final class Badges_Progress extends Widget {
 		?>
 		<h2 class="prpl-widget-title">
 			<?php esc_html_e( 'Your Achievements', 'progress-planner' ); ?>
-			<button class="prpl-info-icon" onclick="window.progressPlannerPopup('badges-details');">
-				<span class="dashicons dashicons-info-outline"></span>
-			</span>
+			<?php new \ProgressPlanner\Popups\Badges(); ?>
 		</h2>
 
 		<?php foreach ( $badges as $badge_group => $group_badges ) : ?>

@@ -98,13 +98,6 @@ class Page {
 				}
 				?>
 			</div>
-			<div id="prpl-popup-body-overlay"></div>
-			<div id="prpl-popup-container">
-				<button id="prpl-popup-close">
-					<span class="dashicons dashicons-no-alt"></span>
-				</button>
-				<?php new \ProgressPlanner\Popups\Badges(); ?>
-			</div>
 		</div>
 		<?php
 	}
@@ -199,15 +192,6 @@ class Page {
 			PROGRESS_PLANNER_URL . '/assets/js/header-filters.js',
 			[],
 			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/header-filters.js' ),
-			true
-		);
-
-		// Enqueue the admin script for the page popups.
-		\wp_enqueue_script(
-			'progress-planner-admin-popups',
-			PROGRESS_PLANNER_URL . '/assets/js/popup.js',
-			[],
-			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/popup.js' ),
 			true
 		);
 

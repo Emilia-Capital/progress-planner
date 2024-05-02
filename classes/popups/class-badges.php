@@ -33,7 +33,7 @@ final class Badges extends Popup {
 	];
 
 	/**
-	 * The popup ID.
+	 * The popover ID.
 	 *
 	 * @var string
 	 */
@@ -53,11 +53,11 @@ final class Badges extends Popup {
 			<div class="prpl-widget-wrapper">
 				<h3><?php \esc_html_e( 'Don’t break your streak by missing a week!', 'progress-planner' ); ?></h3>
 				<p><?php \esc_html_e( 'Do at least one activity on your website every week. That could be publishing or adding content and updating a post or updating a plugin. Not able to work on your site? Use your streak freeze.', 'progress-planner' ); ?></p>
-				<div id="popup-badges-content">
+				<div id="popover-badges-content">
 					<?php $this->print_badges( 'maintenance' ); ?>
 				</div>
 				<div class="progress-badges">
-					<span class="badges-popup-progress-total">
+					<span class="badges-popover-progress-total">
 						<span style="width: <?php echo (int) Root_Badges::get_badge_progress( 'super-site-specialist' )['progress']; ?>%"></span>
 					</span>
 					<div class="indicators-maintenance">
@@ -86,7 +86,7 @@ final class Badges extends Popup {
 			<div class="prpl-widget-wrapper">
 				<h3><?php \esc_html_e( 'Keep adding post and pages', 'progress-planner' ); ?></h3>
 				<p><?php \esc_html_e( 'The more you write, the closer you come to winning your badges. You can earn level 1 of this badge immediately after installing the plugin if you have written more than 200 posts.', 'progress-planner' ); ?></p>
-				<div id="popup-badges-maintenance">
+				<div id="popover-badges-maintenance">
 					<?php $this->print_badges( 'content' ); ?>
 				</div>
 			</div>

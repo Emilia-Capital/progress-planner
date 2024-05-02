@@ -628,63 +628,27 @@ button.prpl-info-icon {
 }
 
 /*------------------------------------*\
-	Popups overlay.
+	Popovers generic styles.
 \*------------------------------------*/
-#prpl-popup-body-overlay {
-	display: none;
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background: rgba(0, 0, 0, 0.5);
-	z-index: 1000;
-}
-
-.prpl-popup-open #prpl-popup-body-overlay {
-	display: block;
-}
-
-/*------------------------------------*\
-	Popups generic styles.
-\*------------------------------------*/
-#prpl-popup-container {
-	display: none;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
+.prpl-popover {
 	background: #fff;
 	border: 1px solid var(--prpl-color-gray-3);
 	border-radius: var(--prpl-border-radius);
 	padding: var(--prpl-padding);
-	z-index: 1001;
-	width: 80%;
-	max-width: 80em;
-	min-height: 200px;
-	max-height: 80vh;
+	font-weight: 400;
 }
 
-.prpl-popup-open #prpl-popup-container {
-	display: block;
-	z-index: 1001;
+.prpl-popover p {
+	font-weight: 400;
 }
 
-/*------------------------------------*\
-	Popups generic styles.
-\*------------------------------------*/
-#prpl-popup-badges-details {
-	display: none;
+::backdrop {
+	background: rgba(0, 0, 0, 0.5);
 }
-
-body.prpl-popup-open.prpl-popup-badges-details #prpl-popup-badges-details {
-	display: block;
-}
-
 /*------------------------------------*\
 	Popups close button.
 \*------------------------------------*/
-#prpl-popup-close {
+.prpl-popover-close {
 	position: absolute;
 	top: 0;
 	right: 0;
@@ -695,69 +659,69 @@ body.prpl-popup-open.prpl-popup-badges-details #prpl-popup-badges-details {
 	color: var(--prpl-color-gray-4);
 }
 
-#prpl-popup-close:hover,
-#prpl-popup-close:focus {
+.prpl-popover-close:hover,
+.prpl-popover-close:focus {
 	color: var(--prpl-color-gray-6);
 }
 
 /*------------------------------------*\
-	Badges popup.
+	Badges popover.
 \*------------------------------------*/
-#popup-badges-content,
-#popup-badges-maintenance {
+#popover-badges-content,
+#popover-badges-maintenance {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-gap: var(--prpl-padding);
 }
 
-#popup-badges-content .inner,
-#popup-badges-maintenance .inner {
+#popover-badges-content .inner,
+#popover-badges-maintenance .inner {
 	border-radius: var(--prpl-border-radius-big);
 	padding: var(--prpl-padding);
 	font-size: var(--prpl-font-size-small);
 	text-align: center;
 }
 
-#popup-badges-content .inner {
+#popover-badges-content .inner {
 	background: var(--prpl-background-red);
 }
 
-#popup-badges-maintenance .inner {
+#popover-badges-maintenance .inner {
 	background: var(--prpl-background-blue);
 }
 
-.badges-popup-progress-total {
+.badges-popover-progress-total {
 	display: block;
 	width: 100%;
 	height: 20px;
 	background: var(--prpl-color-gray-1);
 }
 
-.badges-popup-progress-total > span {
+.badges-popover-progress-total > span {
 	display: block;
 	height: 100%;
 	background: var(--prpl-color-accent-red);
 }
 
-#prpl-popup-badges-details .indicators-maintenance {
+#prpl-popover-badges-details .indicators-maintenance {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-gap: var(--prpl-padding);
 }
 
-#prpl-popup-badges-details .indicators-maintenance .indicator {
+#prpl-popover-badges-details .indicators-maintenance .indicator {
 	text-align: center;
 	line-height: 1.2;
 	margin-top: 5px;
 }
 
-#prpl-popup-badges-details .indicators-maintenance .indicator .number {
+#prpl-popover-badges-details .indicators-maintenance .indicator .number {
 	font-size: var(--prpl-font-size-2xl);
 	font-weight: 500;
 	display: block;
 }
 
-#prpl-popup-badges-details .prpl-widgets-container {
+#prpl-popover-badges-details .prpl-widgets-container {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(var(--prpl-column-min-width), 1fr));
 	grid-gap: var(--prpl-gap);
