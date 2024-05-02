@@ -120,6 +120,7 @@ button.prpl-info-icon {
 .prpl-header {
 	margin-bottom: 2em;
 	display: flex;
+	flex-wrap: wrap;
 	justify-content: space-between;
 	align-items: center;
 }
@@ -182,13 +183,19 @@ button.prpl-info-icon {
 	Widgets with 2 columns.
 \*------------------------------------*/
 .two-col {
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(var(--prpl-column-min-width), 1fr));
-	grid-gap: var(--prpl-padding);
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--prpl-gap);
 }
 
-.two-col.narrow {
-	grid-template-columns: repeat(auto-fit, minmax(calc(var(--prpl-column-min-width) / 2), 1fr));
+.two-col > * {
+	flex: 1;
+	min-width: 12em;
+	max-width: 100%;
+}
+
+.two-col.narrow > * {
+	min-width: 7em;
 }
 
 /*------------------------------------*\
@@ -267,8 +274,8 @@ button.prpl-info-icon {
 /*------------------------------------*\
 	Activity-score widget.
 \*------------------------------------*/
-.prpl-widget-wrapper.prpl-website-activity-score .two-col {
-	grid-template-columns: 6fr 4fr;
+.prpl-widget-wrapper.prpl-website-activity-score .two-col > *:first-child {
+	flex: 1.4;
 }
 
 .prpl-gauge-number {
