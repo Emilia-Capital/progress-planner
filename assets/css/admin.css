@@ -737,3 +737,17 @@ button.prpl-info-icon {
 .string-freeze-explain {
 	max-width: 42em;
 }
+
+/*------------------------------------*\
+	Mobile styles.
+\*------------------------------------*/
+@media all and (max-width:610px) {
+	:root {
+		--prpl-column-min-width: 0;
+	}
+
+	.prpl-column-main,
+	.prpl-column-main-primary .prpl-column-two-col {
+		grid-template-columns: 1fr;
+	}
+}
