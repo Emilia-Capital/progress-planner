@@ -743,11 +743,32 @@ button.prpl-info-icon {
 \*------------------------------------*/
 @media all and (max-width:610px) {
 	:root {
+		--prpl-gap: 16px;
+		--prpl-padding: 10px;
 		--prpl-column-min-width: 0;
 	}
 
 	.prpl-column-main,
 	.prpl-column-main-primary .prpl-column-two-col {
 		grid-template-columns: 1fr;
+	}
+
+	.prpl-welcome .welcome-header {
+		flex-wrap: wrap;
+	}
+
+	.prpl-welcome .welcome-subheader {
+		display: none;
+	}
+
+	.prpl-widget-wrapper.prpl-welcome .inner-content,
+	#prpl-onboarding-form label,
+	#prpl-onboarding-submit-grid-wrapper {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.prpl-graph-wrapper {
+		max-width: calc(100vw - 4 * var(--prpl-padding) - 4 * var(--prpl-gap));
 	}
 }
