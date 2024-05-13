@@ -9,6 +9,11 @@ namespace ProgressPlanner;
 
 use ProgressPlanner\Settings;
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 // If the user is already registered, do not show the welcome widget.
 if ( Settings::get( 'license_key' ) ) {
 	return;

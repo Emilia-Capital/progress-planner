@@ -5,6 +5,11 @@
  * @package ProgressPlanner
  */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 $progress_planner_active_range = isset( $_GET['range'] ) ? \sanitize_text_field( \wp_unslash( $_GET['range'] ) ) : '-6 months';
 // phpcs:ignore WordPress.Security.NonceVerification.Recommended
