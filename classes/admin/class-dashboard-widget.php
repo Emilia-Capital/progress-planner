@@ -28,7 +28,7 @@ class Dashboard_Widget {
 	 */
 	public function add_dashboard_widget() {
 		\wp_add_dashboard_widget(
-			'prpl_dashboard_widget',
+			'progress_planner_dashboard_widget',
 			\esc_html__( 'Progress Planner', 'progress-planner' ),
 			[ $this, 'render_dashboard_widget' ]
 		);

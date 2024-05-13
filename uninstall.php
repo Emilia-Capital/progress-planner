@@ -22,7 +22,7 @@ require_once __DIR__ . '/includes/class-query.php';
  *
  * @return void
  */
-function prpl_cleanup_options() {
+function progress_planner_cleanup_options() {
 	$value = get_option( \ProgressPlanner\Settings::OPTION_NAME, [] );
 	$keep  = [ 'badges', 'activation_date' ];
 	foreach ( array_keys( $value ) as $key ) {
@@ -32,7 +32,7 @@ function prpl_cleanup_options() {
 	}
 	update_option( \ProgressPlanner\Settings::OPTION_NAME, $value );
 }
-prpl_cleanup_options();
+progress_planner_cleanup_options();
 
 // Delete the custom database tables.
 global $wpdb;
