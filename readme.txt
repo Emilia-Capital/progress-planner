@@ -14,6 +14,9 @@ Powering progress on your website. Progress Planner will help you overcome procr
 
 Welcome to Progress Planner! This transformative WordPress plugin will empower website owners to keep up the good work on their site. Progress Planner introduces an exciting, interactive approach to website management with badges and achievements to collect. Our mission is to tackle the all-too-common challenge of procrastination. With Progress Planner, the upkeep of your website is a rewarding experience! We’ll encourage you to contribute to the success of your site consistently.
 
+The Progress Planner plugin will send a weekly email to an address of your choosing. In order to do that, when you first install the plugin you will be prompted to register to the service by entering your email and name.
+The plugin form will register your site on <a href="https://progressplanner.com" target="_blank">progressplanner.com</a> and register your site with the service. You can see what data we collect and how that data is used on <a href="https://progressplanner.com/onboarding-details/">progressplanner.com/onboarding-details</a>.
+
 === Problem We Solve ===
 We understand many website owners' dilemmas: knowing the necessity of regular updates, content creation, and maintenance, yet often postponing these tasks. Progress Planner seeks to address this procrastination head-on. A successful website demands regular attention, whether writing engaging content, adding internal links, updating plugins, resolving 404 errors, or optimizing site speed. These tasks are pivotal for a website to rank well and convert visitors effectively. Progress Planner ensures you stay on track, providing the tools and motivation to maintain and enhance your site's success.
 
@@ -43,7 +46,7 @@ Currently, Progress Planner supports tracking for one website per WordPress inst
 
 = Is there a Pro version of Progress Planner? =
 
-We are currently creating a Pro version of Progress Planner. The Pro version will include guided tutorials, goal settings, and reminders. 
+We are currently creating a Pro version of Progress Planner. The Pro version will include guided tutorials, goal settings, and reminders.
 
 == Installation ==
 
