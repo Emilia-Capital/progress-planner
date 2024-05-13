@@ -80,7 +80,7 @@ final class Website_Activity_Score extends Widget {
 			<?php foreach ( self::get_checklist_results() as $label => $value ) : ?>
 				<li class="prpl-checklist-item">
 					<?php echo $value ? '✔️' : '❌'; ?>
-					<?php echo $label; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+					<?php echo wp_kses_post( $label ); ?>
 				</li>
 			<?php endforeach; ?>
 		</ul>
