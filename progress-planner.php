@@ -2,7 +2,7 @@
 /**
  * A plugin to help you fight procrastination and get things done.
  *
- * @package ProgressPlanner
+ * @package Progress_Planner
  *
  * Plugin name:       Progress Planner
  * Plugin URI:        https://progressplanner.com/
@@ -30,7 +30,7 @@ define( 'PROGRESS_PLANNER_URL', untrailingslashit( plugin_dir_url( __FILE__ ) ) 
  */
 spl_autoload_register(
 	function ( $class_name ) {
-		$prefix = 'ProgressPlanner\\';
+		$prefix = 'Progress_Planner\\';
 
 		if ( 0 !== \strpos( $class_name, $prefix ) ) {
 			return;
@@ -56,10 +56,10 @@ spl_autoload_register(
 /**
  * Get the progress planner instance.
  *
- * @return \ProgressPlanner\Base
+ * @return \Progress_Planner\Base
  */
 function progress_planner() {
-	return \ProgressPlanner\Base::get_instance();
+	return \Progress_Planner\Base::get_instance();
 }
 
 progress_planner();

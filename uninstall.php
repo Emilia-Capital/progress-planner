@@ -4,7 +4,7 @@
  *
  * Deletes the custom database tables, and the plugin options.
  *
- * @package ProgressPlanner
+ * @package Progress_Planner
  */
 
 // If uninstall not called from WordPress, then exit.
@@ -23,14 +23,14 @@ require_once __DIR__ . '/includes/class-query.php';
  * @return void
  */
 function progress_planner_cleanup_options() {
-	$value = get_option( \ProgressPlanner\Settings::OPTION_NAME, [] );
+	$value = get_option( \Progress_Planner\Settings::OPTION_NAME, [] );
 	$keep  = [ 'badges', 'activation_date' ];
 	foreach ( array_keys( $value ) as $key ) {
 		if ( ! in_array( $key, $keep, true ) ) {
 			unset( $value[ $key ] );
 		}
 	}
-	update_option( \ProgressPlanner\Settings::OPTION_NAME, $value );
+	update_option( \Progress_Planner\Settings::OPTION_NAME, $value );
 }
 progress_planner_cleanup_options();
 
@@ -41,6 +41,6 @@ $wpdb->query(
 	$wpdb->prepare(
 		// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnsupportedIdentifierPlaceholder, WordPress.DB.DirectDatabaseQuery.SchemaChange
 		'DROP TABLE IF EXISTS %i',
-		$wpdb->prefix . \ProgressPlanner\Query::TABLE_NAME
+		$wpdb->prefix . \Progress_Planner\Query::TABLE_NAME
 	)
 );

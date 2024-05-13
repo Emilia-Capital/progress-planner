@@ -1,26 +1,26 @@
 <?php
 /**
- * ProgressPlanner REST-API.
+ * Progress_Planner REST-API.
  *
  * Adds a REST-API endpoint to get stats, in a URL like:
  * <site-url>/wp-json/progress-planner/v1/get-stats/token/<site-token>
  *
  * The token is generated and saved in the settings.
  *
- * @package ProgressPlanner
+ * @package Progress_Planner
  */
 
-namespace ProgressPlanner;
+namespace Progress_Planner;
 
-use ProgressPlanner\Badges;
-use ProgressPlanner\Chart;
-use ProgressPlanner\Widgets\Website_Activity_Score;
-use ProgressPlanner\Badges\Badge\Wonderful_Writer as Badge_Wonderful_Writer;
-use ProgressPlanner\Badges\Badge\Bold_Blogger as Badge_Bold_Blogger;
-use ProgressPlanner\Badges\Badge\Awesome_Author as Badge_Awesome_Author;
-use ProgressPlanner\Badges\Badge\Progress_Padawan as Badge_Progress_Padawan;
-use ProgressPlanner\Badges\Badge\Maintenance_Maniac as Badge_Maintenance_Maniac;
-use ProgressPlanner\Badges\Badge\Super_Site_Specialist as Badge_Super_Site_Specialist;
+use Progress_Planner\Badges;
+use Progress_Planner\Chart;
+use Progress_Planner\Widgets\Website_Activity_Score;
+use Progress_Planner\Badges\Badge\Wonderful_Writer as Badge_Wonderful_Writer;
+use Progress_Planner\Badges\Badge\Bold_Blogger as Badge_Bold_Blogger;
+use Progress_Planner\Badges\Badge\Awesome_Author as Badge_Awesome_Author;
+use Progress_Planner\Badges\Badge\Progress_Padawan as Badge_Progress_Padawan;
+use Progress_Planner\Badges\Badge\Maintenance_Maniac as Badge_Maintenance_Maniac;
+use Progress_Planner\Badges\Badge\Super_Site_Specialist as Badge_Super_Site_Specialist;
 
 /**
  * Rest_API class.

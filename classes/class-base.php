@@ -2,25 +2,25 @@
 /**
  * Progress Planner main plugin class.
  *
- * @package ProgressPlanner
+ * @package Progress_Planner
  */
 
-namespace ProgressPlanner;
+namespace Progress_Planner;
 
-use ProgressPlanner\Query;
-use ProgressPlanner\Admin\Page as Admin_page;
-use ProgressPlanner\Admin\Dashboard_Widget as Admin_Dashboard_Widget;
-use ProgressPlanner\Actions\Content as Actions_Content;
-use ProgressPlanner\Actions\Content_Scan as Actions_Content_Scan;
-use ProgressPlanner\Actions\Maintenance as Actions_Maintenance;
-use ProgressPlanner\Settings;
-use ProgressPlanner\Badges\Badge\Wonderful_Writer as Badge_Wonderful_Writer;
-use ProgressPlanner\Badges\Badge\Bold_Blogger as Badge_Bold_Blogger;
-use ProgressPlanner\Badges\Badge\Awesome_Author as Badge_Awesome_Author;
-use ProgressPlanner\Badges\Badge\Progress_Padawan as Badge_Progress_Padawan;
-use ProgressPlanner\Badges\Badge\Maintenance_Maniac as Badge_Maintenance_Maniac;
-use ProgressPlanner\Badges\Badge\Super_Site_Specialist as Badge_Super_Site_Specialist;
-use ProgressPlanner\Rest_API;
+use Progress_Planner\Query;
+use Progress_Planner\Admin\Page as Admin_page;
+use Progress_Planner\Admin\Dashboard_Widget as Admin_Dashboard_Widget;
+use Progress_Planner\Actions\Content as Actions_Content;
+use Progress_Planner\Actions\Content_Scan as Actions_Content_Scan;
+use Progress_Planner\Actions\Maintenance as Actions_Maintenance;
+use Progress_Planner\Settings;
+use Progress_Planner\Badges\Badge\Wonderful_Writer as Badge_Wonderful_Writer;
+use Progress_Planner\Badges\Badge\Bold_Blogger as Badge_Bold_Blogger;
+use Progress_Planner\Badges\Badge\Awesome_Author as Badge_Awesome_Author;
+use Progress_Planner\Badges\Badge\Progress_Padawan as Badge_Progress_Padawan;
+use Progress_Planner\Badges\Badge\Maintenance_Maniac as Badge_Maintenance_Maniac;
+use Progress_Planner\Badges\Badge\Super_Site_Specialist as Badge_Super_Site_Specialist;
+use Progress_Planner\Rest_API;
 
 /**
  * Main plugin class.
@@ -30,7 +30,7 @@ class Base {
 	/**
 	 * An instance of this class.
 	 *
-	 * @var \ProgressPlanner\Base
+	 * @var \Progress_Planner\Base
 	 */
 	private static $instance;
 
@@ -57,7 +57,7 @@ class Base {
 	/**
 	 * Get the single instance of this class.
 	 *
-	 * @return \ProgressPlanner\Base
+	 * @return \Progress_Planner\Base
 	 */
 	public static function get_instance() {
 		if ( null === self::$instance ) {
@@ -107,7 +107,7 @@ class Base {
 	/**
 	 * Get the query object.
 	 *
-	 * @return \ProgressPlanner\Query
+	 * @return \Progress_Planner\Query
 	 */
 	public function get_query() {
 		return Query::get_instance();

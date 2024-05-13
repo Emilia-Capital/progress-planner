@@ -2,14 +2,14 @@
 /**
  * Handle activities for maintenance activities.
  *
- * @package ProgressPlanner
+ * @package Progress_Planner
  */
 
-namespace ProgressPlanner\Activities;
+namespace Progress_Planner\Activities;
 
-use ProgressPlanner\Activity;
-use ProgressPlanner\Date;
-use ProgressPlanner\Base;
+use Progress_Planner\Activity;
+use Progress_Planner\Date;
+use Progress_Planner\Base;
 
 /**
  * Handle activities for Core updates.

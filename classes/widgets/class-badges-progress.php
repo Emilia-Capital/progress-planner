@@ -1,13 +1,13 @@
 <?php
 /**
- * ProgressPlanner widget.
+ * Progress_Planner widget.
  *
- * @package ProgressPlanner
+ * @package Progress_Planner
  */
 
-namespace ProgressPlanner\Widgets;
+namespace Progress_Planner\Widgets;
 
-use ProgressPlanner\Badges;
+use Progress_Planner\Badges;
 
 /**
  * Badges progress widget.
@@ -35,7 +35,7 @@ final class Badges_Progress extends Widget {
 		?>
 		<h2 class="prpl-widget-title">
 			<?php esc_html_e( 'Your Achievements', 'progress-planner' ); ?>
-			<?php new \ProgressPlanner\Popups\Badges(); ?>
+			<?php new \Progress_Planner\Popups\Badges(); ?>
 		</h2>
 
 		<?php foreach ( $badges as $badge_group => $group_badges ) : ?>

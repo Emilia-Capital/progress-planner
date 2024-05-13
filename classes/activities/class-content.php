@@ -2,15 +2,15 @@
 /**
  * Handler for posts activities.
  *
- * @package ProgressPlanner
+ * @package Progress_Planner
  */
 
-namespace ProgressPlanner\Activities;
+namespace Progress_Planner\Activities;
 
-use ProgressPlanner\Base;
-use ProgressPlanner\Activity;
-use ProgressPlanner\Date;
-use ProgressPlanner\Activities\Content_Helpers;
+use Progress_Planner\Base;
+use Progress_Planner\Activity;
+use Progress_Planner\Date;
+use Progress_Planner\Activities\Content_Helpers;
 
 /**
  * Handler for posts activities.

@@ -1,14 +1,14 @@
 <?php
 /**
- * ProgressPlanner widget.
+ * Progress_Planner widget.
  *
- * @package ProgressPlanner
+ * @package Progress_Planner
  */
 
-namespace ProgressPlanner\Widgets;
+namespace Progress_Planner\Widgets;
 
-use ProgressPlanner\Activities\Content_Helpers;
-use ProgressPlanner\Chart;
+use Progress_Planner\Activities\Content_Helpers;
+use Progress_Planner\Chart;
 
 /**
  * Published Content Widget.
@@ -81,7 +81,7 @@ final class Published_Words extends Widget {
 	/**
 	 * Callback to count the words in the activities.
 	 *
-	 * @param \ProgressPlanner\Activities\Content[] $activities The activities array.
+	 * @param \Progress_Planner\Activities\Content[] $activities The activities array.
 	 *
 	 * @return int
 	 */

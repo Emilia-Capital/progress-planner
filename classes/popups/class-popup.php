@@ -2,10 +2,10 @@
 /**
  * Activity Scores Widget.
  *
- * @package ProgressPlanner
+ * @package Progress_Planner
  */
 
-namespace ProgressPlanner\Popups;
+namespace Progress_Planner\Popups;
 
 /**
  * Activity Scores Widget.

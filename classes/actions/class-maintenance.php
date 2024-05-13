@@ -2,12 +2,12 @@
 /**
  * Handle activities for Core, plugin, theme & translations updates.
  *
- * @package ProgressPlanner
+ * @package Progress_Planner
  */
 
-namespace ProgressPlanner\Actions;
+namespace Progress_Planner\Actions;
 
-use ProgressPlanner\Activities\Maintenance as Activity_Maintenance;
+use Progress_Planner\Activities\Maintenance as Activity_Maintenance;
 
 /**
  * Handle activities for Core updates.

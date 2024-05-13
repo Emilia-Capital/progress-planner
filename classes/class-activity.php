@@ -2,12 +2,12 @@
 /**
  * Activity class.
  *
- * @package ProgressPlanner
+ * @package Progress_Planner
  */
 
-namespace ProgressPlanner;
+namespace Progress_Planner;
 
-use ProgressPlanner\Date;
+use Progress_Planner\Date;
 
 /**
  * Activity class.

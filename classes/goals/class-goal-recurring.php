@@ -2,13 +2,13 @@
 /**
  * A recurring goal.
  *
- * @package ProgressPlanner
+ * @package Progress_Planner
  */
 
-namespace ProgressPlanner\Goals;
+namespace Progress_Planner\Goals;
 
-use ProgressPlanner\Date;
-use ProgressPlanner\Goals\Goal;
+use Progress_Planner\Date;
+use Progress_Planner\Goals\Goal;
 
 /**
  * A recurring goal.
@@ -18,7 +18,7 @@ class Goal_Recurring {
 	/**
 	 * The goal object.
 	 *
-	 * @var \ProgressPlanner\Goals\Goal
+	 * @var \Progress_Planner\Goals\Goal
 	 */
 	private $goal;
 
@@ -86,7 +86,7 @@ class Goal_Recurring {
 	/**
 	 * Constructor.
 	 *
-	 * @param \ProgressPlanner\Goals\Goal $goal      The goal object.
+	 * @param \Progress_Planner\Goals\Goal $goal      The goal object.
 	 * @param array                       $args      The arguments.
 	 *                                    [
 	 *                                      string    'frequency'     The goal frequency.

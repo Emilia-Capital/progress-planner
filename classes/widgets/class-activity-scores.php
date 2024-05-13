@@ -2,14 +2,14 @@
 /**
  * Activity Scores Widget.
  *
- * @package ProgressPlanner
+ * @package Progress_Planner
  */
 
-namespace ProgressPlanner\Widgets;
+namespace Progress_Planner\Widgets;
 
-use ProgressPlanner\Base;
-use ProgressPlanner\Widgets\Widget;
-use ProgressPlanner\Chart;
+use Progress_Planner\Base;
+use Progress_Planner\Widgets\Widget;
+use Progress_Planner\Chart;
 
 /**
  * Activity Scores Widget.

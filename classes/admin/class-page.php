@@ -2,12 +2,12 @@
 /**
  * Create the admin page.
  *
- * @package ProgressPlanner
+ * @package Progress_Planner
  */
 
-namespace ProgressPlanner\Admin;
+namespace Progress_Planner\Admin;
 
-use ProgressPlanner\Onboard;
+use Progress_Planner\Onboard;
 
 /**
  * Admin page class.
@@ -20,26 +20,26 @@ class Page {
 	const COLUMNS = [
 		'prpl-column-main prpl-column-main-primary'   => [
 			'prpl-column prpl-column-first' => [
-				'\ProgressPlanner\Widgets\Website_Activity_Score',
+				'\Progress_Planner\Widgets\Website_Activity_Score',
 				'prpl-column prpl-column-two-col' => [
-					'\ProgressPlanner\Widgets\Published_Content_Density',
-					'\ProgressPlanner\Widgets\Published_Words',
+					'\Progress_Planner\Widgets\Published_Content_Density',
+					'\Progress_Planner\Widgets\Published_Words',
 				],
-				'\ProgressPlanner\Widgets\Published_Content',
+				'\Progress_Planner\Widgets\Published_Content',
 			],
 		],
 		'prpl-column-main prpl-column-main-secondary' => [
 			'prpl-column prpl-column-first'  => [
-				'\ProgressPlanner\Widgets\Activity_Scores',
-				'\ProgressPlanner\Widgets\Personal_Record_Content',
-				'\ProgressPlanner\Widgets\Plugins',
-				'\ProgressPlanner\Widgets\Badge_Content',
-				'\ProgressPlanner\Widgets\Badge_Streak',
+				'\Progress_Planner\Widgets\Activity_Scores',
+				'\Progress_Planner\Widgets\Personal_Record_Content',
+				'\Progress_Planner\Widgets\Plugins',
+				'\Progress_Planner\Widgets\Badge_Content',
+				'\Progress_Planner\Widgets\Badge_Streak',
 			],
 			'prpl-column prpl-column-second' => [
-				'\ProgressPlanner\Widgets\Latest_Badge',
-				'\ProgressPlanner\Widgets\Badges_Progress',
-				'\ProgressPlanner\Widgets\Whats_New',
+				'\Progress_Planner\Widgets\Latest_Badge',
+				'\Progress_Planner\Widgets\Badges_Progress',
+				'\Progress_Planner\Widgets\Whats_New',
 			],
 		],
 	];

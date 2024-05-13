@@ -2,10 +2,10 @@
 /**
  * Abstract class for widgets.
  *
- * @package ProgressPlanner
+ * @package Progress_Planner
  */
 
-namespace ProgressPlanner\Widgets;
+namespace Progress_Planner\Widgets;
 
 /**
  * Abstract class for widgets.

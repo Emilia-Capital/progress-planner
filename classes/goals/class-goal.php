@@ -4,10 +4,10 @@
  *
  * This object is meant to be extended by individual goal classes.
  *
- * @package ProgressPlanner
+ * @package Progress_Planner
  */
 
-namespace ProgressPlanner\Goals;
+namespace Progress_Planner\Goals;
 
 /**
  * An object containing info about an individual goal.

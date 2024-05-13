@@ -2,12 +2,12 @@
 /**
  * Badge object.
  *
- * @package ProgressPlanner
+ * @package Progress_Planner
  */
 
-namespace ProgressPlanner\Badges;
+namespace Progress_Planner\Badges;
 
-use ProgressPlanner\Badges\Badge;
+use Progress_Planner\Badges\Badge;
 
 /**
  * Badge class.

@@ -4,10 +4,10 @@
  *
  * This class is responsible for storing and retrieving data from the database.
  *
- * @package ProgressPlanner
+ * @package Progress_Planner
  */
 
-namespace ProgressPlanner;
+namespace Progress_Planner;
 
 // phpcs:disable WordPress.DB.PreparedSQLPlaceholders.UnsupportedIdentifierPlaceholder
 
@@ -26,14 +26,14 @@ class Query {
 	/**
 	 * An instance of this class.
 	 *
-	 * @var \ProgressPlanner\Query
+	 * @var \Progress_Planner\Query
 	 */
 	private static $instance;
 
 	/**
 	 * Get the single instance of this class.
 	 *
-	 * @return \ProgressPlanner\Query
+	 * @return \Progress_Planner\Query
 	 */
 	public static function get_instance() {
 		if ( null === self::$instance ) {
@@ -204,7 +204,7 @@ class Query {
 	/**
 	 * Insert multiple activities into the database.
 	 *
-	 * @param \ProgressPlanner\Activity[] $activities The activities to insert.
+	 * @param \Progress_Planner\Activity[] $activities The activities to insert.
 	 *
 	 * @return int[]|false The IDs of the inserted activities, or false on failure.
 	 */
@@ -227,7 +227,7 @@ class Query {
 	/**
 	 * Insert an activity into the database.
 	 *
-	 * @param \ProgressPlanner\Activity $activity The activity to insert.
+	 * @param \Progress_Planner\Activity $activity The activity to insert.
 	 *
 	 * @return int|false The ID of the inserted activity, or false on failure.
 	 */
@@ -265,7 +265,7 @@ class Query {
 	 *
 	 * @param array $results The results.
 	 *
-	 * @return \ProgressPlanner\Activity[] The activities.
+	 * @return \Progress_Planner\Activity[] The activities.
 	 */
 	private function get_activities_from_results( $results ) {
 		$activities = [];
@@ -288,7 +288,7 @@ class Query {
 	 * Update an activity in the database.
 	 *
 	 * @param int                       $id       The ID of the activity to update.
-	 * @param \ProgressPlanner\Activity $activity The activity to update.
+	 * @param \Progress_Planner\Activity $activity The activity to update.
 	 *
 	 * @return void
 	 */
@@ -320,7 +320,7 @@ class Query {
 	/**
 	 * Delete activities from the database.
 	 *
-	 * @param \ProgressPlanner\Activity[] $activities The activity to delete.
+	 * @param \Progress_Planner\Activity[] $activities The activity to delete.
 	 *
 	 * @return void
 	 */
@@ -333,7 +333,7 @@ class Query {
 	/**
 	 * Delete an activity from the database.
 	 *
-	 * @param \ProgressPlanner\Activity $activity The activity to delete.
+	 * @param \Progress_Planner\Activity $activity The activity to delete.
 	 *
 	 * @return void
 	 */
@@ -380,7 +380,7 @@ class Query {
 	/**
 	 * Get oldest activity.
 	 *
-	 * @return \ProgressPlanner\Activity|null Returns null if there are no activities.
+	 * @return \Progress_Planner\Activity|null Returns null if there are no activities.
 	 */
 	public function get_oldest_activity() {
 		global $wpdb;
@@ -417,10 +417,10 @@ class Query {
 	 * @return string The class name of the Activity.
 	 */
 	protected function get_activity_class_name( $category ) {
-		if ( class_exists( '\ProgressPlanner\Activities\\' . ucfirst( $category ) ) ) {
-			return '\ProgressPlanner\Activities\\' . ucfirst( $category );
+		if ( class_exists( '\Progress_Planner\Activities\\' . ucfirst( $category ) ) ) {
+			return '\Progress_Planner\Activities\\' . ucfirst( $category );
 		}
-		return '\ProgressPlanner\Activity';
+		return '\Progress_Planner\Activity';
 	}
 }
 // phpcs:enable

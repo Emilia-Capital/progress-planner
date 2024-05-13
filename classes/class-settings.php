@@ -2,10 +2,10 @@
 /**
  * Handle plugin settings.
  *
- * @package ProgressPlanner
+ * @package Progress_Planner
  */
 
-namespace ProgressPlanner;
+namespace Progress_Planner;
 
 /**
  * Settings class.

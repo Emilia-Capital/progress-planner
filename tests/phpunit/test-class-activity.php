@@ -5,10 +5,10 @@
  * @package FewerTags
  */
 
-namespace ProgressPlanner\Tests;
+namespace Progress_Planner\Tests;
 
-use ProgressPlanner\Activity;
-use ProgressPlanner\Query;
+use Progress_Planner\Activity;
+use Progress_Planner\Query;
 
 /**
  * Date test case.

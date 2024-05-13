@@ -2,12 +2,12 @@
 /**
  * Generate charts for the admin page.
  *
- * @package ProgressPlanner
+ * @package Progress_Planner
  */
 
-namespace ProgressPlanner;
+namespace Progress_Planner;
 
-use ProgressPlanner\Date;
+use Progress_Planner\Date;
 
 /**
  * Render a chart.
@@ -65,7 +65,7 @@ class Chart {
 	 *
 	 * @param array $args The arguments for the chart.
 	 *                    ['query_params']   The query parameters.
-	 *                                       See \ProgressPlanner\Query::query_activities for the available parameters.
+	 *                                       See \Progress_Planner\Query::query_activities for the available parameters.
 	 *
 	 *                    ['filter_results'] The callback to filter the results. Leave empty/null to skip filtering.
 	 *                    ['dates_params']   The dates parameters for the query.

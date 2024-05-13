@@ -1,16 +1,16 @@
 <?php
 /**
- * ProgressPlanner widget.
+ * Progress_Planner widget.
  *
- * @package ProgressPlanner
+ * @package Progress_Planner
  */
 
-namespace ProgressPlanner\Widgets;
+namespace Progress_Planner\Widgets;
 
-use ProgressPlanner\Goals\Goal_Recurring;
-use ProgressPlanner\Goals\Goal;
-use ProgressPlanner\Settings;
-use ProgressPlanner\Widgets\Widget;
+use Progress_Planner\Goals\Goal_Recurring;
+use Progress_Planner\Goals\Goal;
+use Progress_Planner\Settings;
+use Progress_Planner\Widgets\Widget;
 
 /**
  * Personal record content widget.

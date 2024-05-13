@@ -1,15 +1,15 @@
 <?php
 /**
- * ProgressPlanner widget.
+ * Progress_Planner widget.
  *
- * @package ProgressPlanner
+ * @package Progress_Planner
  */
 
-namespace ProgressPlanner\Widgets;
+namespace Progress_Planner\Widgets;
 
-use ProgressPlanner\Widgets\Widget;
-use ProgressPlanner\Chart;
-use ProgressPlanner\Activities\Content_Helpers;
+use Progress_Planner\Widgets\Widget;
+use Progress_Planner\Chart;
+use Progress_Planner\Activities\Content_Helpers;
 
 /**
  * Published Content Widget.

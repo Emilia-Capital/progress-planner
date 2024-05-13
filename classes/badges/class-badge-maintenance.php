@@ -2,14 +2,14 @@
 /**
  * Badge object.
  *
- * @package ProgressPlanner
+ * @package Progress_Planner
  */
 
-namespace ProgressPlanner\Badges;
+namespace Progress_Planner\Badges;
 
-use ProgressPlanner\Base;
-use ProgressPlanner\Goals\Goal_Recurring;
-use ProgressPlanner\Goals\Goal;
+use Progress_Planner\Base;
+use Progress_Planner\Goals\Goal_Recurring;
+use Progress_Planner\Goals\Goal;
 
 /**
  * Badge class.

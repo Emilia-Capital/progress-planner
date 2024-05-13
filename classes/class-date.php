@@ -2,10 +2,10 @@
 /**
  * Helper object for date-related functions.
  *
- * @package ProgressPlanner
+ * @package Progress_Planner
  */
 
-namespace ProgressPlanner;
+namespace Progress_Planner;
 
 /**
  * Date class.

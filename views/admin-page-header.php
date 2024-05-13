@@ -2,7 +2,7 @@
 /**
  * Header for the admin page.
  *
- * @package ProgressPlanner
+ * @package Progress_Planner
  */
 
 // Exit if accessed directly.

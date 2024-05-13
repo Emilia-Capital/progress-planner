@@ -5,9 +5,9 @@
  * @package FewerTags
  */
 
-namespace ProgressPlanner\Tests;
+namespace Progress_Planner\Tests;
 
-use ProgressPlanner\Settings;
+use Progress_Planner\Settings;
 
 /**
  * Settings test case.
@@ -23,7 +23,7 @@ class Settings_Test extends \WP_UnitTestCase {
 	 * @param mixed        $value   Expected value.
 	 */
 	public function test_set_get( $setting, $value ) {
-		\ProgressPlanner\Settings::set( $setting, $value );
+		\Progress_Planner\Settings::set( $setting, $value );
 
 		$saved = \get_option( Settings::OPTION_NAME );
 		if ( \is_string( $setting ) ) {
@@ -32,7 +32,7 @@ class Settings_Test extends \WP_UnitTestCase {
 			$this->assertEquals( $value, \_wp_array_get( $saved, $setting ) );
 		}
 
-		$this->assertEquals( $value, \ProgressPlanner\Settings::get( $setting ) );
+		$this->assertEquals( $value, \Progress_Planner\Settings::get( $setting ) );
 	}
 
 	/**

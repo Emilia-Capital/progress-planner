@@ -2,14 +2,14 @@
 /**
  * Content scan class.
  *
- * @package ProgressPlanner
+ * @package Progress_Planner
  */
 
-namespace ProgressPlanner\Actions;
+namespace Progress_Planner\Actions;
 
-use ProgressPlanner\Actions\Content as Content_Action;
-use ProgressPlanner\Activities\Content_Helpers;
-use ProgressPlanner\Settings;
+use Progress_Planner\Actions\Content as Content_Action;
+use Progress_Planner\Activities\Content_Helpers;
+use Progress_Planner\Settings;
 
 /**
  * Content scan class.

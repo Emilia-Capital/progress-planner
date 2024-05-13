@@ -2,14 +2,14 @@
 /**
  * Handler for posts activities.
  *
- * @package ProgressPlanner
+ * @package Progress_Planner
  */
 
-namespace ProgressPlanner\Activities;
+namespace Progress_Planner\Activities;
 
-use ProgressPlanner\Activities\Content;
-use ProgressPlanner\Date;
-use ProgressPlanner\Settings;
+use Progress_Planner\Activities\Content;
+use Progress_Planner\Date;
+use Progress_Planner\Settings;
 
 /**
  * Handler for posts activities.
@@ -65,7 +65,7 @@ class Content_Helpers {
 	 *
 	 * @param \WP_Post $post The post object.
 	 *
-	 * @return \ProgressPlanner\Activities\Content
+	 * @return \Progress_Planner\Activities\Content
 	 */
 	public static function get_activity_from_post( $post ) {
 		$type = 'publish' === $post->post_status ? 'publish' : 'update';

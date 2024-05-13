@@ -2,15 +2,15 @@
 /**
  * Scan existing posts and populate the options.
  *
- * @package ProgressPlanner
+ * @package Progress_Planner
  */
 
-namespace ProgressPlanner\Actions;
+namespace Progress_Planner\Actions;
 
-use ProgressPlanner\Activities\Content_Helpers;
-use ProgressPlanner\Activities\Content as Content_Activity;
-use ProgressPlanner\Date;
-use ProgressPlanner\Settings;
+use Progress_Planner\Activities\Content_Helpers;
+use Progress_Planner\Activities\Content as Content_Activity;
+use Progress_Planner\Date;
+use Progress_Planner\Settings;
 
 /**
  * Scan existing posts and populate the options.

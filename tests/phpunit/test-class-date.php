@@ -5,9 +5,9 @@
  * @package FewerTags
  */
 
-namespace ProgressPlanner\Tests;
+namespace Progress_Planner\Tests;
 
-use ProgressPlanner\Date;
+use Progress_Planner\Date;
 
 /**
  * Date test case.

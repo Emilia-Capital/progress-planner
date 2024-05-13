@@ -2,12 +2,12 @@
 /**
  * Activity Scores Widget.
  *
- * @package ProgressPlanner
+ * @package Progress_Planner
  */
 
-namespace ProgressPlanner\Popups;
+namespace Progress_Planner\Popups;
 
-use ProgressPlanner\Badges as Root_Badges;
+use Progress_Planner\Badges as Root_Badges;
 
 /**
  * Activity Scores Widget.
