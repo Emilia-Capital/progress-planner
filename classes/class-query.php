@@ -287,7 +287,7 @@ class Query {
 	/**
 	 * Update an activity in the database.
 	 *
-	 * @param int                       $id       The ID of the activity to update.
+	 * @param int                        $id       The ID of the activity to update.
 	 * @param \Progress_Planner\Activity $activity The activity to update.
 	 *
 	 * @return void

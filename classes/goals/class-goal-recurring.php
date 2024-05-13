@@ -87,13 +87,13 @@ class Goal_Recurring {
 	 * Constructor.
 	 *
 	 * @param \Progress_Planner\Goals\Goal $goal      The goal object.
-	 * @param array                       $args      The arguments.
-	 *                                    [
-	 *                                      string    'frequency'     The goal frequency.
-	 *                                      \DateTime 'start'         The start date.
-	 *                                      \DateTime 'end'           The end date.
-	 *                                      int       'allowed_break' The number of breaks in the streak that are allowed.
-	 *                                    ].
+	 * @param array                        $args      The arguments.
+	 *                                     [
+	 *                                       string    'frequency'     The goal frequency.
+	 *                                       \DateTime 'start'         The start date.
+	 *                                       \DateTime 'end'           The end date.
+	 *                                       int       'allowed_break' The number of breaks in the streak that are allowed.
+	 *                                     ].
 	 */
 	private function __construct( $goal, $args ) {
 		$this->goal          = $goal;
