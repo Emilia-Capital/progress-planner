@@ -134,7 +134,13 @@ class Rest_API {
 			]
 		);
 		unset( $scores['datasets'][0]['data']['tension'] );
-		$data['scores'] = \array_combine( $scores['labels'], $scores['datasets'][0]['data'] );
+		$data['scores'] = [];
+		foreach ( $scores['labels'] as $key => $label ) {
+			$data['scores'][] = [
+				'label' => $label,
+				'value' => $scores['datasets'][0]['data'][ $key ],
+			];
+		}
 
 		// The website URL.
 		$data['website'] = \home_url();
