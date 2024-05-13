@@ -634,6 +634,14 @@ button.prpl-info-icon {
 	box-shadow: 3px 3px 10px var(--prpl-color-accent-red);
 }
 
+.prpl-form-notice {
+	background: var(--prpl-background-orange);
+	border: 1px solid var(--prpl-color-accent-orange);
+	border-radius: var(--prpl-border-radius);
+	padding: var(--prpl-padding);
+	margin-bottom: var(--prpl-padding);
+}
+
 /*------------------------------------*\
 	Popovers generic styles.
 \*------------------------------------*/
