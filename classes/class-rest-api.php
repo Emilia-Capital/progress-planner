@@ -100,14 +100,24 @@ class Rest_API {
 		];
 
 		// Get the badges.
-		$data['badges'] = [
-			'wonderful-writer'      => ( new Badge_Wonderful_Writer() )->progress_callback(),
-			'bold-blogger'          => ( new Badge_Bold_Blogger() )->progress_callback(),
-			'awesome-author'        => ( new Badge_Awesome_Author() )->progress_callback(),
-			'progress-padawan'      => ( new Badge_Progress_Padawan() )->progress_callback(),
-			'maintenance-maniac'    => ( new Badge_Maintenance_Maniac() )->progress_callback(),
-			'super-site-specialist' => ( new Badge_Super_Site_Specialist() )->progress_callback(),
+		$badges = [
+			'wonderful-writer'      => new Badge_Wonderful_Writer(),
+			'bold-blogger'          => new Badge_Bold_Blogger(),
+			'awesome-author'        => new Badge_Awesome_Author(),
+			'progress-padawan'      => new Badge_Progress_Padawan(),
+			'maintenance-maniac'    => new Badge_Maintenance_Maniac(),
+			'super-site-specialist' => new Badge_Super_Site_Specialist(),
 		];
+
+		foreach ( $badges as $key => $badge ) {
+			$data['badges'][ $key ] = array_merge(
+				[
+					'id'   => $key,
+					'name' => $badge->get_name(),
+				],
+				$badge->progress_callback()
+			);
+		}
 
 		$data['latest_badge'] = Badges::get_latest_completed_badge();
 
