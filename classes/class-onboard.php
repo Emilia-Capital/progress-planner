@@ -71,6 +71,7 @@ class Onboard {
 			<div class="prpl-form-notice">
 				<?php
 				printf(
+					/* translators: %s: progressplanner.com link */
 					esc_html__( 'In order to be able to send emails to your account with your progress stats, we need to create an account on our platform  for your site. Please enter your name and email below and submit the form. Once you do, your site will be automatically registered on %1$s.', 'progress-planner' ),
 					'<a href="https://progressplanner.com" target="_blank">progressplanner.com</a>'
 				)
