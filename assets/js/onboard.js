@@ -6,6 +6,8 @@
  * @param {string} licenseKey The license key.
  */
 const progressPlannerSaveLicenseKey = ( licenseKey ) => {
+	// eslint-disable-next-line no-console
+	console.log( 'License key: ' + licenseKey );
 	progressPlannerAjaxRequest( {
 		url: progressPlanner.ajaxUrl,
 		data: {
