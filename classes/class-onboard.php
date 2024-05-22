@@ -167,12 +167,14 @@ class Onboard {
 
 		$license_key = \sanitize_text_field( wp_unslash( $_POST['key'] ) );
 
-		Settings::set( 'license_key', $license_key );
-		\wp_send_json_success(
-			[
-				'message' => \esc_html__( 'Onboarding data saved.', 'progress-planner' ),
-			]
-		);
+		if ( Settings::set( 'license_key', $license_key ) ) {
+			\wp_send_json_success(
+				[
+					'message' => \esc_html__( 'Onboarding data saved.', 'progress-planner' ),
+				]
+			);
+		}
+		\wp_send_json_error( [ 'message' => \esc_html__( 'Unable to save data.', 'progress-planner' ) ] );
 	}
 
 	/**
