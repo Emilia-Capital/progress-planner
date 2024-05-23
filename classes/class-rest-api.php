@@ -166,8 +166,8 @@ class Rest_API {
 	 * @return bool
 	 */
 	public function validate_token( $token ) {
-		$token = str_replace( 'token/', '', $token );
-
-		return ! Settings::get( 'license_key' ) || $token === Settings::get( 'license_key' );
+		$token       = str_replace( 'token/', '', $token );
+		$license_key = \get_option( 'progress_planner_license_key' );
+		return ! $license_key || $token === $license_key;
 	}
 }

@@ -32,7 +32,7 @@ class Onboard {
 	 * Constructor.
 	 */
 	public function __construct() {
-		if ( Settings::get( 'license_key' ) ) {
+		if ( \get_option( 'progress_planner_license_key' ) ) {
 			return;
 		}
 
@@ -167,7 +167,7 @@ class Onboard {
 
 		$license_key = \sanitize_text_field( wp_unslash( $_POST['key'] ) );
 
-		if ( Settings::set( 'license_key', $license_key ) ) {
+		if ( \update_option( 'progress_planner_license_key', $license_key, false ) ) {
 			\wp_send_json_success(
 				[
 					'message' => \esc_html__( 'Onboarding data saved.', 'progress-planner' ),

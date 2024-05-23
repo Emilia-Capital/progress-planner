@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // If the user is already registered, do not show the welcome widget.
-if ( Settings::get( 'license_key' ) ) {
+if ( \get_option( 'progress_planner_license_key' ) ) {
 	return;
 }
 
