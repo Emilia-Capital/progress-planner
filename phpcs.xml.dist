@@ -63,6 +63,7 @@
 
 	<!-- Add in some extra rules from other standards. -->
 	<rule ref="Generic.Commenting.Todo"/>
+	<rule ref="Yoast"/>
 
 	<!-- Check for PHP cross-version compatibility. -->
 	<!--
