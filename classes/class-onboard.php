@@ -140,12 +140,13 @@ class Onboard {
 			</div>
 		</form>
 
-		<a style="display:none;" id="prpl-password-reset-link">
-			<?php \esc_html_e( 'Registration successful. Set your password now and edit your profile', 'progress-planner' ); ?>
-		</a>
-
-		<div id="progress-planner-scan-progress" style="display:none;">
-			<progress value="0" max="100"></progress>
+		<div>
+			<a style="display:none;" id="prpl-password-reset-link">
+				<?php \esc_html_e( 'Registration successful. Set your password now and edit your profile', 'progress-planner' ); ?>
+			</a>
+			<div id="progress-planner-scan-progress" style="display:none;">
+				<progress value="0" max="100"></progress>
+			</div>
 		</div>
 		<?php
 	}
