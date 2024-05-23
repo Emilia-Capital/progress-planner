@@ -155,6 +155,9 @@ class Rest_API {
 		// The website URL.
 		$data['website'] = \home_url();
 
+		// Timezone offset.
+		$data['timezone_offset'] = \wp_timezone()->getOffset( new \DateTime( 'midnight' ) ) / 3600;
+
 		return new \WP_REST_Response( $data );
 	}
 
