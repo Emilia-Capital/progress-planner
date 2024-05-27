@@ -780,3 +780,75 @@ button.prpl-info-icon {
 		max-width: calc(100vw - 4 * var(--prpl-padding) - 4 * var(--prpl-gap));
 	}
 }
+
+/*------------------------------------*\
+	TODO list styles.
+\*------------------------------------*/
+#create-todo-item {
+	display: flex;
+	align-items: center;
+	flex-direction: row-reverse;
+	gap: 1em;
+}
+
+#create-todo-item button {
+	padding: 0;
+	border: 2px solid;
+	border-radius: 50%;
+	background: none;
+	box-shadow: none;
+}
+
+#new-todo-content {
+	flex: 1;
+	min-width: 0;
+}
+
+#todo-list {
+	list-style: none;
+	padding: 0;
+	max-height:30em;
+	overflow-y: auto;
+}
+
+#todo-list li {
+	position: relative;
+	display: flex;
+	align-items: center;
+}
+
+#todo-list li:not(:focus-within):has(:checked) .content {
+	opacity: 0.5;
+	text-decoration: line-through;
+}
+
+#todo-list li .content {
+	margin-top: -0.5em;
+	padding-right: 1.5em;
+	width: 100%;
+}
+
+#todo-list li:focus-within .content {
+	outline: none;
+	border-bottom: 2px solid;
+}
+
+#todo-list li .trash {
+	opacity: 0;
+	padding: 0;
+	border: 0;
+	background: none;
+	color: var(--prpl-color-gray-4);
+	cursor: pointer;
+	box-shadow: none;
+	transition: all 0.1s;
+}
+
+#todo-list li:hover .trash,
+#todo-list li:focus-within .trash {
+	opacity: 1;
+}
+
+#todo-list li .trash:hover {
+	color: var(--prpl-color-accent-red);
+}

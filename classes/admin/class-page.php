@@ -31,6 +31,7 @@ class Page {
 		'prpl-column-main prpl-column-main-secondary' => [
 			'prpl-column prpl-column-first'  => [
 				'\Progress_Planner\Widgets\Activity_Scores',
+				'\Progress_Planner\Widgets\ToDo',
 				'\Progress_Planner\Widgets\Personal_Record_Content',
 				'\Progress_Planner\Widgets\Plugins',
 				'\Progress_Planner\Widgets\Badge_Content',
@@ -205,6 +206,26 @@ class Page {
 		// Localize the scripts.
 		\wp_localize_script( 'progress-planner-onboard', 'progressPlanner', $localize_data );
 		\wp_localize_script( 'progress-planner-admin', 'progressPlanner', $localize_data );
+
+		// Enqueue the TODO script.
+		\wp_enqueue_script(
+			'progress-planner-todo',
+			PROGRESS_PLANNER_URL . '/assets/js/todo.js',
+			[ 'jquery-ui-sortable', 'progress-planner-ajax' ],
+			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/todo.js' ),
+			true
+		);
+		$localize_data = [
+			'ajaxUrl'   => \admin_url( 'admin-ajax.php' ),
+			'nonce'     => \wp_create_nonce( 'progress_planner_todo' ),
+			'listItems' => \Progress_Planner\Todo::get_items(),
+			'i18n'      => [
+				'drag' => \esc_html__( 'Drag to reorder', 'progress-planner' ),
+			]
+		];
+
+		// Localize the scripts.
+		\wp_localize_script( 'progress-planner-todo', 'progressPlannerTodo', $localize_data );
 	}
 
 	/**

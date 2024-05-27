@@ -21,6 +21,7 @@ use Progress_Planner\Badges\Badge\Progress_Padawan as Badge_Progress_Padawan;
 use Progress_Planner\Badges\Badge\Maintenance_Maniac as Badge_Maintenance_Maniac;
 use Progress_Planner\Badges\Badge\Super_Site_Specialist as Badge_Super_Site_Specialist;
 use Progress_Planner\Rest_API;
+use Progress_Planner\Todo;
 
 /**
  * Main plugin class.
@@ -102,6 +103,9 @@ class Base {
 
 		// Onboarding.
 		new Onboard();
+
+		// To-do.
+		new Todo();
 	}
 
 	/**
