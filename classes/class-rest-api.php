@@ -45,9 +45,10 @@ class Rest_API {
 			'/get-stats/(?P<token>\S+)',
 			[
 				[
-					'methods'  => 'GET',
-					'callback' => [ $this, 'get_stats' ],
-					'args'     => [
+					'methods'             => 'GET',
+					'callback'            => [ $this, 'get_stats' ],
+					'permission_callback' => '__return_true',
+					'args'                => [
 						'token' => [
 							'required'          => true,
 							'validate_callback' => [ $this, 'validate_token' ],
