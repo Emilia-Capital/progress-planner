@@ -83,7 +83,6 @@ class Todo {
 			\wp_send_json_error( [ 'message' => \esc_html__( 'Missing data.', 'progress-planner' ) ] );
 		}
 
-		error_log( print_r( $_POST['todo_list'], true ) );
 		$items = [];
 		if ( ! empty( $_POST['todo_list'] ) ) {
 			foreach ( array_values( $_POST['todo_list'] ) as $item ) {
