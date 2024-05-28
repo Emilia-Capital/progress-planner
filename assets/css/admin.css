@@ -784,6 +784,15 @@ button.prpl-info-icon {
 /*------------------------------------*\
 	TODO list styles.
 \*------------------------------------*/
+
+.prpl-widget-wrapper.prpl-todo {
+	padding-left: 0;
+}
+
+.prpl-widget-wrapper.prpl-todo > * {
+	padding-left: var(--prpl-padding);
+}
+
 #create-todo-item {
 	display: flex;
 	align-items: center;
@@ -838,7 +847,7 @@ button.prpl-info-icon {
 	padding: 0;
 	border: 0;
 	background: none;
-	color: var(--prpl-color-gray-4);
+	color: var(--prpl-color-gray-3);
 	cursor: pointer;
 	box-shadow: none;
 	transition: all 0.1s;
@@ -851,4 +860,15 @@ button.prpl-info-icon {
 
 #todo-list li .trash:hover {
 	color: var(--prpl-color-accent-red);
+}
+
+.prpl-todo-drag-handle {
+	width: var(--prpl-padding);
+	display: flex;
+	opacity: 0;
+}
+
+#todo-list li:hover .prpl-todo-drag-handle,
+#todo-list li:focus-within .prpl-todo-drag-handle {
+	opacity: 1;
 }
