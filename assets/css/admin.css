@@ -846,11 +846,13 @@ button.prpl-info-icon {
 #todo-list li .content {
 	padding-right: 1.5em;
 	width: 100%;
+	display:border-box;
+	border-bottom: 1.5px solid transparent;
 }
 
 #todo-list li:focus-within .content {
 	outline: none;
-	border-bottom: 2px solid;
+	border-bottom: 1.5px solid var(--prpl-color-gray-3);
 }
 
 #todo-list li input {
