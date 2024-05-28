@@ -51,7 +51,7 @@ if ( \get_option( 'progress_planner_license_key' ) ) {
 	</div>
 	<div class="inner-content">
 		<div class="prpl-welcome-content">
-			<p><?php esc_html_e( 'Progress Planner helps you overcome procrastination and helps you make real progress with your site! To do so, we would like to send you a weekly email with your site\'s stats. You will get badges to highlight your progress and we will guide you in not just making but also keeping your site healthy.', 'progress-planner' ); ?></p>
+			<p><?php esc_html_e( 'Progress Planner helps you to overcome procrastination. Let\'s get those website maintenance tasks done! We would like to send you weekly emails with your site stats. Next to that, we\'ll give you tips and keep you motivated to continue the work on your website. Let\'s go!', 'progress-planner' ); ?></p>
 		</div>
 		<span class="separator"></span>
 		<?php Onboard::the_form(); ?>

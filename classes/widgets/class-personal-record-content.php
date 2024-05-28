@@ -33,16 +33,16 @@ final class Personal_Record_Content extends Widget {
 		$record = $this->personal_record_callback();
 		?>
 		<div class="two-col narrow">
-			<?php $this->render_big_counter( (int) $record['max_streak'], __( 'personal record', 'progress-planner' ) ); ?>
+			<?php $this->render_big_counter( (int) $record['max_streak'], __( 'Personal Record', 'progress-planner' ) ); ?>
 			<div class="prpl-widget-content">
 				<p>
 					<?php if ( (int) $record['max_streak'] === 0 ) : ?>
-						<?php \esc_html_e( 'This is your first streak. Start adding content to your site every week and set a personal record!', 'progress-planner' ); ?>
+						<?php \esc_html_e( 'This is the start of your first streak! Add content to your site every week and set a personal record!', 'progress-planner' ); ?>
 					<?php elseif ( (int) $record['max_streak'] <= (int) $record['current_streak'] ) : ?>
 						<?php
 						printf(
 							/* translators: %s: number of weeks. */
-							\esc_html__( 'Congratulations, you\'re on a streak! You have been adding new content to your site consistently every week for the past %s weeks! 🎉', 'progress-planner' ),
+							\esc_html__( 'Congratulations! You\'re on a streak! You\'ve consistently maintained your website for the past %s weeks! 🎉', 'progress-planner' ),
 							\esc_html( \number_format_i18n( $record['current_streak'] ) )
 						);
 						?>
@@ -50,7 +50,7 @@ final class Personal_Record_Content extends Widget {
 						<?php
 						printf(
 							/* translators: %1$s: number of weeks for the current streak. %2$s: number of weeks for the maximum streak. %3$s: The number of weeks to go in order to break the record. */
-							\esc_html__( 'Keep it up! You have been adding content to your site consistently every week for the past %1$s weeks! Your longest streak was %2$s weeks, you have %3$s weeks to go to break your record!', 'progress-planner' ),
+							\esc_html__( 'Keep it up! You\'ve consistently maintained your website for the past %1$s weeks. Your longest streak was %2$s weeks, you have %3$s weeks to go to break your record!', 'progress-planner' ),
 							\esc_html( \number_format_i18n( $record['current_streak'] ) ),
 							\esc_html( \number_format_i18n( $record['max_streak'] ) ),
 							\esc_html( \number_format_i18n( $record['max_streak'] - $record['current_streak'] ) )
@@ -60,7 +60,7 @@ final class Personal_Record_Content extends Widget {
 						<?php
 						printf(
 							/* translators: %s: number of weeks for the maximum streak. */
-							\esc_html__( 'Your longest streak was %s weeks. Keep adding content to your site every week and break your record!', 'progress-planner' ),
+							\esc_html__( 'Get back to your streak! Your longest streak was %1$s weeks. Keep working on those website maintenance tasks every week and break your record!', 'progress-planner' ),
 							\esc_html( \number_format_i18n( $record['max_streak'] ) ),
 						);
 						?>

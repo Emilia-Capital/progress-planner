@@ -35,6 +35,7 @@ final class Badges_Progress extends Widget {
 		?>
 		<h2 class="prpl-widget-title">
 			<?php esc_html_e( 'Your Achievements', 'progress-planner' ); ?>
+			<p><?php esc_html_e( 'Check out your progress! Which badge will you unlock next?', 'progress-planner' ); ?></p>
 			<?php new \Progress_Planner\Popups\Badges(); ?>
 		</h2>
 

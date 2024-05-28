@@ -34,16 +34,16 @@ final class Published_Content extends Widget {
 		?>
 		<div class="two-col">
 			<div class="prpl-top-counter-bottom-content">
-				<?php $this->render_big_counter( (int) array_sum( $stats['weekly'] ), __( 'content published', 'progress-planner' ) ); ?>
+				<?php $this->render_big_counter( (int) array_sum( $stats['weekly'] ), __( 'Content Published', 'progress-planner' ) ); ?>
 				<div class="prpl-widget-content">
 					<p>
 						<?php if ( 0 === $stats['weekly'] ) : ?>
-							<?php \esc_html_e( 'No content published last week', 'progress-planner' ); ?>
+							<?php \esc_html_e( 'You didn\'t publish new content last week. You can do better!', 'progress-planner' ); ?>
 						<?php else : ?>
 							<?php
 							printf(
 								/* translators: %1$s: number of posts/pages published this week. %2$s: Total number of posts. */
-								\esc_html__( 'Good job! You added %1$s pieces of content in the past week. You now have %2$s in total.', 'progress-planner' ),
+								\esc_html__( 'Nice! You published %1$s pieces of new content last week. You now have %2$s in total. Keep up the good work!', 'progress-planner' ),
 								\esc_html( \number_format_i18n( array_sum( $stats['weekly'] ) ) ),
 								\esc_html( \number_format_i18n( array_sum( $stats['all'] ) ) )
 							);

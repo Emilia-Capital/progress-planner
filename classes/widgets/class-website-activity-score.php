@@ -27,13 +27,12 @@ final class Website_Activity_Score extends Widget {
 	public function the_content() {
 		?>
 		<h2 class="prpl-widget-title">
-			<?php \esc_html_e( 'Website activity score', 'progress-planner' ); ?>
+			<?php \esc_html_e( 'Your Website Activity Score', 'progress-planner' ); ?>
 		</h2>
-
 		<div class="two-col">
 			<?php self::print_score_gauge(); ?>
 			<div>
-				<?php \esc_html_e( 'Over the past week:', 'progress-planner' ); ?>
+				<?php \esc_html_e( 'Your activity this week:', 'progress-planner' ); ?>
 				<?php $this->print_weekly_activities_checklist(); ?>
 			</div>
 		</div>
@@ -64,7 +63,7 @@ final class Website_Activity_Score extends Widget {
 					</span>
 				</div>
 			</div>
-			<?php \esc_html_e( 'Based on your activity over the past 30 days', 'progress-planner' ); ?>
+			<?php \esc_html_e( 'Your Website Activity Score is based on the amount of website maintenance work you\'ve done over the past 30 days.', 'progress-planner' ); ?>
 		</div>
 		<?php
 	}
@@ -79,7 +78,7 @@ final class Website_Activity_Score extends Widget {
 		<ul>
 			<?php foreach ( self::get_checklist_results() as $label => $value ) : ?>
 				<li class="prpl-checklist-item">
-					<?php echo $value ? '✔️' : '❌'; ?>
+					<?php echo $value ? '<span class="prpl-icon prpl-green">&#10003;</span>' : '<span class="prpl-icon prpl-red">&#9747;</span>'; ?>
 					<?php echo wp_kses_post( $label ); ?>
 				</li>
 			<?php endforeach; ?>
@@ -138,7 +137,7 @@ final class Website_Activity_Score extends Widget {
 	public static function get_checklist() {
 		return [
 			[
-				'label'    => \esc_html__( 'Publish content', 'progress-planner' ),
+				'label'    => \esc_html__( 'published content', 'progress-planner' ),
 				'callback' => function () {
 					$events = \progress_planner()->get_query()->query_activities(
 						[
@@ -151,7 +150,7 @@ final class Website_Activity_Score extends Widget {
 				},
 			],
 			[
-				'label'    => \esc_html__( 'Update content', 'progress-planner' ),
+				'label'    => \esc_html__( 'updated content', 'progress-planner' ),
 				'callback' => function () {
 					$events = \progress_planner()->get_query()->query_activities(
 						[
@@ -165,7 +164,7 @@ final class Website_Activity_Score extends Widget {
 			],
 			[
 				'label'    => 0 === \wp_get_update_data()['counts']['total']
-					? \esc_html__( 'Perform all updates', 'progress-planner' )
+					? \esc_html__( 'performed all updates', 'progress-planner' )
 					: '<a href="' . \esc_url( \admin_url( 'update-core.php' ) ) . '">' . \esc_html__( 'Perform all updates', 'progress-planner' ) . '</a>',
 				'callback' => function () {
 					return ! \wp_get_update_data()['counts']['total'];

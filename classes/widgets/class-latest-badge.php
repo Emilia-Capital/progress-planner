@@ -37,16 +37,16 @@ final class Latest_Badge extends Widget {
 		}
 		?>
 		<h2 class="prpl-widget-title">
-			<?php \esc_html_e( 'Latest badge', 'progress-planner' ); ?>
+			<?php \esc_html_e( 'Latest New Badge!', 'progress-planner' ); ?>
 		</h2>
 		<?php if ( ! $latest_badge ) : ?>
-			<p><?php \esc_html_e( 'No badges earned yet.', 'progress-planner' ); ?></p>
+			<p><?php \esc_html_e( 'You haven\'t unlocked any badges yet. Hang on, you\'ll get there!', 'progress-planner' ); ?></p>
 		<?php else : ?>
 			<p>
 				<?php
 				printf(
 					/* translators: %s: The badge name. */
-					\esc_html__( 'Congratulations! You have earned a new badge. You are now a %s.', 'progress-planner' ),
+					\esc_html__( 'Wooohoooo! Congratulations! You have earned a new badge. You are now a %s.', 'progress-planner' ),
 					'<strong>' . \esc_html( $latest_badge['name'] ) . '</strong>'
 				);
 				?>
