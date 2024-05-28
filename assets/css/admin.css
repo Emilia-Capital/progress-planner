@@ -829,6 +829,7 @@ button.prpl-info-icon {
 	padding: 0;
 	max-height:30em;
 	overflow-y: auto;
+	margin-top: 0;
 }
 
 #todo-list li {
