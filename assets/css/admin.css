@@ -832,7 +832,6 @@ button.prpl-info-icon {
 }
 
 #todo-list li .content {
-	margin-top: -0.5em;
 	padding-right: 1.5em;
 	width: 100%;
 }
@@ -840,6 +839,10 @@ button.prpl-info-icon {
 #todo-list li:focus-within .content {
 	outline: none;
 	border-bottom: 2px solid;
+}
+
+#todo-list li input {
+	margin-top: 0;
 }
 
 #todo-list li .trash {
