@@ -131,7 +131,7 @@ class Onboard {
 			<input
 				type="hidden"
 				name="timezone_offset"
-				value="<?php echo esc_attr( \wp_timezone()->getOffset( new \DateTime( 'midnight' ) ) / 3600 ); ?>"
+				value="<?php echo (float) ( \wp_timezone()->getOffset( new \DateTime( 'midnight' ) ) / 3600 ); ?>"
 			>
 			<div id="prpl-onboarding-submit-grid-wrapper">
 				<span></span><!-- Empty span for styling (grid layout). -->

@@ -69,7 +69,7 @@ class Todo {
 
 		$items = [];
 		if ( ! empty( $_POST['todo_list'] ) ) {
-			foreach ( array_values( $_POST['todo_list'] ) as $item ) {
+			foreach ( array_values( wp_unslash( $_POST['todo_list'] ) ) as $item ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 				$items[] = [
 					'content' => sanitize_text_field( $item['content'] ),
 					'done'    => true === $item['done'] || 'true' === $item['done'],

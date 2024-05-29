@@ -144,6 +144,12 @@ class Base {
 		if ( is_null( $formatted_number_weeks ) ) {
 			$formatted_number_weeks = \number_format_i18n( $number_weeks );
 		}
-		return \esc_html( sprintf( \_n( '%d week', '%d weeks', $number_weeks, 'progress-planner' ), $formatted_number_weeks ) );
+		return \esc_html(
+			sprintf(
+				/* translators: %d: Number of weeks. */
+				\_n( '%d week', '%d weeks', $number_weeks, 'progress-planner' ),
+				$formatted_number_weeks
+			)
+		);
 	}
 }

@@ -56,8 +56,8 @@ final class Badge_Streak extends Widget {
 					<?php
 					printf(
 						/* translators: %s: The number of weeks. */
-						\esc_html__( '%s to go to complete this streak!', 'progress-planner' ), 
-						Base::weeks( $details['progress']['remaining'] )
+						\esc_html__( '%s to go to complete this streak!', 'progress-planner' ),
+						Base::weeks( $details['progress']['remaining'] ) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					);
 					?>
 				</p>

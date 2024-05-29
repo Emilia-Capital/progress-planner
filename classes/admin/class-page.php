@@ -221,7 +221,7 @@ class Page {
 			'listItems' => \Progress_Planner\Todo::get_items(),
 			'i18n'      => [
 				'drag' => \esc_html__( 'Drag to reorder', 'progress-planner' ),
-			]
+			],
 		];
 
 		// Localize the scripts.
