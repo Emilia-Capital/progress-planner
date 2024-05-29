@@ -8,6 +8,7 @@
 namespace Progress_Planner\Widgets;
 
 use Progress_Planner\Badges;
+use Progress_Planner\Base;
 
 /**
  * Badge content widget.
@@ -56,8 +57,8 @@ final class Badge_Streak extends Widget {
 					<?php
 					printf(
 						/* translators: %s: The number of weeks. */
-						\esc_html__( '%s weeks to go to complete this streak!', 'progress-planner' ),
-						\esc_html( $details['progress']['remaining'] )
+						\esc_html__( '%s to go to complete this streak!', 'progress-planner' ), 
+						Base::weeks( $details['progress']['remaining'] )
 					);
 					?>
 				</p>

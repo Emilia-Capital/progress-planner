@@ -45,7 +45,7 @@ final class Plugins extends Widget {
 						printf(
 							/* translators: %1$s: number of plugins. %2$s: Total number of pending updates. */
 							\esc_html__( 'You have %1$s plugins installed. There are %2$s pending updates.', 'progress-planner' ),
-							\esc_html( \number_format_i18n( $plugins_count ) ),
+							\esc_html( sprintf( _n( '%d plugin', '%d plugins', $plugins_count, 'progress-planner' ), \number_format_i18n( $plugins_count ) ) ),
 							'<span class="accent">' . \esc_html( \number_format_i18n( $pending_plugin_updates ) ) . '</span>'
 						);
 						?>
