@@ -27,9 +27,12 @@ final class ToDo extends Widget {
 	protected function the_content() {
 		?>
 		<h2 class="prpl-widget-title">
-			<?php \esc_html_e( 'TODO list', 'progress-planner' ); ?>
+			<?php \esc_html_e( 'To-do list', 'progress-planner' ); ?>
 		</h2>
 
+		<p>
+			<?php \esc_html_e( 'Write down all your website maintenance task you want to get done!', 'progress-planner' ); ?>
+		</p>
 		<ul id="todo-list" class="prpl-todo-list"></ul>
 
 		<form id="create-todo-item">

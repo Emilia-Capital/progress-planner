@@ -29,8 +29,9 @@ final class Activity_Scores extends Widget {
 	public function the_content() {
 		?>
 		<h2 class="prpl-widget-title">
-			<?php \esc_html_e( 'Activity scores', 'progress-planner' ); ?>
+			<?php \esc_html_e( 'Longterm Activity Scores', 'progress-planner' ); ?>
 		</h2>
+		<p><?php \esc_html_e( 'Check out your website activity in the past months:', 'progress-planner' ); ?></p>
 		<div class="prpl-graph-wrapper">
 			<?php ( new Chart() )->the_chart( $this->get_chart_args() ); ?>
 		</div>
