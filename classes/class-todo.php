@@ -53,22 +53,6 @@ class Todo {
 	}
 
 	/**
-	 * Get pending items.
-	 *
-	 * @return array
-	 */
-	public static function get_pending_items() {
-		$items = self::get_items();
-		$pending = [];
-		foreach ( $items as $item ) {
-			if ( ! $item['done'] ) {
-				$pending[] = $item;
-			}
-		}
-		return $pending;
-	}
-
-	/**
 	 * Save the todo list.
 	 *
 	 * @return void
