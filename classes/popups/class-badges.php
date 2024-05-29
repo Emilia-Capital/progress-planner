@@ -48,12 +48,13 @@ final class Badges extends Popup {
 	protected function the_content() {
 		?>
 		<h2><?php \esc_html_e( 'You are on the right track!', 'progress-planner' ); ?></h2>
-		<p><?php \esc_html_e( 'Find out what you can do next, to collect all the badges and become a Progress Planner Professional!', 'progress-planner' ); ?></p>
+		<p><?php \esc_html_e( 'Find out which badges to unlock next and become a Progress Planner Professional!', 'progress-planner' ); ?></p>
 
 		<div class="prpl-widgets-container">
 			<div class="prpl-widget-wrapper">
-				<h3><?php \esc_html_e( 'Don’t break your streak by missing a week!', 'progress-planner' ); ?></h3>
-				<p><?php \esc_html_e( 'Do at least one activity on your website every week. That could be publishing or adding content and updating a post or updating a plugin. Not able to work on your site? Use your streak freeze.', 'progress-planner' ); ?></p>
+				<h3><?php \esc_html_e( 'Don’t break your streak and stay active every week!', 'progress-planner' ); ?></h3>
+				<p><?php \esc_html_e( 'Execute at least one website maintenance task every week. That could be publishing content, adding content, updating a post, or updating a plugin.', 'progress-planner' ); ?></p>
+				<p><?php \esc_html_e( 'Not able to work on your site for a week? Use your streak freeze!', 'progress-planner' ); ?></p>
 				<div id="popover-badges-content">
 					<?php $this->print_badges( 'maintenance' ); ?>
 				</div>
@@ -88,8 +89,8 @@ final class Badges extends Popup {
 			</div>
 
 			<div class="prpl-widget-wrapper">
-				<h3><?php \esc_html_e( 'Keep adding post and pages', 'progress-planner' ); ?></h3>
-				<p><?php \esc_html_e( 'The more you write, the closer you come to winning your badges. You can earn level 1 of this badge immediately after installing the plugin if you have written more than 200 posts.', 'progress-planner' ); ?></p>
+				<h3><?php \esc_html_e( 'Keep adding posts and pages', 'progress-planner' ); ?></h3>
+				<p><?php \esc_html_e( 'The more you write, the sooner you unlock new badges. You can earn level 1 of this badge immediately after installing the plugin if you have written 20 or more blog posts.', 'progress-planner' ); ?></p>
 				<div id="popover-badges-maintenance">
 					<?php $this->print_badges( 'content' ); ?>
 				</div>
@@ -98,7 +99,7 @@ final class Badges extends Popup {
 		<div class="footer">
 			<div class="string-freeze-explain">
 				<h2><?php \esc_html_e( 'Streak freeze', 'progress-planner' ); ?></h2>
-				<p><?php \esc_html_e( 'Going on a holiday? Don\'t have time to work on your site? You can skip your website maintenance for a maximum of one week. Your streak will continue afterward.', 'progress-planner' ); ?></p>
+				<p><?php \esc_html_e( 'Going on a holiday? Or don\'t have any time this week? You can skip your website maintenance for a maximum of one week. Your streak will continue afterward.', 'progress-planner' ); ?></p>
 			</div>
 		</div>
 		<?php
