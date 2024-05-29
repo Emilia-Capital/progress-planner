@@ -35,13 +35,20 @@ final class Published_Content_Density extends Widget {
 			<div class="prpl-widget-content">
 				<p>
 					<?php
-					printf(
-						// @todo We need to add a case here for when the user has not written content in the last 7 days.
-						/* translators: %1$s: number of words/post published this week. %2$s: All-time average number. */
-						\esc_html__( 'Your content has an average density of %1$s words per post in the last 7 days. Your overall Content Density average is %2$s.', 'progress-planner' ),
-						\esc_html( \number_format_i18n( $this->get_weekly_activities_density() ) ),
-						\esc_html( \number_format_i18n( $this->get_all_activities_density() ) )
-					);
+					if ( 0 === $this->get_weekly_activities_density() ) {
+						printf(
+							\esc_html__( 'Your overall Content Density average is %1$s.', 'progress-planner' ),
+							\esc_html( \number_format_i18n( $this->get_all_activities_density() ) )
+						);
+					}
+					else {
+						printf(
+							/* translators: %1$s: number of words/post published this week. %2$s: All-time average number. */
+							\esc_html__( 'Your content has an average density of %1$s words per post in the last 7 days. Your overall Content Density average is %2$s.', 'progress-planner' ),
+							\esc_html( \number_format_i18n( $this->get_weekly_activities_density() ) ),
+							\esc_html( \number_format_i18n( $this->get_all_activities_density() ) )
+						);
+						}
 					?>
 				</p>
 			</div>

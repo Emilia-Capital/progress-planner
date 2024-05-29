@@ -37,6 +37,7 @@ final class Published_Words extends Widget {
 						<?php \esc_html_e( 'You didn\'t write last week. Let\'s get started!', 'progress-planner' ); ?>
 					<?php else : ?>
 						<?php
+						// @todo If I've only written one word, this should say "You've written 1 word in the past 7 days."
 						printf(
 							/* translators: %1$s: number of posts published this week. %2$s: Total number of posts. */
 							\esc_html__( 'Great job! You have written %1$s words in the past 7 days.', 'progress-planner' ),

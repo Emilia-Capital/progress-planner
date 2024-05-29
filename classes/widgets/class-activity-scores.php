@@ -27,6 +27,7 @@ final class Activity_Scores extends Widget {
 	 * Render the widget content.
 	 */
 	public function the_content() {
+		// @todo "past months" should be "past month" if the website is not older than a month yet.
 		?>
 		<h2 class="prpl-widget-title">
 			<?php \esc_html_e( 'Longterm Activity Scores', 'progress-planner' ); ?>

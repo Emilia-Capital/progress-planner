@@ -8,6 +8,7 @@
 namespace Progress_Planner\Popups;
 
 use Progress_Planner\Badges as Root_Badges;
+use Progress_Planner\Base;
 
 /**
  * Activity Scores Widget.
@@ -69,11 +70,8 @@ final class Badges extends Popup {
 										✔️
 									<?php else : ?>
 										<?php
-										printf(
-											/* translators: The number of weeks remaining to complete the badge. */
-											\esc_html__( '%s weeks to go', 'progress-planner' ),
-											'<span class="number">' . (int) $badge_progress['remaining'] . '</span>'
-										);
+										/* translators: The number of weeks remaining to complete the badge. */
+										printf( \esc_html__( '%s to go', 'progress-planner' ), Base::weeks( (int) $badge_progress['remaining'], '<span class="number">' . (int) $badge_progress['remaining'] . '</span>' ) )
 										?>
 									<?php endif; ?>
 								</span>
@@ -94,7 +92,7 @@ final class Badges extends Popup {
 		<div class="footer">
 			<div class="string-freeze-explain">
 				<h2><?php \esc_html_e( 'Streak freeze', 'progress-planner' ); ?></h2>
-				<p><?php \esc_html_e( 'Going on a holiday? Don\'t have time to work on your site? You can skip your website maintenance for a maximum of one weeks. Your streak will continue afterward.', 'progress-planner' ); ?></p>
+				<p><?php \esc_html_e( 'Going on a holiday? Don\'t have time to work on your site? You can skip your website maintenance for a maximum of one week. Your streak will continue afterward.', 'progress-planner' ); ?></p>
 			</div>
 		</div>
 		<?php
