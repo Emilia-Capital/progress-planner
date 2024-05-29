@@ -677,6 +677,7 @@ button.prpl-info-icon {
 	border-radius: var(--prpl-border-radius);
 	padding: var(--prpl-padding);
 	font-weight: 400;
+	max-height: 82vh;
 }
 
 .prpl-popover p {
