@@ -215,6 +215,11 @@ class Content {
 			return true;
 		}
 
+		// Bail if an auto-draft.
+		if ( 'auto-draft' === $post->post_status ) {
+			return true;
+		}
+
 		return false;
 	}
 
