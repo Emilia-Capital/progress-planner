@@ -103,9 +103,9 @@ final class Website_Activity_Score extends Widget {
 		$score        = 0;
 		$current_date = new \DateTime();
 		foreach ( $activities as $activity ) {
-			$score += $activity->get_points( $current_date ) / 2;
+			$score += $activity->get_points( $current_date );
 		}
-		$score = min( 100, max( 0, $score / 2 ) );
+		$score = min( 100, max( 0, $score ) );
 
 		// Get the number of pending updates.
 		$pending_updates = \wp_get_update_data()['counts']['total'];
