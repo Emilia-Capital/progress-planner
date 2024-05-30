@@ -41,7 +41,20 @@ class Maintenance extends Activity {
 		$this->date    = new \DateTime();
 		$this->user_id = get_current_user_id();
 
-		parent::save();
+		$existing = \progress_planner()->get_query()->query_activities(
+			[
+				'category'   => $this->category,
+				'type'       => $this->type,
+				'data_id'    => $this->data_id,
+				'start_date' => $this->date,
+			],
+			'RAW'
+		);
+		if ( ! empty( $existing ) ) {
+			\progress_planner()->get_query()->update_activity( $existing[0]->id, $this );
+			return;
+		}
+		\progress_planner()->get_query()->insert_activity( $this );
 	}
 
 	/**
