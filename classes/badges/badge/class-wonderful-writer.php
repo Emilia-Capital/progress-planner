@@ -38,7 +38,7 @@ final class Wonderful_Writer extends Badge_Content {
 	 * @return string
 	 */
 	public function get_description() {
-		return esc_html__( '200+ existing posts/pages, or 10 new posts/pages', 'progress-planner' );
+		return esc_html__( '20 existing posts/pages, or 10 new posts/pages', 'progress-planner' );
 	}
 
 	/**
@@ -79,7 +79,7 @@ final class Wonderful_Writer extends Badge_Content {
 			$total_posts_count += \wp_count_posts( $post_type )->publish;
 		}
 
-		$remaining = 200 - min( 200, $total_posts_count );
+		$remaining = 20 - min( 20, $total_posts_count );
 
 		// If there are 200 existing posts, save the badge as complete and return.
 		if ( 0 === $remaining ) {
