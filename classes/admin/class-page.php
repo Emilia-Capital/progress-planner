@@ -31,10 +31,10 @@ class Page {
 		],
 		'prpl-column-main prpl-column-main-secondary' => [
 			'prpl-column prpl-column-first'  => [
+				'\Progress_Planner\Widgets\Activity_Scores',
 				'\Progress_Planner\Widgets\Plugins',
 				'\Progress_Planner\Widgets\Badges_Progress',
 				'\Progress_Planner\Widgets\Personal_Record_Content',
-				'\Progress_Planner\Widgets\Activity_Scores',
 			],
 			'prpl-column prpl-column-second' => [
 				'\Progress_Planner\Widgets\ToDo',
