@@ -6,7 +6,7 @@
  *
  * Plugin name:       Progress Planner
  * Plugin URI:        https://progressplanner.com/
- * Description:       A plugin to help you fight procrastination and get things done.
+ * Description:       Progress Planner: Track, motivate, and enhance your website management with daily activity tracking and weekly progress reports.
  * Requires at least: 6.3
  * Requires PHP:      7.4
  * Version:           0.9
