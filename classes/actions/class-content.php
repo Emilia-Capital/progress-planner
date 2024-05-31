@@ -61,6 +61,10 @@ class Content {
 		// Reset the words count.
 		Settings::set( [ 'word_count', $post_id ], false );
 
+		if ( 'publish' !== $post->post_status ) {
+			return;
+		}
+
 		// Check if there is an update activity for this post, on this date.
 		$existing = \progress_planner()->get_query()->query_activities(
 			[
@@ -93,6 +97,10 @@ class Content {
 	public function insert_post( $post_id, $post ) {
 		// Bail if we should skip saving.
 		if ( $this->should_skip_saving( $post ) ) {
+			return;
+		}
+
+		if ( 'publish' !== $post->post_status ) {
 			return;
 		}
 
@@ -273,7 +281,6 @@ class Content {
 
 		$activity       = Content_Helpers::get_activity_from_post( $post );
 		$activity->type = $type;
-		$activity->save();
 
 		// Update the badges.
 		if ( 'publish' === $type ) {
@@ -288,7 +295,25 @@ class Content {
 				// Delete the badge value so it can be re-calculated.
 				Settings::set( [ 'badges', $badge_id ], [] );
 			}
+
+			// Check if there is a publish activity for this post.
+			$existing = \progress_planner()->get_query()->query_activities(
+				[
+					'category' => 'content',
+					'type'     => 'publish',
+					'data_id'  => $post->ID,
+				],
+				'RAW'
+			);
+
+			// If there is no publish activity for this post, add it.
+			if ( empty( $existing ) ) {
+				$activity->save();
+				return;
+			}
 		}
+
+		$activity->save();
 
 		// Reset the words count.
 		Settings::set( [ 'word_count', $post->ID ], false );
