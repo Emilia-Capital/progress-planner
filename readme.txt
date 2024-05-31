@@ -8,13 +8,13 @@ Stable tag: 0.9
 License: GPL3+
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
-Powering progress on your website. Progress Planner will help you overcome procrastination and ensure the upkeep of your website is a rewarding experience!
+Progress Planner: Track, motivate, and enhance your website management with daily activity tracking and weekly progress reports.
 
 == Description ==
 
 Welcome to Progress Planner! This transformative WordPress plugin will empower website owners to keep up the good work on their site. Progress Planner introduces an exciting, interactive approach to website management with badges and achievements to collect. Our mission is to tackle the all-too-common challenge of procrastination. With Progress Planner, the upkeep of your website is a rewarding experience! We’ll encourage you to contribute to the success of your site consistently.
 
-The Progress Planner plugin will send a weekly email to an address of your choosing. In order to do that, when you first install the plugin you will be prompted to register to the service by entering your email and name.
+The Progress Planner plugin will send a weekly email to an address of your choosing. In order to do that, when you first install the plugin, you will be prompted to register to the service by entering your email and name.
 The plugin form will register your site on <a href="https://progressplanner.com" target="_blank">progressplanner.com</a> and register your site with the service.
 
 You can see what data we collect and how that data is used on our <a href="https://progressplanner.com/privacy-policy/#h-plugin-privacy-policy">Privacy Policy page</a>, and you can see our <a href="https://progressplanner.com/terms-conditions/">Terms & Conditions</a> on our website.
