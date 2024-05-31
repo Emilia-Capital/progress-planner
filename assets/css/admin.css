@@ -524,6 +524,10 @@ button.prpl-info-icon {
 	display: inline-block;
 }
 
+.prpl-widget-wrapper.prpl-whats-new li img {
+	width: 100%;
+}
+
 /*------------------------------------*\
 	Latest badge widget.
 \*------------------------------------*/
