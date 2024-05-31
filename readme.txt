@@ -8,7 +8,7 @@ Stable tag: 0.9
 License: GPL3+
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
-Progress Planner: Track, motivate, and enhance your website management with daily activity tracking and weekly progress reports.
+Track, motivate, and enhance your website management with daily activity tracking and weekly progress reports.
 
 == Description ==
 
