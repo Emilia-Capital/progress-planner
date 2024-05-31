@@ -39,7 +39,7 @@ final class Whats_New extends Widget {
 			<?php \esc_html_e( 'What\'s new on the Progress Planner blog', 'progress-planner' ); ?>
 		</h2>
 
-		<ul>
+		<ul class="two-col">
 			<?php foreach ( $blog_feed as $blog_post ) : ?>
 				<li>
 					<a href="<?php echo \esc_url( $blog_post['link'] ); ?>" target="_blank">
@@ -48,7 +48,6 @@ final class Whats_New extends Widget {
 					<p>
 						<?php echo \esc_html( wp_trim_words( \wp_strip_all_tags( $blog_post['content']['rendered'] ), 55 ) ); ?>
 					</p>
-					<hr>
 				</li>
 			<?php endforeach; ?>
 		</ul>

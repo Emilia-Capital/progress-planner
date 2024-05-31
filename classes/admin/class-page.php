@@ -26,21 +26,21 @@ class Page {
 					'\Progress_Planner\Widgets\Published_Words',
 				],
 				'\Progress_Planner\Widgets\Published_Content',
+				'\Progress_Planner\Widgets\Whats_New',
 			],
 		],
 		'prpl-column-main prpl-column-main-secondary' => [
 			'prpl-column prpl-column-first'  => [
-				'\Progress_Planner\Widgets\Activity_Scores',
 				'\Progress_Planner\Widgets\Plugins',
-				'\Progress_Planner\Widgets\Whats_New',
+				'\Progress_Planner\Widgets\Badges_Progress',
+				'\Progress_Planner\Widgets\Personal_Record_Content',
+				'\Progress_Planner\Widgets\Activity_Scores',
 			],
 			'prpl-column prpl-column-second' => [
 				'\Progress_Planner\Widgets\ToDo',
 				'\Progress_Planner\Widgets\Latest_Badge',
 				'\Progress_Planner\Widgets\Badge_Content',
 				'\Progress_Planner\Widgets\Badge_Streak',
-				'\Progress_Planner\Widgets\Badges_Progress',
-				'\Progress_Planner\Widgets\Personal_Record_Content',
 			],
 		],
 	];
