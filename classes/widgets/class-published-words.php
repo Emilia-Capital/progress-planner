@@ -30,7 +30,7 @@ final class Published_Words extends Widget {
 	protected function the_content() {
 		?>
 		<div class="prpl-top-counter-bottom-content">
-			<?php $this->render_big_counter( (int) $this->get_weekly_words(), __( 'Words', 'progress-planner' ) ); ?>
+			<?php $this->render_big_counter( (int) $this->get_weekly_words(), __( 'words', 'progress-planner' ) ); ?>
 			<div class="prpl-widget-content">
 				<p>
 					<?php if ( 0 === $this->get_weekly_words() ) : ?>

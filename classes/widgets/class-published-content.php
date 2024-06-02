@@ -34,7 +34,7 @@ final class Published_Content extends Widget {
 		?>
 		<div class="two-col">
 			<div class="prpl-top-counter-bottom-content">
-				<?php $this->render_big_counter( (int) array_sum( $stats['weekly'] ), __( 'Content Published', 'progress-planner' ) ); ?>
+				<?php $this->render_big_counter( (int) array_sum( $stats['weekly'] ), __( 'content published', 'progress-planner' ) ); ?>
 				<div class="prpl-widget-content">
 					<?php
 						$sum_weekly = array_sum( $stats['weekly'] );

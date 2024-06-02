@@ -27,7 +27,7 @@ final class Website_Activity_Score extends Widget {
 	public function the_content() {
 		?>
 		<h2 class="prpl-widget-title">
-			<?php \esc_html_e( 'Your Website Activity Score', 'progress-planner' ); ?>
+			<?php \esc_html_e( 'Your website activity score', 'progress-planner' ); ?>
 		</h2>
 		<div class="two-col">
 			<?php self::print_score_gauge(); ?>
