@@ -170,6 +170,8 @@ class Rest_API {
 		}
 		$data['todo'] = $pending_todo_items;
 
+		$data['plugin_url'] = \esc_url( \get_admin_url( null, 'admin.php?page=progress-planner' ) );
+
 		return new \WP_REST_Response( $data );
 	}
 
