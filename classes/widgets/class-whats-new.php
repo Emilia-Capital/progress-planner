@@ -84,6 +84,7 @@ final class Whats_New extends Widget {
 					$response = \wp_remote_get( self::REMOTE_SERVER_ROOT_URL . '/wp-json/wp/v2/media/' . $featured_media_id );
 					if ( ! \is_wp_error( $response ) ) {
 						$media = json_decode( \wp_remote_retrieve_body( $response ), true );
+
 						$post['featured_media'] = $media;
 					}
 				}
