@@ -25,11 +25,20 @@ final class ToDo extends Widget {
 	 * @return void
 	 */
 	protected function the_content() {
-		?>
-		<h2 class="prpl-widget-title">
-			<?php \esc_html_e( 'To-do list', 'progress-planner' ); ?>
-		</h2>
+		echo '<h2 class="prpl-widget-title">';
+		\esc_html_e( 'To-do list', 'progress-planner' );
+		echo '</h2>';
 
+		self::print_content();
+	}
+
+	/**
+	 * Print the widget content.
+	 *
+	 * @return void
+	 */
+	public static function print_content() {
+		?>
 		<p>
 			<?php \esc_html_e( 'Write down all your website maintenance tasks you want to get done!', 'progress-planner' ); ?>
 		</p>

@@ -146,13 +146,13 @@ class Page {
 	}
 
 	/**
-	 * Enqueue scripts.
+	 * Register scripts.
 	 *
 	 * @return void
 	 */
-	public static function enqueue_scripts() {
-		// Enqueue Chart.js.
-		\wp_enqueue_script(
+	public static function register_scripts() {
+		// Register Chart.js.
+		\wp_register_script(
 			'chart-js',
 			PROGRESS_PLANNER_URL . '/assets/js/vendor/chart.min.js',
 			[],
@@ -160,7 +160,7 @@ class Page {
 			false
 		);
 
-		// Enqueue the ajax-request helper.
+		// Register the ajax-request helper.
 		\wp_register_script(
 			'progress-planner-ajax',
 			PROGRESS_PLANNER_URL . '/assets/js/ajax-request.js',
@@ -169,7 +169,7 @@ class Page {
 			true
 		);
 
-		// Enqueue the admin script to scan posts.
+		// Register the admin script to scan posts.
 		\wp_register_script(
 			'progress-planner-scanner',
 			PROGRESS_PLANNER_URL . '/assets/js/scan-posts.js',
@@ -178,8 +178,8 @@ class Page {
 			true
 		);
 
-		// Enqueue the admin script to handle onboarding.
-		\wp_enqueue_script(
+		// Register the admin script to handle onboarding.
+		\wp_register_script(
 			'progress-planner-onboard',
 			PROGRESS_PLANNER_URL . '/assets/js/onboard.js',
 			[ 'progress-planner-ajax', 'progress-planner-scanner' ],
@@ -187,12 +187,20 @@ class Page {
 			true
 		);
 
-		// Enqueue the admin script for the page.
-		\wp_enqueue_script(
+		// Register the admin script for the page.
+		\wp_register_script(
 			'progress-planner-admin',
 			PROGRESS_PLANNER_URL . '/assets/js/header-filters.js',
 			[],
 			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/header-filters.js' ),
+			true
+		);
+
+		\wp_register_script(
+			'progress-planner-todo',
+			PROGRESS_PLANNER_URL . '/assets/js/todo.js',
+			[ 'jquery-ui-sortable', 'progress-planner-ajax' ],
+			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/todo.js' ),
 			true
 		);
 
@@ -206,26 +214,32 @@ class Page {
 		// Localize the scripts.
 		\wp_localize_script( 'progress-planner-onboard', 'progressPlanner', $localize_data );
 		\wp_localize_script( 'progress-planner-admin', 'progressPlanner', $localize_data );
-
-		// Enqueue the TODO script.
-		\wp_enqueue_script(
+		\wp_localize_script(
 			'progress-planner-todo',
-			PROGRESS_PLANNER_URL . '/assets/js/todo.js',
-			[ 'jquery-ui-sortable', 'progress-planner-ajax' ],
-			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/todo.js' ),
-			true
+			'progressPlannerTodo',
+			[
+				'ajaxUrl'   => \admin_url( 'admin-ajax.php' ),
+				'nonce'     => \wp_create_nonce( 'progress_planner_todo' ),
+				'listItems' => \Progress_Planner\Todo::get_items(),
+				'i18n'      => [
+					'drag' => \esc_html__( 'Drag to reorder', 'progress-planner' ),
+				],
+			]
 		);
-		$localize_data = [
-			'ajaxUrl'   => \admin_url( 'admin-ajax.php' ),
-			'nonce'     => \wp_create_nonce( 'progress_planner_todo' ),
-			'listItems' => \Progress_Planner\Todo::get_items(),
-			'i18n'      => [
-				'drag' => \esc_html__( 'Drag to reorder', 'progress-planner' ),
-			],
-		];
+	}
 
-		// Localize the scripts.
-		\wp_localize_script( 'progress-planner-todo', 'progressPlannerTodo', $localize_data );
+	/**
+	 * Enqueue scripts.
+	 *
+	 * @return void
+	 */
+	public static function enqueue_scripts() {
+		self::register_scripts();
+
+		\wp_enqueue_script( 'chart-js' );
+		\wp_enqueue_script( 'progress-planner-onboard' );
+		\wp_enqueue_script( 'progress-planner-admin' );
+		\wp_enqueue_script( 'progress-planner-todo' );
 	}
 
 	/**

@@ -9,7 +9,8 @@ namespace Progress_Planner;
 
 use Progress_Planner\Query;
 use Progress_Planner\Admin\Page as Admin_page;
-use Progress_Planner\Admin\Dashboard_Widget as Admin_Dashboard_Widget;
+use Progress_Planner\Admin\Dashboard_Widget_Score;
+use Progress_Planner\Admin\Dashboard_Widget_Todo;
 use Progress_Planner\Actions\Content as Actions_Content;
 use Progress_Planner\Actions\Content_Scan as Actions_Content_Scan;
 use Progress_Planner\Actions\Maintenance as Actions_Maintenance;
@@ -89,7 +90,8 @@ class Base {
 	public function init() {
 		// Basic classes.
 		new Admin_Page();
-		new Admin_Dashboard_Widget();
+		new Dashboard_Widget_Score();
+		new Dashboard_Widget_Todo();
 		new Actions_Content();
 		new Actions_Maintenance();
 		new Actions_Content_Scan();
