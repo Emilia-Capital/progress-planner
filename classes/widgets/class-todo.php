@@ -31,7 +31,7 @@ final class ToDo extends Widget {
 		</h2>
 
 		<p>
-			<?php \esc_html_e( 'Write down all your website maintenance task you want to get done!', 'progress-planner' ); ?>
+			<?php \esc_html_e( 'Write down all your website maintenance tasks you want to get done!', 'progress-planner' ); ?>
 		</p>
 		<ul id="todo-list" class="prpl-todo-list"></ul>
 
