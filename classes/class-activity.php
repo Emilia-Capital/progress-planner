@@ -107,10 +107,21 @@ class Activity {
 		if ( isset( $this->points[ $date_ymd ] ) ) {
 			return $this->points[ $date_ymd ];
 		}
-		$days                      = abs( Date::get_days_between_dates( $date, $this->date ) );
+		$days = abs( Date::get_days_between_dates( $date, $this->date ) );
+
+		// Default points.
+		$default_points = 10;
+		if ( isset( Base::$points_config[ $this->category ][ $this->type ] ) ) {
+			$default_points = Base::$points_config[ $this->category ][ $this->type ];
+		} elseif ( isset( Base::$points_config[ $this->category ]['default'] ) ) {
+			$default_points = Base::$points_config[ $this->category ]['default'];
+		} elseif ( isset( Base::$points_config[ $this->category ] ) && \is_int( Base::$points_config[ $this->category ] ) ) {
+			$default_points = Base::$points_config[ $this->category ];
+		}
+
 		$this->points[ $date_ymd ] = ( $days < 7 )
-			? 10
-			: round( 10 * max( 0, ( 1 - $days / 30 ) ) );
+			? $default_points
+			: round( $default_points * max( 0, ( 1 - $days / 30 ) ) );
 
 		return $this->points[ $date_ymd ];
 	}

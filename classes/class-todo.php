@@ -7,6 +7,8 @@
 
 namespace Progress_Planner;
 
+use Progress_Planner\Activities\Todo as Todo_Activity;
+
 /**
  * Settings class.
  */
@@ -67,7 +69,9 @@ class Todo {
 			\wp_send_json_error( [ 'message' => \esc_html__( 'Missing data.', 'progress-planner' ) ] );
 		}
 
-		$items = [];
+		$items          = [];
+		$previous_items = self::get_items();
+
 		if ( ! empty( $_POST['todo_list'] ) ) {
 			foreach ( array_values( wp_unslash( $_POST['todo_list'] ) ) as $item ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 				$items[] = [
@@ -80,6 +84,17 @@ class Todo {
 		if ( ! \update_option( self::OPTION_NAME, $items ) ) {
 			\wp_send_json_error( [ 'message' => \esc_html__( 'Failed to save.', 'progress-planner' ) ] );
 		}
+
+		// Save the activity.
+		$activity       = new Todo_Activity();
+		$activity->type = 'update';
+		if ( count( $items ) > count( $previous_items ) ) {
+			$activity->type = 'add';
+		} elseif ( count( $items ) < count( $previous_items ) ) {
+			$activity->type = 'delete';
+		}
+		$activity->save();
+
 		\wp_send_json_success( [ 'message' => \esc_html__( 'Saved.', 'progress-planner' ) ] );
 	}
 }
