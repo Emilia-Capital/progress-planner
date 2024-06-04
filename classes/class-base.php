@@ -51,7 +51,6 @@ class Base {
 				1000 => 0.8,
 			],
 		],
-		'score-target' => 200,
 		'maintenance'  => 10,
 		'todo'         => [
 			'add'     => 1,
@@ -59,6 +58,7 @@ class Base {
 			'update'  => 3, // Handles marking as done, and updating the content.
 			'default' => 1,
 		],
+		'score-target' => 200,
 	];
 
 	/**
