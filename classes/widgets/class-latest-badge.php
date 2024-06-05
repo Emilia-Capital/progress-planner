@@ -26,7 +26,7 @@ final class Latest_Badge extends Widget {
 	 *
 	 * @var string
 	 */
-	const ENDPOINT = 'https://progressplanner.com/wp-json/progress-planner-saas/v1/share-badge?badge=';
+	const ENDPOINT = 'https://progressplanner.com/wp-json/progress-planner-saas/v1/share-badge-image?badge=';
 
 	/**
 	 * Render the widget content.
