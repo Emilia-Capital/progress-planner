@@ -223,7 +223,7 @@ class Chart {
 				$args['query_params'],
 				[
 					'start_date' => $period['start'],
-					'end_date'   => $period['end']->modify( '-1 day' ),
+					'end_date'   => $period['end'],
 				]
 			)
 		);
