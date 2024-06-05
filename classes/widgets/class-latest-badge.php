@@ -22,6 +22,13 @@ final class Latest_Badge extends Widget {
 	protected $id = 'latest-badge';
 
 	/**
+	 * The endpoint to get the badge image.
+	 *
+	 * @var string
+	 */
+	const ENDPOINT = 'https://progressplanner.com/wp-json/progress-planner-saas/v1/share-badge?badge=';
+
+	/**
 	 * Render the widget content.
 	 *
 	 * @return void
@@ -51,21 +58,7 @@ final class Latest_Badge extends Widget {
 				);
 				?>
 			</p>
-			<div class="prpl-badge-wrapper prpl-badge-latest two-col narrow">
-				<span class="prpl-badge-watermark"></span>
-				<div class="badge-svg">
-					<?php include $latest_badge['icons-svg']['complete']['path']; ?>
-				</div>
-				<div>
-					<?php
-					printf(
-						/* translators: %s: The badge name. */
-						\esc_html__( 'Yes! I have earned a new Progress Planner badge: I am a %s!', 'progress-planner' ),
-						'<strong>' . \esc_html( $latest_badge['name'] ) . '</strong>'
-					);
-					?>
-				</div>
-			</div>
+			<img src="<?php echo esc_url( self::ENDPOINT . $latest_badge_id ); ?>" alt="<?php echo esc_attr( $latest_badge['name'] ); ?>" />
 		<?php endif; ?>
 		<?php
 	}
