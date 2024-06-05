@@ -31,6 +31,7 @@ const progressPlannerTriggerScan = () => {
 			document.getElementById(
 				'progress-planner-scan-progress'
 			).style.display = 'none';
+			window.location.href = window.location.href.replace( '&content-scan', '' );
 			return;
 		}
 
@@ -69,3 +70,17 @@ const progressPlannerTriggerScan = () => {
 		failAction,
 	} );
 };
+
+document.getElementById( 'prpl-scan-button' ).addEventListener( 'click', ( event ) => {
+	event.preventDefault();
+	document.getElementById( 'prpl-scan-button' ).disabled = true;
+	progressPlannerAjaxRequest( {
+		url: progressPlanner.ajaxUrl,
+		data: {
+			action: 'progress_planner_reset_posts_data',
+			_ajax_nonce: progressPlanner.nonce,
+		},
+		successAction: progressPlannerTriggerScan,
+		failAction: progressPlannerTriggerScan,
+	} );
+} );

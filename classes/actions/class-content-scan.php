@@ -38,6 +38,7 @@ class Content_Scan extends Content_Action {
 	public function register_hooks() {
 		// Add hooks to handle scanning existing posts.
 		\add_action( 'wp_ajax_progress_planner_scan_posts', [ $this, 'ajax_scan' ] );
+		\add_action( 'wp_ajax_progress_planner_reset_posts_data', [ $this, 'ajax_reset_posts_data' ] );
 	}
 
 	/**
@@ -61,6 +62,36 @@ class Content_Scan extends Content_Action {
 				'progress'    => $updated_stats['progress'],
 				'messages'    => [
 					'scanComplete' => \esc_html__( 'Scan complete.', 'progress-planner' ),
+				],
+			]
+		);
+	}
+
+	/**
+	 * Ajax reset posts data.
+	 *
+	 * @return void
+	 */
+	public function ajax_reset_posts_data() {
+		// Check the nonce.
+		if ( ! \check_ajax_referer( 'progress_planner', 'nonce', false ) ) {
+			\wp_send_json_error( [ 'message' => \esc_html__( 'Invalid nonce.', 'progress-planner' ) ] );
+		}
+
+		// Reset the last scanned page.
+		Settings::set( static::LAST_SCANNED_PAGE_OPTION, 0 );
+
+		// Reset the activities.
+		$activities = \progress_planner()->get_query()->query_activities( [ 'category' => 'content' ] );
+		\progress_planner()->get_query()->delete_activities( $activities );
+
+		// Reset the word count.
+		Settings::set( 'word_count', [] );
+
+		\wp_send_json_success(
+			[
+				'messages' => [
+					'resetComplete' => \esc_html__( 'Reset complete.', 'progress-planner' ),
 				],
 			]
 		);
