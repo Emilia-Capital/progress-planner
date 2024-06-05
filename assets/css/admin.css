@@ -531,15 +531,9 @@ button.prpl-info-icon {
 /*------------------------------------*\
 	Latest badge widget.
 \*------------------------------------*/
-.prpl-badge-wrapper.prpl-badge-latest {
-	background: var(--prpl-background-blue);
-	padding: var(--prpl-padding);
-	border-radius: var(--prpl-border-radius);
-	border: 1px solid var(--prpl-color-accent-green);
-}
 
-.prpl-badge-wrapper.prpl-badge-latest .badge-svg {
-	align-self: start;
+.prpl-widget-wrapper.prpl-latest-badge img {
+	border: 1px solid var(--prpl-color-gray-2);
 }
 
 /*------------------------------------*\
