@@ -514,6 +514,10 @@ button.prpl-info-icon {
 /*------------------------------------*\
 	What's new widget.
 \*------------------------------------*/
+.prpl-widget-wrapper.prpl-whats-new ul {
+	margin-top: 0;
+}
+
 .prpl-widget-wrapper.prpl-whats-new li > a {
 	color: var(--prpl-color-gray-6);
 	text-decoration: none;
@@ -931,4 +935,65 @@ button.prpl-info-icon {
 
 #todo-list li input[type=checkbox]:checked::before {
 	content: url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2020%2020%27%3E%3Cpath%20d%3D%27M14.83%204.89l1.34.94-5.81%208.38H9.02L5.78%209.67l1.34-1.25%202.57%202.4z%27%20fill%3D%27%2316a34a%27%2F%3E%3C%2Fsvg%3E");
+}
+
+/*------------------------------------*\
+	Dashboard widget styles.
+\*------------------------------------*/
+#progress_planner_dashboard_widget_score .prpl-dashboard-widget {
+	display: grid;
+	grid-template-columns: 1fr 1px auto;
+	grid-gap: calc(var(--prpl-gap) / 2);
+}
+
+#progress_planner_dashboard_widget_score .prpl-badge-wrapper {
+	background: none;
+	display: grid;
+	grid-template-columns: 1fr max-content;
+	grid-gap: 1em;
+	align-items: center;
+	border: none;
+	padding: 0 0 1em 0;
+}
+
+#progress_planner_dashboard_widget_score .prpl-badge-wrapper .progress-percent {
+	font-size: 28px;
+	font-weight: 500;
+}
+
+#progress_planner_dashboard_widget_score h3 {
+	font-weight: 500;
+}
+
+#progress_planner_dashboard_widget_score .grid-separator {
+	background: #c3c4c7; /* same color as the one WP-Core uses */
+	height: 100%;
+}
+
+#progress_planner_dashboard_widget_score .prpl-badge-gauge {
+	width: 56px;
+}
+
+#progress_planner_dashboard_widget_score .prpl-dashboard-widget-footer {
+	margin-top: 1em;
+	padding-top: 1em;
+	border-top: 1px solid #c3c4c7; /* same color as the one WP-Core uses */
+	display: flex;
+	gap: 1em;
+	align-items: center;
+}
+
+/*------------------------------------*\
+	Progress Planner TODO Dashboard widget styles.
+\*------------------------------------*/
+#progress_planner_dashboard_widget_todo #create-todo-item {
+	padding: 0 16px;
+}
+
+#prpl-dashboard-widget-todo-header {
+	display: flex;
+	gap: 1em;
+	align-items: center;
+	margin-bottom: 1em;
+	padding: 0 16px;
 }

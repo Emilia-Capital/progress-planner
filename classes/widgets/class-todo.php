@@ -42,6 +42,17 @@ final class ToDo extends Widget {
 		<p>
 			<?php \esc_html_e( 'Write down all your website maintenance tasks you want to get done!', 'progress-planner' ); ?>
 		</p>
+		<?php
+		self::the_todo_list();
+	}
+
+	/**
+	 * The TODO list.
+	 *
+	 * @return void
+	 */
+	public static function the_todo_list() {
+		?>
 		<ul id="todo-list" class="prpl-todo-list"></ul>
 
 		<form id="create-todo-item">
