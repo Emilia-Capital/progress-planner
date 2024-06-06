@@ -290,19 +290,20 @@ button.prpl-info-icon {
 .prpl-widget-wrapper.prpl-website-activity-score .prpl-icon {
 	display: inline-block;
 	text-align: center;
-	width: 20px;
+	width: .75em;
 	font-size: 1.25em;
 	margin-right: 5px;
+	vertical-align: top;
 }
 
-.prpl-widget-wrapper.prpl-website-activity-score .prpl-icon.prpl-green {
+/* .prpl-widget-wrapper.prpl-website-activity-score .prpl-icon.prpl-green {
 	color: var(--prpl-color-notification-green);
 
 }
 
 .prpl-widget-wrapper.prpl-website-activity-score .prpl-icon.prpl-red {
 	color: var(--prpl-color-notification-red);
-}
+} */
 
 .prpl-gauge-number {
 	font-size: var(--prpl-font-size-6xl);
