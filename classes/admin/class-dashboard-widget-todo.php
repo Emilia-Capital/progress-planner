@@ -29,7 +29,7 @@ class Dashboard_Widget_Todo extends Dashboard_Widget {
 	 * @return string
 	 */
 	protected function get_title() {
-		return \esc_html__( 'Progress Planner to-do tasks', 'progress-planner' );
+		return \esc_html__( 'To-do list Progress Planner', 'progress-planner' );
 	}
 
 	/**
