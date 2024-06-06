@@ -36,37 +36,35 @@ final class Personal_Record_Content extends Widget {
 		<div class="two-col narrow">
 			<?php $this->render_big_counter( (int) $record['max_streak'], __( 'Personal record', 'progress-planner' ) ); ?>
 			<div class="prpl-widget-content">
-				<p>
-					<?php if ( (int) $record['max_streak'] === 0 ) : ?>
-						<?php \esc_html_e( 'This is the start of your first streak! Add content to your site every week and set a personal record!', 'progress-planner' ); ?>
-					<?php elseif ( (int) $record['max_streak'] <= (int) $record['current_streak'] ) : ?>
-						<?php
-						printf(
-							/* translators: %s: number of weeks. */
-							\esc_html__( 'Congratulations! You\'re on a streak! You\'ve consistently maintained your website for the past %s! 🎉', 'progress-planner' ),
-							Base::weeks( $record['current_streak'] ) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-						);
-						?>
-					<?php elseif ( 1 < $record['current_streak'] ) : ?>
-						<?php
-						printf(
-							/* translators: %1$s: number of weeks for the current streak. %2$s: number of weeks for the maximum streak. %3$s: The number of weeks to go in order to break the record. */
-							\esc_html__( 'Keep it up! You\'ve consistently maintained your website for the past %1$s. Your longest streak was %2$s, you have %3$s to go to break your record!', 'progress-planner' ),
-							Base::weeks( $record['current_streak'] ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-							Base::weeks( $record['max_streak'] ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-							Base::weeks( $record['max_streak'] - $record['current_streak'] ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-						);
-						?>
-					<?php else : ?>
-						<?php
-						printf(
-							/* translators: %1$s: number of weeks for the maximum streak. */
-							\esc_html__( 'Get back to your streak! Your longest streak was %1$s. Keep working on those website maintenance tasks every week and break your record!', 'progress-planner' ),
-							Base::weeks( $record['max_streak'] ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-						);
-						?>
-					<?php endif; ?>
-				</p>
+				<?php if ( (int) $record['max_streak'] === 0 ) : ?>
+					<?php \esc_html_e( 'This is the start of your first streak! Add content to your site every week and set a personal record!', 'progress-planner' ); ?>
+				<?php elseif ( (int) $record['max_streak'] <= (int) $record['current_streak'] ) : ?>
+					<?php
+					printf(
+						/* translators: %s: number of weeks. */
+						\esc_html__( 'Congratulations! You\'re on a streak! You\'ve consistently maintained your website for the past %s! 🎉', 'progress-planner' ),
+						Base::weeks( $record['current_streak'] ) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					);
+					?>
+				<?php elseif ( 1 < $record['current_streak'] ) : ?>
+					<?php
+					printf(
+						/* translators: %1$s: number of weeks for the current streak. %2$s: number of weeks for the maximum streak. %3$s: The number of weeks to go in order to break the record. */
+						\esc_html__( 'Keep it up! You\'ve consistently maintained your website for the past %1$s. Your longest streak was %2$s, you have %3$s to go to break your record!', 'progress-planner' ),
+						Base::weeks( $record['current_streak'] ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						Base::weeks( $record['max_streak'] ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						Base::weeks( $record['max_streak'] - $record['current_streak'] ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					);
+					?>
+				<?php else : ?>
+					<?php
+					printf(
+						/* translators: %1$s: number of weeks for the maximum streak. */
+						\esc_html__( 'Get back to your streak! Your longest streak was %1$s. Keep working on those website maintenance tasks every week and break your record!', 'progress-planner' ),
+						Base::weeks( $record['max_streak'] ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					);
+					?>
+				<?php endif; ?>
 			</div>
 		</div>
 		<?php

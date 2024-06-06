@@ -70,6 +70,7 @@
 .prpl-wrap p {
 	font-size: var(--prpl-font-size-base);
 	color: var(--prpl-color-text);
+	margin: var(--prpl-padding) 0;
 }
 
 .prpl-wrap h2:has(+ p) {
@@ -188,6 +189,10 @@ button.prpl-info-icon {
 	gap: var(--prpl-gap);
 }
 
+.two-col:has(.counter-big-wrapper) {
+	gap: var(--prpl-padding);
+}
+
 .two-col > * {
 	flex: 1;
 	min-width: 12em;
@@ -223,6 +228,7 @@ button.prpl-info-icon {
 	align-items: center;
 	text-align: center;
 	align-content: center;
+	justify-content: center;
 }
 
 .prpl-wrap .counter-big-number {
