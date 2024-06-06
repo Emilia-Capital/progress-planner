@@ -44,26 +44,38 @@ final class Website_Activity_Score extends Widget {
 	 *
 	 * @return void
 	 */
-	public static function print_score_gauge() {
+	public static function print_score_gauge( $background_color = 'var(--prpl-background-orange)', $description = '' ) {
 		$score = self::get_score();
 		?>
-		<div>
+		<div class="prpl-activities-gauge-container-container">
 			<div class="prpl-activities-gauge-container">
 				<div
 					class="prpl-activities-gauge"
 					style="
+					
 						--value:<?php echo (float) ( $score / 100 ); ?>;
-						--background: var(--prpl-background-orange);
+						--background: <?php echo \esc_attr( $background_color ); ?>;
 						--max: 180deg;
 						--start: 270deg;
 						--color:<?php echo \esc_attr( self::get_gauge_color( $score ) ); ?>"
 				>
+					<span class="prpl-gauge-0">
+						0
+					</span>					
 					<span class="prpl-gauge-number">
 						<?php echo (int) $score; ?>
 					</span>
+					<span class="prpl-gauge-100">
+						100
+					</span>
 				</div>
 			</div>
-			<?php \esc_html_e( 'Your Website Activity Score is based on the amount of website maintenance work you\'ve done over the past 30 days.', 'progress-planner' ); ?>
+			<?php
+			if ( empty( $description ) ) {
+				\esc_html_e( 'Your Website Activity Score is based on the amount of website maintenance work you\'ve done over the past 30 days.', 'progress-planner' );
+			} else {
+				echo $description;
+			} ?>
 		</div>
 		<?php
 	}

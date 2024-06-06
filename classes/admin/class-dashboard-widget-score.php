@@ -29,7 +29,7 @@ class Dashboard_Widget_Score extends Dashboard_Widget {
 	 * @return string
 	 */
 	protected function get_title() {
-		return \esc_html__( 'Progress Planner site score', 'progress-planner' );
+		return \esc_html__( 'Progress Planner', 'progress-planner' );
 	}
 
 	/**
@@ -42,7 +42,7 @@ class Dashboard_Widget_Score extends Dashboard_Widget {
 		?>
 		<div class="prpl-dashboard-widget">
 			<div class="prpl-score-gauge">
-				<?php \Progress_Planner\Widgets\Website_Activity_Score::print_score_gauge(); ?>
+				<?php \Progress_Planner\Widgets\Website_Activity_Score::print_score_gauge( '#ffffff', '<p>' . \esc_html__( 'Website activity score', 'progress-planner' ) . '</p>' ); ?>
 			</div>
 			<div class="grid-separator"></div>
 			<div class="prpl-badges">
@@ -55,7 +55,7 @@ class Dashboard_Widget_Score extends Dashboard_Widget {
 		<div class="prpl-dashboard-widget-footer">
 			<img src="<?php echo esc_attr( PROGRESS_PLANNER_URL . '/assets/images/icon_progress_planner.svg' ); ?>" style="width:1.5em;" alt="" />
 			<a href="<?php echo \esc_url( \get_admin_url( null, 'admin.php?page=progress-planner' ) ); ?>">
-				<?php \esc_html_e( 'See more details', 'progress-planner' ); ?>
+				<?php \esc_html_e( 'Check out all your stats and badges', 'progress-planner' ); ?>
 			</a>
 		</div>
 		<?php
