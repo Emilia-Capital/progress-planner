@@ -44,12 +44,58 @@ class Dashboard_Widget_Score extends Dashboard_Widget {
 			<div class="prpl-score-gauge">
 				<?php \Progress_Planner\Widgets\Website_Activity_Score::print_score_gauge( '#ffffff', '<p>' . \esc_html__( 'Website activity score', 'progress-planner' ) . '</p>' ); ?>
 			</div>
+
 			<div class="grid-separator"></div>
+
 			<div class="prpl-badges">
 				<h3><?php \esc_html_e( 'Next badges', 'progress-planner' ); ?></h3>
 				<?php $this->the_badge( 'content' ); ?>
 				<?php $this->the_badge( 'streak' ); ?>
 			</div>
+		</div>
+
+		<div class="prpl-dashboard-widget-latest-activities">
+			<h3><?php \esc_html_e( 'Latest activities', 'progress-planner' ); ?></h3>
+
+			<?php
+			$latest_activities = \progress_planner()->get_query()->get_latest_activities( 2 );
+			$activity_type_map = [
+				'content-publish'               => __( 'Published content', 'progress-planner' ),
+				'content-update'                => __( 'Updated content', 'progress-planner' ),
+				'content-delete'                => __( 'Deleted content', 'progress-planner' ),
+				'maintenance-activate_plugin'   => __( 'Activated a plugin', 'progress-planner' ),
+				'maintenance-deactivate_plugin' => __( 'Deactivated a plugin', 'progress-planner' ),
+				'maintenance-install_plugin'    => __( 'Installed a plugin', 'progress-planner' ),
+				'maintenance-uninstall_plugin'  => __( 'Uninstalled a plugin', 'progress-planner' ),
+				'maintenance-update_plugin'     => __( 'Updated a plugin', 'progress-planner' ),
+				'maintenance-activate_theme'    => __( 'Activated a theme', 'progress-planner' ),
+				'maintenance-deactivate_theme'  => __( 'Deactivated a theme', 'progress-planner' ),
+				'maintenance-install_theme'     => __( 'Installed a theme', 'progress-planner' ),
+				'maintenance-uninstall_theme'   => __( 'Uninstalled a theme', 'progress-planner' ),
+				'maintenance-update_theme'      => __( 'Updated a theme', 'progress-planner' ),
+				'maintenance-update_core'       => __( 'Updated WordPress Core', 'progress-planner' ),
+				'todo-add'                      => __( 'Added a task to the to-do list', 'progress-planner' ),
+				'todo-update'                   => __( 'Updated a task in the to-do list', 'progress-planner' ),
+				'todo-delete'                   => __( 'Deleted a task from the to-do list', 'progress-planner' ),
+			];
+			?>
+			<ul>
+				<?php foreach ( $latest_activities as $activity ) : ?>
+					<li>
+						<?php
+						if ( isset( $activity_type_map[ $activity->category . '-' . $activity->type ] ) ) {
+							echo esc_html( $activity_type_map[ $activity->category . '-' . $activity->type ] );
+						} elseif ( 'content' === $activity->category ) {
+							esc_html_e( 'Updated content', 'progress-planner' );
+						} elseif ( 'maintenance' === $activity->category ) {
+							esc_html_e( 'Site maintenance', 'progress-planner' );
+						} elseif ( 'todo' === $activity->category ) {
+							esc_html_e( 'Updated To-do list', 'progress-planner' );
+						}
+						?>
+					</li>
+				<?php endforeach; ?>
+			</ul>
 		</div>
 
 		<div class="prpl-dashboard-widget-footer">

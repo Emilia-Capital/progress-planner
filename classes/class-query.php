@@ -378,6 +378,32 @@ class Query {
 	}
 
 	/**
+	 * Get latest activities.
+	 *
+	 * @param int $limit The number of activities to get.
+	 *
+	 * @return \Progress_Planner\Activity[]|null The activities. Returns null if there are no activities.
+	 */
+	public function get_latest_activities( $limit = 5 ) {
+		global $wpdb;
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		$results = $wpdb->get_results(
+			$wpdb->prepare(
+				'SELECT * FROM %i ORDER BY date DESC LIMIT %d',
+				$wpdb->prefix . static::TABLE_NAME,
+				$limit
+			)
+		);
+
+		if ( ! $results ) {
+			return null;
+		}
+
+		return $this->get_activities_from_results( $results );
+	}
+
+	/**
 	 * Get oldest activity.
 	 *
 	 * @return \Progress_Planner\Activity|null Returns null if there are no activities.
