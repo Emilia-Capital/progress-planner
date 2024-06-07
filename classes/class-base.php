@@ -114,6 +114,8 @@ class Base {
 
 		// To-do.
 		new Todo();
+
+		add_filter( 'plugin_action_links_' . plugin_basename( PROGRESS_PLANNER_FILE ), [ $this, 'add_action_links' ] );
 	}
 
 	/**
@@ -159,5 +161,18 @@ class Base {
 				$formatted_number_weeks
 			)
 		);
+	}
+
+	/**
+	 * Add action link to dashboard page.
+	 *
+	 * @param array $actions Existing actions.
+	 *
+	 * @return array
+	 */
+	public function add_action_links ( $actions ) {
+		$mylinks = [ '<a href="' . admin_url( 'admin.php?page=progress-planner' ) . '">Dashboard</a>' ];
+		$actions = array_merge( $actions, $mylinks );
+		return $actions;
 	}
 }
