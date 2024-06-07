@@ -23,7 +23,9 @@ class Content_Helpers {
 	 */
 	public static function get_post_types_names() {
 		$post_types = \get_post_types( [ 'public' => true ] );
+		$post_types = \array_filter( $post_types, 'is_post_type_viewable' );
 		unset( $post_types['attachment'] );
+		unset( $post_types['elementor_library'] ); // Elementor templates are not a post type we want to track.
 
 		return array_keys( $post_types );
 	}
