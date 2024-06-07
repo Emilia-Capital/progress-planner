@@ -573,7 +573,7 @@ button.prpl-info-icon {
 	margin-bottom: 1em;
 	border-radius: var(--prpl-border-radius);
 	box-shadow: 5px 5px 5px var(--prpl-color-gray-2);
-	border: 1px solid var(--prpl-color-gray-3);
+	border: 1px solid var(--prpl-color-gray-2);
 }
 
 /*------------------------------------*\
@@ -582,6 +582,7 @@ button.prpl-info-icon {
 
 .prpl-widget-wrapper.prpl-latest-badge img {
 	border: 1px solid var(--prpl-color-gray-2);
+	border-radius: var(--prpl-border-radius);
 }
 
 /*------------------------------------*\
