@@ -1027,6 +1027,11 @@ button.prpl-info-icon {
 	border-top: 1px solid #c3c4c7; /* same color as the one WP-Core uses */
 }
 
+#progress_planner_dashboard_widget_score .prpl-dashboard-widget-latest-activities li {
+	display: flex;
+	justify-content: space-between;
+}
+
 #progress_planner_dashboard_widget_score .prpl-dashboard-widget-footer {
 	margin-top: 1em;
 	padding-top: 1em;
