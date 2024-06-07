@@ -71,16 +71,18 @@ const progressPlannerTriggerScan = () => {
 	} );
 };
 
-document.getElementById( 'prpl-scan-button' ).addEventListener( 'click', ( event ) => {
-	event.preventDefault();
-	document.getElementById( 'prpl-scan-button' ).disabled = true;
-	progressPlannerAjaxRequest( {
-		url: progressPlanner.ajaxUrl,
-		data: {
-			action: 'progress_planner_reset_posts_data',
-			_ajax_nonce: progressPlanner.nonce,
-		},
-		successAction: progressPlannerTriggerScan,
-		failAction: progressPlannerTriggerScan,
+if ( document.getElementById( 'prpl-scan-button' ) ) {
+	document.getElementById( 'prpl-scan-button' ).addEventListener( 'click', ( event ) => {
+		event.preventDefault();
+		document.getElementById( 'prpl-scan-button' ).disabled = true;
+		progressPlannerAjaxRequest( {
+			url: progressPlanner.ajaxUrl,
+			data: {
+				action: 'progress_planner_reset_posts_data',
+				_ajax_nonce: progressPlanner.nonce,
+			},
+			successAction: progressPlannerTriggerScan,
+			failAction: progressPlannerTriggerScan,
+		} );
 	} );
-} );
+}
