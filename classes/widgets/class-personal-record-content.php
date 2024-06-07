@@ -46,7 +46,7 @@ final class Personal_Record_Content extends Widget {
 						Base::weeks( $record['current_streak'] ) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					);
 					?>
-				<?php elseif ( 1 < $record['current_streak'] ) : ?>
+				<?php elseif ( 1 <= $record['current_streak'] ) : ?>
 					<?php
 					printf(
 						/* translators: %1$s: number of weeks for the current streak. %2$s: number of weeks for the maximum streak. %3$s: The number of weeks to go in order to break the record. */
