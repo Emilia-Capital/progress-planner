@@ -46,12 +46,26 @@ Currently, Progress Planner supports tracking for one website per WordPress inst
 
 We are currently creating a Pro version of Progress Planner. The Pro version will include guided tutorials, goal settings, and reminders.
 
+= Where do I file bugs? =
+
+If you've found a bug, please report it on [our GitHub repository](https://github.com/emilia-Capital/progress-planner/issues/). You'd help us a lot by searching for existing issues first.
+
 == Installation ==
 
+1. Search for Progress Planner on the "Add new plugins" screen in your WordPress plugin.
+2. Install the plugin.
+3. Activate the plugin.
+4. Go to the Progress Planner admin screen and complete our onboarding.
+5. You're done.
+
 == Screenshots ==
+
+1. See your website activity score.
+2. Collect badges!
+3. Keep track of your website to-do's!
 
 == Changelog ==
 
 = 0.9 =
 
-Initial release on GitHub.
+Initial release on GitHub and WordPress.org.

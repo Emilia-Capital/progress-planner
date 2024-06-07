@@ -11,7 +11,7 @@
  * Requires PHP:      7.4
  * Version:           0.9
  * Author:            Team Emilia Projects
- * Author URI:        https://emilia.capital/
+ * Author URI:        https://progressplanner.com/about-progress-planner/
  * License:           GPL-3.0+
  * License URI:       https://www.gnu.org/licenses/gpl-3.0.html
  * Text Domain:       progress-planner
