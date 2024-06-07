@@ -535,7 +535,11 @@ button.prpl-info-icon {
 	What's new widget.
 \*------------------------------------*/
 .prpl-widget-wrapper.prpl-whats-new ul {
-	margin-top: 0;
+	margin: 0;
+}
+
+.prpl-widget-wrapper.prpl-whats-new ul p {
+	margin: 0;
 }
 
 .prpl-widget-wrapper.prpl-whats-new li > a {
@@ -566,6 +570,7 @@ button.prpl-info-icon {
 	min-height: 120px;
 	aspect-ratio: 16 / 9;
 	background-size: cover;
+	margin-bottom: 1em;
 }
 
 /*------------------------------------*\
