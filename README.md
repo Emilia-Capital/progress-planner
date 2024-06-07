@@ -1,3 +1,8 @@
+[![Test](https://github.com/Emilia-Capital/progress-planner/actions/workflows/phpunit.yml/badge.svg)](https://github.com/Emilia-Capital/progress-planner/actions/workflows/phpunit.yml)
+[![CS](https://github.com/Emilia-Capital/progress-planner/actions/workflows/cs.yml/badge.svg)](https://github.com/Emilia-Capital/progress-planner/actions/workflows/cs.yml)
+[![PHPStan](https://github.com/Emilia-Capital/progress-planner/actions/workflows/phpstan.yml/badge.svg)](https://github.com/Emilia-Capital/progress-planner/actions/workflows/phpstan.yml)
+[![Lint](https://github.com/Emilia-Capital/progress-planner/actions/workflows/lint.yml/badge.svg)](https://github.com/Emilia-Capital/progress-planner/actions/workflows/lint.yml)
+
 # Progress Planner
 
 ![Progress Planner - Powering your website's progress](https://repository-images.githubusercontent.com/753019432/24c42936-cd56-4192-8f28-503073087bd1)
