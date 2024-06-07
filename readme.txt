@@ -1,5 +1,5 @@
 === Progress Planner ===
-Contributors: joostdevalk, aristath
+Contributors: joostdevalk, aristath, mariekerakt, irisguelen, samalderson
 Tags: planning, maintenance, writing, blogging
 Requires at least: 6.3
 Tested up to: 6.5
@@ -51,6 +51,10 @@ We are currently creating a Pro version of Progress Planner. The Pro version wil
 If you've found a bug, please report it on [our GitHub repository](https://github.com/emilia-Capital/progress-planner/issues/). You'd help us a lot by searching for existing issues first.
 
 == Installation ==
+
+This video shows you how to install the plugin:
+
+https://youtu.be/e1bmxZYyXFY
 
 1. Search for Progress Planner on the "Add new plugins" screen in your WordPress plugin.
 2. Install the plugin.
