@@ -106,21 +106,6 @@ final class Personal_Record_Content extends Widget {
 			]
 		);
 
-		$saved_progress = Settings::get( [ 'badges', 'record' ], false );
-		// If the date is set and shorter than 2 days, return it without querying.
-		if ( $saved_progress && is_array( $saved_progress['progress'] ) && ( new \DateTime() )->diff( new \DateTime( $saved_progress['date'] ) )->days < 2 ) {
-			return $saved_progress['progress'];
-		}
-
-		$final = $goal->get_streak();
-		Settings::set(
-			[ 'badges', 'record' ],
-			[
-				'progress' => $final,
-				'date'     => ( new \DateTime() )->format( 'Y-m-d H:i:s' ),
-			]
-		);
-
 		return $goal->get_streak();
 	}
 }
