@@ -42,6 +42,9 @@ final class Website_Activity_Score extends Widget {
 	/**
 	 * Print the score gauge.
 	 *
+	 * @param string $background_color The background color.
+	 * @param string $description      The description.
+	 *
 	 * @return void
 	 */
 	public static function print_score_gauge( $background_color = 'var(--prpl-background-orange)', $description = '' ) {
@@ -52,7 +55,6 @@ final class Website_Activity_Score extends Widget {
 				<div
 					class="prpl-activities-gauge"
 					style="
-					
 						--value:<?php echo (float) ( $score / 100 ); ?>;
 						--background: <?php echo \esc_attr( $background_color ); ?>;
 						--max: 180deg;
@@ -61,7 +63,7 @@ final class Website_Activity_Score extends Widget {
 				>
 					<span class="prpl-gauge-0">
 						0
-					</span>					
+					</span>
 					<span class="prpl-gauge-number">
 						<?php echo (int) $score; ?>
 					</span>
@@ -74,8 +76,9 @@ final class Website_Activity_Score extends Widget {
 			if ( empty( $description ) ) {
 				\esc_html_e( 'Your Website Activity Score is based on the amount of website maintenance work you\'ve done over the past 30 days.', 'progress-planner' );
 			} else {
-				echo $description;
-			} ?>
+				echo \wp_kses_post( $description );
+			}
+			?>
 		</div>
 		<?php
 	}
