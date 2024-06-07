@@ -1,0 +1,27 @@
+{
+	"name": "progress-planner",
+	"version": "0.9.0",
+	"private": true,
+	"description": "WordPress plugin",
+	"author": "Team Emilia Projects",
+	"license": "GPL-3.0-or-later",
+	"keywords": [
+		"WordPress",
+		"plugin"
+	],
+	"engines": {
+		"node": ">=20.10.0",
+		"npm": ">=10.2.3"
+	},
+	"devDependencies": {
+		"@wordpress/scripts": "*",
+		"@wordpress/stylelint-config": "*"
+	},
+	"scripts": {
+		"format": "wp-scripts format ./assets",
+		"lint:css": "wp-scripts lint-style \"**/*.css\"",
+		"lint:css:fix": "npm run lint:css -- --fix",
+		"lint:js": "wp-scripts lint-js ./assets/js/*.js",
+		"lint:js:fix": "npm run lint:js -- --fix"
+	}
+}
