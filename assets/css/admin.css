@@ -541,6 +541,8 @@ button.prpl-info-icon {
 
 .prpl-widget-wrapper.prpl-whats-new li > a h3 {
 	margin-top: 0;
+	font-size: 1.15em;
+	font-weight: 600;
 }
 
 .prpl-widget-wrapper.prpl-whats-new li > a h3::after {
@@ -553,6 +555,13 @@ button.prpl-info-icon {
 
 .prpl-widget-wrapper.prpl-whats-new li img {
 	width: 100%;
+}
+
+.prpl-blog-post-image {
+	width: 100%;
+	min-height: 120px;
+	aspect-ratio: 16 / 9;
+	background-size: cover;
 }
 
 /*------------------------------------*\

@@ -45,7 +45,7 @@ final class Whats_New extends Widget {
 					<a href="<?php echo \esc_url( $blog_post['link'] ); ?>" target="_blank">
 						<h3><?php echo \esc_html( $blog_post['title']['rendered'] ); ?></h3>
 						<?php if ( isset( $blog_post['featured_media']['media_details']['sizes']['medium_large']['source_url'] ) ) : ?>
-							<img src="<?php echo \esc_url( $blog_post['featured_media']['media_details']['sizes']['medium_large']['source_url'] ); ?>" alt="">
+							<div class="prpl-blog-post-image" style="background-image:url(<?php echo \esc_url( $blog_post['featured_media']['media_details']['sizes']['medium_large']['source_url'] ); ?>)"></div>
 						<?php endif; ?>
 					</a>
 					<p>
