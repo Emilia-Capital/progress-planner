@@ -147,7 +147,10 @@ class Onboard {
 
 		<div>
 			<p id="prpl-account-created-message" style="display:none;">
-				<?php printf( \esc_html__( 'Success! We created an account for you on %s so we can email you every week.', 'progress-planner' ), '<a href="https://progressplanner.com/">ProgressPlanner.com</a>' ); ?>
+				<?php
+				// translators: %s: progressplanner.com link.
+				printf( \esc_html__( 'Success! We created an account for you on %s so we can email you every week.', 'progress-planner' ), '<a href="https://progressplanner.com/">ProgressPlanner.com</a>' );
+				?>
 			</p>
 			<div id="progress-planner-scan-progress" style="display:none;">
 				<progress value="0" max="100"></progress>
