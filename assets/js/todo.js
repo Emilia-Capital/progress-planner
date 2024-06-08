@@ -2,7 +2,7 @@
 
 jQuery( document ).ready( function () {
 	const saveTodoList = () => {
-		const todoList = [];
+		let todoList = [];
 
 		jQuery( '#todo-list li' ).each( function () {
 			todoList.push( {
@@ -12,6 +12,10 @@ jQuery( document ).ready( function () {
 					.prop( 'checked' ),
 			} );
 		} );
+
+		if ( todoList.length === 0 ) {
+			todoList = 'empty';
+		}
 
 		// Save the todo list to the database
 		jQuery.post( progressPlannerTodo.ajaxUrl, {
