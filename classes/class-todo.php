@@ -71,7 +71,7 @@ class Todo {
 
 		if ( $_POST['todo_list'] === 'empty' ) {
 			\delete_option( self::OPTION_NAME );
-			\wp_send_json_success( [ 'message' => \esc_html__( 'Saved.', 'progress-planner' ) ] );	
+			\wp_send_json_success( [ 'message' => \esc_html__( 'Saved.', 'progress-planner' ) ] );
 		}
 
 		$items          = [];
