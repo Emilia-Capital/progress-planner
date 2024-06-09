@@ -53,6 +53,8 @@ final class ToDo extends Widget {
 	 */
 	public static function the_todo_list() {
 		?>
+		<div id="todo-aria-live-region" aria-live="polite" style="position: absolute; left: -9999px;"></div>
+
 		<ul id="todo-list" class="prpl-todo-list"></ul>
 
 		<form id="create-todo-item">

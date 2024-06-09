@@ -1,6 +1,10 @@
 /* global progressPlannerTodo, jQuery */
 
 jQuery( document ).ready( function () {
+	const announce = (message) => {
+		jQuery('#todo-aria-live-region').text(message);
+	};
+	
 	const saveTodoList = () => {
 		const todoList = [];
 
@@ -123,6 +127,10 @@ jQuery( document ).ready( function () {
 			! todoItemDone,
 			true // Save.
 		);
+
+		// Announce the status change and move focus to the moved item
+		const status = todoItemDone ? 'completed and moved to the bottom' : 'marked as not completed and moved to the top';
+		announce(`Task '${todoItemContent}' ${status}`);
 	} );
 
 	// When an item's contenteditable element is edited,
