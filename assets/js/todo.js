@@ -1,10 +1,9 @@
 /* global progressPlannerTodo, jQuery */
 
 jQuery( document ).ready( function () {
-	const announce = (message) => {
-		jQuery('#todo-aria-live-region').text(message);
+	const announce = ( message ) => {
+		jQuery( '#todo-aria-live-region' ).text( message );
 	};
-	
 	const saveTodoList = () => {
 		const todoList = [];
 
@@ -12,15 +11,19 @@ jQuery( document ).ready( function () {
 			const content = jQuery( this ).find( '.content' ).text();
 
 			todoList.push( {
-				content: content,
+				content,
 				done: jQuery( this )
 					.find( 'input[type="checkbox"]' )
 					.prop( 'checked' ),
 			} );
 
 			// Update aria-labels
-			jQuery( this ).find( 'input[type="checkbox"]' ).attr( 'aria-label', content );
-			jQuery( this ).find( '.trash' ).attr( 'aria-label', `Delete task '${ content }'` );
+			jQuery( this )
+				.find( 'input[type="checkbox"]' )
+				.attr( 'aria-label', content );
+			jQuery( this )
+				.find( '.trash' )
+				.attr( 'aria-label', `Delete task '${ content }'` );
 		} );
 
 		// Save the todo list to the database
@@ -78,9 +81,9 @@ jQuery( document ).ready( function () {
 		}
 
 		// Focus the new task's content element after it is added to the DOM
-		setTimeout(() => {
-			todoItemElement.find('input[type="checkbox"]').focus();
-		}, 0);
+		setTimeout( () => {
+			todoItemElement.find( 'input[type="checkbox"]' ).focus();
+		}, 0 );
 
 		if ( save ) {
 			saveTodoList();
@@ -129,8 +132,10 @@ jQuery( document ).ready( function () {
 		);
 
 		// Announce the status change and move focus to the moved item
-		const status = todoItemDone ? 'completed and moved to the bottom' : 'marked as not completed and moved to the top';
-		announce(`Task '${todoItemContent}' ${status}`);
+		const status = todoItemDone
+			? 'completed and moved to the bottom'
+			: 'marked as not completed and moved to the top';
+		announce( `Task '${ todoItemContent }' ${ status }` );
 	} );
 
 	// When an item's contenteditable element is edited,
@@ -142,19 +147,19 @@ jQuery( document ).ready( function () {
 	// When the trash button is clicked, remove the todo item from the list
 	jQuery( '#todo-list' ).on( 'click', '.trash', function () {
 		const todoItem = jQuery( this ).closest( 'li' );
-		const nextItem = todoItem.next('li');
-		const prevItem = todoItem.prev('li');
+		const nextItem = todoItem.next( 'li' );
+		const prevItem = todoItem.prev( 'li' );
 
 		todoItem.remove();
 		saveTodoList();
 
 		// Shift focus to the next item if available, otherwise to the previous item, otherwise to the input field
-		if (nextItem.length) {
-			nextItem.find('input[type="checkbox"]').focus();
-		} else if (prevItem.length) {
-			prevItem.find('input[type="checkbox"]').focus();
+		if ( nextItem.length ) {
+			nextItem.find( 'input[type="checkbox"]' ).focus();
+		} else if ( prevItem.length ) {
+			prevItem.find( 'input[type="checkbox"]' ).focus();
 		} else {
-			jQuery('#new-todo-content').focus();
+			jQuery( '#new-todo-content' ).focus();
 		}
 	} );
 } );
