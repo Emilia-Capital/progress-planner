@@ -64,7 +64,7 @@ jQuery( document ).ready( function () {
 			</span>
 			<input type="checkbox" aria-label="'${ content }'" ${ done ? 'checked' : '' }>
 			<span class="content" contenteditable="plaintext-only">${ content }</span>
-			<button class="trash" aria-label="'${ content }'"><span class="dashicons dashicons-trash"></span></button>
+			<button class="trash" aria-label="Delete task '${ content }'"><span class="dashicons dashicons-trash"></span></button>
 		` );
 
 		if ( addToStart ) {
