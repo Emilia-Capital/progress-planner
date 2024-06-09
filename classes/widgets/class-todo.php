@@ -56,7 +56,7 @@ final class ToDo extends Widget {
 		<ul id="todo-list" class="prpl-todo-list"></ul>
 
 		<form id="create-todo-item">
-			<input type="text" id="new-todo-content" placeholder="<?php esc_attr_e( 'Add a new task', 'progress-planner' ); ?>" required />
+			<input type="text" id="new-todo-content" placeholder="<?php esc_attr_e( 'Add a new task', 'progress-planner' ); ?>" aria-label="<?php esc_attr_e( 'Add a new task', 'progress-planner' ); ?>" required />
 			<button type="submit" title="<?php esc_attr_e( 'Add', 'progress-planner' ); ?>">
 				<span class="dashicons dashicons-plus-alt2"></span>
 			</button>
