@@ -5,12 +5,18 @@ jQuery( document ).ready( function () {
 		const todoList = [];
 
 		jQuery( '#todo-list li' ).each( function () {
+			const content = jQuery( this ).find( '.content' ).text();
+
 			todoList.push( {
-				content: jQuery( this ).find( '.content' ).text(),
+				content: content,
 				done: jQuery( this )
 					.find( 'input[type="checkbox"]' )
 					.prop( 'checked' ),
 			} );
+
+			// Update aria-labels
+			jQuery( this ).find( 'input[type="checkbox"]' ).attr( 'aria-label', content );
+			jQuery( this ).find( '.trash' ).attr( 'aria-label', `Delete task '${ content }'` );
 		} );
 
 		// Save the todo list to the database
@@ -56,9 +62,9 @@ jQuery( document ).ready( function () {
 					<path d="M8 7h2V5H8v2zm0 6h2v-2H8v2zm0 6h2v-2H8v2zm6-14v2h2V5h-2zm0 8h2v-2h-2v2zm0 6h2v-2h-2v2z"></path>
 				</svg>
 			</span>
-			<input type="checkbox" ${ done ? 'checked' : '' }>
+			<input type="checkbox" aria-label="'${ content }'" ${ done ? 'checked' : '' }>
 			<span class="content" contenteditable="plaintext-only">${ content }</span>
-			<button class="trash"><span class="dashicons dashicons-trash"></span></button>
+			<button class="trash" aria-label="'${ content }'"><span class="dashicons dashicons-trash"></span></button>
 		` );
 
 		if ( addToStart ) {
