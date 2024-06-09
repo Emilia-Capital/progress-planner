@@ -73,6 +73,11 @@ jQuery( document ).ready( function () {
 			jQuery( '#todo-list' ).append( todoItemElement );
 		}
 
+		// Focus the new task's content element after it is added to the DOM
+		setTimeout(() => {
+			todoItemElement.find('input[type="checkbox"]').focus();
+		}, 0);
+
 		if ( save ) {
 			saveTodoList();
 		}
