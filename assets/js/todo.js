@@ -133,7 +133,20 @@ jQuery( document ).ready( function () {
 
 	// When the trash button is clicked, remove the todo item from the list
 	jQuery( '#todo-list' ).on( 'click', '.trash', function () {
-		jQuery( this ).closest( 'li' ).remove();
+		const todoItem = jQuery( this ).closest( 'li' );
+		const nextItem = todoItem.next('li');
+		const prevItem = todoItem.prev('li');
+
+		todoItem.remove();
 		saveTodoList();
+
+		// Shift focus to the next item if available, otherwise to the previous item, otherwise to the input field
+		if (nextItem.length) {
+			nextItem.find('input[type="checkbox"]').focus();
+		} else if (prevItem.length) {
+			prevItem.find('input[type="checkbox"]').focus();
+		} else {
+			jQuery('#new-todo-content').focus();
+		}
 	} );
 } );
