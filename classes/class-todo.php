@@ -69,6 +69,11 @@ class Todo {
 			\wp_send_json_error( [ 'message' => \esc_html__( 'Missing data.', 'progress-planner' ) ] );
 		}
 
+		if ( $_POST['todo_list'] === 'empty' ) {
+			\delete_option( self::OPTION_NAME );
+			\wp_send_json_success( [ 'message' => \esc_html__( 'Saved.', 'progress-planner' ) ] );
+		}
+
 		$items          = [];
 		$previous_items = self::get_items();
 
