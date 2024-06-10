@@ -72,12 +72,16 @@ final class Badges extends Popup {
 									<?php else : ?>
 										<?php
 										printf(
-											/* translators: The number of weeks remaining to complete the badge. */
-											\esc_html__( '%s to go', 'progress-planner' ),
-											Base::weeks( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-												(int) $badge_progress['remaining'],
-												'<span class="number">' . (int) $badge_progress['remaining'] . '</span>'
-											)
+											\esc_html(
+												/* translators: The number of weeks remaining to complete the badge. */
+												_n(
+													'%s week to go',
+													'%s weeks to go',
+													(int) $badge_progress['remaining'],
+													'progress-planner'
+												)
+											),
+											'<span class="number">' . \esc_html( \number_format_i18n( $badge_progress['remaining'] ) ) . '</span>'
 										)
 										?>
 									<?php endif; ?>

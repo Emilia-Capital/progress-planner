@@ -72,7 +72,7 @@ class Onboard {
 				<?php
 				printf(
 					/* translators: %s: progressplanner.com link */
-					esc_html__( 'We would love to send you awesome emails with your progress stats. Please enter your name and email below and submit the form. You\'ll create an account on our %1$s:', 'progress-planner' ),
+					\esc_html__( 'We would love to send you awesome emails with your progress stats. Please enter your name and email below and submit the form. You\'ll create an account on %1$s:', 'progress-planner' ),
 					'<a href="https://progressplanner.com" target="_blank">progressplanner.com</a>'
 				)
 				?>

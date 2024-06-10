@@ -45,15 +45,16 @@ final class Published_Content extends Widget {
 						<?php else : ?>
 							<?php
 							printf(
-								/* translators: %1$s: number of posts/pages published this week + "pieces". %2$s: Total number of posts. */
-								\esc_html__( 'Nice! You published %1$s of new content last week. You now have %2$s in total. Keep up the good work!', 'progress-planner' ),
 								\esc_html(
-									sprintf(
-										/* translators: %d: number of posts/pages published this week. */
-										_n( '%d piece', '%d pieces', $sum_weekly, 'progress-planner' ),
-										\number_format_i18n( $sum_weekly )
+									/* translators: %1$s: number of posts/pages published this week + "pieces". %2$s: Total number of posts. */
+									\_n(
+										'Nice! You published %1$s piece of new content last week. You now have %2$s in total. Keep up the good work!',
+										'Nice! You published %1$s pieces of new content last week. You now have %2$s in total. Keep up the good work!',
+										$sum_weekly,
+										'progress-planner'
 									)
 								),
+								\esc_html( \number_format_i18n( $sum_weekly ) ),
 								\esc_html( \number_format_i18n( array_sum( $stats['all'] ) ) )
 							);
 							?>
