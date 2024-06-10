@@ -22,6 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+define( 'PROGRESS_PLANNER_FILE', __FILE__ );
 define( 'PROGRESS_PLANNER_DIR', __DIR__ );
 define( 'PROGRESS_PLANNER_URL', untrailingslashit( plugin_dir_url( __FILE__ ) ) );
 
