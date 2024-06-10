@@ -28,12 +28,10 @@ const progressPlannerAjaxAPIRequest = ( data ) => {
 		url: progressPlanner.onboardAPIUrl,
 		data,
 		successAction: ( response ) => {
-			// Show link to reset password.
+			// Show success message.
 			document.getElementById(
-				'prpl-password-reset-link'
+				'prpl-account-created-message'
 			).style.display = 'block';
-			document.getElementById( 'prpl-password-reset-link' ).href =
-				response.password_reset_url;
 
 			// Hide the form.
 			document.getElementById( 'prpl-onboarding-form' ).style.display =
