@@ -55,8 +55,8 @@ final class Badge_Content extends Widget {
 					<?php
 					printf(
 						esc_html(
+							/* translators: %s: The remaining number of posts or pages to write. */
 							_n(
-								/* translators: %s: The remaining number of posts or pages to write. */
 								'Write %s new post or page and earn your next badge!',
 								'Write %s new posts or pages and earn your next badge!',
 								(int) $details['progress']['remaining'],
