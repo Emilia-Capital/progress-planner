@@ -980,8 +980,12 @@ button.prpl-info-icon {
 \*------------------------------------*/
 #progress_planner_dashboard_widget_score .prpl-dashboard-widget {
 	display: grid;
-	grid-template-columns: 55% 1px 30%;
+	grid-template-columns: 1fr 1px 140px;
 	grid-gap: calc(var(--prpl-gap) / 2);
+}
+
+#progress_planner_dashboard_widget_score .prpl-activities-gauge-container {
+	padding-bottom: calc(var(--prpl-padding) * 2);
 }
 
 #progress_planner_dashboard_widget_score .prpl-badge-wrapper {
@@ -1060,6 +1064,10 @@ button.prpl-info-icon {
 	font-size: var(--prpl-font-size-base);
 	color: var(--prpl-color-gray-5);
 	margin-top: -15px;
+}
+
+#progress_planner_dashboard_widget_score .prpl-gauge-number {
+	font-size: var(--prpl-font-size-4xl);
 }
 
 /*------------------------------------*\
