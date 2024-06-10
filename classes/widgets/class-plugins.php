@@ -47,7 +47,7 @@ final class Plugins extends Widget {
 							\_n(
 								'You have %1$s plugins installed. There is %2$s pending update.',
 								'You have %1$s plugins installed. There are %2$s pending updates.',
-								$pending_plugin_updates,
+								(int) $pending_plugin_updates,
 								'progress-planner'
 							)
 						),

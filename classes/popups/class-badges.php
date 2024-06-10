@@ -81,7 +81,7 @@ final class Badges extends Popup {
 													'progress-planner'
 												)
 											),
-											'<span class="number">' . esc_html( \number_format_i18n( $badge_progress['remaining'] ) ) . '</span>'
+											'<span class="number">' . \esc_html( \number_format_i18n( $badge_progress['remaining'] ) ) . '</span>'
 										)
 										?>
 									<?php endif; ?>
