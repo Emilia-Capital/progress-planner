@@ -85,18 +85,18 @@ class Dashboard_Widget_Score extends Dashboard_Widget {
 						<span class="activity-type">
 							<?php
 							if ( isset( $activity_type_map[ $activity->category . '-' . $activity->type ] ) ) {
-								echo esc_html( $activity_type_map[ $activity->category . '-' . $activity->type ] );
+								echo \esc_html( $activity_type_map[ $activity->category . '-' . $activity->type ] );
 							} elseif ( 'content' === $activity->category ) {
-								esc_html_e( 'Updated content', 'progress-planner' );
+								\esc_html_e( 'Updated content', 'progress-planner' );
 							} elseif ( 'maintenance' === $activity->category ) {
-								esc_html_e( 'Site maintenance', 'progress-planner' );
+								\esc_html_e( 'Site maintenance', 'progress-planner' );
 							} elseif ( 'todo' === $activity->category ) {
-								esc_html_e( 'Updated To-do list', 'progress-planner' );
+								\esc_html_e( 'Updated To-do list', 'progress-planner' );
 							}
 							?>
 						</span>
 						<span class="activity-date">
-							<?php echo esc_html( date_i18n( get_option( 'date_format' ), strtotime( $activity->date->format( 'Y-m-d' ) ) ) ); ?>
+							<?php echo \esc_html( \date_i18n( \get_option( 'date_format' ), strtotime( $activity->date->format( 'Y-m-d' ) ) ) ); ?>
 						</span>
 					</li>
 				<?php endforeach; ?>
