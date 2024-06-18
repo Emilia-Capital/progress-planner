@@ -114,6 +114,8 @@ class Base {
 
 		// To-do.
 		new Todo();
+
+		add_filter( 'plugin_action_links_' . plugin_basename( PROGRESS_PLANNER_FILE ), [ $this, 'add_action_links' ] );
 	}
 
 	/**
@@ -141,23 +143,15 @@ class Base {
 	}
 
 	/**
-	 * Get the number of weeks.
+	 * Add action link to dashboard page.
 	 *
-	 * @param int    $number_weeks           Number of weeks.
-	 * @param string $formatted_number_weeks Formatted number of weeks.
+	 * @param array $actions Existing actions.
 	 *
-	 * @return string  String with the number of weeks + "week" or "weeks".
+	 * @return array
 	 */
-	public static function weeks( $number_weeks, $formatted_number_weeks = null ) {
-		if ( is_null( $formatted_number_weeks ) ) {
-			$formatted_number_weeks = \number_format_i18n( $number_weeks );
-		}
-		return \esc_html(
-			sprintf(
-				/* translators: %d: Number of weeks. */
-				\_n( '%d week', '%d weeks', $number_weeks, 'progress-planner' ),
-				$formatted_number_weeks
-			)
-		);
+	public function add_action_links( $actions ) {
+		$action_link = [ '<a href="' . admin_url( 'admin.php?page=progress-planner' ) . '">' . __( 'Dashboard', 'progress-planner' ), '</a>' ];
+		$actions     = array_merge( $action_link, $actions );
+		return $actions;
 	}
 }

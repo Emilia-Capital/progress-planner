@@ -72,7 +72,7 @@ class Onboard {
 				<?php
 				printf(
 					/* translators: %s: progressplanner.com link */
-					esc_html__( 'We would love to send you awesome emails with your progress stats. Please enter your name and email below and submit the form. You\'ll create an account on our %1$s:', 'progress-planner' ),
+					\esc_html__( 'We would love to send you awesome emails with your progress stats. Please enter your name and email below and submit the form. You\'ll create an account on %1$s:', 'progress-planner' ),
 					'<a href="https://progressplanner.com" target="_blank">progressplanner.com</a>'
 				)
 				?>
@@ -146,9 +146,12 @@ class Onboard {
 		</form>
 
 		<div>
-			<a style="display:none;" id="prpl-password-reset-link">
-				<?php \esc_html_e( 'Registration successful. Set your password now and edit your profile', 'progress-planner' ); ?>
-			</a>
+			<p id="prpl-account-created-message" style="display:none;">
+				<?php
+				// translators: %s: progressplanner.com link.
+				printf( \esc_html__( 'Success! We created an account for you on %s so we can email you every week.', 'progress-planner' ), '<a href="https://progressplanner.com/">ProgressPlanner.com</a>' );
+				?>
+			</p>
 			<div id="progress-planner-scan-progress" style="display:none;">
 				<progress value="0" max="100"></progress>
 			</div>

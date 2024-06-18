@@ -41,27 +41,48 @@ final class Personal_Record_Content extends Widget {
 				<?php elseif ( (int) $record['max_streak'] <= (int) $record['current_streak'] ) : ?>
 					<?php
 					printf(
-						/* translators: %s: number of weeks. */
-						\esc_html__( 'Congratulations! You\'re on a streak! You\'ve consistently maintained your website for the past %s! 🎉', 'progress-planner' ),
-						Base::weeks( $record['current_streak'] ) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						\esc_html(
+							/* translators: %s: number of weeks. */
+							\_n(
+								'Congratulations! You\'re on a streak! You\'ve consistently maintained your website for the past %s week! 🎉',
+								'Congratulations! You\'re on a streak! You\'ve consistently maintained your website for the past %s weeks! 🎉',
+								(int) $record['current_streak'],
+								'progress-planner'
+							)
+						),
+						\esc_html( \number_format_i18n( $record['current_streak'] ) )
 					);
 					?>
 				<?php elseif ( 1 <= $record['current_streak'] ) : ?>
 					<?php
 					printf(
-						/* translators: %1$s: number of weeks for the current streak. %2$s: number of weeks for the maximum streak. %3$s: The number of weeks to go in order to break the record. */
-						\esc_html__( 'Keep it up! You\'ve consistently maintained your website for the past %1$s. Your longest streak was %2$s, you have %3$s to go to break your record!', 'progress-planner' ),
-						Base::weeks( $record['current_streak'] ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-						Base::weeks( $record['max_streak'] ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-						Base::weeks( $record['max_streak'] - $record['current_streak'] ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						\esc_html(
+							/* translators: %1$s: number of weeks for the current streak. %2$s: number of weeks for the maximum streak. %3$s: The number of weeks to go in order to break the record. */
+							\_n(
+								'Keep it up! You\'ve consistently maintained your website for the past %1$s week. Your longest streak was %2$s weeks, %3$s more to go to break your record!',
+								'Keep it up! You\'ve consistently maintained your website for the past %1$s weeks. Your longest streak was %2$s weeks, %3$s more to go to break your record!',
+								(int) $record['current_streak'],
+								'progress-planner'
+							)
+						),
+						\esc_html( \number_format_i18n( $record['current_streak'] ) ),
+						\esc_html( \number_format_i18n( $record['max_streak'] ) ),
+						\esc_html( \number_format_i18n( $record['max_streak'] - $record['current_streak'] ) )
 					);
 					?>
 				<?php else : ?>
 					<?php
 					printf(
-						/* translators: %1$s: number of weeks for the maximum streak. */
-						\esc_html__( 'Get back to your streak! Your longest streak was %1$s. Keep working on those website maintenance tasks every week and break your record!', 'progress-planner' ),
-						Base::weeks( $record['max_streak'] ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						\esc_html(
+							/* translators: %1$s: number of weeks for the maximum streak. */
+							\_n(
+								'Get back to your streak! Your longest streak was %s week. Keep working on those website maintenance tasks every week and break your record!',
+								'Get back to your streak! Your longest streak was %s weeks. Keep working on those website maintenance tasks every week and break your record!',
+								(int) $record['max_streak'],
+								'progress-planner'
+							)
+						),
+						\esc_html( \number_format_i18n( $record['max_streak'] ) )
 					);
 					?>
 				<?php endif; ?>

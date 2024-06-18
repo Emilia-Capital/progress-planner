@@ -1,4 +1,4 @@
-name: Run PHPStan
+name: PHPStan
 
 on:
   # Run on pushes to select branches and on all pull requests.
@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout
+        uses: actions/checkout@v4
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2

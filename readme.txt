@@ -1,10 +1,10 @@
 === Progress Planner ===
-Contributors: joostdevalk, aristath
+Contributors: joostdevalk, aristath, mariekerakt, irisguelen, samalderson
 Tags: planning, maintenance, writing, blogging
 Requires at least: 6.3
 Tested up to: 6.5
 Requires PHP: 7.4
-Stable tag: 0.9
+Stable tag: 0.9.1
 License: GPL3+
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -52,6 +52,10 @@ If you've found a bug, please report it on [our GitHub repository](https://githu
 
 == Installation ==
 
+This video shows you how to install the plugin:
+
+https://youtu.be/e1bmxZYyXFY
+
 1. Search for Progress Planner on the "Add new plugins" screen in your WordPress plugin.
 2. Install the plugin.
 3. Activate the plugin.
@@ -65,6 +69,23 @@ If you've found a bug, please report it on [our GitHub repository](https://githu
 3. Keep track of your website to-do's!
 
 == Changelog ==
+
+= 0.9.1 =
+
+Enhancements:
+
+* Added an action link to the Dashboard to the plugin's action links on the plugins page.
+* No longer show Elementor templates as a post type in the plugin's reports.
+* Improved translatability (is that a word?) of some of our strings with singulars and plurals.
+
+Bugfixes:
+
+* Fixed the responsive styles of the dashboard widget. Thanks to [Aaron Jorbin](https://aaron.jorb.in/) for reporting.
+* Fix the accessibility of the to-do list. Thanks to Steve Jones of [Accessibility checker](https://equalizedigital.com/accessibility-checker/) for the report and fix.
+* The plugin would throw a fatal error on uninstall. Thanks to [Jose Varghese](https://github.com/josevarghese) for reporting.
+* Deleting the last to do item on the to do list would not work. Thanks to [Jose Varghese](https://github.com/josevarghese) for reporting.
+* Don't show the password reset link during onboarding of users as it leads to confusion. Thanks to [Jose Varghese](https://github.com/josevarghese) for reporting.
+
 
 = 0.9 =
 

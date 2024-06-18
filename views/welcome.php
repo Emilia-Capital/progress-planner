@@ -34,7 +34,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			</div>
 			<div>
 				<span class="icon dashicons dashicons-calendar-alt"></span>
-				<span><?php esc_html_e( 'Overcome procrastination', 'progress-planner' ); ?></span>
+				<span><?php esc_html_e( 'overcome procrastination', 'progress-planner' ); ?></span>
 			</div>
 			<div>
 				<span class="icon dashicons dashicons-chart-bar"></span>
