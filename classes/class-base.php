@@ -150,8 +150,8 @@ class Base {
 	 * @return array
 	 */
 	public function add_action_links( $actions ) {
-		$mylinks = [ '<a href="' . admin_url( 'admin.php?page=progress-planner' ) . '">Dashboard</a>' ];
-		$actions = array_merge( $actions, $mylinks );
+		$action_link = [ '<a href="' . admin_url( 'admin.php?page=progress-planner' ) . '">Dashboard</a>' ];
+		$actions = array_merge( $action_link, $actions );
 		return $actions;
 	}
 }
