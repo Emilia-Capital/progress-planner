@@ -76,9 +76,9 @@ https://youtu.be/e1bmxZYyXFY
 
 = 0.9.2 =
 
-Bugfixes:
+Security:
 
-* Fixed validation in the REST-API endpoint.
+* Fixes a vulnerability in our REST API endpoint access validation to retrieve stats. Props to [Djennez](https://github.com/Djennez) for reporting through our [PatchStack Vulnerability Disclosure Program](https://patchstack.com/database/vdp/progress-planner).
 
 = 0.9.1 =
 
@@ -95,7 +95,6 @@ Bugfixes:
 * The plugin would throw a fatal error on uninstall. Thanks to [Jose Varghese](https://github.com/josevarghese) for reporting.
 * Deleting the last to do item on the to do list would not work. Thanks to [Jose Varghese](https://github.com/josevarghese) for reporting.
 * Don't show the password reset link during onboarding of users as it leads to confusion. Thanks to [Jose Varghese](https://github.com/josevarghese) for reporting.
-
 
 = 0.9 =
 
