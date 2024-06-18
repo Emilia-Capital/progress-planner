@@ -4,7 +4,7 @@ Tags: planning, maintenance, writing, blogging
 Requires at least: 6.3
 Tested up to: 6.5
 Requires PHP: 7.4
-Stable tag: 0.9.1
+Stable tag: 0.9.2
 License: GPL3+
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -48,7 +48,11 @@ We are currently creating a Pro version of Progress Planner. The Pro version wil
 
 = Where do I file bugs? =
 
-If you've found a bug, please report it on [our GitHub repository](https://github.com/emilia-Capital/progress-planner/issues/). You'd help us a lot by searching for existing issues first.
+If you've found a bug, please follow the following steps:
+
+1. If it's a security report, please report it through our [PatchStack Vulnerability Disclosure Program](https://patchstack.com/database/vdp/progress-planner).
+2. If it's not a security report, search through the open issues on [our GitHub repository](https://github.com/emilia-Capital/progress-planner/issues/) to see if there's already an issue for this problem.
+3. If if doesn't exist yet, file a [bug report on GitHub](https://github.com/Emilia-Capital/progress-planner/issues/new/choose).
 
 == Installation ==
 
@@ -70,6 +74,12 @@ https://youtu.be/e1bmxZYyXFY
 
 == Changelog ==
 
+= 0.9.2 =
+
+Security:
+
+* Fixes a vulnerability in our REST API endpoint access validation to retrieve stats. Props to [Djennez](https://github.com/Djennez) for reporting through our [PatchStack Vulnerability Disclosure Program](https://patchstack.com/database/vdp/progress-planner).
+
 = 0.9.1 =
 
 Enhancements:
@@ -85,7 +95,6 @@ Bugfixes:
 * The plugin would throw a fatal error on uninstall. Thanks to [Jose Varghese](https://github.com/josevarghese) for reporting.
 * Deleting the last to do item on the to do list would not work. Thanks to [Jose Varghese](https://github.com/josevarghese) for reporting.
 * Don't show the password reset link during onboarding of users as it leads to confusion. Thanks to [Jose Varghese](https://github.com/josevarghese) for reporting.
-
 
 = 0.9 =
 
