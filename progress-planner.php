@@ -9,7 +9,7 @@
  * Description:       A plugin to help you fight procrastination and get things done.
  * Requires at least: 6.3
  * Requires PHP:      7.4
- * Version:           0.9.2
+ * Version:           0.9.3
  * Author:            Team Emilia Projects
  * Author URI:        https://progressplanner.com/about-progress-planner/
  * License:           GPL-3.0+

@@ -1,3 +1,9 @@
+= 0.9.3 =
+
+Security:
+
+* Only add dashboard widgets if the current user has the `manage_options` capability. Props to [justakazh](https://github.com/justakazh) for reporting through our [PatchStack Vulnerability Disclosure Program](https://patchstack.com/database/vdp/progress-planner).
+
 = 0.9.2 =
 
 Security:

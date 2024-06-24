@@ -4,7 +4,7 @@ Tags: planning, maintenance, writing, blogging
 Requires at least: 6.3
 Tested up to: 6.5
 Requires PHP: 7.4
-Stable tag: 0.9.2
+Stable tag: 0.9.3
 License: GPL3+
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -73,6 +73,12 @@ https://youtu.be/e1bmxZYyXFY
 3. Keep track of your website to-do's!
 
 == Changelog ==
+
+= 0.9.3 =
+
+Security:
+
+* Only add dashboard widgets if the current user has the `manage_options` capability.
 
 = 0.9.2 =
 
