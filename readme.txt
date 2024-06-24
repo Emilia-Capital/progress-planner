@@ -78,7 +78,8 @@ https://youtu.be/e1bmxZYyXFY
 
 Security:
 
-* Only add dashboard widgets if the current user has the `manage_options` capability.
+* Stricter sanitization & escaping of data in to-do items.
+* Restrict access to the plugin's dashboard widgets to users with the `publish_posts` capability.
 
 = 0.9.2 =
 

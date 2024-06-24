@@ -2,7 +2,8 @@
 
 Security:
 
-* Only add dashboard widgets if the current user has the `manage_options` capability. Props to [justakazh](https://github.com/justakazh) for reporting through our [PatchStack Vulnerability Disclosure Program](https://patchstack.com/database/vdp/progress-planner).
+* Stricter sanitization & escaping of data in to-do items. Props to [justakazh](https://github.com/justakazh) for reporting through our [PatchStack Vulnerability Disclosure Program](https://patchstack.com/database/vdp/progress-planner).
+* Restrict access to the plugin's dashboard widgets to users with the `publish_posts` capability.
 
 = 0.9.2 =
 
