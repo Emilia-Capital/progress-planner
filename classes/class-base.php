@@ -95,7 +95,7 @@ class Base {
 			require_once ABSPATH . 'wp-includes/pluggable.php';
 		}
 		// Basic classes.
-		if ( \is_admin() && \current_user_can( 'manage_options' ) ) {
+		if ( \is_admin() && \current_user_can( 'publish_posts' ) ) {
 			new Admin_Page();
 			new Dashboard_Widget_Score();
 			new Dashboard_Widget_Todo();
