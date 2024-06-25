@@ -72,6 +72,12 @@ https://youtu.be/e1bmxZYyXFY
 2. Collect badges!
 3. Keep track of your website to-do's!
 
+== Upgrade Notice ==
+
+= 0.9.3 =
+
+This version improves plugin security by sanitizing to-do items better. This basically means your co-workers on the site can't hack you.
+
 == Changelog ==
 
 = 0.9.3 =
