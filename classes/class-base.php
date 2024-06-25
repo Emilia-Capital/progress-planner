@@ -88,10 +88,18 @@ class Base {
 	 * @return void
 	 */
 	public function init() {
+		if ( ! function_exists( 'current_user_can' ) ) {
+			require_once ABSPATH . 'wp-includes/capabilities.php';
+		}
+		if ( ! function_exists( 'wp_get_current_user' ) ) {
+			require_once ABSPATH . 'wp-includes/pluggable.php';
+		}
 		// Basic classes.
-		new Admin_Page();
-		new Dashboard_Widget_Score();
-		new Dashboard_Widget_Todo();
+		if ( \is_admin() && \current_user_can( 'publish_posts' ) ) {
+			new Admin_Page();
+			new Dashboard_Widget_Score();
+			new Dashboard_Widget_Todo();
+		}
 		new Actions_Content();
 		new Actions_Maintenance();
 		new Actions_Content_Scan();
