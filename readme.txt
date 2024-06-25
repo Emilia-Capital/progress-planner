@@ -68,9 +68,13 @@ https://youtu.be/e1bmxZYyXFY
 
 == Screenshots ==
 
-1. See your website activity score.
-2. Collect badges!
-3. Keep track of your website to-do's!
+1. Collect badges as you work on your site.
+2. Get a dashboard with good stats about your site's maintenance and content growth.
+3. See your longterm activity score and try to stay on track!
+4. Get a quick overview of the most important stats on your dashboard and add to-do's straight from there!
+5. Maintain a simple to-do list per site on your dashboard or your Progress Planner page.
+6. See your Website activity score.
+7. Get a weekly email with stats on how well you're doing on your site!
 
 == Upgrade Notice ==
 
