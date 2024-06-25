@@ -65,6 +65,11 @@ jQuery( document ).ready( function () {
 	 * @param {boolean} save       Whether to save the todo list to the database.
 	 */
 	const injectTodoItem = ( content, done, addToStart, save ) => {
+		content = content.trim()
+			.replace( /</g, '&lt;' )
+			.replace( />/g, '&gt;' )
+			.replace( '"', '&quot;' );
+
 		const todoItemElement = jQuery( '<li></li>' ).html( `
 			<span class="prpl-todo-drag-handle" aria-label="${
 				progressPlannerTodo.i18n.drag

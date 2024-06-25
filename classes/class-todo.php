@@ -50,7 +50,9 @@ class Todo {
 			if ( ! isset( $item['content'] ) || empty( $item['content'] ) ) {
 				unset( $value[ $key ] );
 			}
+			$value[ $key ]['content'] = wp_kses_post( $item['content'] );
 		}
+
 		return array_values( $value );
 	}
 
@@ -80,7 +82,7 @@ class Todo {
 		if ( ! empty( $_POST['todo_list'] ) ) {
 			foreach ( array_values( wp_unslash( $_POST['todo_list'] ) ) as $item ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 				$items[] = [
-					'content' => sanitize_text_field( $item['content'] ),
+					'content' => \wp_strip_all_tags( \sanitize_text_field( $item['content'] ) ),
 					'done'    => true === $item['done'] || 'true' === $item['done'],
 				];
 			}
