@@ -23,6 +23,16 @@ final class Badge_Streak extends Widget {
 	protected $id = 'badge-streak';
 
 	/**
+	 * Whether we should render the widget or not.
+	 *
+	 * @return bool
+	 */
+	protected function should_render() {
+		$details = $this->get_badge_details();
+		return ( 100 > (int) $details['progress']['progress'] );
+	}
+
+	/**
 	 * Render the widget content.
 	 *
 	 * @return void
@@ -79,7 +89,10 @@ final class Badge_Streak extends Widget {
 	 * @return array
 	 */
 	public function get_badge_details() {
-		$result = [];
+		static $result = [];
+		if ( ! empty( $result ) ) {
+			return $result;
+		}
 		$badges = [
 			'progress-padawan',
 			'maintenance-maniac',

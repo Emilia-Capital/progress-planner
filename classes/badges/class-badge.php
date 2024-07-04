@@ -47,6 +47,15 @@ abstract class Badge {
 	}
 
 	/**
+	 * Get the badge ID.
+	 *
+	 * @return string
+	 */
+	public function get_id() {
+		return $this->id;
+	}
+
+	/**
 	 * Get the badge name.
 	 *
 	 * @return string

@@ -30,6 +30,9 @@ class Badges {
 	 * @return void
 	 */
 	public static function register_badge( $badge_id, $args ) {
+		if ( ! isset( $args['id'] ) ) {
+			$args['id'] = $badge_id;
+		}
 		self::$badges[ $badge_id ] = $args;
 	}
 
