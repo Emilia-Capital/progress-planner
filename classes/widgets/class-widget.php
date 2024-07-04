@@ -58,9 +58,21 @@ abstract class Widget {
 	 * @return void
 	 */
 	protected function render() {
+		if ( ! $this->should_render() ) {
+			return;
+		}
 		echo '<div class="prpl-widget-wrapper prpl-' . \esc_attr( $this->id ) . '">';
 		$this->the_content();
 		echo '</div>';
+	}
+
+	/**
+	 * Whether we should render the widget or not.
+	 * 
+	 * @return bool
+	 */
+	protected function should_render() {
+		return true;
 	}
 
 	/**
