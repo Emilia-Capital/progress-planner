@@ -160,7 +160,7 @@ class Dashboard_Widget_Score extends Dashboard_Widget {
 	 * @return array
 	 */
 	public function get_badge_details( $category = 'content' ) {
-		$cached = [
+		static $cached = [
 			'content' => false,
 			'streak'  => false,
 		];
