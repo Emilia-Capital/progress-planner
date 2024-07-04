@@ -978,7 +978,7 @@ button.prpl-info-icon {
 /*------------------------------------*\
 	Dashboard widget styles.
 \*------------------------------------*/
-#progress_planner_dashboard_widget_score .prpl-dashboard-widget {
+#progress_planner_dashboard_widget_score .prpl-dashboard-widget.show-badges {
 	display: grid;
 	grid-template-columns: 1fr 1px 140px;
 	grid-gap: calc(var(--prpl-gap) / 2);

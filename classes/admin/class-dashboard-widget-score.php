@@ -39,19 +39,24 @@ class Dashboard_Widget_Score extends Dashboard_Widget {
 	 */
 	public function render_widget() {
 		Page::enqueue_styles();
+
+		$show_badges = (
+			$this->get_badge_details( 'content' )['progress']['progress'] ||
+			$this->get_badge_details( 'streak' )['progress']['progress']
+		);
 		?>
-		<div class="prpl-dashboard-widget">
+		<div class="prpl-dashboard-widget<?php echo ( $show_badges ) ? ' show-badges' : ''; ?>">
 			<div class="prpl-score-gauge">
 				<?php \Progress_Planner\Widgets\Website_Activity_Score::print_score_gauge( '#ffffff', '<p>' . \esc_html__( 'Website activity score', 'progress-planner' ) . '</p>' ); ?>
 			</div>
-
-			<div class="grid-separator"></div>
-
-			<div class="prpl-badges">
-				<h3><?php \esc_html_e( 'Next badges', 'progress-planner' ); ?></h3>
-				<?php $this->the_badge( 'content' ); ?>
-				<?php $this->the_badge( 'streak' ); ?>
-			</div>
+			<?php if ( $show_badges ) : ?>
+				<div class="grid-separator"></div>
+				<div class="prpl-badges">
+					<h3><?php \esc_html_e( 'Next badges', 'progress-planner' ); ?></h3>
+					<?php $this->the_badge( 'content' ); ?>
+					<?php $this->the_badge( 'streak' ); ?>
+				</div>
+			<?php endif; ?>
 		</div>
 
 		<div class="prpl-dashboard-widget-latest-activities">
@@ -121,6 +126,9 @@ class Dashboard_Widget_Score extends Dashboard_Widget {
 	 */
 	protected function the_badge( $category = 'content' ) {
 		$details = $this->get_badge_details( $category );
+		if ( 100 <= (int) $details['progress']['progress'] ) {
+			return;
+		}
 		?>
 		<div class="prpl-badges-columns-wrapper">
 			<div class="prpl-badge-wrapper">
@@ -152,6 +160,15 @@ class Dashboard_Widget_Score extends Dashboard_Widget {
 	 * @return array
 	 */
 	public function get_badge_details( $category = 'content' ) {
+		$cached = [
+			'content' => false,
+			'streak'  => false,
+		];
+
+		if ( $cached[ $category ] ) {
+			return $cached[ $category ];
+		}
+
 		$result = [];
 		$badges = [
 			'content' => [ 'wonderful-writer', 'bold-blogger', 'awesome-author' ],
@@ -175,6 +192,9 @@ class Dashboard_Widget_Score extends Dashboard_Widget {
 		if ( $result['progress']['progress'] > 75 ) {
 			$result['color'] = 'var(--prpl-color-accent-green)';
 		}
+
+		$cached[ $category ] = $result;
+
 		return $result;
 	}
 }
