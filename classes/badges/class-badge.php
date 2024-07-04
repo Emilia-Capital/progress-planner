@@ -48,7 +48,7 @@ abstract class Badge {
 
 	/**
 	 * Get the badge ID.
-	 * 
+	 *
 	 * @return string
 	 */
 	public function get_id() {

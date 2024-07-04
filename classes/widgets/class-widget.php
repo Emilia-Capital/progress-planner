@@ -68,7 +68,7 @@ abstract class Widget {
 
 	/**
 	 * Whether we should render the widget or not.
-	 * 
+	 *
 	 * @return bool
 	 */
 	protected function should_render() {

@@ -22,9 +22,9 @@ final class Badge_Streak extends Widget {
 	 */
 	protected $id = 'badge-streak';
 
-/**
+	/**
 	 * Whether we should render the widget or not.
-	 * 
+	 *
 	 * @return bool
 	 */
 	protected function should_render() {
@@ -37,7 +37,7 @@ final class Badge_Streak extends Widget {
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Render the widget content.
 	 *
