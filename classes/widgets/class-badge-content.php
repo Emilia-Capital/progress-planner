@@ -28,13 +28,7 @@ final class Badge_Content extends Widget {
 	 */
 	protected function should_render() {
 		$details = $this->get_badge_details();
-		if (
-			'awesome-author' === $details['badge']['id']
-			&& 100 === (int) $details['progress']['progress']
-		) {
-			return false;
-		}
-		return true;
+		return ( 100 > (int) $details['progress']['progress'] );
 	}
 
 	/**
