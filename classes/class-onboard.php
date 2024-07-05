@@ -73,7 +73,7 @@ class Onboard {
 				printf(
 					/* translators: %s: progressplanner.com link */
 					\esc_html__( 'We would love to send you awesome emails with your progress stats. Please enter your name and email below and submit the form. You\'ll create an account on %1$s:', 'progress-planner' ),
-					'<a href="https://progressplanner.com" target="_blank">progressplanner.com</a>'
+					'<a href="https://prpl.fyi/home" target="_blank">progressplanner.com</a>'
 				)
 				?>
 			</div>
@@ -114,10 +114,10 @@ class Onboard {
 					<span class="prpl-label-content">
 						<?php
 							printf(
-								/* translators: %1$s: progressplanner.com link. %2$s: Link to https://progressplanner.com/onboarding-details/ with text "Learn more." */
+								/* translators: %1$s: progressplanner.com link. %2$s: Link with text "Learn more." */
 								\esc_html__( 'Create an account on %1$s, and subscribe to emails. %2$s', 'progress-planner' ),
-								'<a href="https://progressplanner.com" target="_blank">progressplanner.com</a>',
-								'<a href="https://progressplanner.com/onboarding-details/" target="_blank">' . \esc_html__( 'Learn more.', 'progress-planner' ) . '</a>'
+								'<a href="https://prpl.fyi/home" target="_blank">progressplanner.com</a>',
+								'<a href="https://prpl.fyi/onboarding" target="_blank">' . \esc_html__( 'Learn more.', 'progress-planner' ) . '</a>'
 							);
 						?>
 					</span>
@@ -149,7 +149,7 @@ class Onboard {
 			<p id="prpl-account-created-message" style="display:none;">
 				<?php
 				// translators: %s: progressplanner.com link.
-				printf( \esc_html__( 'Success! We created an account for you on %s so we can email you every week.', 'progress-planner' ), '<a href="https://progressplanner.com/">ProgressPlanner.com</a>' );
+				printf( \esc_html__( 'Success! We created an account for you on %s so we can email you every week.', 'progress-planner' ), '<a href="https://prpl.fyi/home">ProgressPlanner.com</a>' );
 				?>
 			</p>
 			<div id="progress-planner-scan-progress" style="display:none;">

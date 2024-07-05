@@ -54,7 +54,7 @@ final class Whats_New extends Widget {
 				</li>
 			<?php endforeach; ?>
 		</ul>
-		<a href="<?php echo \esc_url( self::REMOTE_SERVER_ROOT_URL . '/blog' ); ?>" target="_blank">
+		<a href="https://prpl.fyi/blog" target="_blank">
 			<?php \esc_html_e( 'Read all posts', 'progress-planner' ); ?>
 		</a>
 		<?php
