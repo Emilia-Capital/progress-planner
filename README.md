@@ -9,11 +9,11 @@
 
 ## What does this plugin do?
 
-This post explains what Progress Planner does and how to use it: [What does Progress Planner do?](https://progressplanner.com/what-does-progress-planner-do/).
+This post explains what Progress Planner does and how to use it: [What does Progress Planner do?](https://prpl.fyi/explainer).
 
 ## How to install Progress Planner
 
-You can find [installation instructions here](https://progressplanner.com/install/).
+You can find [installation instructions here](https://prpl.fyi/install).
 
 ## Branches on this repository
 
