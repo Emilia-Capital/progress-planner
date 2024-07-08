@@ -1098,14 +1098,18 @@ button.prpl-info-icon {
 /*------------------------------------*\
 	Settings popup.
 \*------------------------------------*/
-.popup-settings-wrapper label {
+#prpl-settings-form label {
 	display: block;
 }
 
-.popup-settings-wrapper form p {
+#prpl-settings-form p {
 	max-width: 42em;
 }
 
-.popup-settings-wrapper form button.button-primary {
+#prpl-settings-form h3 {
+	font-size: 1.15em;
+}
+
+#prpl-settings-form button.button-primary {
 	margin-top: 1em;
 }
