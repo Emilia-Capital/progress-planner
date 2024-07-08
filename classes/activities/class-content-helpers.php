@@ -27,6 +27,12 @@ class Content_Helpers {
 		unset( $post_types['attachment'] );
 		unset( $post_types['elementor_library'] ); // Elementor templates are not a post type we want to track.
 
+		// Get an array of post-types we want to exclude, and remove them from the array.
+		$exclude_post_types = Settings::get( [ 'exclude_post_types' ], [] );
+		foreach ( $exclude_post_types as $post_type ) {
+			unset( $post_types[ $post_type ] );
+		}
+
 		return array_keys( $post_types );
 	}
 
