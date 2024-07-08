@@ -60,6 +60,7 @@ class Page {
 	private function register_hooks() {
 		\add_action( 'admin_menu', [ $this, 'add_page' ] );
 		\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
+		\add_action( 'wp_ajax_progress_planner_save_cpt_settings', [ $this, 'save_cpt_settings' ] );
 	}
 
 	/**
@@ -187,6 +188,15 @@ class Page {
 			true
 		);
 
+		// Register the admin script for the settings popup.
+		\wp_register_script(
+			'progress-planner-settings',
+			PROGRESS_PLANNER_URL . '/assets/js/settings.js',
+			[ 'progress-planner-ajax' ],
+			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/settings.js' ),
+			true
+		);
+
 		// Register the admin script for the page.
 		\wp_register_script(
 			'progress-planner-admin',
@@ -214,6 +224,15 @@ class Page {
 		// Localize the scripts.
 		\wp_localize_script( 'progress-planner-onboard', 'progressPlanner', $localize_data );
 		\wp_localize_script( 'progress-planner-admin', 'progressPlanner', $localize_data );
+		$localize_data_settings = array_merge(
+			$localize_data,
+			[
+				'l10n' => [
+					'saving' => \esc_html__( 'Saving...', 'progress-planner' ),
+				],
+			]
+		);
+		\wp_localize_script( 'progress-planner-settings', 'progressPlanner', $localize_data_settings );
 		\wp_localize_script(
 			'progress-planner-todo',
 			'progressPlannerTodo',
@@ -240,6 +259,7 @@ class Page {
 		\wp_enqueue_script( 'progress-planner-onboard' );
 		\wp_enqueue_script( 'progress-planner-admin' );
 		\wp_enqueue_script( 'progress-planner-todo' );
+		\wp_enqueue_script( 'progress-planner-settings' );
 	}
 
 	/**
@@ -253,6 +273,24 @@ class Page {
 			PROGRESS_PLANNER_URL . '/assets/css/admin.css',
 			[],
 			filemtime( PROGRESS_PLANNER_DIR . '/assets/css/admin.css' )
+		);
+	}
+
+	/**
+	 * Save the post types settings.
+	 *
+	 * @return void
+	 */
+	public function save_cpt_settings() {
+		\check_ajax_referer( 'progress_planner', 'nonce', false );
+		$include_post_types = isset( $_POST['include_post_types'] ) ? \sanitize_text_field( \wp_unslash( $_POST['include_post_types'] ) ) : 'post,page';
+		$include_post_types = \explode( ',', $include_post_types );
+		\Progress_Planner\Settings::set( 'include_post_types', $include_post_types );
+
+		\wp_send_json_success(
+			[
+				'message' => \esc_html__( 'Settings saved.', 'progress-planner' ),
+			]
 		);
 	}
 }

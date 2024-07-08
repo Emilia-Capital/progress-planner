@@ -30,6 +30,9 @@ class Badges {
 	 * @return void
 	 */
 	public static function register_badge( $badge_id, $args ) {
+		if ( ! isset( $args['id'] ) ) {
+			$args['id'] = $badge_id;
+		}
 		self::$badges[ $badge_id ] = $args;
 	}
 
@@ -92,7 +95,7 @@ class Badges {
 			$badge_progress = self::get_badge_progress( $badge_id );
 
 			// Skip if the badge is not completed.
-			if ( 100 !== $badge_progress['progress'] ) {
+			if ( 100 > (int) $badge_progress['progress'] ) {
 				continue;
 			}
 
@@ -111,7 +114,7 @@ class Badges {
 			}
 
 			// Compare dates.
-			if ( \DateTime::createFromFormat( 'Y-m-d H:i:s', $settings[ $badge_id ]['date'] )->format( 'U' ) > \DateTime::createFromFormat( 'Y-m-d H:i:s', $latest_date )->format( 'U' ) ) {
+			if ( \DateTime::createFromFormat( 'Y-m-d H:i:s', $settings[ $badge_id ]['date'] )->format( 'U' ) >= \DateTime::createFromFormat( 'Y-m-d H:i:s', $latest_date )->format( 'U' ) ) {
 				$latest_date = $settings[ $badge_id ]['date'];
 				$latest_id   = $badge_id;
 			}

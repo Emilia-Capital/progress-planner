@@ -22,6 +22,16 @@ final class Badge_Content extends Widget {
 	protected $id = 'badge-content';
 
 	/**
+	 * Whether we should render the widget or not.
+	 *
+	 * @return bool
+	 */
+	protected function should_render() {
+		$details = $this->get_badge_details();
+		return ( 100 > (int) $details['progress']['progress'] );
+	}
+
+	/**
 	 * Render the widget content.
 	 *
 	 * @return void
@@ -78,7 +88,10 @@ final class Badge_Content extends Widget {
 	 * @return array
 	 */
 	public function get_badge_details() {
-		$result = [];
+		static $result = [];
+		if ( ! empty( $result ) ) {
+			return $result;
+		}
 		$badges = [ 'wonderful-writer', 'bold-blogger', 'awesome-author' ];
 
 		// Get the badge to display.
