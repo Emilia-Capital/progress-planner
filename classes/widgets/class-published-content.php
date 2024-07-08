@@ -143,6 +143,24 @@ final class Published_Content extends Widget {
 				'type' => 'line',
 			],
 			'compound'     => false,
+			'filter_results' => [ $this, 'filter_activities' ],
 		];
+	}
+
+	/**
+	 * Callback to filter the activities.
+	 *
+	 * @param \Progress_Planner\Activities\Content[] $activities The activities array.
+	 *
+	 * @return \Progress_Planner\Activities\Content[]
+	 */
+	public function filter_activities( $activities ) {
+		return array_filter(
+			$activities,
+			function( $activity ) {
+				return \in_array( $activity->get_post()->post_type, Content_Helpers::get_post_types_names(), true );
+			}
+		);
+
 	}
 }
