@@ -1,3 +1,21 @@
+= 0.9.5 =
+
+Fixed:
+
+* Post-type filters intruduced in v0.9.4 now also affect the graph results.
+
+= 0.9.4 =
+
+Enhancements:
+
+* Added a setting to include post types, we default to `post` and `page` and you can add others as you wish.
+
+Fixed:
+
+* Completing the last badge wouldn't ever work, fixed.
+* Fixed some bugs around detecting badges being "had".
+* Replaced links to the site with shortlinks, so we can change them as needed without doing a release.
+
 = 0.9.3 =
 
 Security:

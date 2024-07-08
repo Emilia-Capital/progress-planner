@@ -78,6 +78,12 @@ https://youtu.be/e1bmxZYyXFY
 
 == Upgrade Notice ==
 
+= 0.9.5 =
+
+Fixed:
+
+* Post-type filters intruduced in v0.9.4 now also affect the graph results.
+
 = 0.9.4 =
 
 Enhancements:
