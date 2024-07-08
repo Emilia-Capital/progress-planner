@@ -78,7 +78,7 @@ https://youtu.be/e1bmxZYyXFY
 
 == Upgrade Notice ==
 
-= 0.9.5 =
+= - in development =
 
 Fixed:
 
