@@ -25,7 +25,7 @@ class Content_Helpers {
 		$default            = [ 'post', 'page' ];
 		$include_post_types = \array_filter(
 			Settings::get( [ 'include_post_types' ], $default ),
-			function( $post_type ) {
+			function ( $post_type ) {
 				return $post_type && \post_type_exists( $post_type ) && is_post_type_viewable( $post_type );
 			}
 		);
