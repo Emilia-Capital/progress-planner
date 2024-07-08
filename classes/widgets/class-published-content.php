@@ -129,20 +129,37 @@ final class Published_Content extends Widget {
 	 */
 	public function get_chart_args() {
 		return [
-			'query_params' => [
+			'query_params'   => [
 				'category' => 'content',
 				'type'     => 'publish',
 			],
-			'dates_params' => [
+			'dates_params'   => [
 				'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) )->modify( $this->get_range() ),
 				'end'       => new \DateTime(),
 				'frequency' => $this->get_frequency(),
 				'format'    => 'M',
 			],
-			'chart_params' => [
+			'chart_params'   => [
 				'type' => 'line',
 			],
-			'compound'     => false,
+			'compound'       => false,
+			'filter_results' => [ $this, 'filter_activities' ],
 		];
+	}
+
+	/**
+	 * Callback to filter the activities.
+	 *
+	 * @param \Progress_Planner\Activities\Content[] $activities The activities array.
+	 *
+	 * @return \Progress_Planner\Activities\Content[]
+	 */
+	public function filter_activities( $activities ) {
+		return array_filter(
+			$activities,
+			function ( $activity ) {
+				return \in_array( $activity->get_post()->post_type, Content_Helpers::get_post_types_names(), true );
+			}
+		);
 	}
 }
