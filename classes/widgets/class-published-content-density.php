@@ -95,11 +95,10 @@ final class Published_Content_Density extends Widget {
 	public function filter_activities( $activities ) {
 		return array_filter(
 			$activities,
-			function( $activity ) {
+			function ( $activity ) {
 				return \in_array( $activity->get_post()->post_type, Content_Helpers::get_post_types_names(), true );
 			}
 		);
-
 	}
 
 	/**
@@ -147,13 +146,15 @@ final class Published_Content_Density extends Widget {
 		// Get the all-time average.
 		static $density;
 		if ( null === $density ) {
-			$activities = $this->filter_activities( \progress_planner()->get_query()->query_activities(
-				[
-					'category' => 'content',
-					'type'     => 'publish',
-				]
-			) );
-			$density = $this->count_density( $activities );
+			$activities = $this->filter_activities(
+				\progress_planner()->get_query()->query_activities(
+					[
+						'category' => 'content',
+						'type'     => 'publish',
+					]
+				)
+			);
+			$density    = $this->count_density( $activities );
 		}
 		return $density;
 	}
