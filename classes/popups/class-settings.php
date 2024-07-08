@@ -57,7 +57,7 @@ final class Settings extends Popup {
 				<label>
 					<input
 						type="checkbox"
-						name="prpl-settings-post-types-exclude[]"
+						name="prpl-settings-post-types-include[]"
 						value="<?php echo \esc_attr( $post_type ); ?>"
 						<?php checked( \in_array( $post_type, $saved_settings, true ) ); ?>
 					/>
@@ -65,7 +65,7 @@ final class Settings extends Popup {
 				</label>
 			<?php endforeach; ?>
 
-			<button id="submit-exclude-post-types" class="button button-primary"><?php \esc_html_e( 'Save', 'progress-planner' ); ?></button>
+			<button id="submit-include-post-types" class="button button-primary"><?php \esc_html_e( 'Save', 'progress-planner' ); ?></button>
 		</form>
 		<?php
 	}
