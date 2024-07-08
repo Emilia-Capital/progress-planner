@@ -228,8 +228,8 @@ class Page {
 			$localize_data,
 			[
 				'l10n' => [
-					'saved' => \esc_html__( 'Saved' )
-				]
+					'saved' => \esc_html__( 'Saved', 'progress-planner' ),
+				],
 			]
 		);
 		\wp_localize_script( 'progress-planner-settings', 'progressPlanner', $localize_data_settings );

@@ -51,7 +51,7 @@ final class Settings extends Popup {
 		<div class="prpl-widgets-container">
 			<div class="prpl-widget-wrapper popup-settings-wrapper">
 				<form id="prpl-settings-form">
-					<h3><?php \esc_html_e( 'Exclude Post Types', 'progress-planner' ) ?></h3>
+					<h3><?php \esc_html_e( 'Exclude Post Types', 'progress-planner' ); ?></h3>
 					<p><?php \esc_html_e( 'Select the post types you want to exclude from activity scores. This setting will affect which post-type activities get tracked.', 'progress-planner' ); ?></p>
 					<?php foreach ( $post_types as $post_type ) : ?>
 						<label>
