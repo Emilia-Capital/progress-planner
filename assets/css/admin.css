@@ -130,6 +130,12 @@ button.prpl-info-icon {
 	height: 100px;
 }
 
+.prpl-header-right {
+	display: flex;
+	gap: var(--prpl-padding);
+	align-items: center;
+}
+
 /*------------------------------------*\
 	Charts container.
 \*------------------------------------*/
@@ -1087,4 +1093,23 @@ button.prpl-info-icon {
 
 #prpl-dashboard-widget-todo-header p, #todo-list li {
 	font-size: 14px;
+}
+
+/*------------------------------------*\
+	Settings popup.
+\*------------------------------------*/
+#prpl-settings-form label {
+	display: block;
+}
+
+#prpl-settings-form p {
+	max-width: 42em;
+}
+
+#prpl-settings-form h3 {
+	font-size: 1.15em;
+}
+
+#prpl-settings-form button.button-primary {
+	margin-top: 1em;
 }
