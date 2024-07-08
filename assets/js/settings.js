@@ -9,7 +9,7 @@ document.getElementById( 'prpl-settings-form' ).addEventListener( 'submit', func
 		data: {
 			action: 'progress_planner_save_cpt_settings',
 			_ajax_nonce: progressPlanner.nonce,
-			exclude_post_types: data,
+			include_post_types: data,
 		}
 	} );
 

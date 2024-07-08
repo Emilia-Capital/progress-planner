@@ -7,6 +7,8 @@
 
 namespace Progress_Planner\Popups;
 
+use Progress_Planner\Activities\Content_Helpers;
+
 /**
  * Settings popup.
  */
@@ -40,7 +42,7 @@ final class Settings extends Popup {
 	 * @return void
 	 */
 	protected function the_content() {
-		$saved_settings = \Progress_Planner\Settings::get( 'exclude_post_types', [] );
+		$saved_settings = Content_Helpers::get_post_types_names();
 		$post_types     = \array_filter( \get_post_types( [ 'public' => true ] ), 'is_post_type_viewable' );
 		unset( $post_types['attachment'] );
 		unset( $post_types['elementor_library'] ); // Elementor templates are not a post type we want to track.
@@ -49,8 +51,8 @@ final class Settings extends Popup {
 		<h2><?php \esc_html_e( 'Settings', 'progress-planner' ); ?></h2>
 
 		<form id="prpl-settings-form">
-			<h3><?php \esc_html_e( 'Exclude Post Types', 'progress-planner' ); ?></h3>
-			<p><?php \esc_html_e( 'Select the post types you want to exclude from activity scores. This setting will affect which post-type activities get tracked.', 'progress-planner' ); ?></p>
+			<h3><?php \esc_html_e( 'Post Types', 'progress-planner' ); ?></h3>
+			<p><?php \esc_html_e( 'Select the post types you want to include in activity scores. This setting will affect which post-type activities get tracked.', 'progress-planner' ); ?></p>
 			<?php foreach ( $post_types as $post_type ) : ?>
 				<label>
 					<input

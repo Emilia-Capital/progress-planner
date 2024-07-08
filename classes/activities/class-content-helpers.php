@@ -22,18 +22,14 @@ class Content_Helpers {
 	 * @return string[]
 	 */
 	public static function get_post_types_names() {
-		$post_types = \get_post_types( [ 'public' => true ] );
-		$post_types = \array_filter( $post_types, 'is_post_type_viewable' );
-		unset( $post_types['attachment'] );
-		unset( $post_types['elementor_library'] ); // Elementor templates are not a post type we want to track.
-
-		// Get an array of post-types we want to exclude, and remove them from the array.
-		$exclude_post_types = Settings::get( [ 'exclude_post_types' ], [] );
-		foreach ( $exclude_post_types as $post_type ) {
-			unset( $post_types[ $post_type ] );
-		}
-
-		return array_keys( $post_types );
+		$default            = [ 'post', 'page' ];
+		$include_post_types = \array_filter(
+			Settings::get( [ 'include_post_types' ], $default ),
+			function( $post_type ) {
+				return $post_type && \post_type_exists( $post_type ) && is_post_type_viewable( $post_type );
+			}
+		);
+		return empty( $include_post_types ) ? $default : \array_values( $include_post_types );
 	}
 
 	/**

@@ -283,9 +283,9 @@ class Page {
 	 */
 	public function save_cpt_settings() {
 		\check_ajax_referer( 'progress_planner', 'nonce', false );
-		$exclude_post_types = isset( $_POST['exclude_post_types'] ) ? \sanitize_text_field( \wp_unslash( $_POST['exclude_post_types'] ) ) : '';
-		$exclude_post_types = \explode( ',', $exclude_post_types );
-		\Progress_Planner\Settings::set( 'exclude_post_types', $exclude_post_types );
+		$include_post_types = isset( $_POST['include_post_types'] ) ? \sanitize_text_field( \wp_unslash( $_POST['include_post_types'] ) ) : 'post,page';
+		$include_post_types = \explode( ',', $include_post_types );
+		\Progress_Planner\Settings::set( 'include_post_types', $include_post_types );
 
 		\wp_send_json_success(
 			[
