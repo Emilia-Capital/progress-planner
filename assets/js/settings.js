@@ -11,8 +11,11 @@ document.getElementById( 'prpl-settings-form' ).addEventListener( 'submit', func
 			_ajax_nonce: progressPlanner.nonce,
 			include_post_types: data,
 		},
+		successAction: () => {
+			window.location.reload();
+		},
 	} );
 
 	document.getElementById( 'submit-include-post-types' ).disabled = true;
-	document.getElementById( 'submit-include-post-types' ).innerHTML = progressPlanner.l10n.saved;
+	document.getElementById( 'submit-include-post-types' ).innerHTML = progressPlanner.l10n.saving;
 } );
