@@ -65,7 +65,8 @@ jQuery( document ).ready( function () {
 	 * @param {boolean} save       Whether to save the todo list to the database.
 	 */
 	const injectTodoItem = ( content, done, addToStart, save ) => {
-		content = content.trim()
+		content = content
+			.trim()
 			.replace( /</g, '&lt;' )
 			.replace( />/g, '&gt;' )
 			.replace( '"', '&quot;' );
