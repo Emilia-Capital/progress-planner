@@ -12,7 +12,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: NPM lockfile changes
-        uses: codepunkt/npm-lockfile-changes@main
+        uses: emilia-capital/npm-lockfile-changes@main
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           # Optional inputs, can be deleted safely if you are happy with default values.
