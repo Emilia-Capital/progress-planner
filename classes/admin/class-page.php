@@ -91,6 +91,8 @@ class Page {
 			<?php require PROGRESS_PLANNER_DIR . '/views/admin-page-header.php'; ?>
 			<?php require PROGRESS_PLANNER_DIR . '/views/welcome.php'; ?>
 
+			<?php do_action( 'progress_planner_admin_after_header' ); ?>
+
 			<div class="prpl-widgets-container">
 				<?php
 				$columns = apply_filters( 'progress_planner_admin_columns_widgets', self::COLUMNS );
