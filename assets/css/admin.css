@@ -808,19 +808,19 @@ button.prpl-info-icon {
 	background: var(--prpl-color-accent-red);
 }
 
-#prpl-popover-badges-details .indicators-maintenance {
+#prpl-popover-badges-details .indicators {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-gap: var(--prpl-padding);
 }
 
-#prpl-popover-badges-details .indicators-maintenance .indicator {
+#prpl-popover-badges-details .indicators .indicator {
 	text-align: center;
 	line-height: 1.2;
 	margin-top: 5px;
 }
 
-#prpl-popover-badges-details .indicators-maintenance .indicator .number {
+#prpl-popover-badges-details .indicators .indicator .number {
 	font-size: var(--prpl-font-size-2xl);
 	font-weight: 500;
 	display: block;
