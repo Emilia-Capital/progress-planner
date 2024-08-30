@@ -13,6 +13,13 @@ namespace Progress_Planner;
 class Playground {
 
 	/**
+	 * Constructor.
+	 */
+	public function __construct() {
+		\add_action( 'init', [ $this, 'register_hooks' ] );
+	}
+
+	/**
 	 * Register hooks.
 	 *
 	 * @return void
