@@ -58,7 +58,7 @@ class Playground {
 	 * @return void
 	 */
 	public function generate_data() {
-		for ( $i = 0; $i < 50; $i++ ) {
+		for ( $i = 0; $i < 24; $i++ ) {
 			$this->create_random_post();
 		}
 		// One post for today.
