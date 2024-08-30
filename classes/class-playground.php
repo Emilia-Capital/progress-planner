@@ -88,17 +88,18 @@ class Playground {
 	 * @return string Random string.
 	 */
 	private function create_random_string( $length ) {
-		$words     = [ 'the', 'and', 'have', 'that', 'for', 'you', 'with', 'say', 'this', 'they', 'but', 'his', 'from', 'not', 'she', 'as', 'what', 'their', 'can', 'who', 'get', 'would', 'her', 'all', 'make', 'about', 'know', 'will', 'one', 'time', 'there', 'year', 'think', 'when', 'which', 'them', 'some', 'people', 'take', 'out', 'into', 'just', 'see', 'him', 'your', 'come', 'could', 'now', 'than', 'like', 'other', 'how', 'then', 'its', 'our', 'two', 'more', 'these', 'want', 'way', 'look', 'first', 'also', 'new', 'because', 'day', 'use', 'man', 'find', 'here', 'thing', 'give', 'many', 'well', 'only', 'those', 'tell', 'very', 'even', 'back', 'any', 'good', 'woman', 'through', 'life', 'child', 'work', 'down', 'may', 'after', 'should', 'call', 'world', 'over', 'school', 'still', 'try', 'last', 'ask', 'need' ];
-		$sentences = '';
+		$words          = [ 'the', 'and', 'have', 'that', 'for', 'you', 'with', 'say', 'this', 'they', 'but', 'his', 'from', 'not', 'she', 'as', 'what', 'their', 'can', 'who', 'get', 'would', 'her', 'all', 'make', 'about', 'know', 'will', 'one', 'time', 'there', 'year', 'think', 'when', 'which', 'them', 'some', 'people', 'take', 'out', 'into', 'just', 'see', 'him', 'your', 'come', 'could', 'now', 'than', 'like', 'other', 'how', 'then', 'its', 'our', 'two', 'more', 'these', 'want', 'way', 'look', 'first', 'also', 'new', 'because', 'day', 'use', 'man', 'find', 'here', 'thing', 'give', 'many', 'well', 'only', 'those', 'tell', 'very', 'even', 'back', 'any', 'good', 'woman', 'through', 'life', 'child', 'work', 'down', 'may', 'after', 'should', 'call', 'world', 'over', 'school', 'still', 'try', 'last', 'ask', 'need' ];
+		$sentences      = '';
+		$current_length = 0;
 
-		// phpcs:ignore Squiz.PHP.DisallowSizeFunctionsInLoops.Found -- This works fine.
-		while ( \strlen( $sentences ) < $length ) {
+		while ( $current_length < $length ) {
 			$sentence  = '';
 			$word_keys = \array_rand( $words, \min( $length - \strlen( $sentence ), \count( $words ) ) );
 			foreach ( (array) $word_keys as $key ) {
 				$sentence .= $words[ $key ] . ' ';
 			}
-			$sentences .= \ucfirst( \trim( $sentence ) ) . '.';
+			$sentences     .= \ucfirst( \trim( $sentence ) ) . '.';
+			$current_length = strlen( $sentences );
 		}
 
 		return $sentences;
