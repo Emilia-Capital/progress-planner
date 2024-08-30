@@ -58,7 +58,7 @@ class Playground {
 	 * @return void
 	 */
 	public function generate_data() {
-		for ( $i = 0; $i < 19; $i++ ) {
+		for ( $i = 0; $i < 50; $i++ ) {
 			$this->create_random_post();
 		}
 		// One post for today.
@@ -108,27 +108,35 @@ class Playground {
 	}
 
 	/**
-	 * Create a random string of content.
+	 * Create a random string of content consisting of sentences.
 	 *
-	 * @param int $length Length of the string to create.
+	 * @param int $length Number of words in total to create across all sentences.
 	 *
-	 * @return string Random string.
+	 * @return string Random string of sentences.
 	 */
 	private function create_random_string( $length ) {
-		$words          = [ 'the', 'and', 'have', 'that', 'for', 'you', 'with', 'say', 'this', 'they', 'but', 'his', 'from', 'not', 'she', 'as', 'what', 'their', 'can', 'who', 'get', 'would', 'her', 'all', 'make', 'about', 'know', 'will', 'one', 'time', 'there', 'year', 'think', 'when', 'which', 'them', 'some', 'people', 'take', 'out', 'into', 'just', 'see', 'him', 'your', 'come', 'could', 'now', 'than', 'like', 'other', 'how', 'then', 'its', 'our', 'two', 'more', 'these', 'want', 'way', 'look', 'first', 'also', 'new', 'because', 'day', 'use', 'man', 'find', 'here', 'thing', 'give', 'many', 'well', 'only', 'those', 'tell', 'very', 'even', 'back', 'any', 'good', 'woman', 'through', 'life', 'child', 'work', 'down', 'may', 'after', 'should', 'call', 'world', 'over', 'school', 'still', 'try', 'last', 'ask', 'need' ];
-		$sentences      = '';
-		$current_length = 0;
+		$words = [ 'the', 'and', 'have', 'that', 'for', 'you', 'with', 'say', 'this', 'they', 'but', 'his', 'from', 'not', 'she', 'as', 'what', 'their', 'can', 'who', 'get', 'would', 'her', 'all', 'make', 'about', 'know', 'will', 'one', 'time', 'there', 'year', 'think', 'when', 'which', 'them', 'some', 'people', 'take', 'out', 'into', 'just', 'see', 'him', 'your', 'come', 'could', 'now', 'than', 'like', 'other', 'how', 'then', 'its', 'our', 'two', 'more', 'these', 'want', 'way', 'look', 'first', 'also', 'new', 'because', 'day', 'use', 'man', 'find', 'here', 'thing', 'give', 'many', 'well', 'only', 'those', 'tell', 'very', 'even', 'back', 'any', 'good', 'woman', 'through', 'life', 'child', 'work', 'down', 'may', 'after', 'should', 'call', 'world', 'over', 'school', 'still', 'try', 'last', 'ask', 'need' ];
 
-		while ( $current_length < $length ) {
+		$sentences       = '';
+		$words_remaining = $length;
+
+		while ( $words_remaining > 0 ) {
+			// Randomly decide the length of the current sentence (between 8 and 12 words).
+			$sentence_length  = min( wp_rand( 8, 12 ), $words_remaining );
+			$words_remaining -= $sentence_length;
+
+			// Select random words for the sentence.
+			$word_keys = array_rand( $words, $sentence_length );
 			$sentence  = '';
-			$word_keys = \array_rand( $words, \min( $length - \strlen( $sentence ), \count( $words ) ) );
+
 			foreach ( (array) $word_keys as $key ) {
-				$sentence .= $words[ $key ] . ' ';
+					$sentence .= $words[ $key ] . ' ';
 			}
-			$sentences     .= \ucfirst( \trim( $sentence ) ) . '.';
-			$current_length = strlen( $sentences );
+
+			// Capitalize the first word and add a period at the end.
+			$sentences .= ucfirst( trim( $sentence ) ) . '. ';
 		}
 
-		return $sentences;
+		return trim( $sentences );
 	}
 }
