@@ -45,8 +45,8 @@ class Playground {
 			return;
 		}
 
-		echo '<div id="progress-planner-playground-notice" class="notice notice-success" style="margin-bottom:40px">';
-		echo '<p style="max-width:600px;"><strong>' . esc_html__( 'Progress Planner demo', 'progress-planner' ) . '</strong><br>';
+		echo '<div id="progress-planner-playground-notice" class="notice notice-success" style="margin-bottom:40px; border-left-color:#38296D;">';
+		echo '<p style="max-width:680px;"><strong style="color: #38296D;">' . esc_html__( 'Progress Planner demo', 'progress-planner' ) . '</strong><br>';
 		\esc_html_e( 'This is a demo of Progress Planner. We\'ve prefilled this site with some content to show you what the reports in Progress Planner look like. We\'ve also added a few to-do\'s for you, you can see these here and on your dashoard.', 'progress-planner' );
 		echo '</p>';
 		echo '</div>';
