@@ -1,0 +1,22 @@
+{
+	"landingPage": "\/wp-admin\/admin.php?page=progress-planner",
+	"steps": [
+		{
+			"step": "login",
+			"username": "admin",
+			"password": "password"
+		},
+		{
+			"step": "defineWpConfigConsts",
+			"consts": {
+			  "IS_PLAYGROUND_PREVIEW": true
+			}
+		},
+		{
+			"step": "setSiteOptions",
+			"options": {
+					"progress_planner_license_key": "this-is-a-random-string"
+			}
+		}
+	]
+}
