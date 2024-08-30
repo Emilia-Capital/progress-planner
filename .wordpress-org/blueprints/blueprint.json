@@ -11,12 +11,6 @@
 			"consts": {
 			  "IS_PLAYGROUND_PREVIEW": true
 			}
-		},
-		{
-			"step": "setSiteOptions",
-			"options": {
-					"progress_planner_license_key": "this-is-a-random-string"
-			}
 		}
 	]
 }

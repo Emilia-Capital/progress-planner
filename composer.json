@@ -21,7 +21,7 @@
 	},
 	"scripts": {
 		"check-cs": [
-			"@php ./vendor/bin/phpcs"
+			"@php ./vendor/bin/phpcs -s"
 		],
 		"fix-cs": [
 			"@php ./vendor/bin/phpcbf"

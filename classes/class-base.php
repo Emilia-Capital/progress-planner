@@ -100,6 +100,10 @@ class Base {
 			new Dashboard_Widget_Score();
 			new Dashboard_Widget_Todo();
 		}
+		// Detect if we're running on the playground, if so, load our playground specific class.
+		if ( defined( 'IS_PLAYGROUND_PREVIEW' ) && IS_PLAYGROUND_PREVIEW ) {
+			new Playground();
+		}
 		new Actions_Content();
 		new Actions_Maintenance();
 		new Actions_Content_Scan();
