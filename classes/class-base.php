@@ -95,8 +95,7 @@ class Base {
 			require_once ABSPATH . 'wp-includes/pluggable.php';
 		}
 
-		// Detect if we're running on the playground, if so, load our playground specific class.
-		if ( defined( 'IS_PLAYGROUND_PREVIEW' ) && IS_PLAYGROUND_PREVIEW ) {
+		if ( defined( '\IS_PLAYGROUND_PREVIEW' ) && \IS_PLAYGROUND_PREVIEW ) {
 			new Playground();
 		}
 

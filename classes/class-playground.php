@@ -25,13 +25,73 @@ class Playground {
 	 * @return void
 	 */
 	public function register_hooks() {
-		if ( ! \get_option( 'progress_planner_license_key', false ) ) {
+		if ( ! \get_option( 'progress_planner_license_key', false ) && ! \get_option( 'progress_planner_force_reset_demo', false ) ) {
 			$this->generate_data();
 			\update_option( 'progress_planner_license_key', str_replace( ' ', '-', $this->create_random_string( 20 ) ) );
-			// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_unserialize -- This is a demo.
-			\update_option( 'progress_planner_todo', unserialize( 'a:2:{i:0;a:2:{s:7:"content";s:48:"Update a post to see that the plugin tracks that";s:4:"done";b:0;}i:1;a:2:{s:7:"content";s:24:"Try out Progress Planner";s:4:"done";b:0;}}' ) );
+			\update_option( 'progress_planner_force_show_onboarding', false );
+			\update_option(
+				'progress_planner_todo',
+				[
+					[
+						'content' => 'Update a post to see that the plugin tracks that',
+						'done'    => false,
+					],
+					[
+						'content' => 'Try out Progress Planner',
+						'done'    => false,
+					],
+				]
+			);
 		}
 		\add_action( 'admin_notices', [ $this, 'admin_notices' ] );
+		\add_action( 'wp_ajax_progress_planner_hide_onboarding', [ $this, 'hide_onboarding' ] );
+		\add_action( 'wp_ajax_progress_planner_show_onboarding', [ $this, 'show_onboarding' ] );
+	}
+
+	/**
+	 * Toggle the onboarding visibility in the Playground environment.
+	 *
+	 * @param string $action Either 'show' or 'hide'.
+	 *
+	 * @return void
+	 */
+	private function toggle_onboarding( $action ) {
+		$nonce_action = "progress_planner_{$action}_onboarding";
+		\check_ajax_referer( $nonce_action, 'nonce' );
+
+		if ( ! \current_user_can( 'manage_options' ) ) {
+			\wp_die( \esc_html__( 'You do not have sufficient permissions to access this page.', 'progress-planner' ) );
+		}
+
+		if ( $action === 'hide' ) {
+			\add_option( 'progress_planner_license_key', str_replace( ' ', '-', $this->create_random_string( 20 ) ) );
+			\update_option( 'progress_planner_force_show_onboarding', false );
+			$message = \esc_html__( 'Onboarding hidden successfully', 'progress-planner' );
+		} else {
+			\delete_option( 'progress_planner_license_key' );
+			\update_option( 'progress_planner_force_show_onboarding', true );
+			$message = \esc_html__( 'Onboarding shown successfully', 'progress-planner' );
+		}
+
+		\wp_send_json_success( [ 'message' => $message ] );
+	}
+
+	/**
+	 * Hide the onboarding in the Playground environment.
+	 *
+	 * @return void
+	 */
+	public function hide_onboarding() {
+		$this->toggle_onboarding( 'hide' );
+	}
+
+	/**
+	 * Show the onboarding in the Playground environment.
+	 *
+	 * @return void
+	 */
+	public function show_onboarding() {
+		$this->toggle_onboarding( 'show' );
 	}
 
 	/**
@@ -46,7 +106,31 @@ class Playground {
 		}
 
 		echo '<div id="progress-planner-playground-notice" class="notice notice-success" style="margin-bottom:40px; border-left-color:#38296D;">';
-		echo '<p style="max-width:680px;"><strong style="color: #38296D;">' . esc_html__( 'Progress Planner demo', 'progress-planner' ) . '</strong><br>';
+		echo '<h2>' . \esc_html__( 'Progress Planner demo', 'progress-planner' ) . '</h2>';
+
+		$show_onboarding = \get_option( 'progress_planner_force_show_onboarding', false );
+		$button_text     = $show_onboarding ? __( 'Hide onboarding', 'progress-planner' ) : __( 'Show onboarding', 'progress-planner' );
+		$action          = $show_onboarding ? 'hide' : 'show';
+		$nonce           = \wp_create_nonce( "progress_planner_{$action}_onboarding" );
+
+		echo '<button id="progress-planner-toggle-onboarding" class="button button-primary" style="float:right;background-color: #38296D; border-color: #38296D;">' . \esc_html( $button_text ) . '</button>';
+		?>
+		<script>
+		document.getElementById("progress-planner-toggle-onboarding").addEventListener("click", function() {
+			var xhr = new XMLHttpRequest();
+			xhr.open("POST", ajaxurl, true);
+			xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			xhr.onreadystatechange = function() {
+				if (xhr.readyState === 4 && xhr.status === 200) {
+					location.reload();
+				}
+			};
+			xhr.send("action=progress_planner_<?php echo \esc_attr( $action ); ?>_onboarding&nonce=<?php echo \esc_attr( $nonce ); ?>");
+		});
+		</script>
+		<?php
+
+		echo '<p style="max-width:680px;">';
 		\esc_html_e( 'This is a demo of Progress Planner. We\'ve prefilled this site with some content to show you what the reports in Progress Planner look like. We\'ve also added a few to-do\'s for you, you can see these here and on your dashoard.', 'progress-planner' );
 		echo '</p>';
 		echo '</div>';
