@@ -6,8 +6,8 @@ parameters:
     - vendor
     - node_modules
     - tests
-  checkGenericClassInNonGenericObjectType: false
   ignoreErrors:
+    - identifier: missingType.generics
     - '#Constant PROGRESS_PLANNER_URL not found.#'
     - '#Property [a-zA-Z0-9\\_]+::\$[a-zA-Z0-9\\_]+ type has no value type specified in iterable type array.#'
     - '#Method [a-zA-Z0-9\\_\:\(\)]+ return type has no value type specified in iterable type array.#'

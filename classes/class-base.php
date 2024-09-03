@@ -95,7 +95,7 @@ class Base {
 			require_once ABSPATH . 'wp-includes/pluggable.php';
 		}
 
-		if ( defined( '\IS_PLAYGROUND_PREVIEW' ) && \IS_PLAYGROUND_PREVIEW ) {
+		if ( defined( '\IS_PLAYGROUND_PREVIEW' ) && constant( '\IS_PLAYGROUND_PREVIEW' ) === true ) {
 			new Playground();
 		}
 

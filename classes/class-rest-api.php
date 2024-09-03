@@ -62,9 +62,11 @@ class Rest_API {
 	/**
 	 * Receive the data from the client.
 	 *
+	 * This method handles a REST request and returns a REST response.
+	 *
 	 * @param \WP_REST_Request $request The REST request object.
 	 *
-	 * @return \WP_REST_Response
+	 * @return \WP_REST_Response The REST response object containing the stats.
 	 */
 	public function get_stats( \WP_REST_Request $request ) {
 		$data = $request->get_json_params();
