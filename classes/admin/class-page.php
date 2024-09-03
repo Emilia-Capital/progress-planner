@@ -33,7 +33,6 @@ class Page {
 			'prpl-column prpl-column-first'  => [
 				'\Progress_Planner\Widgets\Suggested_Tasks',
 				'\Progress_Planner\Widgets\Activity_Scores',
-				'\Progress_Planner\Widgets\Plugins',
 				'\Progress_Planner\Widgets\Badges_Progress',
 				'\Progress_Planner\Widgets\Personal_Record_Content',
 			],
