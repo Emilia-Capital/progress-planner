@@ -95,7 +95,8 @@ final class Suggested_Tasks extends Widget {
 					<button
 						type="button"
 						class="prpl-suggested-task-button"
-						data-task="<?php esc_attr( $task_id ); ?>"
+						data-task-id="<?php echo esc_attr( $task_id ); ?>"
+						data-task-title="<?php echo esc_attr( $task['title'] ); ?>"
 						data-action="add-todo"
 					>
 						<?php esc_html_e( 'Add to my to-do list', 'progress-planner' ); ?>
@@ -103,7 +104,8 @@ final class Suggested_Tasks extends Widget {
 					<button
 						type="button"
 						class="prpl-suggested-task-button"
-						data-task="<?php esc_attr( $task_id ); ?>"
+						data-task-id="<?php echo esc_attr( $task_id ); ?>"
+						data-task-title="<?php echo esc_attr( $task['title'] ); ?>"
 						data-action="dismiss"
 					>
 						<?php esc_html_e( 'Dismiss', 'progress-planner' ); ?>
