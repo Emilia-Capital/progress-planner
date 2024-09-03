@@ -174,6 +174,8 @@ class Rest_API {
 
 		$data['plugin_url'] = \esc_url( \get_admin_url( null, 'admin.php?page=progress-planner' ) );
 
+		$data = apply_filters( 'progress_planner_rest_api_get_stats', $data );
+
 		return new \WP_REST_Response( $data );
 	}
 
