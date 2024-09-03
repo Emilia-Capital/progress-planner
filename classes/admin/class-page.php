@@ -217,15 +217,6 @@ class Page {
 			true
 		);
 
-		// Register the admin script for the suggested tasks.
-		\wp_register_script(
-			'progress-planner-suggested-tasks',
-			PROGRESS_PLANNER_URL . '/assets/js/suggested-tasks.js',
-			[ 'progress-planner-todo' ],
-			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/suggested-tasks.js' ),
-			true
-		);
-
 		$localize_data = [
 			'onboardNonceURL' => Onboard::get_remote_nonce_url(),
 			'onboardAPIUrl'   => Onboard::get_remote_url(),
@@ -257,6 +248,20 @@ class Page {
 				],
 			]
 		);
+
+		// Register the admin script for the suggested tasks.
+		\wp_register_script(
+			'progress-planner-suggested-tasks',
+			PROGRESS_PLANNER_URL . '/assets/js/suggested-tasks.js',
+			[ 'progress-planner-todo' ],
+			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/suggested-tasks.js' ),
+			true
+		);
+		$localize_data = [
+			'ajaxUrl' => \admin_url( 'admin-ajax.php' ),
+			'nonce'   => \wp_create_nonce( 'progress_planner' ),
+		];
+		\wp_localize_script( 'progress-planner-suggested-tasks', 'progressPlanner', $localize_data );
 	}
 
 	/**

@@ -1,10 +1,32 @@
-/* global progressPlannerInjectTodoItem */
+/* global progressPlannerInjectTodoItem, progressPlanner, jQuery */
+
+/**
+ * Dismiss a task.
+ *
+ * @param {string} taskId The task ID.
+ */
+const progressPlannerDismissTask = ( taskId ) => {
+	// Save the todo list to the database
+	jQuery.post(
+		progressPlanner.ajaxUrl,
+		{
+			action: 'progress_planner_dismiss_task',
+			task_id: taskId,
+			nonce: progressPlanner.nonce,
+		},
+		() => {
+			document
+				.querySelector( '.prpl-suggested-task-' + taskId )
+				.classList.add( 'prpl-suggested-task-dismissed' );
+		}
+	);
+};
 
 document
 	.querySelectorAll( '.prpl-suggested-task-button' )
 	.forEach( function ( button ) {
 		button.addEventListener( 'click', function () {
-			// const taskId = button.getAttribute( 'data-task-id' );
+			const taskId = button.getAttribute( 'data-task-id' );
 			const taskTitle = button.getAttribute( 'data-task-title' );
 			const action = button.getAttribute( 'data-action' );
 
@@ -16,6 +38,14 @@ document
 					true, // Add to start of list.
 					true // Save.
 				);
+
+				// Dismiss the task.
+				progressPlannerDismissTask( taskId );
+			}
+
+			if ( 'dismiss' === action ) {
+				// Dismiss the task.
+				progressPlannerDismissTask( taskId );
 			}
 		} );
 	} );

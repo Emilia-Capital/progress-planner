@@ -7,18 +7,12 @@
 
 namespace Progress_Planner\Widgets;
 
+use Progress_Planner\Suggested_Tasks as Root_Suggested_Tasks;
+
 /**
  * Published Content Widget.
  */
 final class Suggested_Tasks extends Widget {
-
-
-	/**
-	 * The remote server URL.
-	 *
-	 * @var string
-	 */
-	const REMOTE_DOMAIN = 'https://progressplanner.com';
 
 	/**
 	 * The widget ID.
@@ -33,7 +27,7 @@ final class Suggested_Tasks extends Widget {
 	 * @return void
 	 */
 	protected function the_content() {
-		$api_tasks = $this->get_tasks();
+		$api_tasks = Root_Suggested_Tasks::get_tasks();
 
 		$tasks = [];
 
@@ -70,28 +64,31 @@ final class Suggested_Tasks extends Widget {
 				<?php continue; ?>
 			<?php endif; ?>
 
-			<?php if ( 'high' === $priority ) : ?>
-				<h3 class="prpl-suggested-tasks-priority-title">
-					<?php esc_html_e( 'High priority', 'progress-planner' ); ?>
-				</h3>
-			<?php elseif ( 'medium' === $priority ) : ?>
-				<h3 class="prpl-suggested-tasks-priority-title">
-					<?php esc_html_e( 'Medium priority', 'progress-planner' ); ?>
-				</h3>
-			<?php elseif ( 'low' === $priority ) : ?>
-				<h3 class="prpl-suggested-tasks-priority-title">
-					<?php esc_html_e( 'Low priority', 'progress-planner' ); ?>
-				</h3>
-			<?php endif; ?>
-
 			<?php foreach ( $priority_tasks as $task_id => $task ) : ?>
-				<div class="prpl-suggested-task prpl-suggested-task-<?php echo esc_attr( $task_id ); ?>">
+				<?php
+				$classes   = [ 'prpl-suggested-task' ];
+				$classes[] = 'prpl-suggested-task-' . $task_id;
+				if ( \in_array( $task_id, Root_Suggested_Tasks::get_dismissed_tasks(), true ) ) {
+					$classes[] = 'prpl-suggested-task-dismissed';
+				}
+				?>
+				<div class="<?php echo esc_attr( \implode( ' ', $classes ) ); ?>">
 					<h4 class="prpl-suggested-task-title">
 						<?php echo esc_html( $task['title'] ); ?>
 					</h4>
 					<p class="prpl-suggested-task-description">
 						<?php echo esc_html( $task['description'] ); ?>
 					</p>
+					<p class="prpl-suggested-task-priority">
+						<?php
+						printf(
+							/* translators: %s: priority */
+							esc_html__( 'Priority: %s', 'progress-planner' ),
+							esc_html( $task['priority'] )
+						);
+						?>
+					</p>
+
 					<button
 						type="button"
 						class="prpl-suggested-task-button"
@@ -115,51 +112,5 @@ final class Suggested_Tasks extends Widget {
 		<?php endforeach; ?>
 
 		<?php
-	}
-
-	/**
-	 * Get the premium to-do items.
-	 *
-	 * @return array
-	 */
-	public function get_tasks() {
-		// Check if we have a cached response.
-		$items = \get_transient( 'progress_planner_suggested_tasks' );
-
-		// If we have a cached response, return it.
-		if ( $items ) {
-			return $items;
-		}
-
-		$remote_url = self::REMOTE_DOMAIN . '/wp-json/progress-planner-saas/v1/suggested-todo/';
-
-		// Get the response from the remote server.
-		$response = \wp_remote_get( $remote_url );
-
-		// Bail if the request failed.
-		if ( \is_wp_error( $response ) ) {
-			return [];
-		}
-
-		// Get the body of the response.
-		$body = \wp_remote_retrieve_body( $response );
-
-		// Bail if the body is empty.
-		if ( empty( $body ) ) {
-			return [];
-		}
-
-		// Decode the JSON body.
-		$data = \json_decode( $body, true );
-
-		// Bail if the JSON decoding failed.
-		if ( ! \is_array( $data ) ) {
-			return [];
-		}
-
-		// Cache the response for 1 day.
-		\set_transient( 'progress_planner_suggested_tasks', $data, DAY_IN_SECONDS );
-
-		return $data;
 	}
 }

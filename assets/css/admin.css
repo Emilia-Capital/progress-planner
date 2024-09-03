@@ -1115,3 +1115,13 @@ button.prpl-info-icon {
 #prpl-settings-form button.button-primary {
 	margin-top: 1em;
 }
+
+.prpl-suggested-task.prpl-suggested-task-dismissed {
+	text-decoration: line-through;
+}
+
+.prpl-suggested-task.prpl-suggested-task-dismissed .prpl-suggested-task-description,
+.prpl-suggested-task.prpl-suggested-task-dismissed .prpl-suggested-task-priority,
+.prpl-suggested-task.prpl-suggested-task-dismissed button {
+	display: none;
+}
