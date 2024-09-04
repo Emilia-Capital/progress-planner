@@ -109,8 +109,6 @@ final class Suggested_Tasks extends Widget {
 					</li>
 				<?php endforeach; ?>
 			<?php endforeach; ?>
-
-
 		</ul>
 		<?php
 	}
