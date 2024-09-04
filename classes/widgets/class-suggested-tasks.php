@@ -61,10 +61,6 @@ final class Suggested_Tasks extends Widget {
 
 		<ul>
 			<?php foreach ( $tasks as $priority => $priority_tasks ) : ?>
-				<?php if ( empty( $priority_tasks ) ) : ?>
-					<?php continue; ?>
-				<?php endif; ?>
-
 				<?php foreach ( $priority_tasks as $task_id => $task ) : ?>
 					<?php
 					$classes   = [ 'prpl-suggested-task' ];
