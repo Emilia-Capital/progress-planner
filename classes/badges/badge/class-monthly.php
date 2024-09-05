@@ -15,6 +15,13 @@ use Progress_Planner\Badges\Badge;
 final class Monthly extends Badge {
 
 	/**
+	 * The target points.
+	 *
+	 * @var int
+	 */
+	const TARGET_POINTS = 100;
+
+	/**
 	 * The badge ID.
 	 *
 	 * @var string
@@ -37,12 +44,31 @@ final class Monthly extends Badge {
 		if ( ! empty( self::$instances ) ) {
 			return self::$instances;
 		}
+		$instances = [];
 		foreach ( array_keys( self::get_months() ) as $month ) {
-			self::$instances[ $month ]     = new self();
-			self::$instances[ $month ]->id = 'monthly-' . strtolower( $month );
-			self::$instances[ $month ]->progress_callback();
+			$instances[ $month ]     = new self();
+			$instances[ $month ]->id = 'monthly-' . strtolower( $month );
+			$instances[ $month ]->progress_callback();
 		}
 
+		// Reorder the instances so that the current month is first.
+		$current_month  = (int) gmdate( 'm' ) - 1;
+		$months_keys    = array_keys( $instances );
+		$ordered_months = array_merge(
+			array_slice( $months_keys, $current_month ),
+			array_slice( $months_keys, 0, $current_month )
+		);
+		// Reverse the array so that the current month is last.
+		$ordered_months    = array_reverse( $ordered_months );
+		$ordered_instances = [];
+		foreach ( $ordered_months as $month ) {
+			$ordered_instances[ $month ] = $instances[ $month ];
+		}
+		// Pull the last item of the array, and put it in the beginning.
+		$last = array_pop( $ordered_instances );
+		array_unshift( $ordered_instances, $last );
+
+		self::$instances = $ordered_instances;
 		return self::$instances;
 	}
 
@@ -75,11 +101,7 @@ final class Monthly extends Badge {
 	 */
 	public function get_name() {
 		$month = str_replace( 'monthly-', '', $this->id );
-		return sprintf(
-			/* translators: %s: The month name. */
-			esc_html__( 'Monthly: %s', 'progress-planner' ),
-			self::get_months()[ $month ]
-		);
+		return self::get_months()[ $month ];
 	}
 
 	/**
@@ -153,6 +175,16 @@ final class Monthly extends Badge {
 			$points += $activity->get_points( $activity->date );
 		}
 
-		return [];
+		if ( $points > self::TARGET_POINTS ) {
+			return [
+				'progress'  => 100,
+				'remaining' => 0,
+			];
+		}
+
+		return [
+			'progress'  => (int) max( 0, min( 100, floor( 100 * $points / self::TARGET_POINTS ) ) ),
+			'remaining' => self::TARGET_POINTS - $points,
+		];
 	}
 }

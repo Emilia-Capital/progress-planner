@@ -41,6 +41,7 @@ class Page {
 				'\Progress_Planner\Widgets\Latest_Badge',
 				'\Progress_Planner\Widgets\Badge_Content',
 				'\Progress_Planner\Widgets\Badge_Streak',
+				'\Progress_Planner\Widgets\Badge_Monthly',
 			],
 		],
 	];
