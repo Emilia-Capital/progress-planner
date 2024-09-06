@@ -8,7 +8,6 @@
 namespace Progress_Planner\Widgets;
 
 use Progress_Planner\Badges;
-use Progress_Planner\Base;
 
 /**
  * Badge content widget.
