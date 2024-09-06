@@ -69,13 +69,11 @@ class Badges {
 			return [];
 		}
 
-		$progress = [];
-
 		if ( ! isset( $badge['steps'] ) ) {
 			return $badge['progress_callback']();
 		}
 
-		return $progress;
+		return [];
 	}
 
 	/**

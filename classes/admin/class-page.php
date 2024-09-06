@@ -243,7 +243,13 @@ class Page {
 				'nonce'     => \wp_create_nonce( 'progress_planner_todo' ),
 				'listItems' => \Progress_Planner\Todo::get_items(),
 				'i18n'      => [
-					'drag' => \esc_html__( 'Drag to reorder', 'progress-planner' ),
+					'drag'             => \esc_html__( 'Drag to reorder', 'progress-planner' ),
+					/* translators: %s: The task content. */
+					'taskDelete'       => \esc_html__( "Delete task '%s'", 'progress-planner' ),
+					/* translators: %s: The task content. */
+					'taskCompleted'    => \esc_html__( "Task '%s' completed and moved to the bottom", 'progress-planner' ),
+					/* translators: %s: The task content. */
+					'taskNotCompleted' => \esc_html__( "Task '%s' marked as not completed and moved to the top", 'progress-planner' ),
 				],
 			]
 		);
