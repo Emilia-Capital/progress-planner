@@ -23,7 +23,10 @@ jQuery( document ).ready( function () {
 				.attr( 'aria-label', content );
 			jQuery( this )
 				.find( '.trash' )
-				.attr( 'aria-label', `Delete task '${ content }'` );
+				.attr(
+					'aria-label',
+					progressPlannerTodo.i18n.taskDelete.replace( '%s', content )
+				);
 		} );
 
 		if ( todoList.length === 0 ) {
@@ -71,6 +74,11 @@ jQuery( document ).ready( function () {
 			.replace( />/g, '&gt;' )
 			.replace( '"', '&quot;' );
 
+		const deleteTaskAriaLabel = progressPlannerTodo.i18n.taskDelete.replace(
+			'%s',
+			content
+		);
+
 		const todoItemElement = jQuery( '<li></li>' ).html( `
 			<span class="prpl-todo-drag-handle" aria-label="${
 				progressPlannerTodo.i18n.drag
@@ -81,7 +89,7 @@ jQuery( document ).ready( function () {
 			</span>
 			<input type="checkbox" aria-label="'${ content }'" ${ done ? 'checked' : '' }>
 			<span class="content" contenteditable="plaintext-only">${ content }</span>
-			<button class="trash" aria-label="Delete task '${ content }'"><span class="dashicons dashicons-trash"></span></button>
+			<button class="trash" aria-label="${ deleteTaskAriaLabel }"><span class="dashicons dashicons-trash"></span></button>
 		` );
 
 		if ( addToStart ) {
@@ -142,10 +150,16 @@ jQuery( document ).ready( function () {
 		);
 
 		// Announce the status change and move focus to the moved item
-		const status = todoItemDone
-			? 'completed and moved to the bottom'
-			: 'marked as not completed and moved to the top';
-		announce( `Task '${ todoItemContent }' ${ status }` );
+		const announcement = todoItemDone
+			? progressPlannerTodo.i18n.taskCompleted.replace(
+					'%s',
+					todoItemContent
+			  )
+			: progressPlannerTodo.i18n.taskNotCompleted.replace(
+					'%s',
+					todoItemContent
+			  );
+		announce( announcement );
 	} );
 
 	// When an item's contenteditable element is edited,
