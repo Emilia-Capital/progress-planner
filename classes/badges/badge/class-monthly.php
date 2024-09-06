@@ -26,7 +26,7 @@ final class Monthly extends Badge {
 	 *
 	 * @var string
 	 */
-	protected $id = 'monthly';
+	protected $id;
 
 	/**
 	 * An array of instances for this object (one/month).
@@ -100,6 +100,9 @@ final class Monthly extends Badge {
 	 * @return string
 	 */
 	public function get_name() {
+		if ( ! $this->id ) {
+			return '';
+		}
 		$month = str_replace( 'monthly-', '', $this->id );
 		return self::get_months()[ $month ];
 	}
