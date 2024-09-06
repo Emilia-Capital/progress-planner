@@ -7,10 +7,7 @@
 
 namespace Progress_Planner\Activities;
 
-use Progress_Planner\Base;
 use Progress_Planner\Activity;
-use Progress_Planner\Date;
-use Progress_Planner\Activities\Content_Helpers;
 
 /**
  * Handler for posts activities.

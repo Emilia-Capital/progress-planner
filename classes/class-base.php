@@ -94,6 +94,11 @@ class Base {
 		if ( ! function_exists( 'wp_get_current_user' ) ) {
 			require_once ABSPATH . 'wp-includes/pluggable.php';
 		}
+
+		if ( defined( '\IS_PLAYGROUND_PREVIEW' ) && constant( '\IS_PLAYGROUND_PREVIEW' ) === true ) {
+			new Playground();
+		}
+
 		// Basic classes.
 		if ( \is_admin() && \current_user_can( 'publish_posts' ) ) {
 			new Admin_Page();
