@@ -37,11 +37,7 @@ final class Latest_Badge extends Widget {
 
 		// Get the latest completed badge.
 		$latest_badge_id = Badges::get_latest_completed_badge();
-
-		$latest_badge = false;
-		if ( $latest_badge_id ) {
-			$latest_badge = Badges::get_badge( $latest_badge_id );
-		}
+		$latest_badge    = $latest_badge_id ? Badges::get_badge( $latest_badge_id ) : false;
 		?>
 		<h2 class="prpl-widget-title">
 			<?php \esc_html_e( 'Latest new badge!', 'progress-planner' ); ?>
