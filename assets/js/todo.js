@@ -33,8 +33,7 @@ const progressPlannerSaveTodoList = () => {
 	}
 
 	// Save the todo list to the database
-	jQuery.post( progressPlannerTodo.ajaxUrl, {
-		action: 'progress_planner_save_todo_list',
+	wp.ajax.post( 'progress_planner_save_todo_list', {
 		todo_list: todoList,
 		nonce: progressPlannerTodo.nonce,
 	} );
