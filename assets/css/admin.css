@@ -826,7 +826,7 @@ button.prpl-info-icon {
 
 #prpl-popover-badges-details {
 
-	.indicators-maintenance {
+	.indicators {
 		display: grid;
 		grid-template-columns: 1fr 1fr 1fr;
 		grid-gap: var(--prpl-padding);
