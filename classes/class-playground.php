@@ -105,35 +105,36 @@ class Playground {
 			return;
 		}
 
-		echo '<div id="progress-planner-playground-notice" class="notice notice-success" style="margin-bottom:40px; border-left-color:#38296D;">';
-		echo '<h2>' . \esc_html__( 'Progress Planner demo', 'progress-planner' ) . '</h2>';
-
 		$show_onboarding = \get_option( 'progress_planner_force_show_onboarding', false );
 		$button_text     = $show_onboarding ? __( 'Hide onboarding', 'progress-planner' ) : __( 'Show onboarding', 'progress-planner' );
 		$action          = $show_onboarding ? 'hide' : 'show';
 		$nonce           = \wp_create_nonce( "progress_planner_{$action}_onboarding" );
-
-		echo '<button id="progress-planner-toggle-onboarding" class="button button-primary" style="float:right;background-color: #38296D; border-color: #38296D;">' . \esc_html( $button_text ) . '</button>';
 		?>
-		<script>
-		document.getElementById("progress-planner-toggle-onboarding").addEventListener("click", function() {
-			var xhr = new XMLHttpRequest();
-			xhr.open("POST", ajaxurl, true);
-			xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-			xhr.onreadystatechange = function() {
-				if (xhr.readyState === 4 && xhr.status === 200) {
-					location.reload();
-				}
-			};
-			xhr.send("action=progress_planner_<?php echo \esc_attr( $action ); ?>_onboarding&nonce=<?php echo \esc_attr( $nonce ); ?>");
-		});
-		</script>
-		<?php
 
-		echo '<p style="max-width:680px;">';
-		\esc_html_e( 'This is a demo of Progress Planner. We\'ve prefilled this site with some content to show you what the reports in Progress Planner look like. We\'ve also added a few to-do\'s for you, you can see these here and on your dashoard.', 'progress-planner' );
-		echo '</p>';
-		echo '</div>';
+		<div id="progress-planner-playground-notice" class="notice notice-success" style="margin-bottom:40px; border-left-color:#38296D;">
+			<h2><?php \esc_html_e( 'Progress Planner demo', 'progress-planner' ); ?></h2>
+			<button id="progress-planner-toggle-onboarding" class="button button-primary" style="float:right;background-color: #38296D; border-color: #38296D;">
+				<?php echo \esc_html( $button_text ); ?>
+			</button>
+
+			<p style="max-width:680px;">
+				<?php \esc_html_e( 'This is a demo of Progress Planner. We\'ve prefilled this site with some content to show you what the reports in Progress Planner look like. We\'ve also added a few to-do\'s for you, you can see these here and on your dashoard.', 'progress-planner' ); ?>
+			</p>
+			<script>
+			document.getElementById( 'progress-planner-toggle-onboarding' ).addEventListener( 'click', function() {
+				var xhr = new XMLHttpRequest();
+				xhr.open( 'POST', ajaxurl, true );
+				xhr.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' );
+				xhr.onreadystatechange = function() {
+					if ( xhr.readyState === 4 && xhr.status === 200 ) {
+						location.reload();
+					}
+				};
+				xhr.send( 'action=progress_planner_<?php echo \esc_attr( $action ); ?>_onboarding&nonce=<?php echo \esc_attr( $nonce ); ?>' );
+			});
+			</script>
+		</div>
+		<?php
 	}
 
 	/**

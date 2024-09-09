@@ -113,6 +113,7 @@ class Rest_API {
 			'super-site-specialist' => new Badge_Super_Site_Specialist(),
 		];
 
+		$data['badges'] = [];
 		foreach ( $badges as $key => $badge ) {
 			$data['badges'][ $key ] = array_merge(
 				[

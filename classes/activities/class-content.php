@@ -88,13 +88,16 @@ class Content extends Activity {
 		}
 
 		// Modify the score based on the words count.
-		$words = Content_Helpers::get_word_count( $post->post_content, $post->ID );
+		$words       = Content_Helpers::get_word_count( $post->post_content, $post->ID );
+		$multipliers = Base::$points_config['content']['word-multipliers'];
 		if ( $words > 1000 ) {
-			$points *= Base::$points_config['content']['word-multipliers'][1000];
-		} elseif ( $words > 350 ) {
-			$points *= Base::$points_config['content']['word-multipliers'][350];
-		} elseif ( $words > 100 ) {
-			$points *= Base::$points_config['content']['word-multipliers'][100];
+			return (int) ( $points * $multipliers[1000] );
+		}
+		if ( $words > 350 ) {
+			return (int) ( $points * $multipliers[350] );
+		}
+		if ( $words > 100 ) {
+			return (int) ( $points * $multipliers[100] );
 		}
 
 		return (int) $points;

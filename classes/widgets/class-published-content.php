@@ -31,15 +31,13 @@ final class Published_Content extends Widget {
 	protected function the_content() {
 		$post_types = Content_Helpers::get_post_types_names();
 		$stats      = $this->get_stats();
+		$sum_weekly = array_sum( $stats['weekly'] );
 		?>
 		<div class="two-col">
 			<div class="prpl-top-counter-bottom-content">
 				<?php $this->render_big_counter( (int) array_sum( $stats['weekly'] ), __( 'content published', 'progress-planner' ) ); ?>
 				<div class="prpl-widget-content">
-					<?php
-						$sum_weekly = array_sum( $stats['weekly'] );
-					?>
-										<p>
+					<p>
 						<?php if ( 0 === $sum_weekly ) : ?>
 							<?php \esc_html_e( 'You didn\'t publish new content last week. You can do better!', 'progress-planner' ); ?>
 						<?php else : ?>
