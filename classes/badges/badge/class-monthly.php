@@ -104,7 +104,7 @@ final class Monthly extends Badge {
 			return '';
 		}
 		$month = str_replace( 'monthly-', '', $this->id );
-		return self::get_months()[ $month ];
+		return self::get_months()[ $month ] . ' ' . $this->get_year( $month );
 	}
 
 	/**
@@ -141,15 +141,10 @@ final class Monthly extends Badge {
 	 * @return array
 	 */
 	public function progress_callback() {
-		$month             = self::get_months()[ str_replace( 'monthly-', '', $this->id ) ];
-		$month_num         = gmdate( 'm', strtotime( $month ) );
-		$current_month_num = gmdate( 'm' );
-		$is_current_year   = true;
-		$year              = gmdate( 'Y' );
-		if ( $current_month_num < $month_num ) {
-			$is_current_year = false;
-			$year            = (int) gmdate( 'Y' ) - 1;
-		}
+		$month           = self::get_months()[ str_replace( 'monthly-', '', $this->id ) ];
+		$year            = $this->get_year( $month );
+		$is_current_year = (int) gmdate( 'Y' ) === $year;
+		$month_num       = gmdate( 'm', strtotime( $month ) );
 
 		$start_date = \DateTime::createFromFormat( 'Y-m-d', "{$year}-{$month_num}-01" );
 		if ( $is_current_year ) {
@@ -189,5 +184,21 @@ final class Monthly extends Badge {
 			'progress'  => (int) max( 0, min( 100, floor( 100 * $points / self::TARGET_POINTS ) ) ),
 			'remaining' => self::TARGET_POINTS - $points,
 		];
+	}
+
+	/**
+	 * Get the year for the month.
+	 *
+	 * @param string $month The month.
+	 * @return int
+	 */
+	public function get_year( $month ) {
+		$current_month_num = gmdate( 'm' );
+		$month_num         = gmdate( 'm', strtotime( $month ) );
+		$year              = (int) gmdate( 'Y' );
+		if ( $current_month_num < $month_num ) {
+			return $year - 1;
+		}
+		return $year;
 	}
 }
