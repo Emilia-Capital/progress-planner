@@ -1,6 +1,6 @@
 <?php
 /**
- * Handle TODO list items.
+ * Handle admin tour.
  *
  * @package Progress_Planner
  */
@@ -8,7 +8,7 @@
 namespace Progress_Planner\Admin;
 
 /**
- * Settings class.
+ * Tour class.
  */
 class Tour {
 
