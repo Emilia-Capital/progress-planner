@@ -150,7 +150,6 @@ progressPlannerDomReady( () => {
 		.getElementById( 'create-todo-item' )
 		.addEventListener( 'submit', ( event ) => {
 			event.preventDefault();
-			console.log(  );
 			progressPlannerInjectTodoItem(
 				document.getElementById( 'new-todo-content' ).value,
 				false, // Not done.
