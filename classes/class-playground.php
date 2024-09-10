@@ -122,16 +122,13 @@ class Playground {
 			</p>
 			<script>
 			document.getElementById( 'progress-planner-toggle-onboarding' ).addEventListener( 'click', function() {
-				var xhr = new XMLHttpRequest();
-				xhr.open( 'POST', ajaxurl, true );
-				xhr.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' );
-				xhr.onreadystatechange = function() {
-					if ( xhr.readyState === 4 && xhr.status === 200 ) {
-						location.reload();
-					}
-				};
-				xhr.send( 'action=progress_planner_<?php echo \esc_attr( $action ); ?>_onboarding&nonce=<?php echo \esc_attr( $nonce ); ?>' );
-			});
+				const request = wp.ajax.post( 'progress_planner_<?php echo \esc_attr( $action ); ?>_onboarding', {
+					_ajax_nonce: '<?php echo \esc_attr( $nonce ); ?>',
+				} );
+				request.done( () => {
+					window.location.reload();
+				} );
+			} );
 			</script>
 		</div>
 		<?php
