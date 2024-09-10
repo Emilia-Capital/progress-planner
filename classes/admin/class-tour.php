@@ -115,7 +115,11 @@ class Tour {
 			'progress-planner-tour',
 			'progressPlannerTour',
 			[
-				'steps' => $this->get_steps(),
+				'steps'        => $this->get_steps(),
+				'progressText' => __( 'Step {{current}} of {{total}}', 'progress-planner' ),
+				'nextBtnText'  => __( 'Next', 'progress-planner' ),
+				'prevBtnText'  => __( 'Previous', 'progress-planner' ),
+				'doneBtnText'  => __( 'Finish', 'progress-planner' ),
 			]
 		);
 
