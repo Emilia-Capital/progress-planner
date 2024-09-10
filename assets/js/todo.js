@@ -146,17 +146,20 @@ progressPlannerDomReady( () => {
 
 	// When the '#create-todo-item' form is submitted,
 	// add a new todo item to the list
-	jQuery( '#create-todo-item' ).submit( function ( event ) {
-		event.preventDefault();
-		progressPlannerInjectTodoItem(
-			jQuery( '#new-todo-content' ).val(),
-			false, // Not done.
-			true, // Add to start.
-			true // Save.
-		);
+	document
+		.getElementById( 'create-todo-item' )
+		.addEventListener( 'submit', ( event ) => {
+			event.preventDefault();
+			console.log(  );
+			progressPlannerInjectTodoItem(
+				document.getElementById( 'new-todo-content' ).value,
+				false, // Not done.
+				true, // Add to start.
+				true // Save.
+			);
 
-		jQuery( '#new-todo-content' ).val( '' );
-	} );
+			document.getElementById( 'new-todo-content' ).value = '';
+		} );
 
 	// When an item is marked as done, move it to the end of the list.
 	// When an item is marked as not done, move it to the start of the list.
