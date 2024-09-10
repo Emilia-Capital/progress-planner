@@ -1,15 +1,14 @@
-
 const driver = window.driver.js.driver;
 
 const driverObj = driver();
 
-driverObj.highlight({
-  element: "#progress-planner-toggle-tour",
-  popover: {
-    title: "Click here",
-    description: "This will start the Progress Planner Tour."
-  }
-});
+driverObj.highlight( {
+	element: '#progress-planner-toggle-tour',
+	popover: {
+		title: 'Click here',
+		description: 'This will start the Progress Planner Tour.',
+	},
+} );
 
 // Handle changes to the range dropdown.
 document
@@ -30,5 +29,3 @@ document
 		url.searchParams.set( 'frequency', frequency );
 		window.location.href = url.href;
 	} );
-
-
