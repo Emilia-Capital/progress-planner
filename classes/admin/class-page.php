@@ -196,7 +196,7 @@ class Page {
 		\wp_register_script(
 			'progress-planner-settings',
 			PROGRESS_PLANNER_URL . '/assets/js/settings.js',
-			[ 'progress-planner-ajax' ],
+			[ 'progress-planner-ajax', 'wp-util' ],
 			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/settings.js' ),
 			true
 		);
@@ -213,7 +213,7 @@ class Page {
 		\wp_register_script(
 			'progress-planner-todo',
 			PROGRESS_PLANNER_URL . '/assets/js/todo.js',
-			[ 'jquery-ui-sortable', 'progress-planner-ajax' ],
+			[ 'jquery-ui-sortable', 'progress-planner-ajax', 'wp-util' ],
 			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/todo.js' ),
 			true
 		);

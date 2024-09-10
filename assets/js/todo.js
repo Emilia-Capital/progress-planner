@@ -1,6 +1,20 @@
 /* global progressPlannerTodo, jQuery */
 
 /**
+ * Run a function when the DOM is ready.
+ * Similar to jQuery's $( document ).ready() - which has been deprecated.
+ *
+ * @param {Function} fn The function to run when the DOM is ready.
+ */
+const progressPlannerDomReady = ( fn ) => {
+	if ( document.readyState !== 'loading' ) {
+		fn();
+	} else {
+		document.addEventListener( 'DOMContentLoaded', fn );
+	}
+};
+
+/**
  * Save the todo list to the database.
  */
 const progressPlannerSaveTodoList = () => {
@@ -108,7 +122,7 @@ const progressPlannerInjectTodoItem = ( content, done, addToStart, save ) => {
 	}
 };
 
-jQuery( document ).ready( function () {
+progressPlannerDomReady( () => {
 	const announce = ( message ) => {
 		jQuery( '#todo-aria-live-region' ).text( message );
 	};
@@ -132,17 +146,19 @@ jQuery( document ).ready( function () {
 
 	// When the '#create-todo-item' form is submitted,
 	// add a new todo item to the list
-	jQuery( '#create-todo-item' ).submit( function ( event ) {
-		event.preventDefault();
-		progressPlannerInjectTodoItem(
-			jQuery( '#new-todo-content' ).val(),
-			false, // Not done.
-			true, // Add to start.
-			true // Save.
-		);
+	document
+		.getElementById( 'create-todo-item' )
+		.addEventListener( 'submit', ( event ) => {
+			event.preventDefault();
+			progressPlannerInjectTodoItem(
+				document.getElementById( 'new-todo-content' ).value,
+				false, // Not done.
+				true, // Add to start.
+				true // Save.
+			);
 
-		jQuery( '#new-todo-content' ).val( '' );
-	} );
+			document.getElementById( 'new-todo-content' ).value = '';
+		} );
 
 	// When an item is marked as done, move it to the end of the list.
 	// When an item is marked as not done, move it to the start of the list.
