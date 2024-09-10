@@ -163,6 +163,15 @@ class Page {
 			false
 		);
 
+		// Register driver.js.
+		\wp_register_script(
+			'driver-js',
+			PROGRESS_PLANNER_URL . '/assets/js/vendor/driver.js.iife.js',
+			[],
+			'1.3.1',
+			false
+		);
+
 		// Register the ajax-request helper.
 		\wp_register_script(
 			'progress-planner-ajax',
@@ -203,7 +212,7 @@ class Page {
 		\wp_register_script(
 			'progress-planner-admin',
 			PROGRESS_PLANNER_URL . '/assets/js/header-filters.js',
-			[],
+			[ 'driver-js' ],
 			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/header-filters.js' ),
 			true
 		);
@@ -281,6 +290,12 @@ class Page {
 			PROGRESS_PLANNER_URL . '/assets/css/admin.css',
 			[],
 			filemtime( PROGRESS_PLANNER_DIR . '/assets/css/admin.css' )
+		);
+		\wp_enqueue_style(
+			'progress-planner-driver-js-css',
+			PROGRESS_PLANNER_URL . '/assets/css/vendor/driver.css',
+			[],
+			'1.3.1'
 		);
 	}
 

@@ -113,6 +113,10 @@ class Playground {
 
 		<div id="progress-planner-playground-notice" class="notice notice-success" style="margin-bottom:40px; border-left-color:#38296D;">
 			<h2><?php \esc_html_e( 'Progress Planner demo', 'progress-planner' ); ?></h2>
+			<button id="progress-planner-toggle-tour" class="button button-primary" style="float:right;background-color: #38296D; border-color: #38296D; margin-left:10px;">
+				<?php echo \esc_html( __( 'Show tour', 'progress-planner' ) ); ?>
+			</button>
+
 			<button id="progress-planner-toggle-onboarding" class="button button-primary" style="float:right;background-color: #38296D; border-color: #38296D;">
 				<?php echo \esc_html( $button_text ); ?>
 			</button>
