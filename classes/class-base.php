@@ -10,6 +10,7 @@ namespace Progress_Planner;
 use Progress_Planner\Query;
 use Progress_Planner\Admin\Page as Admin_page;
 use Progress_Planner\Admin\Dashboard_Widget_Score;
+use Progress_Planner\Admin\Tour;
 use Progress_Planner\Admin\Dashboard_Widget_Todo;
 use Progress_Planner\Actions\Content as Actions_Content;
 use Progress_Planner\Actions\Content_Scan as Actions_Content_Scan;
@@ -102,6 +103,7 @@ class Base {
 		// Basic classes.
 		if ( \is_admin() && \current_user_can( 'publish_posts' ) ) {
 			new Admin_Page();
+			new Tour();
 			new Dashboard_Widget_Score();
 			new Dashboard_Widget_Todo();
 		}
