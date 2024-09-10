@@ -1141,3 +1141,20 @@ button.prpl-info-icon {
 		margin-top: 1em;
 	}
 }
+
+.driver-popover.driverjs-theme {
+	background-color: var(--prpl-background-orange);
+	color: var(--prpl-color-text);
+
+	.driver-popover-title {
+		color: var(--prpl-color-headings);
+	}
+
+	button {
+		color: var(--prpl-color-headings);
+	}
+
+	button:hover {
+		background-color: var(--prpl-background-orange);
+	}
+}
