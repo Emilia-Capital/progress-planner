@@ -18,7 +18,7 @@ $progress_planner_active_frequency = isset( $_GET['frequency'] ) ? \sanitize_tex
 do_action( 'progress_planner_admin_page_header_before' );
 ?>
 <?php if ( isset( $_GET['content-scan-finished'] ) ) : // phpcs:ignore WordPress.Security ?>
-	<div class="prpl-widget-wrapper prpl-top-notice">
+	<div class="prpl-widget-wrapper prpl-top-notice" id="prpl-content-scan-finished-notice">
 	<div class="inner-content">
 		<h1><?php esc_html_e( "We've successfully scanned your site's content.", 'progress-planner' ); ?></h1>
 		<p><?php esc_html_e( 'Would you like a tour of the plugin now?', 'progress-planner' ); ?></p>

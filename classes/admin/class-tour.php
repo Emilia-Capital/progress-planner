@@ -63,6 +63,15 @@ class Tour {
 				],
 			],
 			[
+				'element' => '#prpl-popover-settings',
+				'popover' => [
+					'title'       => esc_html__( 'Post types', 'progress-planner' ),
+					'description' => esc_html__( 'Simply select the post types you want to include in your activity score and hit save.', 'progress-planner' ),
+					'side'        => 'top',
+					'align'       => 'center',
+				],
+			],
+			[
 				'element' => '.prpl-todo',
 				'popover' => [
 					'title'       => esc_html__( 'Your to-do list', 'progress-planner' ),
@@ -84,7 +93,7 @@ class Tour {
 				'element' => '.prpl-badges-progress .prpl-info-icon',
 				'popover' => [
 					'title'       => esc_html__( 'Your badge progress', 'progress-planner' ),
-					'description' => esc_html__( 'Clicking the info icon will show you more information about your badge progress.', 'progress-planner' ),
+					'description' => esc_html__( 'Clicking the info icon will show you more information about your badge progress. You can also learn about streak freezes here.', 'progress-planner' ),
 					'side'        => 'top',
 					'align'       => 'center',
 				],
