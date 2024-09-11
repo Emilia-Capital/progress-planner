@@ -112,11 +112,16 @@ class Playground {
 		$nonce           = \wp_create_nonce( "progress_planner_{$action}_onboarding" );
 		?>
 
-		<div class="prpl-widget-wrapper prpl-top-notice">
+		<div class="prpl-widget-wrapper prpl-top-notice" id="prpl-playground-notice">
+			<button class="prpl-close-button" onclick="document.getElementById('prpl-playground-notice').remove();">
+				<span class="dashicons dashicons-no-alt"></span>
+				<span class="screen-reader-text"><?php esc_html_e( 'Close notice', 'progress-planner' ); ?></span>
+			</button>
+
 			<div class="inner-content">
 				<h1><?php \esc_html_e( 'Progress Planner demo', 'progress-planner' ); ?></h1>
 
-				<button id="progress-planner-toggle-onboarding" class="prpl-button-primary" style="width:250px; float:right;">
+				<button id="progress-planner-toggle-onboarding" class="prpl-button-primary" style="margin-top: 20px; width:250px; float:right;">
 					<?php echo \esc_html( $button_text ); ?>
 				</button>
 
