@@ -718,7 +718,8 @@ button.prpl-info-icon {
   Buttons
 \*------------------------------------*/
 
-.prpl-wrap input.prpl-button-primary, .prpl-wrap button.prpl-button-primary {
+.prpl-wrap input.prpl-button-primary,
+.prpl-wrap button.prpl-button-primary {
 	display: block;
 	margin: 1em 0;
 	padding: 1em;
@@ -731,14 +732,18 @@ button.prpl-info-icon {
 	border-radius: var(--prpl-border-radius);
 }
 
-.prpl-wrap input.prpl-button-primary:hover, .prpl-wrap button.prpl-button-primary:hover,
-.prpl-wrap input.prpl-button-primary:focus, .prpl-wrap button.prpl-button-primary:focus {
+.prpl-wrap input.prpl-button-primary:hover,
+.prpl-wrap button.prpl-button-primary:hover,
+.prpl-wrap input.prpl-button-primary:focus,
+.prpl-wrap button.prpl-button-primary:focus {
 	text-decoration: underline;
 	box-shadow: 3px 3px 10px var(--prpl-color-accent-red);
 }
+
 /*------------------------------------*\
 	Onboarding form.
 \*------------------------------------*/
+
 #prpl-onboarding-form label,
 #prpl-onboarding-submit-grid-wrapper {
 	display: grid;
@@ -747,11 +752,9 @@ button.prpl-info-icon {
 	gap: var(--prpl-padding);
 }
 
-#prpl-onboarding-form {
-	label > span:has(input[type="checkbox"]) {
-		display: flex;
-		align-items: baseline;
-	}
+#prpl-onboarding-form label > span:has(input[type="checkbox"]) {
+	display: flex;
+	align-items: baseline;
 }
 
 .prpl-form-notice {

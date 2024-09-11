@@ -60,7 +60,7 @@ class Tour {
 					'description' => esc_html__( 'With this button you can open the settings. Here you can determine which post types you want to include in your activity score.', 'progress-planner' ),
 					'side'        => 'top',
 					'align'       => 'center',
-				]
+				],
 			],
 			[
 				'element' => '.prpl-todo',
