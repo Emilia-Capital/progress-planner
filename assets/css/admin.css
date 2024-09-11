@@ -1173,7 +1173,7 @@ button.prpl-info-icon {
 	}
 }
 
-.driver-popover.driverjs-theme {
+.driver-popover.prpl-driverjs-theme {
 	background-color: var(--prpl-background-orange);
 	color: var(--prpl-color-text);
 
