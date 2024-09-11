@@ -731,14 +731,12 @@ button.prpl-info-icon {
 	box-shadow: none;
 	border: none;
 	border-radius: var(--prpl-border-radius);
-}
 
-.prpl-wrap input.prpl-button-primary:hover,
-.prpl-wrap button.prpl-button-primary:hover,
-.prpl-wrap input.prpl-button-primary:focus,
-.prpl-wrap button.prpl-button-primary:focus {
-	text-decoration: underline;
-	box-shadow: 3px 3px 10px var(--prpl-color-accent-red);
+	&:hover,
+	&:focus {
+		text-decoration: underline;
+		box-shadow: 3px 3px 10px var(--prpl-color-accent-red);
+	}
 }
 
 /*------------------------------------*\
