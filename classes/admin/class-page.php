@@ -282,12 +282,6 @@ class Page {
 			[],
 			filemtime( PROGRESS_PLANNER_DIR . '/assets/css/admin.css' )
 		);
-		\wp_enqueue_style(
-			'progress-planner-driver-js-css',
-			PROGRESS_PLANNER_URL . '/assets/css/vendor/driver.css',
-			[],
-			'1.3.1'
-		);
 	}
 
 	/**
