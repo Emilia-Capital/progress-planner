@@ -27,6 +27,15 @@ class Tour {
 	public function get_steps() {
 		return [
 			[
+				'element' => '#prpl-start-tour-icon-button',
+				'popover' => [
+					'title'       => esc_html__( 'Tour of Progress Planner', 'progress-planner' ),
+					'description' => esc_html__( "We'll show you around the plugin. You can stop at any time, and restart the tour at any time by clicking this button.", 'progress-planner' ),
+					'side'        => 'top',
+					'align'       => 'center',
+				],
+			],
+			[
 				'element' => '.prpl-website-activity-score',
 				'popover' => [
 					'title'       => esc_html__( 'Website activity score', 'progress-planner' ),
@@ -43,6 +52,15 @@ class Tour {
 					'side'        => 'top',
 					'align'       => 'center',
 				],
+			],
+			[
+				'element' => '#prpl-popover-settings-trigger',
+				'popover' => [
+					'title'       => esc_html__( 'Settings', 'progress-planner' ),
+					'description' => esc_html__( 'With this button you can open the settings. Here you can determine which post types you want to include in your activity score.', 'progress-planner' ),
+					'side'        => 'top',
+					'align'       => 'center',
+				]
 			],
 			[
 				'element' => '.prpl-todo',
@@ -117,8 +135,8 @@ class Tour {
 			[
 				'steps'        => $this->get_steps(),
 				'progressText' => __( 'Step {{current}} of {{total}}', 'progress-planner' ),
-				'nextBtnText'  => __( 'Next', 'progress-planner' ),
-				'prevBtnText'  => __( 'Previous', 'progress-planner' ),
+				'nextBtnText'  => __( 'Next &rarr;', 'progress-planner' ),
+				'prevBtnText'  => __( '&larr; Previous', 'progress-planner' ),
 				'doneBtnText'  => __( 'Finish', 'progress-planner' ),
 			]
 		);

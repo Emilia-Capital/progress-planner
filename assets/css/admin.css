@@ -625,6 +625,17 @@ button.prpl-info-icon {
 }
 
 /*------------------------------------*\
+	Top notice - used above logo.
+\*------------------------------------*/
+.prpl-wrap .prpl-top-notice {
+	margin-bottom: var(--prpl-gap);
+
+	button.prpl-button-primary {
+		margin: 0;
+	}
+}
+
+/*------------------------------------*\
 	Welcome widget.
 \*------------------------------------*/
 .prpl-widget-wrapper.prpl-welcome {
@@ -704,6 +715,28 @@ button.prpl-info-icon {
 }
 
 /*------------------------------------*\
+  Buttons
+\*------------------------------------*/
+
+.prpl-wrap input.prpl-button-primary, .prpl-wrap button.prpl-button-primary {
+	display: block;
+	margin: 1em 0;
+	padding: 1em;
+	color: #fff;
+	text-decoration: none;
+	font-size: var(--prpl-font-size-base);
+	background: var(--prpl-color-accent-red);
+	box-shadow: none;
+	border: none;
+	border-radius: var(--prpl-border-radius);
+}
+
+.prpl-wrap input.prpl-button-primary:hover, .prpl-wrap button.prpl-button-primary:hover,
+.prpl-wrap input.prpl-button-primary:focus, .prpl-wrap button.prpl-button-primary:focus {
+	text-decoration: underline;
+	box-shadow: 3px 3px 10px var(--prpl-color-accent-red);
+}
+/*------------------------------------*\
 	Onboarding form.
 \*------------------------------------*/
 #prpl-onboarding-form label,
@@ -715,27 +748,9 @@ button.prpl-info-icon {
 }
 
 #prpl-onboarding-form {
-
 	label > span:has(input[type="checkbox"]) {
 		display: flex;
 		align-items: baseline;
-	}
-
-	input[type="submit"] {
-		display: block;
-		margin: 1em 0;
-		padding: 0.5em 1em;
-		font-size: var(--prpl-font-size-base);
-		background: var(--prpl-color-accent-red);
-		box-shadow: none;
-		border: none;
-		border-radius: var(--prpl-border-radius);
-	}
-
-	input[type="submit"]:hover,
-	input[type="submit"]:focus {
-		text-decoration: underline;
-		box-shadow: 3px 3px 10px var(--prpl-color-accent-red);
 	}
 }
 
@@ -746,6 +761,7 @@ button.prpl-info-icon {
 	padding: var(--prpl-padding);
 	margin-bottom: var(--prpl-padding);
 }
+
 
 /*------------------------------------*\
 	Popovers generic styles.

@@ -16,3 +16,15 @@ document
 	.addEventListener( 'click', function () {
 		driverObj.drive();
 	} );
+
+document
+	.getElementById( 'prpl-start-tour-button' )
+	.addEventListener( 'click', function () {
+		driverObj.drive();
+	} );
+
+document
+	.getElementById( 'prpl-start-tour-icon-button' )
+	.addEventListener( 'click', function () {
+		driverObj.drive();
+	} );
