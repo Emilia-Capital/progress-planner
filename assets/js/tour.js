@@ -11,20 +11,7 @@ const driverObj = driver( {
 	steps: progressPlannerTour.steps,
 } );
 
-document
-	.getElementById( 'progress-planner-toggle-tour' )
-	.addEventListener( 'click', function () {
-		driverObj.drive();
-	} );
-
-document
-	.getElementById( 'prpl-start-tour-button' )
-	.addEventListener( 'click', function () {
-		driverObj.drive();
-	} );
-
-document
-	.getElementById( 'prpl-start-tour-icon-button' )
-	.addEventListener( 'click', function () {
-		driverObj.drive();
-	} );
+// eslint-disable-next-line no-unused-vars -- This is called on a few buttons.
+function prplStartTour() {
+	driverObj.drive();
+}
