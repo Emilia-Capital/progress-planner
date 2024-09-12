@@ -25,5 +25,8 @@
 		"lint:js": "wp-scripts lint-js ./assets/js/*.js",
 		"lint:js:fix": "npm run lint:js -- --fix",
 		"prepare": "husky"
+	},
+	"dependencies": {
+		"driver.js": "^1.3.1"
 	}
 }
