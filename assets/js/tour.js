@@ -17,8 +17,8 @@ const prplDriverObj = prplDriver( {
 			if ( scanFinishedNotice ) {
 				scanFinishedNotice.remove();
 			}
-			prplDriverObj.destroy();
 		}
+		prplDriverObj.destroy();
 	},
 } );
 
