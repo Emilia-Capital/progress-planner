@@ -11,9 +11,12 @@ const prplDriverObj = prplDriver( {
 	steps: progressPlannerTour.steps,
 	onDestroyStarted: () => {
 		if ( ! prplDriverObj.hasNextStep() ) {
-			document
-				.getElementById( 'prpl-content-scan-finished-notice' )
-				.remove();
+			const scanFinishedNotice = document.getElementById(
+				'prpl-content-scan-finished-notice'
+			);
+			if ( scanFinishedNotice ) {
+				scanFinishedNotice.remove();
+			}
 			prplDriverObj.destroy();
 		}
 	},
