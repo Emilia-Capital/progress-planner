@@ -43,7 +43,7 @@ do_action( 'progress_planner_admin_page_header_before' );
 
 	<div class="prpl-header-right">
 		<button class="prpl-info-icon" id="prpl-start-tour-icon-button" onclick="prplStartTour()">
-			<span class="dashicons dashicons-info-outline"></span>
+			<span class="dashicons dashicons-lightbulb"></span>
 			<span class="screen-reader-text"><?php \esc_html_e( 'Start tour', 'progress-planner' ); ?>
 		</button>
 		<?php new \Progress_Planner\Popups\Settings(); ?>
