@@ -335,6 +335,14 @@ button.prpl-info-icon {
 	overflow: hidden;
 	position: relative;
 	margin-bottom: var(--prpl-padding);
+
+	.prpl-gauge-0 {
+		left: 10px;
+	}
+
+	.prpl-gauge-100 {
+		right: 3px;
+	}
 }
 
 .prpl-activities-gauge-container .prpl-gauge-0,
@@ -343,14 +351,6 @@ button.prpl-info-icon {
 	position: absolute;
 	top: 50%;
 	color: var(--prpl-color-gray-5);
-}
-
-.prpl-activities-gauge-container .prpl-gauge-0 {
-	left: 10px;
-}
-
-.prpl-activities-gauge-container .prpl-gauge-100 {
-	right: 3px;
 }
 
 /*------------------------------------*\
@@ -1061,6 +1061,13 @@ button.prpl-info-icon {
 		align-items: center;
 		border: none;
 		padding: 0 0 1em 0;
+
+		.progress-percent {
+			font-size: 28px;
+			font-weight: 600;
+			padding-top: 0;
+			color: var(--prpl-color-gray-5);
+		}
 	}
 
 	.prpl-gauge-0,
@@ -1077,13 +1084,6 @@ button.prpl-info-icon {
 
 	.prpl-gauge-100 {
 		right: 0;
-	}
-
-	.prpl-badge-wrapper .progress-percent {
-		font-size: 28px;
-		font-weight: 600;
-		padding-top: 0;
-		color: var(--prpl-color-gray-5);
 	}
 
 	h3 {
