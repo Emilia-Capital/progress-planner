@@ -735,7 +735,9 @@ button.prpl-info-icon {
 \*------------------------------------*/
 
 .prpl-wrap input.prpl-button-primary,
-.prpl-wrap button.prpl-button-primary {
+.prpl-wrap input.prpl-button-secondary,
+.prpl-wrap button.prpl-button-primary,
+.prpl-wrap button.prpl-button-secondary {
 	display: block;
 	margin: 1em 0;
 	padding: 1em;
@@ -752,6 +754,17 @@ button.prpl-info-icon {
 	&:focus {
 		text-decoration: underline;
 		box-shadow: 3px 3px 10px var(--prpl-color-accent-red);
+	}
+}
+
+.prpl-wrap input.prpl-button-secondary,
+.prpl-wrap button.prpl-button-secondary {
+	background: var(--prpl-color-gray-3);
+
+	&:hover,
+	&:focus {
+		background: var(--prpl-color-gray-4);
+		box-shadow: 3px 3px 10px var(--prpl-color-gray-4);
 	}
 }
 

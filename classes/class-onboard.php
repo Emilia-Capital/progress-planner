@@ -77,69 +77,91 @@ class Onboard {
 				)
 				?>
 			</div>
-			<label>
-				<span class="prpl-label-content">
-					<?php \esc_html_e( 'First Name', 'progress-planner' ); ?>
-				</span>
-				<input
-					type="text"
-					name="name"
-					class="prpl-input"
-					required
-					value="<?php echo \esc_attr( \get_user_meta( $current_user->ID, 'first_name', true ) ); ?>"
-				>
-			</label>
-			<label>
-				<span class="prpl-label-content">
-					<?php \esc_html_e( 'Email', 'progress-planner' ); ?>
-				</span>
-				<input
-					type="email"
-					name="email"
-					class="prpl-input"
-					required
-					value="<?php echo \esc_attr( $current_user->user_email ); ?>"
-				>
-			</label>
-			<label>
-				<span></span><!-- Empty span for styling (grid layout). -->
-				<span>
-					<span><!-- Wrapping the input in a span to align it vertically with the label. -->
-						<input
-							type="checkbox"
-							name="consent"
-							required
-						>
-					</span>
+			<div style="display:flex;">
+				<label>
+					<input type="radio" name="with-email" value="yes" checked>
 					<span class="prpl-label-content">
-						<?php
-							printf(
-								/* translators: %1$s: progressplanner.com link. %2$s: Link with text "Learn more." */
-								\esc_html__( 'Create an account on %1$s, and subscribe to emails. %2$s', 'progress-planner' ),
-								'<a href="https://prpl.fyi/home" target="_blank">progressplanner.com</a>',
-								'<a href="https://prpl.fyi/onboarding" target="_blank">' . \esc_html__( 'Learn more.', 'progress-planner' ) . '</a>'
-							);
-						?>
+						<?php \esc_html_e( 'Yes, send me weekly emails', 'progress-planner' ); ?>
 					</span>
-				</span>
-			</label>
-			<input
-				type="hidden"
-				name="site"
-				value="<?php echo \esc_attr( \set_url_scheme( \site_url() ) ); ?>"
-			>
-			<input
-				type="hidden"
-				name="timezone_offset"
-				value="<?php echo (float) ( \wp_timezone()->getOffset( new \DateTime( 'midnight' ) ) / 3600 ); ?>"
-			>
+				</label>
+				<label>
+					<input type="radio" name="with-email" value="no">
+					<span class="prpl-label-content">
+						<?php \esc_html_e( 'Proceed without registration', 'progress-planner' ); ?>
+					</span>
+				</label>
+			</div>
+			<div class="prpl-form-fields">
+				<label>
+					<span class="prpl-label-content">
+						<?php \esc_html_e( 'First Name', 'progress-planner' ); ?>
+					</span>
+					<input
+						type="text"
+						name="name"
+						class="prpl-input"
+						required
+						value="<?php echo \esc_attr( \get_user_meta( $current_user->ID, 'first_name', true ) ); ?>"
+					>
+				</label>
+				<label>
+					<span class="prpl-label-content">
+						<?php \esc_html_e( 'Email', 'progress-planner' ); ?>
+					</span>
+					<input
+						type="email"
+						name="email"
+						class="prpl-input"
+						required
+						value="<?php echo \esc_attr( $current_user->user_email ); ?>"
+					>
+				</label>
+				<label>
+					<span></span><!-- Empty span for styling (grid layout). -->
+					<span>
+						<span><!-- Wrapping the input in a span to align it vertically with the label. -->
+							<input
+								type="checkbox"
+								name="consent"
+								required
+							>
+						</span>
+						<span class="prpl-label-content">
+							<?php
+								printf(
+									/* translators: %1$s: progressplanner.com link. %2$s: Link with text "Learn more." */
+									\esc_html__( 'Create an account on %1$s, and subscribe to emails. %2$s', 'progress-planner' ),
+									'<a href="https://prpl.fyi/home" target="_blank">progressplanner.com</a>',
+									'<a href="https://prpl.fyi/onboarding" target="_blank">' . \esc_html__( 'Learn more.', 'progress-planner' ) . '</a>'
+								);
+							?>
+						</span>
+					</span>
+				</label>
+				<input
+					type="hidden"
+					name="site"
+					value="<?php echo \esc_attr( \set_url_scheme( \site_url() ) ); ?>"
+				>
+				<input
+					type="hidden"
+					name="timezone_offset"
+					value="<?php echo (float) ( \wp_timezone()->getOffset( new \DateTime( 'midnight' ) ) / 3600 ); ?>"
+				>
+			</div>
 			<div id="prpl-onboarding-submit-grid-wrapper">
 				<span></span><!-- Empty span for styling (grid layout). -->
 				<span>
 					<input
 						type="submit"
-						value="<?php \esc_attr_e( 'Get started', 'progress-planner' ); ?>"
+						value="<?php \esc_attr_e( 'Get going and send me weekly emails', 'progress-planner' ); ?>"
 						class="prpl-button-primary"
+					>
+					<input
+						type="submit"
+						value="<?php \esc_attr_e( 'Continue without emailing me', 'progress-planner' ); ?>"
+						class="prpl-button-secondary prpl-button-secondary--no-email"
+						style="display:none;"
 					>
 				</span>
 			</div>
