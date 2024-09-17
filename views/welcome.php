@@ -46,10 +46,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 			</div>
 		</div>
 		<div class="inner-content">
-			<div class="prpl-welcome-content">
-				<p><?php esc_html_e( 'Progress Planner helps you to overcome procrastination. Let\'s get those website maintenance tasks done! We would like to send you weekly emails with your site stats. Next to that, we\'ll give you tips and keep you motivated to continue the work on your website. Let\'s go!', 'progress-planner' ); ?></p>
-			</div>
-			<span class="separator"></span>
 			<?php Onboard::the_form(); ?>
 		</div>
 	</div>

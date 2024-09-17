@@ -72,11 +72,14 @@ class Onboard {
 				<?php
 				printf(
 					/* translators: %s: progressplanner.com link */
-					\esc_html__( 'We would love to send you awesome emails with your progress stats. Please enter your name and email below and submit the form. You\'ll create an account on %1$s:', 'progress-planner' ),
+					\esc_html__( ' We can send you weekly emails with your own to-do’s, your activity stats and nudges to keep you working on your site. To do this, we’ll create an account for you on %s', 'progress-planner' ),
 					'<a href="https://prpl.fyi/home" target="_blank">progressplanner.com</a>'
 				)
 				?>
 			</div>
+			<br>
+			<hr>
+			<br>
 			<div>
 				<label style="display:block;">
 					<input type="radio" name="with-email" value="yes" checked>
@@ -158,14 +161,14 @@ class Onboard {
 						value="<?php \esc_attr_e( 'Get going and send me weekly emails', 'progress-planner' ); ?>"
 						class="prpl-button-primary"
 					>
-					<input
-						type="submit"
-						value="<?php \esc_attr_e( 'Continue without emailing me', 'progress-planner' ); ?>"
-						class="prpl-button-secondary prpl-button-secondary--no-email"
-						style="display:none;"
-					>
 				</span>
 			</div>
+			<input
+				type="submit"
+				value="<?php \esc_attr_e( 'Continue without emailing me', 'progress-planner' ); ?>"
+				class="prpl-button-secondary prpl-button-secondary--no-email"
+				style="display:none;"
+			>
 		</form>
 
 		<div>
