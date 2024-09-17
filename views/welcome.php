@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 ?>
 <?php if ( ! \get_option( 'progress_planner_license_key' ) ) : ?>
-	<div class="prpl-widget-wrapper prpl-welcome">
+	<div class="prpl-widget-wrapper prpl-welcome" popover>
 		<div class="welcome-header">
 			<h1><?php esc_html_e( 'Welcome to the Progress Planner plugin!', 'progress-planner' ); ?></h1>
 			<span class="welcome-header-icon">
@@ -53,6 +53,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<?php Onboard::the_form(); ?>
 		</div>
 	</div>
+	<script>document.querySelector( '.prpl-widget-wrapper.prpl-welcome' ).showPopover();</script>
 <?php endif; ?>
 
 <?php if ( isset( $_GET['content-scan'] ) ) : // phpcs:ignore WordPress.Security ?>

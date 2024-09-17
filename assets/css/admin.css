@@ -655,6 +655,8 @@ button.prpl-info-icon {
 	padding: 0;
 	margin-bottom: var(--prpl-gap);
 	overflow: hidden;
+	width: 90%;
+	height: 90%;
 
 	.inner-content {
 		padding: calc(var(--prpl-gap) * 1.5);
