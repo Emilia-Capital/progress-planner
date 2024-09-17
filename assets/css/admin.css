@@ -654,8 +654,10 @@ button.prpl-info-icon {
 .prpl-widget-wrapper.prpl-welcome {
 	padding: 0;
 	overflow: hidden;
-	width: 100vw;
-	height: 100vh;
+	height: 80vh;
+	width: 80vw;
+	margin: 10vh 10vw;
+	z-index: 9999;
 
 	.inner-content {
 		padding: calc(var(--prpl-gap) * 1.5);
