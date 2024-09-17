@@ -77,20 +77,21 @@ class Onboard {
 				)
 				?>
 			</div>
-			<div style="display:flex;">
-				<label>
+			<div>
+				<label style="display:block;">
 					<input type="radio" name="with-email" value="yes" checked>
 					<span class="prpl-label-content">
 						<?php \esc_html_e( 'Yes, send me weekly emails', 'progress-planner' ); ?>
 					</span>
 				</label>
-				<label>
+				<label style="display:block;">
 					<input type="radio" name="with-email" value="no">
 					<span class="prpl-label-content">
-						<?php \esc_html_e( 'Proceed without registration', 'progress-planner' ); ?>
+						<?php \esc_html_e( 'Please do not email me', 'progress-planner' ); ?>
 					</span>
 				</label>
 			</div>
+			<br>
 			<div class="prpl-form-fields">
 				<label>
 					<span class="prpl-label-content">
