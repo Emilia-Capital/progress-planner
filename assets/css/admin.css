@@ -1193,11 +1193,19 @@ button.prpl-info-icon {
 /*------------------------------------*\
 	Suggested tasks.
 \*------------------------------------*/
-
 .prpl-suggested-task {
 
 	&.prpl-suggested-task-dismissed {
 		text-decoration: line-through;
+
+		.prpl-suggested-task-description,
+		.prpl-suggested-task-priority,
+		button {
+			display: none;
+		}
+	}
+
+	&.prpl-suggested-task-snoozed {
 
 		.prpl-suggested-task-description,
 		.prpl-suggested-task-priority,

@@ -33,6 +33,7 @@ class Suggested_Tasks {
 	 */
 	public function __construct() {
 		$this->register_hooks();
+		$this->maybe_unsnooze_tasks();
 	}
 
 	/**
@@ -42,6 +43,38 @@ class Suggested_Tasks {
 	 */
 	private function register_hooks() {
 		add_action( 'wp_ajax_progress_planner_dismiss_task', [ $this, 'dismiss' ] );
+		add_action( 'wp_ajax_progress_planner_snooze_task', [ $this, 'snooze' ] );
+	}
+
+	/**
+	 * Snooze a task.
+	 *
+	 * @return void
+	 */
+	public function snooze() {
+		// Check the nonce.
+		if ( ! \check_ajax_referer( 'progress_planner', 'nonce', false ) ) {
+			\wp_send_json_error( [ 'message' => \esc_html__( 'Invalid nonce.', 'progress-planner' ) ] );
+		}
+
+		if ( ! isset( $_POST['task_id'] ) ) {
+			\wp_send_json_error( [ 'message' => \esc_html__( 'Missing data.', 'progress-planner' ) ] );
+		}
+
+		$option    = \get_option( self::OPTION_NAME, [] );
+		$snoozed   = $option['snoozed'] ?? [];
+		$snoozed[] = [
+			'id'   => \sanitize_text_field( \wp_unslash( $_POST['task_id'] ) ),
+			'time' => \time() + \WEEK_IN_SECONDS,
+		];
+
+		$option['snoozed'] = $snoozed;
+
+		if ( ! \update_option( self::OPTION_NAME, $option ) ) {
+			\wp_send_json_error( [ 'message' => \esc_html__( 'Failed to save.', 'progress-planner' ) ] );
+		}
+
+		\wp_send_json_success( [ 'message' => \esc_html__( 'Saved.', 'progress-planner' ) ] );
 	}
 
 	/**
@@ -126,5 +159,35 @@ class Suggested_Tasks {
 	public static function get_dismissed_tasks() {
 		$option = \get_option( self::OPTION_NAME, [] );
 		return $option['dismissed'] ?? [];
+	}
+
+	/**
+	 * Get an array of snoozed tasks.
+	 *
+	 * @return array
+	 */
+	public static function get_snoozed_tasks() {
+		$option = \get_option( self::OPTION_NAME, [] );
+		return $option['snoozed'] ?? [];
+	}
+
+	/**
+	 * Maybe unsnooze tasks.
+	 *
+	 * @return void
+	 */
+	private function maybe_unsnooze_tasks() {
+		$option = \get_option( self::OPTION_NAME, [] );
+		if ( ! isset( $option['snoozed'] ) ) {
+			return;
+		}
+		$current_time = \time();
+
+		foreach ( $option['snoozed'] as $key => $task ) {
+			if ( $task['time'] < $current_time ) {
+				unset( $option['snoozed'][ $key ] );
+			}
+		}
+		\update_option( self::OPTION_NAME, $option );
 	}
 }
