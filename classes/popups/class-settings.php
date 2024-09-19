@@ -29,7 +29,7 @@ final class Settings extends Popup {
 	public function render_button() {
 		?>
 		<!-- The triggering button. -->
-		<button class="prpl-info-icon" popovertarget="prpl-popover-<?php echo \esc_attr( $this->id ); ?>">
+		<button class="prpl-info-icon" popovertarget="prpl-popover-<?php echo \esc_attr( $this->id ); ?>" id="prpl-popover-settings-trigger">
 			<span class="dashicons dashicons-admin-generic"></span>
 			<span class="screen-reader-text"><?php \esc_html_e( 'Settings', 'progress-planner' ); ?>
 		</button>
@@ -53,17 +53,19 @@ final class Settings extends Popup {
 		<form id="prpl-settings-form">
 			<h3><?php \esc_html_e( 'Post Types', 'progress-planner' ); ?></h3>
 			<p><?php \esc_html_e( 'Select the post types you want to include in activity scores. This setting will affect which post-type activities get tracked.', 'progress-planner' ); ?></p>
-			<?php foreach ( $post_types as $post_type ) : ?>
-				<label>
-					<input
-						type="checkbox"
-						name="prpl-settings-post-types-include[]"
-						value="<?php echo \esc_attr( $post_type ); ?>"
-						<?php checked( \in_array( $post_type, $saved_settings, true ) ); ?>
-					/>
-					<?php echo \esc_html( \get_post_type_object( $post_type )->labels->name ); ?>
-				</label>
-			<?php endforeach; ?>
+			<div id="prpl-settings-post-types-include">
+				<?php foreach ( $post_types as $post_type ) : ?>
+					<label>
+						<input
+							type="checkbox"
+							name="prpl-settings-post-types-include[]"
+							value="<?php echo \esc_attr( $post_type ); ?>"
+							<?php checked( \in_array( $post_type, $saved_settings, true ) ); ?>
+						/>
+						<?php echo \esc_html( \get_post_type_object( $post_type )->labels->name ); ?>
+					</label>
+				<?php endforeach; ?>
+			</div>
 
 			<button id="submit-include-post-types" class="button button-primary"><?php \esc_html_e( 'Save', 'progress-planner' ); ?></button>
 		</form>

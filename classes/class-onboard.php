@@ -139,7 +139,7 @@ class Onboard {
 					<input
 						type="submit"
 						value="<?php \esc_attr_e( 'Get started', 'progress-planner' ); ?>"
-						class="button button-primary"
+						class="prpl-button-primary"
 					>
 				</span>
 			</div>
@@ -149,7 +149,7 @@ class Onboard {
 			<p id="prpl-account-created-message" style="display:none;">
 				<?php
 				// translators: %s: progressplanner.com link.
-				printf( \esc_html__( 'Success! We created an account for you on %s so we can email you every week.', 'progress-planner' ), '<a href="https://prpl.fyi/home">ProgressPlanner.com</a>' );
+				printf( \esc_html__( 'Success! We saved your data on %s so we can email you every week.', 'progress-planner' ), '<a href="https://prpl.fyi/home">ProgressPlanner.com</a>' );
 				?>
 			</p>
 			<div id="progress-planner-scan-progress" style="display:none;">
