@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 ?>
 <?php if ( false === \get_option( 'progress_planner_license_key', false ) ) : ?>
-	<div class="prpl-widget-wrapper prpl-welcome" popover>
+	<div class="prpl-widget-wrapper prpl-welcome" popover="manual">
 		<div class="welcome-header">
 			<h1><?php esc_html_e( 'Welcome to the Progress Planner plugin!', 'progress-planner' ); ?></h1>
 			<span class="welcome-header-icon">
