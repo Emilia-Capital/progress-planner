@@ -1,67 +1,25 @@
 /* global progressPlannerInjectTodoItem, progressPlanner, jQuery */
 
 /**
- * Dismiss a task.
+ * Modify a task.
  *
- * @param {string} taskId The task ID.
+ * @param {string} taskId    The task ID.
+ * @param {string} action    The action to perform.
+ * @param {string} className The class to add to the task element after the action is performed.
  */
-const progressPlannerDismissTask = ( taskId ) => {
+const progressPlannerModifyTask = ( taskId, action, className ) => {
 	// Save the todo list to the database
 	jQuery.post(
 		progressPlanner.ajaxUrl,
 		{
-			action: 'progress_planner_dismiss_task',
+			action: `progress_planner_${ action }_task`,
 			task_id: taskId,
 			nonce: progressPlanner.nonce,
 		},
 		() => {
 			document
 				.querySelector( '.prpl-suggested-task-' + taskId )
-				.classList.add( 'prpl-suggested-task-dismissed' );
-		}
-	);
-};
-
-/**
- * Dismiss a task.
- *
- * @param {string} taskId The task ID.
- */
-const progressPlannerSnoozeTask = ( taskId ) => {
-	// Save the todo list to the database
-	jQuery.post(
-		progressPlanner.ajaxUrl,
-		{
-			action: 'progress_planner_snooze_task',
-			task_id: taskId,
-			nonce: progressPlanner.nonce,
-		},
-		() => {
-			document
-				.querySelector( '.prpl-suggested-task-' + taskId )
-				.classList.add( 'prpl-suggested-task-snoozed' );
-		}
-	);
-};
-
-/**
- * Dismiss a task.
- *
- * @param {string} taskId The task ID.
- */
-const progressPlannerCompleteTask = ( taskId ) => {
-	// Save the todo list to the database
-	jQuery.post(
-		progressPlanner.ajaxUrl,
-		{
-			action: 'progress_planner_complete_task',
-			task_id: taskId,
-			nonce: progressPlanner.nonce,
-		},
-		() => {
-			document
-				.querySelector( '.prpl-suggested-task-' + taskId )
-				.classList.add( 'prpl-suggested-task-completed' );
+				.classList.add( className );
 		}
 	);
 };
@@ -84,22 +42,38 @@ document
 				);
 
 				// Dismiss the task.
-				progressPlannerDismissTask( taskId );
+				progressPlannerModifyTask(
+					taskId,
+					'dismiss',
+					'prpl-suggested-task-dismissed'
+				);
 			}
 
 			if ( 'dismiss' === action ) {
 				// Dismiss the task.
-				progressPlannerDismissTask( taskId );
+				progressPlannerModifyTask(
+					taskId,
+					'dismiss',
+					'prpl-suggested-task-dismissed'
+				);
 			}
 
 			if ( 'snooze' === action ) {
 				// Snooze the task.
-				progressPlannerSnoozeTask( taskId );
+				progressPlannerModifyTask(
+					taskId,
+					'snooze',
+					'prpl-suggested-task-snoozed'
+				);
 			}
 
 			if ( 'complete' === action ) {
 				// Complete the task.
-				progressPlannerCompleteTask( taskId );
+				progressPlannerModifyTask(
+					taskId,
+					'complete',
+					'prpl-suggested-task-completed'
+				);
 			}
 		} );
 	} );
