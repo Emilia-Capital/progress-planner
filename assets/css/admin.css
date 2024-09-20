@@ -666,7 +666,7 @@ button.prpl-info-icon {
 		overflow: hidden;
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
-		gap: var(--prpl-gap);
+		gap: calc(var(--prpl-gap) * 2);
 
 		img {
 			max-width: 100%;
