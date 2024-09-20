@@ -25,7 +25,7 @@ class Playground {
 	 * @return void
 	 */
 	public function register_hooks() {
-		if ( ! \get_option( 'progress_planner_license_key', false ) && ! \get_option( 'progress_planner_force_reset_demo', false ) ) {
+		if ( ! \get_option( 'progress_planner_license_key', false ) && ! \get_option( 'progress_planner_demo_data_generated', false ) ) {
 			$this->generate_data();
 			\update_option( 'progress_planner_license_key', str_replace( ' ', '-', $this->create_random_string( 20 ) ) );
 			\update_option( 'progress_planner_force_show_onboarding', false );
@@ -42,8 +42,9 @@ class Playground {
 					],
 				]
 			);
+			\update_option( 'progress_planner_demo_data_generated', true );
 		}
-		\add_action( 'admin_notices', [ $this, 'admin_notices' ] );
+		\add_action( 'progress_planner_admin_page_header_before', [ $this, 'show_header_notice' ] );
 		\add_action( 'wp_ajax_progress_planner_hide_onboarding', [ $this, 'hide_onboarding' ] );
 		\add_action( 'wp_ajax_progress_planner_show_onboarding', [ $this, 'show_onboarding' ] );
 	}
@@ -99,7 +100,7 @@ class Playground {
 	 *
 	 * @return void
 	 */
-	public function admin_notices() {
+	public function show_header_notice() {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- We're not processing any data.
 		if ( ! isset( $_GET['page'] ) || $_GET['page'] !== 'progress-planner' ) {
 			return;
@@ -111,28 +112,33 @@ class Playground {
 		$nonce           = \wp_create_nonce( "progress_planner_{$action}_onboarding" );
 		?>
 
-		<div id="progress-planner-playground-notice" class="notice notice-success" style="margin-bottom:40px; border-left-color:#38296D;">
-			<h2><?php \esc_html_e( 'Progress Planner demo', 'progress-planner' ); ?></h2>
-			<button id="progress-planner-toggle-onboarding" class="button button-primary" style="float:right;background-color: #38296D; border-color: #38296D;">
-				<?php echo \esc_html( $button_text ); ?>
+		<div class="prpl-widget-wrapper prpl-top-notice" id="prpl-playground-notice">
+			<button class="prpl-close-button" onclick="document.getElementById('prpl-playground-notice').remove();">
+				<span class="dashicons dashicons-no-alt"></span>
+				<span class="screen-reader-text"><?php esc_html_e( 'Close notice', 'progress-planner' ); ?></span>
 			</button>
 
-			<p style="max-width:680px;">
-				<?php \esc_html_e( 'This is a demo of Progress Planner. We\'ve prefilled this site with some content to show you what the reports in Progress Planner look like. We\'ve also added a few to-do\'s for you, you can see these here and on your dashoard.', 'progress-planner' ); ?>
-			</p>
-			<script>
-			document.getElementById( 'progress-planner-toggle-onboarding' ).addEventListener( 'click', function() {
-				var xhr = new XMLHttpRequest();
-				xhr.open( 'POST', ajaxurl, true );
-				xhr.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' );
-				xhr.onreadystatechange = function() {
-					if ( xhr.readyState === 4 && xhr.status === 200 ) {
-						location.reload();
-					}
-				};
-				xhr.send( 'action=progress_planner_<?php echo \esc_attr( $action ); ?>_onboarding&nonce=<?php echo \esc_attr( $nonce ); ?>' );
-			});
-			</script>
+			<div class="inner-content">
+				<h1><?php \esc_html_e( 'Progress Planner demo', 'progress-planner' ); ?></h1>
+
+				<button id="progress-planner-toggle-onboarding" class="prpl-button-primary" style="margin-top: 20px; width:250px; float:right;">
+					<?php echo \esc_html( $button_text ); ?>
+				</button>
+
+				<p style="max-width:680px;">
+					<?php \esc_html_e( 'This is a demo of Progress Planner. We\'ve prefilled this site with some content to show you what the reports in Progress Planner look like. We\'ve also added a few to-do\'s for you, you can see these here and on your dashoard.', 'progress-planner' ); ?>
+				</p>
+				<script>
+				document.getElementById( 'progress-planner-toggle-onboarding' ).addEventListener( 'click', function() {
+					const request = wp.ajax.post( 'progress_planner_<?php echo \esc_attr( $action ); ?>_onboarding', {
+						_ajax_nonce: '<?php echo \esc_attr( $nonce ); ?>',
+					} );
+					request.done( () => {
+						window.location.reload();
+					} );
+				} );
+				</script>
+			</div>
 		</div>
 		<?php
 	}

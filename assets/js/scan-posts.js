@@ -31,10 +31,11 @@ const progressPlannerTriggerScan = () => {
 			document.getElementById(
 				'progress-planner-scan-progress'
 			).style.display = 'none';
-			window.location.href = window.location.href.replace(
-				'&content-scan',
-				''
-			);
+
+			window.location.href =
+				window.location.href.replace( '&content-scan', '' ) +
+				'&content-scan-finished=true';
+
 			return;
 		}
 
