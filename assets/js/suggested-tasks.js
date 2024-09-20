@@ -29,51 +29,40 @@ document
 	.forEach( function ( button ) {
 		button.addEventListener( 'click', function () {
 			const taskId = button.getAttribute( 'data-task-id' );
-			const taskTitle = button.getAttribute( 'data-task-title' );
 			const action = button.getAttribute( 'data-action' );
 
-			if ( 'add-todo' === action ) {
-				// Add the task to the todo list.
-				progressPlannerInjectTodoItem(
-					taskTitle, // The task title.
-					false, // Task not done.
-					true, // Add to start of list.
-					true // Save.
-				);
+			switch ( action ) {
+				case 'add-todo':
+					progressPlannerInjectTodoItem(
+						button.getAttribute( 'data-task-title' ), // The task title.
+						false, // Task not done.
+						true, // Add to start of list.
+						true // Save.
+					);
+				// falls through.
+				case 'dismiss':
+					progressPlannerModifyTask(
+						taskId,
+						'dismiss',
+						'prpl-suggested-task-dismissed'
+					);
+					break;
 
-				// Dismiss the task.
-				progressPlannerModifyTask(
-					taskId,
-					'dismiss',
-					'prpl-suggested-task-dismissed'
-				);
-			}
+				case 'snooze':
+					progressPlannerModifyTask(
+						taskId,
+						'snooze',
+						'prpl-suggested-task-snoozed'
+					);
+					break;
 
-			if ( 'dismiss' === action ) {
-				// Dismiss the task.
-				progressPlannerModifyTask(
-					taskId,
-					'dismiss',
-					'prpl-suggested-task-dismissed'
-				);
-			}
-
-			if ( 'snooze' === action ) {
-				// Snooze the task.
-				progressPlannerModifyTask(
-					taskId,
-					'snooze',
-					'prpl-suggested-task-snoozed'
-				);
-			}
-
-			if ( 'complete' === action ) {
-				// Complete the task.
-				progressPlannerModifyTask(
-					taskId,
-					'complete',
-					'prpl-suggested-task-completed'
-				);
+				case 'complete':
+					progressPlannerModifyTask(
+						taskId,
+						'complete',
+						'prpl-suggested-task-completed'
+					);
+					break;
 			}
 		} );
 	} );
