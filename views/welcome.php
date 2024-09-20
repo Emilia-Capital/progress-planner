@@ -7,8 +7,6 @@
 
 namespace Progress_Planner;
 
-use Progress_Planner\Settings;
-
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
