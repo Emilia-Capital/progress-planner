@@ -54,3 +54,8 @@ function prplStartTour() {
 	};
 	prplDriverObj.drive();
 }
+
+// Start the tour if the URL contains the query parameter.
+if ( window.location.href.includes( 'content-scan-finished=true' ) ) {
+	prplStartTour();
+}
