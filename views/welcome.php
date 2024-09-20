@@ -27,24 +27,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 				?>
 			</span>
 		</div>
-		<div class="welcome-subheader">
-			<div>
-				<span class="icon dashicons dashicons-chart-line"></span>
-				<span><?php esc_html_e( 'make real progress', 'progress-planner' ); ?></span>
-			</div>
-			<div>
-				<span class="icon dashicons dashicons-calendar-alt"></span>
-				<span><?php esc_html_e( 'overcome procrastination', 'progress-planner' ); ?></span>
-			</div>
-			<div>
-				<span class="icon dashicons dashicons-chart-bar"></span>
-				<span><?php esc_html_e( 'gain insight', 'progress-planner' ); ?></span>
-			</div>
-			<div>
-				<span class="icon dashicons dashicons-shield-alt"></span>
-				<span><?php esc_html_e( 'earn badges', 'progress-planner' ); ?></span>
-			</div>
-		</div>
 		<div class="inner-content">
 			<?php Onboard::the_form(); ?>
 		</div>

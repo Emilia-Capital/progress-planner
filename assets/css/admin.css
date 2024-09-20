@@ -696,29 +696,6 @@ button.prpl-info-icon {
 			font-weight: 600;
 		}
 	}
-
-	.welcome-subheader {
-		display: flex;
-		justify-content: space-around;
-		gap: var(--prpl-padding);
-
-		> div {
-			padding: var(--prpl-padding);
-			text-align: center;
-			color: var(--prpl-color-gray-3);
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-			align-items: center;
-		}
-
-		.icon {
-			--font-size: var(--prpl-font-size-4xl);
-			font-size: var(--font-size);
-			width: var(--font-size);
-			height: var(--font-size);
-		}
-	}
 }
 
 /*------------------------------------*\
@@ -902,10 +879,6 @@ button.prpl-info-icon {
 
 	.prpl-welcome .welcome-header {
 		flex-wrap: wrap;
-	}
-
-	.prpl-welcome .welcome-subheader {
-		display: none;
 	}
 
 	.prpl-widget-wrapper.prpl-welcome .inner-content,
