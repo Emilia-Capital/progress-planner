@@ -28,7 +28,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 			</span>
 		</div>
 		<div class="inner-content">
-			<?php Onboard::the_form(); ?>
+			<div class="left">
+				<?php Onboard::the_form(); ?>
+			</div>
+			<div class="right">
+				<img src="<?php echo esc_url( PROGRESS_PLANNER_URL . '/assets/images/image_onboaring_block.png' ); ?>" alt="" class="onboarding" />
+			</div>
 		</div>
 	</div>
 	<script>document.querySelector( '.prpl-widget-wrapper.prpl-welcome' ).showPopover();</script>

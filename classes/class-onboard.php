@@ -7,8 +7,6 @@
 
 namespace Progress_Planner;
 
-use Progress_Planner\Settings;
-
 /**
  * Onboarding class.
  */
@@ -78,7 +76,6 @@ class Onboard {
 				?>
 			</div>
 			<br>
-			<hr>
 			<br>
 			<div>
 				<label style="display:block;">

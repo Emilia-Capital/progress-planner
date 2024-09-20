@@ -664,6 +664,14 @@ button.prpl-info-icon {
 		padding-bottom: 0;
 		margin-bottom: calc(var(--prpl-gap) * 1.5);
 		overflow: hidden;
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+		gap: var(--prpl-gap);
+
+		img {
+			max-width: 100%;
+			height: auto;
+		}
 	}
 }
 
