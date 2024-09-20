@@ -69,6 +69,9 @@ final class Suggested_Tasks extends Widget {
 					if ( \in_array( $task_id, Root_Suggested_Tasks::get_dismissed_tasks(), true ) ) {
 						$classes[] = 'prpl-suggested-task-dismissed';
 					}
+					if ( \in_array( $task_id, Root_Suggested_Tasks::get_completed_tasks(), true ) ) {
+						$classes[] = 'prpl-suggested-task-completed';
+					}
 					$remind_in = null;
 					foreach ( Root_Suggested_Tasks::get_snoozed_tasks() as $snoozed_task ) {
 						if ( $task_id === $snoozed_task['id'] ) {
@@ -127,6 +130,15 @@ final class Suggested_Tasks extends Widget {
 								data-action="dismiss"
 							>
 								<?php esc_html_e( 'Dismiss', 'progress-planner' ); ?>
+							</button>
+							<button
+								type="button"
+								class="button prpl-suggested-task-button"
+								data-task-id="<?php echo esc_attr( $task_id ); ?>"
+								data-task-title="<?php echo esc_attr( $task['title'] ); ?>"
+								data-action="complete"
+							>
+								<?php esc_html_e( 'Mark as complete', 'progress-planner' ); ?>
 							</button>
 							<button
 								type="button"

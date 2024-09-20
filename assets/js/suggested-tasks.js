@@ -44,6 +44,28 @@ const progressPlannerSnoozeTask = ( taskId ) => {
 	);
 };
 
+/**
+ * Dismiss a task.
+ *
+ * @param {string} taskId The task ID.
+ */
+const progressPlannerCompleteTask = ( taskId ) => {
+	// Save the todo list to the database
+	jQuery.post(
+		progressPlanner.ajaxUrl,
+		{
+			action: 'progress_planner_complete_task',
+			task_id: taskId,
+			nonce: progressPlanner.nonce,
+		},
+		() => {
+			document
+				.querySelector( '.prpl-suggested-task-' + taskId )
+				.classList.add( 'prpl-suggested-task-completed' );
+		}
+	);
+};
+
 document
 	.querySelectorAll( '.prpl-suggested-task-button' )
 	.forEach( function ( button ) {
@@ -73,6 +95,11 @@ document
 			if ( 'snooze' === action ) {
 				// Snooze the task.
 				progressPlannerSnoozeTask( taskId );
+			}
+
+			if ( 'complete' === action ) {
+				// Complete the task.
+				progressPlannerCompleteTask( taskId );
 			}
 		} );
 	} );

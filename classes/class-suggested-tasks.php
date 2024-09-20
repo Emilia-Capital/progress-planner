@@ -7,6 +7,8 @@
 
 namespace Progress_Planner;
 
+use Progress_Planner\Activities\Suggested_Task as Suggested_Task_Activity;
+
 /**
  * Settings class.
  */
@@ -44,6 +46,42 @@ class Suggested_Tasks {
 	private function register_hooks() {
 		add_action( 'wp_ajax_progress_planner_dismiss_task', [ $this, 'dismiss' ] );
 		add_action( 'wp_ajax_progress_planner_snooze_task', [ $this, 'snooze' ] );
+		add_action( 'wp_ajax_progress_planner_complete_task', [ $this, 'snooze' ] );
+	}
+
+	/**
+	 * Mark a task as completed.
+	 *
+	 * @return void
+	 */
+	public function complete() {
+		$activity          = new Suggested_Task_Activity();
+		$activity->type    = 'completed';
+		$activity->data_id = 0;
+		$activity->date    = new \DateTime();
+		$activity->user_id = get_current_user_id();
+		$activity->save();
+
+		// Check the nonce.
+		if ( ! \check_ajax_referer( 'progress_planner', 'nonce', false ) ) {
+			\wp_send_json_error( [ 'message' => \esc_html__( 'Invalid nonce.', 'progress-planner' ) ] );
+		}
+
+		if ( ! isset( $_POST['task_id'] ) ) {
+			\wp_send_json_error( [ 'message' => \esc_html__( 'Missing data.', 'progress-planner' ) ] );
+		}
+
+		$option      = \get_option( self::OPTION_NAME, [] );
+		$completed   = $option['completed'] ?? [];
+		$completed[] = \sanitize_text_field( \wp_unslash( $_POST['task_id'] ) );
+
+		$option['completed'] = $completed;
+
+		if ( ! \update_option( self::OPTION_NAME, $option ) ) {
+			\wp_send_json_error( [ 'message' => \esc_html__( 'Failed to save.', 'progress-planner' ) ] );
+		}
+
+		\wp_send_json_success( [ 'message' => \esc_html__( 'Saved.', 'progress-planner' ) ] );
 	}
 
 	/**
@@ -149,6 +187,16 @@ class Suggested_Tasks {
 		\set_transient( 'progress_planner_suggested_tasks', $data, DAY_IN_SECONDS );
 
 		return $data;
+	}
+
+	/**
+	 * Get the completed tasks.
+	 *
+	 * @return array
+	 */
+	public static function get_completed_tasks() {
+		$option = \get_option( self::OPTION_NAME, [] );
+		return $option['completed'] ?? [];
 	}
 
 	/**
