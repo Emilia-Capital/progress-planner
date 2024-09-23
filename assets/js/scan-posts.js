@@ -33,7 +33,9 @@ const progressPlannerTriggerScan = () => {
 			).style.display = 'none';
 
 			window.location.href =
-				window.location.href.replace( '&content-scan', '' ) +
+				window.location.href
+					.replace( '&content-scan-finished=true', '' )
+					.replace( '&content-scan', '' ) +
 				'&content-scan-finished=true';
 
 			return;
