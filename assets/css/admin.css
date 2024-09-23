@@ -1200,14 +1200,44 @@ button.prpl-info-icon {
 
 	.prpl-suggested-task {
 
+		.actions {
+			display: none;
+		}
+
+		&:hover {
+
+			.actions {
+				display: flex;
+				justify-content: flex-end;
+				gap: 0.5em;
+			}
+		}
+
 		&.prpl-suggested-task-dismissed,
 		&.prpl-suggested-task-snoozed,
 		&.prpl-suggested-task-completed {
-			text-decoration: line-through;
+
+			h3 {
+				text-decoration: line-through;
+			}
+		}
+
+		.prpl-suggested-task-description {
+			font-size: 0.825rem;
+			color: var(--prpl-color-gray-6);
+			margin: 0;
 		}
 
 		ul {
 			margin-left: 1rem;
+		}
+
+		button {
+			padding: 0.1rem;
+			line-height: 0;
+			margin: 0;
+			background: none;
+			border: none;
 		}
 	}
 }

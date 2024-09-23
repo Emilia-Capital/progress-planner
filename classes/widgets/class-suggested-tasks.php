@@ -34,26 +34,19 @@ final class Suggested_Tasks extends Widget {
 
 		<ul style="display:none">
 			<li id="prpl-suggested-task-template">
-				<details>
-					<summary>{taskTitle}</summary>
-					<p class="prpl-suggested-task-description">{taskDescription}</p>
-					<p class="prpl-suggested-task-priority">
-						<?php
-						printf(
-							/* translators: %s: priority */
-							esc_html__( 'Priority: %s', 'progress-planner' ),
-							'{taskPriority}'
-						);
-						?>
-					</p>
+				<h3>{taskTitle}</h3>
+				<p class="prpl-suggested-task-description">{taskDescription}</p>
+				<div class="actions">
 					<button
 						type="button"
 						class="button prpl-suggested-task-button"
 						data-task-id="{taskId}"
 						data-task-title="{taskTitle}"
 						data-action="add-todo"
+						title="<?php esc_attr_e( 'Add to todo list', 'progress-planner' ); ?>"
 					>
-						<?php esc_html_e( 'Add to my to-do list', 'progress-planner' ); ?>
+						<span class="dashicons dashicons-list-view"></span>
+						<span class="screen-reader-text"><?php esc_html_e( 'Add to todo list', 'progress-planner' ); ?></span>
 					</button>
 					<button
 						type="button"
@@ -61,8 +54,10 @@ final class Suggested_Tasks extends Widget {
 						data-task-id="{taskId}"
 						data-task-title="{taskTitle}"
 						data-action="dismiss"
+						title="<?php esc_html_e( 'Dismiss', 'progress-planner' ); ?>"
 					>
-						<?php esc_html_e( 'Dismiss', 'progress-planner' ); ?>
+						<span class="dashicons dashicons-no"></span>
+						<span class="screen-reader-text"><?php esc_html_e( 'Dismiss', 'progress-planner' ); ?></span>
 					</button>
 					<button
 						type="button"
@@ -70,8 +65,10 @@ final class Suggested_Tasks extends Widget {
 						data-task-id="{taskId}"
 						data-task-title="{taskTitle}"
 						data-action="complete"
+						title="<?php esc_html_e( 'Mark as complete', 'progress-planner' ); ?>"
 					>
-						<?php esc_html_e( 'Mark as complete', 'progress-planner' ); ?>
+						<span class="dashicons dashicons-yes"></span>
+						<span class="screen-reader-text"><?php esc_html_e( 'Mark as complete', 'progress-planner' ); ?></span>
 					</button>
 					<button
 						type="button"
@@ -79,10 +76,12 @@ final class Suggested_Tasks extends Widget {
 						data-task-id="{taskId}"
 						data-task-title="{taskTitle}"
 						data-action="snooze"
+						title="<?php esc_html_e( 'Snooze for a week', 'progress-planner' ); ?>"
 					>
-						<?php esc_html_e( 'Snooze for a week', 'progress-planner' ); ?>
+						<span class="dashicons dashicons-clock"></span>
+						<span class="screen-reader-text"><?php esc_html_e( 'Snooze for a week', 'progress-planner' ); ?></span>
 					</button>
-				</details>
+				</div>
 			</li>
 		</ul>
 
