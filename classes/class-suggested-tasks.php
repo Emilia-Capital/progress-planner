@@ -45,97 +45,58 @@ class Suggested_Tasks {
 	 * @return void
 	 */
 	private function register_hooks() {
-		add_action( 'wp_ajax_progress_planner_dismiss_task', [ $this, 'dismiss' ] );
-		add_action( 'wp_ajax_progress_planner_snooze_task', [ $this, 'snooze' ] );
-		add_action( 'wp_ajax_progress_planner_complete_task', [ $this, 'snooze' ] );
+		add_action( 'wp_ajax_progress_planner_suggested_task_action', [ $this, 'suggested_task_action' ] );
 	}
 
 	/**
-	 * Mark a task as completed.
+	 * Handle the suggested task action.
 	 *
 	 * @return void
 	 */
-	public function complete() {
-		$activity          = new Suggested_Task_Activity();
-		$activity->type    = 'completed';
-		$activity->data_id = 0;
-		$activity->date    = new \DateTime();
-		$activity->user_id = get_current_user_id();
-		$activity->save();
-
+	public function suggested_task_action() {
 		// Check the nonce.
 		if ( ! \check_ajax_referer( 'progress_planner', 'nonce', false ) ) {
 			\wp_send_json_error( [ 'message' => \esc_html__( 'Invalid nonce.', 'progress-planner' ) ] );
 		}
 
-		if ( ! isset( $_POST['task_id'] ) ) {
+		if ( ! isset( $_POST['task_id'] ) || ! isset( $_POST['action_type'] ) ) {
 			\wp_send_json_error( [ 'message' => \esc_html__( 'Missing data.', 'progress-planner' ) ] );
 		}
 
-		$option      = \get_option( self::OPTION_NAME, [] );
-		$completed   = $option['completed'] ?? [];
-		$completed[] = \sanitize_text_field( \wp_unslash( $_POST['task_id'] ) );
+		$action = \sanitize_text_field( \wp_unslash( $_POST['action_type'] ) );
+		$option = \get_option( self::OPTION_NAME, [] );
 
-		$option['completed'] = $completed;
+		switch ( $action ) {
+			case 'complete':
+				$activity          = new Suggested_Task_Activity();
+				$activity->type    = 'completed';
+				$activity->data_id = 0;
+				$activity->date    = new \DateTime();
+				$activity->user_id = get_current_user_id();
+				$activity->save();
+				$completed           = $option['completed'] ?? [];
+				$completed[]         = \sanitize_text_field( \wp_unslash( $_POST['task_id'] ) );
+				$option['completed'] = $completed;
+				break;
 
-		if ( ! \update_option( self::OPTION_NAME, $option ) ) {
-			\wp_send_json_error( [ 'message' => \esc_html__( 'Failed to save.', 'progress-planner' ) ] );
+			case 'snooze':
+				$snoozed           = $option['snoozed'] ?? [];
+				$snoozed[]         = [
+					'id'   => \sanitize_text_field( \wp_unslash( $_POST['task_id'] ) ),
+					'time' => \time() + \WEEK_IN_SECONDS,
+				];
+				$option['snoozed'] = $snoozed;
+				break;
+
+			case 'dismiss':
+				$dismissed           = $option['dismissed'] ?? [];
+				$dismissed[]         = \sanitize_text_field( \wp_unslash( $_POST['task_id'] ) );
+				$option['dismissed'] = $dismissed;
+				break;
+
+			default:
+				\wp_send_json_error( [ 'message' => \esc_html__( 'Invalid action.', 'progress-planner' ) ] );
 		}
-
-		\wp_send_json_success( [ 'message' => \esc_html__( 'Saved.', 'progress-planner' ) ] );
-	}
-
-	/**
-	 * Snooze a task.
-	 *
-	 * @return void
-	 */
-	public function snooze() {
-		// Check the nonce.
-		if ( ! \check_ajax_referer( 'progress_planner', 'nonce', false ) ) {
-			\wp_send_json_error( [ 'message' => \esc_html__( 'Invalid nonce.', 'progress-planner' ) ] );
-		}
-
-		if ( ! isset( $_POST['task_id'] ) ) {
-			\wp_send_json_error( [ 'message' => \esc_html__( 'Missing data.', 'progress-planner' ) ] );
-		}
-
-		$option    = \get_option( self::OPTION_NAME, [] );
-		$snoozed   = $option['snoozed'] ?? [];
-		$snoozed[] = [
-			'id'   => \sanitize_text_field( \wp_unslash( $_POST['task_id'] ) ),
-			'time' => \time() + \WEEK_IN_SECONDS,
-		];
-
-		$option['snoozed'] = $snoozed;
-
-		if ( ! \update_option( self::OPTION_NAME, $option ) ) {
-			\wp_send_json_error( [ 'message' => \esc_html__( 'Failed to save.', 'progress-planner' ) ] );
-		}
-
-		\wp_send_json_success( [ 'message' => \esc_html__( 'Saved.', 'progress-planner' ) ] );
-	}
-
-	/**
-	 * Save the todo list.
-	 *
-	 * @return void
-	 */
-	public function dismiss() {
-		// Check the nonce.
-		if ( ! \check_ajax_referer( 'progress_planner', 'nonce', false ) ) {
-			\wp_send_json_error( [ 'message' => \esc_html__( 'Invalid nonce.', 'progress-planner' ) ] );
-		}
-
-		if ( ! isset( $_POST['task_id'] ) ) {
-			\wp_send_json_error( [ 'message' => \esc_html__( 'Missing data.', 'progress-planner' ) ] );
-		}
-
-		$option      = \get_option( self::OPTION_NAME, [] );
-		$dismissed   = $option['dismissed'] ?? [];
-		$dismissed[] = \sanitize_text_field( \wp_unslash( $_POST['task_id'] ) );
-
-		$option['dismissed'] = $dismissed;
 
 		if ( ! \update_option( self::OPTION_NAME, $option ) ) {
 			\wp_send_json_error( [ 'message' => \esc_html__( 'Failed to save.', 'progress-planner' ) ] );

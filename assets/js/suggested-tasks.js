@@ -8,25 +8,30 @@ const PRPL_SUGGESTED_TASKS_CLASSES = {
 /**
  * Modify a task.
  *
- * @param {string} taskId    The task ID.
- * @param {string} action    The action to perform.
- * @param {string} className The class to add to the task element after the action is performed.
+ * @param {string} taskId     The task ID.
+ * @param {string} actionTask The action to perform.
  */
-const progressPlannerModifyTask = ( taskId, action, className ) => {
+const progressPlannerModifyTask = ( taskId, actionTask ) => {
 	// Save the todo list to the database
 	jQuery.post(
 		progressPlannerSuggestedTasks.ajaxUrl,
 		{
-			action: `progress_planner_${ action }_task`,
+			action: 'progress_planner_suggested_task_action',
 			task_id: taskId,
 			nonce: progressPlannerSuggestedTasks.nonce,
+			action_type: actionTask,
 		},
 		() => {
+			const classNames = {
+				dismiss: PRPL_SUGGESTED_TASKS_CLASSES.DISMISSED,
+				snooze: PRPL_SUGGESTED_TASKS_CLASSES.SNOOZED,
+				complete: PRPL_SUGGESTED_TASKS_CLASSES.COMPLETED,
+			};
 			document
 				.querySelector(
 					`.${ PRPL_SUGGESTED_CLASS_PREFIX }-${ taskId }`
 				)
-				.classList.add( className );
+				.classList.add( classNames[ actionTask ] );
 		}
 	);
 };
@@ -134,27 +139,15 @@ const prplSuggestedTodoItemListeners = ( item ) => {
 						);
 					// falls through.
 					case 'dismiss':
-						progressPlannerModifyTask(
-							taskId,
-							action,
-							PRPL_SUGGESTED_TASKS_CLASSES.DISMISSED
-						);
+						progressPlannerModifyTask( taskId, action );
 						break;
 
 					case 'snooze':
-						progressPlannerModifyTask(
-							taskId,
-							action,
-							PRPL_SUGGESTED_TASKS_CLASSES.SNOOZED
-						);
+						progressPlannerModifyTask( taskId, action );
 						break;
 
 					case 'complete':
-						progressPlannerModifyTask(
-							taskId,
-							action,
-							PRPL_SUGGESTED_TASKS_CLASSES.COMPLETED
-						);
+						progressPlannerModifyTask( taskId, action );
 						break;
 				}
 			} );
