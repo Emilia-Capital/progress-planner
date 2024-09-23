@@ -22,16 +22,17 @@ const progressPlannerModifyTask = ( taskId, actionTask ) => {
 			action_type: actionTask,
 		},
 		() => {
-			const classNames = {
-				dismiss: PRPL_SUGGESTED_TASKS_CLASSES.DISMISSED,
-				snooze: PRPL_SUGGESTED_TASKS_CLASSES.SNOOZED,
-				complete: PRPL_SUGGESTED_TASKS_CLASSES.COMPLETED,
-			};
 			document
 				.querySelector(
 					`.${ PRPL_SUGGESTED_CLASS_PREFIX }-${ taskId }`
 				)
-				.classList.add( classNames[ actionTask ] );
+				.classList.add(
+					{
+						dismiss: PRPL_SUGGESTED_TASKS_CLASSES.DISMISSED,
+						snooze: PRPL_SUGGESTED_TASKS_CLASSES.SNOOZED,
+						complete: PRPL_SUGGESTED_TASKS_CLASSES.COMPLETED,
+					}[ actionTask ]
+				);
 		}
 	);
 };
@@ -42,22 +43,20 @@ const progressPlannerModifyTask = ( taskId, actionTask ) => {
  * @param {Object} details The details of the todo item.
  */
 const progressPlannerInjectSuggestedTodoItem = ( details ) => {
-	const list = document.querySelector(
-		`.prpl-suggested-todos-list.priority-${ details.priority }`
-	);
-	const template = document.getElementById(
-		`${ PRPL_SUGGESTED_CLASS_PREFIX }-template`
-	);
 	const tasks = progressPlannerSuggestedTasks.tasks;
 	// Clone the template element.
-	const item = template.cloneNode( true );
+	const item = document
+		.getElementById( `${ PRPL_SUGGESTED_CLASS_PREFIX }-template` )
+		.cloneNode( true );
+
+	// Remove the ID attribute.
+	item.removeAttribute( 'id' );
+
+	// Add classes to the element.
 	item.classList.add(
 		PRPL_SUGGESTED_CLASS_PREFIX,
 		`${ PRPL_SUGGESTED_CLASS_PREFIX }-${ details.id }`
 	);
-	item.removeAttribute( 'id' );
-
-	// Add classes to the element.
 	if ( tasks.dismissed.includes( details.id ) ) {
 		item.classList.add( PRPL_SUGGESTED_TASKS_CLASSES.DISMISSED );
 	}
@@ -81,7 +80,7 @@ const progressPlannerInjectSuggestedTodoItem = ( details ) => {
 	const parent =
 		details.parent && '' !== details.parent ? details.parent : null;
 
-	if ( parent ) {
+	if ( null !== parent ) {
 		const parentItem = document.querySelector(
 			`.${ PRPL_SUGGESTED_CLASS_PREFIX }-${ parent }`
 		);
@@ -92,12 +91,12 @@ const progressPlannerInjectSuggestedTodoItem = ( details ) => {
 			}, 500 );
 		}
 
-		// Check if the parent item has a child list.
-		const childList = parentItem.querySelector(
-			`.${ PRPL_SUGGESTED_CLASS_PREFIX }-children`
-		);
 		// If the child list does not exist, create it.
-		if ( ! childList ) {
+		if (
+			! parentItem.querySelector(
+				`.${ PRPL_SUGGESTED_CLASS_PREFIX }-children`
+			)
+		) {
 			const childListElement = document.createElement( 'ul' );
 			childListElement.classList.add(
 				`${ PRPL_SUGGESTED_CLASS_PREFIX }-children`
@@ -111,7 +110,11 @@ const progressPlannerInjectSuggestedTodoItem = ( details ) => {
 			.insertAdjacentHTML( 'beforeend', itemHTML );
 	} else {
 		// Inject the item into the list.
-		list.insertAdjacentHTML( 'beforeend', itemHTML );
+		document
+			.querySelector(
+				`.prpl-suggested-todos-list.priority-${ details.priority }`
+			)
+			.insertAdjacentHTML( 'beforeend', itemHTML );
 	}
 
 	// Add listeners to the item.
@@ -126,7 +129,6 @@ const prplSuggestedTodoItemListeners = ( item ) => {
 	item.querySelectorAll( `.${ PRPL_SUGGESTED_CLASS_PREFIX }-button` ).forEach(
 		function ( button ) {
 			button.addEventListener( 'click', function () {
-				const taskId = button.getAttribute( 'data-task-id' );
 				const action = button.getAttribute( 'data-action' );
 
 				if ( 'add-todo' === action ) {
@@ -137,7 +139,10 @@ const prplSuggestedTodoItemListeners = ( item ) => {
 						true // Save.
 					);
 				}
-				progressPlannerModifyTask( taskId, action );
+				progressPlannerModifyTask(
+					button.getAttribute( 'data-task-id' ),
+					action
+				);
 			} );
 		}
 	);
