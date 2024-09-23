@@ -36,6 +36,7 @@ class Suggested_Tasks {
 	public function __construct() {
 		$this->register_hooks();
 		$this->maybe_unsnooze_tasks();
+		$this->register_scripts();
 	}
 
 	/**
@@ -148,7 +149,7 @@ class Suggested_Tasks {
 	 *
 	 * @return array
 	 */
-	public static function get_tasks() {
+	public function get_tasks() {
 		// Check if we have a cached response.
 		$items = \get_transient( 'progress_planner_suggested_tasks' );
 
@@ -194,7 +195,7 @@ class Suggested_Tasks {
 	 *
 	 * @return array
 	 */
-	public static function get_completed_tasks() {
+	public function get_completed_tasks() {
 		$option = \get_option( self::OPTION_NAME, [] );
 		return $option['completed'] ?? [];
 	}
@@ -204,7 +205,7 @@ class Suggested_Tasks {
 	 *
 	 * @return array
 	 */
-	public static function get_dismissed_tasks() {
+	public function get_dismissed_tasks() {
 		$option = \get_option( self::OPTION_NAME, [] );
 		return $option['dismissed'] ?? [];
 	}
@@ -214,7 +215,7 @@ class Suggested_Tasks {
 	 *
 	 * @return array
 	 */
-	public static function get_snoozed_tasks() {
+	public function get_snoozed_tasks() {
 		$option = \get_option( self::OPTION_NAME, [] );
 		return $option['snoozed'] ?? [];
 	}
@@ -237,5 +238,31 @@ class Suggested_Tasks {
 			}
 		}
 		\update_option( self::OPTION_NAME, $option );
+	}
+
+	/**
+	 * Register scripts.
+	 *
+	 * @return void
+	 */
+	public function register_scripts() {
+		\wp_enqueue_script(
+			'progress-planner-suggested-tasks',
+			PROGRESS_PLANNER_URL . '/assets/js/suggested-tasks.js',
+			[ 'progress-planner-todo' ],
+			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/suggested-tasks.js' ),
+			true
+		);
+		$localize_data = [
+			'ajaxUrl' => \admin_url( 'admin-ajax.php' ),
+			'nonce'   => \wp_create_nonce( 'progress_planner' ),
+			'tasks'   => [
+				'details'   => $this->get_tasks(),
+				'completed' => $this->get_completed_tasks(),
+				'dismissed' => $this->get_dismissed_tasks(),
+				'snoozed'   => $this->get_snoozed_tasks(),
+			],
+		];
+		\wp_localize_script( 'progress-planner-suggested-tasks', 'progressPlannerSuggestedTasks', $localize_data );
 	}
 }
