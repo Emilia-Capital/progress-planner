@@ -102,8 +102,7 @@ if ( document.getElementById( 'prpl-onboarding-form' ) ) {
 						.forEach( ( inputField ) => {
 							if (
 								'name' === inputField.name ||
-								'email' === inputField.name ||
-								'consent' === inputField.name
+								'email' === inputField.name
 							) {
 								inputField.required = true;
 							}

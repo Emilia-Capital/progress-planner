@@ -654,7 +654,7 @@ button.prpl-info-icon {
 .prpl-widget-wrapper.prpl-welcome {
 	padding: 0;
 	overflow: hidden;
-	height: 80vh;
+	max-height: 80vh;
 	width: 80vw;
 	margin: 10vh 10vw;
 	z-index: 9999;

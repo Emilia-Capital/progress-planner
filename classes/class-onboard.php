@@ -70,24 +70,23 @@ class Onboard {
 				<?php
 				printf(
 					/* translators: %s: progressplanner.com link */
-					\esc_html__( ' We can send you weekly emails with your own to-do’s, your activity stats and nudges to keep you working on your site. To do this, we’ll create an account for you on %s', 'progress-planner' ),
+					\esc_html__( ' We can send you weekly emails with your own to-do’s, your activity stats and nudges to keep you working on your site. To do this, we’ll create an account for you on %s.', 'progress-planner' ),
 					'<a href="https://prpl.fyi/home" target="_blank">progressplanner.com</a>'
 				)
 				?>
 			</div>
 			<br>
-			<br>
 			<div>
 				<label style="display:block;">
 					<input type="radio" name="with-email" value="yes" checked>
 					<span class="prpl-label-content">
-						<?php \esc_html_e( 'Yes, send me weekly emails', 'progress-planner' ); ?>
+						<?php \esc_html_e( 'Yes, send me weekly emails!', 'progress-planner' ); ?>
 					</span>
 				</label>
 				<label style="display:block;">
 					<input type="radio" name="with-email" value="no">
 					<span class="prpl-label-content">
-						<?php \esc_html_e( 'Please do not email me', 'progress-planner' ); ?>
+						<?php \esc_html_e( 'Please do not email me.', 'progress-planner' ); ?>
 					</span>
 				</label>
 			</div>
@@ -95,7 +94,7 @@ class Onboard {
 			<div class="prpl-form-fields">
 				<label>
 					<span class="prpl-label-content">
-						<?php \esc_html_e( 'First Name', 'progress-planner' ); ?>
+						<?php \esc_html_e( 'First name', 'progress-planner' ); ?>
 					</span>
 					<input
 						type="text"
@@ -116,28 +115,6 @@ class Onboard {
 						required
 						value="<?php echo \esc_attr( $current_user->user_email ); ?>"
 					>
-				</label>
-				<label>
-					<span></span><!-- Empty span for styling (grid layout). -->
-					<span>
-						<span><!-- Wrapping the input in a span to align it vertically with the label. -->
-							<input
-								type="checkbox"
-								name="consent"
-								required
-							>
-						</span>
-						<span class="prpl-label-content">
-							<?php
-								printf(
-									/* translators: %1$s: progressplanner.com link. %2$s: Link with text "Learn more." */
-									\esc_html__( 'Create an account on %1$s, and subscribe to emails. %2$s', 'progress-planner' ),
-									'<a href="https://prpl.fyi/home" target="_blank">progressplanner.com</a>',
-									'<a href="https://prpl.fyi/onboarding" target="_blank">' . \esc_html__( 'Learn more.', 'progress-planner' ) . '</a>'
-								);
-							?>
-						</span>
-					</span>
 				</label>
 				<input
 					type="hidden"
