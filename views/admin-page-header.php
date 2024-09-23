@@ -17,15 +17,6 @@ $progress_planner_active_frequency = isset( $_GET['frequency'] ) ? \sanitize_tex
 
 do_action( 'progress_planner_admin_page_header_before' );
 ?>
-<?php if ( isset( $_GET['content-scan-finished'] ) ) : // phpcs:ignore WordPress.Security ?>
-	<div class="prpl-widget-wrapper prpl-top-notice" id="prpl-content-scan-finished-notice">
-		<button class="prpl-close-button" onclick="document.getElementById('prpl-content-scan-finished-notice').remove();">
-			<span class="dashicons dashicons-no-alt"></span>
-			<span class="screen-reader-text"><?php esc_html_e( 'Close notice', 'progress-planner' ); ?></span>
-		</button>
-	</div>
-<?php endif; ?>
-
 <div class="prpl-header">
 	<div class="prpl-header-logo">
 		<?php
