@@ -152,33 +152,16 @@ class Suggested_Tasks {
 	}
 
 	/**
-	 * Get the completed tasks.
+	 * Get an array of completed, dismissed, and snoozed tasks.
 	 *
 	 * @return array
 	 */
-	public function get_completed_tasks() {
-		$option = \get_option( self::OPTION_NAME, [] );
-		return $option['completed'] ?? [];
-	}
-
-	/**
-	 * Get the dismissed tasks.
-	 *
-	 * @return array
-	 */
-	public function get_dismissed_tasks() {
-		$option = \get_option( self::OPTION_NAME, [] );
-		return $option['dismissed'] ?? [];
-	}
-
-	/**
-	 * Get an array of snoozed tasks.
-	 *
-	 * @return array
-	 */
-	public function get_snoozed_tasks() {
-		$option = \get_option( self::OPTION_NAME, [] );
-		return $option['snoozed'] ?? [];
+	public function get_saved_tasks() {
+		$option              = \get_option( self::OPTION_NAME, [] );
+		$option['completed'] = $option['completed'] ?? [];
+		$option['dismissed'] = $option['dismissed'] ?? [];
+		$option['snoozed']   = $option['snoozed'] ?? [];
+		return $option;
 	}
 
 	/**
@@ -214,15 +197,12 @@ class Suggested_Tasks {
 			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/suggested-tasks.js' ),
 			true
 		);
-		$localize_data = [
+		$tasks            = $this->get_saved_tasks();
+		$tasks['details'] = $this->get_tasks();
+		$localize_data    = [
 			'ajaxUrl' => \admin_url( 'admin-ajax.php' ),
 			'nonce'   => \wp_create_nonce( 'progress_planner' ),
-			'tasks'   => [
-				'details'   => $this->get_tasks(),
-				'completed' => $this->get_completed_tasks(),
-				'dismissed' => $this->get_dismissed_tasks(),
-				'snoozed'   => $this->get_snoozed_tasks(),
-			],
+			'tasks'   => $tasks,
 		];
 		\wp_localize_script( 'progress-planner-suggested-tasks', 'progressPlannerSuggestedTasks', $localize_data );
 	}
