@@ -23,13 +23,6 @@ do_action( 'progress_planner_admin_page_header_before' );
 			<span class="dashicons dashicons-no-alt"></span>
 			<span class="screen-reader-text"><?php esc_html_e( 'Close notice', 'progress-planner' ); ?></span>
 		</button>
-		<div class="inner-content">
-			<h1><?php esc_html_e( "We've successfully scanned your site's content.", 'progress-planner' ); ?></h1>
-			<p><?php esc_html_e( 'Would you like a tour of the plugin now?', 'progress-planner' ); ?></p>
-			<div id="prpl-onboarding-submit-grid-wrapper">
-				<button class="prpl-button-primary" onclick="prplStartTour()"><?php esc_html_e( 'Yes, let\'s go!', 'progress-planner' ); ?></button>
-			</div>
-		</div>
 	</div>
 <?php endif; ?>
 
