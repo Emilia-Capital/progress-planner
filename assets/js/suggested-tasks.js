@@ -1,9 +1,9 @@
 /* global progressPlannerInjectTodoItem, progressPlannerSuggestedTasks, jQuery */
-
+const PRPL_SUGGESTED_CLASS_PREFIX = 'prpl-suggested-task';
 const PRPL_SUGGESTED_TASKS_CLASSES = {
-	DISMISSED: 'prpl-suggested-task-dismissed',
-	SNOOZED: 'prpl-suggested-task-snoozed',
-	COMPLETED: 'prpl-suggested-task-completed',
+	DISMISSED: `${ PRPL_SUGGESTED_CLASS_PREFIX }-dismissed`,
+	SNOOZED: `${ PRPL_SUGGESTED_CLASS_PREFIX }-snoozed`,
+	COMPLETED: `${ PRPL_SUGGESTED_CLASS_PREFIX }-completed`,
 };
 /**
  * Modify a task.
@@ -23,7 +23,9 @@ const progressPlannerModifyTask = ( taskId, action, className ) => {
 		},
 		() => {
 			document
-				.querySelector( `.prpl-suggested-task-${ taskId }` )
+				.querySelector(
+					`.${ PRPL_SUGGESTED_CLASS_PREFIX }-${ taskId }`
+				)
 				.classList.add( className );
 		}
 	);
@@ -38,13 +40,15 @@ const progressPlannerInjectSuggestedTodoItem = ( details ) => {
 	const list = document.querySelector(
 		`.prpl-suggested-todos-list.priority-${ details.priority }`
 	);
-	const template = document.getElementById( 'prpl-suggested-task-template' );
+	const template = document.getElementById(
+		`${ PRPL_SUGGESTED_CLASS_PREFIX }-template`
+	);
 	const tasks = progressPlannerSuggestedTasks.tasks;
 	// Clone the template element.
 	const item = template.cloneNode( true );
 	item.classList.add(
-		'prpl-suggested-task',
-		`prpl-suggested-task-${ details.id }`
+		PRPL_SUGGESTED_CLASS_PREFIX,
+		`${ PRPL_SUGGESTED_CLASS_PREFIX }-${ details.id }`
 	);
 	item.removeAttribute( 'id' );
 
@@ -74,7 +78,7 @@ const progressPlannerInjectSuggestedTodoItem = ( details ) => {
 
 	if ( parent ) {
 		const parentItem = document.querySelector(
-			`.prpl-suggested-task-${ parent }`
+			`.${ PRPL_SUGGESTED_CLASS_PREFIX }-${ parent }`
 		);
 		// If we could not find the parent item, try again after 500ms.
 		if ( ! parentItem ) {
@@ -85,18 +89,20 @@ const progressPlannerInjectSuggestedTodoItem = ( details ) => {
 
 		// Check if the parent item has a child list.
 		const childList = parentItem.querySelector(
-			'.prpl-suggested-task-children'
+			`.${ PRPL_SUGGESTED_CLASS_PREFIX }-children`
 		);
 		// If the child list does not exist, create it.
 		if ( ! childList ) {
 			const childListElement = document.createElement( 'ul' );
-			childListElement.classList.add( 'prpl-suggested-task-children' );
+			childListElement.classList.add(
+				`${ PRPL_SUGGESTED_CLASS_PREFIX }-children`
+			);
 			parentItem.appendChild( childListElement );
 		}
 
 		// Inject the item into the child list.
 		parentItem
-			.querySelector( '.prpl-suggested-task-children' )
+			.querySelector( `.${ PRPL_SUGGESTED_CLASS_PREFIX }-children` )
 			.insertAdjacentHTML( 'beforeend', itemHTML );
 	} else {
 		// Inject the item into the list.
@@ -105,12 +111,14 @@ const progressPlannerInjectSuggestedTodoItem = ( details ) => {
 
 	// Add listeners to the item.
 	prplSuggestedTodoItemListeners(
-		document.querySelector( `.prpl-suggested-task-${ details.id }` )
+		document.querySelector(
+			`.${ PRPL_SUGGESTED_CLASS_PREFIX }-${ details.id }`
+		)
 	);
 };
 
 const prplSuggestedTodoItemListeners = ( item ) => {
-	item.querySelectorAll( '.prpl-suggested-task-button' ).forEach(
+	item.querySelectorAll( `.${ PRPL_SUGGESTED_CLASS_PREFIX }-button` ).forEach(
 		function ( button ) {
 			button.addEventListener( 'click', function () {
 				const taskId = button.getAttribute( 'data-task-id' );
@@ -128,7 +136,7 @@ const prplSuggestedTodoItemListeners = ( item ) => {
 					case 'dismiss':
 						progressPlannerModifyTask(
 							taskId,
-							'dismiss',
+							action,
 							PRPL_SUGGESTED_TASKS_CLASSES.DISMISSED
 						);
 						break;
@@ -136,7 +144,7 @@ const prplSuggestedTodoItemListeners = ( item ) => {
 					case 'snooze':
 						progressPlannerModifyTask(
 							taskId,
-							'snooze',
+							action,
 							PRPL_SUGGESTED_TASKS_CLASSES.SNOOZED
 						);
 						break;
@@ -144,7 +152,7 @@ const prplSuggestedTodoItemListeners = ( item ) => {
 					case 'complete':
 						progressPlannerModifyTask(
 							taskId,
-							'complete',
+							action,
 							PRPL_SUGGESTED_TASKS_CLASSES.COMPLETED
 						);
 						break;
