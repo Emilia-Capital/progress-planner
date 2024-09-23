@@ -43,6 +43,7 @@ const progressPlannerInjectSuggestedTodoItem = ( details ) => {
 	// Clone the template element.
 	const item = template.cloneNode( true );
 	item.classList.add( `prpl-suggested-task-${ details.id }` );
+	item.removeAttribute( 'id' );
 
 	// Add classes to the element.
 	if (
