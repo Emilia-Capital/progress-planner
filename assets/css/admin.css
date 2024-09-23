@@ -1193,11 +1193,21 @@ button.prpl-info-icon {
 /*------------------------------------*\
 	Suggested tasks.
 \*------------------------------------*/
-.prpl-suggested-task {
+.prpl-suggested-todos-list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
 
-	&.prpl-suggested-task-dismissed,
-	&.prpl-suggested-task-snoozed,
-	&.prpl-suggested-task-completed {
-		text-decoration: line-through;
+	.prpl-suggested-task {
+
+		&.prpl-suggested-task-dismissed,
+		&.prpl-suggested-task-snoozed,
+		&.prpl-suggested-task-completed {
+			text-decoration: line-through;
+		}
+
+		ul {
+			margin-left: 1rem;
+		}
 	}
 }
