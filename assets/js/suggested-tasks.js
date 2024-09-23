@@ -129,27 +129,15 @@ const prplSuggestedTodoItemListeners = ( item ) => {
 				const taskId = button.getAttribute( 'data-task-id' );
 				const action = button.getAttribute( 'data-action' );
 
-				switch ( action ) {
-					case 'add-todo':
-						progressPlannerInjectTodoItem(
-							button.getAttribute( 'data-task-title' ), // The task title.
-							false, // Task not done.
-							true, // Add to start of list.
-							true // Save.
-						);
-					// falls through.
-					case 'dismiss':
-						progressPlannerModifyTask( taskId, action );
-						break;
-
-					case 'snooze':
-						progressPlannerModifyTask( taskId, action );
-						break;
-
-					case 'complete':
-						progressPlannerModifyTask( taskId, action );
-						break;
+				if ( 'add-todo' === action ) {
+					progressPlannerInjectTodoItem(
+						button.getAttribute( 'data-task-title' ), // The task title.
+						false, // Task not done.
+						true, // Add to start of list.
+						true // Save.
+					);
 				}
+				progressPlannerModifyTask( taskId, action );
 			} );
 		}
 	);
