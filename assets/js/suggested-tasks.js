@@ -39,28 +39,25 @@ const progressPlannerInjectSuggestedTodoItem = ( details ) => {
 		`.prpl-suggested-todos-list.priority-${ details.priority }`
 	);
 	const template = document.getElementById( 'prpl-suggested-task-template' );
-
+	const tasks = progressPlannerSuggestedTasks.tasks;
 	// Clone the template element.
 	const item = template.cloneNode( true );
-	item.classList.add( `prpl-suggested-task-${ details.id }` );
+	item.classList.add(
+		'prpl-suggested-task',
+		`prpl-suggested-task-${ details.id }`
+	);
 	item.removeAttribute( 'id' );
 
 	// Add classes to the element.
-	if (
-		progressPlannerSuggestedTasks.tasks.dismissed.includes( details.id )
-	) {
+	if ( tasks.dismissed.includes( details.id ) ) {
 		item.classList.add( PRPL_SUGGESTED_TASKS_CLASSES.DISMISSED );
 	}
-	progressPlannerSuggestedTasks.tasks.snoozed.forEach(
-		function ( snoozedTask ) {
-			if ( snoozedTask.id === details.id ) {
-				item.classList.add( PRPL_SUGGESTED_TASKS_CLASSES.SNOOZED );
-			}
+	tasks.snoozed.forEach( function ( snoozedTask ) {
+		if ( snoozedTask.id === details.id ) {
+			item.classList.add( PRPL_SUGGESTED_TASKS_CLASSES.SNOOZED );
 		}
-	);
-	if (
-		progressPlannerSuggestedTasks.tasks.completed.includes( details.id )
-	) {
+	} );
+	if ( tasks.completed.includes( details.id ) ) {
 		item.classList.add( PRPL_SUGGESTED_TASKS_CLASSES.COMPLETED );
 	}
 
@@ -71,8 +68,40 @@ const progressPlannerInjectSuggestedTodoItem = ( details ) => {
 		.replace( new RegExp( '{taskDescription}', 'g' ), details.description )
 		.replace( new RegExp( '{taskPriority}', 'g' ), details.priority );
 
-	// Inject the item into the list.
-	list.insertAdjacentHTML( 'beforeend', itemHTML );
+	// Get the parent item.
+	const parent =
+		details.parent && '' !== details.parent ? details.parent : null;
+
+	if ( parent ) {
+		const parentItem = document.querySelector(
+			`.prpl-suggested-task-${ parent }`
+		);
+		// If we could not find the parent item, try again after 500ms.
+		if ( ! parentItem ) {
+			setTimeout( () => {
+				progressPlannerInjectSuggestedTodoItem( details );
+			}, 500 );
+		}
+
+		// Check if the parent item has a child list.
+		const childList = parentItem.querySelector(
+			'.prpl-suggested-task-children'
+		);
+		// If the child list does not exist, create it.
+		if ( ! childList ) {
+			const childListElement = document.createElement( 'ul' );
+			childListElement.classList.add( 'prpl-suggested-task-children' );
+			parentItem.appendChild( childListElement );
+		}
+
+		// Inject the item into the child list.
+		parentItem
+			.querySelector( '.prpl-suggested-task-children' )
+			.insertAdjacentHTML( 'beforeend', itemHTML );
+	} else {
+		// Inject the item into the list.
+		list.insertAdjacentHTML( 'beforeend', itemHTML );
+	}
 
 	// Add listeners to the item.
 	prplSuggestedTodoItemListeners(

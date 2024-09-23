@@ -1198,11 +1198,6 @@ button.prpl-info-icon {
 	&.prpl-suggested-task-dismissed,
 	&.prpl-suggested-task-snoozed,
 	&.prpl-suggested-task-completed {
-
-		.prpl-suggested-task-description,
-		.prpl-suggested-task-priority,
-		button {
-			display: none;
-		}
+		text-decoration: line-through;
 	}
 }
