@@ -103,6 +103,10 @@
 	}
 }
 
+.prpl-hidden {
+	display: none !important;
+}
+
 /*------------------------------------*\
 	Info buttons.
 \*------------------------------------*/
@@ -759,6 +763,13 @@ button.prpl-info-icon {
 #prpl-onboarding-form label > span:has(input[type="checkbox"]) {
 	display: flex;
 	align-items: baseline;
+}
+
+.prpl-onboard-form-radio-select {
+
+	label {
+		display: block !important;
+	}
 }
 
 /*------------------------------------*\

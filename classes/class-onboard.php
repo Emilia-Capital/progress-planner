@@ -76,14 +76,14 @@ class Onboard {
 				?>
 			</div>
 			<br>
-			<div>
-				<label style="display:block;">
+			<div class="prpl-onboard-form-radio-select">
+				<label>
 					<input type="radio" name="with-email" value="yes" checked>
 					<span class="prpl-label-content">
 						<?php \esc_html_e( 'Yes, send me weekly emails!', 'progress-planner' ); ?>
 					</span>
 				</label>
-				<label style="display:block;">
+				<label>
 					<input type="radio" name="with-email" value="no">
 					<span class="prpl-label-content">
 						<?php \esc_html_e( 'Please do not email me.', 'progress-planner' ); ?>
@@ -140,8 +140,7 @@ class Onboard {
 			<input
 				type="submit"
 				value="<?php \esc_attr_e( 'Continue without emailing me', 'progress-planner' ); ?>"
-				class="prpl-button-secondary prpl-button-secondary--no-email"
-				style="display:none;"
+				class="prpl-button-secondary prpl-button-secondary--no-email prpl-hidden"
 			>
 		</form>
 

@@ -86,15 +86,6 @@ if ( document.getElementById( 'prpl-onboarding-form' ) ) {
 						.forEach( ( inputField ) => {
 							inputField.required = false;
 						} );
-					document.querySelector(
-						'#prpl-onboarding-form .prpl-form-fields'
-					).style.display = 'none';
-					document.querySelector(
-						'#prpl-onboarding-form .prpl-button-primary'
-					).style.display = 'none';
-					document.querySelector(
-						'#prpl-onboarding-form .prpl-button-secondary--no-email'
-					).style.display = 'block';
 				} else {
 					document
 						.getElementById( 'prpl-onboarding-form' )
@@ -107,16 +98,13 @@ if ( document.getElementById( 'prpl-onboarding-form' ) ) {
 								inputField.required = true;
 							}
 						} );
-					document.querySelector(
-						'#prpl-onboarding-form .prpl-form-fields'
-					).style.display = 'block';
-					document.querySelector(
-						'#prpl-onboarding-form .prpl-button-primary'
-					).style.display = 'block';
-					document.querySelector(
-						'#prpl-onboarding-form .prpl-button-secondary--no-email'
-					).style.display = 'none';
 				}
+				document
+					.getElementById( 'prpl-onboarding-form' )
+					.querySelectorAll(
+						'.prpl-form-fields, .prpl-form-fields, .prpl-button-primary, .prpl-button-secondary--no-email'
+					)
+					.forEach( ( el ) => el.classList.toggle( 'prpl-hidden' ) );
 			} );
 		} );
 
