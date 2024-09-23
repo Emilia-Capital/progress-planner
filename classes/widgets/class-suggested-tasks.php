@@ -32,8 +32,8 @@ final class Suggested_Tasks extends Widget {
 			<?php esc_html_e( 'Suggested tasks', 'progress-planner' ); ?>
 		</h2>
 
-		<ul id="prpl-suggested-todos-list">
-			<li id="prpl-suggested-task-template" style="display:none">
+		<ul style="display:none">
+			<li id="prpl-suggested-task-template">
 				<details>
 					<summary>{taskTitle}</summary>
 					<p class="prpl-suggested-task-description">{taskDescription}</p>
@@ -85,6 +85,10 @@ final class Suggested_Tasks extends Widget {
 				</details>
 			</li>
 		</ul>
+
+		<ul class="prpl-suggested-todos-list priority-high"></ul>
+		<ul class="prpl-suggested-todos-list priority-medium"></ul>
+		<ul class="prpl-suggested-todos-list priority-low"></ul>
 		<?php
 	}
 }

@@ -23,7 +23,7 @@ const progressPlannerModifyTask = ( taskId, action, className ) => {
 		},
 		() => {
 			document
-				.querySelector( '.prpl-suggested-task-' + taskId )
+				.querySelector( `.prpl-suggested-task-${ taskId }` )
 				.classList.add( className );
 		}
 	);
@@ -35,13 +35,14 @@ const progressPlannerModifyTask = ( taskId, action, className ) => {
  * @param {Object} details The details of the todo item.
  */
 const progressPlannerInjectSuggestedTodoItem = ( details ) => {
-	const list = document.getElementById( 'prpl-suggested-todos-list' );
+	const list = document.querySelector(
+		`.prpl-suggested-todos-list.priority-${ details.priority }`
+	);
 	const template = document.getElementById( 'prpl-suggested-task-template' );
 
 	// Clone the template element.
 	const item = template.cloneNode( true );
-	item.style.display = 'block';
-	item.classList.add( 'prpl-suggested-task-' + details.id );
+	item.classList.add( `prpl-suggested-task-${ details.id }` );
 
 	// Add classes to the element.
 	if (
@@ -74,7 +75,7 @@ const progressPlannerInjectSuggestedTodoItem = ( details ) => {
 
 	// Add listeners to the item.
 	prplSuggestedTodoItemListeners(
-		document.querySelector( '.prpl-suggested-task-' + details.id )
+		document.querySelector( `.prpl-suggested-task-${ details.id }` )
 	);
 };
 
