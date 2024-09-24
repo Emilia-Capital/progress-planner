@@ -7,10 +7,8 @@
 
 namespace Progress_Planner\Widgets;
 
-use Progress_Planner\Base;
 use Progress_Planner\Goals\Goal_Recurring;
 use Progress_Planner\Goals\Goal;
-use Progress_Planner\Settings;
 use Progress_Planner\Widgets\Widget;
 
 /**

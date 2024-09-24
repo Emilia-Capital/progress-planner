@@ -10,6 +10,7 @@ namespace Progress_Planner;
 use Progress_Planner\Query;
 use Progress_Planner\Admin\Page as Admin_page;
 use Progress_Planner\Admin\Dashboard_Widget_Score;
+use Progress_Planner\Admin\Tour;
 use Progress_Planner\Admin\Dashboard_Widget_Todo;
 use Progress_Planner\Actions\Content as Actions_Content;
 use Progress_Planner\Actions\Content_Scan as Actions_Content_Scan;
@@ -94,9 +95,15 @@ class Base {
 		if ( ! function_exists( 'wp_get_current_user' ) ) {
 			require_once ABSPATH . 'wp-includes/pluggable.php';
 		}
+
+		if ( defined( '\IS_PLAYGROUND_PREVIEW' ) && constant( '\IS_PLAYGROUND_PREVIEW' ) === true ) {
+			new Playground();
+		}
+
 		// Basic classes.
 		if ( \is_admin() && \current_user_can( 'publish_posts' ) ) {
 			new Admin_Page();
+			new Tour();
 			new Dashboard_Widget_Score();
 			new Dashboard_Widget_Todo();
 		}

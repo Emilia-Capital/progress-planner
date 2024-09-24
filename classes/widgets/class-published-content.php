@@ -31,15 +31,13 @@ final class Published_Content extends Widget {
 	protected function the_content() {
 		$post_types = Content_Helpers::get_post_types_names();
 		$stats      = $this->get_stats();
+		$sum_weekly = array_sum( $stats['weekly'] );
 		?>
 		<div class="two-col">
 			<div class="prpl-top-counter-bottom-content">
 				<?php $this->render_big_counter( (int) array_sum( $stats['weekly'] ), __( 'content published', 'progress-planner' ) ); ?>
 				<div class="prpl-widget-content">
-					<?php
-						$sum_weekly = array_sum( $stats['weekly'] );
-					?>
-										<p>
+					<p>
 						<?php if ( 0 === $sum_weekly ) : ?>
 							<?php \esc_html_e( 'You didn\'t publish new content last week. You can do better!', 'progress-planner' ); ?>
 						<?php else : ?>
@@ -129,20 +127,37 @@ final class Published_Content extends Widget {
 	 */
 	public function get_chart_args() {
 		return [
-			'query_params' => [
+			'query_params'   => [
 				'category' => 'content',
 				'type'     => 'publish',
 			],
-			'dates_params' => [
+			'dates_params'   => [
 				'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) )->modify( $this->get_range() ),
 				'end'       => new \DateTime(),
 				'frequency' => $this->get_frequency(),
 				'format'    => 'M',
 			],
-			'chart_params' => [
+			'chart_params'   => [
 				'type' => 'line',
 			],
-			'compound'     => false,
+			'compound'       => false,
+			'filter_results' => [ $this, 'filter_activities' ],
 		];
+	}
+
+	/**
+	 * Callback to filter the activities.
+	 *
+	 * @param \Progress_Planner\Activities\Content[] $activities The activities array.
+	 *
+	 * @return \Progress_Planner\Activities\Content[]
+	 */
+	public function filter_activities( $activities ) {
+		return array_filter(
+			$activities,
+			function ( $activity ) {
+				return \in_array( $activity->get_post()->post_type, Content_Helpers::get_post_types_names(), true );
+			}
+		);
 	}
 }

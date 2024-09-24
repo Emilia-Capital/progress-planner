@@ -81,7 +81,24 @@ final class Published_Content_Density extends Widget {
 			],
 			'count_callback' => [ $this, 'count_density' ],
 			'compound'       => false,
+			'filter_results' => [ $this, 'filter_activities' ],
 		];
+	}
+
+	/**
+	 * Callback to filter the activities.
+	 *
+	 * @param \Progress_Planner\Activities\Content[] $activities The activities array.
+	 *
+	 * @return \Progress_Planner\Activities\Content[]
+	 */
+	public function filter_activities( $activities ) {
+		return array_filter(
+			$activities,
+			function ( $activity ) {
+				return \in_array( $activity->get_post()->post_type, Content_Helpers::get_post_types_names(), true );
+			}
+		);
 	}
 
 	/**
@@ -129,7 +146,7 @@ final class Published_Content_Density extends Widget {
 		// Get the all-time average.
 		static $density;
 		if ( null === $density ) {
-			$density = $this->count_density(
+			$activities = $this->filter_activities(
 				\progress_planner()->get_query()->query_activities(
 					[
 						'category' => 'content',
@@ -137,6 +154,7 @@ final class Published_Content_Density extends Widget {
 					]
 				)
 			);
+			$density    = $this->count_density( $activities );
 		}
 		return $density;
 	}

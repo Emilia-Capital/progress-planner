@@ -15,6 +15,7 @@ $progress_planner_active_range = isset( $_GET['range'] ) ? \sanitize_text_field(
 // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 $progress_planner_active_frequency = isset( $_GET['frequency'] ) ? \sanitize_text_field( \wp_unslash( $_GET['frequency'] ) ) : 'monthly';
 
+do_action( 'progress_planner_admin_page_header_before' );
 ?>
 <div class="prpl-header">
 	<div class="prpl-header-logo">
@@ -25,6 +26,10 @@ $progress_planner_active_frequency = isset( $_GET['frequency'] ) ? \sanitize_tex
 	</div>
 
 	<div class="prpl-header-right">
+		<button class="prpl-info-icon" id="prpl-start-tour-icon-button" onclick="prplStartTour()">
+			<span class="dashicons dashicons-lightbulb"></span>
+			<span class="screen-reader-text"><?php \esc_html_e( 'Start tour', 'progress-planner' ); ?>
+		</button>
 		<?php new \Progress_Planner\Popups\Settings(); ?>
 		<div class="prpl-header-select-range">
 			<label for="prpl-select-range" class="screen-reader-text">

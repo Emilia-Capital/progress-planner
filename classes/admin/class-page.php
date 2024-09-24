@@ -91,6 +91,8 @@ class Page {
 			<?php require PROGRESS_PLANNER_DIR . '/views/admin-page-header.php'; ?>
 			<?php require PROGRESS_PLANNER_DIR . '/views/welcome.php'; ?>
 
+			<?php do_action( 'progress_planner_admin_after_header' ); ?>
+
 			<div class="prpl-widgets-container">
 				<?php
 				$columns = apply_filters( 'progress_planner_admin_columns_widgets', self::COLUMNS );
@@ -192,7 +194,7 @@ class Page {
 		\wp_register_script(
 			'progress-planner-settings',
 			PROGRESS_PLANNER_URL . '/assets/js/settings.js',
-			[ 'progress-planner-ajax' ],
+			[ 'progress-planner-ajax', 'wp-util' ],
 			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/settings.js' ),
 			true
 		);
@@ -209,7 +211,7 @@ class Page {
 		\wp_register_script(
 			'progress-planner-todo',
 			PROGRESS_PLANNER_URL . '/assets/js/todo.js',
-			[ 'jquery-ui-sortable', 'progress-planner-ajax' ],
+			[ 'jquery-ui-sortable', 'progress-planner-ajax', 'wp-util' ],
 			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/todo.js' ),
 			true
 		);
@@ -241,7 +243,13 @@ class Page {
 				'nonce'     => \wp_create_nonce( 'progress_planner_todo' ),
 				'listItems' => \Progress_Planner\Todo::get_items(),
 				'i18n'      => [
-					'drag' => \esc_html__( 'Drag to reorder', 'progress-planner' ),
+					'drag'             => \esc_html__( 'Drag to reorder', 'progress-planner' ),
+					/* translators: %s: The task content. */
+					'taskDelete'       => \esc_html__( "Delete task '%s'", 'progress-planner' ),
+					/* translators: %s: The task content. */
+					'taskCompleted'    => \esc_html__( "Task '%s' completed and moved to the bottom", 'progress-planner' ),
+					/* translators: %s: The task content. */
+					'taskNotCompleted' => \esc_html__( "Task '%s' marked as not completed and moved to the top", 'progress-planner' ),
 				],
 			]
 		);

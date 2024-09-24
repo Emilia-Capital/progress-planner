@@ -62,9 +62,11 @@ class Rest_API {
 	/**
 	 * Receive the data from the client.
 	 *
+	 * This method handles a REST request and returns a REST response.
+	 *
 	 * @param \WP_REST_Request $request The REST request object.
 	 *
-	 * @return \WP_REST_Response
+	 * @return \WP_REST_Response The REST response object containing the stats.
 	 */
 	public function get_stats( \WP_REST_Request $request ) {
 		$data = $request->get_json_params();
@@ -111,6 +113,7 @@ class Rest_API {
 			'super-site-specialist' => new Badge_Super_Site_Specialist(),
 		];
 
+		$data['badges'] = [];
 		foreach ( $badges as $key => $badge ) {
 			$data['badges'][ $key ] = array_merge(
 				[
@@ -171,6 +174,8 @@ class Rest_API {
 		$data['todo'] = $pending_todo_items;
 
 		$data['plugin_url'] = \esc_url( \get_admin_url( null, 'admin.php?page=progress-planner' ) );
+
+		$data = apply_filters( 'progress_planner_rest_api_get_stats', $data );
 
 		return new \WP_REST_Response( $data );
 	}

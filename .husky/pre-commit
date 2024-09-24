@@ -1,0 +1,4 @@
+composer check-cs
+composer phpstan
+npm run lint:css
+npm run lint:js
