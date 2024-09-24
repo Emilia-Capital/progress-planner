@@ -76,7 +76,7 @@ https://youtu.be/e1bmxZYyXFY
 6. See your Website activity score.
 7. Get a weekly email with stats on how well you're doing on your site!
 
-== Upgrade Notice ==
+== Changelog ==
 
 = 0.9.5 =
 
@@ -100,12 +100,6 @@ Fixed:
 * Completing the last badge wouldn't ever work, fixed.
 * Fixed some bugs around detecting badges being "had".
 * Replaced links to the site with shortlinks, so we can change them as needed without doing a release.
-
-= 0.9.3 =
-
-This version improves plugin security by sanitizing to-do items better. This basically means your co-workers on the site can't hack you.
-
-== Changelog ==
 
 = 0.9.3 =
 
