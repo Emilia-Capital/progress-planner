@@ -4,7 +4,7 @@ Tags: planning, maintenance, writing, blogging
 Requires at least: 6.3
 Tested up to: 6.6
 Requires PHP: 7.4
-Stable tag: 0.9.4
+Stable tag: 0.9.5
 License: GPL3+
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -78,7 +78,12 @@ https://youtu.be/e1bmxZYyXFY
 
 == Upgrade Notice ==
 
-= - in development =
+= 0.9.5 =
+
+Enhancements:
+
+* Added functionality to make it easier to demo the plugin on the WordPress playground.
+* Improved the onboarding and added a tour of the plugin.
 
 Fixed:
 
