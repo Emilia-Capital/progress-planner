@@ -657,7 +657,7 @@ button.prpl-info-icon {
 \*------------------------------------*/
 .prpl-widget-wrapper.prpl-welcome {
 	padding: 0;
-	overflow: hidden;
+	overflow-x: hidden;
 	max-height: 80vh;
 	width: 80vw;
 	margin: 10vh 10vw;
@@ -667,8 +667,7 @@ button.prpl-info-icon {
 		padding: calc(var(--prpl-gap) * 1.5);
 		padding-bottom: 0;
 		margin-bottom: calc(var(--prpl-gap) * 1.5);
-		overflow: hidden;
-		display: grid;
+		display: flex;
 		grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
 		gap: calc(var(--prpl-gap) * 2);
 
@@ -909,6 +908,13 @@ button.prpl-info-icon {
 
 	.prpl-graph-wrapper {
 		max-width: calc(100vw - 4 * var(--prpl-padding) - 4 * var(--prpl-gap));
+	}
+}
+
+@media all and (max-width: 1024px) {
+
+	.prpl-welcome .inner-content .right {
+		display: none !important;
 	}
 }
 
