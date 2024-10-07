@@ -37,7 +37,6 @@ class Scripts {
 	public function __construct() {
 		$this->api = new Suggested_Tasks_API();
 		$this->register_hooks();
-		$this->register_scripts();
 	}
 
 	/**
@@ -47,7 +46,7 @@ class Scripts {
 	 */
 	private function register_hooks() {
 		\add_action( 'wp_ajax_progress_planner_suggested_task_action', [ $this, 'suggested_task_action' ] );
-		\add_action( 'progress_planner_activity_saved', [ $this, 'activity_saved' ] );
+		\add_action( 'admin_enqueue_scripts', [ $this, 'register_scripts' ] );
 	}
 
 	/**
