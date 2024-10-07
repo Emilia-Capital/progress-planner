@@ -55,6 +55,7 @@ class Maintenance extends Activity {
 			return;
 		}
 		\progress_planner()->get_query()->insert_activity( $this );
+		\do_action( 'progress_planner_activity_saved', $this );
 	}
 
 	/**
