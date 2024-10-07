@@ -27,6 +27,7 @@ final class Suggested_Tasks extends Widget {
 	 * @return void
 	 */
 	protected function the_content() {
+		\wp_enqueue_script( 'progress-planner-suggested-tasks' );
 		?>
 		<h2 class="prpl-widget-title">
 			<?php esc_html_e( 'Suggested tasks', 'progress-planner' ); ?>

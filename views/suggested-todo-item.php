@@ -20,17 +20,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 			class="button prpl-suggested-task-button"
 			data-task-id="{taskId}"
 			data-task-title="{taskTitle}"
-			data-action="add-todo"
-			title="<?php esc_attr_e( 'Add to todo list', 'progress-planner' ); ?>"
-		>
-			<span class="dashicons dashicons-list-view"></span>
-			<span class="screen-reader-text"><?php esc_html_e( 'Add to todo list', 'progress-planner' ); ?></span>
-		</button>
-		<button
-			type="button"
-			class="button prpl-suggested-task-button"
-			data-task-id="{taskId}"
-			data-task-title="{taskTitle}"
 			data-action="dismiss"
 			title="<?php esc_html_e( 'Dismiss', 'progress-planner' ); ?>"
 		>

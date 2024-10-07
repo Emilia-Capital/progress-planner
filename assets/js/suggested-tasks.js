@@ -1,10 +1,11 @@
-/* global progressPlannerInjectTodoItem, progressPlannerSuggestedTasks, jQuery */
+/* global progressPlannerSuggestedTasks, jQuery */
 const PRPL_SUGGESTED_CLASS_PREFIX = 'prpl-suggested-task';
 const PRPL_SUGGESTED_TASKS_CLASSES = {
 	DISMISSED: `${ PRPL_SUGGESTED_CLASS_PREFIX }-dismissed`,
 	SNOOZED: `${ PRPL_SUGGESTED_CLASS_PREFIX }-snoozed`,
 	COMPLETED: `${ PRPL_SUGGESTED_CLASS_PREFIX }-completed`,
 };
+
 /**
  * Modify a task.
  *
@@ -55,24 +56,24 @@ const progressPlannerInjectSuggestedTodoItem = ( details ) => {
 	// Add classes to the element.
 	item.classList.add(
 		PRPL_SUGGESTED_CLASS_PREFIX,
-		`${ PRPL_SUGGESTED_CLASS_PREFIX }-${ details.id }`
+		`${ PRPL_SUGGESTED_CLASS_PREFIX }-${ details.task_id }`
 	);
-	if ( tasks.dismissed.includes( details.id ) ) {
+	if ( tasks.dismissed.includes( details.task_id ) ) {
 		item.classList.add( PRPL_SUGGESTED_TASKS_CLASSES.DISMISSED );
 	}
 	tasks.snoozed.forEach( function ( snoozedTask ) {
-		if ( snoozedTask.id === details.id ) {
+		if ( snoozedTask.id === details.task_id ) {
 			item.classList.add( PRPL_SUGGESTED_TASKS_CLASSES.SNOOZED );
 		}
 	} );
-	if ( tasks.completed.includes( details.id ) ) {
+	if ( tasks.completed.includes( details.task_id ) ) {
 		item.classList.add( PRPL_SUGGESTED_TASKS_CLASSES.COMPLETED );
 	}
 
 	// Replace placeholders with the actual values.
 	const itemHTML = item.outerHTML
 		.replace( new RegExp( '{taskTitle}', 'g' ), details.title )
-		.replace( new RegExp( '{taskId}', 'g' ), details.id )
+		.replace( new RegExp( '{taskId}', 'g' ), details.task_id )
 		.replace( new RegExp( '{taskDescription}', 'g' ), details.description )
 		.replace( new RegExp( '{taskPriority}', 'g' ), details.priority );
 
@@ -120,7 +121,7 @@ const progressPlannerInjectSuggestedTodoItem = ( details ) => {
 	// Add listeners to the item.
 	prplSuggestedTodoItemListeners(
 		document.querySelector(
-			`.${ PRPL_SUGGESTED_CLASS_PREFIX }-${ details.id }`
+			`.${ PRPL_SUGGESTED_CLASS_PREFIX }-${ details.task_id }`
 		)
 	);
 };
@@ -131,14 +132,6 @@ const prplSuggestedTodoItemListeners = ( item ) => {
 			button.addEventListener( 'click', function () {
 				const action = button.getAttribute( 'data-action' );
 
-				if ( 'add-todo' === action ) {
-					progressPlannerInjectTodoItem(
-						button.getAttribute( 'data-task-title' ), // The task title.
-						false, // Task not done.
-						true, // Add to start of list.
-						true // Save.
-					);
-				}
 				progressPlannerModifyTask(
 					button.getAttribute( 'data-task-id' ),
 					action
@@ -152,7 +145,6 @@ const prplSuggestedTodoItemListeners = ( item ) => {
 Object.keys( progressPlannerSuggestedTasks.tasks.details ).forEach(
 	( task ) => {
 		const taskDetails = progressPlannerSuggestedTasks.tasks.details[ task ];
-		taskDetails.id = task;
 		progressPlannerInjectSuggestedTodoItem( taskDetails );
 	}
 );

@@ -145,6 +145,10 @@ class Suggested_Tasks {
 			return [];
 		}
 
+		foreach ( $data as $key => $task ) {
+			$data[ $key ]['id'] = (string) $task['id'];
+		}
+
 		// Cache the response for 1 day.
 		\set_transient( 'progress_planner_suggested_tasks', $data, DAY_IN_SECONDS );
 
@@ -161,6 +165,31 @@ class Suggested_Tasks {
 		$option['completed'] = $option['completed'] ?? [];
 		$option['dismissed'] = $option['dismissed'] ?? [];
 		$option['snoozed']   = $option['snoozed'] ?? [];
+
+		// Convert the task IDs to integers.
+		$option['completed'] = \array_map( 'intval', $option['completed'] );
+		$option['dismissed'] = \array_map( 'intval', $option['dismissed'] );
+		$option['snoozed']   = \array_map(
+			function ( $task ) {
+				return [
+					'id'   => (int) $task['id'],
+					'time' => (int) $task['time'],
+				];
+			},
+			$option['snoozed']
+		);
+
+		// Remove items with id 0.
+		$option['completed'] = \array_values( \array_filter( $option['completed'] ) );
+		$option['dismissed'] = \array_values( \array_filter( $option['dismissed'] ) );
+		$option['snoozed']   = \array_values(
+			\array_filter(
+				$option['snoozed'],
+				function ( $task ) {
+					return $task['id'] > 0;
+				}
+			)
+		);
 		return $option;
 	}
 
@@ -190,7 +219,7 @@ class Suggested_Tasks {
 	 * @return void
 	 */
 	public function register_scripts() {
-		\wp_enqueue_script(
+		\wp_register_script(
 			'progress-planner-suggested-tasks',
 			PROGRESS_PLANNER_URL . '/assets/js/suggested-tasks.js',
 			[ 'progress-planner-todo' ],
