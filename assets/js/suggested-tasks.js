@@ -71,10 +71,14 @@ const progressPlannerInjectSuggestedTodoItem = ( details ) => {
 		item.classList.add( PRPL_SUGGESTED_TASKS_CLASSES.COMPLETED );
 	}
 
-	// If the `completion_type` is set to `auto`, remove the button with `data-action="complete"`.
+	// If the `completion_type` is set to `auto`,
+	// remove the button with `data-action="complete", and `data-action="dismiss"`.
 	if ( 'auto' === details.completion_type ) {
 		item.querySelector(
 			`.${ PRPL_SUGGESTED_CLASS_PREFIX }-button[data-action="complete"]`
+		).remove();
+		item.querySelector(
+			`.${ PRPL_SUGGESTED_CLASS_PREFIX }-button[data-action="dismiss"]`
 		).remove();
 	}
 
