@@ -13,7 +13,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <li id="prpl-suggested-task-template">
 	<h3>{taskTitle}</h3>
-	<p class="prpl-suggested-task-description">{taskDescription}</p>
 	<div class="actions">
 		<button
 			type="button"
@@ -49,4 +48,5 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<span class="screen-reader-text"><?php esc_html_e( 'Snooze for a week', 'progress-planner' ); ?></span>
 		</button>
 	</div>
+	<p class="prpl-suggested-task-description" style="display:none;">{taskDescription}</p>
 </li>

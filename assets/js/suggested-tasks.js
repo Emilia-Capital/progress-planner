@@ -56,7 +56,8 @@ const progressPlannerInjectSuggestedTodoItem = ( details ) => {
 	// Add classes to the element.
 	item.classList.add(
 		PRPL_SUGGESTED_CLASS_PREFIX,
-		`${ PRPL_SUGGESTED_CLASS_PREFIX }-${ details.task_id }`
+		`${ PRPL_SUGGESTED_CLASS_PREFIX }-${ details.task_id }`,
+		`${ PRPL_SUGGESTED_CLASS_PREFIX }-completion-${ details.completion_type }`
 	);
 	if ( tasks.dismissed.includes( details.task_id ) ) {
 		item.classList.add( PRPL_SUGGESTED_TASKS_CLASSES.DISMISSED );
@@ -68,6 +69,13 @@ const progressPlannerInjectSuggestedTodoItem = ( details ) => {
 	} );
 	if ( tasks.completed.includes( details.task_id ) ) {
 		item.classList.add( PRPL_SUGGESTED_TASKS_CLASSES.COMPLETED );
+	}
+
+	// If the `completion_type` is set to `auto`, remove the button with `data-action="complete"`.
+	if ( 'auto' === details.completion_type ) {
+		item.querySelector(
+			`.${ PRPL_SUGGESTED_CLASS_PREFIX }-button[data-action="complete"]`
+		).remove();
 	}
 
 	// Replace placeholders with the actual values.

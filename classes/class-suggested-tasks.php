@@ -145,10 +145,6 @@ class Suggested_Tasks {
 			return [];
 		}
 
-		foreach ( $data as $key => $task ) {
-			$data[ $key ]['id'] = (string) $task['id'];
-		}
-
 		// Cache the response for 1 day.
 		\set_transient( 'progress_planner_suggested_tasks', $data, DAY_IN_SECONDS );
 
