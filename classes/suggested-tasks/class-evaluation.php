@@ -57,6 +57,10 @@ class Evaluation {
 	 * @return void
 	 */
 	public function activity_saved( $activity ) {
+		if ( 'suggested_task' === $activity->category ) {
+			return;
+		}
+
 		// Get tasks and filter only tasks where `completion_type` is set to `auto`.
 		$tasks = \array_filter(
 			$this->api->get_tasks(),
@@ -66,14 +70,14 @@ class Evaluation {
 		);
 
 		foreach ( $tasks as $task ) {
-			$this->evaluate_task_conditions( $task['task_id'], $activity );
+			$this->evaluate_task_conditions( $task, $activity );
 		}
 	}
 
 	/**
 	 * Evaluate the task conditions.
 	 *
-	 * @param array                      $task     The task.
+	 * @param array                      $task  The task.
 	 * @param \Progress_Planner\Activity $activity The activity.
 	 *
 	 * @return void
