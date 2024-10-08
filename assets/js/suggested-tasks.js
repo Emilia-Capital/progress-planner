@@ -102,7 +102,9 @@ const progressPlannerModifyTask = ( taskId, actionTask ) => {
 					.remove();
 
 				while (
-					progressPlannerCountItems() < PRPL_SUGGESTED_TASKS_MAX_ITEMS
+					progressPlannerCountItems() <
+						PRPL_SUGGESTED_TASKS_MAX_ITEMS &&
+					progressPlannerGetNextItem()
 				) {
 					progressPlannerInjectNextItem();
 				}
@@ -241,7 +243,10 @@ const prplSuggestedTodoItemListeners = ( item ) => {
 // Populate the list on load.
 document.addEventListener( 'DOMContentLoaded', () => {
 	// Inject items, until we reach the maximum number of items.
-	while ( progressPlannerCountItems() < PRPL_SUGGESTED_TASKS_MAX_ITEMS ) {
+	while (
+		progressPlannerCountItems() < PRPL_SUGGESTED_TASKS_MAX_ITEMS &&
+		progressPlannerGetNextItem()
+	) {
 		progressPlannerInjectNextItem();
 	}
 } );
