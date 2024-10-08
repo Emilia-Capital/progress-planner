@@ -22,17 +22,24 @@ class API {
 	const REMOTE_DOMAIN = 'https://progressplanner.com';
 
 	/**
+	 * The transient to use for remote-API tasks.
+	 *
+	 * @var string
+	 */
+	const TRANSIENT_NAME = 'progress_planner_suggested_tasks_remote';
+
+	/**
 	 * Get the premium to-do items.
 	 *
 	 * @return array
 	 */
 	public function get_tasks() {
 		// Check if we have a cached response.
-		$items = \get_transient( 'progress_planner_suggested_tasks' );
+		$items = \get_transient( self::TRANSIENT_NAME );
 
 		// If we have a cached response, return it.
-		if ( $items ) {
-			return $items;
+		if ( ! $items ) {
+			return apply_filters( 'progress_planner_suggested_tasks_api_items', $items );
 		}
 
 		$remote_url = self::REMOTE_DOMAIN . '/wp-json/progress-planner-saas/v1/suggested-todo/';
@@ -41,30 +48,22 @@ class API {
 		$response = \wp_remote_get( $remote_url );
 
 		// Bail if the request failed.
-		if ( \is_wp_error( $response ) ) {
-			return [];
+		if ( ! is_wp_error( $response ) ) {
+			// Get the body of the response.
+			$body = \wp_remote_retrieve_body( $response );
+
+			if ( ! empty( $body ) ) {
+				// Decode the JSON body.
+				$data = \json_decode( $body, true );
+
+				if ( \is_array( $data ) ) {
+					// Cache the response for 1 day.
+					\set_transient( self::TRANSIENT_NAME, $data, DAY_IN_SECONDS );
+					return apply_filters( 'progress_planner_suggested_tasks_api_items', $data );
+				}
+			}
 		}
-
-		// Get the body of the response.
-		$body = \wp_remote_retrieve_body( $response );
-
-		// Bail if the body is empty.
-		if ( empty( $body ) ) {
-			return [];
-		}
-
-		// Decode the JSON body.
-		$data = \json_decode( $body, true );
-
-		// Bail if the JSON decoding failed.
-		if ( ! \is_array( $data ) ) {
-			return [];
-		}
-
-		// Cache the response for 1 day.
-		\set_transient( 'progress_planner_suggested_tasks', $data, DAY_IN_SECONDS );
-
-		return $data;
+		return apply_filters( 'progress_planner_suggested_tasks_api_items', [] );
 	}
 
 	/**

@@ -48,5 +48,5 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<span class="screen-reader-text"><?php esc_html_e( 'Snooze for a week', 'progress-planner' ); ?></span>
 		</button>
 	</div>
-	<p class="prpl-suggested-task-description" style="display:none;">{taskDescription}</p>
+	<div class="prpl-suggested-task-description" style="display:none;">{taskDescription}</div>
 </li>
