@@ -93,15 +93,29 @@ const progressPlannerInjectSuggestedTodoItem = ( details ) => {
 	const parent =
 		details.parent && '' !== details.parent ? details.parent : null;
 
-	if ( null !== parent ) {
+	if ( ! parent ) {
+		// Inject the item into the list.
+		document
+			.querySelector(
+				`.prpl-suggested-todos-list.priority-${ details.priority }`
+			)
+			.insertAdjacentHTML( 'beforeend', itemHTML );
+	} else {
 		const parentItem = document.querySelector(
 			`.${ PRPL_SUGGESTED_CLASS_PREFIX }-${ parent }`
 		);
 		// If we could not find the parent item, try again after 500ms.
+		window.progressPlannerRenderAttempts =
+			window.progressPlannerRenderAttempts || 0;
+		if ( window.progressPlannerRenderAttempts > 500 ) {
+			return;
+		}
 		if ( ! parentItem ) {
 			setTimeout( () => {
 				progressPlannerInjectSuggestedTodoItem( details );
-			}, 500 );
+				window.progressPlannerRenderAttempts++;
+			}, 10 );
+			return;
 		}
 
 		// If the child list does not exist, create it.
@@ -120,13 +134,6 @@ const progressPlannerInjectSuggestedTodoItem = ( details ) => {
 		// Inject the item into the child list.
 		parentItem
 			.querySelector( `.${ PRPL_SUGGESTED_CLASS_PREFIX }-children` )
-			.insertAdjacentHTML( 'beforeend', itemHTML );
-	} else {
-		// Inject the item into the list.
-		document
-			.querySelector(
-				`.prpl-suggested-todos-list.priority-${ details.priority }`
-			)
 			.insertAdjacentHTML( 'beforeend', itemHTML );
 	}
 
