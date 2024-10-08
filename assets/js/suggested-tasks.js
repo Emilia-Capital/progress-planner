@@ -101,32 +101,21 @@ const progressPlannerModifyTask = ( taskId, actionTask ) => {
 					el.remove();
 				}
 
+				const actionIndex = {
+					dosmiss: 'dismissed',
+					complete: 'completed',
+					snooze: 'snoozed',
+				}[ actionTask ];
+
 				// Update the global var.
 				if (
-					'dismiss' === actionTask &&
-					progressPlannerSuggestedTasks.tasks.dismissed.indexOf(
+					progressPlannerSuggestedTasks.tasks[ actionIndex ].indexOf(
 						taskId
 					) === -1
 				) {
-					progressPlannerSuggestedTasks.tasks.dismissed.push(
+					progressPlannerSuggestedTasks.tasks[ actionIndex ].push(
 						taskId
 					);
-				} else if (
-					'complete' === actionTask &&
-					progressPlannerSuggestedTasks.tasks.completed.indexOf(
-						taskId
-					) === -1
-				) {
-					progressPlannerSuggestedTasks.tasks.completed.push(
-						taskId
-					);
-				} else if (
-					'snooze' === actionTask &&
-					progressPlannerSuggestedTasks.tasks.snoozed.indexOf(
-						taskId
-					) === -1
-				) {
-					progressPlannerSuggestedTasks.tasks.snoozed.push( taskId );
 				}
 
 				while (
