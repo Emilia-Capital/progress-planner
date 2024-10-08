@@ -1188,18 +1188,33 @@ button.prpl-info-icon {
 	padding: 0;
 	margin: 0;
 
+	&:not(:has(+ .prpl-suggested-todos-list)) .prpl-suggested-task:last-child {
+		border-bottom: none;
+	}
+
 	.prpl-suggested-task {
+		border-bottom: 1px solid var(--prpl-color-gray-3);
+		display: flex;
+		justify-content: space-between;
+
+		h3 {
+			font-size: 1rem;
+			margin: 0;
+			font-weight: 500;
+		}
 
 		.actions {
-			display: none;
+
+			visibility: hidden;
+			justify-content: flex-end;
+			gap: 0.5em;
+			display: flex;
 		}
 
 		&:hover {
 
 			.actions {
-				display: flex;
-				justify-content: flex-end;
-				gap: 0.5em;
+				visibility: visible;
 			}
 		}
 

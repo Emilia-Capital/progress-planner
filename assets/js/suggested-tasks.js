@@ -1,9 +1,76 @@
 /* global progressPlannerSuggestedTasks, jQuery */
 const PRPL_SUGGESTED_CLASS_PREFIX = 'prpl-suggested-task';
 const PRPL_SUGGESTED_TASKS_CLASSES = {
-	DISMISSED: `${ PRPL_SUGGESTED_CLASS_PREFIX }-dismissed`,
 	SNOOZED: `${ PRPL_SUGGESTED_CLASS_PREFIX }-snoozed`,
-	COMPLETED: `${ PRPL_SUGGESTED_CLASS_PREFIX }-completed`,
+};
+const PRPL_SUGGESTED_TASKS_MAX_ITEMS = 5;
+
+/**
+ * Count the number of items in the list.
+ *
+ * @return {number} The number of items in the list.
+ */
+const progressPlannerCountItems = () => {
+	const items = document.querySelectorAll(
+		`.${ PRPL_SUGGESTED_CLASS_PREFIX }`
+	);
+	return items.length;
+};
+
+/**
+ * Get the next item to inject.
+ *
+ * @return {Object} The next item to inject.
+ */
+const progressPlannerGetNextItem = () => {
+	// Remove completed, dismissed and snoozed items.
+	const tasks = progressPlannerSuggestedTasks.tasks;
+	const items = tasks.details;
+	const completed = tasks.completed;
+	const dismissed = tasks.dismissed;
+	const snoozed = tasks.snoozed;
+
+	// Create an array of items that are in the list.
+	const inList = [];
+	document
+		.querySelectorAll( `.${ PRPL_SUGGESTED_CLASS_PREFIX }` )
+		.forEach( function ( item ) {
+			inList.push( parseInt( item.getAttribute( 'data-task-id' ) ) );
+		} );
+
+	items.forEach( function ( item ) {
+		if (
+			completed.includes( item.task_id ) ||
+			dismissed.includes( item.task_id ) ||
+			snoozed.includes( item.task_id ) ||
+			inList.includes( item.task_id )
+		) {
+			items.splice( items.indexOf( item ), 1 );
+		}
+	} );
+
+	// Get items with a priority set to `high`.
+	const highPriorityItems = items.filter( function ( item ) {
+		return 'high' === item.priority;
+	} );
+
+	// If there are high priority items, return the first one.
+	if ( highPriorityItems.length ) {
+		return highPriorityItems[ 0 ];
+	}
+
+	// Get items with a priority set to `medium`.
+	const mediumPriorityItems = items.filter( function ( item ) {
+		return 'medium' === item.priority;
+	} );
+
+	// If there are medium priority items, return the first one.
+	if ( mediumPriorityItems.length ) {
+		return mediumPriorityItems[ 0 ];
+	}
+
+	// Return the first item.
+	return items[ 0 ];
 };
 
 /**
@@ -23,19 +90,37 @@ const progressPlannerModifyTask = ( taskId, actionTask ) => {
 			action_type: actionTask,
 		},
 		() => {
-			document
-				.querySelector(
-					`.${ PRPL_SUGGESTED_CLASS_PREFIX }-${ taskId }`
-				)
-				.classList.add(
-					{
-						dismiss: PRPL_SUGGESTED_TASKS_CLASSES.DISMISSED,
-						snooze: PRPL_SUGGESTED_TASKS_CLASSES.SNOOZED,
-						complete: PRPL_SUGGESTED_TASKS_CLASSES.COMPLETED,
-					}[ actionTask ]
-				);
+			if (
+				'dismiss' === actionTask ||
+				'complete' === actionTask ||
+				'snooze' === actionTask
+			) {
+				document
+					.querySelector(
+						`.${ PRPL_SUGGESTED_CLASS_PREFIX }-${ taskId }`
+					)
+					.remove();
+
+				while (
+					progressPlannerCountItems() < PRPL_SUGGESTED_TASKS_MAX_ITEMS
+				) {
+					progressPlannerInjectNextItem();
+				}
+			}
 		}
 	);
+};
+
+/**
+ * Inject the next item.
+ */
+const progressPlannerInjectNextItem = () => {
+	const nextItem = progressPlannerGetNextItem();
+	if ( ! nextItem ) {
+		return;
+	}
+
+	progressPlannerInjectSuggestedTodoItem( nextItem );
 };
 
 /**
@@ -45,6 +130,14 @@ const progressPlannerModifyTask = ( taskId, actionTask ) => {
  */
 const progressPlannerInjectSuggestedTodoItem = ( details ) => {
 	const tasks = progressPlannerSuggestedTasks.tasks;
+	// Don not render items that have been dismissed or completed.
+	if (
+		tasks.dismissed.includes( details.task_id ) ||
+		tasks.completed.includes( details.task_id )
+	) {
+		return;
+	}
+
 	// Clone the template element.
 	const item = document
 		.getElementById( `${ PRPL_SUGGESTED_CLASS_PREFIX }-template` )
@@ -59,28 +152,11 @@ const progressPlannerInjectSuggestedTodoItem = ( details ) => {
 		`${ PRPL_SUGGESTED_CLASS_PREFIX }-${ details.task_id }`,
 		`${ PRPL_SUGGESTED_CLASS_PREFIX }-completion-${ details.completion_type }`
 	);
-	if ( tasks.dismissed.includes( details.task_id ) ) {
-		item.classList.add( PRPL_SUGGESTED_TASKS_CLASSES.DISMISSED );
-	}
 	tasks.snoozed.forEach( function ( snoozedTask ) {
 		if ( snoozedTask.id === details.task_id ) {
 			item.classList.add( PRPL_SUGGESTED_TASKS_CLASSES.SNOOZED );
 		}
 	} );
-	if ( tasks.completed.includes( details.task_id ) ) {
-		item.classList.add( PRPL_SUGGESTED_TASKS_CLASSES.COMPLETED );
-	}
-
-	// If the `completion_type` is set to `auto`,
-	// remove the button with `data-action="complete", and `data-action="dismiss"`.
-	if ( 'auto' === details.completion_type ) {
-		item.querySelector(
-			`.${ PRPL_SUGGESTED_CLASS_PREFIX }-button[data-action="complete"]`
-		).remove();
-		item.querySelector(
-			`.${ PRPL_SUGGESTED_CLASS_PREFIX }-button[data-action="dismiss"]`
-		).remove();
-	}
 
 	// Replace placeholders with the actual values.
 	const itemHTML = item.outerHTML
@@ -89,9 +165,11 @@ const progressPlannerInjectSuggestedTodoItem = ( details ) => {
 		.replace( new RegExp( '{taskDescription}', 'g' ), details.description )
 		.replace( new RegExp( '{taskPriority}', 'g' ), details.priority );
 
-	// Get the parent item.
-	const parent =
-		details.parent && '' !== details.parent ? details.parent : null;
+	/**
+	 * @todo Implement the parent task functionality.
+	 * Use this code: `const parent = details.parent && '' !== details.parent ? details.parent : null;
+	 */
+	const parent = false;
 
 	if ( ! parent ) {
 		// Inject the item into the list.
@@ -160,10 +238,10 @@ const prplSuggestedTodoItemListeners = ( item ) => {
 	);
 };
 
-// Inject the suggested tasks.
-Object.keys( progressPlannerSuggestedTasks.tasks.details ).forEach(
-	( task ) => {
-		const taskDetails = progressPlannerSuggestedTasks.tasks.details[ task ];
-		progressPlannerInjectSuggestedTodoItem( taskDetails );
+// Populate the list on load.
+document.addEventListener( 'DOMContentLoaded', () => {
+	// Inject items, until we reach the maximum number of items.
+	while ( progressPlannerCountItems() < PRPL_SUGGESTED_TASKS_MAX_ITEMS ) {
+		progressPlannerInjectNextItem();
 	}
-);
+} );

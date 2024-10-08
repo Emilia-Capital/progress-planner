@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 
-<li id="prpl-suggested-task-template">
+<li id="prpl-suggested-task-template" data-task-id="{taskId}">
 	<h3>{taskTitle}</h3>
 	<div class="actions">
 		<button
