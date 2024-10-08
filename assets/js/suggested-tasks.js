@@ -1,8 +1,5 @@
 /* global progressPlannerSuggestedTasks, jQuery */
-const PRPL_SUGGESTED_CLASS_PREFIX = 'prpl-suggested-task';
-const PRPL_SUGGESTED_TASKS_CLASSES = {
-	SNOOZED: `${ PRPL_SUGGESTED_CLASS_PREFIX }-snoozed`,
-};
+const PRPL_SUGGESTED_TASK_CLASSNAME = 'prpl-suggested-task';
 const PRPL_SUGGESTED_TASKS_MAX_ITEMS = 5;
 
 /**
@@ -12,7 +9,7 @@ const PRPL_SUGGESTED_TASKS_MAX_ITEMS = 5;
  */
 const progressPlannerCountItems = () => {
 	const items = document.querySelectorAll(
-		`.${ PRPL_SUGGESTED_CLASS_PREFIX }`
+		`.${ PRPL_SUGGESTED_TASK_CLASSNAME }`
 	);
 	return items.length;
 };
@@ -33,7 +30,7 @@ const progressPlannerGetNextItem = () => {
 	// Create an array of items that are in the list.
 	const inList = [];
 	document
-		.querySelectorAll( `.${ PRPL_SUGGESTED_CLASS_PREFIX }` )
+		.querySelectorAll( `.${ PRPL_SUGGESTED_TASK_CLASSNAME }` )
 		.forEach( function ( item ) {
 			inList.push( parseInt( item.getAttribute( 'data-task-id' ) ) );
 		} );
@@ -80,6 +77,7 @@ const progressPlannerGetNextItem = () => {
  * @param {string} actionTask The action to perform.
  */
 const progressPlannerModifyTask = ( taskId, actionTask ) => {
+	taskId = parseInt( taskId );
 	// Save the todo list to the database
 	jQuery.post(
 		progressPlannerSuggestedTasks.ajaxUrl,
@@ -95,14 +93,44 @@ const progressPlannerModifyTask = ( taskId, actionTask ) => {
 				'complete' === actionTask ||
 				'snooze' === actionTask
 			) {
-				document
-					.querySelector(
-						`.${ PRPL_SUGGESTED_CLASS_PREFIX }-${ taskId }`
-					)
-					.remove();
+				const el = document.querySelector(
+					`.${ PRPL_SUGGESTED_TASK_CLASSNAME }[data-task-id="${ taskId }"]`
+				);
+
+				if ( el ) {
+					el.remove();
+				}
+
+				// Update the global var.
+				if (
+					'dismiss' === actionTask &&
+					progressPlannerSuggestedTasks.tasks.dismissed.indexOf(
+						taskId
+					) === -1
+				) {
+					progressPlannerSuggestedTasks.tasks.dismissed.push(
+						taskId
+					);
+				} else if (
+					'complete' === actionTask &&
+					progressPlannerSuggestedTasks.tasks.completed.indexOf(
+						taskId
+					) === -1
+				) {
+					progressPlannerSuggestedTasks.tasks.completed.push(
+						taskId
+					);
+				} else if (
+					'snooze' === actionTask &&
+					progressPlannerSuggestedTasks.tasks.snoozed.indexOf(
+						taskId
+					) === -1
+				) {
+					progressPlannerSuggestedTasks.tasks.snoozed.push( taskId );
+				}
 
 				while (
-					progressPlannerCountItems() <
+					progressPlannerCountItems() <=
 						PRPL_SUGGESTED_TASKS_MAX_ITEMS &&
 					progressPlannerGetNextItem()
 				) {
@@ -131,34 +159,13 @@ const progressPlannerInjectNextItem = () => {
  * @param {Object} details The details of the todo item.
  */
 const progressPlannerInjectSuggestedTodoItem = ( details ) => {
-	const tasks = progressPlannerSuggestedTasks.tasks;
-	// Don not render items that have been dismissed or completed.
-	if (
-		tasks.dismissed.includes( details.task_id ) ||
-		tasks.completed.includes( details.task_id )
-	) {
-		return;
-	}
-
 	// Clone the template element.
 	const item = document
-		.getElementById( `${ PRPL_SUGGESTED_CLASS_PREFIX }-template` )
+		.getElementById( `${ PRPL_SUGGESTED_TASK_CLASSNAME }-template` )
 		.cloneNode( true );
 
 	// Remove the ID attribute.
 	item.removeAttribute( 'id' );
-
-	// Add classes to the element.
-	item.classList.add(
-		PRPL_SUGGESTED_CLASS_PREFIX,
-		`${ PRPL_SUGGESTED_CLASS_PREFIX }-${ details.task_id }`,
-		`${ PRPL_SUGGESTED_CLASS_PREFIX }-completion-${ details.completion_type }`
-	);
-	tasks.snoozed.forEach( function ( snoozedTask ) {
-		if ( snoozedTask.id === details.task_id ) {
-			item.classList.add( PRPL_SUGGESTED_TASKS_CLASSES.SNOOZED );
-		}
-	} );
 
 	// Replace placeholders with the actual values.
 	const itemHTML = item.outerHTML
@@ -176,13 +183,11 @@ const progressPlannerInjectSuggestedTodoItem = ( details ) => {
 	if ( ! parent ) {
 		// Inject the item into the list.
 		document
-			.querySelector(
-				`.prpl-suggested-todos-list.priority-${ details.priority }`
-			)
+			.querySelector( '.prpl-suggested-todos-list' )
 			.insertAdjacentHTML( 'beforeend', itemHTML );
 	} else {
 		const parentItem = document.querySelector(
-			`.${ PRPL_SUGGESTED_CLASS_PREFIX }-${ parent }`
+			`.${ PRPL_SUGGESTED_TASK_CLASSNAME }[data-task-id="${ parent }"]`
 		);
 		// If we could not find the parent item, try again after 500ms.
 		window.progressPlannerRenderAttempts =
@@ -201,50 +206,50 @@ const progressPlannerInjectSuggestedTodoItem = ( details ) => {
 		// If the child list does not exist, create it.
 		if (
 			! parentItem.querySelector(
-				`.${ PRPL_SUGGESTED_CLASS_PREFIX }-children`
+				`.${ PRPL_SUGGESTED_TASK_CLASSNAME }-children`
 			)
 		) {
 			const childListElement = document.createElement( 'ul' );
 			childListElement.classList.add(
-				`${ PRPL_SUGGESTED_CLASS_PREFIX }-children`
+				`${ PRPL_SUGGESTED_TASK_CLASSNAME }-children`
 			);
 			parentItem.appendChild( childListElement );
 		}
 
 		// Inject the item into the child list.
 		parentItem
-			.querySelector( `.${ PRPL_SUGGESTED_CLASS_PREFIX }-children` )
+			.querySelector( `.${ PRPL_SUGGESTED_TASK_CLASSNAME }-children` )
 			.insertAdjacentHTML( 'beforeend', itemHTML );
 	}
 
 	// Add listeners to the item.
 	prplSuggestedTodoItemListeners(
 		document.querySelector(
-			`.${ PRPL_SUGGESTED_CLASS_PREFIX }-${ details.task_id }`
+			`.${ PRPL_SUGGESTED_TASK_CLASSNAME }[data-task-id="${ details.task_id }"]`
 		)
 	);
 };
 
 const prplSuggestedTodoItemListeners = ( item ) => {
-	item.querySelectorAll( `.${ PRPL_SUGGESTED_CLASS_PREFIX }-button` ).forEach(
-		function ( button ) {
-			button.addEventListener( 'click', function () {
-				const action = button.getAttribute( 'data-action' );
+	item.querySelectorAll(
+		`.${ PRPL_SUGGESTED_TASK_CLASSNAME }-button`
+	).forEach( function ( button ) {
+		button.addEventListener( 'click', function () {
+			const action = button.getAttribute( 'data-action' );
 
-				progressPlannerModifyTask(
-					button.getAttribute( 'data-task-id' ),
-					action
-				);
-			} );
-		}
-	);
+			progressPlannerModifyTask(
+				button.getAttribute( 'data-task-id' ),
+				action
+			);
+		} );
+	} );
 };
 
 // Populate the list on load.
 document.addEventListener( 'DOMContentLoaded', () => {
 	// Inject items, until we reach the maximum number of items.
 	while (
-		progressPlannerCountItems() < PRPL_SUGGESTED_TASKS_MAX_ITEMS &&
+		progressPlannerCountItems() <= PRPL_SUGGESTED_TASKS_MAX_ITEMS &&
 		progressPlannerGetNextItem()
 	) {
 		progressPlannerInjectNextItem();

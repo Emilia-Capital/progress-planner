@@ -36,9 +36,7 @@ final class Suggested_Tasks extends Widget {
 		<ul style="display:none">
 			<?php include PROGRESS_PLANNER_DIR . '/views/suggested-todo-item.php'; ?>
 		</ul>
-		<ul class="prpl-suggested-todos-list priority-high"></ul>
-		<ul class="prpl-suggested-todos-list priority-medium"></ul>
-		<ul class="prpl-suggested-todos-list priority-low"></ul>
+		<ul class="prpl-suggested-todos-list"></ul>
 		<?php
 	}
 }
