@@ -16,7 +16,8 @@ class Local_Tasks {
 	 * Constructor.
 	 */
 	public function __construct() {
-		\add_filter( 'progress_planner_suggested_tasks_api_items', [ $this, 'inject_last_update_post_task' ] );
+		\add_filter( 'progress_planner_suggested_tasks_api_items', [ $this, 'inject_task_update_old_post' ] );
+		\add_filter( 'progress_planner_suggested_tasks_api_items', [ $this, 'inject_last_update_core' ] );
 	}
 
 	/**
@@ -26,7 +27,7 @@ class Local_Tasks {
 	 *
 	 * @return array
 	 */
-	public function inject_last_update_post_task( $tasks ) {
+	public function inject_task_update_old_post( $tasks ) {
 		// Get the post that was updated last.
 		$last_updated_posts = \get_posts(
 			[
@@ -48,7 +49,7 @@ class Local_Tasks {
 				continue;
 			}
 			$inject_items[] = [
-				'task_id'               => 1000000 + (int) $post->ID,
+				'task_id'               => md5( (string) $post->ID ),
 				'title'                 => sprintf( 'Update post "%s"', \esc_html( $post->post_title ) ),
 				'parent'                => 0,
 				'priority'              => 'high',
@@ -63,6 +64,35 @@ class Local_Tasks {
 				'evaluation_conditions' => false,
 			];
 		}
+		return \array_merge( $inject_items, $tasks );
+	}
+
+	/**
+	 * Filter the tasks.
+	 *
+	 * @param array $tasks The tasks.
+	 *
+	 * @return array
+	 */
+	public function inject_last_update_core( $tasks ) {
+		// If all updates are performed, do not add the task.
+		if ( 0 === \wp_get_update_data()['counts']['total'] ) {
+			return $tasks;
+		}
+
+		$inject_items = [
+			[
+				'task_id'               => 'update-core',
+				'title'                 => \esc_html__( 'Perform all updates', 'progress-planner' ),
+				'parent'                => 0,
+				'priority'              => 'high',
+				'type'                  => 'maintenance',
+				'premium'               => 'no',
+				'description'           => '<p>' . \esc_html__( 'Perform all updates to ensure your website is secure and up-to-date.', 'progress-planner' ) . '</p>',
+				'completion_type'       => 'auto',
+				'evaluation_conditions' => false,
+			],
+		];
 		return \array_merge( $inject_items, $tasks );
 	}
 }
