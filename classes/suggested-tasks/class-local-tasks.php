@@ -46,6 +46,9 @@ abstract class Local_Tasks {
 		if ( ! is_array( $inject_items ) ) {
 			$inject_items = [];
 		}
+		if ( ! is_array( $tasks ) ) {
+			$tasks = [];
+		}
 		return \array_merge( $inject_items, $tasks );
 	}
 

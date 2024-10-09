@@ -63,9 +63,9 @@ class Evaluation {
 
 		// Get tasks and filter only tasks where `completion_type` is set to `auto`.
 		$tasks = \array_filter(
-			$this->api->get_tasks(),
+			(array) $this->api->get_tasks(),
 			function ( $task ) {
-				return 'auto' === $task['completion_type'];
+				return isset( $task['completion_type'] ) && 'auto' === $task['completion_type'];
 			}
 		);
 
@@ -83,11 +83,16 @@ class Evaluation {
 	 * @return void
 	 */
 	private function evaluate_task_conditions( $task, $activity ) {
-		$conditions = $task['evaluation_conditions'] ?? [];
+		if ( ! is_array( $task ) || ! isset( $task['evaluation_conditions'] ) ) {
+			return;
+		}
 
 		if ( \is_callable( $task['evaluation_conditions'] ) ) {
-			$conditions = $task['evaluation_conditions']( $activity );
+			$task['evaluation_conditions']( $activity );
+			return;
 		}
+
+		$conditions = (array) $task['evaluation_conditions'];
 
 		// Check if the activity matches the conditions.
 		$matches = \array_filter(
