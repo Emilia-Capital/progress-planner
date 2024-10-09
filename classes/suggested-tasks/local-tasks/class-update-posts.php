@@ -78,7 +78,7 @@ class Update_Posts extends Local_Tasks {
 					/* translators: %s: The post title. */
 					\esc_html__( 'Update the post "%s" as it was last updated more than 6 months ago.', 'progress-planner' ),
 					\esc_html( $post->post_title )
-				) . '</p><p><a href="' . \esc_url( \get_edit_post_link( $post->ID ) ) . '">' . __( 'Edit the post', 'progress-planner' ) . '</a>.</p>',
+				) . '</p><p><a href="' . \esc_url( \get_edit_post_link( $post->ID ) ) . '">' . \esc_html__( 'Edit the post', 'progress-planner' ) . '</a>.</p>',
 				'completion_type'       => 'auto',
 				'evaluation_conditions' => false,
 			];
