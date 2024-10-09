@@ -28,6 +28,9 @@ class Local_Tasks {
 	 * @return array
 	 */
 	public function inject_task_update_old_post( $tasks ) {
+		if ( ! is_array( $tasks ) ) {
+			$tasks = [];
+		}
 		// Get the post that was updated last.
 		$last_updated_posts = \get_posts(
 			[
@@ -75,6 +78,9 @@ class Local_Tasks {
 	 * @return array
 	 */
 	public function inject_last_update_core( $tasks ) {
+		if ( ! is_array( $tasks ) ) {
+			$tasks = [];
+		}
 		// If all updates are performed, do not add the task.
 		if ( 0 === \wp_get_update_data()['counts']['total'] ) {
 			return $tasks;
