@@ -38,7 +38,7 @@ class API {
 		$items = \get_transient( self::TRANSIENT_NAME );
 
 		// If we have a cached response, return it.
-		if ( ! $items ) {
+		if ( $items ) {
 			return \apply_filters( 'progress_planner_suggested_tasks_api_items', $items );
 		}
 
