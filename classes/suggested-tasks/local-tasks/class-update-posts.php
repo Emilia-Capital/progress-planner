@@ -1,7 +1,6 @@
 <?php
 /**
  * Handle TODO list items.
- * Test.
  *
  * @package Progress_Planner
  */
