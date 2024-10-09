@@ -20,6 +20,13 @@ abstract class Local_Tasks {
 	const OPTION_NAME = 'progress_planner_local_tasks';
 
 	/**
+	 * An array of tasks to inject.
+	 *
+	 * @var array
+	 */
+	protected $tasks_to_inject = [];
+
+	/**
 	 * Constructor.
 	 */
 	public function __construct() {
@@ -34,7 +41,20 @@ abstract class Local_Tasks {
 	 *
 	 * @return array
 	 */
-	abstract public function inject_tasks( $tasks );
+	public function inject_tasks( $tasks ) {
+		$inject_items = $this->get_tasks_to_inject();
+		if ( ! is_array( $inject_items ) ) {
+			$inject_items = [];
+		}
+		return \array_merge( $inject_items, $tasks );
+	}
+
+	/**
+	 * Get tasks to inject.
+	 *
+	 * @return array
+	 */
+	abstract protected function get_tasks_to_inject();
 
 	/**
 	 * Evaluate previous tasks.

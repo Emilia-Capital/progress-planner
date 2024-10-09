@@ -35,20 +35,15 @@ class Update_Core extends Local_Tasks {
 	/**
 	 * Filter the tasks.
 	 *
-	 * @param array $tasks The tasks.
-	 *
 	 * @return array
 	 */
-	public function inject_tasks( $tasks ) {
-		if ( ! is_array( $tasks ) ) {
-			$tasks = [];
-		}
+	public function get_tasks_to_inject() {
 		// If all updates are performed, do not add the task.
 		if ( 0 === \wp_get_update_data()['counts']['total'] ) {
-			return $tasks;
+			return [];
 		}
 
-		$inject_items = [
+		return [
 			[
 				'task_id'               => 'update-core',
 				'title'                 => \esc_html__( 'Perform all updates', 'progress-planner' ),
@@ -61,6 +56,5 @@ class Update_Core extends Local_Tasks {
 				'evaluation_conditions' => false,
 			],
 		];
-		return \array_merge( $inject_items, $tasks );
 	}
 }

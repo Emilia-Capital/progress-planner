@@ -16,6 +16,13 @@ use Progress_Planner\Suggested_Tasks;
 class Update_Posts extends Local_Tasks {
 
 	/**
+	 * The number of items to inject.
+	 *
+	 * @var int
+	 */
+	const ITEMS_TO_INJECT = 2;
+
+	/**
 	 * Evaluate a task.
 	 *
 	 * @param string $task_id The task ID.
@@ -36,18 +43,13 @@ class Update_Posts extends Local_Tasks {
 	/**
 	 * Filter the tasks.
 	 *
-	 * @param array $tasks The tasks.
-	 *
 	 * @return array
 	 */
-	public function inject_tasks( $tasks ) {
-		if ( ! is_array( $tasks ) ) {
-			$tasks = [];
-		}
+	public function get_tasks_to_inject() {
 		// Get the post that was updated last.
 		$last_updated_posts = \get_posts(
 			[
-				'posts_per_page' => 2,
+				'posts_per_page' => self::ITEMS_TO_INJECT,
 				'post_status'    => 'publish',
 				'orderby'        => 'modified',
 				'order'          => 'ASC',
@@ -55,17 +57,17 @@ class Update_Posts extends Local_Tasks {
 		);
 
 		if ( ! $last_updated_posts ) {
-			return $tasks;
+			return [];
 		}
 
-		$inject_items = [];
+		$items = [];
 		foreach ( $last_updated_posts as $post ) {
 			// If the last update was more than 6 months ago, add a task.
 			if ( strtotime( $post->post_modified ) > strtotime( '-6 months' ) ) {
 				continue;
 			}
-			$task_id        = "update-post-{$post->ID}";
-			$inject_items[] = [
+			$task_id = "update-post-{$post->ID}";
+			$items[] = [
 				'task_id'               => $task_id,
 				'title'                 => sprintf( 'Update post "%s"', \esc_html( $post->post_title ) ),
 				'parent'                => 0,
@@ -82,6 +84,6 @@ class Update_Posts extends Local_Tasks {
 			];
 			self::add_pending_task( $task_id );
 		}
-		return \array_merge( $inject_items, $tasks );
+		return $items;
 	}
 }
