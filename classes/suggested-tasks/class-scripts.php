@@ -65,7 +65,7 @@ class Scripts {
 		}
 
 		$action  = \sanitize_text_field( \wp_unslash( $_POST['action_type'] ) );
-		$task_id = (int) \sanitize_text_field( \wp_unslash( $_POST['task_id'] ) );
+		$task_id = (string) \sanitize_text_field( \wp_unslash( $_POST['task_id'] ) );
 
 		switch ( $action ) {
 			case 'complete':

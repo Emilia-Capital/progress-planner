@@ -77,13 +77,13 @@ class API {
 		$option['dismissed'] = $option['dismissed'] ?? [];
 		$option['snoozed']   = $option['snoozed'] ?? [];
 
-		// Convert the task IDs to integers.
-		$option['completed'] = \array_map( 'intval', $option['completed'] );
-		$option['dismissed'] = \array_map( 'intval', $option['dismissed'] );
+		// Convert the task IDs to strings.
+		$option['completed'] = \array_map( 'strval', $option['completed'] );
+		$option['dismissed'] = \array_map( 'strval', $option['dismissed'] );
 		$option['snoozed']   = \array_map(
 			function ( $task ) {
 				return [
-					'id'   => (int) $task['id'],
+					'id'   => (string) $task['id'],
 					'time' => (int) $task['time'],
 				];
 			},

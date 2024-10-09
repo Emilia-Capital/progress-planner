@@ -32,15 +32,15 @@ const progressPlannerGetNextItem = () => {
 	document
 		.querySelectorAll( `.${ PRPL_SUGGESTED_TASK_CLASSNAME }` )
 		.forEach( function ( item ) {
-			inList.push( parseInt( item.getAttribute( 'data-task-id' ) ) );
+			inList.push( item.getAttribute( 'data-task-id' ).toString() );
 		} );
 
 	items.forEach( function ( item ) {
 		if (
-			completed.includes( item.task_id ) ||
-			dismissed.includes( item.task_id ) ||
-			snoozed.includes( item.task_id ) ||
-			inList.includes( item.task_id )
+			completed.includes( item.task_id.toString() ) ||
+			dismissed.includes( item.task_id.toString() ) ||
+			snoozed.includes( item.task_id.toString() ) ||
+			inList.includes( item.task_id.toString() )
 		) {
 			items.splice( items.indexOf( item ), 1 );
 		}
@@ -77,13 +77,13 @@ const progressPlannerGetNextItem = () => {
  * @param {string} actionTask The action to perform.
  */
 const progressPlannerModifyTask = ( taskId, actionTask ) => {
-	taskId = parseInt( taskId );
+	taskId = taskId.toString();
 	// Save the todo list to the database
 	jQuery.post(
 		progressPlannerSuggestedTasks.ajaxUrl,
 		{
 			action: 'progress_planner_suggested_task_action',
-			task_id: taskId,
+			task_id: taskId.toString(),
 			nonce: progressPlannerSuggestedTasks.nonce,
 			action_type: actionTask,
 		},
@@ -159,7 +159,7 @@ const progressPlannerInjectSuggestedTodoItem = ( details ) => {
 	// Replace placeholders with the actual values.
 	const itemHTML = item.outerHTML
 		.replace( new RegExp( '{taskTitle}', 'g' ), details.title )
-		.replace( new RegExp( '{taskId}', 'g' ), details.task_id )
+		.replace( new RegExp( '{taskId}', 'g' ), details.task_id.toString() )
 		.replace( new RegExp( '{taskDescription}', 'g' ), details.description )
 		.replace( new RegExp( '{taskPriority}', 'g' ), details.priority );
 
@@ -214,7 +214,7 @@ const progressPlannerInjectSuggestedTodoItem = ( details ) => {
 	// Add listeners to the item.
 	prplSuggestedTodoItemListeners(
 		document.querySelector(
-			`.${ PRPL_SUGGESTED_TASK_CLASSNAME }[data-task-id="${ details.task_id }"]`
+			`.${ PRPL_SUGGESTED_TASK_CLASSNAME }[data-task-id="${ details.task_id.toString() }"]`
 		)
 	);
 };

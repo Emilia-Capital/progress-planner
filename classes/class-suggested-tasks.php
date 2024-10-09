@@ -39,7 +39,7 @@ class Suggested_Tasks {
 	/**
 	 * Mark a task as completed.
 	 *
-	 * @param int $task_id The task ID.
+	 * @param string $task_id The task ID.
 	 *
 	 * @return bool
 	 */
@@ -52,7 +52,7 @@ class Suggested_Tasks {
 		$activity->user_id = \get_current_user_id();
 		$activity->save();
 		$completed           = $option['completed'] ?? [];
-		$completed[]         = (int) $task_id;
+		$completed[]         = (string) $task_id;
 		$option['completed'] = $completed;
 
 		return \update_option( self::OPTION_NAME, $option );
@@ -61,7 +61,7 @@ class Suggested_Tasks {
 	/**
 	 * Mark a task as snoozed.
 	 *
-	 * @param int $task_id The task ID.
+	 * @param string $task_id The task ID.
 	 *
 	 * @return bool
 	 */
@@ -69,7 +69,7 @@ class Suggested_Tasks {
 		$option            = \get_option( self::OPTION_NAME, [] );
 		$snoozed           = $option['snoozed'] ?? [];
 		$snoozed[]         = [
-			'id'   => (int) $task_id,
+			'id'   => (string) $task_id,
 			'time' => \time() + \WEEK_IN_SECONDS,
 		];
 		$option['snoozed'] = $snoozed;
@@ -80,14 +80,14 @@ class Suggested_Tasks {
 	/**
 	 * Mark a task as dismissed.
 	 *
-	 * @param int $task_id The task ID.
+	 * @param string $task_id The task ID.
 	 *
 	 * @return bool
 	 */
 	public static function mark_task_as_dismissed( $task_id ) {
 		$option              = \get_option( self::OPTION_NAME, [] );
 		$dismissed           = $option['dismissed'] ?? [];
-		$dismissed[]         = (int) $task_id;
+		$dismissed[]         = (string) $task_id;
 		$option['dismissed'] = $dismissed;
 
 		return \update_option( self::OPTION_NAME, $option );
