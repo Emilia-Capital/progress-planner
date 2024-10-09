@@ -90,7 +90,7 @@ abstract class Widget {
 				<?php echo \esc_html( \number_format_i18n( $number ) ); ?>
 			</span>
 			<span class="counter-big-text">
-				<?php echo esc_html( $text ); ?>
+				<?php echo \esc_html( $text ); ?>
 			</span>
 		</div>
 		<?php

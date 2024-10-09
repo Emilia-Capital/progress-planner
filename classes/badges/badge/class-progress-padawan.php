@@ -27,7 +27,7 @@ final class Progress_Padawan extends Badge_Maintenance {
 	 * @return string
 	 */
 	public function get_name() {
-		return __( 'Progress Padawan', 'progress-planner' );
+		return \__( 'Progress Padawan', 'progress-planner' );
 	}
 
 	/**
@@ -37,7 +37,7 @@ final class Progress_Padawan extends Badge_Maintenance {
 	 */
 	public function get_description() {
 		/* translators: %d: The number of weeks. */
-		return sprintf( esc_html__( '%d weeks streak', 'progress-planner' ), 6 );
+		return sprintf( \esc_html__( '%d weeks streak', 'progress-planner' ), 6 );
 	}
 
 	/**

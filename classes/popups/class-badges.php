@@ -74,7 +74,7 @@ final class Badges extends Popup {
 										printf(
 											\esc_html(
 												/* translators: The number of weeks remaining to complete the badge. */
-												_n(
+												\_n(
 													'%s week to go',
 													'%s weeks to go',
 													(int) $badge_progress['remaining'],

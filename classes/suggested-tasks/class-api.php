@@ -39,7 +39,7 @@ class API {
 
 		// If we have a cached response, return it.
 		if ( ! $items ) {
-			return apply_filters( 'progress_planner_suggested_tasks_api_items', $items );
+			return \apply_filters( 'progress_planner_suggested_tasks_api_items', $items );
 		}
 
 		$remote_url = self::REMOTE_DOMAIN . '/wp-json/progress-planner-saas/v1/suggested-todo/';
@@ -48,7 +48,7 @@ class API {
 		$response = \wp_remote_get( $remote_url );
 
 		// Bail if the request failed.
-		if ( ! is_wp_error( $response ) ) {
+		if ( ! \is_wp_error( $response ) ) {
 			// Get the body of the response.
 			$body = \wp_remote_retrieve_body( $response );
 
@@ -59,7 +59,7 @@ class API {
 				if ( \is_array( $data ) ) {
 					// Cache the response for 1 day.
 					\set_transient( self::TRANSIENT_NAME, $data, DAY_IN_SECONDS );
-					return apply_filters( 'progress_planner_suggested_tasks_api_items', $data );
+					return \apply_filters( 'progress_planner_suggested_tasks_api_items', $data );
 				}
 			}
 		}

@@ -49,7 +49,7 @@ final class Whats_New extends Widget {
 						<?php endif; ?>
 					</a>
 					<p>
-						<?php echo \esc_html( wp_trim_words( \wp_strip_all_tags( $blog_post['content']['rendered'] ), 55 ) ); ?>
+						<?php echo \esc_html( \wp_trim_words( \wp_strip_all_tags( $blog_post['content']['rendered'] ), 55 ) ); ?>
 					</p>
 				</li>
 			<?php endforeach; ?>

@@ -49,7 +49,7 @@ class Suggested_Tasks {
 		$activity->type    = 'completed';
 		$activity->data_id = 0;
 		$activity->date    = new \DateTime();
-		$activity->user_id = get_current_user_id();
+		$activity->user_id = \get_current_user_id();
 		$activity->save();
 		$completed           = $option['completed'] ?? [];
 		$completed[]         = (int) $task_id;

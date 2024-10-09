@@ -28,7 +28,7 @@ class Suggested_Task extends Activity {
 	 */
 	public function save() {
 		$this->date    = new \DateTime();
-		$this->user_id = get_current_user_id();
+		$this->user_id = \get_current_user_id();
 
 		\progress_planner()->get_query()->insert_activity( $this );
 		\do_action( 'progress_planner_activity_saved', $this );

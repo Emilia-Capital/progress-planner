@@ -34,14 +34,14 @@ final class Badges_Progress extends Widget {
 
 		?>
 		<h2 class="prpl-widget-title">
-			<?php esc_html_e( 'Your Achievements', 'progress-planner' ); ?>
+			<?php \esc_html_e( 'Your Achievements', 'progress-planner' ); ?>
 			<?php new \Progress_Planner\Popups\Badges(); ?>
 		</h2>
 		<div class="prpl-widget-content">
-			<?php esc_html_e( 'Check out your progress! Which badge will you unlock next?', 'progress-planner' ); ?>
+			<?php \esc_html_e( 'Check out your progress! Which badge will you unlock next?', 'progress-planner' ); ?>
 		</div>
 		<?php foreach ( $badges as $badge_group => $group_badges ) : ?>
-			<div class="progress-wrapper badge-group-<?php echo esc_attr( $badge_group ); ?>">
+			<div class="progress-wrapper badge-group-<?php echo \esc_attr( $badge_group ); ?>">
 				<?php foreach ( $group_badges as $badge ) : ?>
 					<?php
 					$badge_progress  = Badges::get_badge_progress( $badge );

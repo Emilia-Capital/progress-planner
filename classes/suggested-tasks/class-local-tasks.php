@@ -49,16 +49,16 @@ class Local_Tasks {
 			}
 			$inject_items[] = [
 				'task_id'               => 1000000 + (int) $post->ID,
-				'title'                 => sprintf( 'Update post "%s"', esc_html( $post->post_title ) ),
+				'title'                 => sprintf( 'Update post "%s"', \esc_html( $post->post_title ) ),
 				'parent'                => 0,
 				'priority'              => 'high',
 				'type'                  => 'writing',
 				'premium'               => 'no',
 				'description'           => '<p>' . sprintf(
 					/* translators: %s: The post title. */
-					esc_html__( 'Update the post "%s" as it was last updated more than 6 months ago.', 'progress-planner' ),
-					esc_html( $post->post_title )
-				) . '</p><p><a href="' . esc_url( get_edit_post_link( $post->ID ) ) . '">Edit the post</a>.</p>',
+					\esc_html__( 'Update the post "%s" as it was last updated more than 6 months ago.', 'progress-planner' ),
+					\esc_html( $post->post_title )
+				) . '</p><p><a href="' . \esc_url( \get_edit_post_link( $post->ID ) ) . '">Edit the post</a>.</p>',
 				'completion_type'       => 'auto',
 				'evaluation_conditions' => false,
 			];

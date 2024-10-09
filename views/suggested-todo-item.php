@@ -20,10 +20,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 			data-task-id="{taskId}"
 			data-task-title="{taskTitle}"
 			data-action="dismiss"
-			title="<?php esc_html_e( 'Dismiss', 'progress-planner' ); ?>"
+			title="<?php \esc_html_e( 'Dismiss', 'progress-planner' ); ?>"
 		>
 			<span class="dashicons dashicons-no"></span>
-			<span class="screen-reader-text"><?php esc_html_e( 'Dismiss', 'progress-planner' ); ?></span>
+			<span class="screen-reader-text"><?php \esc_html_e( 'Dismiss', 'progress-planner' ); ?></span>
 		</button>
 		<button
 			type="button"
@@ -31,10 +31,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 			data-task-id="{taskId}"
 			data-task-title="{taskTitle}"
 			data-action="complete"
-			title="<?php esc_html_e( 'Mark as complete', 'progress-planner' ); ?>"
+			title="<?php \esc_html_e( 'Mark as complete', 'progress-planner' ); ?>"
 		>
 			<span class="dashicons dashicons-yes"></span>
-			<span class="screen-reader-text"><?php esc_html_e( 'Mark as complete', 'progress-planner' ); ?></span>
+			<span class="screen-reader-text"><?php \esc_html_e( 'Mark as complete', 'progress-planner' ); ?></span>
 		</button>
 		<button
 			type="button"
@@ -42,10 +42,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 			data-task-id="{taskId}"
 			data-task-title="{taskTitle}"
 			data-action="snooze"
-			title="<?php esc_html_e( 'Snooze for a week', 'progress-planner' ); ?>"
+			title="<?php \esc_html_e( 'Snooze for a week', 'progress-planner' ); ?>"
 		>
 			<span class="dashicons dashicons-clock"></span>
-			<span class="screen-reader-text"><?php esc_html_e( 'Snooze for a week', 'progress-planner' ); ?></span>
+			<span class="screen-reader-text"><?php \esc_html_e( 'Snooze for a week', 'progress-planner' ); ?></span>
 		</button>
 	</div>
 	<div class="prpl-suggested-task-description" style="display:none;">{taskDescription}</div>

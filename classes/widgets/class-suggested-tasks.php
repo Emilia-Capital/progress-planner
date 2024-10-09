@@ -7,8 +7,6 @@
 
 namespace Progress_Planner\Widgets;
 
-use Progress_Planner\Suggested_Tasks as Root_Suggested_Tasks;
-
 /**
  * Published Content Widget.
  */
@@ -30,7 +28,7 @@ final class Suggested_Tasks extends Widget {
 		\wp_enqueue_script( 'progress-planner-suggested-tasks' );
 		?>
 		<h2 class="prpl-widget-title">
-			<?php esc_html_e( 'Suggested tasks', 'progress-planner' ); ?>
+			<?php \esc_html_e( 'Suggested tasks', 'progress-planner' ); ?>
 		</h2>
 
 		<ul style="display:none">

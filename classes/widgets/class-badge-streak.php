@@ -64,9 +64,9 @@ final class Badge_Streak extends Widget {
 				<p>
 					<?php
 					printf(
-						esc_html(
+						\esc_html(
 							/* translators: %s: The remaining number of weeks. */
-							_n(
+							\_n(
 								'%s week to go to complete this streak!',
 								'%s weeks to go to complete this streak!',
 								(int) $details['progress']['remaining'],
