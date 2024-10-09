@@ -83,12 +83,19 @@ class Evaluation {
 	 * @return void
 	 */
 	private function evaluate_task_conditions( $task, $activity ) {
-		$conditions = $task['conditions'] ?? [];
+		$conditions = $task['evaluation_conditions'] ?? [];
+
+		if ( \is_callable( $task['evaluation_conditions'] ) ) {
+			$conditions = $task['evaluation_conditions']( $activity );
+		}
 
 		// Check if the activity matches the conditions.
 		$matches = \array_filter(
 			$conditions,
 			function ( $condition ) use ( $activity ) {
+				if ( \is_callable( $condition ) ) {
+					return $condition( $activity );
+				}
 				return $this->evaluate_condition( $condition, $activity );
 			}
 		);
