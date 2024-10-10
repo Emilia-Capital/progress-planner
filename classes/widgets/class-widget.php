@@ -78,8 +78,8 @@ abstract class Widget {
 		$classes = [
 			'prpl-widget-wrapper',
 			'prpl-' . \esc_attr( $this->id ),
-			'prpl-widget-colspan-' . \esc_attr( $this->colspan ),
-			'prpl-widget-rowspan-' . \esc_attr( $this->rowspan ),
+			'prpl-widget-colspan-' . \esc_attr( (string) $this->colspan ),
+			'prpl-widget-rowspan-' . \esc_attr( (string) $this->rowspan ),
 		];
 		echo '<div class="' . esc_attr( \implode( ' ', $classes ) ) . '">';
 		$this->the_content();
