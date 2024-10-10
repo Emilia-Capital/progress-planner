@@ -15,6 +15,10 @@ abstract class Local_Tasks {
 	/**
 	 * The option name, holding pending local tasks.
 	 *
+	 * We're using an option to store these tasks,
+	 * because otherwise we have no way to keep track of
+	 * what was completed in order to award points.
+	 *
 	 * @var string
 	 */
 	const OPTION_NAME = 'progress_planner_local_tasks';
@@ -31,7 +35,7 @@ abstract class Local_Tasks {
 	 */
 	public function __construct() {
 		\add_filter( 'progress_planner_suggested_tasks_api_items', [ $this, 'inject_tasks' ] );
-		$this->evaluate_previous_tasks();
+		$this->evaluate_tasks();
 	}
 
 	/**
@@ -60,11 +64,11 @@ abstract class Local_Tasks {
 	abstract protected function get_tasks_to_inject();
 
 	/**
-	 * Evaluate previous tasks.
+	 * Evaluate tasks stored in the option.
 	 *
 	 * @return void
 	 */
-	private function evaluate_previous_tasks() {
+	private function evaluate_tasks() {
 		$tasks = self::get_tasks();
 		if ( ! is_array( $tasks ) ) {
 			$tasks = [];
