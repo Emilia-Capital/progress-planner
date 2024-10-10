@@ -4,7 +4,7 @@
 :root {
 	--prpl-gap: 32px;
 	--prpl-padding: 20px;
-	--prpl-column-min-width: 15rem;
+	--prpl-column-min-width: 22rem;
 	--prpl-column-max-width: 30rem;
 	--prpl-max-columns: 4;
 	--prpl-border-radius: 8px;
@@ -163,12 +163,6 @@ button.prpl-info-icon {
 \*------------------------------------*/
 .prpl-widgets-container {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(calc(var(--prpl-column-min-width) * 2), 1fr));
-	grid-gap: var(--prpl-gap);
-}
-
-.prpl-column-main {
-	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(var(--prpl-column-min-width), 1fr));
 	grid-gap: var(--prpl-gap);
 }
@@ -177,20 +171,6 @@ button.prpl-info-icon {
 	display: flex;
 	flex-direction: column;
 	gap: var(--prpl-gap);
-}
-
-.prpl-column-main-primary {
-
-	.prpl-column {
-		display: flex;
-		flex-direction: column;
-	}
-
-	.prpl-column-two-col {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(var(--prpl-column-min-width), 1fr));
-		grid-gap: var(--prpl-gap);
-	}
 }
 
 /*------------------------------------*\
@@ -889,11 +869,6 @@ button.prpl-info-icon {
 		--prpl-gap: 16px;
 		--prpl-padding: 10px;
 		--prpl-column-min-width: 0;
-	}
-
-	.prpl-column-main,
-	.prpl-column-main-primary .prpl-column-two-col {
-		grid-template-columns: 1fr;
 	}
 
 	.prpl-welcome .welcome-header {
