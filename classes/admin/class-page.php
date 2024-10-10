@@ -22,7 +22,7 @@ class Page {
 			'prpl-column prpl-column-first' => [
 				'prpl-column prpl-column-two-col col-1' => [
 					'\Progress_Planner\Widgets\Website_Activity_Score',
-					'\Progress_Planner\Widgets\Suggested_Tasks',
+					'\Progress_Planner\Widgets\Suggested_Tasks_Score',
 				],
 				'prpl-column prpl-column-two-col col-2' => [
 					'\Progress_Planner\Widgets\Published_Content_Density',
@@ -34,6 +34,7 @@ class Page {
 		],
 		'prpl-column-main prpl-column-main-secondary' => [
 			'prpl-column prpl-column-first'  => [
+				'\Progress_Planner\Widgets\Suggested_Tasks',
 				'\Progress_Planner\Widgets\Activity_Scores',
 				'\Progress_Planner\Widgets\Badges_Progress',
 				'\Progress_Planner\Widgets\Personal_Record_Content',
