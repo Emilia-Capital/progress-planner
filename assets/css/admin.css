@@ -163,7 +163,7 @@ button.prpl-info-icon {
 \*------------------------------------*/
 .prpl-widgets-container {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(calc(var(--prpl-column-min-width) / 2), 1fr));
+	grid-template-columns: repeat(auto-fit, minmax(calc(var(--prpl-column-min-width) / 4), 1fr));
 	grid-gap: var(--prpl-gap);
 
 	.prpl-widget-rowspan-1 {
@@ -175,11 +175,43 @@ button.prpl-info-icon {
 	}
 
 	.prpl-widget-rowspan-3 {
-		grid-column: span 3;
+		grid-row: span 3;
 	}
 
 	.prpl-widget-rowspan-4 {
-		grid-column: span 4;
+		grid-row: span 4;
+	}
+
+	.prpl-widget-rowspan-5 {
+		grid-row: span 5;
+	}
+
+	.prpl-widget-rowspan-6 {
+		grid-row: span 6;
+	}
+
+	.prpl-widget-rowspan-7 {
+		grid-row: span 7;
+	}
+
+	.prpl-widget-rowspan-8 {
+		grid-row: span 8;
+	}
+
+	.prpl-widget-rowspan-9 {
+		grid-row: span 9;
+	}
+
+	.prpl-widget-rowspan-10 {
+		grid-row: span 10;
+	}
+
+	.prpl-widget-rowspan-11 {
+		grid-row: span 11;
+	}
+
+	.prpl-widget-rowspan-12 {
+		grid-row: span 12;
 	}
 
 	.prpl-widget-colspan-1 {
@@ -196,6 +228,38 @@ button.prpl-info-icon {
 
 	.prpl-widget-colspan-4 {
 		grid-column: span 4;
+	}
+
+	.prpl-widget-colspan-5 {
+		grid-column: span 5;
+	}
+
+	.prpl-widget-colspan-6 {
+		grid-column: span 6;
+	}
+
+	.prpl-widget-colspan-7 {
+		grid-column: span 7;
+	}
+
+	.prpl-widget-colspan-8 {
+		grid-column: span 8;
+	}
+
+	.prpl-widget-colspan-9 {
+		grid-column: span 9;
+	}
+
+	.prpl-widget-colspan-10 {
+		grid-column: span 10;
+	}
+
+	.prpl-widget-colspan-11 {
+		grid-column: span 11;
+	}
+
+	.prpl-widget-colspan-12 {
+		grid-column: span 12;
 	}
 }
 

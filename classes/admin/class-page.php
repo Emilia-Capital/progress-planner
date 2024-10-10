@@ -26,11 +26,11 @@ class Page {
 		'\Progress_Planner\Widgets\Latest_Badge',
 		'\Progress_Planner\Widgets\Published_Content_Density',
 		'\Progress_Planner\Widgets\Published_Words',
+		'\Progress_Planner\Widgets\Badges_Progress',
 		'\Progress_Planner\Widgets\Badge_Content',
 		'\Progress_Planner\Widgets\Badge_Streak',
-		'\Progress_Planner\Widgets\Published_Content',
-		'\Progress_Planner\Widgets\Badges_Progress',
 		'\Progress_Planner\Widgets\Personal_Record_Content',
+		'\Progress_Planner\Widgets\Published_Content',
 		'\Progress_Planner\Widgets\Whats_New',
 	];
 

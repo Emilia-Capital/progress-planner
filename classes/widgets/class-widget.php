@@ -20,18 +20,18 @@ abstract class Widget {
 	protected $id;
 
 	/**
-	 * The col-span for the grid layout.
+	 * The col-span for the 12-column grid layout.
 	 *
 	 * @var int
 	 */
-	protected $colspan = 2;
+	protected $colspan = 4;
 
 	/**
 	 * The row-span for the grid layout.
 	 *
 	 * @var int
 	 */
-	protected $rowspan = 2;
+	protected $rowspan = 6;
 
 	/**
 	 * Constructor.

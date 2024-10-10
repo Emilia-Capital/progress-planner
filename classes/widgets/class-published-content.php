@@ -28,7 +28,7 @@ final class Published_Content extends Widget {
 	 *
 	 * @var int
 	 */
-	protected $colspan = 4;
+	protected $colspan = 6;
 
 	/**
 	 * Render the widget content.

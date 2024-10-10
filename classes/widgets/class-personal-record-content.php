@@ -28,7 +28,7 @@ final class Personal_Record_Content extends Widget {
 	 *
 	 * @var int
 	 */
-	protected $rowspan = 1;
+	protected $rowspan = 2;
 
 	/**
 	 * Render the widget content.

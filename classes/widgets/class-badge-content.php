@@ -26,7 +26,7 @@ final class Badge_Content extends Widget {
 	 *
 	 * @var int
 	 */
-	protected $rowspan = 1;
+	protected $rowspan = 2;
 
 	/**
 	 * Whether we should render the widget or not.
