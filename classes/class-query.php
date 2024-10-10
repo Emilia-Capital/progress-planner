@@ -70,27 +70,44 @@ class Query {
 		$table_name      = $wpdb->prefix . static::TABLE_NAME;
 		$charset_collate = $wpdb->get_charset_collate();
 
-		/**
-		 * Create a table for activities.
-		 *
-		 * Columns:
-		 * - date: The date of the activity.
-		 * - category: The category of the activity.
-		 * - type: The type of the activity.
-		 * - data_id: The ID of the data of the activity.
+		// Check if the table already exists.
+		$table_exists = null !== $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table_name ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+
+		if ( ! $table_exists ) {
+			/**
+			 * Create a table for activities.
+			 *
+			 * Columns:
+			 * - date: The date of the activity.
+			 * - category: The category of the activity.
+			 * - type: The type of the activity.
+			 * - data_id: The ID of the data of the activity.
+			 */
+			// phpcs:disable WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL
+			$wpdb->query(
+				"CREATE TABLE IF NOT EXISTS $table_name (
+					id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+					date DATE NOT NULL,
+					category VARCHAR(255) NOT NULL,
+					type VARCHAR(255) NOT NULL,
+					data_id VARCHAR(255),
+					user_id BIGINT(20) UNSIGNED NOT NULL,
+					PRIMARY KEY (id)
+				) $charset_collate;"
+			);
+		}
+
+		/*
+		 * Backward compatibility:
+		 * If the data-type for the `data_id` column is an integer, change it to VARCHAR(255).
 		 */
-		// phpcs:disable WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL
-		$wpdb->query(
-			"CREATE TABLE IF NOT EXISTS $table_name (
-				id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-				date DATE NOT NULL,
-				category VARCHAR(255) NOT NULL,
-				type VARCHAR(255) NOT NULL,
-				data_id BIGINT(20) UNSIGNED NOT NULL,
-				user_id BIGINT(20) UNSIGNED NOT NULL,
-				PRIMARY KEY (id)
-			) $charset_collate;"
-		);
+		if (
+			$table_exists
+			&& \str_contains( \strtolower( $wpdb->get_row( "DESCRIBE $table_name data_id" )->Type ), 'int' )
+		) {
+			// Change the data-type to VARCHAR(255), making sure that existing data is also updated.
+			$wpdb->query( "ALTER TABLE $table_name MODIFY data_id VARCHAR(255)" );
+		}
 	}
 
 	/**
@@ -241,8 +258,8 @@ class Query {
 				'date'     => $activity->date->format( 'Y-m-d H:i:s' ),
 				'category' => $activity->category,
 				'type'     => $activity->type,
-				'data_id'  => $activity->data_id,
-				'user_id'  => $activity->user_id,
+				'data_id'  => (string) $activity->data_id,
+				'user_id'  => (int) $activity->user_id,
 			],
 			[
 				'%s',
@@ -275,7 +292,7 @@ class Query {
 			$activity->date     = new \DateTime( $result->date );
 			$activity->category = $result->category;
 			$activity->type     = $result->type;
-			$activity->data_id  = (int) $result->data_id;
+			$activity->data_id  = (string) $result->data_id;
 			$activity->id       = (int) $result->id;
 			$activity->user_id  = (int) $result->user_id;
 			$activities[]       = $activity;
@@ -302,8 +319,8 @@ class Query {
 				'date'     => $activity->date->format( 'Y-m-d H:i:s' ),
 				'category' => $activity->category,
 				'type'     => $activity->type,
-				'data_id'  => $activity->data_id,
-				'user_id'  => $activity->user_id,
+				'data_id'  => (string) $activity->data_id,
+				'user_id'  => (int) $activity->user_id,
 			],
 			[ 'id' => $id ],
 			[
@@ -428,7 +445,7 @@ class Query {
 		$activity->date     = new \DateTime( $result->date );
 		$activity->category = $result->category;
 		$activity->type     = $result->type;
-		$activity->data_id  = (int) $result->data_id;
+		$activity->data_id  = (string) $result->data_id;
 		$activity->id       = (int) $result->id;
 		$activity->user_id  = (int) $result->user_id;
 
