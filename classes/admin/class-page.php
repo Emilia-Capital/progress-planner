@@ -83,7 +83,7 @@ class Page {
 			<?php \do_action( 'progress_planner_admin_after_header' ); ?>
 
 			<div class="prpl-widgets-container">
-				<?php $widgets = \apply_filters( 'progress_planner_admin_columns_widgets', self::WIDGETS ); ?>
+				<?php $widgets = \apply_filters( 'progress_planner_admin_widgets', self::WIDGETS ); ?>
 				<?php foreach ( $widgets as $class_name ) : ?>
 					<?php new $class_name(); ?>
 				<?php endforeach; ?>
