@@ -1162,6 +1162,7 @@ button.prpl-info-icon {
 	list-style: none;
 	padding: 0;
 	margin: 0;
+	position: relative;
 
 	&:not(:has(+ .prpl-suggested-todos-list)) .prpl-suggested-task:last-child {
 		border-bottom: none;
@@ -1205,6 +1206,24 @@ button.prpl-info-icon {
 			margin: 0;
 			background: none;
 			border: none;
+		}
+
+		.prpl-suggested-task-info {
+			position: absolute;
+			top: 0;
+			left: 0;
+			padding: 0.75rem;
+			background: var(--prpl-background-orange);
+			border-radius: var(--prpl-border-radius);
+			z-index: 1;
+			width: calc(100% - 1.5rem);
+			height: calc(100% - 1.5rem);
+
+			.close {
+				position: absolute;
+				top: 0.75rem;
+				right: 0.75rem;
+			}
 		}
 	}
 }

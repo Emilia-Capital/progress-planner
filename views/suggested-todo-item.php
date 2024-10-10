@@ -37,5 +37,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<span class="screen-reader-text"><?php \esc_html_e( 'Snooze for a week', 'progress-planner' ); ?></span>
 		</button>
 	</div>
-	<div class="prpl-suggested-task-description" style="display:none;">{taskDescription}</div>
+	<div class="prpl-suggested-task-info hidden">
+		{taskDescription}
+		<button type="button" class="button prpl-suggested-task-button close" data-action="close-info">
+			<span class="dashicons dashicons-no-alt"></span>
+			<span class="screen-reader-text"><?php \esc_html_e( 'Close', 'progress-planner' ); ?></span>
+		</button>
+	</div>
 </li>

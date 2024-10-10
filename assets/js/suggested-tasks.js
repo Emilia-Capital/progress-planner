@@ -208,14 +208,27 @@ const prplSuggestedTodoItemListeners = ( item ) => {
 		button.addEventListener( 'click', function () {
 			const action = button.getAttribute( 'data-action' );
 
-			if ( 'snooze' === action ) {
-				progressPlannerSnoozeTask(
-					button.getAttribute( 'data-task-id' )
-				);
+			switch ( action ) {
+				case 'snooze':
+					progressPlannerSnoozeTask(
+						button.getAttribute( 'data-task-id' )
+					);
+					break;
+				case 'info':
+					prplToggleTaskInfo( item );
+					break;
+				case 'close-info':
+					prplToggleTaskInfo( item );
+					break;
 			}
 		} );
 	} );
 };
+
+const prplToggleTaskInfo = ( item ) => {
+	const info = item.querySelector( '.prpl-suggested-task-info' );
+	info.classList.toggle( 'hidden' );
+}
 
 // Populate the list on load.
 document.addEventListener( 'DOMContentLoaded', () => {
