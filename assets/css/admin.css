@@ -1208,7 +1208,8 @@ button.prpl-info-icon {
 			border: none;
 		}
 
-		.prpl-suggested-task-info {
+		.prpl-suggested-task-info,
+		.prpl-suggested-snooze-duration-selector {
 			position: absolute;
 			top: 0;
 			left: 0;

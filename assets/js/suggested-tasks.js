@@ -37,11 +37,15 @@ const progressPlannerGetNextItem = () => {
 	items.forEach( function ( item ) {
 		if (
 			completed.includes( item.task_id.toString() ) ||
-			snoozed.includes( item.task_id.toString() ) ||
 			inList.includes( item.task_id.toString() )
 		) {
 			items.splice( items.indexOf( item ), 1 );
 		}
+		snoozed.forEach( ( snoozedItem ) => {
+			if ( item.task_id.toString() === snoozedItem.id ) {
+				items.splice( items.indexOf( item ), 1 );
+			}
+		} );
 	} );
 
 	// Get items with a priority set to `high`.
@@ -71,9 +75,10 @@ const progressPlannerGetNextItem = () => {
 /**
  * Snooze a task.
  *
- * @param {string} taskId The task ID.
+ * @param {string} taskId   The task ID.
+ * @param {string} duration The duration to snooze the task for.
  */
-const progressPlannerSnoozeTask = ( taskId ) => {
+const progressPlannerSnoozeTask = ( taskId, duration ) => {
 	taskId = taskId.toString();
 	// Save the todo list to the database
 	jQuery.post(
@@ -83,6 +88,7 @@ const progressPlannerSnoozeTask = ( taskId ) => {
 			task_id: taskId.toString(),
 			nonce: progressPlannerSuggestedTasks.nonce,
 			action_type: 'snooze',
+			duration,
 		},
 		() => {
 			const el = document.querySelector(
@@ -210,25 +216,29 @@ const prplSuggestedTodoItemListeners = ( item ) => {
 
 			switch ( action ) {
 				case 'snooze':
-					progressPlannerSnoozeTask(
-						button.getAttribute( 'data-task-id' )
-					);
+					item.querySelector(
+						'.prpl-suggested-snooze-duration-selector'
+					).classList.toggle( 'hidden' );
+					item.querySelector(
+						'.prpl-suggested-snooze-duration'
+					).addEventListener( 'change', function () {
+						progressPlannerSnoozeTask(
+							button.getAttribute( 'data-task-id' ),
+							this.value
+						);
+					} );
 					break;
+
 				case 'info':
-					prplToggleTaskInfo( item );
-					break;
 				case 'close-info':
-					prplToggleTaskInfo( item );
+					item.querySelector(
+						'.prpl-suggested-task-info'
+					).classList.toggle( 'hidden' );
 					break;
 			}
 		} );
 	} );
 };
-
-const prplToggleTaskInfo = ( item ) => {
-	const info = item.querySelector( '.prpl-suggested-task-info' );
-	info.classList.toggle( 'hidden' );
-}
 
 // Populate the list on load.
 document.addEventListener( 'DOMContentLoaded', () => {

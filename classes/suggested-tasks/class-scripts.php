@@ -73,7 +73,8 @@ class Scripts {
 				break;
 
 			case 'snooze':
-				$updated = Suggested_Tasks::mark_task_as_snoozed( $task_id );
+				$duration = isset( $_POST['duration'] ) ? \sanitize_text_field( \wp_unslash( $_POST['duration'] ) ) : '';
+				$updated  = Suggested_Tasks::mark_task_as_snoozed( $task_id, $duration );
 				break;
 
 			default:

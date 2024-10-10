@@ -64,16 +64,56 @@ class Suggested_Tasks {
 	 * Mark a task as snoozed.
 	 *
 	 * @param string $task_id The task ID.
+	 * @param string $duration The duration.
 	 *
 	 * @return bool
 	 */
-	public static function mark_task_as_snoozed( $task_id ) {
-		$option            = \get_option( self::OPTION_NAME, [] );
-		$snoozed           = $option['snoozed'] ?? [];
-		$snoozed[]         = [
-			'id'   => (string) $task_id,
-			'time' => \time() + \WEEK_IN_SECONDS,
-		];
+	public static function mark_task_as_snoozed( $task_id, $duration ) {
+		$option  = \get_option( self::OPTION_NAME, [] );
+		$snoozed = $option['snoozed'] ?? [];
+
+		switch ( $duration ) {
+			case '1-month':
+				$time = \MONTH_IN_SECONDS;
+				break;
+
+			case '3-months':
+				$time = 3 * \MONTH_IN_SECONDS;
+				break;
+
+			case '6-months':
+				$time = 6 * \MONTH_IN_SECONDS;
+				break;
+
+			case '1-year':
+				$time = \YEAR_IN_SECONDS;
+				break;
+
+			case 'forever':
+				$time = \PHP_INT_MAX;
+				break;
+
+			default:
+				$time = \WEEK_IN_SECONDS;
+				break;
+		}
+
+		// Check if there's already an item with the same ID.
+		$item_exists = false;
+		foreach ( $snoozed as $key => $snoozed_task ) {
+			if ( $snoozed_task['id'] === $task_id ) {
+				$snoozed[ $key ]['time'] = \time() + $time;
+				$item_exists             = true;
+				break;
+			}
+		}
+
+		if ( ! $item_exists ) {
+			$snoozed[] = [
+				'id'   => (string) $task_id,
+				'time' => \time() + $time,
+			];
+		}
 		$option['snoozed'] = $snoozed;
 
 		return \update_option( self::OPTION_NAME, $option );
