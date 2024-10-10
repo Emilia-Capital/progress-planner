@@ -20,6 +20,20 @@ abstract class Widget {
 	protected $id;
 
 	/**
+	 * The col-span for the grid layout.
+	 *
+	 * @var int
+	 */
+	protected $colspan = 2;
+
+	/**
+	 * The row-span for the grid layout.
+	 *
+	 * @var int
+	 */
+	protected $rowspan = 2;
+
+	/**
 	 * Constructor.
 	 */
 	public function __construct() {
@@ -61,7 +75,13 @@ abstract class Widget {
 		if ( ! $this->should_render() ) {
 			return;
 		}
-		echo '<div class="prpl-widget-wrapper prpl-' . \esc_attr( $this->id ) . '">';
+		$classes = [
+			'prpl-widget-wrapper',
+			'prpl-' . \esc_attr( $this->id ),
+			'prpl-widget-colspan-' . \esc_attr( $this->colspan ),
+			'prpl-widget-rowspan-' . \esc_attr( $this->rowspan ),
+		];
+		echo '<div class="' . esc_attr( \implode( ' ', $classes ) ) . '">';
 		$this->the_content();
 		echo '</div>';
 	}

@@ -15,29 +15,23 @@ use Progress_Planner\Onboard;
 class Page {
 
 	/**
-	 * The columns and widgets to display on the admin page.
+	 * The widgets to display on the admin page.
 	 */
-	const COLUMNS = [
-		[
-			'\Progress_Planner\Widgets\Website_Activity_Score',
-			'\Progress_Planner\Widgets\Suggested_Tasks_Score',
-			'\Progress_Planner\Widgets\Published_Content_Density',
-			'\Progress_Planner\Widgets\Published_Words',
-			'\Progress_Planner\Widgets\Published_Content',
-			'\Progress_Planner\Widgets\Whats_New',
-		],
-		[
-			'\Progress_Planner\Widgets\Suggested_Tasks',
-			'\Progress_Planner\Widgets\Activity_Scores',
-			'\Progress_Planner\Widgets\Badges_Progress',
-			'\Progress_Planner\Widgets\Personal_Record_Content',
-		],
-		[
-			'\Progress_Planner\Widgets\ToDo',
-			'\Progress_Planner\Widgets\Latest_Badge',
-			'\Progress_Planner\Widgets\Badge_Content',
-			'\Progress_Planner\Widgets\Badge_Streak',
-		],
+	const WIDGETS = [
+		'\Progress_Planner\Widgets\Website_Activity_Score',
+		'\Progress_Planner\Widgets\Suggested_Tasks_Score',
+		'\Progress_Planner\Widgets\Activity_Scores',
+		'\Progress_Planner\Widgets\ToDo',
+		'\Progress_Planner\Widgets\Suggested_Tasks',
+		'\Progress_Planner\Widgets\Latest_Badge',
+		'\Progress_Planner\Widgets\Published_Content_Density',
+		'\Progress_Planner\Widgets\Published_Words',
+		'\Progress_Planner\Widgets\Badge_Content',
+		'\Progress_Planner\Widgets\Badge_Streak',
+		'\Progress_Planner\Widgets\Published_Content',
+		'\Progress_Planner\Widgets\Badges_Progress',
+		'\Progress_Planner\Widgets\Personal_Record_Content',
+		'\Progress_Planner\Widgets\Whats_New',
 	];
 
 	/**
@@ -89,13 +83,9 @@ class Page {
 			<?php \do_action( 'progress_planner_admin_after_header' ); ?>
 
 			<div class="prpl-widgets-container">
-				<?php $columns = \apply_filters( 'progress_planner_admin_columns_widgets', self::COLUMNS ); ?>
-				<?php foreach ( $columns as $column ) : ?>
-					<div class="prpl-column">
-						<?php foreach ( $column as $class_name ) : ?>
-							<?php new $class_name(); ?>
-						<?php endforeach; ?>
-					</div>
+				<?php $widgets = \apply_filters( 'progress_planner_admin_columns_widgets', self::WIDGETS ); ?>
+				<?php foreach ( $widgets as $class_name ) : ?>
+					<?php new $class_name(); ?>
 				<?php endforeach; ?>
 			</div>
 		</div>

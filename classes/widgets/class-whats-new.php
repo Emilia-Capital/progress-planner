@@ -29,6 +29,13 @@ final class Whats_New extends Widget {
 	protected $id = 'whats-new';
 
 	/**
+	 * The col-span for the grid layout.
+	 *
+	 * @var int
+	 */
+	protected $colspan = 4;
+
+	/**
 	 * Render the widget content.
 	 */
 	public function the_content() {

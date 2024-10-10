@@ -163,14 +163,40 @@ button.prpl-info-icon {
 \*------------------------------------*/
 .prpl-widgets-container {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(var(--prpl-column-min-width), 1fr));
+	grid-template-columns: repeat(auto-fit, minmax(calc(var(--prpl-column-min-width) / 2), 1fr));
 	grid-gap: var(--prpl-gap);
-}
 
-.prpl-column {
-	display: flex;
-	flex-direction: column;
-	gap: var(--prpl-gap);
+	.prpl-widget-rowspan-1 {
+		grid-row: span 1;
+	}
+
+	.prpl-widget-rowspan-2 {
+		grid-row: span 2;
+	}
+
+	.prpl-widget-rowspan-3 {
+		grid-column: span 3;
+	}
+
+	.prpl-widget-rowspan-4 {
+		grid-column: span 4;
+	}
+
+	.prpl-widget-colspan-1 {
+		grid-column: span 1;
+	}
+
+	.prpl-widget-colspan-2 {
+		grid-column: span 2;
+	}
+
+	.prpl-widget-colspan-3 {
+		grid-column: span 3;
+	}
+
+	.prpl-widget-colspan-4 {
+		grid-column: span 4;
+	}
 }
 
 /*------------------------------------*\
@@ -869,6 +895,11 @@ button.prpl-info-icon {
 		--prpl-gap: 16px;
 		--prpl-padding: 10px;
 		--prpl-column-min-width: 0;
+	}
+
+	.prpl-widgets-container {
+		display: flex;
+		flex-direction: column;
 	}
 
 	.prpl-welcome .welcome-header {

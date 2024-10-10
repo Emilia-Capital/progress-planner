@@ -22,6 +22,13 @@ final class Badge_Content extends Widget {
 	protected $id = 'badge-content';
 
 	/**
+	 * The row-span for the grid layout.
+	 *
+	 * @var int
+	 */
+	protected $rowspan = 1;
+
+	/**
 	 * Whether we should render the widget or not.
 	 *
 	 * @return bool
