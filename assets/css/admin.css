@@ -6,7 +6,7 @@
 	--prpl-padding: 20px;
 	--prpl-column-min-width: 22rem;
 	--prpl-column-max-width: 30rem;
-	--prpl-max-columns: 4;
+	--prpl-max-columns: 3;
 	--prpl-border-radius: 8px;
 	--prpl-border-radius-big: calc(var(--prpl-border-radius) * 2);
 
