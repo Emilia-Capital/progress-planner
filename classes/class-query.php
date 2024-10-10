@@ -103,7 +103,7 @@ class Query {
 		 */
 		if (
 			$table_exists
-			&& str_contains( \strtolower( $wpdb->get_row( "DESCRIBE $table_name data_id" )->Type ), 'int' )
+			&& \str_contains( \strtolower( $wpdb->get_row( "DESCRIBE $table_name data_id" )->Type ), 'int' )
 		) {
 			// Change the data-type to VARCHAR(255), making sure that existing data is also updated.
 			$wpdb->query( "ALTER TABLE $table_name MODIFY data_id VARCHAR(255)" );
