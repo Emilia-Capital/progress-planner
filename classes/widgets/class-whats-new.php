@@ -22,6 +22,13 @@ final class Whats_New extends Widget {
 	const REMOTE_SERVER_ROOT_URL = 'https://progressplanner.com';
 
 	/**
+	 * The transient name.
+	 *
+	 * @var string
+	 */
+	const TRANSIENT_NAME = 'progress_planner_blog_feed_with_images';
+
+	/**
 	 * The widget ID.
 	 *
 	 * @var string
@@ -66,13 +73,13 @@ final class Whats_New extends Widget {
 	 * @return array
 	 */
 	public function get_blog_feed() {
-		$feed_data = \get_site_transient( 'progress_planner_blog_feed_with_images' );
+		$feed_data = \get_site_transient( self::TRANSIENT_NAME );
 
 		// Migrate old feed to new format.
 		if ( is_array( $feed_data ) && ! isset( $feed_data['expires'] ) && ! isset( $feed_data['feed'] ) ) {
 			$feed_data = [
 				'feed'    => $feed_data,
-				'expires' => get_option( '_site_transient_timeout_progress_planner_blog_feed_with_images', 0 ),
+				'expires' => get_option( '_site_transient_timeout_' . self::TRANSIENT_NAME, 0 ),
 			];
 		}
 
@@ -114,7 +121,7 @@ final class Whats_New extends Widget {
 			}
 
 			// Transient uses 'expires' key to determine if it's expired.
-			\set_site_transient( 'progress_planner_blog_feed_with_images', $feed_data, 0 );
+			\set_site_transient( self::TRANSIENT_NAME, $feed_data, 0 );
 		}
 
 		return $feed_data['feed'];
