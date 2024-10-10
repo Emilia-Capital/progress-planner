@@ -80,22 +80,6 @@ class Suggested_Tasks {
 	}
 
 	/**
-	 * Mark a task as dismissed.
-	 *
-	 * @param string $task_id The task ID.
-	 *
-	 * @return bool
-	 */
-	public static function mark_task_as_dismissed( $task_id ) {
-		$option              = \get_option( self::OPTION_NAME, [] );
-		$dismissed           = $option['dismissed'] ?? [];
-		$dismissed[]         = (string) $task_id;
-		$option['dismissed'] = $dismissed;
-
-		return \update_option( self::OPTION_NAME, $option );
-	}
-
-	/**
 	 * Maybe unsnooze tasks.
 	 *
 	 * @return void

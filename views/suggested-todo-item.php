@@ -19,22 +19,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 			class="button prpl-suggested-task-button"
 			data-task-id="{taskId}"
 			data-task-title="{taskTitle}"
-			data-action="dismiss"
-			title="<?php \esc_html_e( 'Dismiss', 'progress-planner' ); ?>"
+			data-action="info"
+			title="<?php \esc_html_e( 'Info', 'progress-planner' ); ?>"
 		>
-			<span class="dashicons dashicons-no"></span>
-			<span class="screen-reader-text"><?php \esc_html_e( 'Dismiss', 'progress-planner' ); ?></span>
-		</button>
-		<button
-			type="button"
-			class="button prpl-suggested-task-button"
-			data-task-id="{taskId}"
-			data-task-title="{taskTitle}"
-			data-action="complete"
-			title="<?php \esc_html_e( 'Mark as complete', 'progress-planner' ); ?>"
-		>
-			<span class="dashicons dashicons-yes"></span>
-			<span class="screen-reader-text"><?php \esc_html_e( 'Mark as complete', 'progress-planner' ); ?></span>
+			<span class="dashicons dashicons-info"></span>
+			<span class="screen-reader-text"><?php \esc_html_e( 'Info', 'progress-planner' ); ?></span>
 		</button>
 		<button
 			type="button"

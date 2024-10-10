@@ -1193,23 +1193,10 @@ button.prpl-info-icon {
 			}
 		}
 
-		&.prpl-suggested-task-dismissed,
-		&.prpl-suggested-task-snoozed,
-		&.prpl-suggested-task-completed {
-
-			h3 {
-				text-decoration: line-through;
-			}
-		}
-
 		.prpl-suggested-task-description {
 			font-size: 0.825rem;
 			color: var(--prpl-color-gray-6);
 			margin: 0;
-		}
-
-		ul {
-			margin-left: 1rem;
 		}
 
 		button {

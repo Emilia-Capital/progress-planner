@@ -76,10 +76,6 @@ class Scripts {
 				$updated = Suggested_Tasks::mark_task_as_snoozed( $task_id );
 				break;
 
-			case 'dismiss':
-				$updated = Suggested_Tasks::mark_task_as_dismissed( $task_id );
-				break;
-
 			default:
 				\wp_send_json_error( [ 'message' => \esc_html__( 'Invalid action.', 'progress-planner' ) ] );
 		}

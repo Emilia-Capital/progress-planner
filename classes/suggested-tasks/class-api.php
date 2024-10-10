@@ -67,19 +67,17 @@ class API {
 	}
 
 	/**
-	 * Get an array of completed, dismissed, and snoozed tasks.
+	 * Get an array of completed, and snoozed tasks.
 	 *
 	 * @return array
 	 */
 	public function get_saved_tasks() {
 		$option              = \get_option( Suggested_Tasks::OPTION_NAME, [] );
 		$option['completed'] = $option['completed'] ?? [];
-		$option['dismissed'] = $option['dismissed'] ?? [];
 		$option['snoozed']   = $option['snoozed'] ?? [];
 
 		// Convert the task IDs to strings.
 		$option['completed'] = \array_map( 'strval', $option['completed'] );
-		$option['dismissed'] = \array_map( 'strval', $option['dismissed'] );
 		$option['snoozed']   = \array_map(
 			function ( $task ) {
 				return [
@@ -92,7 +90,6 @@ class API {
 
 		// Remove items with id 0.
 		$option['completed'] = \array_values( \array_filter( $option['completed'] ) );
-		$option['dismissed'] = \array_values( \array_filter( $option['dismissed'] ) );
 		$option['snoozed']   = \array_values(
 			\array_filter(
 				$option['snoozed'],

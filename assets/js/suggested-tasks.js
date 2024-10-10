@@ -20,11 +20,10 @@ const progressPlannerCountItems = () => {
  * @return {Object} The next item to inject.
  */
 const progressPlannerGetNextItem = () => {
-	// Remove completed, dismissed and snoozed items.
+	// Remove completed and snoozed items.
 	const tasks = progressPlannerSuggestedTasks.tasks;
 	const items = tasks.details;
 	const completed = tasks.completed;
-	const dismissed = tasks.dismissed;
 	const snoozed = tasks.snoozed;
 
 	// Create an array of items that are in the list.
@@ -38,7 +37,6 @@ const progressPlannerGetNextItem = () => {
 	items.forEach( function ( item ) {
 		if (
 			completed.includes( item.task_id.toString() ) ||
-			dismissed.includes( item.task_id.toString() ) ||
 			snoozed.includes( item.task_id.toString() ) ||
 			inList.includes( item.task_id.toString() )
 		) {
@@ -71,12 +69,11 @@ const progressPlannerGetNextItem = () => {
 };
 
 /**
- * Modify a task.
+ * Snooze a task.
  *
- * @param {string} taskId     The task ID.
- * @param {string} actionTask The action to perform.
+ * @param {string} taskId The task ID.
  */
-const progressPlannerModifyTask = ( taskId, actionTask ) => {
+const progressPlannerSnoozeTask = ( taskId ) => {
 	taskId = taskId.toString();
 	// Save the todo list to the database
 	jQuery.post(
@@ -85,46 +82,31 @@ const progressPlannerModifyTask = ( taskId, actionTask ) => {
 			action: 'progress_planner_suggested_task_action',
 			task_id: taskId.toString(),
 			nonce: progressPlannerSuggestedTasks.nonce,
-			action_type: actionTask,
+			action_type: 'snooze',
 		},
 		() => {
+			const el = document.querySelector(
+				`.${ PRPL_SUGGESTED_TASK_CLASSNAME }[data-task-id="${ taskId }"]`
+			);
+
+			if ( el ) {
+				el.remove();
+			}
+
+			// Update the global var.
 			if (
-				'dismiss' === actionTask ||
-				'complete' === actionTask ||
-				'snooze' === actionTask
+				progressPlannerSuggestedTasks.tasks.snoozed.indexOf(
+					taskId
+				) === -1
 			) {
-				const el = document.querySelector(
-					`.${ PRPL_SUGGESTED_TASK_CLASSNAME }[data-task-id="${ taskId }"]`
-				);
+				progressPlannerSuggestedTasks.tasks.snoozed.push( taskId );
+			}
 
-				if ( el ) {
-					el.remove();
-				}
-
-				const actionIndex = {
-					dosmiss: 'dismissed',
-					complete: 'completed',
-					snooze: 'snoozed',
-				}[ actionTask ];
-
-				// Update the global var.
-				if (
-					progressPlannerSuggestedTasks.tasks[ actionIndex ].indexOf(
-						taskId
-					) === -1
-				) {
-					progressPlannerSuggestedTasks.tasks[ actionIndex ].push(
-						taskId
-					);
-				}
-
-				while (
-					progressPlannerCountItems() <=
-						PRPL_SUGGESTED_TASKS_MAX_ITEMS &&
-					progressPlannerGetNextItem()
-				) {
-					progressPlannerInjectNextItem();
-				}
+			while (
+				progressPlannerCountItems() <= PRPL_SUGGESTED_TASKS_MAX_ITEMS &&
+				progressPlannerGetNextItem()
+			) {
+				progressPlannerInjectNextItem();
 			}
 		}
 	);
@@ -226,10 +208,11 @@ const prplSuggestedTodoItemListeners = ( item ) => {
 		button.addEventListener( 'click', function () {
 			const action = button.getAttribute( 'data-action' );
 
-			progressPlannerModifyTask(
-				button.getAttribute( 'data-task-id' ),
-				action
-			);
+			if ( 'snooze' === action ) {
+				progressPlannerSnoozeTask(
+					button.getAttribute( 'data-task-id' )
+				);
+			}
 		} );
 	} );
 };
