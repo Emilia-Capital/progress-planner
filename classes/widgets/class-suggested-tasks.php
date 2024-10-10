@@ -32,7 +32,15 @@ final class Suggested_Tasks extends Widget {
 		</h2>
 
 		<ul style="display:none">
-			<?php include PROGRESS_PLANNER_DIR . '/views/suggested-todo-item.php'; ?>
+			<?php
+			/**
+			 * Allow filtering the template for suggested tasks items.
+			 *
+			 * @param string $template_file The template file path.
+			 */
+			$template_file = \apply_filters( 'progress_planner_suggested_todo_item_template', PROGRESS_PLANNER_DIR . '/views/suggested-todo-item.php' );
+			include $template_file;
+			?>
 		</ul>
 		<ul class="prpl-suggested-todos-list"></ul>
 		<?php
