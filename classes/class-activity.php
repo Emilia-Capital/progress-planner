@@ -40,7 +40,7 @@ class Activity {
 	 *
 	 * Depending on the activity this is the post-ID, term-ID, comment-ID etc.
 	 *
-	 * @var int
+	 * @var string
 	 */
 	public $data_id;
 
@@ -75,7 +75,7 @@ class Activity {
 			[
 				'category' => $this->category,
 				'type'     => $this->type,
-				'data_id'  => $this->data_id,
+				'data_id'  => (string) $this->data_id,
 			],
 			'RAW'
 		);
