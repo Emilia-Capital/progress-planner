@@ -34,7 +34,7 @@ class Activity_Test extends \WP_UnitTestCase {
 		$this->activity->category = 'test_category';
 		$this->activity->type     = 'test_type';
 		$this->activity->date     = new \DateTime();
-		$this->activity->data_id  = 100;
+		$this->activity->data_id  = '100';
 		$this->activity->user_id  = 1;
 	}
 

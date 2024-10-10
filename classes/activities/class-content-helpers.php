@@ -79,7 +79,7 @@ class Content_Helpers {
 		$activity->category = 'content';
 		$activity->type     = $type;
 		$activity->date     = Date::get_datetime_from_mysql_date( $date );
-		$activity->data_id  = $post->ID;
+		$activity->data_id  = (string) $post->ID;
 		$activity->user_id  = (int) $post->post_author;
 		return $activity;
 	}

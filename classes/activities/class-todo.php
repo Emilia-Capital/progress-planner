@@ -26,9 +26,9 @@ class Todo extends Activity {
 	 *
 	 * Depending on the activity this is the post-ID, term-ID, comment-ID etc.
 	 *
-	 * @var int
+	 * @var string
 	 */
-	public $data_id = 0;
+	public $data_id = '0';
 
 	/**
 	 * Save the activity.

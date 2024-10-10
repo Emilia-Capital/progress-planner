@@ -30,7 +30,7 @@ class Content extends Activity {
 	 * @return \WP_Post|null
 	 */
 	public function get_post() {
-		return \get_post( $this->data_id );
+		return \get_post( (int) $this->data_id );
 	}
 
 	/**

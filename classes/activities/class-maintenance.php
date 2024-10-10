@@ -28,9 +28,9 @@ class Maintenance extends Activity {
 	 *
 	 * This is not relevant for maintenance activities.
 	 *
-	 * @var int
+	 * @var string
 	 */
-	public $data_id = 0;
+	public $data_id = '0';
 
 	/**
 	 * Save the activity.
