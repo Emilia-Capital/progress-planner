@@ -53,4 +53,18 @@ function prplStartTour() {
 		prplDriverObj.moveNext();
 	};
 	prplDriverObj.drive();
+
+	// Remove `content-scan-finished=true` from the URL, without refreshing the page.
+	window.history.replaceState(
+		{},
+		document.title,
+		window.location.href
+			.replace( '&content-scan-finished=true', '' )
+			.replace( 'content-scan-finished=true', '' )
+	);
+}
+
+// Start the tour if the URL contains the query parameter.
+if ( window.location.href.includes( 'content-scan-finished=true' ) ) {
+	prplStartTour();
 }

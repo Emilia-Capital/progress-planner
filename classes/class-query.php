@@ -48,6 +48,7 @@ class Query {
 	 */
 	private function __construct() {
 		$this->create_tables();
+		$this->maybe_upgrade();
 	}
 
 	/**
@@ -86,7 +87,7 @@ class Query {
 				date DATE NOT NULL,
 				category VARCHAR(255) NOT NULL,
 				type VARCHAR(255) NOT NULL,
-				data_id BIGINT(20) UNSIGNED NOT NULL,
+				data_id VARCHAR(255),
 				user_id BIGINT(20) UNSIGNED NOT NULL,
 				PRIMARY KEY (id)
 			) $charset_collate;"
@@ -241,8 +242,8 @@ class Query {
 				'date'     => $activity->date->format( 'Y-m-d H:i:s' ),
 				'category' => $activity->category,
 				'type'     => $activity->type,
-				'data_id'  => $activity->data_id,
-				'user_id'  => $activity->user_id,
+				'data_id'  => (string) $activity->data_id,
+				'user_id'  => (int) $activity->user_id,
 			],
 			[
 				'%s',
@@ -275,7 +276,7 @@ class Query {
 			$activity->date     = new \DateTime( $result->date );
 			$activity->category = $result->category;
 			$activity->type     = $result->type;
-			$activity->data_id  = (int) $result->data_id;
+			$activity->data_id  = (string) $result->data_id;
 			$activity->id       = (int) $result->id;
 			$activity->user_id  = (int) $result->user_id;
 			$activities[]       = $activity;
@@ -302,8 +303,8 @@ class Query {
 				'date'     => $activity->date->format( 'Y-m-d H:i:s' ),
 				'category' => $activity->category,
 				'type'     => $activity->type,
-				'data_id'  => $activity->data_id,
-				'user_id'  => $activity->user_id,
+				'data_id'  => (string) $activity->data_id,
+				'user_id'  => (int) $activity->user_id,
 			],
 			[ 'id' => $id ],
 			[
@@ -428,7 +429,7 @@ class Query {
 		$activity->date     = new \DateTime( $result->date );
 		$activity->category = $result->category;
 		$activity->type     = $result->type;
-		$activity->data_id  = (int) $result->data_id;
+		$activity->data_id  = (string) $result->data_id;
 		$activity->id       = (int) $result->id;
 		$activity->user_id  = (int) $result->user_id;
 
@@ -447,6 +448,58 @@ class Query {
 			return '\Progress_Planner\Activities\\' . ucfirst( $category );
 		}
 		return '\Progress_Planner\Activity';
+	}
+
+	/**
+	 * Maybe upgrade the database.
+	 *
+	 * @return void
+	 */
+	private function maybe_upgrade() {
+		$db_version         = \get_option( 'progress_planner_db_version', 0 );
+		$available_upgrades = [];
+		// Get an array of methods that are prefixed with "upgrade_".
+		$methods = \get_class_methods( $this );
+		foreach ( $methods as $method ) {
+			if ( \str_starts_with( $method, 'upgrade_' ) ) {
+				$available_upgrades[] = $method;
+			}
+		}
+
+		$upgraded = false;
+
+		// Sort the upgrades.
+		\sort( $available_upgrades );
+
+		// Run the upgrades.
+		foreach ( $available_upgrades as $upgrade_method ) {
+			$version = (int) \str_replace( 'upgrade_', '', $upgrade_method );
+			if ( $version > $db_version ) {
+				$this->$upgrade_method();
+				$upgraded = $version;
+			}
+		}
+
+		if ( $upgraded ) {
+			\update_option( 'progress_planner_db_version', $upgraded );
+		}
+	}
+
+	/**
+	 * Upgrade database:
+	 * - Convert the `data_id` column to a string.
+	 *
+	 * @return void
+	 */
+	private function upgrade_20241011() {
+		global $wpdb;
+
+		$table_name = $wpdb->prefix . static::TABLE_NAME;
+
+		if ( \str_contains( \strtolower( $wpdb->get_row( "DESCRIBE $table_name data_id" )->Type ), 'int' ) ) {
+			// Change the data-type to VARCHAR(255), making sure that existing data is also updated.
+			$wpdb->query( "ALTER TABLE $table_name MODIFY data_id VARCHAR(255)" );
+		}
 	}
 }
 // phpcs:enable

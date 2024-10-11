@@ -76,12 +76,58 @@ const progressPlannerOnboardCall = ( data ) => {
 
 if ( document.getElementById( 'prpl-onboarding-form' ) ) {
 	document
+		.querySelectorAll( 'input[name="with-email"]' )
+		.forEach( ( input ) => {
+			input.addEventListener( 'change', function () {
+				if ( 'no' === this.value ) {
+					document
+						.getElementById( 'prpl-onboarding-form' )
+						.querySelectorAll( 'input' )
+						.forEach( ( inputField ) => {
+							inputField.required = false;
+						} );
+				} else {
+					document
+						.getElementById( 'prpl-onboarding-form' )
+						.querySelectorAll( 'input' )
+						.forEach( ( inputField ) => {
+							if (
+								'name' === inputField.name ||
+								'email' === inputField.name
+							) {
+								inputField.required = true;
+							}
+						} );
+				}
+				document
+					.getElementById( 'prpl-onboarding-form' )
+					.querySelectorAll(
+						'.prpl-form-fields, .prpl-form-fields, .prpl-button-primary, .prpl-button-secondary--no-email'
+					)
+					.forEach( ( el ) => el.classList.toggle( 'prpl-hidden' ) );
+			} );
+		} );
+
+	document
 		.getElementById( 'prpl-onboarding-form' )
 		.addEventListener( 'submit', function ( event ) {
 			event.preventDefault();
 			document.querySelector(
 				'#prpl-onboarding-form input[type="submit"]'
 			).disabled = true;
+
+			// Figure out whether the user chose to register or not.
+			const withEmail = document.querySelector(
+				'input[name="with-email"]:checked'
+			).value;
+			if ( 'no' === withEmail ) {
+				// Save a value in the license field.
+				progressPlannerSaveLicenseKey( 'no-license' );
+				// Start scanning posts.
+				progressPlannerTriggerScan();
+				return;
+			}
+
 			const inputs = this.querySelectorAll( 'input' );
 
 			// Build the data object.

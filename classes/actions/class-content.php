@@ -70,7 +70,7 @@ class Content {
 			[
 				'category'   => 'content',
 				'type'       => 'update',
-				'data_id'    => $post_id,
+				'data_id'    => (string) $post_id,
 				'start_date' => Date::get_datetime_from_mysql_date( $post->post_modified )->modify( '-12 hours' ),
 				'end_date'   => Date::get_datetime_from_mysql_date( $post->post_modified )->modify( '+12 hours' ),
 			],
@@ -109,7 +109,7 @@ class Content {
 			[
 				'category' => 'content',
 				'type'     => 'publish',
-				'data_id'  => $post_id,
+				'data_id'  => (string) $post_id,
 			],
 			'RAW'
 		);
@@ -190,7 +190,7 @@ class Content {
 		$activity           = new Content_Activity();
 		$activity->category = 'content';
 		$activity->type     = 'delete';
-		$activity->data_id  = $post_id;
+		$activity->data_id  = (string) $post_id;
 		$activity->date     = new \DateTime();
 		$activity->user_id  = get_current_user_id();
 		$activity->save();
@@ -247,7 +247,7 @@ class Content {
 					[
 						'category' => 'content',
 						'type'     => 'publish',
-						'data_id'  => $post->ID,
+						'data_id'  => (string) $post->ID,
 					],
 					'RAW'
 				);
@@ -263,7 +263,7 @@ class Content {
 			$existing = \progress_planner()->get_query()->query_activities(
 				[
 					'category'   => 'content',
-					'data_id'    => $post->ID,
+					'data_id'    => (string) $post->ID,
 					'start_date' => Date::get_datetime_from_mysql_date( $post->post_modified )->modify( '-12 hours' ),
 					'end_date'   => Date::get_datetime_from_mysql_date( $post->post_modified )->modify( '+12 hours' ),
 				],
@@ -301,7 +301,7 @@ class Content {
 				[
 					'category' => 'content',
 					'type'     => 'publish',
-					'data_id'  => $post->ID,
+					'data_id'  => (string) $post->ID,
 				],
 				'RAW'
 			);

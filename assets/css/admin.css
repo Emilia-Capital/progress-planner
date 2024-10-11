@@ -103,6 +103,10 @@
 	}
 }
 
+.prpl-hidden {
+	display: none !important;
+}
+
 /*------------------------------------*\
 	Info buttons.
 \*------------------------------------*/
@@ -653,8 +657,11 @@ button.prpl-info-icon {
 \*------------------------------------*/
 .prpl-widget-wrapper.prpl-welcome {
 	padding: 0;
-	margin-bottom: var(--prpl-gap);
 	overflow: hidden;
+	max-height: 80vh;
+	width: 80vw;
+	margin: 10vh 10vw;
+	z-index: 9999;
 
 	.inner-content {
 		padding: calc(var(--prpl-gap) * 1.5);
@@ -662,13 +669,12 @@ button.prpl-info-icon {
 		margin-bottom: calc(var(--prpl-gap) * 1.5);
 		overflow: hidden;
 		display: grid;
-		grid-template-columns: 1fr 1px 1fr;
-		grid-gap: calc(var(--prpl-gap) / 2); /* halve it because we have a separator */
+		grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+		gap: calc(var(--prpl-gap) * 2);
 
-		.separator {
-			background: var(--prpl-color-gray-1);
-			display: block;
-			height: 100%;
+		img {
+			max-width: 100%;
+			height: auto;
 		}
 	}
 }
@@ -702,29 +708,6 @@ button.prpl-info-icon {
 			font-weight: 600;
 		}
 	}
-
-	.welcome-subheader {
-		display: flex;
-		justify-content: space-around;
-		gap: var(--prpl-padding);
-
-		> div {
-			padding: var(--prpl-padding);
-			text-align: center;
-			color: var(--prpl-color-gray-3);
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-			align-items: center;
-		}
-
-		.icon {
-			--font-size: var(--prpl-font-size-4xl);
-			font-size: var(--font-size);
-			width: var(--font-size);
-			height: var(--font-size);
-		}
-	}
 }
 
 /*------------------------------------*\
@@ -732,7 +715,9 @@ button.prpl-info-icon {
 \*------------------------------------*/
 
 .prpl-wrap input.prpl-button-primary,
-.prpl-wrap button.prpl-button-primary {
+.prpl-wrap input.prpl-button-secondary,
+.prpl-wrap button.prpl-button-primary,
+.prpl-wrap button.prpl-button-secondary {
 	display: block;
 	margin: 1em 0;
 	padding: 1em;
@@ -749,6 +734,17 @@ button.prpl-info-icon {
 	&:focus {
 		text-decoration: underline;
 		box-shadow: 3px 3px 10px var(--prpl-color-accent-red);
+	}
+}
+
+.prpl-wrap input.prpl-button-secondary,
+.prpl-wrap button.prpl-button-secondary {
+	background: var(--prpl-color-gray-3);
+
+	&:hover,
+	&:focus {
+		background: var(--prpl-color-gray-4);
+		box-shadow: 3px 3px 10px var(--prpl-color-gray-4);
 	}
 }
 
@@ -769,14 +765,12 @@ button.prpl-info-icon {
 	align-items: baseline;
 }
 
-.prpl-form-notice {
-	background: var(--prpl-background-orange);
-	border: 1px solid var(--prpl-color-accent-orange);
-	border-radius: var(--prpl-border-radius);
-	padding: var(--prpl-padding);
-	margin-bottom: var(--prpl-padding);
-}
+.prpl-onboard-form-radio-select {
 
+	label {
+		display: block !important;
+	}
+}
 
 /*------------------------------------*\
 	Popovers generic styles.
@@ -904,10 +898,6 @@ button.prpl-info-icon {
 
 	.prpl-welcome .welcome-header {
 		flex-wrap: wrap;
-	}
-
-	.prpl-welcome .welcome-subheader {
-		display: none;
 	}
 
 	.prpl-widget-wrapper.prpl-welcome .inner-content,

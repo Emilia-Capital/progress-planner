@@ -96,7 +96,9 @@ final class Published_Content_Density extends Widget {
 		return array_filter(
 			$activities,
 			function ( $activity ) {
-				return \in_array( $activity->get_post()->post_type, Content_Helpers::get_post_types_names(), true );
+				$post = $activity->get_post();
+				return is_object( $post )
+					&& \in_array( $post->post_type, Content_Helpers::get_post_types_names(), true );
 			}
 		);
 	}
@@ -116,7 +118,7 @@ final class Published_Content_Density extends Widget {
 			}
 			$words += Content_Helpers::get_word_count(
 				$activity->get_post()->post_content,
-				$activity->data_id
+				(int) $activity->data_id
 			);
 		}
 		return $words;
