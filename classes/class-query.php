@@ -472,10 +472,10 @@ class Query {
 		\sort( $available_upgrades );
 
 		// Run the upgrades.
-		foreach ( $available_upgrades as $upgrade ) {
-			$version = (int) \str_replace( 'upgrade_', '', $upgrade );
+		foreach ( $available_upgrades as $upgrade_method ) {
+			$version = (int) \str_replace( 'upgrade_', '', $upgrade_method );
 			if ( $version > $db_version ) {
-				$this->$upgrade();
+				$this->$upgrade_method();
 				$upgraded = $version;
 			}
 		}
