@@ -68,19 +68,18 @@ class Update_Posts extends Local_Tasks {
 			}
 			$task_id = "update-post-{$post->ID}";
 			$items[] = [
-				'task_id'               => $task_id,
-				'title'                 => sprintf( 'Update post "%s"', \esc_html( $post->post_title ) ),
-				'parent'                => 0,
-				'priority'              => 'high',
-				'type'                  => 'writing',
-				'premium'               => 'no',
-				'description'           => '<p>' . sprintf(
+				'task_id'         => $task_id,
+				'title'           => sprintf( 'Update post "%s"', \esc_html( $post->post_title ) ),
+				'parent'          => 0,
+				'priority'        => 'high',
+				'type'            => 'writing',
+				'premium'         => 'no',
+				'description'     => '<p>' . sprintf(
 					/* translators: %s: The post title. */
 					\esc_html__( 'Update the post "%s" as it was last updated more than 6 months ago.', 'progress-planner' ),
 					\esc_html( $post->post_title )
 				) . '</p><p><a href="' . \esc_url( \get_edit_post_link( $post->ID ) ) . '">' . \esc_html__( 'Edit the post', 'progress-planner' ) . '</a>.</p>',
-				'completion_type'       => 'auto',
-				'evaluation_conditions' => false,
+				'completion_type' => 'auto',
 			];
 			self::add_pending_task( $task_id );
 		}

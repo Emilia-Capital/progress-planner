@@ -83,56 +83,14 @@ class Evaluation {
 	 * @return void
 	 */
 	private function evaluate_task_conditions( $task, $activity ) {
-		if ( ! is_array( $task ) || ! isset( $task['evaluation_conditions'] ) ) {
-			return;
-		}
-
-		if ( \is_callable( $task['evaluation_conditions'] ) ) {
-			$task['evaluation_conditions']( $activity );
-			return;
-		}
-
-		$conditions = (array) $task['evaluation_conditions'];
-
-		// Check if the activity matches the conditions.
-		$matches = \array_filter(
-			$conditions,
-			function ( $condition ) use ( $activity ) {
-				if ( \is_callable( $condition ) ) {
-					return $condition( $activity );
-				}
-				return $this->evaluate_condition( $condition, $activity );
-			}
-		);
-
-		// If all conditions are met, mark the task as completed.
-		if ( \count( $conditions ) === \count( $matches ) ) {
+		if (
+			is_array( $task )
+			&& isset( $task['callback'] )
+			&& is_callable( $task['callback'] )
+			&& $task['callback']( $activity )
+		) {
 			Suggested_Tasks::mark_task_as_completed( $task['task_id'] );
-		}
-	}
-
-	/**
-	 * Evaluate a single condition.
-	 *
-	 * @param array                      $condition The condition.
-	 * @param \Progress_Planner\Activity $activity  The activity.
-	 *
-	 * @return bool
-	 */
-	private function evaluate_condition( $condition, $activity ) {
-		if ( ! isset( $condition['context'] ) ) {
-			return false;
-		}
-
-		switch ( $condition['context'] ) {
-			case 'post_update':
-				return ( 'content' === $activity->category && 'update' === $activity->type );
-
-			case 'post_publish':
-				return ( 'content' === $activity->category && 'publish' === $activity->type );
-
-			default:
-				return false;
+			return;
 		}
 	}
 }
