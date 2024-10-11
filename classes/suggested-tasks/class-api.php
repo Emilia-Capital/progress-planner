@@ -29,23 +29,37 @@ class API {
 	const TRANSIENT_NAME = 'progress_planner_suggested_tasks_remote';
 
 	/**
-	 * Get the premium to-do items.
+	 * Return filtered items.
 	 *
 	 * @return array
 	 */
 	public function get_tasks() {
+		$tasks = $this->get_api_tasks();
+		/**
+		 * Filter the suggested tasks.
+		 *
+		 * @param array $tasks The suggested tasks.
+		 * @return array
+		 */
+		return \apply_filters( 'progress_planner_suggested_tasks_api_items', $tasks );
+	}
+
+	/**
+	 * Get the premium to-do items.
+	 *
+	 * @return array
+	 */
+	protected function get_api_tasks() {
 		// Check if we have a cached response.
 		$items = \get_transient( self::TRANSIENT_NAME );
 
 		// If we have a cached response, return it.
 		if ( $items ) {
-			return \apply_filters( 'progress_planner_suggested_tasks_api_items', $items );
+			return $items;
 		}
 
-		$remote_url = self::REMOTE_DOMAIN . '/wp-json/progress-planner-saas/v1/suggested-todo/';
-
 		// Get the response from the remote server.
-		$response = \wp_remote_get( $remote_url );
+		$response = \wp_remote_get( $this->get_api_endpoint() );
 
 		// Bail if the request failed.
 		if ( ! \is_wp_error( $response ) ) {
@@ -59,11 +73,20 @@ class API {
 				if ( \is_array( $data ) ) {
 					// Cache the response for 1 day.
 					\set_transient( self::TRANSIENT_NAME, $data, DAY_IN_SECONDS );
-					return \apply_filters( 'progress_planner_suggested_tasks_api_items', $data );
+					return $data;
 				}
 			}
 		}
-		return apply_filters( 'progress_planner_suggested_tasks_api_items', [] );
+		return [];
+	}
+
+	/**
+	 * Get the remote API endpoint.
+	 *
+	 * @return string
+	 */
+	protected function get_api_endpoint() {
+		return self::REMOTE_DOMAIN . '/wp-json/progress-planner-saas/v1/suggested-todo/';
 	}
 
 	/**
