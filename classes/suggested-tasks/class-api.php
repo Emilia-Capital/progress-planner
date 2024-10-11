@@ -1,6 +1,6 @@
 <?php
 /**
- * Handle TODO list items.
+ * API for suggested tasks.
  *
  * @package Progress_Planner
  */
@@ -10,7 +10,7 @@ namespace Progress_Planner\Suggested_Tasks;
 use Progress_Planner\Suggested_Tasks;
 
 /**
- * Settings class.
+ * API class.
  */
 class API {
 
@@ -45,7 +45,7 @@ class API {
 	}
 
 	/**
-	 * Get the premium to-do items.
+	 * Get the tasks from the remote API.
 	 *
 	 * @return array
 	 */
@@ -90,7 +90,7 @@ class API {
 	}
 
 	/**
-	 * Get an array of completed, and snoozed tasks.
+	 * Get an array of completed and snoozed tasks.
 	 *
 	 * @return array
 	 */

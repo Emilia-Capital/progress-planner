@@ -1,6 +1,6 @@
 <?php
 /**
- * Handle TODO list items.
+ * Handle Suggestred-tasks items.
  *
  * @package Progress_Planner
  */
@@ -11,7 +11,7 @@ use Progress_Planner\Suggested_Tasks\Local_Tasks;
 use Progress_Planner\Suggested_Tasks;
 
 /**
- * Settings class.
+ * Handle Suggestred-tasks items.
  */
 class Update_Core extends Local_Tasks {
 
@@ -33,7 +33,7 @@ class Update_Core extends Local_Tasks {
 	}
 
 	/**
-	 * Filter the tasks.
+	 * Get an array of tasks to inject.
 	 *
 	 * @return array
 	 */
@@ -50,7 +50,6 @@ class Update_Core extends Local_Tasks {
 				'parent'      => 0,
 				'priority'    => 'high',
 				'type'        => 'maintenance',
-				'premium'     => 'no',
 				'description' => '<p>' . \esc_html__( 'Perform all updates to ensure your website is secure and up-to-date.', 'progress-planner' ) . '</p>',
 			],
 		];

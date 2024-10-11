@@ -1,6 +1,6 @@
 <?php
 /**
- * Handle TODO list items.
+ * Abstract class for local tasks.
  *
  * @package Progress_Planner
  */
@@ -8,7 +8,7 @@
 namespace Progress_Planner\Suggested_Tasks;
 
 /**
- * Settings class.
+ * Local_Tasks class.
  */
 abstract class Local_Tasks {
 

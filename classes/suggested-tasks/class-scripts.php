@@ -1,6 +1,6 @@
 <?php
 /**
- * Handle TODO list items.
+ * Handle scripts for the Suggested Tasks.
  *
  * @package Progress_Planner
  */
@@ -11,7 +11,7 @@ use Progress_Planner\Suggested_Tasks\API as Suggested_Tasks_API;
 use Progress_Planner\Suggested_Tasks;
 
 /**
- * Settings class.
+ * Handle scripts for the Suggested Tasks.
  */
 class Scripts {
 

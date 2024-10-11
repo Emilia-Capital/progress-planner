@@ -1,6 +1,6 @@
 <?php
 /**
- * Handle TODO list items.
+ * Handle Suggestred-tasks items.
  *
  * @package Progress_Planner
  */
@@ -11,7 +11,7 @@ use Progress_Planner\Suggested_Tasks\Local_Tasks;
 use Progress_Planner\Suggested_Tasks;
 
 /**
- * Settings class.
+ * Handle Suggestred-tasks items.
  */
 class Update_Posts extends Local_Tasks {
 
@@ -41,7 +41,7 @@ class Update_Posts extends Local_Tasks {
 	}
 
 	/**
-	 * Filter the tasks.
+	 * Get an array of tasks to inject.
 	 *
 	 * @return array
 	 */
@@ -73,7 +73,6 @@ class Update_Posts extends Local_Tasks {
 				'parent'      => 0,
 				'priority'    => 'high',
 				'type'        => 'writing',
-				'premium'     => 'no',
 				'description' => '<p>' . sprintf(
 					/* translators: %s: The post title. */
 					\esc_html__( 'Update the post "%s" as it was last updated more than 6 months ago.', 'progress-planner' ),
