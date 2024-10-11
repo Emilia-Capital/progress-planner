@@ -48,6 +48,7 @@ class Query {
 	 */
 	private function __construct() {
 		$this->create_tables();
+		$this->maybe_upgrade();
 	}
 
 	/**
@@ -70,44 +71,27 @@ class Query {
 		$table_name      = $wpdb->prefix . static::TABLE_NAME;
 		$charset_collate = $wpdb->get_charset_collate();
 
-		// Check if the table already exists.
-		$table_exists = null !== $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table_name ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-
-		if ( ! $table_exists ) {
-			/**
-			 * Create a table for activities.
-			 *
-			 * Columns:
-			 * - date: The date of the activity.
-			 * - category: The category of the activity.
-			 * - type: The type of the activity.
-			 * - data_id: The ID of the data of the activity.
-			 */
-			// phpcs:disable WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL
-			$wpdb->query(
-				"CREATE TABLE IF NOT EXISTS $table_name (
-					id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-					date DATE NOT NULL,
-					category VARCHAR(255) NOT NULL,
-					type VARCHAR(255) NOT NULL,
-					data_id VARCHAR(255),
-					user_id BIGINT(20) UNSIGNED NOT NULL,
-					PRIMARY KEY (id)
-				) $charset_collate;"
-			);
-		}
-
-		/*
-		 * Backward compatibility:
-		 * If the data-type for the `data_id` column is an integer, change it to VARCHAR(255).
+		/**
+		 * Create a table for activities.
+		 *
+		 * Columns:
+		 * - date: The date of the activity.
+		 * - category: The category of the activity.
+		 * - type: The type of the activity.
+		 * - data_id: The ID of the data of the activity.
 		 */
-		if (
-			$table_exists
-			&& \str_contains( \strtolower( $wpdb->get_row( "DESCRIBE $table_name data_id" )->Type ), 'int' )
-		) {
-			// Change the data-type to VARCHAR(255), making sure that existing data is also updated.
-			$wpdb->query( "ALTER TABLE $table_name MODIFY data_id VARCHAR(255)" );
-		}
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL
+		$wpdb->query(
+			"CREATE TABLE IF NOT EXISTS $table_name (
+				id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+				date DATE NOT NULL,
+				category VARCHAR(255) NOT NULL,
+				type VARCHAR(255) NOT NULL,
+				data_id VARCHAR(255),
+				user_id BIGINT(20) UNSIGNED NOT NULL,
+				PRIMARY KEY (id)
+			) $charset_collate;"
+		);
 	}
 
 	/**
@@ -464,6 +448,58 @@ class Query {
 			return '\Progress_Planner\Activities\\' . ucfirst( $category );
 		}
 		return '\Progress_Planner\Activity';
+	}
+
+	/**
+	 * Maybe upgrade the database.
+	 *
+	 * @return void
+	 */
+	private function maybe_upgrade() {
+		$db_version         = \get_option( 'progress_planner_db_version', 0 );
+		$available_upgrades = [];
+		// Get an array of methods that are prefixed with "upgrade_".
+		$methods = \get_class_methods( $this );
+		foreach ( $methods as $method ) {
+			if ( \str_starts_with( $method, 'upgrade_' ) ) {
+				$available_upgrades[] = $method;
+			}
+		}
+
+		$upgraded = false;
+
+		// Sort the upgrades.
+		\sort( $available_upgrades );
+
+		// Run the upgrades.
+		foreach ( $available_upgrades as $upgrade ) {
+			$version = (int) \str_replace( 'upgrade_', '', $upgrade );
+			if ( $version > $db_version ) {
+				$this->$upgrade();
+				$upgraded = $version;
+			}
+		}
+
+		if ( $upgraded ) {
+			\update_option( 'progress_planner_db_version', $upgraded );
+		}
+	}
+
+	/**
+	 * Upgrade database:
+	 * - Convert the `data_id` column to a string.
+	 *
+	 * @return void
+	 */
+	private function upgrade_20241011() {
+		global $wpdb;
+
+		$table_name = $wpdb->prefix . static::TABLE_NAME;
+
+		if ( \str_contains( \strtolower( $wpdb->get_row( "DESCRIBE $table_name data_id" )->Type ), 'int' ) ) {
+			// Change the data-type to VARCHAR(255), making sure that existing data is also updated.
+			$wpdb->query( "ALTER TABLE $table_name MODIFY data_id VARCHAR(255)" );
+		}
 	}
 }
 // phpcs:enable
