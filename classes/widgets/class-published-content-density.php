@@ -96,8 +96,9 @@ final class Published_Content_Density extends Widget {
 		return array_filter(
 			$activities,
 			function ( $activity ) {
-				return \is_object( $activity->get_post() )
-					&& \in_array( $activity->get_post()->post_type, Content_Helpers::get_post_types_names(), true );
+				$post = $activity->get_post();
+				return is_object( $post )
+					&& \in_array( $post->post_type, Content_Helpers::get_post_types_names(), true );
 			}
 		);
 	}
