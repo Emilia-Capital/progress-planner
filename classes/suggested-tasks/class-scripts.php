@@ -23,13 +23,6 @@ class Scripts {
 	private $api;
 
 	/**
-	 * The name of the settings option.
-	 *
-	 * @var string
-	 */
-	const OPTION_NAME = 'progress_planner_suggested_tasks';
-
-	/**
 	 * Constructor.
 	 *
 	 * @return void

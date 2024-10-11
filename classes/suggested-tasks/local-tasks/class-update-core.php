@@ -45,14 +45,13 @@ class Update_Core extends Local_Tasks {
 
 		return [
 			[
-				'task_id'         => 'update-core',
-				'title'           => \esc_html__( 'Perform all updates', 'progress-planner' ),
-				'parent'          => 0,
-				'priority'        => 'high',
-				'type'            => 'maintenance',
-				'premium'         => 'no',
-				'description'     => '<p>' . \esc_html__( 'Perform all updates to ensure your website is secure and up-to-date.', 'progress-planner' ) . '</p>',
-				'completion_type' => 'auto',
+				'task_id'     => 'update-core',
+				'title'       => \esc_html__( 'Perform all updates', 'progress-planner' ),
+				'parent'      => 0,
+				'priority'    => 'high',
+				'type'        => 'maintenance',
+				'premium'     => 'no',
+				'description' => '<p>' . \esc_html__( 'Perform all updates to ensure your website is secure and up-to-date.', 'progress-planner' ) . '</p>',
 			],
 		];
 	}

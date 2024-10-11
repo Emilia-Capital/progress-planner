@@ -8,7 +8,6 @@
 namespace Progress_Planner;
 
 use Progress_Planner\Suggested_Tasks\Scripts;
-use Progress_Planner\Suggested_Tasks\Evaluation;
 use Progress_Planner\Suggested_Tasks\Local_Tasks\Update_Posts as Local_Tasks_Update_Posts;
 use Progress_Planner\Suggested_Tasks\Local_Tasks\Update_Core as Local_Tasks_Update_Core;
 use Progress_Planner\Activities\Suggested_Task as Suggested_Task_Activity;
@@ -32,7 +31,6 @@ class Suggested_Tasks {
 	 */
 	public function __construct() {
 		new Scripts();
-		new Evaluation();
 		new Local_Tasks_Update_Posts();
 		new Local_Tasks_Update_Core();
 		$this->maybe_unsnooze_tasks();
