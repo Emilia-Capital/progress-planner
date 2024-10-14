@@ -162,8 +162,16 @@ class Update_Posts extends Local_Tasks {
 			'priority'    => 'medium',
 			'type'        => 'writing',
 			'description' => $is_last_post_long
-				? esc_html__( 'Create a new short post.', 'progress-planner' )
-				: esc_html__( 'Create a new long post.', 'progress-planner' ),
+				? sprintf(
+					/* translators: %d: The threshold (number, words count) for a long post. */
+					esc_html__( 'Create a new short post (no longer than %d words).', 'progress-planner' ),
+					self::LONG_POST_THRESHOLD
+				)
+				: sprintf(
+					/* translators: %d: The threshold (number, words count) for a long post. */
+					esc_html__( 'Create a new long post (longer than %d words).', 'progress-planner' ),
+					self::LONG_POST_THRESHOLD
+				),
 		];
 		self::add_pending_task( $task_id );
 
