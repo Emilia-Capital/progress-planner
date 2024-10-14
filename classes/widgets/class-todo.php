@@ -25,12 +25,19 @@ final class ToDo extends Widget {
 	 * @return void
 	 */
 	protected function the_content() {
-		?>
-		<h2 class="prpl-widget-title">
-			<?php \esc_html_e( 'To-do list', 'progress-planner' ); ?>
-		</h2>
-		<?php
-		self::print_content();
+		/**
+		 * Filters the template to use for the widget.
+		 *
+		 * @param string $template The template to use.
+		 * @param string $id       The widget ID.
+		 *
+		 * @return string The template to use.
+		 */
+		include \apply_filters(
+			'progress_planner_widgets_template',
+			PROGRESS_PLANNER_DIR . '/views/widgets/todo.php',
+			$this->id
+		);
 	}
 
 	/**

@@ -25,18 +25,19 @@ final class Website_Activity_Score extends Widget {
 	 * Render the widget content.
 	 */
 	public function the_content() {
-		?>
-		<h2 class="prpl-widget-title">
-			<?php \esc_html_e( 'Your website activity score', 'progress-planner' ); ?>
-		</h2>
-		<div class="two-col">
-			<?php self::print_score_gauge(); ?>
-			<div>
-				<?php \esc_html_e( 'Your activity this week:', 'progress-planner' ); ?>
-				<?php $this->print_weekly_activities_checklist(); ?>
-			</div>
-		</div>
-		<?php
+		/**
+		 * Filters the template to use for the widget.
+		 *
+		 * @param string $template The template to use.
+		 * @param string $id       The widget ID.
+		 *
+		 * @return string The template to use.
+		 */
+		include \apply_filters(
+			'progress_planner_widgets_template',
+			PROGRESS_PLANNER_DIR . '/views/widgets/website-activity-score.php',
+			$this->id
+		);
 	}
 
 	/**

@@ -8,7 +8,6 @@
 namespace Progress_Planner\Widgets;
 
 use Progress_Planner\Widgets\Widget;
-use Progress_Planner\Chart;
 use Progress_Planner\Activities\Content_Helpers;
 
 /**
@@ -29,60 +28,19 @@ final class Published_Content extends Widget {
 	 * @return void
 	 */
 	protected function the_content() {
-		$post_types = Content_Helpers::get_post_types_names();
-		$stats      = $this->get_stats();
-		$sum_weekly = array_sum( $stats['weekly'] );
-		?>
-		<div class="two-col">
-			<div class="prpl-top-counter-bottom-content">
-				<?php $this->render_big_counter( (int) array_sum( $stats['weekly'] ), __( 'content published', 'progress-planner' ) ); ?>
-				<div class="prpl-widget-content">
-					<p>
-						<?php if ( 0 === $sum_weekly ) : ?>
-							<?php \esc_html_e( 'You didn\'t publish new content last week. You can do better!', 'progress-planner' ); ?>
-						<?php else : ?>
-							<?php
-							printf(
-								\esc_html(
-									/* translators: %1$s: number of posts/pages published this week + "pieces". %2$s: Total number of posts. */
-									\_n(
-										'Nice! You published %1$s piece of new content last week. You now have %2$s in total. Keep up the good work!',
-										'Nice! You published %1$s pieces of new content last week. You now have %2$s in total. Keep up the good work!',
-										$sum_weekly,
-										'progress-planner'
-									)
-								),
-								\esc_html( \number_format_i18n( $sum_weekly ) ),
-								\esc_html( \number_format_i18n( array_sum( $stats['all'] ) ) )
-							);
-							?>
-						<?php endif; ?>
-					</p>
-				</div>
-				<div class="prpl-graph-wrapper">
-					<?php ( new Chart() )->the_chart( $this->get_chart_args() ); ?>
-				</div>
-			</div>
-			<table>
-				<thead>
-					<tr>
-						<th><?php \esc_html_e( 'Content type', 'progress-planner' ); ?></th>
-						<th><?php \esc_html_e( 'Last week', 'progress-planner' ); ?></th>
-						<th><?php \esc_html_e( 'Total', 'progress-planner' ); ?></th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php foreach ( $post_types as $post_type ) : ?>
-						<tr>
-							<td><?php echo \esc_html( \get_post_type_object( $post_type )->labels->name ); ?></td>
-							<td><?php echo \esc_html( \number_format_i18n( $stats['weekly'][ $post_type ] ) ); ?></td>
-							<td><?php echo \esc_html( \number_format_i18n( $stats['all'][ $post_type ] ) ); ?></td>
-						</tr>
-					<?php endforeach; ?>
-				</tbody>
-			</table>
-		</div>
-		<?php
+		/**
+		 * Filters the template to use for the widget.
+		 *
+		 * @param string $template The template to use.
+		 * @param string $id       The widget ID.
+		 *
+		 * @return string The template to use.
+		 */
+		include \apply_filters(
+			'progress_planner_widgets_template',
+			PROGRESS_PLANNER_DIR . '/views/widgets/published-content.php',
+			$this->id
+		);
 	}
 
 	/**

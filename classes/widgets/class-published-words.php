@@ -8,7 +8,6 @@
 namespace Progress_Planner\Widgets;
 
 use Progress_Planner\Activities\Content_Helpers;
-use Progress_Planner\Chart;
 
 /**
  * Published Content Widget.
@@ -28,36 +27,19 @@ final class Published_Words extends Widget {
 	 * @return void
 	 */
 	protected function the_content() {
-		?>
-		<div class="prpl-top-counter-bottom-content">
-			<?php $this->render_big_counter( (int) $this->get_weekly_words(), __( 'words', 'progress-planner' ) ); ?>
-			<div class="prpl-widget-content">
-				<p>
-					<?php if ( 0 === $this->get_weekly_words() ) : ?>
-						<?php \esc_html_e( 'You didn\'t write last week. Let\'s get started!', 'progress-planner' ); ?>
-					<?php else : ?>
-						<?php
-						printf(
-							\esc_html(
-								/* translators: %1$s: number of posts published this week. %2$s: Total number of posts. */
-								\_n(
-									'Great job! You have written %1$s word in the past 7 days.',
-									'Great job! You have written %1$s words in the past 7 days.',
-									$this->get_weekly_words(),
-									'progress-planner'
-								)
-							),
-							\esc_html( \number_format_i18n( $this->get_weekly_words() ) ),
-						);
-						?>
-					<?php endif; ?>
-				</p>
-			</div>
-		</div>
-		<div class="prpl-graph-wrapper">
-			<?php ( new Chart() )->the_chart( $this->get_chart_args() ); ?>
-		</div>
-		<?php
+		/**
+		 * Filters the template to use for the widget.
+		 *
+		 * @param string $template The template to use.
+		 * @param string $id       The widget ID.
+		 *
+		 * @return string The template to use.
+		 */
+		include \apply_filters(
+			'progress_planner_widgets_template',
+			PROGRESS_PLANNER_DIR . '/views/widgets/published-words.php',
+			$this->id
+		);
 	}
 
 	/**

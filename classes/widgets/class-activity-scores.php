@@ -9,7 +9,6 @@ namespace Progress_Planner\Widgets;
 
 use Progress_Planner\Base;
 use Progress_Planner\Widgets\Widget;
-use Progress_Planner\Chart;
 
 /**
  * Activity Scores Widget.
@@ -27,16 +26,19 @@ final class Activity_Scores extends Widget {
 	 * Render the widget content.
 	 */
 	public function the_content() {
-		// @todo "past months" should be "past month" if the website is not older than a month yet.
-		?>
-		<h2 class="prpl-widget-title">
-			<?php \esc_html_e( 'Longterm activity scores', 'progress-planner' ); ?>
-		</h2>
-		<p><?php \esc_html_e( 'Check out your website activity in the past months:', 'progress-planner' ); ?></p>
-		<div class="prpl-graph-wrapper">
-			<?php ( new Chart() )->the_chart( $this->get_chart_args() ); ?>
-		</div>
-		<?php
+		/**
+		 * Filters the template to use for the widget.
+		 *
+		 * @param string $template The template to use.
+		 * @param string $id       The widget ID.
+		 *
+		 * @return string The template to use.
+		 */
+		include \apply_filters(
+			'progress_planner_widgets_template',
+			PROGRESS_PLANNER_DIR . '/views/widgets/activity-scores.php',
+			$this->id
+		);
 	}
 
 	/**
