@@ -53,8 +53,10 @@ class Onboard {
 			return;
 		}
 
-		\wp_safe_redirect( \admin_url( 'admin.php?page=progress-planner' ) );
-		exit;
+		if ( ! \defined( 'WP_CLI' ) || ! \WP_CLI ) {
+			\wp_safe_redirect( \admin_url( 'admin.php?page=progress-planner' ) );
+			exit;
+		}
 	}
 
 	/**
