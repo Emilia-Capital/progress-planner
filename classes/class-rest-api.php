@@ -98,9 +98,10 @@ class Rest_API {
 		);
 
 		// Get the website activity score.
+		$activity_score           = new Website_Activity_Score();
 		$data['website_activity'] = [
-			'score'     => Website_Activity_Score::get_score(),
-			'checklist' => Website_Activity_Score::get_checklist_results(),
+			'score'     => $activity_score->get_score(),
+			'checklist' => $activity_score->get_checklist_results(),
 		];
 
 		// Get the badges.

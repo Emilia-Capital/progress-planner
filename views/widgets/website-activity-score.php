@@ -10,7 +10,7 @@
 	<?php \esc_html_e( 'Your website activity score', 'progress-planner' ); ?>
 </h2>
 <div class="two-col">
-	<?php self::print_score_gauge(); ?>
+	<?php $this->print_score_gauge(); ?>
 	<div>
 		<?php \esc_html_e( 'Your activity this week:', 'progress-planner' ); ?>
 		<?php $this->print_weekly_activities_checklist(); ?>

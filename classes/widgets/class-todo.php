@@ -45,13 +45,13 @@ final class ToDo extends Widget {
 	 *
 	 * @return void
 	 */
-	public static function print_content() {
+	public function print_content() {
 		?>
 		<p>
 			<?php \esc_html_e( 'Write down all your website maintenance tasks you want to get done!', 'progress-planner' ); ?>
 		</p>
 		<?php
-		self::the_todo_list();
+		$this->the_todo_list();
 	}
 
 	/**
@@ -59,7 +59,7 @@ final class ToDo extends Widget {
 	 *
 	 * @return void
 	 */
-	public static function the_todo_list() {
+	public function the_todo_list() {
 		?>
 		<div id="todo-aria-live-region" aria-live="polite" style="position: absolute; left: -9999px;"></div>
 
