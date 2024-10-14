@@ -22,25 +22,6 @@ final class Website_Activity_Score extends Widget {
 	protected $id = 'website-activity-score';
 
 	/**
-	 * Render the widget content.
-	 */
-	public function the_content() {
-		/**
-		 * Filters the template to use for the widget.
-		 *
-		 * @param string $template The template to use.
-		 * @param string $id       The widget ID.
-		 *
-		 * @return string The template to use.
-		 */
-		include \apply_filters(
-			'progress_planner_widgets_template',
-			PROGRESS_PLANNER_DIR . '/views/widgets/website-activity-score.php',
-			$this->id
-		);
-	}
-
-	/**
 	 * Print the score gauge.
 	 *
 	 * @param string $background_color The background color.

@@ -24,27 +24,6 @@ final class Personal_Record_Content extends Widget {
 	protected $id = 'personal-record-content';
 
 	/**
-	 * Render the widget content.
-	 *
-	 * @return void
-	 */
-	protected function the_content() {
-		/**
-		 * Filters the template to use for the widget.
-		 *
-		 * @param string $template The template to use.
-		 * @param string $id       The widget ID.
-		 *
-		 * @return string The template to use.
-		 */
-		include \apply_filters(
-			'progress_planner_widgets_template',
-			PROGRESS_PLANNER_DIR . '/views/widgets/personal-record-content.php',
-			$this->id
-		);
-	}
-
-	/**
 	 * Get the personal record goal.
 	 *
 	 * @return array

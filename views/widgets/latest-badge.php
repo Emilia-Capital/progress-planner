@@ -26,6 +26,6 @@ $latest_badge    = $latest_badge_id ? Badges::get_badge( $latest_badge_id ) : fa
 		);
 		?>
 	</p>
-	<img src="<?php echo esc_url( self::ENDPOINT . $latest_badge_id ); ?>" alt="<?php echo esc_attr( $latest_badge['name'] ); ?>" />
+	<img src="<?php echo esc_url( $this->endpoint . $latest_badge_id ); ?>" alt="<?php echo esc_attr( $latest_badge['name'] ); ?>" />
 <?php endif; ?>
 <?php
