@@ -100,15 +100,13 @@ class Update_Posts extends Local_Tasks {
 			$last_post->ID
 		);
 		$is_last_post_long = $word_count > self::LONG_POST_THRESHOLD;
-		if (
-			( $is_last_post_long && \str_contains( $task_id, 'short' ) )
-			|| ( ! $is_last_post_long && \str_contains( $task_id, 'long' ) )
-		) {
-			return;
-		}
 
-		Suggested_Tasks::mark_task_as_completed( $task_id );
-		self::remove_pending_task( $task_id );
+		$completed_task_id  = 'create-post-';
+		$completed_task_id .= $is_last_post_long ? 'short' : 'long';
+		$completed_task_id .= '-' . \gmdate( 'YW' );
+
+		Suggested_Tasks::mark_task_as_completed( $completed_task_id );
+		self::remove_pending_task( $completed_task_id );
 	}
 
 	/**
