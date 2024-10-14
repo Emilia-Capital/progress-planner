@@ -58,38 +58,7 @@ final class Badges extends Popup {
 				<div id="popover-badges-content">
 					<?php $this->print_badges( 'maintenance' ); ?>
 				</div>
-				<div class="progress-badges">
-					<span class="badges-popover-progress-total">
-						<span style="width: <?php echo (int) Root_Badges::get_badge_progress( 'super-site-specialist' )['progress']; ?>%"></span>
-					</span>
-					<div class="indicators-maintenance">
-						<?php foreach ( self::BADGES['maintenance'] as $badge ) : ?>
-							<div class="indicator">
-								<?php $badge_progress = Root_Badges::get_badge_progress( $badge ); ?>
-								<span class="indicator-label">
-									<?php if ( 0 === (int) $badge_progress['remaining'] ) : ?>
-										✔️
-									<?php else : ?>
-										<?php
-										printf(
-											\esc_html(
-												/* translators: The number of weeks remaining to complete the badge. */
-												\_n(
-													'%s week to go',
-													'%s weeks to go',
-													(int) $badge_progress['remaining'],
-													'progress-planner'
-												)
-											),
-											'<span class="number">' . \esc_html( \number_format_i18n( $badge_progress['remaining'] ) ) . '</span>'
-										)
-										?>
-									<?php endif; ?>
-								</span>
-							</div>
-						<?php endforeach; ?>
-					</div>
-				</div>
+				<?php $this->print_progressbar( 'maintenance' ); ?>
 			</div>
 
 			<div class="prpl-widget-wrapper">
@@ -98,6 +67,7 @@ final class Badges extends Popup {
 				<div id="popover-badges-maintenance">
 					<?php $this->print_badges( 'content' ); ?>
 				</div>
+				<?php $this->print_progressbar( 'content' ); ?>
 			</div>
 		</div>
 		<div class="footer">
@@ -139,6 +109,60 @@ final class Badges extends Popup {
 				<p><?php echo \esc_html( Root_Badges::get_badge( $badge )['description'] ); ?></p>
 			</span>
 		<?php endforeach; ?>
+		<?php
+	}
+
+	/**
+	 * Print progressbar for badges.
+	 *
+	 * @param string $context The context of the progressbar. Can be 'content' or 'maintenance'.
+	 *
+	 * @return void
+	 */
+	public static function print_progressbar( $context ) {
+		$badges = self::BADGES[ $context ];
+		?>
+		<div class="progress-badges">
+			<span class="badges-popover-progress-total">
+				<span style="width: <?php echo (int) Root_Badges::get_badge_progress( end( $badges ) )['progress']; ?>%"></span>
+			</span>
+			<div class="indicators">
+				<?php foreach ( $badges as $badge ) : ?>
+					<div class="indicator">
+						<?php $badge_progress = Root_Badges::get_badge_progress( $badge ); ?>
+						<span class="indicator-label">
+							<?php if ( 0 === (int) $badge_progress['remaining'] ) : ?>
+								✔️
+							<?php else : ?>
+								<?php
+								printf(
+									'content' === $context
+										? \esc_html(
+											/* translators: The number of weeks remaining to complete the badge. */
+											_n(
+												'%s post to go',
+												'%s posts to go',
+												(int) $badge_progress['remaining'],
+												'progress-planner'
+											)
+										) : \esc_html(
+											/* translators: The number of weeks remaining to complete the badge. */
+											_n(
+												'%s week to go',
+												'%s weeks to go',
+												(int) $badge_progress['remaining'],
+												'progress-planner'
+											)
+										),
+									'<span class="number">' . \esc_html( \number_format_i18n( $badge_progress['remaining'] ) ) . '</span>'
+								)
+								?>
+							<?php endif; ?>
+						</span>
+					</div>
+				<?php endforeach; ?>
+			</div>
+		</div>
 		<?php
 	}
 }
