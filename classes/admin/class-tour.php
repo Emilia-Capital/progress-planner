@@ -29,8 +29,8 @@ class Tour {
 			[
 				'element' => '#prpl-start-tour-icon-button',
 				'popover' => [
-					'title'       => esc_html__( 'Tour of Progress Planner', 'progress-planner' ),
-					'description' => esc_html__( "We'll show you around the plugin. You can stop at any time, and restart the tour at any time by clicking this button.", 'progress-planner' ),
+					'title'       => \esc_html__( 'Tour of Progress Planner', 'progress-planner' ),
+					'description' => \esc_html__( "We'll show you around the plugin. You can stop at any time, and restart the tour at any time by clicking this button.", 'progress-planner' ),
 					'side'        => 'top',
 					'align'       => 'center',
 				],
@@ -38,8 +38,8 @@ class Tour {
 			[
 				'element' => '.prpl-website-activity-score',
 				'popover' => [
-					'title'       => esc_html__( 'Website activity score', 'progress-planner' ),
-					'description' => esc_html__( "This is the website activity score. It shows how active you've been on your website.", 'progress-planner' ),
+					'title'       => \esc_html__( 'Website activity score', 'progress-planner' ),
+					'description' => \esc_html__( "This is the website activity score. It shows how active you've been on your website.", 'progress-planner' ),
 					'side'        => 'top',
 					'align'       => 'center',
 				],
@@ -47,8 +47,8 @@ class Tour {
 			[
 				'element' => '.prpl-activity-scores',
 				'popover' => [
-					'title'       => esc_html__( 'Longterm activity score', 'progress-planner' ),
-					'description' => esc_html__( "Here, we show you your longterm activity score. This shows whether you've been active on your website over a longer period of time.", 'progress-planner' ),
+					'title'       => \esc_html__( 'Longterm activity score', 'progress-planner' ),
+					'description' => \esc_html__( "Here, we show you your longterm activity score. This shows whether you've been active on your website over a longer period of time.", 'progress-planner' ),
 					'side'        => 'top',
 					'align'       => 'center',
 				],
@@ -56,8 +56,8 @@ class Tour {
 			[
 				'element' => '#prpl-popover-settings-trigger',
 				'popover' => [
-					'title'       => esc_html__( 'Settings', 'progress-planner' ),
-					'description' => esc_html__( 'With this button you can open the settings. Here you can determine which post types you want to include in your activity score.', 'progress-planner' ),
+					'title'       => \esc_html__( 'Settings', 'progress-planner' ),
+					'description' => \esc_html__( 'With this button you can open the settings. Here you can determine which post types you want to include in your activity score.', 'progress-planner' ),
 					'side'        => 'top',
 					'align'       => 'center',
 				],
@@ -65,8 +65,8 @@ class Tour {
 			[
 				'element' => '#prpl-popover-settings',
 				'popover' => [
-					'title'       => esc_html__( 'Post types', 'progress-planner' ),
-					'description' => esc_html__( 'Simply select the post types you want to include in your activity score and hit save.', 'progress-planner' ),
+					'title'       => \esc_html__( 'Post types', 'progress-planner' ),
+					'description' => \esc_html__( 'Simply select the post types you want to include in your activity score and hit save.', 'progress-planner' ),
 					'side'        => 'top',
 					'align'       => 'center',
 				],
@@ -74,8 +74,8 @@ class Tour {
 			[
 				'element' => '.prpl-todo',
 				'popover' => [
-					'title'       => esc_html__( 'Your to-do list', 'progress-planner' ),
-					'description' => esc_html__( 'This is where you can see your to-do list. You can add tasks to your to-do list by clicking the "Add to do" button. You can also see these to-do items on your dashboard.', 'progress-planner' ),
+					'title'       => \esc_html__( 'Your to-do list', 'progress-planner' ),
+					'description' => \esc_html__( 'This is where you can see your to-do list. You can add tasks to your to-do list by clicking the "Add to do" button. You can also see these to-do items on your dashboard.', 'progress-planner' ),
 					'side'        => 'top',
 					'align'       => 'center',
 				],
@@ -83,8 +83,8 @@ class Tour {
 			[
 				'element' => '.prpl-badges-progress',
 				'popover' => [
-					'title'       => esc_html__( 'Your badges', 'progress-planner' ),
-					'description' => esc_html__( 'As you progress and are more active on your website, you can earn badges. These badges are displayed here!', 'progress-planner' ),
+					'title'       => \esc_html__( 'Your badges', 'progress-planner' ),
+					'description' => \esc_html__( 'As you progress and are more active on your website, you can earn badges. These badges are displayed here!', 'progress-planner' ),
 					'side'        => 'top',
 					'align'       => 'center',
 				],
@@ -92,8 +92,8 @@ class Tour {
 			[
 				'element' => '.prpl-badges-progress .prpl-info-icon',
 				'popover' => [
-					'title'       => esc_html__( 'Your badge progress', 'progress-planner' ),
-					'description' => esc_html__( 'Clicking the info icon will show you more information about your badge progress. You can also learn about streak freezes here.', 'progress-planner' ),
+					'title'       => \esc_html__( 'Your badge progress', 'progress-planner' ),
+					'description' => \esc_html__( 'Clicking the info icon will show you more information about your badge progress. You can also learn about streak freezes here.', 'progress-planner' ),
 					'side'        => 'top',
 					'align'       => 'center',
 				],
@@ -101,8 +101,8 @@ class Tour {
 			[
 				'element' => '.prpl-latest-badge',
 				'popover' => [
-					'title'       => esc_html__( 'Your latest badge', 'progress-planner' ),
-					'description' => esc_html__( 'This is your latest badge. Click it to share it with your friends!', 'progress-planner' ),
+					'title'       => \esc_html__( 'Your latest badge', 'progress-planner' ),
+					'description' => \esc_html__( 'This is your latest badge. Click it to share it with your friends!', 'progress-planner' ),
 					'side'        => 'top',
 					'align'       => 'center',
 				],

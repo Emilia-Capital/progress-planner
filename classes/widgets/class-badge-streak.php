@@ -22,6 +22,13 @@ final class Badge_Streak extends Widget {
 	protected $id = 'badge-streak';
 
 	/**
+	 * The row-span for the grid layout.
+	 *
+	 * @var int
+	 */
+	protected $rowspan = 2;
+
+	/**
 	 * Whether we should render the widget or not.
 	 *
 	 * @return bool
@@ -64,9 +71,9 @@ final class Badge_Streak extends Widget {
 				<p>
 					<?php
 					printf(
-						esc_html(
+						\esc_html(
 							/* translators: %s: The remaining number of weeks. */
-							_n(
+							\_n(
 								'%s week to go to complete this streak!',
 								'%s weeks to go to complete this streak!',
 								(int) $details['progress']['remaining'],

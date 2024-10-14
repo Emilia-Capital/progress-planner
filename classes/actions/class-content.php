@@ -192,7 +192,7 @@ class Content {
 		$activity->type     = 'delete';
 		$activity->data_id  = (string) $post_id;
 		$activity->date     = new \DateTime();
-		$activity->user_id  = get_current_user_id();
+		$activity->user_id  = \get_current_user_id();
 		$activity->save();
 	}
 

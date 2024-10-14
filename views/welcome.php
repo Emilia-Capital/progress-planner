@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <?php if ( false === \get_option( 'progress_planner_license_key', false ) ) : ?>
 	<div class="prpl-widget-wrapper prpl-welcome" popover="manual">
 		<div class="welcome-header">
-			<h1><?php esc_html_e( 'Welcome to the Progress Planner plugin!', 'progress-planner' ); ?></h1>
+			<h1><?php \esc_html_e( 'Welcome to the Progress Planner plugin!', 'progress-planner' ); ?></h1>
 			<span class="welcome-header-icon">
 				<span class="slant"></span>
 				<?php
@@ -30,7 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<?php Onboard::the_form(); ?>
 			</div>
 			<div class="right">
-				<img src="<?php echo esc_url( PROGRESS_PLANNER_URL . '/assets/images/image_onboaring_block.png' ); ?>" alt="" class="onboarding" />
+				<img src="<?php echo \esc_url( PROGRESS_PLANNER_URL . '/assets/images/image_onboaring_block.png' ); ?>" alt="" class="onboarding" />
 			</div>
 		</div>
 	</div>
@@ -40,7 +40,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <?php if ( isset( $_GET['content-scan'] ) ) : // phpcs:ignore WordPress.Security ?>
 	<div class="prpl-widget-wrapper prpl-welcome">
 		<button class="button button-primary" id="prpl-scan-button">
-			<?php esc_html_e( 'Reset content stats and re-scan content.', 'progress-planner' ); ?>
+			<?php \esc_html_e( 'Reset content stats and re-scan content.', 'progress-planner' ); ?>
 		</button>
 		<div id="progress-planner-scan-progress" style="display:none;padding:20px;">
 			<progress value="0" max="100"></progress>

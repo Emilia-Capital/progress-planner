@@ -4,9 +4,9 @@
 :root {
 	--prpl-gap: 32px;
 	--prpl-padding: 20px;
-	--prpl-column-min-width: 15rem;
+	--prpl-column-min-width: 22rem;
 	--prpl-column-max-width: 30rem;
-	--prpl-max-columns: 4;
+	--prpl-max-columns: 3;
 	--prpl-border-radius: 8px;
 	--prpl-border-radius-big: calc(var(--prpl-border-radius) * 2);
 
@@ -163,33 +163,103 @@ button.prpl-info-icon {
 \*------------------------------------*/
 .prpl-widgets-container {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(calc(var(--prpl-column-min-width) * 2), 1fr));
+	grid-template-columns: repeat(auto-fit, minmax(calc(var(--prpl-column-min-width) / 4), 1fr));
 	grid-gap: var(--prpl-gap);
-}
 
-.prpl-column-main {
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(var(--prpl-column-min-width), 1fr));
-	grid-gap: var(--prpl-gap);
-}
-
-.prpl-column {
-	display: flex;
-	flex-direction: column;
-	gap: var(--prpl-gap);
-}
-
-.prpl-column-main-primary {
-
-	.prpl-column {
-		display: flex;
-		flex-direction: column;
+	.prpl-widget-rowspan-1 {
+		grid-row: span 1;
 	}
 
-	.prpl-column-two-col {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(var(--prpl-column-min-width), 1fr));
-		grid-gap: var(--prpl-gap);
+	.prpl-widget-rowspan-2 {
+		grid-row: span 2;
+	}
+
+	.prpl-widget-rowspan-3 {
+		grid-row: span 3;
+	}
+
+	.prpl-widget-rowspan-4 {
+		grid-row: span 4;
+	}
+
+	.prpl-widget-rowspan-5 {
+		grid-row: span 5;
+	}
+
+	.prpl-widget-rowspan-6 {
+		grid-row: span 6;
+	}
+
+	.prpl-widget-rowspan-7 {
+		grid-row: span 7;
+	}
+
+	.prpl-widget-rowspan-8 {
+		grid-row: span 8;
+	}
+
+	.prpl-widget-rowspan-9 {
+		grid-row: span 9;
+	}
+
+	.prpl-widget-rowspan-10 {
+		grid-row: span 10;
+	}
+
+	.prpl-widget-rowspan-11 {
+		grid-row: span 11;
+	}
+
+	.prpl-widget-rowspan-12 {
+		grid-row: span 12;
+	}
+
+	.prpl-widget-colspan-1 {
+		grid-column: span 1;
+	}
+
+	.prpl-widget-colspan-2 {
+		grid-column: span 2;
+	}
+
+	.prpl-widget-colspan-3 {
+		grid-column: span 3;
+	}
+
+	.prpl-widget-colspan-4 {
+		grid-column: span 4;
+	}
+
+	.prpl-widget-colspan-5 {
+		grid-column: span 5;
+	}
+
+	.prpl-widget-colspan-6 {
+		grid-column: span 6;
+	}
+
+	.prpl-widget-colspan-7 {
+		grid-column: span 7;
+	}
+
+	.prpl-widget-colspan-8 {
+		grid-column: span 8;
+	}
+
+	.prpl-widget-colspan-9 {
+		grid-column: span 9;
+	}
+
+	.prpl-widget-colspan-10 {
+		grid-column: span 10;
+	}
+
+	.prpl-widget-colspan-11 {
+		grid-column: span 11;
+	}
+
+	.prpl-widget-colspan-12 {
+		grid-column: span 12;
 	}
 }
 
@@ -896,9 +966,9 @@ button.prpl-info-icon {
 		--prpl-column-min-width: 0;
 	}
 
-	.prpl-column-main,
-	.prpl-column-main-primary .prpl-column-two-col {
-		grid-template-columns: 1fr;
+	.prpl-widgets-container {
+		display: flex;
+		flex-direction: column;
 	}
 
 	.prpl-welcome .welcome-header {
@@ -1189,5 +1259,79 @@ button.prpl-info-icon {
 
 	button:hover {
 		background-color: var(--prpl-background-orange);
+	}
+}
+
+/*------------------------------------*\
+	Suggested tasks.
+\*------------------------------------*/
+.prpl-suggested-todos-list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	position: relative;
+
+	&:not(:has(+ .prpl-suggested-todos-list)) .prpl-suggested-task:last-child {
+		border-bottom: none;
+	}
+
+	.prpl-suggested-task {
+		border-bottom: 1px solid var(--prpl-color-gray-3);
+		display: flex;
+		justify-content: space-between;
+
+		h3 {
+			font-size: 1rem;
+			margin: 0;
+			font-weight: 500;
+		}
+
+		.actions {
+
+			visibility: hidden;
+			justify-content: flex-end;
+			gap: 0.5em;
+			display: flex;
+		}
+
+		&:hover {
+
+			.actions {
+				visibility: visible;
+			}
+		}
+
+		.prpl-suggested-task-description {
+			font-size: 0.825rem;
+			color: var(--prpl-color-gray-6);
+			margin: 0;
+		}
+
+		button {
+			padding: 0.1rem;
+			line-height: 0;
+			margin: 0;
+			background: none;
+			border: none;
+		}
+
+		.prpl-suggested-task-info,
+		.prpl-suggested-snooze-duration-selector {
+			position: absolute;
+			top: 0;
+			left: 0;
+			padding: 0.75rem;
+			background: var(--prpl-background-orange);
+			border-radius: var(--prpl-border-radius);
+			z-index: 1;
+			width: calc(100% - 1.5rem);
+			height: calc(100% - 1.5rem);
+
+			.close {
+				position: absolute;
+				top: 0.75rem;
+				right: 0.75rem;
+			}
+		}
 	}
 }

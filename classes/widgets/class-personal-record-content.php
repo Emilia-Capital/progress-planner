@@ -24,6 +24,13 @@ final class Personal_Record_Content extends Widget {
 	protected $id = 'personal-record-content';
 
 	/**
+	 * The row-span for the grid layout.
+	 *
+	 * @var int
+	 */
+	protected $rowspan = 2;
+
+	/**
 	 * Render the widget content.
 	 *
 	 * @return void

@@ -24,6 +24,13 @@ final class Published_Content extends Widget {
 	protected $id = 'published-content';
 
 	/**
+	 * The col-span for the grid layout.
+	 *
+	 * @var int
+	 */
+	protected $colspan = 6;
+
+	/**
 	 * Render the widget content.
 	 *
 	 * @return void

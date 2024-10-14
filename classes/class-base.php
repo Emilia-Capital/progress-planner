@@ -24,6 +24,7 @@ use Progress_Planner\Badges\Badge\Maintenance_Maniac as Badge_Maintenance_Maniac
 use Progress_Planner\Badges\Badge\Super_Site_Specialist as Badge_Super_Site_Specialist;
 use Progress_Planner\Rest_API;
 use Progress_Planner\Todo;
+use Progress_Planner\Suggested_Tasks;
 
 /**
  * Main plugin class.
@@ -129,6 +130,9 @@ class Base {
 
 		// To-do.
 		new Todo();
+
+		// Suggested tasks.
+		new Suggested_Tasks();
 
 		add_filter( 'plugin_action_links_' . plugin_basename( PROGRESS_PLANNER_FILE ), [ $this, 'add_action_links' ] );
 	}

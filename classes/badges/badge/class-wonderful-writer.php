@@ -29,7 +29,7 @@ final class Wonderful_Writer extends Badge_Content {
 	 * @return string
 	 */
 	public function get_name() {
-		return __( 'Wonderful Writer', 'progress-planner' );
+		return \__( 'Wonderful Writer', 'progress-planner' );
 	}
 
 	/**
@@ -38,7 +38,7 @@ final class Wonderful_Writer extends Badge_Content {
 	 * @return string
 	 */
 	public function get_description() {
-		return esc_html__( '20 existing posts/pages, or 10 new posts/pages', 'progress-planner' );
+		return \esc_html__( '20 existing posts/pages, or 10 new posts/pages', 'progress-planner' );
 	}
 
 	/**
