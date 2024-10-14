@@ -24,6 +24,13 @@ class Update_Posts extends Local_Tasks {
 	const ITEMS_TO_INJECT = 2;
 
 	/**
+	 * The threshold (in words) for a long post.
+	 *
+	 * @var int
+	 */
+	const LONG_POST_THRESHOLD = 300;
+
+	/**
 	 * Evaluate a task.
 	 *
 	 * @param string $task_id The task ID.
@@ -32,13 +39,76 @@ class Update_Posts extends Local_Tasks {
 	 */
 	public function evaluate_task( $task_id ) {
 		if ( \str_starts_with( 'update-post-', $task_id ) ) {
-			$post_id = (int) \str_replace( 'update-post-', '', $task_id );
-			$post    = \get_post( $post_id );
-			if ( strtotime( $post->post_modified ) > strtotime( '-6 months' ) ) {
-				Suggested_Tasks::mark_task_as_completed( $task_id . '-' . \gmdate( 'Y-m-d' ) );
-				self::remove_pending_task( $task_id );
-			}
+			$this->evaluate_update_post_task( $task_id );
 		}
+
+		if ( \str_starts_with( 'create-post-', $task_id ) ) {
+			$this->evaluate_create_post_task( $task_id );
+		}
+	}
+
+	/**
+	 * Evaluate an update-post task.
+	 *
+	 * @param string $task_id The task ID.
+	 *
+	 * @return void
+	 */
+	public function evaluate_update_post_task( $task_id ) {
+		$post_id = (int) \str_replace( 'update-post-', '', $task_id );
+		$post    = \get_post( $post_id );
+		if ( strtotime( $post->post_modified ) > strtotime( '-6 months' ) ) {
+			Suggested_Tasks::mark_task_as_completed( $task_id . '-' . \gmdate( 'Y-m-d' ) );
+			self::remove_pending_task( $task_id );
+		}
+	}
+
+	/**
+	 * Evaluate a create-post task.
+	 *
+	 * @param string $task_id The task ID.
+	 *
+	 * @return void
+	 */
+	public function evaluate_create_post_task( $task_id ) {
+		$last_posts = \get_posts(
+			[
+				'posts_per_page' => 1,
+				'post_status'    => 'publish',
+				'orderby'        => 'date',
+				'order'          => 'ASC',
+			]
+		);
+		$last_post  = $last_posts ? $last_posts[0] : null;
+		if ( ! $last_post ) {
+			return;
+		}
+
+		// Check if the post was created this week.
+		if ( \gmdate( 'YW', strtotime( $last_post->post_date ) ) !== \gmdate( 'YW' ) ) {
+			return;
+		}
+
+		// Check if the task is for this week.
+		if ( ! \str_ends_with( $task_id, \gmdate( 'YW' ) ) ) {
+			return;
+		}
+
+		// Get the word count of the last created post.
+		$word_count        = Content_Helpers::get_word_count(
+			$last_post->post_content,
+			$last_post->ID
+		);
+		$is_last_post_long = $word_count > self::LONG_POST_THRESHOLD;
+		if (
+			( $is_last_post_long && \str_contains( $task_id, 'short' ) )
+			|| ( ! $is_last_post_long && \str_contains( $task_id, 'long' ) )
+		) {
+			return;
+		}
+
+		Suggested_Tasks::mark_task_as_completed( $task_id );
+		self::remove_pending_task( $task_id );
 	}
 
 	/**
@@ -77,9 +147,8 @@ class Update_Posts extends Local_Tasks {
 			);
 		}
 
-		$long_post_threshold = 300;
-		$is_last_post_long   = $word_count > $long_post_threshold;
-		$items               = [];
+		$is_last_post_long = $word_count > self::LONG_POST_THRESHOLD;
+		$items             = [];
 
 		$task_id  = 'create-post-';
 		$task_id .= $is_last_post_long ? 'short' : 'long';
