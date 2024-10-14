@@ -79,12 +79,12 @@ final class Monthly extends Badge {
 	 */
 	public static function get_months() {
 		return [
-			'jan' => __( 'January', 'progress-planner' ),
-			'feb' => __( 'February', 'progress-planner' ),
-			'mar' => __( 'March', 'progress-planner' ),
-			'apr' => __( 'April', 'progress-planner' ),
-			'may' => __( 'May', 'progress-planner' ),
-			'jun' => __( 'June', 'progress-planner' ),
+			'jan' => __( 'Jack January', 'progress-planner' ),
+			'feb' => __( 'Felix February', 'progress-planner' ),
+			'mar' => __( 'Mary March', 'progress-planner' ),
+			'apr' => __( 'Avery April', 'progress-planner' ),
+			'may' => __( 'Matteo May', 'progress-planner' ),
+			'jun' => __( 'Jasmine June', 'progress-planner' ),
 			'jul' => __( 'July', 'progress-planner' ),
 			'aug' => __( 'August', 'progress-planner' ),
 			'sep' => __( 'September', 'progress-planner' ),
@@ -125,12 +125,104 @@ final class Monthly extends Badge {
 		// TODO: Add the badge icons.
 		return [
 			'pending'  => [
-				'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge2_gray.svg',
-				'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge2_gray.svg',
+				'jan' => [
+					'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge2_gray.svg',
+					'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge2_gray.svg',
+				],
+				'feb' => [
+					'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge2_gray.svg',
+					'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge2_gray.svg',
+				],
+				'mar' => [
+					'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge2_gray.svg',
+					'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge2_gray.svg',
+				],
+				'apr' => [
+					'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge2_gray.svg',
+					'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge2_gray.svg',
+				],
+				'may' => [
+					'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge2_gray.svg',
+					'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge2_gray.svg',
+				],
+				'jun' => [
+					'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge2_gray.svg',
+					'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge2_gray.svg',
+				],
+				'jul' => [
+					'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge2_gray.svg',
+					'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge2_gray.svg',
+				],
+				'aug' => [
+					'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge2_gray.svg',
+					'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge2_gray.svg',
+				],
+				'sep' => [
+					'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge2_gray.svg',
+					'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge2_gray.svg',
+				],
+				'oct' => [
+					'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge2_gray.svg',
+					'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge2_gray.svg',
+				],
+				'nov' => [
+					'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge2_gray.svg',
+					'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge2_gray.svg',
+				],
+				'dec' => [
+					'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge2_gray.svg',
+					'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge2_gray.svg',
+				],
 			],
 			'complete' => [
-				'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge2.svg',
-				'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge2.svg',
+				'jan' => [
+					'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge2.svg',
+					'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge2.svg',
+				],
+				'feb' => [
+					'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge2.svg',
+					'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge2.svg',
+				],
+				'mar' => [
+					'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge2.svg',
+					'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge2.svg',
+				],
+				'apr' => [
+					'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge2.svg',
+					'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge2.svg',
+				],
+				'may' => [
+					'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge2.svg',
+					'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge2.svg',
+				],
+				'jun' => [
+					'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge2.svg',
+					'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge2.svg',
+				],
+				'jul' => [
+					'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge2.svg',
+					'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge2.svg',
+				],
+				'aug' => [
+					'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge2.svg',
+					'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge2.svg',
+				],
+				'sep' => [
+					'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge2.svg',
+					'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge2.svg',
+				],
+				'oct' => [
+					'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge2.svg',
+					'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge2.svg',
+				],
+				'nov' => [
+					'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge2.svg',
+					'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge2.svg',
+				],
+				'dec' => [
+					'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge2.svg',
+					'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge2.svg',
+				],
 			],
 		];
 	}

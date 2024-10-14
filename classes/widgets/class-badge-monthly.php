@@ -30,20 +30,34 @@ final class Badge_Monthly extends Widget {
 	protected function the_content() {
 		$monthly = Monthly::get_instances();
 		?>
-		<div class="prpl-badges-columns-wrapper">
-			<table>
-				<?php foreach ( $monthly as $month => $badge ) : ?>
-					<tr class="prpl-badges-column">
-						<th><?php echo esc_html( $badge->get_name() ); ?></th>
-						<td>
-							<progress
-								max="100"
-								value="<?php echo (int) $badge->progress_callback()['progress']; ?>"
-							></progress>
-						</td>
-					</tr>
-				<?php endforeach; ?>
-			</table>
+		<h2 class="prpl-widget-title">
+			<?php \esc_html_e( 'Your monthly badges', 'progress-planner' ); ?>
+		</h2>
+		<div class="prpl-widget-content">
+			<?php \esc_html_e( 'Check out your progress! Which badge will you unlock next?', 'progress-planner' ); ?>
+		</div>
+		<div class="progress-wrapper badge-group-monthly">
+			<?php foreach ( $monthly as $month => $badge ) : ?>
+				<?php
+				$badge_progress  = $badge->progress_callback();
+				$badge_completed = 100 === (int) $badge_progress['progress'];
+				$month_key       = str_replace( 'monthly-', '', $badge->get_id() );
+				?>
+				<span
+					class="prpl-badge"
+					data-value="<?php echo \esc_attr( $badge_progress['progress'] ); ?>"
+				>
+					<?php
+					include $badge_completed
+						? $badge->get_icons_svg()['complete'][ $month_key ]['path']
+						: $badge->get_icons_svg()['pending'][ $month_key ]['path'];
+					?>
+					<p><?php echo \esc_html( $badge->get_name() ); ?></p>
+				</span>
+			<?php endforeach; ?>
+		</div>
+		<div class="prpl-widget-content">
+			<?php \esc_html_e( 'Stay tuned for more badges!', 'progress-planner' ); ?>
 		</div>
 		<?php
 	}
