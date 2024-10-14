@@ -161,8 +161,7 @@ final class Monthly extends Badge {
 		// Get the activities for the month.
 		$activities = \progress_planner()->get_query()->query_activities(
 			[
-				'category'   => 'content',
-				'type'       => 'publish',
+				'category'   => 'suggested_task',
 				'start_date' => $start_date,
 				'end_date'   => $end_date,
 			],

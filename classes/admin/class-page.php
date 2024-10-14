@@ -32,6 +32,7 @@ class Page {
 		'\Progress_Planner\Widgets\Personal_Record_Content',
 		'\Progress_Planner\Widgets\Published_Content',
 		'\Progress_Planner\Widgets\Whats_New',
+		'\Progress_Planner\Widgets\Badge_Monthly',
 	];
 
 	/**
