@@ -20,13 +20,6 @@ abstract class Widget {
 	protected $id;
 
 	/**
-	 * Constructor.
-	 */
-	public function __construct() {
-		$this->render();
-	}
-
-	/**
 	 * Get the widget range.
 	 *
 	 * @return string
@@ -57,7 +50,7 @@ abstract class Widget {
 	 *
 	 * @return void
 	 */
-	protected function render() {
+	public function render() {
 		if ( ! $this->should_render() ) {
 			return;
 		}
