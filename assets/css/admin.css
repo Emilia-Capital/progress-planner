@@ -657,7 +657,7 @@ button.prpl-info-icon {
 \*------------------------------------*/
 .prpl-widget-wrapper.prpl-welcome {
 	padding: 0;
-	overflow: hidden;
+	overflow-x: hidden;
 	max-height: 80vh;
 	width: 80vw;
 	margin: 10vh 10vw;
@@ -667,8 +667,7 @@ button.prpl-info-icon {
 		padding: calc(var(--prpl-gap) * 1.5);
 		padding-bottom: 0;
 		margin-bottom: calc(var(--prpl-gap) * 1.5);
-		overflow: hidden;
-		display: grid;
+		display: flex;
 		grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
 		gap: calc(var(--prpl-gap) * 2);
 
@@ -851,7 +850,7 @@ button.prpl-info-icon {
 
 #prpl-popover-badges-details {
 
-	.indicators-maintenance {
+	.indicators {
 		display: grid;
 		grid-template-columns: 1fr 1fr 1fr;
 		grid-gap: var(--prpl-padding);
@@ -873,6 +872,12 @@ button.prpl-info-icon {
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(var(--prpl-column-min-width), 1fr));
 		grid-gap: var(--prpl-gap);
+
+		.prpl-widget-wrapper {
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+		}
 	}
 }
 
@@ -909,6 +914,13 @@ button.prpl-info-icon {
 
 	.prpl-graph-wrapper {
 		max-width: calc(100vw - 4 * var(--prpl-padding) - 4 * var(--prpl-gap));
+	}
+}
+
+@media all and (max-width: 1024px) {
+
+	.prpl-welcome .inner-content .right {
+		display: none !important;
 	}
 }
 
