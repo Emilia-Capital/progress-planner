@@ -850,7 +850,7 @@ button.prpl-info-icon {
 
 #prpl-popover-badges-details {
 
-	.indicators-maintenance {
+	.indicators {
 		display: grid;
 		grid-template-columns: 1fr 1fr 1fr;
 		grid-gap: var(--prpl-padding);
@@ -872,6 +872,12 @@ button.prpl-info-icon {
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(var(--prpl-column-min-width), 1fr));
 		grid-gap: var(--prpl-gap);
+
+		.prpl-widget-wrapper {
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+		}
 	}
 }
 
