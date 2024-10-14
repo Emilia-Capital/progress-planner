@@ -9,6 +9,7 @@ namespace Progress_Planner\Suggested_Tasks\Local_Tasks;
 
 use Progress_Planner\Suggested_Tasks\Local_Tasks;
 use Progress_Planner\Suggested_Tasks;
+use Progress_Planner\Activities\Content_Helpers;
 
 /**
  * Handle Suggestred-tasks items.
@@ -46,6 +47,68 @@ class Update_Posts extends Local_Tasks {
 	 * @return array
 	 */
 	public function get_tasks_to_inject() {
+		return array_merge(
+			$this->get_tasks_to_update_posts(),
+			$this->get_tasks_to_create_posts()
+		);
+	}
+
+	/**
+	 * Get tasks to create posts.
+	 *
+	 * @return array
+	 */
+	public function get_tasks_to_create_posts() {
+		// Get the post that was created last.
+		$last_created_posts = \get_posts(
+			[
+				'posts_per_page' => 1,
+				'post_status'    => 'publish',
+				'orderby'        => 'date',
+				'order'          => 'ASC',
+			]
+		);
+		// Get the word count of the last created post.
+		$word_count = 0;
+		if ( $last_created_posts ) {
+			$word_count = Content_Helpers::get_word_count(
+				$last_created_posts[0]->post_content,
+				$last_created_posts[0]->ID
+			);
+		}
+
+		$long_post_threshold = 300;
+		$is_last_post_long   = $word_count > $long_post_threshold;
+		$items               = [];
+
+		$task_id  = 'create-post-';
+		$task_id .= $is_last_post_long ? 'short' : 'long';
+		// Append the date formatted as Year - Week.
+		$task_id .= '-' . \gmdate( 'YW' );
+
+		$items[] = [
+			'task_id'     => $task_id,
+			'title'       => $is_last_post_long
+				? esc_html__( 'Create a short post', 'progress-planner' )
+				: esc_html__( 'Create a long post', 'progress-planner' ),
+			'parent'      => 0,
+			'priority'    => 'medium',
+			'type'        => 'writing',
+			'description' => $is_last_post_long
+				? esc_html__( 'Create a new short post.', 'progress-planner' )
+				: esc_html__( 'Create a new long post.', 'progress-planner' ),
+		];
+		self::add_pending_task( $task_id );
+
+		return $items;
+	}
+
+	/**
+	 * Get tasks to update posts.
+	 *
+	 * @return array
+	 */
+	public function get_tasks_to_update_posts() {
 		// Get the post that was updated last.
 		$last_updated_posts = \get_posts(
 			[
