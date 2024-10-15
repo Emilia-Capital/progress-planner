@@ -95,6 +95,23 @@ class Suggested_Tasks {
 			return false;
 		}
 		unset( $pending_celebration[ \array_search( $task_id, $pending_celebration, true ) ] );
+		$option['pending_celebration'] = $pending_celebration;
+		return \update_option( self::OPTION_NAME, $option );
+	}
+
+	/**
+	 * Maybe celebrate tasks.
+	 *
+	 * @return bool
+	 */
+	public static function maybe_celebrate_tasks() {
+		$option              = \get_option( self::OPTION_NAME, [] );
+		$pending_celebration = $option['pending_celebration'] ?? [];
+
+		if ( empty( $pending_celebration ) ) {
+			return false;
+		}
+		$option['pending_celebration'] = [];
 		return \update_option( self::OPTION_NAME, $option );
 	}
 

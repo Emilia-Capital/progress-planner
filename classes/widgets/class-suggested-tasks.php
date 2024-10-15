@@ -7,6 +7,8 @@
 
 namespace Progress_Planner\Widgets;
 
+use Progress_Planner\Suggested_Tasks as Suggested_Tasks_Core;
+
 /**
  * Published Content Widget.
  */
@@ -43,6 +45,11 @@ final class Suggested_Tasks extends Widget {
 			?>
 		</ul>
 		<ul class="prpl-suggested-todos-list"></ul>
+		<?php if ( Suggested_Tasks_Core::maybe_celebrate_tasks() ) : ?>
+			<script>
+				alert( '<?php echo \esc_js( \esc_html__( 'Congratulations! You have completed all suggested tasks for this week.', 'progress-planner' ) ); ?>' );
+			</script>
+		<?php endif; ?>
 		<?php
 	}
 }
