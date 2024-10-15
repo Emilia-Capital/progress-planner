@@ -16,6 +16,7 @@ use Progress_Planner\Actions\Content as Actions_Content;
 use Progress_Planner\Actions\Content_Scan as Actions_Content_Scan;
 use Progress_Planner\Actions\Maintenance as Actions_Maintenance;
 use Progress_Planner\Settings;
+use Progress_Planner\Page_Types;
 use Progress_Planner\Badges\Badge\Wonderful_Writer as Badge_Wonderful_Writer;
 use Progress_Planner\Badges\Badge\Bold_Blogger as Badge_Bold_Blogger;
 use Progress_Planner\Badges\Badge\Awesome_Author as Badge_Awesome_Author;
@@ -107,6 +108,7 @@ class Base {
 			new Tour();
 			new Dashboard_Widget_Score();
 			new Dashboard_Widget_Todo();
+			new Page_Types();
 		}
 		new Actions_Content();
 		new Actions_Maintenance();
