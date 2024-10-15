@@ -59,6 +59,42 @@ class Suggested_Tasks {
 		$completed[]         = (string) $task_id;
 		$option['completed'] = $completed;
 
+		self::mark_task_as_pending_celebration( $task_id );
+
+		return \update_option( self::OPTION_NAME, $option );
+	}
+
+	/**
+	 * Mark a task as pending celebration.
+	 *
+	 * @param string $task_id The task ID.
+	 *
+	 * @return bool
+	 */
+	public static function mark_task_as_pending_celebration( $task_id ) {
+		$option              = \get_option( self::OPTION_NAME, [] );
+		$pending_celebration = $option['pending_celebration'] ?? [];
+		if ( \in_array( $task_id, $pending_celebration, true ) ) {
+			return false;
+		}
+		$pending_celebration[] = (string) $task_id;
+		return \update_option( self::OPTION_NAME, $option );
+	}
+
+	/**
+	 * Mark a task as celebrated.
+	 *
+	 * @param string $task_id The task ID.
+	 *
+	 * @return bool
+	 */
+	public static function mark_task_as_celebrated( $task_id ) {
+		$option              = \get_option( self::OPTION_NAME, [] );
+		$pending_celebration = $option['pending_celebration'] ?? [];
+		if ( ! \in_array( $task_id, $pending_celebration, true ) ) {
+			return false;
+		}
+		unset( $pending_celebration[ \array_search( $task_id, $pending_celebration, true ) ] );
 		return \update_option( self::OPTION_NAME, $option );
 	}
 
