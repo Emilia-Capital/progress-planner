@@ -230,6 +230,7 @@ class Page_Types {
 	 */
 	public static function set_page_type_by_id( $post_id, $page_type_id ) {
 		\wp_set_object_terms( (int) $post_id, $page_type_id, self::TAXONOMY_NAME );
+		self::assign_child_pages( $post_id, $page_type_id );
 
 		// Get the term.
 		$term = \get_term( $page_type_id, self::TAXONOMY_NAME );
@@ -314,6 +315,7 @@ class Page_Types {
 		if ( ! $same_page ) {
 			// Add the term to the new homepage.
 			\wp_set_object_terms( $page_id, $term->term_id, self::TAXONOMY_NAME );
+			self::assign_child_pages( $page_id, $term->term_id );
 		}
 	}
 
@@ -354,5 +356,25 @@ class Page_Types {
 	 */
 	public function transition_post_status( $new_status, $old_status, $post ) {
 		$this->post_updated( $post->ID, $post );
+	}
+
+	/**
+	 * Assign child pages to the same page-type as the parent.
+	 *
+	 * @param int $post_id The parent post ID.
+	 * @param int $term_id The term ID.
+	 *
+	 * @return void
+	 */
+	public static function assign_child_pages( $post_id, $term_id ) {
+		$children = \get_children( [ 'post_parent' => $post_id ] );
+
+		if ( ! $children ) {
+			return;
+		}
+
+		foreach ( $children as $child ) {
+			\wp_set_object_terms( $child->ID, $term_id, self::TAXONOMY_NAME );
+		}
 	}
 }
