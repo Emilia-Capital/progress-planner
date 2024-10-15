@@ -27,7 +27,7 @@ class Update_Core extends Local_Tasks {
 			return;
 		}
 		if ( 0 === \wp_get_update_data()['counts']['total'] ) {
-			Suggested_Tasks::mark_task_as_completed( $task_id . '-' . \gmdate( 'Y-m-d' ) );
+			Suggested_Tasks::mark_task_as_completed( $task_id . '-' . \gmdate( 'YW' ) );
 			self::remove_pending_task( $task_id );
 		}
 	}
