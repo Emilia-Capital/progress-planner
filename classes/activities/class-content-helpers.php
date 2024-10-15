@@ -60,9 +60,18 @@ class Content_Helpers {
 				true
 			);
 
-			$count = ( 'words' === $word_count_type )
-				? \str_word_count( $content )
-				: \strlen( $content );
+			switch ( $word_count_type ) {
+				case 'characters_excluding_spaces':
+					$content = \preg_replace( '/\s+/', '', $content );
+					// Fall through.
+
+				case 'characters_including_spaces':
+					$count = \strlen( $content );
+					break;
+
+				default:
+					$count = \str_word_count( $content );
+			}
 		}
 
 		if ( $post_id && \is_int( $post_id ) ) {
