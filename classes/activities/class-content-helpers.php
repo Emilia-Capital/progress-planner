@@ -61,13 +61,30 @@ class Content_Helpers {
 			return 0;
 		}
 
-		// Parse blocks and shortcodes.
-		$content = \do_blocks( \do_shortcode( $content ) );
+		$word_count_type = function_exists( 'wp_get_word_count_type' ) ? wp_get_word_count_type() : 'words';
+		if ( function_exists( 'wp_word_count' ) ) {
+			$count = wp_word_count( $content, $word_count_type );
+		} else {
+			$content = \wp_strip_all_tags( // Strip HTML.
+				\do_blocks( // Parse blocks.
+					\do_shortcode( $content ) // Parse shortcodes.
+				),
+				true
+			);
 
-		// Strip HTML.
-		$content = \wp_strip_all_tags( $content, true );
+			switch ( $word_count_type ) {
+				case 'characters_excluding_spaces':
+					$content = \preg_replace( '/\s+/', '', $content );
+					// Fall through.
 
-		$count = \str_word_count( $content );
+				case 'characters_including_spaces':
+					$count = \strlen( $content );
+					break;
+
+				default:
+					$count = \str_word_count( $content );
+			}
+		}
 
 		if ( $post_id && \is_int( $post_id ) ) {
 			Settings::set( [ 'word_count', $post_id ], $count );
