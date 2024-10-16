@@ -9,7 +9,7 @@ document
 		// Save the options.
 		const request = wp.ajax.post( 'progress_planner_save_cpt_settings', {
 			_ajax_nonce: progressPlanner.nonce,
-			include_post_types: data,
+			include_post_types: data.join( ',' ),
 		} );
 		request.done( () => {
 			window.location.reload();
