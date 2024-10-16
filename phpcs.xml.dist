@@ -108,6 +108,7 @@
 			<property name="prefixes" type="array">
 				<element value="Progress_Planner"/>
 				<element value="progress_planner"/>
+				<element value="prpl"/>
 			</property>
 		</properties>
 	</rule>
