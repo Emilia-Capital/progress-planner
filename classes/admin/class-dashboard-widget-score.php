@@ -109,7 +109,7 @@ class Dashboard_Widget_Score extends Dashboard_Widget {
 		</div>
 
 		<div class="prpl-dashboard-widget-footer">
-			<img src="<?php echo esc_attr( PROGRESS_PLANNER_URL . '/assets/images/icon_progress_planner.svg' ); ?>" style="width:1.5em;" alt="" />
+			<img src="<?php echo \esc_attr( PROGRESS_PLANNER_URL . '/assets/images/icon_progress_planner.svg' ); ?>" style="width:1.5em;" alt="" />
 			<a href="<?php echo \esc_url( \get_admin_url( null, 'admin.php?page=progress-planner' ) ); ?>">
 				<?php \esc_html_e( 'Check out all your stats and badges', 'progress-planner' ); ?>
 			</a>

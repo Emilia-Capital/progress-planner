@@ -28,7 +28,7 @@ final class Bold_Blogger extends Badge_Content {
 	 * @return string
 	 */
 	public function get_name() {
-		return __( 'Bold Blogger', 'progress-planner' );
+		return \__( 'Bold Blogger', 'progress-planner' );
 	}
 
 	/**
@@ -38,7 +38,7 @@ final class Bold_Blogger extends Badge_Content {
 	 */
 	public function get_description() {
 		/* translators: %d: The number of new posts to write. */
-		return sprintf( esc_html__( 'Write %d new posts or pages', 'progress-planner' ), 30 );
+		return sprintf( \esc_html__( 'Write %d new posts or pages', 'progress-planner' ), 30 );
 	}
 
 	/**

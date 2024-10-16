@@ -20,6 +20,20 @@ abstract class Widget {
 	protected $id;
 
 	/**
+	 * The col-span for the 12-column grid layout.
+	 *
+	 * @var int
+	 */
+	protected $colspan = 4;
+
+	/**
+	 * The row-span for the grid layout.
+	 *
+	 * @var int
+	 */
+	protected $rowspan = 6;
+
+	/**
 	 * Constructor.
 	 */
 	public function __construct() {
@@ -61,7 +75,13 @@ abstract class Widget {
 		if ( ! $this->should_render() ) {
 			return;
 		}
-		echo '<div class="prpl-widget-wrapper prpl-' . \esc_attr( $this->id ) . '">';
+		$classes = [
+			'prpl-widget-wrapper',
+			'prpl-' . \esc_attr( $this->id ),
+			'prpl-widget-colspan-' . \esc_attr( (string) $this->colspan ),
+			'prpl-widget-rowspan-' . \esc_attr( (string) $this->rowspan ),
+		];
+		echo '<div class="' . esc_attr( \implode( ' ', $classes ) ) . '">';
 		$this->the_content();
 		echo '</div>';
 	}
@@ -90,7 +110,7 @@ abstract class Widget {
 				<?php echo \esc_html( \number_format_i18n( $number ) ); ?>
 			</span>
 			<span class="counter-big-text">
-				<?php echo esc_html( $text ); ?>
+				<?php echo \esc_html( $text ); ?>
 			</span>
 		</div>
 		<?php

@@ -29,13 +29,7 @@ final class Website_Activity_Score extends Widget {
 		<h2 class="prpl-widget-title">
 			<?php \esc_html_e( 'Your website activity score', 'progress-planner' ); ?>
 		</h2>
-		<div class="two-col">
-			<?php self::print_score_gauge(); ?>
-			<div>
-				<?php \esc_html_e( 'Your activity this week:', 'progress-planner' ); ?>
-				<?php $this->print_weekly_activities_checklist(); ?>
-			</div>
-		</div>
+		<?php self::print_score_gauge(); ?>
 		<?php
 	}
 
@@ -98,7 +92,7 @@ final class Website_Activity_Score extends Widget {
 						? '<span class="prpl-icon prpl-green"><svg role="img" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><path fill="#16a34a" d="M32 63.9C14.41 63.9.1 49.59.1 32S14.41.1 32 .1 63.9 14.41 63.9 32 49.59 63.9 32 63.9Zm0-57.82C17.71 6.08 6.08 17.71 6.08 32S17.71 57.92 32 57.92 57.92 46.29 57.92 32 46.29 6.08 32 6.08Zm-2.41 38.55c-.79 0-1.55-.31-2.11-.88l-7.23-7.23c-1.17-1.17-1.17-3.06 0-4.23 1.17-1.17 3.06-1.17 4.23 0l4.73 4.73 9.99-13.99c.96-1.34 2.83-1.66 4.17-.7 1.34.96 1.66 2.83.7 4.17L32.02 43.36c-.51.72-1.31 1.17-2.19 1.24-.08 0-.17.01-.25.01Z"/></svg></span>'
 						: '<span class="prpl-icon prpl-red"><svg role="img" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><path fill="#e73136" d="M32 63.9C14.41 63.9.1 49.59.1 32S14.41.1 32 .1 63.9 14.41 63.9 32 49.59 63.9 32 63.9Zm0-57.82C17.71 6.08 6.08 17.71 6.08 32S17.71 57.92 32 57.92 57.92 46.29 57.92 32 46.29 6.08 32 6.08Zm14.45 28.91H32c-1.65 0-2.99-1.34-2.99-2.99V12.73c0-1.65 1.34-2.99 2.99-2.99s2.99 1.34 2.99 2.99v16.28h11.46c1.65 0 2.99 1.34 2.99 2.99s-1.34 2.99-2.99 2.99Z"/></svg></span>';
 					?>
-					<?php echo wp_kses_post( $label ); ?>
+					<?php echo \wp_kses_post( $label ); ?>
 				</li>
 			<?php endforeach; ?>
 		</ul>

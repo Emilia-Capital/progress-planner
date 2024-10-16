@@ -12,23 +12,14 @@ use Progress_Planner\Activity;
 /**
  * Handler for posts activities.
  */
-class Todo extends Activity {
+class Suggested_Task extends Activity {
 
 	/**
 	 * Category of the activity.
 	 *
 	 * @var string
 	 */
-	public $category = 'todo';
-
-	/**
-	 * The data ID.
-	 *
-	 * Depending on the activity this is the post-ID, term-ID, comment-ID etc.
-	 *
-	 * @var string
-	 */
-	public $data_id = '0';
+	public $category = 'suggested_task';
 
 	/**
 	 * Save the activity.

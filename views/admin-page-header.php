@@ -15,7 +15,7 @@ $progress_planner_active_range = isset( $_GET['range'] ) ? \sanitize_text_field(
 // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 $progress_planner_active_frequency = isset( $_GET['frequency'] ) ? \sanitize_text_field( \wp_unslash( $_GET['frequency'] ) ) : 'monthly';
 
-do_action( 'progress_planner_admin_page_header_before' );
+\do_action( 'progress_planner_admin_page_header_before' );
 ?>
 <div class="prpl-header">
 	<div class="prpl-header-logo">

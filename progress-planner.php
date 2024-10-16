@@ -44,7 +44,7 @@ spl_autoload_register(
 		$last  = \array_pop( $parts );
 
 		foreach ( $parts as $part ) {
-			$file .= strtolower( $part ) . '/';
+			$file .= str_replace( '_', '-', strtolower( $part ) ) . '/';
 		}
 		$file .= 'class-' . \str_replace( '_', '-', \strtolower( $last ) ) . '.php';
 

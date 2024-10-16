@@ -31,7 +31,7 @@ class Rest_API {
 	 * Constructor.
 	 */
 	public function __construct() {
-		add_action( 'rest_api_init', [ $this, 'register_rest_endpoint' ] );
+		\add_action( 'rest_api_init', [ $this, 'register_rest_endpoint' ] );
 	}
 
 	/**
@@ -40,7 +40,7 @@ class Rest_API {
 	 * @return void
 	 */
 	public function register_rest_endpoint() {
-		register_rest_route(
+		\register_rest_route(
 			'progress-planner/v1',
 			'/get-stats/(?P<token>\S+)',
 			[
@@ -175,7 +175,7 @@ class Rest_API {
 
 		$data['plugin_url'] = \esc_url( \get_admin_url( null, 'admin.php?page=progress-planner' ) );
 
-		$data = apply_filters( 'progress_planner_rest_api_get_stats', $data );
+		$data = \apply_filters( 'progress_planner_rest_api_get_stats', $data );
 
 		return new \WP_REST_Response( $data );
 	}

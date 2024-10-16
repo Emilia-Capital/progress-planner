@@ -28,7 +28,7 @@ final class Maintenance_Maniac extends Badge_Maintenance {
 	 * @return string
 	 */
 	public function get_name() {
-		return __( 'Maintenance Maniac', 'progress-planner' );
+		return \__( 'Maintenance Maniac', 'progress-planner' );
 	}
 
 	/**
@@ -38,7 +38,7 @@ final class Maintenance_Maniac extends Badge_Maintenance {
 	 */
 	public function get_description() {
 		/* translators: %d: The number of weeks. */
-		return sprintf( esc_html__( '%d weeks streak', 'progress-planner' ), 26 );
+		return sprintf( \esc_html__( '%d weeks streak', 'progress-planner' ), 26 );
 	}
 
 	/**

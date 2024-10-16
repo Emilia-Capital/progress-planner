@@ -28,7 +28,7 @@ final class Awesome_Author extends Badge_Content {
 	 * @return string
 	 */
 	public function get_name() {
-		return __( 'Awesome Author', 'progress-planner' );
+		return \__( 'Awesome Author', 'progress-planner' );
 	}
 
 	/**
@@ -56,7 +56,7 @@ final class Awesome_Author extends Badge_Content {
 	 */
 	public function get_description() {
 		/* translators: %d: The number of new posts to write. */
-		return sprintf( esc_html__( 'Write %d new posts or pages', 'progress-planner' ), 50 );
+		return sprintf( \esc_html__( 'Write %d new posts or pages', 'progress-planner' ), 50 );
 	}
 
 	/**
