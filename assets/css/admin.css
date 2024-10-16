@@ -1156,6 +1156,7 @@ button.prpl-info-icon {
 /*------------------------------------*\
 	Settings popup.
 \*------------------------------------*/
+#prpl-settings-license-form,
 #prpl-settings-form {
 
 	label {
@@ -1189,5 +1190,15 @@ button.prpl-info-icon {
 
 	button:hover {
 		background-color: var(--prpl-background-orange);
+	}
+}
+
+#prpl-settings-license-form {
+
+	label {
+		display: grid;
+		grid-template-columns: 1fr 3fr;
+		margin-bottom: 0.5em;
+		gap: var(--prpl-padding);
 	}
 }

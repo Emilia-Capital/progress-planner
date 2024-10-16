@@ -230,7 +230,9 @@ class Page {
 			$localize_data,
 			[
 				'l10n' => [
-					'saving' => \esc_html__( 'Saving...', 'progress-planner' ),
+					'saving'      => \esc_html__( 'Saving...', 'progress-planner' ),
+					'subscribing' => \esc_html__( 'Subscribing...', 'progress-planner' ),
+					'subscribed'  => \esc_html__( 'Subscribed...', 'progress-planner' ),
 				],
 			]
 		);

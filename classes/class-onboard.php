@@ -30,15 +30,16 @@ class Onboard {
 	 * Constructor.
 	 */
 	public function __construct() {
+
+		// Handle saving data from the onboarding form response.
+		\add_action( 'wp_ajax_progress_planner_save_onboard_data', [ $this, 'save_onboard_response' ] );
+
 		if ( \get_option( 'progress_planner_license_key' ) ) {
 			return;
 		}
 
 		// Redirect on plugin activation.
 		\add_action( 'activated_plugin', [ $this, 'on_activate_plugin' ], 10 );
-
-		// Handle saving data from the onboarding form response.
-		\add_action( 'wp_ajax_progress_planner_save_onboard_data', [ $this, 'save_onboard_response' ] );
 	}
 
 	/**
@@ -177,6 +178,7 @@ class Onboard {
 
 		$license_key = \sanitize_text_field( wp_unslash( $_POST['key'] ) );
 
+		// False also if option value has not changed.
 		if ( \update_option( 'progress_planner_license_key', $license_key, false ) ) {
 			\wp_send_json_success(
 				[
