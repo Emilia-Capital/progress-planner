@@ -7,8 +7,8 @@
 
 namespace Progress_Planner\Admin;
 
-use Progress_Planner\Settings;
-use Progress_Planner\API\Site_Types;
+use Progress_Planner\Lessons;
+use Progress_Planner\Page_Types;
 
 /**
  * Admin class.
@@ -57,66 +57,48 @@ class Page_Settings {
 	 * @return array
 	 */
 	public function get_tabs_settings() {
-		$settings = new Settings();
 
-		// WIP.
-		$site_types = [];
+		$page_types = \Progress_Planner\Page_Types::get_page_types();
 
-		$tabs = [
-			'intake' => [
-				'title'    => esc_html__( 'Intake form', 'progress-planner' ),
-				'desc'     => esc_html__( 'Let\'s get to know you and your site.', 'progress-planner' ),
-				'intro'    => '<p>' . esc_html__( 'Tell us a bit about you & your site!', 'progress-planner' ) . '</p><p>' . esc_html__( 'This will allow us to give you good advice.', 'progress-planner' ) . '</p>',
+		foreach ( $page_types as $page_type ) {
+			$type_pages = Page_Types::get_posts_by_type( 'any', $page_type['slug'], 'slug' );
+
+			$tabs[ "page-{$page_type['slug']}" ] = [
+				'title'    => sprintf(
+					/* translators: The page name. */
+					esc_html__( 'Your pages: "%s" page', 'progress-planner' ),
+					esc_html( $page_type['title'] )
+				),
+				'desc'     => $page_type['description'] ?? '',
+				'intro'    => esc_html__( 'Let\'s determine your needs together.', 'progress-planner' ),
 				'settings' => [
-					'site_age'        => [
-						'title'   => esc_html__( 'For how long has your site been around?', 'progress-planner' ),
-						'label'   => esc_html__( 'For how long has your site been around?', 'progress-planner' ),
-						'id'      => 'site_age',
-						'type'    => 'select',
-						'options' => [
-							'less-than-week'    => __( 'Less than a week', 'progress-planner' ),
-							'less-than-month'   => __( 'Less than a month', 'progress-planner' ),
-							'less-than-year'    => __( 'Less than a year', 'progress-planner' ),
-							'more-than-year'    => __( 'More than a year', 'progress-planner' ),
-							'more-than-2-years' => __( 'More than two years', 'progress-planner' ),
+					"has-page-{$page_type['slug']}" => [
+						'id'          => "has-page-{$page_type['slug']}",
+						'label'       => sprintf(
+							/* translators: The page name. */
+							esc_html__( 'Do your site have the "%s" page?', 'progress-planner' ),
+							esc_html( $page_type['title'] )
+						),
+						'description' => esc_html__( 'If you don\'t have this page yet, we can help you create it.', 'progress-planner' ),
+						'type'        => 'radio',
+						'options'     => [
+							'no'  => esc_html__( 'No', 'progress-planner' ),
+							'yes' => esc_html__( 'Yes', 'progress-planner' ),
 						],
-						'value'   => $settings->get( [ 'settings', 'site_age' ], 'less-than-week' ),
+						'value'       => empty( $type_pages ) ? 'no' : 'yes',
+						'page'        => $page_type['slug'],
 					],
-					'site_type'       => [
-						'title'   => esc_html__( 'Your site', 'progress-planner' ),
-						'label'   => esc_html__( 'What type of site is it?', 'progress-planner' ),
-						'id'      => 'site_type',
-						'type'    => 'select',
-						'options' => $site_types,
-						'value'   => $settings->get( [ 'settings', 'site_type' ], 'personal' ),
-					],
-					'time_allocation' => [
-						'title'   => esc_html__( 'Your time', 'progress-planner' ),
-						'label'   => esc_html__( 'How much time do you want to spend on your site every week?', 'progress-planner' ),
-						'id'      => 'time_allocation',
-						'type'    => 'radio',
-						'options' => [
-							/* translators: %s: number of minutes. */
-							'15' => sprintf( esc_html__( '%s minutes', 'progress-planner' ), '<span class="number">15</span>' ),
-							/* translators: %s: number of minutes. */
-							'30' => sprintf( esc_html__( '%s minutes', 'progress-planner' ), '<span class="number">30</span>' ),
-							/* translators: %s: number of minutes. */
-							'60' => sprintf( esc_html__( '%s minutes', 'progress-planner' ), '<span class="number">60</span>' ),
-							/* translators: %s: number of minutes. */
-							'90' => sprintf( esc_html__( '%s minutes', 'progress-planner' ), '<span class="number">90</span>' ),
-						],
-						'value'   => $settings->get( [ 'settings', 'time_allocation' ], '60' ),
+					$page_type['slug']              => [
+						'id'          => $page_type['slug'],
+						'title'       => $page_type['title'],
+						'description' => $page_type['description'] ?? '',
+						'type'        => 'page-select',
+						'value'       => empty( $type_pages ) ? 0 : $type_pages[0]->ID,
+						'page'        => $page_type['slug'],
 					],
 				],
-			],
-		];
-
-		$tabs['up2date'] = [
-			'title'    => esc_html__( 'Keep your site up to date!', 'progress-planner' ),
-			'desc'     => esc_html__( 'We\'ll tell you what to do.', 'progress-planner' ),
-			'intro'    => '',
-			'settings' => [],
-		];
+			];
+		}
 
 		$tabs = apply_filters( 'progress_planner_settings_page_tabs', $tabs );
 
@@ -132,20 +114,40 @@ class Page_Settings {
 		// Check the nonce.
 		\check_admin_referer( 'prpl-settings' );
 
-		$settings_to_save = [];
-		$settings         = new Settings();
+		if ( isset( $_POST['pages'] ) ) {
+			foreach ( wp_unslash( $_POST['pages'] ) as $type => $page_args ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+				// Remove the post-meta from the existing posts.
+				$existing_posts = Page_Types::get_posts_by_type( 'any', $type, 'slug' );
+				foreach ( $existing_posts as $post ) {
+					if ( $post->ID === (int) $page_args['id'] ) {
+						continue;
+					}
 
-		// Store the options.
-		foreach ( [ 'site_age', 'site_type', 'time_allocation' ] as $option ) {
-			if ( ! isset( $_POST[ $option ] ) ) {
-				continue;
+					// Get the term-ID for the type.
+					$term = \get_term_by( 'slug', $type, Page_Types::TAXONOMY_NAME );
+					if ( ! $term instanceof \WP_Term ) {
+						continue;
+					}
+
+					// Remove the assigned terms from the `progress_planner_page_types` taxonomy.
+					\wp_remove_object_terms( $post->ID, $term->term_id, Page_Types::TAXONOMY_NAME );
+				}
+
+				// Skip if the ID is not set.
+				if ( 1 > (int) $page_args['id'] ) {
+					continue;
+				}
+
+				// Add the term to the `progress_planner_page_types` taxonomy.
+				Page_Types::set_page_type_by_id( (int) $page_args['id'], $type );
+
+				/**
+				 * TODO: Handle the $page_args['assign-user'] and $page_args['plan-date'] values.
+				 */
 			}
-			$settings_to_save[ $option ] = \sanitize_text_field( \wp_unslash( $_POST[ $option ] ) );
 		}
 
-		if ( ! empty( $settings_to_save ) ) {
-			$settings->set( 'settings', $settings_to_save );
-		}
+		do_action( 'progress_planner_settings_form_options_stored', $_POST );
 
 		\wp_send_json_success( \esc_html__( 'Options stored successfully', 'progress-planner' ) );
 	}

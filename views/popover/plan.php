@@ -9,7 +9,7 @@
 <button
 	class="button page-plan-button"
 	type="button"
-	popovertarget="<?php echo esc_attr( 'page-plan-' . $prpl_pro['id'] ); ?>"
+	popovertarget="<?php echo esc_attr( 'page-plan-' . $prpl_setting['id'] ); ?>"
 	popovertargetaction="show"
 >
 	<svg style="max-height:1em;width:1.2em;" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-2">
@@ -17,14 +17,14 @@
 	</svg>
 	<?php esc_html_e( 'Plan', 'progress-planner' ); ?>
 </button>
-<div id="<?php echo esc_attr( 'page-plan-' . $prpl_pro['id'] ); ?>" popover>
+<div id="<?php echo esc_attr( 'page-plan-' . $prpl_setting['id'] ); ?>" popover>
 	<h1><?php esc_html_e( 'Pick a date', 'progress-planner' ); ?></h1>
 	<p>
 		<?php
 		printf(
 			/* translators: %s: Setting title. */
 			esc_html__( 'We will remind you about creating your %s page!', 'progress-planner' ),
-			esc_html( $prpl_pro['title'] )
+			esc_html( $prpl_setting['title'] )
 		);
 		?>
 	</p>
@@ -32,14 +32,14 @@
 		<p><?php esc_html_e( 'Select a date', 'progress-planner' ); ?></p>
 		<input
 			type="date"
-			name="pages[<?php echo esc_attr( $prpl_pro['id'] ); ?>][plan-date]"
+			name="pages[<?php echo esc_attr( $prpl_setting['id'] ); ?>][plan-date]"
 			value=""
 		>
 	</label>
 	<button
 		type="button"
 		class="button page-plan-button-close"
-		popovertarget="<?php echo esc_attr( 'page-plan-' . $prpl_pro['id'] ); ?>"
+		popovertarget="<?php echo esc_attr( 'page-plan-' . $prpl_setting['id'] ); ?>"
 		popovertargetaction="hide"
 	>
 		<?php esc_html_e( 'OK', 'progress-planner' ); ?>

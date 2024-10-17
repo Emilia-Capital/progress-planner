@@ -1388,99 +1388,71 @@ button.prpl-info-icon {
 	}
 }
 
+/*------------------------------------*\
+	Settings page.
+\*------------------------------------*/
 
-/* WIP: Pro CSS */
-#wpwrap {
-	background: #fff !important;
-}
+/* stylelint-disable-next-line selector-class-pattern */
+.progress-planner_page_progress-planner-settings {
 
-ul#adminmenu {
+	#wpwrap {
+		background: #fff !important;
+	}
 
-	a.wp-has-current-submenu,
-	>li.current > a.current {
+	ul#adminmenu {
 
-		&::after {
-			border-right-color: #fff !important;
+		a.wp-has-current-submenu,
+		>li.current > a.current {
+
+			&::after {
+				border-right-color: #fff !important;
+			}
 		}
 	}
-}
 
-.prpl-pro-wrap {
+	.prpl-settings-wrap {
 
-	#prpl-pro-settings {
-		grid-template-columns: repeat(2, minmax(calc(var(--prpl-column-min-width) * 2), 1fr));
-	}
-}
-
-.prpl-pro-pages-item {
-	border-bottom: 1px solid;
-	padding: 1rem;
-
-	.item-actions {
-		display: flex;
-		gap: 1rem;
-	}
-
-	.remind-button,
-	.assign-button {
-
-		svg {
-			width: 1rem;
-			height: 1rem;
+		#prpl-settings {
+			grid-template-columns: repeat(2, minmax(calc(var(--prpl-column-min-width) * 2), 1fr));
 		}
 	}
-}
 
-#prpl-settings-submit {
-	padding: 1rem 2rem;
-	border: none;
-	box-shadow: none;
-	background: #f43f5e;
-	transition: all 0.3s;
-	border-radius: 8px;
-	color: #fff;
-	margin: 0.2rem;
-	margin-top: 1rem;
-	font-weight: 600;
-
-	&:hover,
-	&:focus {
-		padding: 1.2rem 2.2rem;
-		margin: 0;
-		margin-top: 0.8rem;
-	}
-}
-
-#prpl-setting-fieldset-time_allocation {
-
-	.radios {
-		display: flex;
-		gap: 1rem;
-		margin-top: 1rem;
-	}
-
-	label {
-		border: 2px solid #dedede;
+	.prpl-pages-item {
+		border-bottom: 1px solid;
 		padding: 1rem;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		border-radius: 8px;
 
-		&:has(input[type="radio"]:checked) {
-			border-color: #0073aa;
+		.item-actions {
+			display: flex;
+			gap: 1rem;
+		}
+
+		.remind-button,
+		.assign-button {
+
+			svg {
+				width: 1rem;
+				height: 1rem;
+			}
 		}
 	}
 
-	.number {
-		font-size: 1.5rem;
+	#prpl-settings-submit {
+		padding: 1rem 2rem;
+		border: none;
+		box-shadow: none;
+		background: #f43f5e;
+		transition: all 0.3s;
+		border-radius: 8px;
+		color: #fff;
+		margin: 0.2rem;
+		margin-top: 1rem;
 		font-weight: 600;
-	}
 
-	input {
-		display: none;
+		&:hover,
+		&:focus {
+			padding: 1.2rem 2.2rem;
+			margin: 0;
+			margin-top: 0.8rem;
+		}
 	}
 }
-
-/* END: Pro CSS */

@@ -6,7 +6,7 @@
  */
 
 ?>
-<div class="prpl-pro-pages-item prpl-pro-pages-item-<?php echo esc_attr( $prpl_setting['page'] ); ?>" data-page-item="<?php echo esc_attr( $prpl_setting['page'] ); ?>">
+<div class="prpl-pages-item prpl-pages-item-<?php echo esc_attr( $prpl_setting['page'] ); ?>" data-page-item="<?php echo esc_attr( $prpl_setting['page'] ); ?>">
 	<div class="item-description">
 		<h3><?php echo esc_html( $prpl_setting['title'] ); ?></h3>
 		<p><?php echo esc_html( $prpl_setting['description'] ); ?></p>
@@ -25,6 +25,7 @@
 		</div>
 		<div data-action="edit">
 			<a
+				target="_blank"
 				class="button"
 				href=""
 				data-page="<?php echo esc_attr( $prpl_setting['page'] ); ?>"

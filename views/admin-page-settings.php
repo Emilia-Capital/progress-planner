@@ -5,11 +5,12 @@
  * @package Progress_Planner
  */
 
-$prpl_admin             = new \Progress_Planner\Admin\Page_Settings();
-$prpl_pro_tabs_settings = $prpl_admin->get_tabs_settings();
+$prpl_admin         = new \Progress_Planner\Admin\Page_Settings();
+$prpl_tabs_settings = $prpl_admin->get_tabs_settings();
+$prpl_page_types    = \Progress_Planner\Page_Types::get_page_types();
 ?>
 
-<div class="wrap prpl-wrap prpl-pro-wrap">
+<div class="wrap prpl-wrap prpl-settings-wrap">
 	<div class="prpl-header">
 		<div class="prpl-header-logo">
 			<?php
@@ -23,39 +24,30 @@ $prpl_pro_tabs_settings = $prpl_admin->get_tabs_settings();
 		<?php esc_html_e( 'Your Progress Planner settings', 'progress-planner' ); ?>
 	</h1>
 
-	<form id="prpl-pro-settings" class="prpl-widgets-container">
-		<div class="prpl-column-main prpl-column-main-primary">
+	<form id="prpl-settings" class="prpl-widgets-container">
+
+		<div class="prpl-column-main prpl-column-main-secondary">
 			<div class="prpl-column">
-				<?php foreach ( [ 'time_allocation' ] as $prpl_setting_key ) : ?>
-					<?php if ( isset( $prpl_pro_tabs_settings['intake']['settings'][ $prpl_setting_key ] ) ) : ?>
-					<div class="prpl-widget-wrapper prpl-pro-widget-setting-<?php echo esc_attr( $prpl_setting_key ); ?>">
-						<?php $prpl_setting = $prpl_pro_tabs_settings['intake']['settings'][ $prpl_setting_key ]; ?>
-						<h2 class="prpl-widget-title"><?php echo esc_html( $prpl_setting['title'] ); ?></h2>
-						<?php
-						// phpcs:ignore PEAR.Files.IncludingFile.UseRequire
-						include PROGRESS_PLANNER_DIR . "/views/setting/{$prpl_setting['type']}.php";
-						?>
-						</div>
-					<?php endif; ?>
-				<?php endforeach; ?>
+				<div class="prpl-widget-wrapper">
+					<h2 class="prpl-widget-title">
+						<?php esc_html_e( 'Your pages', 'progress-planner' ); ?>
+					</h2>
+					<?php foreach ( $prpl_page_types as $prpl_pagetype ) : ?>
+						<?php if ( isset( $prpl_tabs_settings[ "page-{$prpl_pagetype['slug']}" ] ) ) : ?>
+							<?php
+							$prpl_setting = $prpl_tabs_settings[ "page-{$prpl_pagetype['slug']}" ]['settings'][ $prpl_pagetype['slug'] ];
+
+							// phpcs:ignore PEAR.Files.IncludingFile.UseRequire
+							include PROGRESS_PLANNER_DIR . "/views/setting/{$prpl_setting['type']}.php";
+							?>
+						<?php endif; ?>
+					<?php endforeach; ?>
+				</div>
 			</div>
 		</div>
 
-		<div class="prpl-column-main prpl-column-main-primary">
-			<div class="prpl-column">
-				<?php foreach ( [ 'site_type' ] as $prpl_setting_key ) : ?>
-					<?php if ( isset( $prpl_pro_tabs_settings['intake']['settings'][ $prpl_setting_key ] ) ) : ?>
-					<div class="prpl-widget-wrapper prpl-pro-widget-setting-<?php echo esc_attr( $prpl_setting_key ); ?>">
-						<?php $prpl_setting = $prpl_pro_tabs_settings['intake']['settings'][ $prpl_setting_key ]; ?>
-						<h2 class="prpl-widget-title"><?php echo esc_html( $prpl_setting['title'] ); ?></h2>
-						<?php
-						// phpcs:ignore PEAR.Files.IncludingFile.UseRequire
-						include PROGRESS_PLANNER_DIR . "/views/setting/{$prpl_setting['type']}.php";
-						?>
-						</div>
-					<?php endif; ?>
-				<?php endforeach; ?>
-			</div>
+		<?php /* So Submit button is not stretched in right column. */ ?>
+		<div class="prpl-column-main prpl-column-main-secondary">
 		</div>
 
 		<?php wp_nonce_field( 'prpl-settings' ); ?>
