@@ -33,7 +33,7 @@ $badges = [
 				data-value="<?php echo \esc_attr( $badge_progress['progress'] ); ?>"
 			>
 				<?php
-				include $badge_completed
+				include $badge_completed // phpcs:ignore PEAR.Files.IncludingFile.UseRequire
 					? $badge_args['icons-svg']['complete']['path']
 					: $badge_args['icons-svg']['pending']['path'];
 				?>

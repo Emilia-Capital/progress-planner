@@ -100,7 +100,7 @@ final class Badges extends Popup {
 			>
 				<div class="inner">
 					<?php
-					include $badge_completed
+					include $badge_completed // phpcs:ignore PEAR.Files.IncludingFile.UseRequire
 						? $badge_args['icons-svg']['complete']['path']
 						: $badge_args['icons-svg']['pending']['path'];
 					?>

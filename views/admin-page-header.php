@@ -19,10 +19,7 @@ $progress_planner_active_frequency = isset( $_GET['frequency'] ) ? \sanitize_tex
 ?>
 <div class="prpl-header">
 	<div class="prpl-header-logo">
-		<?php
-		// phpcs:ignore PEAR.Files.IncludingFile.UseRequire
-		include PROGRESS_PLANNER_DIR . '/assets/images/logo_progress_planner.svg';
-		?>
+		<?php include PROGRESS_PLANNER_DIR . '/assets/images/logo_progress_planner.svg'; // phpcs:ignore PEAR.Files.IncludingFile.UseRequire ?>
 	</div>
 
 	<div class="prpl-header-right">

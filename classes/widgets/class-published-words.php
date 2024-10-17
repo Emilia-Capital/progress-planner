@@ -7,6 +7,7 @@
 
 namespace Progress_Planner\Widgets;
 
+use Progress_Planner\Query;
 use Progress_Planner\Activities\Content_Helpers;
 
 /**

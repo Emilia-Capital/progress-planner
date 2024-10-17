@@ -6,7 +6,8 @@
  */
 
 ?>
+
 <h2 class="prpl-widget-title">
-	<?php \esc_html_e( 'Your website activity score', 'progress-planner' ); ?>
+	<?php \esc_html_e( 'Suggested tasks score', 'progress-planner' ); ?>
 </h2>
 <?php $this->print_score_gauge(); ?>

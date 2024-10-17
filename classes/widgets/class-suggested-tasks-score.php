@@ -23,18 +23,6 @@ final class Suggested_Tasks_Score extends Widget {
 	protected $id = 'suggested-tasks-score';
 
 	/**
-	 * Render the widget content.
-	 */
-	public function the_content() {
-		?>
-		<h2 class="prpl-widget-title">
-			<?php \esc_html_e( 'Suggested tasks score', 'progress-planner' ); ?>
-		</h2>
-		<?php self::print_score_gauge(); ?>
-		<?php
-	}
-
-	/**
 	 * Print the score gauge.
 	 *
 	 * @param string $background_color The background color.
@@ -42,7 +30,7 @@ final class Suggested_Tasks_Score extends Widget {
 	 *
 	 * @return void
 	 */
-	public static function print_score_gauge( $background_color = 'var(--prpl-background-orange)', $description = '' ) {
+	public function print_score_gauge( $background_color = 'var(--prpl-background-orange)', $description = '' ) {
 		$score = self::get_score();
 		?>
 		<div class="prpl-activities-gauge-container-container">

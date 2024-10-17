@@ -264,29 +264,6 @@ button.prpl-info-icon {
 }
 
 /*------------------------------------*\
-	Widgets with 2 columns.
-\*------------------------------------*/
-.two-col {
-	display: flex;
-	flex-wrap: wrap;
-	gap: var(--prpl-gap);
-
-	&:has(.counter-big-wrapper) {
-		gap: var(--prpl-padding);
-	}
-
-	> * {
-		flex: 1;
-		min-width: 12em;
-		max-width: 100%;
-	}
-
-	&.narrow > * {
-		min-width: 7em;
-	}
-}
-
-/*------------------------------------*\
 	Generic styles for individual widgets.
 \*------------------------------------*/
 .prpl-widget-wrapper {
@@ -364,10 +341,6 @@ button.prpl-info-icon {
 	Activity-score widget.
 \*------------------------------------*/
 .prpl-widget-wrapper.prpl-website-activity-score {
-
-	.two-col > *:first-child {
-		flex: 1.4;
-	}
 
 	ul {
 		margin-top: 10px;
@@ -506,10 +479,6 @@ button.prpl-info-icon {
 	Published content widget.
 \*------------------------------------*/
 .prpl-widget-wrapper.prpl-published-content {
-
-	.two-col {
-		align-items: flex-start;
-	}
 
 	table {
 		width: 100%;

@@ -1,4 +1,4 @@
-/<?php
+<?php
 /**
  * Widget view.
  *
@@ -12,7 +12,7 @@ $blog_feed = $this->get_blog_feed();
 	<?php \esc_html_e( 'What\'s new on the Progress Planner blog', 'progress-planner' ); ?>
 </h2>
 
-<ul class="two-col">
+<ul>
 	<?php foreach ( $blog_feed as $blog_post ) : ?>
 		<li>
 			<a href="<?php echo \esc_url( $blog_post['link'] ); ?>" target="_blank">

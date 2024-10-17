@@ -12,7 +12,7 @@ $post_types = Content_Helpers::get_post_types_names();
 $stats      = $this->get_stats();
 $sum_weekly = array_sum( $stats['weekly'] );
 ?>
-<div class="two-col">
+<div>
 	<div class="prpl-top-counter-bottom-content">
 		<?php $this->render_big_counter( (int) array_sum( $stats['weekly'] ), __( 'content published', 'progress-planner' ) ); ?>
 		<div class="prpl-widget-content">

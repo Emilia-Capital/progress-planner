@@ -125,7 +125,7 @@ abstract class Widget {
 		 *
 		 * @return string The template to use.
 		 */
-		include \apply_filters(
+		include \apply_filters( // phpcs:ignore PEAR.Files.IncludingFile.UseRequire
 			'progress_planner_widgets_template',
 			PROGRESS_PLANNER_DIR . "/views/widgets/{$this->id}.php",
 			$this->id

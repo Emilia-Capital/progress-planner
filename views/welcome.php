@@ -19,10 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<h1><?php \esc_html_e( 'Welcome to the Progress Planner plugin!', 'progress-planner' ); ?></h1>
 			<span class="welcome-header-icon">
 				<span class="slant"></span>
-				<?php
-				// phpcs:ignore PEAR.Files.IncludingFile.UseRequire
-				include PROGRESS_PLANNER_DIR . '/assets/images/icon_progress_planner.svg';
-				?>
+				<?php include PROGRESS_PLANNER_DIR . '/assets/images/icon_progress_planner.svg'; // phpcs:ignore PEAR.Files.IncludingFile.UseRequire ?>
 			</span>
 		</div>
 		<div class="inner-content">
