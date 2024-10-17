@@ -8,6 +8,7 @@
 namespace Progress_Planner\Badges\Badge;
 
 use Progress_Planner\Base;
+use Progress_Planner\Query;
 use Progress_Planner\Badges\Badge_Content;
 
 /**
@@ -28,7 +29,7 @@ final class Bold_Blogger extends Badge_Content {
 	 * @return string
 	 */
 	public function get_name() {
-		return __( 'Bold Blogger', 'progress-planner' );
+		return \__( 'Bold Blogger', 'progress-planner' );
 	}
 
 	/**
@@ -38,7 +39,7 @@ final class Bold_Blogger extends Badge_Content {
 	 */
 	public function get_description() {
 		/* translators: %d: The number of new posts to write. */
-		return sprintf( esc_html__( 'Write %d new posts or pages', 'progress-planner' ), 30 );
+		return sprintf( \esc_html__( 'Write %d new posts or pages', 'progress-planner' ), 30 );
 	}
 
 	/**
@@ -74,7 +75,7 @@ final class Bold_Blogger extends Badge_Content {
 
 		// Get the number of new posts published.
 		$new_count = count(
-			\progress_planner()->get_query()->query_activities(
+			Query::get_instance()->query_activities(
 				[
 					'category'   => 'content',
 					'type'       => 'publish',

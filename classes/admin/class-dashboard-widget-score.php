@@ -10,6 +10,7 @@ namespace Progress_Planner\Admin;
 use Progress_Planner\Admin\Dashboard_Widget;
 use Progress_Planner\Admin\Page;
 use Progress_Planner\Badges;
+use Progress_Planner\Query;
 
 /**
  * Class Dashboard_Widget
@@ -63,7 +64,7 @@ class Dashboard_Widget_Score extends Dashboard_Widget {
 			<h3><?php \esc_html_e( 'Latest activity', 'progress-planner' ); ?></h3>
 
 			<?php
-			$latest_activities = \progress_planner()->get_query()->get_latest_activities( 2 );
+			$latest_activities = Query::get_instance()->get_latest_activities( 2 );
 			$activity_type_map = [
 				'content-publish'               => __( 'Published content', 'progress-planner' ),
 				'content-update'                => __( 'Updated content', 'progress-planner' ),
@@ -109,7 +110,7 @@ class Dashboard_Widget_Score extends Dashboard_Widget {
 		</div>
 
 		<div class="prpl-dashboard-widget-footer">
-			<img src="<?php echo esc_attr( PROGRESS_PLANNER_URL . '/assets/images/icon_progress_planner.svg' ); ?>" style="width:1.5em;" alt="" />
+			<img src="<?php echo \esc_attr( PROGRESS_PLANNER_URL . '/assets/images/icon_progress_planner.svg' ); ?>" style="width:1.5em;" alt="" />
 			<a href="<?php echo \esc_url( \get_admin_url( null, 'admin.php?page=progress-planner' ) ); ?>">
 				<?php \esc_html_e( 'Check out all your stats and badges', 'progress-planner' ); ?>
 			</a>

@@ -17,6 +17,13 @@ use Progress_Planner\Settings;
 class Content_Helpers {
 
 	/**
+	 * The threshold for a post to be considered long.
+	 *
+	 * @var int
+	 */
+	const LONG_POST_THRESHOLD = 350;
+
+	/**
 	 * Get an array of post-types names for the stats.
 	 *
 	 * @return string[]
@@ -26,7 +33,7 @@ class Content_Helpers {
 		$include_post_types = \array_filter(
 			Settings::get( [ 'include_post_types' ], $default ),
 			function ( $post_type ) {
-				return $post_type && \post_type_exists( $post_type ) && is_post_type_viewable( $post_type );
+				return $post_type && \post_type_exists( $post_type ) && \is_post_type_viewable( $post_type );
 			}
 		);
 		return empty( $include_post_types ) ? $default : \array_values( $include_post_types );
@@ -47,6 +54,11 @@ class Content_Helpers {
 		$counts = Settings::get( [ 'word_count' ], [] );
 		if ( $post_id && isset( $counts[ $post_id ] ) && false !== $counts[ $post_id ] ) {
 			return $counts[ $post_id ];
+		}
+
+		if ( empty( $content ) && $post_id ) {
+			Settings::set( [ 'word_count', $post_id ], 0 );
+			return 0;
 		}
 
 		$word_count_type = function_exists( 'wp_get_word_count_type' ) ? wp_get_word_count_type() : 'words';
@@ -99,5 +111,17 @@ class Content_Helpers {
 		$activity->data_id  = (string) $post->ID;
 		$activity->user_id  = (int) $post->post_author;
 		return $activity;
+	}
+
+	/**
+	 * Figure out if a post is short, or long.
+	 *
+	 * @param int $post_id The post ID.
+	 *
+	 * @return bool
+	 */
+	public static function is_post_long( $post_id ) {
+		$word_count = self::get_word_count( \get_post_field( 'post_content', $post_id ), $post_id );
+		return $word_count >= self::LONG_POST_THRESHOLD;
 	}
 }

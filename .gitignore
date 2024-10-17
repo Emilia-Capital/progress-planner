@@ -2,3 +2,4 @@
 ._*
 .phpunit.result.cache
 node_modules
+.DS_Store
