@@ -10,6 +10,7 @@ namespace Progress_Planner\Actions;
 use Progress_Planner\Actions\Content as Content_Action;
 use Progress_Planner\Activities\Content_Helpers;
 use Progress_Planner\Settings;
+use Progress_Planner\Query;
 
 /**
  * Content scan class.
@@ -82,8 +83,8 @@ class Content_Scan extends Content_Action {
 		Settings::set( static::LAST_SCANNED_PAGE_OPTION, 0 );
 
 		// Reset the activities.
-		$activities = \progress_planner()->get_query()->query_activities( [ 'category' => 'content' ] );
-		\progress_planner()->get_query()->delete_activities( $activities );
+		$activities = Query::get_instance()->query_activities( [ 'category' => 'content' ] );
+		Query::get_instance()->delete_activities( $activities );
 
 		// Reset the word count.
 		Settings::set( 'word_count', [] );
@@ -180,6 +181,6 @@ class Content_Scan extends Content_Action {
 			Content_Helpers::get_word_count( $post->post_content, $post->ID );
 		}
 
-		\progress_planner()->get_query()->insert_activities( $activities );
+		Query::get_instance()->insert_activities( $activities );
 	}
 }

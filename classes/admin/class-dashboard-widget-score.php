@@ -10,6 +10,7 @@ namespace Progress_Planner\Admin;
 use Progress_Planner\Admin\Dashboard_Widget;
 use Progress_Planner\Admin\Page;
 use Progress_Planner\Badges;
+use Progress_Planner\Query;
 
 /**
  * Class Dashboard_Widget
@@ -63,7 +64,7 @@ class Dashboard_Widget_Score extends Dashboard_Widget {
 			<h3><?php \esc_html_e( 'Latest activity', 'progress-planner' ); ?></h3>
 
 			<?php
-			$latest_activities = \progress_planner()->get_query()->get_latest_activities( 2 );
+			$latest_activities = Query::get_instance()->get_latest_activities( 2 );
 			$activity_type_map = [
 				'content-publish'               => __( 'Published content', 'progress-planner' ),
 				'content-update'                => __( 'Updated content', 'progress-planner' ),

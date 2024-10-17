@@ -7,6 +7,7 @@
 
 namespace Progress_Planner\Widgets;
 
+use Progress_Planner\Query;
 use Progress_Planner\Widgets\Widget;
 
 /**
@@ -83,7 +84,7 @@ final class Suggested_Tasks_Score extends Widget {
 	 * @return int The score.
 	 */
 	public static function get_score() {
-		$activities = \progress_planner()->get_query()->query_activities(
+		$activities = Query::get_instance()->query_activities(
 			[
 				'category'   => 'suggested_task',
 				// Use 31 days to take into account

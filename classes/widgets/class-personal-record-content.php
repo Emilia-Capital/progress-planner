@@ -7,6 +7,7 @@
 
 namespace Progress_Planner\Widgets;
 
+use Progress_Planner\Query;
 use Progress_Planner\Goals\Goal_Recurring;
 use Progress_Planner\Goals\Goal;
 use Progress_Planner\Widgets\Widget;
@@ -113,7 +114,7 @@ final class Personal_Record_Content extends Widget {
 				'priority'    => 'low',
 				'evaluate'    => function ( $goal_object ) {
 					return (bool) count(
-						\progress_planner()->get_query()->query_activities(
+						Query::get_instance()->query_activities(
 							[
 								'category'   => 'content',
 								'type'       => 'publish',

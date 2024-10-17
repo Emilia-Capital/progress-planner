@@ -7,6 +7,7 @@
 
 namespace Progress_Planner\Widgets;
 
+use Progress_Planner\Query;
 use Progress_Planner\Activities\Content_Helpers;
 use Progress_Planner\Chart;
 use Progress_Planner\Widgets\Widget;
@@ -149,7 +150,7 @@ final class Published_Content_Density extends Widget {
 		static $density;
 		if ( null === $density ) {
 			$activities = $this->filter_activities(
-				\progress_planner()->get_query()->query_activities(
+				Query::get_instance()->query_activities(
 					[
 						'category' => 'content',
 						'type'     => 'publish',
@@ -171,7 +172,7 @@ final class Published_Content_Density extends Widget {
 		if ( null === $density ) {
 			// Get the weekly average.
 			$density = $this->count_density(
-				\progress_planner()->get_query()->query_activities(
+				Query::get_instance()->query_activities(
 					[
 						'category'   => 'content',
 						'type'       => 'publish',
