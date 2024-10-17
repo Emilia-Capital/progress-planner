@@ -120,13 +120,13 @@ class Page {
 		if ( \is_array( $value ) ) {
 			foreach ( $value as $sub_key => $sub_value ) {
 				if ( \is_string( $sub_value ) && \str_starts_with( $sub_value, '\\' ) ) {
-					new $sub_value();
+					( new $sub_value() )->render();
 					continue;
 				}
 				$this->render_column( $sub_key, $sub_value );
 			}
 		} elseif ( \str_starts_with( $value, '\\' ) ) {
-			new $value();
+			( new $value() )->render();
 		}
 
 		echo '</div>';

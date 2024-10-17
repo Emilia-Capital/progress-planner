@@ -22,24 +22,6 @@ final class Website_Activity_Score extends Widget {
 	protected $id = 'website-activity-score';
 
 	/**
-	 * Render the widget content.
-	 */
-	public function the_content() {
-		?>
-		<h2 class="prpl-widget-title">
-			<?php \esc_html_e( 'Your website activity score', 'progress-planner' ); ?>
-		</h2>
-		<div class="two-col">
-			<?php self::print_score_gauge(); ?>
-			<div>
-				<?php \esc_html_e( 'Your activity this week:', 'progress-planner' ); ?>
-				<?php $this->print_weekly_activities_checklist(); ?>
-			</div>
-		</div>
-		<?php
-	}
-
-	/**
 	 * Print the score gauge.
 	 *
 	 * @param string $background_color The background color.
@@ -47,8 +29,8 @@ final class Website_Activity_Score extends Widget {
 	 *
 	 * @return void
 	 */
-	public static function print_score_gauge( $background_color = 'var(--prpl-background-orange)', $description = '' ) {
-		$score = self::get_score();
+	public function print_score_gauge( $background_color = 'var(--prpl-background-orange)', $description = '' ) {
+		$score = $this->get_score();
 		?>
 		<div class="prpl-activities-gauge-container-container">
 			<div class="prpl-activities-gauge-container">
@@ -59,7 +41,7 @@ final class Website_Activity_Score extends Widget {
 						--background: <?php echo \esc_attr( $background_color ); ?>;
 						--max: 180deg;
 						--start: 270deg;
-						--color:<?php echo \esc_attr( self::get_gauge_color( $score ) ); ?>"
+						--color:<?php echo \esc_attr( $this->get_gauge_color( $score ) ); ?>"
 				>
 					<span class="prpl-gauge-0">
 						0
@@ -88,10 +70,10 @@ final class Website_Activity_Score extends Widget {
 	 *
 	 * @return void
 	 */
-	public static function print_weekly_activities_checklist() {
+	public function print_weekly_activities_checklist() {
 		?>
 		<ul>
-			<?php foreach ( self::get_checklist_results() as $label => $value ) : ?>
+			<?php foreach ( $this->get_checklist_results() as $label => $value ) : ?>
 				<li class="prpl-checklist-item">
 					<?php
 					echo $value
@@ -110,7 +92,7 @@ final class Website_Activity_Score extends Widget {
 	 *
 	 * @return int The score.
 	 */
-	public static function get_score() {
+	public function get_score() {
 		$activities = \progress_planner()->get_query()->query_activities(
 			[
 				// Use 31 days to take into account
@@ -139,8 +121,8 @@ final class Website_Activity_Score extends Widget {
 	 *
 	 * @return array<string, bool> The checklist results.
 	 */
-	public static function get_checklist_results() {
-		$items   = self::get_checklist();
+	public function get_checklist_results() {
+		$items   = $this->get_checklist();
 		$results = [];
 		foreach ( $items as $item ) {
 			$results[ $item['label'] ] = $item['callback']();
@@ -153,7 +135,7 @@ final class Website_Activity_Score extends Widget {
 	 *
 	 * @return array The checklist items.
 	 */
-	public static function get_checklist() {
+	public function get_checklist() {
 		return [
 			[
 				'label'    => \esc_html__( 'published content', 'progress-planner' ),
@@ -199,7 +181,7 @@ final class Website_Activity_Score extends Widget {
 	 *
 	 * @return string The color.
 	 */
-	protected static function get_gauge_color( $score ) {
+	protected function get_gauge_color( $score ) {
 		if ( $score >= 75 ) {
 			return 'var(--prpl-color-accent-green)';
 		}

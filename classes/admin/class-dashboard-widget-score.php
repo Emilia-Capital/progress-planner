@@ -47,7 +47,12 @@ class Dashboard_Widget_Score extends Dashboard_Widget {
 		?>
 		<div class="prpl-dashboard-widget<?php echo ( $show_badges ) ? ' show-badges' : ''; ?>">
 			<div class="prpl-score-gauge">
-				<?php \Progress_Planner\Widgets\Website_Activity_Score::print_score_gauge( '#ffffff', '<p>' . \esc_html__( 'Website activity score', 'progress-planner' ) . '</p>' ); ?>
+				<?php
+				( new \Progress_Planner\Widgets\Website_Activity_Score() )->print_score_gauge(
+					'#ffffff',
+					'<p>' . \esc_html__( 'Website activity score', 'progress-planner' ) . '</p>'
+				);
+				?>
 			</div>
 			<?php if ( $show_badges ) : ?>
 				<div class="grid-separator"></div>
