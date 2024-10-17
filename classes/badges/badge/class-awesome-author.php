@@ -8,6 +8,7 @@
 namespace Progress_Planner\Badges\Badge;
 
 use Progress_Planner\Base;
+use Progress_Planner\Query;
 use Progress_Planner\Badges\Badge_Content;
 
 /**
@@ -74,7 +75,7 @@ final class Awesome_Author extends Badge_Content {
 
 		// Get the number of new posts published.
 		$new_count = count(
-			\progress_planner()->get_query()->query_activities(
+			Query::get_instance()->query_activities(
 				[
 					'category'   => 'content',
 					'type'       => 'publish',

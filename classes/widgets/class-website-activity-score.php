@@ -7,6 +7,7 @@
 
 namespace Progress_Planner\Widgets;
 
+use Progress_Planner\Query;
 use Progress_Planner\Widgets\Widget;
 
 /**
@@ -105,7 +106,7 @@ final class Website_Activity_Score extends Widget {
 	 * @return int The score.
 	 */
 	public static function get_score() {
-		$activities = \progress_planner()->get_query()->query_activities(
+		$activities = Query::get_instance()->query_activities(
 			[
 				// Use 31 days to take into account
 				// the activities score decay from previous activities.
@@ -152,7 +153,7 @@ final class Website_Activity_Score extends Widget {
 			[
 				'label'    => \esc_html__( 'published content', 'progress-planner' ),
 				'callback' => function () {
-					$events = \progress_planner()->get_query()->query_activities(
+					$events = Query::get_instance()->query_activities(
 						[
 							'start_date' => new \DateTime( '-7 days' ),
 							'category'   => 'content',
@@ -165,7 +166,7 @@ final class Website_Activity_Score extends Widget {
 			[
 				'label'    => \esc_html__( 'updated content', 'progress-planner' ),
 				'callback' => function () {
-					$events = \progress_planner()->get_query()->query_activities(
+					$events = Query::get_instance()->query_activities(
 						[
 							'start_date' => new \DateTime( '-7 days' ),
 							'category'   => 'content',

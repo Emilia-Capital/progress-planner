@@ -20,16 +20,14 @@ class Update_Core extends Local_Tasks {
 	 *
 	 * @param string $task_id The task ID.
 	 *
-	 * @return void
+	 * @return bool
 	 */
 	public function evaluate_task( $task_id ) {
-		if ( 'update-core' !== $task_id ) {
-			return;
-		}
-		if ( 0 === \wp_get_update_data()['counts']['total'] ) {
+		if ( 'update-core' === $task_id && 0 === \wp_get_update_data()['counts']['total'] ) {
 			Suggested_Tasks::mark_task_as_completed( $task_id . '-' . \gmdate( 'YW' ) );
-			self::remove_pending_task( $task_id );
+			return true;
 		}
+		return false;
 	}
 
 	/**

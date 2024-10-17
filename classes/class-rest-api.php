@@ -15,6 +15,7 @@ namespace Progress_Planner;
 use Progress_Planner\Badges;
 use Progress_Planner\Chart;
 use Progress_Planner\Todo;
+use Progress_Planner\Query;
 use Progress_Planner\Widgets\Website_Activity_Score;
 use Progress_Planner\Badges\Badge\Wonderful_Writer as Badge_Wonderful_Writer;
 use Progress_Planner\Badges\Badge\Bold_Blogger as Badge_Bold_Blogger;
@@ -90,7 +91,7 @@ class Rest_API {
 
 		// Get the number of activities in the past week.
 		$data['activities'] = count(
-			\progress_planner()->get_query()->query_activities(
+			Query::get_instance()->query_activities(
 				[
 					'start_date' => new \DateTime( '-7 days' ),
 				]

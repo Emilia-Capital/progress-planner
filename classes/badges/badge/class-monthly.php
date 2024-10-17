@@ -7,6 +7,7 @@
 
 namespace Progress_Planner\Badges\Badge;
 
+use Progress_Planner\Query;
 use Progress_Planner\Badges\Badge;
 
 /**
@@ -251,7 +252,7 @@ final class Monthly extends Badge {
 		}
 
 		// Get the activities for the month.
-		$activities = \progress_planner()->get_query()->query_activities(
+		$activities = Query::get_instance()->query_activities(
 			[
 				'category'   => 'suggested_task',
 				'start_date' => $start_date,

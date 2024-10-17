@@ -69,12 +69,16 @@ abstract class Local_Tasks {
 	 * @return void
 	 */
 	private function evaluate_tasks() {
-		$tasks = self::get_tasks();
+		$tasks = $this->get_pending_tasks();
 		if ( ! is_array( $tasks ) ) {
 			$tasks = [];
 		}
+
+		$tasks = \array_unique( $tasks );
 		foreach ( $tasks as $task ) {
-			$this->evaluate_task( $task );
+			if ( $this->evaluate_task( $task ) ) {
+				$this->remove_pending_task( $task );
+			}
 		}
 	}
 
@@ -83,7 +87,7 @@ abstract class Local_Tasks {
 	 *
 	 * @param string $task The task ID.
 	 *
-	 * @return void
+	 * @return bool
 	 */
 	abstract protected function evaluate_task( $task );
 
@@ -92,7 +96,7 @@ abstract class Local_Tasks {
 	 *
 	 * @return array
 	 */
-	public static function get_tasks() {
+	public function get_pending_tasks() {
 		return \get_option( self::OPTION_NAME, [] );
 	}
 
@@ -103,8 +107,8 @@ abstract class Local_Tasks {
 	 *
 	 * @return bool
 	 */
-	public static function add_pending_task( $task ) {
-		$tasks = self::get_tasks();
+	public function add_pending_task( $task ) {
+		$tasks = $this->get_pending_tasks();
 		if ( ! is_array( $tasks ) ) {
 			$tasks = [];
 		}
@@ -122,8 +126,8 @@ abstract class Local_Tasks {
 	 *
 	 * @return bool
 	 */
-	public static function remove_pending_task( $task ) {
-		$tasks = self::get_tasks();
+	public function remove_pending_task( $task ) {
+		$tasks = $this->get_pending_tasks();
 		if ( ! is_array( $tasks ) ) {
 			$tasks = [];
 		}
