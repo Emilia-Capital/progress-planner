@@ -12,6 +12,7 @@ use Progress_Planner\Admin\Page as Admin_page;
 use Progress_Planner\Admin\Dashboard_Widget_Score;
 use Progress_Planner\Admin\Tour;
 use Progress_Planner\Admin\Dashboard_Widget_Todo;
+use Progress_Planner\Admin\Page_Settings as Admin_Page_Settings;
 use Progress_Planner\Actions\Content as Actions_Content;
 use Progress_Planner\Actions\Content_Scan as Actions_Content_Scan;
 use Progress_Planner\Actions\Maintenance as Actions_Maintenance;
@@ -110,6 +111,7 @@ class Base {
 			new Dashboard_Widget_Score();
 			new Dashboard_Widget_Todo();
 			new Page_Types();
+			new Admin_Page_Settings();
 		}
 		new Actions_Content();
 		new Actions_Maintenance();
