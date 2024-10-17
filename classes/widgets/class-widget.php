@@ -8,7 +8,9 @@
 namespace Progress_Planner\Widgets;
 
 /**
- * Abstract class for widgets.
+ * Widgets class.
+ *
+ * All widgets should extend this class.
  */
 abstract class Widget {
 
@@ -32,13 +34,6 @@ abstract class Widget {
 	 * @var int
 	 */
 	protected $rowspan = 6;
-
-	/**
-	 * Constructor.
-	 */
-	public function __construct() {
-		$this->render();
-	}
 
 	/**
 	 * Get the widget range.
@@ -71,7 +66,7 @@ abstract class Widget {
 	 *
 	 * @return void
 	 */
-	protected function render() {
+	public function render() {
 		if ( ! $this->should_render() ) {
 			return;
 		}
@@ -117,9 +112,23 @@ abstract class Widget {
 	}
 
 	/**
-	 * The widget content.
+	 * Render the widget content.
 	 *
 	 * @return void
 	 */
-	abstract protected function the_content();
+	public function the_content() {
+		/**
+		 * Filters the template to use for the widget.
+		 *
+		 * @param string $template The template to use.
+		 * @param string $id       The widget ID.
+		 *
+		 * @return string The template to use.
+		 */
+		include \apply_filters(
+			'progress_planner_widgets_template',
+			PROGRESS_PLANNER_DIR . "/views/widgets/{$this->id}.php",
+			$this->id
+		);
+	}
 }

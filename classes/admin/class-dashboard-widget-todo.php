@@ -49,6 +49,6 @@ class Dashboard_Widget_Todo extends Dashboard_Widget {
 		</div>
 		<?php
 
-		ToDo::the_todo_list();
+		( new ToDo() )->the_todo_list();
 	}
 }

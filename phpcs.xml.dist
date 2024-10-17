@@ -143,5 +143,6 @@
 
 	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
 		<exclude-pattern>/tests/bootstrap\.php$</exclude-pattern>
+		<exclude-pattern>/views/widgets/</exclude-pattern>
 	</rule>
 </ruleset>
