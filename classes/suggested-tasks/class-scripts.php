@@ -62,7 +62,8 @@ class Scripts {
 
 		switch ( $action ) {
 			case 'complete':
-				$updated = Suggested_Tasks::mark_task_as_completed( $task_id );
+				Suggested_Tasks::mark_task_as_completed( $task_id );
+				$updated = true;
 				break;
 
 			case 'snooze':

@@ -35,42 +35,49 @@ class Update_Posts extends Local_Tasks {
 	 *
 	 * @param string $task_id The task ID.
 	 *
-	 * @return void
+	 * @return bool
 	 */
 	public function evaluate_task( $task_id ) {
-		if ( \str_starts_with( 'update-post-', $task_id ) ) {
-			$this->evaluate_update_post_task( $task_id );
+		$data = $this->get_data_from_task_id( $task_id );
+		if ( ! isset( $data['type'] ) || ! isset( $data['post_id'] ) ) {
+			return false;
 		}
 
-		if ( \str_starts_with( 'create-post-', $task_id ) ) {
-			$this->evaluate_create_post_task( $task_id );
+		switch ( $data['type'] ) {
+			case 'update-post':
+				return $this->evaluate_update_post_task( $data );
+
+			case 'create-post':
+				return $this->evaluate_create_post_task( $data );
 		}
+
+		return false;
 	}
 
 	/**
 	 * Evaluate an update-post task.
 	 *
-	 * @param string $task_id The task ID.
+	 * @param array $data    The task data.
 	 *
-	 * @return void
+	 * @return bool
 	 */
-	public function evaluate_update_post_task( $task_id ) {
-		$post_id = (int) \str_replace( 'update-post-', '', $task_id );
-		$post    = \get_post( $post_id );
-		if ( strtotime( $post->post_modified ) > strtotime( '-6 months' ) ) {
-			Suggested_Tasks::mark_task_as_completed( $task_id . '-' . \gmdate( 'Y-m-d' ) );
-			self::remove_pending_task( $task_id );
+	public function evaluate_update_post_task( $data ) {
+		if ( (int) \get_post_modified_time( 'U', false, (int) $data['post_id'] ) > strtotime( '-6 months' ) ) {
+			$data['date'] = \gmdate( 'YW' );
+			Suggested_Tasks::mark_task_as_completed( $this->get_task_id( $data ) );
+			return true;
 		}
+		return false;
 	}
 
 	/**
 	 * Evaluate a create-post task.
 	 *
-	 * @param string $task_id The task ID.
+	 * @param array $data    The task data.
 	 *
-	 * @return void
+	 * @return bool
 	 */
-	public function evaluate_create_post_task( $task_id ) {
+	public function evaluate_create_post_task( $data ) {
 		$last_posts = \get_posts(
 			[
 				'posts_per_page' => 1,
@@ -81,32 +88,30 @@ class Update_Posts extends Local_Tasks {
 		);
 		$last_post  = $last_posts ? $last_posts[0] : null;
 		if ( ! $last_post ) {
-			return;
+			return false;
 		}
 
 		// Check if the post was created this week.
 		if ( \gmdate( 'YW', strtotime( $last_post->post_date ) ) !== \gmdate( 'YW' ) ) {
-			return;
+			return false;
 		}
 
 		// Check if the task is for this week.
-		if ( ! \str_ends_with( $task_id, \gmdate( 'YW' ) ) ) {
-			return;
+		if ( ! isset( $data['date'] ) || $data['date'] !== \gmdate( 'YW' ) ) {
+			return false;
 		}
 
-		// Get the word count of the last created post.
-		$word_count        = Content_Helpers::get_word_count(
-			$last_post->post_content,
-			$last_post->ID
+		Suggested_Tasks::mark_task_as_completed(
+			self::get_task_id(
+				[
+					'type'    => 'create-post',
+					'date'    => \gmdate( 'YW' ),
+					'post_id' => $last_post->ID,
+					'long'    => Content_Helpers::is_post_long( $last_post->ID ),
+				]
+			)
 		);
-		$is_last_post_long = $word_count > self::LONG_POST_THRESHOLD;
-
-		$completed_task_id  = 'create-post-';
-		$completed_task_id .= $is_last_post_long ? 'short' : 'long';
-		$completed_task_id .= '-' . \gmdate( 'YW' );
-
-		Suggested_Tasks::mark_task_as_completed( $completed_task_id );
-		self::remove_pending_task( $completed_task_id );
+		return true;
 	}
 
 	/**
@@ -173,7 +178,7 @@ class Update_Posts extends Local_Tasks {
 					self::LONG_POST_THRESHOLD
 				),
 		];
-		self::add_pending_task( $task_id );
+		$this->add_pending_task( $task_id );
 
 		return $items;
 	}
@@ -204,7 +209,12 @@ class Update_Posts extends Local_Tasks {
 			if ( strtotime( $post->post_modified ) > strtotime( '-6 months' ) ) {
 				continue;
 			}
-			$task_id = "update-post-{$post->ID}";
+			$task_id = $this->get_task_id(
+				[
+					'type'    => 'update-post',
+					'post_id' => $post->ID,
+				]
+			);
 			$items[] = [
 				'task_id'     => $task_id,
 				'title'       => sprintf( 'Update post "%s"', \esc_html( $post->post_title ) ),
@@ -217,8 +227,48 @@ class Update_Posts extends Local_Tasks {
 					\esc_html( $post->post_title )
 				) . '</p><p><a href="' . \esc_url( \get_edit_post_link( $post->ID ) ) . '">' . \esc_html__( 'Edit the post', 'progress-planner' ) . '</a>.</p>',
 			];
-			self::add_pending_task( $task_id );
+			$this->add_pending_task( $task_id );
 		}
 		return $items;
+	}
+
+	/**
+	 * Get the task ID.
+	 *
+	 * @param array $data The data to use for the task ID.
+	 *
+	 * @return string The task ID.
+	 */
+	public function get_task_id( $data ) {
+		\ksort( $data );
+		$parts = [];
+		foreach ( $data as $key => $value ) {
+			$parts[] = $key . '/' . $value;
+		}
+		return \implode( '|', $parts );
+	}
+
+	/**
+	 * Get the data from a task-ID.
+	 *
+	 * @param string $task_id The task ID.
+	 *
+	 * @return array The data.
+	 */
+	public function get_data_from_task_id( $task_id ) {
+		$parts = \explode( '|', $task_id );
+		$data  = [];
+		foreach ( $parts as $part ) {
+			$part = \explode( '/', $part );
+			if ( 2 !== \count( $part ) ) {
+				continue;
+			}
+			$data[ $part[0] ] = ( \is_numeric( $part[1] ) )
+				? (int) $part[1]
+				: $part[1];
+		}
+		\ksort( $data );
+
+		return $data;
 	}
 }

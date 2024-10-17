@@ -41,10 +41,9 @@ class Suggested_Tasks {
 	 *
 	 * @param string $task_id The task ID.
 	 *
-	 * @return bool
+	 * @return void
 	 */
 	public static function mark_task_as_completed( $task_id ) {
-		$option            = \get_option( self::OPTION_NAME, [] );
 		$activity          = new Suggested_Task_Activity();
 		$activity->type    = 'completed';
 		$activity->data_id = (string) $task_id;
@@ -52,16 +51,7 @@ class Suggested_Tasks {
 		$activity->user_id = \get_current_user_id();
 		$activity->save();
 
-		$completed = $option['completed'] ?? [];
-		if ( \in_array( $task_id, $completed, true ) ) {
-			return false;
-		}
-		$completed[]         = (string) $task_id;
-		$option['completed'] = $completed;
-
 		self::mark_task_as_pending_celebration( $task_id );
-
-		return \update_option( self::OPTION_NAME, $option );
 	}
 
 	/**
