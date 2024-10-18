@@ -45,7 +45,11 @@ const prplResizeAllGridItems = () => {
 
 if ( document.readyState !== 'loading' ) {
 	prplResizeAllGridItems();
+	setTimeout( prplResizeAllGridItems, 1000 );
 } else {
-	document.addEventListener( 'DOMContentLoaded', prplResizeAllGridItems );
+	document.addEventListener( 'DOMContentLoaded', () => {
+		prplResizeAllGridItems();
+		setTimeout( prplResizeAllGridItems, 1000 );
+	} );
 }
 window.addEventListener( 'resize', prplResizeAllGridItems );
