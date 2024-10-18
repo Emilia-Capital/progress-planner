@@ -24,13 +24,6 @@ class Update_Posts extends Local_Tasks {
 	const ITEMS_TO_INJECT = 2;
 
 	/**
-	 * The threshold (in words) for a long post.
-	 *
-	 * @var int
-	 */
-	const LONG_POST_THRESHOLD = 300;
-
-	/**
 	 * Evaluate a task.
 	 *
 	 * @param string $task_id The task ID.
@@ -141,16 +134,8 @@ class Update_Posts extends Local_Tasks {
 				'order'          => 'ASC',
 			]
 		);
-		// Get the word count of the last created post.
-		$word_count = 0;
-		if ( $last_created_posts ) {
-			$word_count = Content_Helpers::get_word_count(
-				$last_created_posts[0]->post_content,
-				$last_created_posts[0]->ID
-			);
-		}
 
-		$is_last_post_long = $word_count > self::LONG_POST_THRESHOLD;
+		$is_last_post_long = is_array( $last_created_posts ) && Content_Helpers::is_post_long( $last_created_posts[0]->ID );
 		$items             = [];
 
 		$task_id  = 'create-post-';
@@ -170,12 +155,12 @@ class Update_Posts extends Local_Tasks {
 				? sprintf(
 					/* translators: %d: The threshold (number, words count) for a long post. */
 					esc_html__( 'Create a new short post (no longer than %d words).', 'progress-planner' ),
-					self::LONG_POST_THRESHOLD
+					Content_Helpers::LONG_POST_THRESHOLD
 				)
 				: sprintf(
 					/* translators: %d: The threshold (number, words count) for a long post. */
 					esc_html__( 'Create a new long post (longer than %d words).', 'progress-planner' ),
-					self::LONG_POST_THRESHOLD
+					Content_Helpers::LONG_POST_THRESHOLD
 				),
 		];
 		$this->add_pending_task( $task_id );
