@@ -16,7 +16,7 @@ use Progress_Planner\Badges;
 use Progress_Planner\Chart;
 use Progress_Planner\Todo;
 use Progress_Planner\Query;
-use Progress_Planner\Widgets\Website_Activity_Score;
+use Progress_Planner\Widgets\Activity_Scores;
 use Progress_Planner\Badges\Badge\Wonderful_Writer as Badge_Wonderful_Writer;
 use Progress_Planner\Badges\Badge\Bold_Blogger as Badge_Bold_Blogger;
 use Progress_Planner\Badges\Badge\Awesome_Author as Badge_Awesome_Author;
@@ -99,7 +99,7 @@ class Rest_API {
 		);
 
 		// Get the website activity score.
-		$activity_score           = new Website_Activity_Score();
+		$activity_score           = new Activity_Scores();
 		$data['website_activity'] = [
 			'score'     => $activity_score->get_score(),
 			'checklist' => $activity_score->get_checklist_results(),

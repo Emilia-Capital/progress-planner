@@ -1,4 +1,4 @@
-/* global progressPlannerSuggestedTasks, jQuery */
+/* global progressPlannerSuggestedTasks, jQuery, prplResizeGridItem */
 const PRPL_SUGGESTED_TASK_CLASSNAME = 'prpl-suggested-task';
 const PRPL_SUGGESTED_TASKS_MAX_ITEMS = 5;
 
@@ -160,7 +160,7 @@ const progressPlannerInjectSuggestedTodoItem = ( details ) => {
 	if ( ! parent ) {
 		// Inject the item into the list.
 		document
-			.querySelector( '.prpl-suggested-todos-list' )
+			.querySelector( '.prpl-suggested-tasks-list' )
 			.insertAdjacentHTML( 'beforeend', itemHTML );
 	} else {
 		const parentItem = document.querySelector(
@@ -248,5 +248,10 @@ document.addEventListener( 'DOMContentLoaded', () => {
 		progressPlannerGetNextItem()
 	) {
 		progressPlannerInjectNextItem();
+		prplResizeGridItem(
+			document.querySelector(
+				'.prpl-widget-wrapper.prpl-suggested-tasks'
+			)
+		);
 	}
 } );

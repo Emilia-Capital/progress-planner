@@ -18,21 +18,15 @@ class Page {
 	 * The widgets to display on the admin page.
 	 */
 	const WIDGETS = [
-		'\Progress_Planner\Widgets\Website_Activity_Score',
-		'\Progress_Planner\Widgets\Suggested_Tasks_Score',
 		'\Progress_Planner\Widgets\Activity_Scores',
 		'\Progress_Planner\Widgets\ToDo',
 		'\Progress_Planner\Widgets\Suggested_Tasks',
 		'\Progress_Planner\Widgets\Latest_Badge',
 		'\Progress_Planner\Widgets\Published_Content_Density',
 		'\Progress_Planner\Widgets\Published_Words',
-		'\Progress_Planner\Widgets\Badges_Progress',
-		'\Progress_Planner\Widgets\Badge_Content',
 		'\Progress_Planner\Widgets\Badge_Streak',
-		'\Progress_Planner\Widgets\Personal_Record_Content',
 		'\Progress_Planner\Widgets\Published_Content',
 		'\Progress_Planner\Widgets\Whats_New',
-		'\Progress_Planner\Widgets\Badge_Monthly',
 	];
 
 	/**
@@ -124,6 +118,14 @@ class Page {
 			false
 		);
 
+		\wp_register_script(
+			'progress-planner-grid-masonry',
+			PROGRESS_PLANNER_URL . '/assets/js/grid-masonry.js',
+			[],
+			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/grid-masonry.js' ),
+			true
+		);
+
 		// Register the ajax-request helper.
 		\wp_register_script(
 			'progress-planner-ajax',
@@ -172,7 +174,7 @@ class Page {
 		\wp_register_script(
 			'progress-planner-todo',
 			PROGRESS_PLANNER_URL . '/assets/js/todo.js',
-			[ 'jquery-ui-sortable', 'progress-planner-ajax', 'wp-util' ],
+			[ 'jquery-ui-sortable', 'progress-planner-ajax', 'wp-util', 'progress-planner-grid-masonry' ],
 			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/todo.js' ),
 			true
 		);
@@ -232,6 +234,7 @@ class Page {
 		\wp_enqueue_script( 'progress-planner-todo' );
 		\wp_enqueue_script( 'progress-planner-settings' );
 		\wp_enqueue_script( 'progress-planner-suggested-tasks' );
+		\wp_enqueue_script( 'progress-planner-grid-masonry' );
 	}
 
 	/**

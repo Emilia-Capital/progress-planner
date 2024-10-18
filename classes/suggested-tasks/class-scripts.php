@@ -91,7 +91,7 @@ class Scripts {
 		\wp_register_script(
 			'progress-planner-suggested-tasks',
 			PROGRESS_PLANNER_URL . '/assets/js/suggested-tasks.js',
-			[ 'progress-planner-todo' ],
+			[ 'progress-planner-todo', 'progress-planner-grid-masonry' ],
 			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/suggested-tasks.js' ),
 			true
 		);

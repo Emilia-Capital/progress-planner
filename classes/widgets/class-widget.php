@@ -22,20 +22,6 @@ abstract class Widget {
 	protected $id;
 
 	/**
-	 * The col-span for the 12-column grid layout.
-	 *
-	 * @var int
-	 */
-	protected $colspan = 4;
-
-	/**
-	 * The row-span for the grid layout.
-	 *
-	 * @var int
-	 */
-	protected $rowspan = 6;
-
-	/**
 	 * Get the widget range.
 	 *
 	 * @return string
@@ -73,11 +59,11 @@ abstract class Widget {
 		$classes = [
 			'prpl-widget-wrapper',
 			'prpl-' . \esc_attr( $this->id ),
-			'prpl-widget-colspan-' . \esc_attr( (string) $this->colspan ),
-			'prpl-widget-rowspan-' . \esc_attr( (string) $this->rowspan ),
 		];
 		echo '<div class="' . esc_attr( \implode( ' ', $classes ) ) . '">';
+		echo '<div class="widget-inner-container">';
 		$this->the_content();
+		echo '</div>';
 		echo '</div>';
 	}
 
@@ -93,14 +79,19 @@ abstract class Widget {
 	/**
 	 * Render a big counter.
 	 *
-	 * @param int    $number The number to display.
-	 * @param string $text   The text to display.
+	 * @param int    $number             The number to display.
+	 * @param string $text               The text to display.
+	 * @param string $additional_classes Additional classes to add to the container.
 	 *
 	 * @return void
 	 */
-	protected function render_big_counter( int $number, $text ) {
+	protected function render_big_counter( int $number, $text, $additional_classes = '' ) {
+		$container_classes = 'counter-big-wrapper';
+		if ( ! empty( $additional_classes ) ) {
+			$container_classes .= ' ' . $additional_classes;
+		}
 		?>
-		<div class="counter-big-wrapper">
+		<div class="<?php echo esc_attr( $container_classes ); ?>">
 			<span class="counter-big-number">
 				<?php echo \esc_html( \number_format_i18n( $number ) ); ?>
 			</span>
