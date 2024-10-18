@@ -107,7 +107,7 @@ class Update_Posts extends Local_Tasks {
 					'type'    => 'create-post',
 					'date'    => \gmdate( 'YW' ),
 					'post_id' => $last_post->ID,
-					'long'    => Content_Helpers::is_post_long( $last_post->ID ),
+					'long'    => Content_Helpers::is_post_long( $last_post->ID ) ? '1' : '0',
 				]
 			)
 		);
