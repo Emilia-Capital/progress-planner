@@ -188,10 +188,11 @@
 		}
 	}
 
-	.prpl-widgets-container {
+	.prpl-widgets-container.in-popover {
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(var(--prpl-column-min-width), 1fr));
 		grid-gap: var(--prpl-gap);
+		grid-auto-rows: auto;
 
 		.prpl-widget-wrapper {
 			display: flex;

@@ -50,7 +50,7 @@ final class Badges extends Popup {
 		<h2><?php \esc_html_e( 'You are on the right track!', 'progress-planner' ); ?></h2>
 		<p><?php \esc_html_e( 'Find out which badges to unlock next and become a Progress Planner Professional!', 'progress-planner' ); ?></p>
 
-		<div class="prpl-widgets-container">
+		<div class="prpl-widgets-container in-popover">
 			<div class="prpl-widget-wrapper in-popover">
 				<h3><?php \esc_html_e( 'Don’t break your streak and stay active every week!', 'progress-planner' ); ?></h3>
 				<p><?php \esc_html_e( 'Execute at least one website maintenance task every week. That could be publishing content, adding content, updating a post, or updating a plugin.', 'progress-planner' ); ?></p>
