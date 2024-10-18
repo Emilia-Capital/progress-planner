@@ -238,26 +238,6 @@ button.prpl-info-icon {
 /*------------------------------------*\
 	Activity-score widget.
 \*------------------------------------*/
-.prpl-widget-wrapper.prpl-website-activity-score {
-
-	ul {
-		margin-top: 10px;
-
-		li {
-			margin-left: 10px;
-			line-height: 1.2;
-		}
-	}
-
-	.prpl-icon {
-		display: inline-block;
-		text-align: center;
-		width: 0.75em;
-		font-size: 1.25em;
-		margin-right: 5px;
-		vertical-align: top;
-	}
-}
 
 .prpl-gauge-number {
 	font-size: var(--prpl-font-size-6xl);
@@ -296,115 +276,6 @@ button.prpl-info-icon {
 	position: absolute;
 	top: 50%;
 	color: var(--prpl-color-gray-5);
-}
-
-/*------------------------------------*\
-	Activity scores
-\*------------------------------------*/
-.prpl-widget-wrapper.prpl-activity-scores .prpl-graph-wrapper {
-	max-height: 300px;
-}
-
-/*------------------------------------*\
-	Badges progress widget.
-\*------------------------------------*/
-.prpl-widget-wrapper.prpl-badge-streak {
-
-	.progress-label {
-		display: inline-block;
-	}
-
-	.progress-wrapper {
-		display: grid;
-		grid-template-columns: 1fr 1fr 1fr;
-		gap: calc(var(--prpl-gap) / 2);
-		background-color: var(--prpl-background-blue);
-		padding: calc(var(--prpl-padding) / 2);
-		border-radius: var(--prpl-border-radius);
-		margin-bottom: var(--prpl-padding);
-
-		.prpl-badge {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			justify-content: space-between;
-			flex-wrap: wrap;
-			min-width: 0;
-		}
-
-		p {
-			margin: 0;
-			font-size: var(--prpl-font-size-xs);
-			text-align: center;
-			line-height: 1.2;
-		}
-
-		svg {
-			width: calc(100% * var(--multiplier));
-			margin-left: calc(100% * (1 - var(--multiplier)) / 2);
-		}
-
-		+ .progress-wrapper {
-			background-color: var(--prpl-background-orange);
-
-			&.badge-group-maintenance {
-				background-color: var(--prpl-background-red);
-			}
-		}
-	}
-
-	.prpl-badge {
-
-		/* Change this number to adjust the rate of growth of the badges size. */
-		--multiplier-default: 1.125;
-		--multiplier: var(--multiplier-default);
-
-		+ .prpl-badge {
-			--multiplier: calc(var(--multiplier-default) * var(--multiplier-default));
-
-			+ .prpl-badge {
-				--multiplier: calc(var(--multiplier-default) * var(--multiplier-default) * var(--multiplier-default));
-			}
-		}
-	}
-
-	.prpl-widget-content {
-		margin-bottom: 1em;
-	}
-}
-
-/*------------------------------------*\
-	Published content widget.
-\*------------------------------------*/
-.prpl-widget-wrapper.prpl-published-content {
-
-	table {
-		width: 100%;
-		margin-bottom: 1em;
-	}
-
-	th,
-	td {
-		border: none;
-
-		&:not(:first-child) {
-			padding: 0.5em;
-			text-align: center;
-		}
-	}
-
-	th {
-		text-align: start;
-		border-bottom: 1px solid var(--prpl-color-gray-3);
-	}
-
-	tr:nth-child(even) {
-		background-color: #f9fafb;
-	}
-
-	tr:last-child td {
-		border-bottom: none;
-	}
 }
 
 /*------------------------------------*\
@@ -458,20 +329,6 @@ button.prpl-info-icon {
 	filter: drop-shadow(0 0 1px rgb(0 0 0 / 0.4));
 }
 
-.prpl-badge-watermark {
-	display: block;
-	width: 150%;
-	height: 150%;
-	background-image: url(data:image/svg+xml;base64,PHN2ZyByb2xlPSJpbWciIGFyaWEtaGlkZGVuPSJ0cnVlIiBmb2N1c2FibGU9ImZhbHNlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzNjggNTAwIj48cGF0aCBmaWxsPSIjMzgyOTZkIiBkPSJNMjE3LjQ2IDE3Mi45YzMuMjEuMTIgNS45NyAxLjc0IDcuNzMgNC4xNS0xLjg3LTEwLjI0LTEwLjY0LTE4LjE3LTIxLjQ4LTE4LjU2LTEyLjUyLS40NS0yMy4wMyA5LjMzLTIzLjQ4IDIxLjg1LS40NSAxMi41MiA5LjMzIDIzLjAzIDIxLjg1IDIzLjQ4IDkuNC4zNCAxNy42Ny01LjEgMjEuNC0xMy4xMy0xLjgzIDEuNTEtNC4xOCAyLjQyLTYuNzQgMi4zMy01LjU1LS4yLTkuODktNC44Ni05LjY5LTEwLjQxLjItNS41NSA0Ljg2LTkuODkgMTAuNDEtOS42OVpNMjQxLjUxIDMwNS44NGMuNTggMS45MiAxLjEzIDMuODYgMS43MyA1Ljc3IDE0LjA0IDQ0Ljk3IDMzLjk0IDg4Ljc1IDU2LjQyIDEyNC4yN2w2Ny43NS0xMzAuMDRoLTEyNS45Wk0yOTcuOTYgMjA1Ljk3YzEyLjEyLTQuNSAyMy41NC03LjE4IDMzLjY0LTguOTYtMjIuNTEtMjIuMjctNjEuMjQtMjcuMDYtNjEuNDctMjcuMDkgMS4yNyA2LjE3LjU4IDE1LjgtMi40NCAyNi40Ni0zLjMgMTEuNjYtOS4zOCAyNC41NC0xOC43IDM1LjQ4LTMuNDUgNC4wNi03LjM2IDcuODMtMTEuNzMgMTEuMTloLjA3di0uMDFjLjE2LjYyLjM4IDEuMi41OCAxLjc5IDIuNzQgOC4yNyA4LjYxIDEzLjc0IDE0LjkzIDE3LjE0IDYuNDggMy40OSAxMy4zNyA0LjgzIDE3LjY4IDQuODMgNi40IDAgMTEuODgtMy43OSAxNC40My05LjIyLjk3LTIuMDYgMS41NS00LjMzIDEuNTUtNi43NiAwLTMuODUtMS40Mi03LjM0LTMuNjktMTAuMS0xLjkyLTIuMzMtNC40Ni00LjA4LTcuMzktNS4wM2w0NC44Mi04LjY1Yy02LjYzLTYuMTItMTQuNzItMTEuNTktMjIuNzMtMTYuMjMtMS45Ny0xLjE0LTEuNjktNC4wNS40NS00Ljg0WiIvPjxwYXRoIGZpbGw9IiNmYWEzMTAiIGQ9Ik0yODEuMzcgNDU4LjM3Yy0yNS43OS0zOC44NC00OC42OC04OC4wNC02NC40NS0xMzguNTQtMS40NS00LjYzLTIuODMtOS4zMS00LjE3LTEzLjk5LTEuMTItMy45NC0yLjIyLTcuODgtMy4yNS0xMS44LTIuMDktNy45Mi05LjI4LTEzLjQ2LTE3LjQ4LTEzLjQ2aC0yNy45NWMtOC4yIDAtMTUuMzkgNS41My0xNy40OCAxMy40NS0yLjI4IDguNjUtNC43OCAxNy4zMi03LjQyIDI1Ljc5LTE1Ljc3IDUwLjUtMzguNjUgOTkuNy02NC40NSAxMzguNTQtNC4wMSA2LjAzLTEuNzggMTEuNjMtLjY0IDEzLjc2IDIuNCA0LjQ3IDYuODYgNy4xNCAxMS45NCA3LjE0aDY2LjAxbDMuOTcgNi45MmM0LjU0IDcuOSAxMi45OSAxMi44MSAyMi4wNSAxMi44MXMxNy41MS00LjkxIDIyLjA2LTEyLjgxbDMuOTgtNi45Mmg2NmMzLjIyIDAgNi4xOS0xLjA4IDguNTUtMy4wMiAxLjM1LTEuMTEgMi41MS0yLjQ5IDMuMzgtNC4xMy41Ny0xLjA3IDEuNDItMy4wMiAxLjYxLTUuNDYuMTktMi40MS0uMjYtNS4zMS0yLjI1LTguMzFaIi8+PHBhdGggZmlsbD0iIzM4Mjk2ZCIgZD0iTTI5NS43IDc2LjA2Yy03LjU0LTEyLjA1LTMyLjM4IDEtNTkuNTQgMi44Ni0xNS4wNCAxLjAzLTM3LjA1LTExMC42My03MS43Ny01Ni45OS0zOS41NiA2MS4xLTc5LjEyLTQ0LjY4LTg4LjY2LTE1LjgzLTIxLjExIDQzLjI3IDI1LjE1IDg0LjYxIDI1LjE1IDg0LjYxcy0xMi44NCA3LjkyLTIwLjYzIDEzLjkzYy01LjQ3IDQuMTctMTAuODIgOC42NS0xNi4wMyAxMy41MS0yMC40NSAxOS4wMy0zNi4wNCA0MC4zMi00Ni43NyA2My44NkM2LjcyIDIwNS41NSAxLjExIDIyOS41OS42MiAyNTQuMTVjLS40OSAyNC41NiA0LjAxIDQ5LjEgMTMuNTQgNzMuNjMgOS41MiAyNC41MyAyNC4xNyA0Ny40MiA0My45NSA2OC42OCA0LjAyIDQuMzIgOC4xMiA4LjQxIDEyLjMxIDEyLjMgNC4xLTYuMzEgNy45Ny0xMi43NCAxMS42NC0xOS4yNiA0LjM5LTcuOCA4LjUtMTUuNzIgMTIuMjUtMjMuNzgtLjMzLS4zNS0uNjYtLjY5LS45OS0xLjAzLS4xNy0uMTgtLjM0LS4zNS0uNTEtLjUzLTE1LjUzLTE2LjY5LTI3LjE3LTM0LjU5LTM0LjkzLTUzLjcyLTcuNzctMTkuMTMtMTEuNS0zOC4yNS0xMS4yLTU3LjM2LjI5LTE5LjEgNC40Ny0zNy42OCAxMi41My01NS43MiA4LjA2LTE4LjA1IDIwLjAyLTM0LjQ1IDM1LjktNDkuMjIgMTMuOTktMTMuMDIgMjguODQtMjIuODMgNDQuNTUtMjkuNDEgMTUuNy02LjU5IDMxLjYzLTkuOTggNDcuNzYtMTAuMTggOS4wNS0uMTEgMTkuMTEgMS4xNSAyOS41MSA0LjUgMTAuMzIgNC4yNyAxOS4yMiA5LjQ0IDI2LjYzIDE1LjM1IDEwLjE5IDguMTMgMTcuNjEgMTcuNjUgMjIuMjIgMjguMSAxLjkxIDQuMzIgMy4zNyA4LjggNC4zMiAxMy40MSAxNi4yNy0yOC4yNyAzNi43NS03NS45NiAyNS41Ny05My44M1oiLz48L3N2Zz4=);
-	position: absolute;
-	top: -20%;
-	left: -10%;
-	opacity: 0.04;
-	z-index: 0;
-	filter: grayscale(80%);
-	background-repeat: no-repeat;
-}
-
 /*------------------------------------*\
 	Streak badge widget.
 \*------------------------------------*/
@@ -487,89 +344,6 @@ button.prpl-info-icon {
 	Personal record widget.
 \*------------------------------------*/
 .prpl-personal-record-content.counter-big-wrapper {
-	background-color: var(--prpl-background-green);
-}
-
-/*------------------------------------*\
-	What's new widget.
-\*------------------------------------*/
-.prpl-widget-wrapper.prpl-whats-new {
-
-	ul {
-		margin: 0;
-
-		p {
-			margin: 0;
-		}
-	}
-
-	li {
-
-		> a {
-			color: var(--prpl-color-gray-6);
-			text-decoration: none;
-
-			h3 {
-				margin-top: 0;
-				font-size: 1.15em;
-				font-weight: 600;
-
-				&::after {
-					content: url('data:image/svg+xml,<%3Fxml version="1.0" encoding="UTF-8"%3F><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12"><path fill="%23currentcolor" d="M6 1h5v5L8.86 3.85 4.7 8 4 7.3l4.15-4.16zM2 3h2v1H2v6h6V8h1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1"/></svg>');
-					margin-left: 0.25em;
-					width: 0.75em;
-					height: 0.75em;
-					display: inline-block;
-				}
-			}
-		}
-
-		img {
-			width: 100%;
-		}
-	}
-}
-
-.prpl-blog-post-image {
-	width: 100%;
-	min-height: 120px;
-	aspect-ratio: 16 / 9;
-	background-size: cover;
-	margin-bottom: 1em;
-	border-radius: var(--prpl-border-radius);
-	box-shadow: 5px 5px 5px var(--prpl-color-gray-2);
-	border: 1px solid var(--prpl-color-gray-2);
-}
-
-/*------------------------------------*\
-	Latest badge widget.
-\*------------------------------------*/
-
-.prpl-widget-wrapper.prpl-latest-badge img {
-	border: 1px solid var(--prpl-color-gray-2);
-	border-radius: var(--prpl-border-radius);
-}
-
-/*------------------------------------*\
-	Plugins widget.
-\*------------------------------------*/
-
-/* .prpl-widget-wrapper.prpl-plugins:has(.pending-updates) {
-	border-color: var(--prpl-color-notification-red);
-	border-width: 2px;
-	background-color: var(--prpl-background-orange);
-}
-
-.prpl-widget-wrapper.prpl-plugins:has(.pending-updates) .counter-big-wrapper {
-	background-color: var(--prpl-background-orange);
-}
-
-.prpl-widget-wrapper.prpl-plugins:has(.pending-updates) .accent {
-	color: var(--prpl-color-notification-red);
-	font-weight: 600;
-} */
-
-.prpl-widget-wrapper.prpl-plugins .counter-big-wrapper {
 	background-color: var(--prpl-background-green);
 }
 
@@ -651,47 +425,6 @@ button.prpl-info-icon {
 			padding: var(--prpl-padding) calc(var(--prpl-gap) * 1.5);
 			font-weight: 600;
 		}
-	}
-}
-
-/*------------------------------------*\
-	Badges monthly widget.
-\*------------------------------------*/
-.prpl-widget-wrapper.prpl-suggested-tasks {
-
-	.badge-group-monthly {
-		display: grid;
-		grid-template-columns: 1fr 1fr 1fr;
-		gap: calc(var(--prpl-gap) / 2);
-		padding: calc(var(--prpl-padding) / 2);
-		border-radius: var(--prpl-border-radius);
-		margin-bottom: var(--prpl-padding);
-
-		.prpl-badge {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			justify-content: space-between;
-			flex-wrap: wrap;
-			min-width: 0;
-			gap: 10px;
-		}
-
-		p {
-			margin: 0;
-			font-size: var(--prpl-font-size-xs);
-			text-align: center;
-			line-height: 1.2;
-		}
-
-		svg {
-			width: calc(100% * var(--multiplier));
-			margin-left: calc(100% * (1 - var(--multiplier)) / 2);
-		}
-	}
-
-	.prpl-widget-content {
-		margin-bottom: 1em;
 	}
 }
 
@@ -883,121 +616,6 @@ button.prpl-info-icon {
 }
 
 /*------------------------------------*\
-	TODO list styles.
-\*------------------------------------*/
-
-.prpl-widget-wrapper.prpl-todo {
-	padding-left: 0;
-
-	> * {
-		padding-left: var(--prpl-padding);
-	}
-}
-
-#create-todo-item {
-	display: flex;
-	align-items: center;
-	flex-direction: row-reverse;
-	gap: 1em;
-
-	button {
-		border: 1.5px solid;
-		border-radius: 50%;
-		background: none;
-		box-shadow: none;
-		color: var(--prpl-color-gray-3);
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		padding: 0.2em;
-
-		.dashicons {
-			font-size: 0.825em;
-			width: 1em;
-			height: 1em;
-		}
-	}
-}
-
-#new-todo-content {
-	flex: 1;
-	min-width: 0;
-}
-
-#todo-list {
-	list-style: none;
-	padding: 0;
-	max-height: 30em;
-	overflow-y: auto;
-	margin: 0 0 0.5em -5px;
-
-	li {
-		position: relative;
-		display: flex;
-		align-items: center;
-		font-size: 14px;
-
-		.content {
-			padding: 0 0.5em;
-			width: 100%;
-			display: border-box;
-			border-bottom: 1.5px solid transparent;
-		}
-
-		input {
-			margin: 0 5px;
-
-			&[type="checkbox"]:checked::before {
-				content: url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2020%2020%27%3E%3Cpath%20d%3D%27M14.83%204.89l1.34.94-5.81%208.38H9.02L5.78%209.67l1.34-1.25%202.57%202.4z%27%20fill%3D%27%2316a34a%27%2F%3E%3C%2Fsvg%3E");
-			}
-		}
-
-		.trash {
-			opacity: 0;
-			padding: 0;
-			border: 0;
-			background: none;
-			color: var(--prpl-color-gray-3);
-			cursor: pointer;
-			box-shadow: none;
-			transition: all 0.1s;
-
-			&:hover {
-				color: var(--prpl-color-accent-red);
-			}
-		}
-
-		:not(:focus-within):has(:checked) .content {
-			opacity: 0.5;
-			text-decoration: line-through;
-		}
-
-		&:focus-within .content {
-			outline: none;
-			border-bottom: 1.5px solid var(--prpl-color-gray-3);
-		}
-
-		&:hover,
-		&:focus-within {
-
-			.trash {
-				opacity: 1;
-			}
-
-			.prpl-todo-drag-handle {
-				opacity: 1;
-			}
-		}
-	}
-}
-
-.prpl-todo-drag-handle {
-	width: var(--prpl-padding);
-	display: flex;
-	opacity: 0;
-}
-
-/*------------------------------------*\
 	Dashboard widget styles.
 \*------------------------------------*/
 #progress_planner_dashboard_widget_score {
@@ -1086,25 +704,6 @@ button.prpl-info-icon {
 }
 
 /*------------------------------------*\
-	Progress Planner TODO Dashboard widget styles.
-\*------------------------------------*/
-#progress_planner_dashboard_widget_todo #create-todo-item {
-	padding: 0 16px;
-}
-
-#prpl-dashboard-widget-todo-header {
-	display: flex;
-	gap: 1em;
-	align-items: center;
-	margin-bottom: 1em;
-	padding: 0 16px;
-
-	p {
-		font-size: 14px;
-	}
-}
-
-/*------------------------------------*\
 	Settings popup.
 \*------------------------------------*/
 #prpl-settings-license-form,
@@ -1151,79 +750,5 @@ button.prpl-info-icon {
 		grid-template-columns: 1fr 3fr;
 		margin-bottom: 0.5em;
 		gap: var(--prpl-padding);
-	}
-}
-
-/*------------------------------------*\
-	Suggested tasks.
-\*------------------------------------*/
-.prpl-suggested-tasks-list {
-	list-style: none;
-	padding: 0;
-	margin: 0;
-	position: relative;
-
-	&:not(:has(+ .prpl-suggested-tasks-list)) .prpl-suggested-task:last-child {
-		border-bottom: none;
-	}
-
-	.prpl-suggested-task {
-		border-bottom: 1px solid var(--prpl-color-gray-3);
-		display: flex;
-		justify-content: space-between;
-
-		h3 {
-			font-size: 1rem;
-			margin: 0;
-			font-weight: 500;
-		}
-
-		.actions {
-
-			visibility: hidden;
-			justify-content: flex-end;
-			gap: 0.5em;
-			display: flex;
-		}
-
-		&:hover {
-
-			.actions {
-				visibility: visible;
-			}
-		}
-
-		.prpl-suggested-task-description {
-			font-size: 0.825rem;
-			color: var(--prpl-color-gray-6);
-			margin: 0;
-		}
-
-		button {
-			padding: 0.1rem;
-			line-height: 0;
-			margin: 0;
-			background: none;
-			border: none;
-		}
-
-		.prpl-suggested-task-info,
-		.prpl-suggested-snooze-duration-selector {
-			position: absolute;
-			top: 0;
-			left: 0;
-			padding: 0.75rem;
-			background: var(--prpl-background-orange);
-			border-radius: var(--prpl-border-radius);
-			z-index: 1;
-			width: calc(100% - 1.5rem);
-			height: calc(100% - 1.5rem);
-
-			.close {
-				position: absolute;
-				top: 0.75rem;
-				right: 0.75rem;
-			}
-		}
 	}
 }

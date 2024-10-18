@@ -56,6 +56,16 @@ abstract class Widget {
 		if ( ! $this->should_render() ) {
 			return;
 		}
+
+		$stylesheet = "/assets/css/widgets/{$this->id}.css";
+		if ( \file_exists( PROGRESS_PLANNER_DIR . $stylesheet ) ) {
+			\wp_enqueue_style(
+				'prpl-widget-' . $this->id,
+				PROGRESS_PLANNER_URL . $stylesheet,
+				[],
+				(string) filemtime( PROGRESS_PLANNER_DIR . $stylesheet )
+			);
+		}
 		$classes = [
 			'prpl-widget-wrapper',
 			'prpl-' . \esc_attr( $this->id ),

@@ -36,7 +36,7 @@ class Tour {
 				],
 			],
 			[
-				'element' => '.prpl-website-activity-score',
+				'element' => '.prpl-activity-score',
 				'popover' => [
 					'title'       => \esc_html__( 'Website activity score', 'progress-planner' ),
 					'description' => \esc_html__( "This is the website activity score. It shows how active you've been on your website.", 'progress-planner' ),

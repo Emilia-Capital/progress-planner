@@ -1,0 +1,108 @@
+.prpl-widget-wrapper.prpl-suggested-tasks {
+
+	.badge-group-monthly {
+		display: grid;
+		grid-template-columns: 1fr 1fr 1fr;
+		gap: calc(var(--prpl-gap) / 2);
+		padding: calc(var(--prpl-padding) / 2);
+		border-radius: var(--prpl-border-radius);
+		margin-bottom: var(--prpl-padding);
+
+		.prpl-badge {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: space-between;
+			flex-wrap: wrap;
+			min-width: 0;
+			gap: 10px;
+		}
+
+		p {
+			margin: 0;
+			font-size: var(--prpl-font-size-xs);
+			text-align: center;
+			line-height: 1.2;
+		}
+
+		svg {
+			width: calc(100% * var(--multiplier));
+			margin-left: calc(100% * (1 - var(--multiplier)) / 2);
+		}
+	}
+
+	.prpl-widget-content {
+		margin-bottom: 1em;
+	}
+}
+
+.prpl-suggested-tasks-list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	position: relative;
+
+	&:not(:has(+ .prpl-suggested-tasks-list)) .prpl-suggested-task:last-child {
+		border-bottom: none;
+	}
+
+	.prpl-suggested-task {
+		border-bottom: 1px solid var(--prpl-color-gray-3);
+		display: flex;
+		justify-content: space-between;
+
+		h3 {
+			font-size: 1rem;
+			margin: 0;
+			font-weight: 500;
+		}
+
+		.actions {
+
+			visibility: hidden;
+			justify-content: flex-end;
+			gap: 0.5em;
+			display: flex;
+		}
+
+		&:hover {
+
+			.actions {
+				visibility: visible;
+			}
+		}
+
+		.prpl-suggested-task-description {
+			font-size: 0.825rem;
+			color: var(--prpl-color-gray-6);
+			margin: 0;
+		}
+
+		button {
+			padding: 0.1rem;
+			line-height: 0;
+			margin: 0;
+			background: none;
+			border: none;
+		}
+
+		.prpl-suggested-task-info,
+		.prpl-suggested-snooze-duration-selector {
+			position: absolute;
+			top: 0;
+			left: 0;
+			padding: 0.75rem;
+			background: var(--prpl-background-orange);
+			border-radius: var(--prpl-border-radius);
+			z-index: 1;
+			width: calc(100% - 1.5rem);
+			height: calc(100% - 1.5rem);
+
+			.close {
+				position: absolute;
+				top: 0.75rem;
+				right: 0.75rem;
+			}
+		}
+	}
+}

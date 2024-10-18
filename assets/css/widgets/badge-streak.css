@@ -1,0 +1,64 @@
+.prpl-widget-wrapper.prpl-badge-streak {
+
+	.progress-label {
+		display: inline-block;
+	}
+
+	.progress-wrapper {
+		display: grid;
+		grid-template-columns: 1fr 1fr 1fr;
+		gap: calc(var(--prpl-gap) / 2);
+		background-color: var(--prpl-background-blue);
+		padding: calc(var(--prpl-padding) / 2);
+		border-radius: var(--prpl-border-radius);
+		margin-bottom: var(--prpl-padding);
+
+		.prpl-badge {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: space-between;
+			flex-wrap: wrap;
+			min-width: 0;
+		}
+
+		p {
+			margin: 0;
+			font-size: var(--prpl-font-size-xs);
+			text-align: center;
+			line-height: 1.2;
+		}
+
+		svg {
+			width: calc(100% * var(--multiplier));
+			margin-left: calc(100% * (1 - var(--multiplier)) / 2);
+		}
+
+		+ .progress-wrapper {
+			background-color: var(--prpl-background-orange);
+
+			&.badge-group-maintenance {
+				background-color: var(--prpl-background-red);
+			}
+		}
+	}
+
+	.prpl-badge {
+
+		/* Change this number to adjust the rate of growth of the badges size. */
+		--multiplier-default: 1.125;
+		--multiplier: var(--multiplier-default);
+
+		+ .prpl-badge {
+			--multiplier: calc(var(--multiplier-default) * var(--multiplier-default));
+
+			+ .prpl-badge {
+				--multiplier: calc(var(--multiplier-default) * var(--multiplier-default) * var(--multiplier-default));
+			}
+		}
+	}
+
+	.prpl-widget-content {
+		margin-bottom: 1em;
+	}
+}
