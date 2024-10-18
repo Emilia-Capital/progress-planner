@@ -12,7 +12,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 ?>
-<?php $this->render_big_counter( (int) $this->get_weekly_words(), __( 'words', 'progress-planner' ) ); ?>
+
+<div class="counter-big-wrapper">
+	<span class="counter-big-number">
+		<?php echo \esc_html( \number_format_i18n( (int) $this->get_weekly_words() ) ); ?>
+	</span>
+	<span class="counter-big-text">
+		<?php echo \esc_html_e( 'words', 'progress-planner' ); ?>
+	</span>
+</div>
+
 <div class="prpl-widget-content">
 	<p>
 		<?php if ( 0 === $this->get_weekly_words() ) : ?>

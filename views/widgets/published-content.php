@@ -16,7 +16,15 @@ $post_types = Content_Helpers::get_post_types_names();
 $stats      = $this->get_stats();
 $sum_weekly = array_sum( $stats['weekly'] );
 ?>
-<?php $this->render_big_counter( (int) array_sum( $stats['weekly'] ), __( 'content published', 'progress-planner' ) ); ?>
+<div class="counter-big-wrapper">
+	<span class="counter-big-number">
+		<?php echo \esc_html( \number_format_i18n( (int) array_sum( $stats['weekly'] ) ) ); ?>
+	</span>
+	<span class="counter-big-text">
+		<?php echo \esc_html_e( 'content published', 'progress-planner' ); ?>
+	</span>
+</div>
+
 <div class="prpl-widget-content">
 	<p>
 		<?php if ( 0 === $sum_weekly ) : ?>

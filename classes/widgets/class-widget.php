@@ -77,32 +77,6 @@ abstract class Widget {
 	}
 
 	/**
-	 * Render a big counter.
-	 *
-	 * @param int    $number             The number to display.
-	 * @param string $text               The text to display.
-	 * @param string $additional_classes Additional classes to add to the container.
-	 *
-	 * @return void
-	 */
-	protected function render_big_counter( int $number, $text, $additional_classes = '' ) {
-		$container_classes = 'counter-big-wrapper';
-		if ( ! empty( $additional_classes ) ) {
-			$container_classes .= ' ' . $additional_classes;
-		}
-		?>
-		<div class="<?php echo esc_attr( $container_classes ); ?>">
-			<span class="counter-big-number">
-				<?php echo \esc_html( \number_format_i18n( $number ) ); ?>
-			</span>
-			<span class="counter-big-text">
-				<?php echo \esc_html( $text ); ?>
-			</span>
-		</div>
-		<?php
-	}
-
-	/**
 	 * Render the widget content.
 	 *
 	 * @return void

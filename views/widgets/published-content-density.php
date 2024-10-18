@@ -13,7 +13,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 ?>
 
-<?php $this->render_big_counter( (int) $this->get_weekly_activities_density(), __( 'content density', 'progress-planner' ) ); ?>
+<div class="counter-big-wrapper">
+	<span class="counter-big-number">
+		<?php echo \esc_html( \number_format_i18n( (int) $this->get_weekly_activities_density() ) ); ?>
+	</span>
+	<span class="counter-big-text">
+		<?php echo \esc_html_e( 'content density', 'progress-planner' ); ?>
+	</span>
+</div>
+
 <div class="prpl-widget-content">
 	<p>
 		<?php
