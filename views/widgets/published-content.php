@@ -16,7 +16,7 @@ $post_types = Content_Helpers::get_post_types_names();
 $stats      = $this->get_stats();
 $sum_weekly = array_sum( $stats['weekly'] );
 ?>
-<div class="counter-big-wrapper">
+<div class="prpl-counter-big-wrapper">
 	<span class="counter-big-number">
 		<?php echo \esc_html( \number_format_i18n( (int) array_sum( $stats['weekly'] ) ) ); ?>
 	</span>

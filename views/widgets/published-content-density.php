@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 ?>
 
-<div class="counter-big-wrapper">
+<div class="prpl-counter-big-wrapper">
 	<span class="counter-big-number">
 		<?php echo \esc_html( \number_format_i18n( (int) $this->get_weekly_activities_density() ) ); ?>
 	</span>

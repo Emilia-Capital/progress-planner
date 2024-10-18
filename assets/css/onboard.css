@@ -1,0 +1,24 @@
+#progress-planner-scan-progress progress {
+	width: 100%;
+	min-height: 1px;
+}
+
+#prpl-onboarding-form label,
+#prpl-onboarding-submit-grid-wrapper {
+	display: grid;
+	grid-template-columns: 1fr 3fr;
+	margin-bottom: 0.5em;
+	gap: var(--prpl-padding);
+}
+
+#prpl-onboarding-form label > span:has(input[type="checkbox"]) {
+	display: flex;
+	align-items: baseline;
+}
+
+.prpl-onboard-form-radio-select {
+
+	label {
+		display: block !important;
+	}
+}

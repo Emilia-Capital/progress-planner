@@ -77,7 +77,7 @@ $record = $this->personal_record_callback();
 
 <hr>
 
-<div class="counter-big-wrapper prpl-personal-record-content">
+<div class="prpl-counter-big-wrapper prpl-personal-record-content">
 	<span class="counter-big-number">
 		<?php echo \esc_html( \number_format_i18n( (int) $record['max_streak'] ) ); ?>
 	</span>
