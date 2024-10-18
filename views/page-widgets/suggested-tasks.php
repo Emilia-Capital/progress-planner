@@ -19,7 +19,7 @@ $monthly = Monthly::get_instances();
 	<?php \esc_html_e( 'Your monthly badge', 'progress-planner' ); ?>
 </h2>
 
-<div class="prpl-activities-gauge-container">
+<div class="prpl-activities-gauge-container suggested-tasks">
 	<div
 		class="prpl-activities-gauge"
 		style="

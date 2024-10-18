@@ -20,7 +20,9 @@ $record = $this->personal_record_callback();
 	<?php \esc_html_e( 'Your website activity score', 'progress-planner' ); ?>
 </h2>
 
-<?php include __DIR__ . '/parts/activity-scores-gauge.php'; // phpcs:ignore PEAR.Files.IncludingFile.UseRequire ?>
+<div style="--background: var(--prpl-background-orange)">
+	<?php include \PROGRESS_PLANNER_DIR . '/views/page-widgets/parts/activity-scores-gauge.php'; // phpcs:ignore PEAR.Files.IncludingFile.UseRequire ?>
+</div>
 
 <hr>
 

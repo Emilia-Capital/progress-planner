@@ -57,7 +57,7 @@ abstract class Widget {
 			return;
 		}
 
-		$stylesheet = "/assets/css/widgets/{$this->id}.css";
+		$stylesheet = "/assets/css/page-widgets/{$this->id}.css";
 		if ( \file_exists( PROGRESS_PLANNER_DIR . $stylesheet ) ) {
 			\wp_enqueue_style(
 				'prpl-widget-' . $this->id,
