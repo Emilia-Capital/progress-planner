@@ -869,34 +869,6 @@ button.prpl-info-icon {
 /*------------------------------------*\
 	Mobile styles.
 \*------------------------------------*/
-@media all and (max-width: 610px) {
-
-	:root {
-		--prpl-gap: 16px;
-		--prpl-padding: 10px;
-		--prpl-column-min-width: 0;
-	}
-
-	.prpl-widgets-container {
-		display: flex;
-		flex-direction: column;
-	}
-
-	.prpl-welcome .welcome-header {
-		flex-wrap: wrap;
-	}
-
-	.prpl-widget-wrapper.prpl-welcome .inner-content,
-	#prpl-onboarding-form label,
-	#prpl-onboarding-submit-grid-wrapper {
-		display: flex;
-		flex-direction: column;
-	}
-
-	.prpl-graph-wrapper {
-		max-width: calc(100vw - 4 * var(--prpl-padding) - 4 * var(--prpl-gap));
-	}
-}
 
 @media all and (max-width: 1024px) {
 
