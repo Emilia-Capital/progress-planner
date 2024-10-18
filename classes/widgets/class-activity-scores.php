@@ -64,7 +64,7 @@ final class Activity_Scores extends Widget {
 	 * @return void
 	 */
 	public function print_score_gauge() {
-		include \PROGRESS_PLANNER_DIR . '/views/widgets/parts/activity-scores-gauge.php'; // phpcs:ignore PEAR.Files.IncludingFile.UseRequire
+		include \PROGRESS_PLANNER_DIR . '/views/page-widgets/parts/activity-scores-gauge.php'; // phpcs:ignore PEAR.Files.IncludingFile.UseRequire
 	}
 
 	/**

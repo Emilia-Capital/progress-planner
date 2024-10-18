@@ -102,7 +102,7 @@ abstract class Widget {
 		 */
 		include \apply_filters( // phpcs:ignore PEAR.Files.IncludingFile.UseRequire
 			'progress_planner_widgets_template',
-			PROGRESS_PLANNER_DIR . "/views/widgets/{$this->id}.php",
+			PROGRESS_PLANNER_DIR . "/views/page-widgets/{$this->id}.php",
 			$this->id
 		);
 	}
