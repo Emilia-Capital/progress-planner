@@ -170,6 +170,11 @@ button.prpl-info-icon {
 		max-width: 100%;
 		height: auto;
 	}
+
+	h3 {
+		font-size: 1.15rem;
+		margin-top: 0;
+	}
 }
 
 /*------------------------------------*\
@@ -471,7 +476,7 @@ button.prpl-info-icon {
 	Streak badge widget.
 \*------------------------------------*/
 .prpl-widget-wrapper.prpl-badge-streak .prpl-badge-wrapper {
-	background: var(--prpl-background-red);
+	background: var(--background, var(--prpl-background-red));
 
 	.prpl-badge-gauge {
 		--background: var(--prpl-background-red);

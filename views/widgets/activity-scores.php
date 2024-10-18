@@ -22,7 +22,7 @@ $record = $this->personal_record_callback();
 
 <?php include __DIR__ . '/parts/activity-scores-gauge.php'; // phpcs:ignore PEAR.Files.IncludingFile.UseRequire ?>
 
-<br><hr><br>
+<hr>
 
 <p><?php \esc_html_e( 'Check out your website activity in the past months:', 'progress-planner' ); ?></p>
 <div class="prpl-graph-wrapper">
@@ -75,7 +75,7 @@ $record = $this->personal_record_callback();
 	?>
 </div>
 
-<br><hr><br>
+<hr>
 
 <div class="counter-big-wrapper prpl-personal-record-content">
 	<span class="counter-big-number">

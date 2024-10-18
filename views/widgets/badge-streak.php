@@ -14,56 +14,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$badges = [
-	'content'     => [ 'wonderful-writer', 'bold-blogger', 'awesome-author' ],
-	'maintenance' => [ 'progress-padawan', 'maintenance-maniac', 'super-site-specialist' ],
-];
-
 ?>
-<div class="prpl-badges-columns-wrapper">
-	<div class="prpl-badge-wrapper">
-		<span
-			class="prpl-badge"
-			data-value="<?php echo \esc_attr( $streak_badge_details['progress']['progress'] ); ?>"
-		>
-			<div
-				class="prpl-badge-gauge"
-				style="
-					--value:<?php echo (float) ( $streak_badge_details['progress']['progress'] / 100 ); ?>;
-					--max: 360deg;
-					--start: 180deg;
-				">
-				<?php require $streak_badge_details['badge']['icons-svg']['complete']['path']; ?>
-			</div>
-		</span>
-		<span class="progress-percent"><?php echo \esc_attr( $streak_badge_details['progress']['progress'] ); ?>%</span>
-	</div>
-	<div class="prpl-badge-content-wrapper">
-		<h2 class="prpl-widget-title">
-			<?php echo \esc_html( $streak_badge_details['badge']['name'] ); ?>
-		</h2>
-		<p>
-			<?php
-			printf(
-				\esc_html(
-					/* translators: %s: The remaining number of weeks. */
-					\_n(
-						'%s week to go to complete this streak!',
-						'%s weeks to go to complete this streak!',
-						(int) $streak_badge_details['progress']['remaining'],
-						'progress-planner'
-					)
-				),
-				\esc_html( \number_format_i18n( $streak_badge_details['progress']['remaining'] ) )
-			);
-			?>
-		</p>
-	</div>
-</div>
 
+<h2 class="prpl-widget-title">
+	<?php \esc_html_e( 'Your streak badges', 'progress-planner' ); ?>
+	<?php new \Progress_Planner\Popups\Badges(); ?>
+</h2>
 
 <div class="prpl-badges-columns-wrapper">
-	<div class="prpl-badge-wrapper">
+	<div class="prpl-badge-wrapper" style="--background: var(--prpl-background-blue);">
 		<span
 			class="prpl-badge"
 			data-value="<?php echo \esc_attr( $content_badge_details['progress']['progress'] ); ?>"
@@ -81,9 +40,7 @@ $badges = [
 		<span class="progress-percent"><?php echo \esc_attr( $content_badge_details['progress']['progress'] ); ?>%</span>
 	</div>
 	<div class="prpl-badge-content-wrapper">
-		<h2 class="prpl-widget-title">
-			<?php echo \esc_html( $content_badge_details['badge']['name'] ); ?>
-		</h2>
+		<h3><?php echo \esc_html( $content_badge_details['badge']['name'] ); ?></h3>
 		<p>
 			<?php
 			printf(
@@ -103,14 +60,56 @@ $badges = [
 	</div>
 </div>
 
-<h2 class="prpl-widget-title">
-	<?php \esc_html_e( 'Your Achievements', 'progress-planner' ); ?>
-	<?php new \Progress_Planner\Popups\Badges(); ?>
-</h2>
-<div class="prpl-widget-content">
-	<?php \esc_html_e( 'Check out your progress! Which badge will you unlock next?', 'progress-planner' ); ?>
+<hr>
+
+<div class="prpl-badges-columns-wrapper">
+	<div class="prpl-badge-wrapper" style="--background: var(--prpl-background-red);">
+		<span
+			class="prpl-badge"
+			data-value="<?php echo \esc_attr( $streak_badge_details['progress']['progress'] ); ?>"
+		>
+			<div
+				class="prpl-badge-gauge"
+				style="
+					--value:<?php echo (float) ( $streak_badge_details['progress']['progress'] / 100 ); ?>;
+					--max: 360deg;
+					--start: 180deg;
+				">
+				<?php require $streak_badge_details['badge']['icons-svg']['complete']['path']; ?>
+			</div>
+		</span>
+		<span class="progress-percent"><?php echo \esc_attr( $streak_badge_details['progress']['progress'] ); ?>%</span>
+	</div>
+	<div class="prpl-badge-content-wrapper">
+		<h3><?php echo \esc_html( $streak_badge_details['badge']['name'] ); ?></h3>
+		<p>
+			<?php
+			printf(
+				\esc_html(
+					/* translators: %s: The remaining number of weeks. */
+					\_n(
+						'%s week to go to complete this streak!',
+						'%s weeks to go to complete this streak!',
+						(int) $streak_badge_details['progress']['remaining'],
+						'progress-planner'
+					)
+				),
+				\esc_html( \number_format_i18n( $streak_badge_details['progress']['remaining'] ) )
+			);
+			?>
+		</p>
+	</div>
 </div>
-<?php foreach ( $badges as $badge_group => $group_badges ) : ?>
+
+<hr>
+
+<h3><?php esc_html_e( 'Your achievements', 'progress-planner' ); ?></h3>
+<?php
+foreach ( [
+	'content'     => [ 'wonderful-writer', 'bold-blogger', 'awesome-author' ],
+	'maintenance' => [ 'progress-padawan', 'maintenance-maniac', 'super-site-specialist' ],
+] as $badge_group => $group_badges ) :
+	?>
 	<div class="progress-wrapper badge-group-<?php echo \esc_attr( $badge_group ); ?>">
 		<?php foreach ( $group_badges as $badge ) : ?>
 			<?php

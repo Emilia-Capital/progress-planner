@@ -45,7 +45,7 @@ $monthly = Monthly::get_instances();
 	<?php \esc_html_e( 'Bla bla bla', 'progress-planner' ); ?>
 </p>
 
-<br><hr><br>
+<hr>
 
 <h2 class="prpl-widget-title">
 	<?php \esc_html_e( 'Ravi\'s recomendations', 'progress-planner' ); ?>
@@ -69,7 +69,7 @@ $monthly = Monthly::get_instances();
 	</script>
 <?php endif; ?>
 
-<br><hr><br>
+<hr>
 
 <h2 class="prpl-widget-title">
 	<?php \esc_html_e( 'Your monthly badges', 'progress-planner' ); ?>
