@@ -36,8 +36,6 @@ final class Suggested_Tasks extends Widget {
 			]
 		);
 
-		$activities_count = count( $activities );
-
 		/*
 		If we need to get the pending activities count, we can use the following code:
 
@@ -46,7 +44,14 @@ final class Suggested_Tasks extends Widget {
 		$total_count = $activities_count + $pending_activities_count;
 		 */
 
-		$score = 10 * $activities_count;
+		$score = 0;
+
+		foreach ( $activities as $activity ) {
+			$score += $activity->get_points( $activity->date );
+		}
+
+		// We need 7 points to reach the monthly goal.
+		$score = $score * 100 / 7;
 
 		return (int) min( 100, max( 0, floor( $score ) ) );
 	}
