@@ -7,6 +7,10 @@
 
 use Progress_Planner\Chart;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 ?>
 <?php $this->render_big_counter( (int) $this->get_weekly_words(), __( 'words', 'progress-planner' ) ); ?>
 <div class="prpl-widget-content">

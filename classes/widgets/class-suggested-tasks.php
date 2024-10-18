@@ -22,50 +22,6 @@ final class Suggested_Tasks extends Widget {
 	protected $id = 'suggested-tasks';
 
 	/**
-	 * Print the score gauge.
-	 *
-	 * @param string $background_color The background color.
-	 * @param string $description      The description.
-	 *
-	 * @return void
-	 */
-	public function print_score_gauge( $background_color = 'var(--prpl-background-orange)', $description = '' ) {
-		$score = $this->get_score();
-		?>
-		<div class="prpl-activities-gauge-container-container">
-			<div class="prpl-activities-gauge-container">
-				<div
-					class="prpl-activities-gauge"
-					style="
-						--value:<?php echo (float) ( $score / 100 ); ?>;
-						--background: <?php echo \esc_attr( $background_color ); ?>;
-						--max: 180deg;
-						--start: 270deg;
-						--color:var(--prpl-color-accent-orange)"
-				>
-					<span class="prpl-gauge-0">
-						0
-					</span>
-					<span class="prpl-gauge-number">
-						<?php echo (int) $score; ?>
-					</span>
-					<span class="prpl-gauge-100">
-						100
-					</span>
-				</div>
-			</div>
-			<?php
-			if ( empty( $description ) ) {
-				\esc_html_e( 'Bla bla bla bla bla', 'progress-planner' );
-			} else {
-				echo \wp_kses_post( $description );
-			}
-			?>
-		</div>
-		<?php
-	}
-
-	/**
 	 * Get the score.
 	 *
 	 * @return int The score.

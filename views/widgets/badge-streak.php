@@ -10,6 +10,9 @@ use Progress_Planner\Badges;
 $streak_badge_details  = $this->get_streak_badge_details();
 $content_badge_details = $this->get_content_badge_details();
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 $badges = [
 	'content'     => [ 'wonderful-writer', 'bold-blogger', 'awesome-author' ],

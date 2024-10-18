@@ -8,13 +8,48 @@
 use Progress_Planner\Suggested_Tasks;
 use Progress_Planner\Badges\Badge\Monthly;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 $monthly = Monthly::get_instances();
+
 ?>
 <h2 class="prpl-widget-title">
-	<?php \esc_html_e( 'Suggested tasks', 'progress-planner' ); ?>
+	<?php \esc_html_e( 'Your monthly badge', 'progress-planner' ); ?>
 </h2>
 
-<?php $this->print_score_gauge(); ?>
+<div class="prpl-activities-gauge-container">
+	<div
+		class="prpl-activities-gauge"
+		style="
+			--value:<?php echo (float) ( $this->get_score() / 100 ); ?>;
+			--background: var(--prpl-background-orange);
+			--max: 180deg;
+			--start: 270deg;
+			--color:var(--prpl-color-accent-orange)"
+	>
+		<span class="prpl-gauge-0">
+			0
+		</span>
+		<span class="prpl-gauge-number">
+			<?php echo (int) $this->get_score(); ?>
+		</span>
+		<span class="prpl-gauge-100">
+			100
+		</span>
+	</div>
+</div>
+
+<p>
+	<?php \esc_html_e( 'Bla bla bla', 'progress-planner' ); ?>
+</p>
+
+<br><hr><br>
+
+<h2 class="prpl-widget-title">
+	<?php \esc_html_e( 'Ravi\'s recomendations', 'progress-planner' ); ?>
+</h2>
 
 <ul style="display:none">
 	<?php
@@ -33,6 +68,8 @@ $monthly = Monthly::get_instances();
 		alert( '<?php echo \esc_js( \esc_html__( 'Congratulations! You have completed all suggested tasks for this week.', 'progress-planner' ) ); ?>' );
 	</script>
 <?php endif; ?>
+
+<br><hr><br>
 
 <h2 class="prpl-widget-title">
 	<?php \esc_html_e( 'Your monthly badges', 'progress-planner' ); ?>

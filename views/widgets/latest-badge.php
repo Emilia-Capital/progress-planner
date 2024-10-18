@@ -7,6 +7,10 @@
 
 use Progress_Planner\Badges;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 // Get the latest completed badge.
 $latest_badge_id = Badges::get_latest_completed_badge();
 $latest_badge    = $latest_badge_id ? Badges::get_badge( $latest_badge_id ) : false;

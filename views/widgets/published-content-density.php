@@ -6,6 +6,11 @@
  */
 
 use Progress_Planner\Chart;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 ?>
 
 <?php $this->render_big_counter( (int) $this->get_weekly_activities_density(), __( 'content density', 'progress-planner' ) ); ?>

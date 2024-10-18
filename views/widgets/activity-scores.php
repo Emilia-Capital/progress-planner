@@ -5,7 +5,12 @@
  * @package Progress_Planner
  */
 
+use Progress_Planner\Base;
 use Progress_Planner\Chart;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 $record = $this->personal_record_callback();
 
@@ -14,20 +19,71 @@ $record = $this->personal_record_callback();
 <h2 class="prpl-widget-title">
 	<?php \esc_html_e( 'Your website activity score', 'progress-planner' ); ?>
 </h2>
-<?php $this->print_score_gauge(); ?>
+
+<?php include __DIR__ . '/parts/activity-scores-gauge.php'; // phpcs:ignore PEAR.Files.IncludingFile.UseRequire ?>
+
+<br><hr><br>
 
 <p><?php \esc_html_e( 'Check out your website activity in the past months:', 'progress-planner' ); ?></p>
 <div class="prpl-graph-wrapper">
-	<?php ( new Chart() )->the_chart( $this->get_chart_args() ); ?>
+	<?php
+	( new Chart() )->the_chart(
+		[
+			'query_params'   => [],
+			'dates_params'   => [
+				'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) )->modify( $this->get_range() ),
+				'end'       => new \DateTime(),
+				'frequency' => $this->get_frequency(),
+				'format'    => 'M',
+			],
+			'chart_params'   => [
+				'type'    => 'bar',
+				'options' => [
+					'responsive'          => true,
+					'maintainAspectRatio' => false,
+					'pointStyle'          => false,
+					'plugins'             => [
+						'legend' => [
+							'display' => false,
+						],
+					],
+					'scales'              => [
+						'yAxis' => [
+							'min' => 0,
+							'max' => 100,
+						],
+					],
+				],
+			],
+			'count_callback' => function ( $activities, $date ) {
+				$score = 0;
+				foreach ( $activities as $activity ) {
+					$score += $activity->get_points( $date );
+				}
+				$target = Base::$points_config['score-target'];
+				return $score * 100 / $target;
+			},
+			'compound'       => false,
+			'normalized'     => true,
+			'colors'         => [
+				'background' => [ $this, 'get_color' ],
+				'border'     => [ $this, 'get_color' ],
+			],
+			'max'            => 100,
+		]
+	);
+	?>
 </div>
 
-<?php
-$this->render_big_counter(
-	(int) $record['max_streak'],
-	__( 'Personal record', 'progress-planner' ),
-	'prpl-personal-record-content'
-);
-?>
+<br><hr><br>
+
+<div class="counter-big-wrapper prpl-personal-record-content">
+	<span class="counter-big-number">
+		<?php echo \esc_html( \number_format_i18n( (int) $record['max_streak'] ) ); ?>
+	</span>
+	<span class="counter-big-text"><?php \esc_html_e( 'Personal record', 'progress-planner' ); ?></span>
+</div>
+
 <div class="prpl-widget-content">
 	<?php if ( (int) $record['max_streak'] === 0 ) : ?>
 		<?php \esc_html_e( 'This is the start of your first streak! Add content to your site every week and set a personal record!', 'progress-planner' ); ?>

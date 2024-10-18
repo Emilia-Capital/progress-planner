@@ -5,6 +5,10 @@
  * @package Progress_Planner
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 // Get the blog feed.
 $blog_feed = $this->get_blog_feed();
 ?>

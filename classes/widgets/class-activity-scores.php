@@ -7,7 +7,6 @@
 
 namespace Progress_Planner\Widgets;
 
-use Progress_Planner\Base;
 use Progress_Planner\Query;
 use Progress_Planner\Widgets\Widget;
 use Progress_Planner\Goals\Goal_Recurring;
@@ -60,98 +59,12 @@ final class Activity_Scores extends Widget {
 	}
 
 	/**
-	 * Get the chart args.
-	 *
-	 * @return array The chart args.
-	 */
-	public function get_chart_args() {
-		return [
-			'query_params'   => [],
-			'dates_params'   => [
-				'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) )->modify( $this->get_range() ),
-				'end'       => new \DateTime(),
-				'frequency' => $this->get_frequency(),
-				'format'    => 'M',
-			],
-			'chart_params'   => [
-				'type'    => 'bar',
-				'options' => [
-					'responsive'          => true,
-					'maintainAspectRatio' => false,
-					'pointStyle'          => false,
-					'plugins'             => [
-						'legend' => [
-							'display' => false,
-						],
-					],
-					'scales'              => [
-						'yAxis' => [
-							'min' => 0,
-							'max' => 100,
-						],
-					],
-				],
-			],
-			'count_callback' => function ( $activities, $date ) {
-				$score = 0;
-				foreach ( $activities as $activity ) {
-					$score += $activity->get_points( $date );
-				}
-				$target = Base::$points_config['score-target'];
-				return $score * 100 / $target;
-			},
-			'compound'       => false,
-			'normalized'     => true,
-			'colors'         => [
-				'background' => [ $this, 'get_color' ],
-				'border'     => [ $this, 'get_color' ],
-			],
-			'max'            => 100,
-		];
-	}
-
-	/**
 	 * Print the score gauge.
-	 *
-	 * @param string $background_color The background color.
-	 * @param string $description      The description.
 	 *
 	 * @return void
 	 */
-	public function print_score_gauge( $background_color = 'var(--prpl-background-orange)', $description = '' ) {
-		$score = $this->get_score();
-		?>
-		<div class="prpl-activities-gauge-container-container">
-			<div class="prpl-activities-gauge-container">
-				<div
-					class="prpl-activities-gauge"
-					style="
-						--value:<?php echo (float) ( $score / 100 ); ?>;
-						--background: <?php echo \esc_attr( $background_color ); ?>;
-						--max: 180deg;
-						--start: 270deg;
-						--color:<?php echo \esc_attr( $this->get_gauge_color( $score ) ); ?>"
-				>
-					<span class="prpl-gauge-0">
-						0
-					</span>
-					<span class="prpl-gauge-number">
-						<?php echo (int) $score; ?>
-					</span>
-					<span class="prpl-gauge-100">
-						100
-					</span>
-				</div>
-			</div>
-			<?php
-			if ( empty( $description ) ) {
-				\esc_html_e( 'Your Website Activity Score is based on the amount of website maintenance work you\'ve done over the past 30 days.', 'progress-planner' );
-			} else {
-				echo \wp_kses_post( $description );
-			}
-			?>
-		</div>
-		<?php
+	public function print_score_gauge() {
+		include \PROGRESS_PLANNER_DIR . '/views/widgets/parts/activity-scores-gauge.php'; // phpcs:ignore PEAR.Files.IncludingFile.UseRequire
 	}
 
 	/**
