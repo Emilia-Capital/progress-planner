@@ -33,24 +33,6 @@ final class Awesome_Author extends Badge_Content {
 	}
 
 	/**
-	 * The badge icons.
-	 *
-	 * @return array
-	 */
-	public function get_icons_svg() {
-		return [
-			'pending'  => [
-				'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/awesome-author-bw.svg',
-				'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/awesome-author-bw.svg',
-			],
-			'complete' => [
-				'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/awesome-author.svg',
-				'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/awesome-author.svg',
-			],
-		];
-	}
-
-	/**
 	 * Get the badge description.
 	 *
 	 * @return string

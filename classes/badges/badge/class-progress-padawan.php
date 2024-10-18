@@ -41,24 +41,6 @@ final class Progress_Padawan extends Badge_Maintenance {
 	}
 
 	/**
-	 * The badge icons.
-	 *
-	 * @return array
-	 */
-	public function get_icons_svg() {
-		return [
-			'pending'  => [
-				'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/progress-padawan-bw.svg',
-				'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/progress-padawan-bw.svg',
-			],
-			'complete' => [
-				'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/progress-padawan.svg',
-				'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/progress-padawan.svg',
-			],
-		];
-	}
-
-	/**
 	 * Progress callback.
 	 *
 	 * @return array

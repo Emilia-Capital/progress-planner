@@ -42,24 +42,6 @@ final class Maintenance_Maniac extends Badge_Maintenance {
 	}
 
 	/**
-	 * The badge icons.
-	 *
-	 * @return array
-	 */
-	public function get_icons_svg() {
-		return [
-			'pending'  => [
-				'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/maintenance-maniac-bw.svg',
-				'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/maintenance-maniac-bw.svg',
-			],
-			'complete' => [
-				'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/maintenance-maniac.svg',
-				'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/maintenance-maniac.svg',
-			],
-		];
-	}
-
-	/**
 	 * Progress callback.
 	 *
 	 * @return array

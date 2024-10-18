@@ -70,12 +70,22 @@ abstract class Badge {
 	abstract public function get_description();
 
 	/**
-	 * Get the badge icons.
+	 * The badge icons.
 	 *
 	 * @return array
 	 */
-	abstract public function get_icons_svg();
-
+	public function get_icons_svg() {
+		return [
+			'pending'  => [
+				'path' => \PROGRESS_PLANNER_DIR . "/assets/images/badges/{$this->id}-bw.svg",
+				'url'  => \PROGRESS_PLANNER_URL . "/assets/images/badges/{$this->id}-bw.svg",
+			],
+			'complete' => [
+				'path' => \PROGRESS_PLANNER_DIR . "/assets/images/badges/{$this->id}.svg",
+				'url'  => \PROGRESS_PLANNER_URL . "/assets/images/badges/{$this->id}.svg",
+			],
+		];
+	}
 	/**
 	 * Progress callback.
 	 *

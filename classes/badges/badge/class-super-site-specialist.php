@@ -41,24 +41,6 @@ final class Super_Site_Specialist extends Badge_Maintenance {
 	}
 
 	/**
-	 * The badge icons.
-	 *
-	 * @return array
-	 */
-	public function get_icons_svg() {
-		return [
-			'pending'  => [
-				'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/super-site-specialist-bw.svg',
-				'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/super-site-specialist-bw.svg',
-			],
-			'complete' => [
-				'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/super-site-specialist.svg',
-				'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/super-site-specialist.svg',
-			],
-		];
-	}
-
-	/**
 	 * Progress callback.
 	 *
 	 * @return array
