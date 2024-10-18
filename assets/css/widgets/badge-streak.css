@@ -64,10 +64,6 @@
 
 	.prpl-badge-wrapper {
 		background: var(--background, var(--prpl-background-red));
-
-		.prpl-badge-gauge {
-			--background: var(--prpl-background-red);
-		}
 	}
 }
 
@@ -109,7 +105,6 @@
 
 .prpl-badge-gauge,
 .prpl-activities-gauge {
-	--background: var(--prpl-background-blue);
 	--cutout: 57%;
 	--max: 270deg;
 	--start: -135deg;
