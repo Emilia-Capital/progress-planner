@@ -30,9 +30,8 @@ final class Suggested_Tasks extends Widget {
 		$activities = Query::get_instance()->query_activities(
 			[
 				'category'   => 'suggested_task',
-				// Use 31 days to take into account
-				// the activities score decay from previous activities.
-				'start_date' => new \DateTime( '-31 days' ),
+				'start_date' => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) ),
+				'end_date'   => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-t' ) ),
 			]
 		);
 

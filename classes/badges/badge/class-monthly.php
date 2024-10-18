@@ -20,7 +20,7 @@ final class Monthly extends Badge {
 	 *
 	 * @var int
 	 */
-	const TARGET_POINTS = 100;
+	const TARGET_POINTS = 7;
 
 	/**
 	 * The badge ID.
