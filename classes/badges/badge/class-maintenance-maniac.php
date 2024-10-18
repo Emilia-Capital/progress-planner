@@ -28,7 +28,7 @@ final class Maintenance_Maniac extends Badge_Maintenance {
 	 * @return string
 	 */
 	public function get_name() {
-		return __( 'Maintenance Maniac', 'progress-planner' );
+		return \__( 'Maintenance Maniac', 'progress-planner' );
 	}
 
 	/**
@@ -38,25 +38,7 @@ final class Maintenance_Maniac extends Badge_Maintenance {
 	 */
 	public function get_description() {
 		/* translators: %d: The number of weeks. */
-		return sprintf( esc_html__( '%d weeks streak', 'progress-planner' ), 26 );
-	}
-
-	/**
-	 * The badge icons.
-	 *
-	 * @return array
-	 */
-	public function get_icons_svg() {
-		return [
-			'pending'  => [
-				'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/streak_badge2_gray.svg',
-				'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/streak_badge2_gray.svg',
-			],
-			'complete' => [
-				'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/streak_badge2.svg',
-				'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/streak_badge2.svg',
-			],
-		];
+		return sprintf( \esc_html__( '%d weeks streak', 'progress-planner' ), 26 );
 	}
 
 	/**

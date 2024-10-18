@@ -15,34 +15,18 @@ use Progress_Planner\Onboard;
 class Page {
 
 	/**
-	 * The columns and widgets to display on the admin page.
+	 * The widgets to display on the admin page.
 	 */
-	const COLUMNS = [
-		'prpl-column-main prpl-column-main-primary'   => [
-			'prpl-column prpl-column-first' => [
-				'\Progress_Planner\Widgets\Website_Activity_Score',
-				'prpl-column prpl-column-two-col' => [
-					'\Progress_Planner\Widgets\Published_Content_Density',
-					'\Progress_Planner\Widgets\Published_Words',
-				],
-				'\Progress_Planner\Widgets\Published_Content',
-				'\Progress_Planner\Widgets\Whats_New',
-			],
-		],
-		'prpl-column-main prpl-column-main-secondary' => [
-			'prpl-column prpl-column-first'  => [
-				'\Progress_Planner\Widgets\Activity_Scores',
-				'\Progress_Planner\Widgets\Plugins',
-				'\Progress_Planner\Widgets\Badges_Progress',
-				'\Progress_Planner\Widgets\Personal_Record_Content',
-			],
-			'prpl-column prpl-column-second' => [
-				'\Progress_Planner\Widgets\ToDo',
-				'\Progress_Planner\Widgets\Latest_Badge',
-				'\Progress_Planner\Widgets\Badge_Content',
-				'\Progress_Planner\Widgets\Badge_Streak',
-			],
-		],
+	const WIDGETS = [
+		'\Progress_Planner\Widgets\Activity_Scores',
+		'\Progress_Planner\Widgets\Suggested_Tasks',
+		'\Progress_Planner\Widgets\ToDo',
+		'\Progress_Planner\Widgets\Badge_Streak',
+		'\Progress_Planner\Widgets\Latest_Badge',
+		'\Progress_Planner\Widgets\Published_Content_Density',
+		'\Progress_Planner\Widgets\Published_Words',
+		'\Progress_Planner\Widgets\Published_Content',
+		'\Progress_Planner\Widgets\Whats_New',
 	];
 
 	/**
@@ -91,45 +75,16 @@ class Page {
 			<?php require PROGRESS_PLANNER_DIR . '/views/admin-page-header.php'; ?>
 			<?php require PROGRESS_PLANNER_DIR . '/views/welcome.php'; ?>
 
-			<?php do_action( 'progress_planner_admin_after_header' ); ?>
+			<?php \do_action( 'progress_planner_admin_after_header' ); ?>
 
 			<div class="prpl-widgets-container">
-				<?php
-				$columns = apply_filters( 'progress_planner_admin_columns_widgets', self::COLUMNS );
-
-				foreach ( $columns as $key => $value ) {
-					$this->render_column( $key, $value );
-				}
-				?>
+				<?php $widgets = \apply_filters( 'progress_planner_admin_widgets', self::WIDGETS ); ?>
+				<?php foreach ( $widgets as $class_name ) : ?>
+					<?php ( new $class_name() )->render(); ?>
+				<?php endforeach; ?>
 			</div>
 		</div>
 		<?php
-	}
-
-	/**
-	 * Render a column.
-	 *
-	 * @param string       $key   The column key.
-	 * @param string|array $value The widget(s) to render.
-	 *
-	 * @return void
-	 */
-	private function render_column( $key, $value ) {
-		echo '<div class="' . \esc_attr( $key ) . '">';
-
-		if ( \is_array( $value ) ) {
-			foreach ( $value as $sub_key => $sub_value ) {
-				if ( \is_string( $sub_value ) && \str_starts_with( $sub_value, '\\' ) ) {
-					( new $sub_value() )->render();
-					continue;
-				}
-				$this->render_column( $sub_key, $sub_value );
-			}
-		} elseif ( \str_starts_with( $value, '\\' ) ) {
-			( new $value() )->render();
-		}
-
-		echo '</div>';
 	}
 
 	/**
@@ -161,6 +116,14 @@ class Page {
 			[],
 			'4.4.2',
 			false
+		);
+
+		\wp_register_script(
+			'progress-planner-grid-masonry',
+			PROGRESS_PLANNER_URL . '/assets/js/grid-masonry.js',
+			[],
+			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/grid-masonry.js' ),
+			true
 		);
 
 		// Register the ajax-request helper.
@@ -211,7 +174,7 @@ class Page {
 		\wp_register_script(
 			'progress-planner-todo',
 			PROGRESS_PLANNER_URL . '/assets/js/todo.js',
-			[ 'jquery-ui-sortable', 'progress-planner-ajax', 'wp-util' ],
+			[ 'jquery-ui-sortable', 'progress-planner-ajax', 'wp-util', 'progress-planner-grid-masonry' ],
 			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/todo.js' ),
 			true
 		);
@@ -270,6 +233,8 @@ class Page {
 		\wp_enqueue_script( 'progress-planner-admin' );
 		\wp_enqueue_script( 'progress-planner-todo' );
 		\wp_enqueue_script( 'progress-planner-settings' );
+		\wp_enqueue_script( 'progress-planner-suggested-tasks' );
+		\wp_enqueue_script( 'progress-planner-grid-masonry' );
 	}
 
 	/**

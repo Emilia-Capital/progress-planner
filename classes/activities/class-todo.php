@@ -8,6 +8,7 @@
 namespace Progress_Planner\Activities;
 
 use Progress_Planner\Activity;
+use Progress_Planner\Query;
 
 /**
  * Handler for posts activities.
@@ -37,8 +38,9 @@ class Todo extends Activity {
 	 */
 	public function save() {
 		$this->date    = new \DateTime();
-		$this->user_id = get_current_user_id();
+		$this->user_id = \get_current_user_id();
 
-		\progress_planner()->get_query()->insert_activity( $this );
+		Query::get_instance()->insert_activity( $this );
+		\do_action( 'progress_planner_activity_saved', $this );
 	}
 }

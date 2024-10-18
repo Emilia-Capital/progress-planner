@@ -56,8 +56,24 @@ abstract class Widget {
 		if ( ! $this->should_render() ) {
 			return;
 		}
-		echo '<div class="prpl-widget-wrapper prpl-' . \esc_attr( $this->id ) . '">';
+
+		$stylesheet = "/assets/css/page-widgets/{$this->id}.css";
+		if ( \file_exists( PROGRESS_PLANNER_DIR . $stylesheet ) ) {
+			\wp_enqueue_style(
+				'prpl-widget-' . $this->id,
+				PROGRESS_PLANNER_URL . $stylesheet,
+				[],
+				(string) filemtime( PROGRESS_PLANNER_DIR . $stylesheet )
+			);
+		}
+		$classes = [
+			'prpl-widget-wrapper',
+			'prpl-' . \esc_attr( $this->id ),
+		];
+		echo '<div class="' . esc_attr( \implode( ' ', $classes ) ) . '">';
+		echo '<div class="widget-inner-container">';
 		$this->the_content();
+		echo '</div>';
 		echo '</div>';
 	}
 
@@ -68,27 +84,6 @@ abstract class Widget {
 	 */
 	protected function should_render() {
 		return true;
-	}
-
-	/**
-	 * Render a big counter.
-	 *
-	 * @param int    $number The number to display.
-	 * @param string $text   The text to display.
-	 *
-	 * @return void
-	 */
-	protected function render_big_counter( int $number, $text ) {
-		?>
-		<div class="counter-big-wrapper">
-			<span class="counter-big-number">
-				<?php echo \esc_html( \number_format_i18n( $number ) ); ?>
-			</span>
-			<span class="counter-big-text">
-				<?php echo esc_html( $text ); ?>
-			</span>
-		</div>
-		<?php
 	}
 
 	/**
@@ -105,9 +100,9 @@ abstract class Widget {
 		 *
 		 * @return string The template to use.
 		 */
-		include \apply_filters(
+		include \apply_filters( // phpcs:ignore PEAR.Files.IncludingFile.UseRequire
 			'progress_planner_widgets_template',
-			PROGRESS_PLANNER_DIR . "/views/widgets/{$this->id}.php",
+			PROGRESS_PLANNER_DIR . "/views/page-widgets/{$this->id}.php",
 			$this->id
 		);
 	}

@@ -40,7 +40,6 @@ abstract class Badge {
 			[
 				'name'              => $this->get_name(),
 				'description'       => $this->get_description(),
-				'icons-svg'         => $this->get_icons_svg(),
 				'progress_callback' => [ $this, 'progress_callback' ],
 			]
 		);
@@ -68,13 +67,6 @@ abstract class Badge {
 	 * @return string
 	 */
 	abstract public function get_description();
-
-	/**
-	 * Get the badge icons.
-	 *
-	 * @return array
-	 */
-	abstract public function get_icons_svg();
 
 	/**
 	 * Progress callback.

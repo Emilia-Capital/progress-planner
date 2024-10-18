@@ -1,0 +1,48 @@
+.prpl-welcome {
+
+	padding: 0;
+	overflow-x: hidden;
+	max-height: 80vh;
+	width: 80vw;
+	margin: 10vh 10vw;
+	z-index: 9999;
+
+	.inner-content {
+		padding: calc(var(--prpl-gap) * 1.5);
+		padding-bottom: 0;
+		margin-bottom: calc(var(--prpl-gap) * 1.5);
+		display: flex;
+		grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+		gap: calc(var(--prpl-gap) * 2);
+
+		img {
+			max-width: 100%;
+			height: auto;
+		}
+	}
+
+	.welcome-header {
+		background: var(--prpl-color-accent-orange);
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+
+		h1 {
+			font-size: var(--prpl-font-size-3xl);
+			padding: var(--prpl-padding) calc(var(--prpl-gap) * 1.5);
+			font-weight: 600;
+		}
+
+		.welcome-header-icon {
+			background: var(--prpl-background-orange);
+			background: linear-gradient(105deg, var(--prpl-color-accent-orange) 25%, var(--prpl-background-orange) 25%);
+			padding: var(--prpl-padding);
+			padding-left: 100px;
+			padding-right: calc(var(--prpl-gap) * 1.5);
+
+			svg {
+				height: 100px;
+			}
+		}
+	}
+}

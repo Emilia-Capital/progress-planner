@@ -67,6 +67,14 @@ class Onboard {
 	 */
 	public static function the_form() {
 		$current_user = \wp_get_current_user();
+
+		// Enqueue onboarding styles.
+		\wp_enqueue_style(
+			'progress-planner-onboard',
+			PROGRESS_PLANNER_URL . '/assets/css/onboard.css',
+			[],
+			filemtime( PROGRESS_PLANNER_DIR . '/assets/css/onboard.css' )
+		);
 		?>
 		<form id="prpl-onboarding-form">
 			<div class="prpl-form-notice">

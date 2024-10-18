@@ -7,6 +7,7 @@
 
 namespace Progress_Planner\Widgets;
 
+use Progress_Planner\Query;
 use Progress_Planner\Activities\Content_Helpers;
 
 /**
@@ -76,7 +77,7 @@ final class Published_Words extends Widget {
 		static $weekly_words;
 		if ( null === $weekly_words ) {
 			$weekly_words = $this->count_words(
-				\progress_planner()->get_query()->query_activities(
+				Query::get_instance()->query_activities(
 					[
 						'category'   => 'content',
 						'type'       => 'publish',

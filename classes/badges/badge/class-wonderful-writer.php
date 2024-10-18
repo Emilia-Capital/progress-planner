@@ -8,6 +8,7 @@
 namespace Progress_Planner\Badges\Badge;
 
 use Progress_Planner\Base;
+use Progress_Planner\Query;
 use Progress_Planner\Badges\Badge_Content;
 use Progress_Planner\Activities\Content_Helpers;
 
@@ -29,7 +30,7 @@ final class Wonderful_Writer extends Badge_Content {
 	 * @return string
 	 */
 	public function get_name() {
-		return __( 'Wonderful Writer', 'progress-planner' );
+		return \__( 'Wonderful Writer', 'progress-planner' );
 	}
 
 	/**
@@ -38,25 +39,7 @@ final class Wonderful_Writer extends Badge_Content {
 	 * @return string
 	 */
 	public function get_description() {
-		return esc_html__( '20 existing posts/pages, or 10 new posts/pages', 'progress-planner' );
-	}
-
-	/**
-	 * The badge icons.
-	 *
-	 * @return array
-	 */
-	public function get_icons_svg() {
-		return [
-			'pending'  => [
-				'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge1_gray.svg',
-				'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge1_gray.svg',
-			],
-			'complete' => [
-				'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge1.svg',
-				'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge1.svg',
-			],
-		];
+		return \esc_html__( '20 existing posts/pages, or 10 new posts/pages', 'progress-planner' );
 	}
 
 	/**
@@ -98,7 +81,7 @@ final class Wonderful_Writer extends Badge_Content {
 
 		// Get the new posts count.
 		$new_count = count(
-			\progress_planner()->get_query()->query_activities(
+			Query::get_instance()->query_activities(
 				[
 					'category'   => 'content',
 					'type'       => 'publish',

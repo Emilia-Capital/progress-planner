@@ -31,7 +31,6 @@
 	<!-- Check up to 8 files simultaneously. -->
 	<arg name="parallel" value="8"/>
 
-
 	<!--
 	#############################################################################
 	SET UP THE RULESETS
@@ -144,6 +143,7 @@
 
 	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
 		<exclude-pattern>/tests/bootstrap\.php$</exclude-pattern>
-		<exclude-pattern>/views/widgets/</exclude-pattern>
+		<exclude-pattern>/views/page-widgets/</exclude-pattern>
+		<exclude-pattern>/views/dashboard-widgets/</exclude-pattern>
 	</rule>
 </ruleset>

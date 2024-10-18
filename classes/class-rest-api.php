@@ -15,7 +15,8 @@ namespace Progress_Planner;
 use Progress_Planner\Badges;
 use Progress_Planner\Chart;
 use Progress_Planner\Todo;
-use Progress_Planner\Widgets\Website_Activity_Score;
+use Progress_Planner\Query;
+use Progress_Planner\Widgets\Activity_Scores;
 use Progress_Planner\Badges\Badge\Wonderful_Writer as Badge_Wonderful_Writer;
 use Progress_Planner\Badges\Badge\Bold_Blogger as Badge_Bold_Blogger;
 use Progress_Planner\Badges\Badge\Awesome_Author as Badge_Awesome_Author;
@@ -31,7 +32,7 @@ class Rest_API {
 	 * Constructor.
 	 */
 	public function __construct() {
-		add_action( 'rest_api_init', [ $this, 'register_rest_endpoint' ] );
+		\add_action( 'rest_api_init', [ $this, 'register_rest_endpoint' ] );
 	}
 
 	/**
@@ -40,7 +41,7 @@ class Rest_API {
 	 * @return void
 	 */
 	public function register_rest_endpoint() {
-		register_rest_route(
+		\register_rest_route(
 			'progress-planner/v1',
 			'/get-stats/(?P<token>\S+)',
 			[
@@ -90,7 +91,7 @@ class Rest_API {
 
 		// Get the number of activities in the past week.
 		$data['activities'] = count(
-			\progress_planner()->get_query()->query_activities(
+			Query::get_instance()->query_activities(
 				[
 					'start_date' => new \DateTime( '-7 days' ),
 				]
@@ -98,7 +99,7 @@ class Rest_API {
 		);
 
 		// Get the website activity score.
-		$activity_score           = new Website_Activity_Score();
+		$activity_score           = new Activity_Scores();
 		$data['website_activity'] = [
 			'score'     => $activity_score->get_score(),
 			'checklist' => $activity_score->get_checklist_results(),
@@ -176,7 +177,7 @@ class Rest_API {
 
 		$data['plugin_url'] = \esc_url( \get_admin_url( null, 'admin.php?page=progress-planner' ) );
 
-		$data = apply_filters( 'progress_planner_rest_api_get_stats', $data );
+		$data = \apply_filters( 'progress_planner_rest_api_get_stats', $data );
 
 		return new \WP_REST_Response( $data );
 	}

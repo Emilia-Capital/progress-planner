@@ -6,7 +6,8 @@ parameters:
     - vendor
     - node_modules
     - tests
-    - views/widgets
+    - views/page-widgets
+    - views/dashboard-widgets
   ignoreErrors:
     - identifier: missingType.generics
     - '#Constant PROGRESS_PLANNER_URL not found.#'

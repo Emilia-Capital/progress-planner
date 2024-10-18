@@ -27,7 +27,7 @@ final class Super_Site_Specialist extends Badge_Maintenance {
 	 * @return string
 	 */
 	public function get_name() {
-		return __( 'Super Site Specialist', 'progress-planner' );
+		return \__( 'Super Site Specialist', 'progress-planner' );
 	}
 
 	/**
@@ -37,25 +37,7 @@ final class Super_Site_Specialist extends Badge_Maintenance {
 	 */
 	public function get_description() {
 		/* translators: %d: The number of weeks. */
-		return sprintf( esc_html__( '%d weeks streak', 'progress-planner' ), 52 );
-	}
-
-	/**
-	 * The badge icons.
-	 *
-	 * @return array
-	 */
-	public function get_icons_svg() {
-		return [
-			'pending'  => [
-				'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/streak_badge3_gray.svg',
-				'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/streak_badge3_gray.svg',
-			],
-			'complete' => [
-				'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/streak_badge3.svg',
-				'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/streak_badge3.svg',
-			],
-		];
+		return sprintf( \esc_html__( '%d weeks streak', 'progress-planner' ), 52 );
 	}
 
 	/**

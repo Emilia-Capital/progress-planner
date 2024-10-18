@@ -1,0 +1,79 @@
+.components-button {
+
+	svg.progress-planner-icon {
+
+		#path1,
+		#path3 {
+			fill: #38296d !important;
+		}
+
+		#path2 {
+			fill: #faa310 !important;
+		}
+	}
+
+	&[aria-controls="progress-planner-sidebar:progress-planner-sidebar"] {
+		background: #fff6eb !important;
+	}
+
+	&.is-pressed {
+
+		&[aria-controls="progress-planner-sidebar:progress-planner-sidebar"] {
+			background: #38296d !important;
+		}
+
+		svg.progress-planner-icon {
+
+			#path1,
+			#path3 {
+				fill: #fff !important;
+			}
+		}
+	}
+}
+
+#progress-planner-sidebar\:progress-planner-sidebar {
+
+	.components-button {
+
+		&.is-pressed {
+			background: #38296d !important;
+		}
+
+		&.is-secondary {
+			background: #fff6eb !important;
+			font-weight: 700;
+			color: #38296d !important;
+			border-color: #faa310 !important;
+		}
+	}
+
+	strong,
+	h2 button {
+		color: #38296d !important;
+	}
+
+	.dashicons-video-alt3 {
+		color: #faa310 !important;
+	}
+}
+
+.progress-planner-todo-item.required label::after {
+	content: "";
+	background-color: #14b8a6;
+	padding: 0.35em;
+	margin: 0 0.25em;
+	border-radius: 50%;
+	display: inline-block;
+}
+
+.progress-planner-sidebar-lesson-items-invalid-license {
+	padding: 15px;
+	background-color: #d63638;
+	color: #fff;
+
+	a {
+		color: #fff;
+		text-decoration: underline;
+	}
+}

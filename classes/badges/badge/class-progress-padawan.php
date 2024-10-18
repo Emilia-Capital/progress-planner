@@ -27,7 +27,7 @@ final class Progress_Padawan extends Badge_Maintenance {
 	 * @return string
 	 */
 	public function get_name() {
-		return __( 'Progress Padawan', 'progress-planner' );
+		return \__( 'Progress Padawan', 'progress-planner' );
 	}
 
 	/**
@@ -37,25 +37,7 @@ final class Progress_Padawan extends Badge_Maintenance {
 	 */
 	public function get_description() {
 		/* translators: %d: The number of weeks. */
-		return sprintf( esc_html__( '%d weeks streak', 'progress-planner' ), 6 );
-	}
-
-	/**
-	 * The badge icons.
-	 *
-	 * @return array
-	 */
-	public function get_icons_svg() {
-		return [
-			'pending'  => [
-				'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/streak_badge1_gray.svg',
-				'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/streak_badge1_gray.svg',
-			],
-			'complete' => [
-				'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/streak_badge1.svg',
-				'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/streak_badge1.svg',
-			],
-		];
+		return sprintf( \esc_html__( '%d weeks streak', 'progress-planner' ), 6 );
 	}
 
 	/**
