@@ -89,9 +89,12 @@ $monthly = Monthly::get_instances();
 			data-value="<?php echo \esc_attr( $badge_progress['progress'] ); ?>"
 		>
 			<?php
+			/**
+			 * TODO: Add badges icons by month. Files should have a month suffix so we can include them directly.
+			 */
 			include $badge_completed // phpcs:ignore PEAR.Files.IncludingFile.UseRequire
-				? $badge->get_icons_svg()['complete'][ $month_key ]['path']
-				: $badge->get_icons_svg()['pending'][ $month_key ]['path'];
+				? \PROGRESS_PLANNER_DIR . '/assets/images/badges/bold-blogger.svg'
+				: \PROGRESS_PLANNER_DIR . '/assets/images/badges/bold-blogger-bw.svg';
 			?>
 			<p><?php echo \esc_html( $badge->get_name() ); ?></p>
 		</span>

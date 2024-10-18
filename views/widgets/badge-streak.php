@@ -34,7 +34,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					--max: 360deg;
 					--start: 180deg;
 				">
-				<?php require $content_badge_details['badge']['icons-svg']['complete']['path']; ?>
+				<?php require PROGRESS_PLANNER_DIR . '/assets/images/badges/' . $content_badge_details['badge']['id'] . '.svg'; ?>
 			</div>
 		</span>
 		<span class="progress-percent"><?php echo \esc_attr( $content_badge_details['progress']['progress'] ); ?>%</span>
@@ -75,7 +75,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					--max: 360deg;
 					--start: 180deg;
 				">
-				<?php require $streak_badge_details['badge']['icons-svg']['complete']['path']; ?>
+				<?php require PROGRESS_PLANNER_DIR . '/assets/images/badges/' . $streak_badge_details['badge']['id'] . '.svg'; ?>
 			</div>
 		</span>
 		<span class="progress-percent"><?php echo \esc_attr( $streak_badge_details['progress']['progress'] ); ?>%</span>
@@ -123,8 +123,8 @@ foreach ( [
 			>
 				<?php
 				include $badge_completed // phpcs:ignore PEAR.Files.IncludingFile.UseRequire
-					? $badge_args['icons-svg']['complete']['path']
-					: $badge_args['icons-svg']['pending']['path'];
+					? PROGRESS_PLANNER_DIR . '/assets/images/badges/' . $badge . '.svg'
+					: PROGRESS_PLANNER_DIR . '/assets/images/badges/' . $badge . '-bw.svg';
 				?>
 				<p><?php echo \esc_html( Badges::get_badge( $badge )['name'] ); ?></p>
 			</span>

@@ -101,8 +101,8 @@ final class Badges extends Popup {
 				<div class="inner">
 					<?php
 					include $badge_completed // phpcs:ignore PEAR.Files.IncludingFile.UseRequire
-						? $badge_args['icons-svg']['complete']['path']
-						: $badge_args['icons-svg']['pending']['path'];
+						? PROGRESS_PLANNER_DIR . '/assets/images/badges/' . $badge . '.svg'
+						: PROGRESS_PLANNER_DIR . '/assets/images/badges/' . $badge . '-bw.svg';
 					?>
 					<?php echo \esc_html( Root_Badges::get_badge( $badge )['name'] ); ?>
 				</div>

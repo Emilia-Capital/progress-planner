@@ -40,7 +40,6 @@ abstract class Badge {
 			[
 				'name'              => $this->get_name(),
 				'description'       => $this->get_description(),
-				'icons-svg'         => $this->get_icons_svg(),
 				'progress_callback' => [ $this, 'progress_callback' ],
 			]
 		);
@@ -69,23 +68,6 @@ abstract class Badge {
 	 */
 	abstract public function get_description();
 
-	/**
-	 * The badge icons.
-	 *
-	 * @return array
-	 */
-	public function get_icons_svg() {
-		return [
-			'pending'  => [
-				'path' => \PROGRESS_PLANNER_DIR . "/assets/images/badges/{$this->id}-bw.svg",
-				'url'  => \PROGRESS_PLANNER_URL . "/assets/images/badges/{$this->id}-bw.svg",
-			],
-			'complete' => [
-				'path' => \PROGRESS_PLANNER_DIR . "/assets/images/badges/{$this->id}.svg",
-				'url'  => \PROGRESS_PLANNER_URL . "/assets/images/badges/{$this->id}.svg",
-			],
-		];
-	}
 	/**
 	 * Progress callback.
 	 *

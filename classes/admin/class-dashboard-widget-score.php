@@ -146,7 +146,7 @@ class Dashboard_Widget_Score extends Dashboard_Widget {
 							--max: 360deg;
 							--start: 180deg;
 						">
-						<?php require $details['badge']['icons-svg']['complete']['path']; ?>
+						<?php require PROGRESS_PLANNER_DIR . '/assets/images/badges/' . $details['badge']['id'] . '.svg'; ?>
 					</div>
 				</span>
 				<span class="progress-percent"><?php echo \esc_attr( $details['progress']['progress'] ); ?>%</span>
