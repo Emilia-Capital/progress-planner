@@ -49,12 +49,12 @@ final class Maintenance_Maniac extends Badge_Maintenance {
 	public function get_icons_svg() {
 		return [
 			'pending'  => [
-				'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/streak_badge2_gray.svg',
-				'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/streak_badge2_gray.svg',
+				'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/maintenance-maniac-bw.svg',
+				'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/maintenance-maniac-bw.svg',
 			],
 			'complete' => [
-				'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/streak_badge2.svg',
-				'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/streak_badge2.svg',
+				'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/maintenance-maniac.svg',
+				'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/maintenance-maniac.svg',
 			],
 		];
 	}

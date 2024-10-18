@@ -50,12 +50,12 @@ final class Bold_Blogger extends Badge_Content {
 	public function get_icons_svg() {
 		return [
 			'pending'  => [
-				'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge2_gray.svg',
-				'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge2_gray.svg',
+				'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/bold-blogger-bw.svg',
+				'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/bold-blogger-bw.svg',
 			],
 			'complete' => [
-				'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge2.svg',
-				'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge2.svg',
+				'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/bold-blogger.svg',
+				'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/bold-blogger.svg',
 			],
 		];
 	}

@@ -127,52 +127,52 @@ final class Monthly extends Badge {
 		return [
 			'pending'  => [
 				'jan' => [
-					'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge2_gray.svg',
-					'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge2_gray.svg',
+					'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/bold-blogger-bw.svg',
+					'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/bold-blogger-bw.svg',
 				],
 				'feb' => [
-					'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge2_gray.svg',
-					'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge2_gray.svg',
+					'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/bold-blogger-bw.svg',
+					'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/bold-blogger-bw.svg',
 				],
 				'mar' => [
-					'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge2_gray.svg',
-					'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge2_gray.svg',
+					'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/bold-blogger-bw.svg',
+					'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/bold-blogger-bw.svg',
 				],
 				'apr' => [
-					'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge2_gray.svg',
-					'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge2_gray.svg',
+					'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/bold-blogger-bw.svg',
+					'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/bold-blogger-bw.svg',
 				],
 				'may' => [
-					'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge2_gray.svg',
-					'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge2_gray.svg',
+					'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/bold-blogger-bw.svg',
+					'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/bold-blogger-bw.svg',
 				],
 				'jun' => [
-					'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge2_gray.svg',
-					'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge2_gray.svg',
+					'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/bold-blogger-bw.svg',
+					'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/bold-blogger-bw.svg',
 				],
 				'jul' => [
-					'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge2_gray.svg',
-					'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge2_gray.svg',
+					'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/bold-blogger-bw.svg',
+					'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/bold-blogger-bw.svg',
 				],
 				'aug' => [
-					'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge2_gray.svg',
-					'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge2_gray.svg',
+					'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/bold-blogger-bw.svg',
+					'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/bold-blogger-bw.svg',
 				],
 				'sep' => [
-					'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge2_gray.svg',
-					'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge2_gray.svg',
+					'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/bold-blogger-bw.svg',
+					'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/bold-blogger-bw.svg',
 				],
 				'oct' => [
-					'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge2_gray.svg',
-					'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge2_gray.svg',
+					'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/bold-blogger-bw.svg',
+					'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/bold-blogger-bw.svg',
 				],
 				'nov' => [
-					'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge2_gray.svg',
-					'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge2_gray.svg',
+					'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/bold-blogger-bw.svg',
+					'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/bold-blogger-bw.svg',
 				],
 				'dec' => [
-					'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge2_gray.svg',
-					'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge2_gray.svg',
+					'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/bold-blogger-bw.svg',
+					'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/bold-blogger-bw.svg',
 				],
 			],
 			'complete' => [

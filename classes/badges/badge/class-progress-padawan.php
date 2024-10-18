@@ -48,12 +48,12 @@ final class Progress_Padawan extends Badge_Maintenance {
 	public function get_icons_svg() {
 		return [
 			'pending'  => [
-				'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/streak_badge1_gray.svg',
-				'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/streak_badge1_gray.svg',
+				'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/progress-padawan-bw.svg',
+				'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/progress-padawan-bw.svg',
 			],
 			'complete' => [
-				'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/streak_badge1.svg',
-				'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/streak_badge1.svg',
+				'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/progress-padawan.svg',
+				'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/progress-padawan.svg',
 			],
 		];
 	}

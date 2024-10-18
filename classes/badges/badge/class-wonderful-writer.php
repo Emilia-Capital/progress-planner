@@ -50,12 +50,12 @@ final class Wonderful_Writer extends Badge_Content {
 	public function get_icons_svg() {
 		return [
 			'pending'  => [
-				'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge1_gray.svg',
-				'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge1_gray.svg',
+				'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/wonderful-writer-bw.svg',
+				'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/wonderful-writer-bw.svg',
 			],
 			'complete' => [
-				'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge1.svg',
-				'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge1.svg',
+				'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/wonderful-writer.svg',
+				'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/wonderful-writer.svg',
 			],
 		];
 	}
