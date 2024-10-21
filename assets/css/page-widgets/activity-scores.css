@@ -33,10 +33,12 @@
 		position: absolute;
 		top: 50%;
 		color: var(--prpl-color-gray-5);
+		width: 10%;
+		text-align: center;
 	}
 
 	.prpl-gauge-0 {
-		left: 6px;
+		left: 0;
 	}
 
 	.prpl-gauge-100 {
