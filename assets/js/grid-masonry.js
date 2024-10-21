@@ -53,3 +53,14 @@ if ( document.readyState !== 'loading' ) {
 	} );
 }
 window.addEventListener( 'resize', prplResizeAllGridItems );
+
+const prplResizeAllGridItemsEvent = new Event( 'prplResizeAllGridItemsEvent' ); // eslint-disable-line no-unused-vars
+
+// Listen for the event.
+document.addEventListener(
+	'prplResizeAllGridItemsEvent',
+	() => {
+		prplResizeAllGridItems();
+	},
+	false
+);

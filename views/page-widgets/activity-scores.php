@@ -18,10 +18,17 @@ $record = $this->personal_record_callback();
 ?>
 <h2 class="prpl-widget-title">
 	<?php \esc_html_e( 'Your website activity score', 'progress-planner' ); ?>
+	<button class="prpl-info-icon" onclick="document.getElementById('prpl-activity-details').classList.toggle('hidden');document.dispatchEvent(prplResizeAllGridItemsEvent);">
+		<span class="dashicons dashicons-info-outline"></span>
+		<span class="screen-reader-text"><?php \esc_html_e( 'More info', 'progress-planner' ); ?></span>
+	</button>
 </h2>
 
 <div style="--background: var(--prpl-background-orange)">
 	<?php include \PROGRESS_PLANNER_DIR . '/views/page-widgets/parts/activity-scores-gauge.php'; // phpcs:ignore PEAR.Files.IncludingFile.UseRequire ?>
+	<p class="hidden" id="prpl-activity-details">
+		<?php \esc_html_e( 'Your website activity score is based on the amount of website maintenance work you have done over the past 30 days.', 'progress-planner' ); ?>
+	</p>
 </div>
 
 <hr>
@@ -83,7 +90,7 @@ $record = $this->personal_record_callback();
 	<span class="counter-big-number">
 		<?php echo \esc_html( \number_format_i18n( (int) $record['max_streak'] ) ); ?>
 	</span>
-	<span class="counter-big-text"><?php \esc_html_e( 'Personal record', 'progress-planner' ); ?></span>
+	<span class="counter-big-text"><?php \esc_html_e( 'personal record', 'progress-planner' ); ?></span>
 </div>
 
 <div class="prpl-widget-content">
