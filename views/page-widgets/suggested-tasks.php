@@ -73,11 +73,6 @@ $percentage = $score / Monthly::TARGET_POINTS;
 	?>
 </ul>
 <ul class="prpl-suggested-tasks-list"></ul>
-<?php if ( Suggested_Tasks::maybe_celebrate_tasks() ) : ?>
-	<script>
-		alert( '<?php echo \esc_js( \esc_html__( 'Congratulations! You have completed all suggested tasks for this week.', 'progress-planner' ) ); ?>' );
-	</script>
-<?php endif; ?>
 
 <hr>
 

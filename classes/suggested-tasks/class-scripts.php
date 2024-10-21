@@ -89,9 +89,23 @@ class Scripts {
 	 */
 	public function register_scripts() {
 		\wp_register_script(
+			'particles-confetti-js',
+			PROGRESS_PLANNER_URL . '/assets/js/vendor/tsparticles.confetti.bundle.min.js',
+			[],
+			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/vendor/tsparticles.confetti.bundle.min.js' ),
+			true
+		);
+
+		$pending_celebration = Suggested_Tasks::get_pending_celebration();
+		$deps                = [ 'progress-planner-todo', 'progress-planner-grid-masonry' ];
+		if ( ! empty( $pending_celebration ) ) {
+			$deps[] = 'particles-confetti-js';
+		}
+
+		\wp_register_script(
 			'progress-planner-suggested-tasks',
 			PROGRESS_PLANNER_URL . '/assets/js/suggested-tasks.js',
-			[ 'progress-planner-todo', 'progress-planner-grid-masonry' ],
+			$deps,
 			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/suggested-tasks.js' ),
 			true
 		);

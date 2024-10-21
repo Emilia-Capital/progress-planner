@@ -34,6 +34,7 @@ class Suggested_Tasks {
 		new Local_Tasks_Update_Posts();
 		new Local_Tasks_Update_Core();
 		$this->maybe_unsnooze_tasks();
+		\add_action( 'shutdown', [ $this, 'maybe_celebrate_tasks' ] );
 	}
 
 	/**
@@ -55,6 +56,16 @@ class Suggested_Tasks {
 	}
 
 	/**
+	 * Get pending celebration tasks.
+	 *
+	 * @return array
+	 */
+	public static function get_pending_celebration() {
+		$option = \get_option( self::OPTION_NAME, [] );
+		return $option['pending_celebration'] ?? [];
+	}
+
+	/**
 	 * Mark a task as pending celebration.
 	 *
 	 * @param string $task_id The task ID.
@@ -62,12 +73,14 @@ class Suggested_Tasks {
 	 * @return bool
 	 */
 	public static function mark_task_as_pending_celebration( $task_id ) {
-		$option              = \get_option( self::OPTION_NAME, [] );
-		$pending_celebration = $option['pending_celebration'] ?? [];
-		if ( \in_array( $task_id, $pending_celebration, true ) ) {
+		$option                        = \get_option( self::OPTION_NAME, [] );
+		$option['pending_celebration'] = isset( $option['pending_celebration'] )
+			? $option['pending_celebration']
+			: [];
+		if ( \in_array( $task_id, $option['pending_celebration'], true ) ) {
 			return false;
 		}
-		$pending_celebration[] = (string) $task_id;
+		$option['pending_celebration'][] = (string) $task_id;
 		return \update_option( self::OPTION_NAME, $option );
 	}
 
@@ -79,30 +92,34 @@ class Suggested_Tasks {
 	 * @return bool
 	 */
 	public static function mark_task_as_celebrated( $task_id ) {
-		$option              = \get_option( self::OPTION_NAME, [] );
-		$pending_celebration = $option['pending_celebration'] ?? [];
-		if ( ! \in_array( $task_id, $pending_celebration, true ) ) {
+		$option                        = \get_option( self::OPTION_NAME, [] );
+		$option['pending_celebration'] = isset( $option['pending_celebration'] )
+			? $option['pending_celebration']
+			: [];
+		if ( ! \in_array( $task_id, $option['pending_celebration'], true ) ) {
 			return false;
 		}
-		unset( $pending_celebration[ \array_search( $task_id, $pending_celebration, true ) ] );
-		$option['pending_celebration'] = $pending_celebration;
+		unset( $option['pending_celebration'][ \array_search( $task_id, $option['pending_celebration'], true ) ] );
 		return \update_option( self::OPTION_NAME, $option );
 	}
 
 	/**
 	 * Maybe celebrate tasks.
 	 *
-	 * @return bool
+	 * @return void
 	 */
-	public static function maybe_celebrate_tasks() {
-		$option              = \get_option( self::OPTION_NAME, [] );
-		$pending_celebration = $option['pending_celebration'] ?? [];
+	public function maybe_celebrate_tasks() {
+		$option                        = \get_option( self::OPTION_NAME, [] );
+		$option['pending_celebration'] = isset( $option['pending_celebration'] )
+			? $option['pending_celebration']
+			: [];
 
-		if ( empty( $pending_celebration ) ) {
-			return false;
+		if ( empty( $option['pending_celebration'] ) ) {
+			return;
 		}
+
 		$option['pending_celebration'] = [];
-		return \update_option( self::OPTION_NAME, $option );
+		\update_option( self::OPTION_NAME, $option );
 	}
 
 	/**

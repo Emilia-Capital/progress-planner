@@ -1,4 +1,4 @@
-/* global progressPlannerSuggestedTasks, jQuery */
+/* global progressPlannerSuggestedTasks, jQuery, confetti */
 const PRPL_SUGGESTED_TASK_CLASSNAME = 'prpl-suggested-task';
 const PRPL_SUGGESTED_TASKS_MAX_ITEMS = 5;
 
@@ -239,6 +239,52 @@ const prplSuggestedTodoItemListeners = ( item ) => {
 		} );
 	} );
 };
+
+const prplTriggerConfetti = () => {
+	const prplConfettiDefaults = {
+		spread: 360,
+		ticks: 50,
+		gravity: 0,
+		decay: 0.94,
+		startVelocity: 30,
+		shapes: [ 'star' ],
+		colors: [ 'FFE400', 'FFBD00', 'E89400', 'FFCA6C', 'FDFFB8' ],
+	};
+
+	const progressPlannerRenderAttemptshoot = () => {
+		confetti( {
+			...prplConfettiDefaults,
+			particleCount: 40,
+			scalar: 1.2,
+			shapes: [ 'star' ],
+		} );
+
+		confetti( {
+			...prplConfettiDefaults,
+			particleCount: 10,
+			scalar: 0.75,
+			shapes: [ 'circle' ],
+		} );
+	};
+
+	setTimeout( progressPlannerRenderAttemptshoot, 0 );
+	setTimeout( progressPlannerRenderAttemptshoot, 100 );
+	setTimeout( progressPlannerRenderAttemptshoot, 200 );
+};
+
+const prplPendingCelebration =
+	progressPlannerSuggestedTasks.tasks.pending_celebration;
+if ( prplPendingCelebration && prplPendingCelebration.length ) {
+	setTimeout( () => {
+		// Trigger the celebration event.
+		document.dispatchEvent( new Event( 'prplCelebrateTasks' ) );
+	}, 3000 );
+}
+
+// Create a new custom event to trigger the celebration.
+document.addEventListener( 'prplCelebrateTasks', () => {
+	prplTriggerConfetti();
+} );
 
 // Populate the list on load.
 document.addEventListener( 'DOMContentLoaded', () => {
