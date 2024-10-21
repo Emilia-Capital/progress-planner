@@ -1,4 +1,4 @@
-/* global progressPlannerTodo, jQuery, prplResizeGridItem */
+/* global progressPlannerTodo, jQuery */
 
 /**
  * Run a function when the DOM is ready.
@@ -52,9 +52,8 @@ const progressPlannerSaveTodoList = () => {
 		nonce: progressPlannerTodo.nonce,
 	} );
 
-	prplResizeGridItem(
-		document.querySelector( '.prpl-widget-wrapper.prpl-todo' )
-	);
+	const event = new Event( 'prplResizeAllGridItemsEvent' );
+	document.dispatchEvent( event );
 };
 
 /**
@@ -145,9 +144,8 @@ progressPlannerDomReady( () => {
 		// If this is the last item in the array, initialize the sortable
 		if ( index === array.length - 1 ) {
 			progressPlannerInitSortable();
-			prplResizeGridItem(
-				document.querySelector( '.prpl-widget-wrapper.prpl-todo' )
-			);
+			const event = new Event( 'prplResizeAllGridItemsEvent' );
+			document.dispatchEvent( event );
 		}
 	} );
 

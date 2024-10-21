@@ -18,7 +18,11 @@ $record = $this->personal_record_callback();
 ?>
 <h2 class="prpl-widget-title">
 	<?php \esc_html_e( 'Your website activity score', 'progress-planner' ); ?>
-	<button class="prpl-info-icon" onclick="document.getElementById('prpl-activity-details').classList.toggle('hidden');document.dispatchEvent(prplResizeAllGridItemsEvent);">
+	<script>const prplResizeAllGridItemsEventOnDetailsToggle = new Event( 'prplResizeAllGridItemsEvent' );</script>
+	<button
+		class="prpl-info-icon"
+		onclick="document.getElementById('prpl-activity-details').classList.toggle('hidden');document.dispatchEvent(prplResizeAllGridItemsEventOnDetailsToggle);"
+	>
 		<span class="dashicons dashicons-info-outline"></span>
 		<span class="screen-reader-text"><?php \esc_html_e( 'More info', 'progress-planner' ); ?></span>
 	</button>

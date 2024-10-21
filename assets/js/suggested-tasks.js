@@ -1,4 +1,4 @@
-/* global progressPlannerSuggestedTasks, jQuery, prplResizeGridItem */
+/* global progressPlannerSuggestedTasks, jQuery */
 const PRPL_SUGGESTED_TASK_CLASSNAME = 'prpl-suggested-task';
 const PRPL_SUGGESTED_TASKS_MAX_ITEMS = 5;
 
@@ -248,10 +248,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
 		progressPlannerGetNextItem()
 	) {
 		progressPlannerInjectNextItem();
-		prplResizeGridItem(
-			document.querySelector(
-				'.prpl-widget-wrapper.prpl-suggested-tasks'
-			)
-		);
+		const event = new Event( 'prplResizeAllGridItemsEvent' );
+		document.dispatchEvent( event );
 	}
 } );
