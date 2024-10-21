@@ -64,14 +64,17 @@
 			position: absolute;
 			top: 50%;
 			color: var(--prpl-color-gray-5);
+			width: 10%;
+			text-align: center;
 		}
 
 		.prpl-gauge-0 {
-			left: 14px;
+			left: 0;
 		}
 
 		.prpl-gauge-100 {
-			right: 14px;
+			right: 0;
+
 		}
 	}
 
