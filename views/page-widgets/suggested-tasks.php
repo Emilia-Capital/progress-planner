@@ -43,7 +43,7 @@ $percentage = $score / Monthly::TARGET_POINTS;
 		?>
 		</span>
 		<span class="prpl-gauge-100">
-			100
+			<?php echo \esc_html( Monthly::TARGET_POINTS ); ?>
 		</span>
 	</div>
 </div>
