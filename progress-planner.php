@@ -54,13 +54,7 @@ spl_autoload_register(
 	}
 );
 
-/**
- * Get the progress planner instance.
- *
- * @return \Progress_Planner\Base
- */
-function progress_planner() {
-	return \Progress_Planner\Base::get_instance();
-}
+\Progress_Planner\Base::get_instance();
 
-progress_planner();
+// Include deprecated functions.
+require_once PROGRESS_PLANNER_DIR . '/deprecated.php';
