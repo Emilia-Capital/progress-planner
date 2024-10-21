@@ -45,31 +45,22 @@ final class Monthly extends Badge {
 		if ( ! empty( self::$instances ) ) {
 			return self::$instances;
 		}
-		$instances = [];
+
 		foreach ( array_keys( self::get_months() ) as $month ) {
-			$instances[ $month ]     = new self();
-			$instances[ $month ]->id = 'monthly-' . strtolower( $month );
-			$instances[ $month ]->progress_callback();
+			self::$instances[ $month ]     = new self();
+			self::$instances[ $month ]->id = 'monthly-' . strtolower( $month );
+			self::$instances[ $month ]->progress_callback();
 		}
 
-		// Reorder the instances so that the current month is first.
-		$current_month  = (int) gmdate( 'm' ) - 1;
-		$months_keys    = array_keys( $instances );
-		$ordered_months = array_merge(
-			array_slice( $months_keys, $current_month ),
-			array_slice( $months_keys, 0, $current_month )
-		);
-		// Reverse the array so that the current month is last.
-		$ordered_months    = array_reverse( $ordered_months );
-		$ordered_instances = [];
-		foreach ( $ordered_months as $month ) {
-			$ordered_instances[ $month ] = $instances[ $month ];
+		// If the current month is January to June, return the 1st 6 months.
+		// If the current month is July to December, return the last 6 months.
+		$current_month = gmdate( 'm' );
+		if ( $current_month >= 1 && $current_month <= 6 ) {
+			self::$instances = array_slice( self::$instances, 0, 6 );
+		} else {
+			self::$instances = array_slice( self::$instances, -6 );
 		}
-		// Pull the last item of the array, and put it in the beginning.
-		$last = array_pop( $ordered_instances );
-		array_unshift( $ordered_instances, $last );
 
-		self::$instances = $ordered_instances;
 		return self::$instances;
 	}
 
@@ -104,8 +95,7 @@ final class Monthly extends Badge {
 		if ( ! $this->id ) {
 			return '';
 		}
-		$month = str_replace( 'monthly-', '', $this->id );
-		return self::get_months()[ $month ] . ' ' . $this->get_year( $month );
+		return self::get_months()[ str_replace( 'monthly-', '', $this->id ) ];
 	}
 
 	/**
@@ -123,22 +113,12 @@ final class Monthly extends Badge {
 	 * @return array
 	 */
 	public function progress_callback() {
-		$month           = self::get_months()[ str_replace( 'monthly-', '', $this->id ) ];
-		$year            = $this->get_year( $month );
-		$is_current_year = (int) gmdate( 'Y' ) === $year;
-		$month_num       = gmdate( 'm', strtotime( $month ) );
+		$month     = self::get_months()[ str_replace( 'monthly-', '', $this->id ) ];
+		$year      = $this->get_year( $month );
+		$month_num = gmdate( 'm', strtotime( $month ) );
 
 		$start_date = \DateTime::createFromFormat( 'Y-m-d', "{$year}-{$month_num}-01" );
-		if ( $is_current_year ) {
-			$end_date = \DateTime::createFromFormat( 'Y-m-d', "{$year}-{$month_num}-" . gmdate( 't', strtotime( $month ) ) );
-		} else {
-			$is_leap_year = gmdate( 'L', strtotime( "{$year}-01-01" ) );
-			$day          = (int) gmdate( 't', strtotime( $month ) ) - ( 1 === (int) $is_leap_year && 2 === (int) $month_num ? 1 : 0 );
-			$end_date     = \DateTime::createFromFormat(
-				'Y-m-d',
-				"{$year}-{$month_num}-{$day}"
-			);
-		}
+		$end_date   = \DateTime::createFromFormat( 'Y-m-d', "{$year}-{$month_num}-" . gmdate( 't', strtotime( $month ) ) );
 
 		// Get the activities for the month.
 		$activities = Query::get_instance()->query_activities(

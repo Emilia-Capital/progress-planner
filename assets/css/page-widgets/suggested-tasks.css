@@ -73,6 +73,17 @@
 			right: 0;
 		}
 	}
+
+	.prpl-widget-content-points {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+
+		.prpl-widget-content-points-number {
+			font-size: var(--prpl-font-size-3xl);
+			font-weight: 600;
+		}
+	}
 }
 
 .prpl-suggested-tasks-list {

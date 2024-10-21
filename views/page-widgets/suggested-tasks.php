@@ -41,9 +41,12 @@ $monthly = Monthly::get_instances();
 	</div>
 </div>
 
-<p>
-	<?php \esc_html_e( 'Bla bla bla', 'progress-planner' ); ?>
-</p>
+<div class="prpl-widget-content-points">
+	<span><?php \esc_html_e( 'Progress monthly badge', 'progress-planner' ); ?></span>
+	<span class="prpl-widget-content-points-number">
+		<?php echo (int) $this->get_score(); ?>pt
+	</span>
+</div>
 
 <hr>
 
