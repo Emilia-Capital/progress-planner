@@ -8,6 +8,7 @@
 namespace Progress_Planner\Widgets;
 
 use Progress_Planner\Query;
+use Progress_Planner\Badges\Badge\Monthly;
 
 /**
  * Published Content Widget.
@@ -49,9 +50,6 @@ final class Suggested_Tasks extends Widget {
 			$score += $activity->get_points( $activity->date );
 		}
 
-		// We need 7 points to reach the monthly goal.
-		$score = $score * 100 / 7;
-
-		return (int) min( 100, max( 0, floor( $score ) ) );
+		return (int) min( Monthly::TARGET_POINTS, max( 0, floor( $score ) ) );
 	}
 }

@@ -14,6 +14,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $monthly = Monthly::get_instances();
 
+$score      = $this->get_score();
+$percentage = $score / Monthly::TARGET_POINTS;
 ?>
 <h2 class="prpl-widget-title">
 	<?php \esc_html_e( 'Your monthly badge', 'progress-planner' ); ?>
@@ -23,7 +25,7 @@ $monthly = Monthly::get_instances();
 	<div
 		class="prpl-activities-gauge"
 		style="
-			--value:<?php echo (float) ( $this->get_score() / 100 ); ?>;
+			--value:<?php echo (float) $percentage; ?>;
 			--background: var(--prpl-background-orange);
 			--max: 180deg;
 			--start: 270deg;
@@ -49,7 +51,7 @@ $monthly = Monthly::get_instances();
 <div class="prpl-widget-content-points">
 	<span><?php \esc_html_e( 'Progress monthly badge', 'progress-planner' ); ?></span>
 	<span class="prpl-widget-content-points-number">
-		<?php echo (int) $this->get_score(); ?>pt
+		<?php echo (int) $score; ?>pt
 	</span>
 </div>
 
