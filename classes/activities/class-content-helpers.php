@@ -29,6 +29,10 @@ class Content_Helpers {
 	 * @return string[]
 	 */
 	public static function get_post_types_names() {
+		static $include_post_types;
+		if ( isset( $include_post_types ) && ! empty( $include_post_types ) ) {
+			return $include_post_types;
+		}
 		$default            = [ 'post', 'page' ];
 		$include_post_types = \array_filter(
 			Settings::get( [ 'include_post_types' ], $default ),
