@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<div class="actions">
 		<button
 			type="button"
-			class="button prpl-suggested-task-button"
+			class="prpl-suggested-task-button"
 			data-task-id="{taskId}"
 			data-task-title="{taskTitle}"
 			data-action="info"
@@ -27,7 +27,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</button>
 		<button
 			type="button"
-			class="button prpl-suggested-task-button"
+			class="prpl-suggested-task-button"
 			data-task-id="{taskId}"
 			data-task-title="{taskTitle}"
 			data-action="snooze"
@@ -37,20 +37,59 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<span class="screen-reader-text"><?php \esc_html_e( 'Snooze', 'progress-planner' ); ?></span>
 		</button>
 	</div>
-	<div class="prpl-suggested-snooze-duration-selector hidden">
-		<select class="prpl-suggested-snooze-duration">
-			<option value=""><?php \esc_html_e( 'Select duration', 'progress-planner' ); ?></option>
-			<option value="1-week"><?php \esc_html_e( '1 week', 'progress-planner' ); ?></option>
-			<option value="1-month"><?php \esc_html_e( '1 month', 'progress-planner' ); ?></option>
-			<option value="3-months"><?php \esc_html_e( '3 months', 'progress-planner' ); ?></option>
-			<option value="6-months"><?php \esc_html_e( '6 months', 'progress-planner' ); ?></option>
-			<option value="1-year"><?php \esc_html_e( '1 year', 'progress-planner' ); ?></option>
-			<option value="forever"><?php \esc_html_e( 'forever', 'progress-planner' ); ?></option>
-		</select>
+	<div class="prpl-suggested-snooze-duration-selector">
+
+		<fieldset>
+			<legend>
+				<span>
+					<?php esc_html_e( 'Snooze this task?', 'progress-planner' ); ?>
+				</span>
+				<button type="button" class="prpl-toggle-radio-group">
+					<span class="prpl-toggle-radio-group-text">
+						<?php esc_html_e( 'How long?', 'progress-planner' ); ?>
+					</span>
+					<span class="prpl-toggle-radio-group-arrow">
+						&rsaquo;
+					</span>
+				</button>
+			</legend>
+
+			<div class="prpl-snooze-duration-radio-group">
+				<label>
+					<input type="radio" name="snooze-duration-{taskId}" value="1-week">
+					<?php esc_html_e( '1 week', 'progress-planner' ); ?>
+				</label>
+				<label>
+					<input type="radio" name="snooze-duration-{taskId}" value="1-month">
+					<?php esc_html_e( '1 month', 'progress-planner' ); ?>
+				</label>
+				<label>
+					<input type="radio" name="snooze-duration-{taskId}" value="3-months">
+					<?php esc_html_e( '3 months', 'progress-planner' ); ?>
+				</label>
+				<label>
+					<input type="radio" name="snooze-duration-{taskId}" value="6-months">
+					<?php esc_html_e( '6 months', 'progress-planner' ); ?>
+				</label>
+				<label>
+					<input type="radio" name="snooze-duration-{taskId}" value="1-year">
+					<?php esc_html_e( '1 year', 'progress-planner' ); ?>
+				</label>
+				<label>
+					<input type="radio" name="snooze-duration-{taskId}" value="forever">
+					<?php esc_html_e( 'forever', 'progress-planner' ); ?>
+				</label>
+			</div>
+		</fieldset>
+
+		<button type="button" class="prpl-suggested-task-button close" data-action="close-snooze">
+			<span class="dashicons dashicons-no-alt"></span>
+			<span class="screen-reader-text"><?php \esc_html_e( 'Close', 'progress-planner' ); ?></span>
+		</button>
 	</div>
-	<div class="prpl-suggested-task-info hidden">
+	<div class="prpl-suggested-task-info">
 		{taskDescription}
-		<button type="button" class="button prpl-suggested-task-button close" data-action="close-info">
+		<button type="button" class="prpl-suggested-task-button close" data-action="close-info">
 			<span class="dashicons dashicons-no-alt"></span>
 			<span class="screen-reader-text"><?php \esc_html_e( 'Close', 'progress-planner' ); ?></span>
 		</button>

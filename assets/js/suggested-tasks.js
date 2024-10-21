@@ -216,26 +216,45 @@ const prplSuggestedTodoItemListeners = ( item ) => {
 
 			switch ( action ) {
 				case 'snooze':
+					item.classList.remove( 'prpl-suggested-task-info-open' );
+					item.classList.toggle( 'prpl-suggested-task-snooze-open' );
+					break;
+
+				case 'close-snooze':
+					item.classList.remove( 'prpl-suggested-task-snooze-open' );
 					item.querySelector(
-						'.prpl-suggested-snooze-duration-selector'
-					).classList.toggle( 'hidden' );
-					item.querySelector(
-						'.prpl-suggested-snooze-duration'
-					).addEventListener( 'change', function () {
-						progressPlannerSnoozeTask(
-							button.getAttribute( 'data-task-id' ),
-							this.value
-						);
-					} );
+						'.prpl-suggested-snooze-duration-selector.prpl-toggle-radio-group-open'
+					)?.classList.remove( 'prpl-toggle-radio-group-open' );
 					break;
 
 				case 'info':
 				case 'close-info':
-					item.querySelector(
-						'.prpl-suggested-task-info'
-					).classList.toggle( 'hidden' );
+					item.classList.remove( 'prpl-suggested-task-snooze-open' );
+					item.classList.toggle( 'prpl-suggested-task-info-open' );
 					break;
 			}
+		} );
+	} );
+
+	// Toggle snooze duration radio group.
+	item.querySelector( '.prpl-toggle-radio-group' ).addEventListener(
+		'click',
+		function () {
+			this.closest(
+				'.prpl-suggested-snooze-duration-selector'
+			).classList.toggle( 'prpl-toggle-radio-group-open' );
+		}
+	);
+
+	// Handle snooze duration radio group change.
+	item.querySelectorAll(
+		'.prpl-snooze-duration-radio-group input[type="radio"]'
+	).forEach( ( radioElement ) => {
+		radioElement.addEventListener( 'change', function () {
+			progressPlannerSnoozeTask(
+				item.getAttribute( 'data-task-id' ),
+				this.value
+			);
 		} );
 	} );
 };
