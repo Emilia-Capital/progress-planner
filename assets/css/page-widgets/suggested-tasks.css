@@ -7,6 +7,7 @@
 		padding: calc(var(--prpl-padding) / 2);
 		border-radius: var(--prpl-border-radius);
 		margin-bottom: var(--prpl-padding);
+		background: var(--prpl-background-orange);
 
 		.prpl-badge {
 			display: flex;
@@ -35,17 +36,17 @@
 		margin-bottom: 1em;
 	}
 
-	.prpl-gauge-number {
-		font-size: var(--prpl-font-size-6xl);
+	.prpl-gauge-badge {
 		top: -1em;
 		display: block;
-		padding-top: 50%;
-		font-weight: 600;
+		padding-top: 25%;
 		text-align: center;
 		position: absolute;
-		color: var(--prpl-color-gray-5);
 		width: 100%;
-		line-height: 1.2;
+
+		svg {
+			width: 50%;
+		}
 	}
 
 	.prpl-activities-gauge-container {

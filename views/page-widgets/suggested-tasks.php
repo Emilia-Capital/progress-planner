@@ -32,8 +32,13 @@ $monthly = Monthly::get_instances();
 		<span class="prpl-gauge-0">
 			0
 		</span>
-		<span class="prpl-gauge-number">
-			<?php echo (int) $this->get_score(); ?>
+		<span class="prpl-gauge-badge">
+		<?php
+			/**
+			 * TODO: Add badges icons by month. Files should have a month suffix so we can include them directly.
+			 */
+			include \PROGRESS_PLANNER_DIR . '/assets/images/badges/bold-blogger.svg' // phpcs:ignore PEAR.Files.IncludingFile.UseRequire
+		?>
 		</span>
 		<span class="prpl-gauge-100">
 			100
