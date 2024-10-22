@@ -9,7 +9,6 @@ namespace Progress_Planner\Activities;
 
 use Progress_Planner\Base;
 use Progress_Planner\Activity;
-use Progress_Planner\Date;
 use Progress_Planner\Activities\Content_Helpers;
 
 /**
@@ -41,13 +40,14 @@ class Content extends Activity {
 	 * @return int
 	 */
 	public function get_points( $date ) {
+		global $progress_planner;
 		$date_ymd = $date->format( 'Ymd' );
 		if ( isset( $this->points[ $date_ymd ] ) ) {
 			return $this->points[ $date_ymd ];
 		}
 
 		// Get the number of days between the activity date and the given date.
-		$days = absint( Date::get_days_between_dates( $date, $this->date ) );
+		$days = absint( $progress_planner->date->get_days_between_dates( $date, $this->date ) );
 
 		// Maximum range for awarded points is 30 days.
 		if ( $days >= 30 ) {

@@ -9,7 +9,6 @@ namespace Progress_Planner\Actions;
 
 use Progress_Planner\Activities\Content_Helpers;
 use Progress_Planner\Activities\Content as Content_Activity;
-use Progress_Planner\Date;
 use Progress_Planner\Settings;
 
 /**
@@ -72,8 +71,8 @@ class Content {
 				'category'   => 'content',
 				'type'       => 'update',
 				'data_id'    => (string) $post_id,
-				'start_date' => Date::get_datetime_from_mysql_date( $post->post_modified )->modify( '-12 hours' ),
-				'end_date'   => Date::get_datetime_from_mysql_date( $post->post_modified )->modify( '+12 hours' ),
+				'start_date' => $progress_planner->date->get_datetime_from_mysql_date( $post->post_modified )->modify( '-12 hours' ),
+				'end_date'   => $progress_planner->date->get_datetime_from_mysql_date( $post->post_modified )->modify( '+12 hours' ),
 			],
 			'RAW'
 		);
@@ -267,8 +266,8 @@ class Content {
 				[
 					'category'   => 'content',
 					'data_id'    => (string) $post->ID,
-					'start_date' => Date::get_datetime_from_mysql_date( $post->post_modified )->modify( '-12 hours' ),
-					'end_date'   => Date::get_datetime_from_mysql_date( $post->post_modified )->modify( '+12 hours' ),
+					'start_date' => $progress_planner->date->get_datetime_from_mysql_date( $post->post_modified )->modify( '-12 hours' ),
+					'end_date'   => $progress_planner->date->get_datetime_from_mysql_date( $post->post_modified )->modify( '+12 hours' ),
 				],
 				'RAW'
 			);

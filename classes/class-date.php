@@ -23,7 +23,7 @@ class Date {
 	 *                 'end'   => \DateTime,
 	 *               ].
 	 */
-	public static function get_range( $start, $end ) {
+	public function get_range( $start, $end ) {
 		$dates = iterator_to_array( new \DatePeriod( $start, new \DateInterval( 'P1D' ), $end ), false );
 		return [
 			'start' => $dates[0],
@@ -40,7 +40,7 @@ class Date {
 	 *
 	 * @return array
 	 */
-	public static function get_periods( $start, $end, $frequency ) {
+	public function get_periods( $start, $end, $frequency ) {
 		$end->modify( '+1 day' );
 
 		switch ( $frequency ) {
@@ -65,7 +65,7 @@ class Date {
 		$date_ranges = [];
 		foreach ( $period as $key => $date ) {
 			if ( isset( $period[ $key + 1 ] ) ) {
-				$date_ranges[] = static::get_range( $date, $period[ $key + 1 ] );
+				$date_ranges[] = $this->get_range( $date, $period[ $key + 1 ] );
 			}
 		}
 		if ( empty( $date_ranges ) ) {
@@ -73,7 +73,7 @@ class Date {
 		}
 		if ( $end->format( 'z' ) !== end( $date_ranges )['end']->format( 'z' ) ) {
 			$final_end     = clone end( $date_ranges )['end'];
-			$date_ranges[] = static::get_range( $final_end->modify( '+1 day' ), $end );
+			$date_ranges[] = $this->get_range( $final_end->modify( '+1 day' ), $end );
 		}
 
 		return $date_ranges;
@@ -86,7 +86,7 @@ class Date {
 	 *
 	 * @return \DateTime
 	 */
-	public static function get_datetime_from_mysql_date( $date ) {
+	public function get_datetime_from_mysql_date( $date ) {
 		return \DateTime::createFromFormat( 'U', (string) \mysql2date( 'U', $date ) );
 	}
 
@@ -98,7 +98,7 @@ class Date {
 	 *
 	 * @return int
 	 */
-	public static function get_days_between_dates( $date1, $date2 ) {
+	public function get_days_between_dates( $date1, $date2 ) {
 		return (int) $date1->diff( $date2 )->format( '%R%a' );
 	}
 }

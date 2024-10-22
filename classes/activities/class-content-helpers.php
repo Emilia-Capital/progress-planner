@@ -8,7 +8,6 @@
 namespace Progress_Planner\Activities;
 
 use Progress_Planner\Activities\Content;
-use Progress_Planner\Date;
 use Progress_Planner\Settings;
 
 /**
@@ -105,13 +104,14 @@ class Content_Helpers {
 	 * @return \Progress_Planner\Activities\Content
 	 */
 	public static function get_activity_from_post( $post ) {
+		global $progress_planner;
 		$type = 'publish' === $post->post_status ? 'publish' : 'update';
 		$date = 'publish' === $post->post_status ? $post->post_date : $post->post_modified;
 
 		$activity           = new Content();
 		$activity->category = 'content';
 		$activity->type     = $type;
-		$activity->date     = Date::get_datetime_from_mysql_date( $date );
+		$activity->date     = $progress_planner->date->get_datetime_from_mysql_date( $date );
 		$activity->data_id  = (string) $post->ID;
 		$activity->user_id  = (int) $post->post_author;
 		return $activity;

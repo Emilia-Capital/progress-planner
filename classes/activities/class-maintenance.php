@@ -8,7 +8,6 @@
 namespace Progress_Planner\Activities;
 
 use Progress_Planner\Activity;
-use Progress_Planner\Date;
 use Progress_Planner\Base;
 
 /**
@@ -67,12 +66,13 @@ class Maintenance extends Activity {
 	 * @return int
 	 */
 	public function get_points( $date ) {
+		global $progress_planner;
 		$date_ymd = $date->format( 'Ymd' );
 		if ( isset( $this->points[ $date_ymd ] ) ) {
 			return $this->points[ $date_ymd ];
 		}
 		$this->points[ $date_ymd ] = Base::$points_config['maintenance'];
-		$days                      = abs( Date::get_days_between_dates( $date, $this->date ) );
+		$days                      = abs( $progress_planner->date->get_days_between_dates( $date, $this->date ) );
 
 		$this->points[ $date_ymd ] = ( $days < 7 ) ? $this->points[ $date_ymd ] : 0;
 

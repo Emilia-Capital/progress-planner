@@ -7,8 +7,6 @@
 
 namespace Progress_Planner;
 
-use Progress_Planner\Date;
-
 /**
  * Activity class.
  */
@@ -107,11 +105,12 @@ class Activity {
 	 * @return int
 	 */
 	public function get_points( $date ) {
+		global $progress_planner;
 		$date_ymd = $date->format( 'Ymd' );
 		if ( isset( $this->points[ $date_ymd ] ) ) {
 			return $this->points[ $date_ymd ];
 		}
-		$days = abs( Date::get_days_between_dates( $date, $this->date ) );
+		$days = abs( $progress_planner->date->get_days_between_dates( $date, $this->date ) );
 
 		// Default points.
 		$default_points = 10;

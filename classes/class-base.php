@@ -40,6 +40,13 @@ class Base {
 	public $query;
 
 	/**
+	 * An instance of the \Progress_Planner\Date class.
+	 *
+	 * @var \Progress_Planner\Date
+	 */
+	public $date;
+
+	/**
 	 * An array of configuration values for points awarded by action-type.
 	 *
 	 * @var array
@@ -90,7 +97,7 @@ class Base {
 		}
 
 		$this->query = new Query();
-
+		$this->date  = new Date();
 		// Basic classes.
 		if ( \is_admin() && \current_user_can( 'publish_posts' ) ) {
 			new Admin_Page();
