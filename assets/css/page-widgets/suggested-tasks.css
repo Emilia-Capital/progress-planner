@@ -143,9 +143,9 @@
 		.prpl-suggested-task-info,
 		.prpl-suggested-snooze-duration-selector {
 			position: absolute;
-			top: 0;
+			bottom: 0;
 			left: 100%;
-			transform: translateY(-10px);
+			transform: translate(-100%, calc(100% + 10px));
 
 			padding: 0.75rem 1.5rem 0.75rem 0.75rem;
 			width: 150px;
@@ -164,9 +164,9 @@
 			&::after {
 				content: "";
 				position: absolute;
-				left: 0;
-				top: 15px;
-				transform: translateX(-100%);
+				top: 0;
+				right: 0;
+				transform: translate(-20px, -10px) rotate(90deg);
 
 				width: 0;
 				height: 0;
@@ -275,32 +275,6 @@
 
 			.prpl-suggested-snooze-duration-selector {
 				visibility: visible;
-			}
-		}
-	}
-}
-
-/* WIP styles, tooltip needs to be repositioned
-- otherwise it will overflow the page width. */
-@media screen and ( max-width: 1403px ) {
-
-	/* Move tooltip above controls */
-	.prpl-suggested-tasks-list {
-
-		.prpl-suggested-task {
-
-			.prpl-suggested-task-info,
-			.prpl-suggested-snooze-duration-selector {
-				top: auto;
-				bottom: 0;
-				transform: translate(-100%, calc(100% + 10px));
-
-				&::after {
-					transform: translate(-20px, -10px) rotate(90deg);
-					top: 0;
-					left: auto;
-					right: 0;
-				}
 			}
 		}
 	}
