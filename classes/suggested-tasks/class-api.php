@@ -7,8 +7,6 @@
 
 namespace Progress_Planner\Suggested_Tasks;
 
-use Progress_Planner\Suggested_Tasks;
-
 /**
  * API class.
  */
@@ -95,7 +93,7 @@ class API {
 	 * @return array
 	 */
 	public function get_saved_tasks() {
-		$option              = \get_option( Suggested_Tasks::OPTION_NAME, [] );
+		$option              = \get_option( \Progress_Planner\Suggested_Tasks::OPTION_NAME, [] );
 		$option['completed'] = $option['completed'] ?? [];
 		$option['snoozed']   = $option['snoozed'] ?? [];
 

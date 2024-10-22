@@ -72,6 +72,13 @@ class Base {
 	public $chart;
 
 	/**
+	 * An instance of the \Progress_Planner\Suggested_Tasks class.
+	 *
+	 * @var \Progress_Planner\Suggested_Tasks|null
+	 */
+	private $suggested_tasks;
+
+	/**
 	 * An array of configuration values for points awarded by action-type.
 	 *
 	 * @var array
@@ -152,9 +159,6 @@ class Base {
 		// To-do.
 		new Todo();
 
-		// Suggested tasks.
-		new Suggested_Tasks();
-
 		\add_filter( 'plugin_action_links_' . plugin_basename( PROGRESS_PLANNER_FILE ), [ $this, 'add_action_links' ] );
 		\add_action( 'enqueue_block_editor_assets', [ $this, 'enqueue_editor_script' ] );
 	}
@@ -229,6 +233,18 @@ class Base {
 			$this->chart = new Chart();
 		}
 		return $this->chart;
+	}
+
+	/**
+	 * Get the suggested tasks instance.
+	 *
+	 * @return \Progress_Planner\Suggested_Tasks
+	 */
+	public function get_suggested_tasks() {
+		if ( ! $this->suggested_tasks ) {
+			$this->suggested_tasks = new Suggested_Tasks();
+		}
+		return $this->suggested_tasks;
 	}
 
 	/**

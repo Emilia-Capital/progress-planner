@@ -8,7 +8,6 @@
 namespace Progress_Planner\Suggested_Tasks\Local_Tasks;
 
 use Progress_Planner\Suggested_Tasks\Local_Tasks;
-use Progress_Planner\Suggested_Tasks;
 use Progress_Planner\Activities\Content_Helpers;
 
 /**
@@ -55,9 +54,10 @@ class Update_Posts extends Local_Tasks {
 	 * @return bool
 	 */
 	public function evaluate_update_post_task( $data ) {
+		global $progress_planner;
 		if ( (int) \get_post_modified_time( 'U', false, (int) $data['post_id'] ) > strtotime( '-6 months' ) ) {
 			$data['date'] = \gmdate( 'YW' );
-			Suggested_Tasks::mark_task_as_completed( $this->get_task_id( $data ) );
+			$progress_planner->get_suggested_tasks()->mark_task_as_completed( $this->get_task_id( $data ) );
 			return true;
 		}
 		return false;
@@ -71,6 +71,7 @@ class Update_Posts extends Local_Tasks {
 	 * @return bool
 	 */
 	public function evaluate_create_post_task( $data ) {
+		global $progress_planner;
 		$last_posts = \get_posts(
 			[
 				'posts_per_page' => 1,
@@ -94,7 +95,7 @@ class Update_Posts extends Local_Tasks {
 			return false;
 		}
 
-		Suggested_Tasks::mark_task_as_completed(
+		$progress_planner->get_suggested_tasks()->mark_task_as_completed(
 			self::get_task_id(
 				[
 					'type'    => 'create-post',

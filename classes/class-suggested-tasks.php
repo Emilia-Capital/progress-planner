@@ -44,7 +44,7 @@ class Suggested_Tasks {
 	 *
 	 * @return void
 	 */
-	public static function mark_task_as_completed( $task_id ) {
+	public function mark_task_as_completed( $task_id ) {
 		$activity          = new Suggested_Task_Activity();
 		$activity->type    = 'completed';
 		$activity->data_id = (string) $task_id;
@@ -52,7 +52,7 @@ class Suggested_Tasks {
 		$activity->user_id = \get_current_user_id();
 		$activity->save();
 
-		self::mark_task_as_pending_celebration( $task_id );
+		$this->mark_task_as_pending_celebration( $task_id );
 	}
 
 	/**
@@ -60,7 +60,7 @@ class Suggested_Tasks {
 	 *
 	 * @return array
 	 */
-	public static function get_pending_celebration() {
+	public function get_pending_celebration() {
 		$option = \get_option( self::OPTION_NAME, [] );
 		return $option['pending_celebration'] ?? [];
 	}
@@ -72,7 +72,7 @@ class Suggested_Tasks {
 	 *
 	 * @return bool
 	 */
-	public static function mark_task_as_pending_celebration( $task_id ) {
+	public function mark_task_as_pending_celebration( $task_id ) {
 		$option                        = \get_option( self::OPTION_NAME, [] );
 		$option['pending_celebration'] = isset( $option['pending_celebration'] )
 			? $option['pending_celebration']
@@ -91,7 +91,7 @@ class Suggested_Tasks {
 	 *
 	 * @return bool
 	 */
-	public static function mark_task_as_celebrated( $task_id ) {
+	public function mark_task_as_celebrated( $task_id ) {
 		$option                        = \get_option( self::OPTION_NAME, [] );
 		$option['pending_celebration'] = isset( $option['pending_celebration'] )
 			? $option['pending_celebration']
@@ -130,7 +130,7 @@ class Suggested_Tasks {
 	 *
 	 * @return bool
 	 */
-	public static function mark_task_as_snoozed( $task_id, $duration ) {
+	public function mark_task_as_snoozed( $task_id, $duration ) {
 		$option  = \get_option( self::OPTION_NAME, [] );
 		$snoozed = $option['snoozed'] ?? [];
 
