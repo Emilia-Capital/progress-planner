@@ -24,7 +24,7 @@ $prpl_page_types    = \Progress_Planner\Page_Types::get_page_types();
 		<?php esc_html_e( 'Your Progress Planner settings', 'progress-planner' ); ?>
 	</h1>
 
-	<form id="prpl-settings" class="prpl-widgets-container">
+	<form id="prpl-settings">
 
 		<div class="prpl-column-main prpl-column-main-secondary">
 			<div class="prpl-column">
