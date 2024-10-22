@@ -138,6 +138,7 @@
 			margin: 0;
 			background: none;
 			border: none;
+			cursor: pointer;
 		}
 
 		.prpl-suggested-task-info,
@@ -158,6 +159,7 @@
 				position: absolute;
 				top: 0.75rem;
 				right: 0;
+				cursor: pointer;
 			}
 
 			/* Arrow */
