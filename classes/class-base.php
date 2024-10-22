@@ -14,7 +14,6 @@ use Progress_Planner\Admin\Dashboard_Widget_Todo;
 use Progress_Planner\Actions\Content as Actions_Content;
 use Progress_Planner\Actions\Content_Scan as Actions_Content_Scan;
 use Progress_Planner\Actions\Maintenance as Actions_Maintenance;
-use Progress_Planner\Page_Types;
 use Progress_Planner\Badges\Badge\Wonderful_Writer as Badge_Wonderful_Writer;
 use Progress_Planner\Badges\Badge\Bold_Blogger as Badge_Bold_Blogger;
 use Progress_Planner\Badges\Badge\Awesome_Author as Badge_Awesome_Author;
@@ -57,6 +56,13 @@ class Base {
 	 * @var \Progress_Planner\Lessons
 	 */
 	public $lessons;
+
+	/**
+	 * An instance of the \Progress_Planner\Page_Types class.
+	 *
+	 * @var \Progress_Planner\Page_Types
+	 */
+	public $page_types;
 
 	/**
 	 * An array of configuration values for points awarded by action-type.
@@ -204,8 +210,8 @@ class Base {
 			'progressPlannerEditor',
 			[
 				'lessons'         => $this->lessons->get_remote_api_items(),
-				'pageTypes'       => ( new Page_Types() )->get_page_types(),
-				'defaultPageType' => Page_Types::get_default_page_type( (string) \get_post_type(), (int) \get_the_ID() ),
+				'pageTypes'       => $this->page_types->get_page_types(),
+				'defaultPageType' => $this->page_types->get_default_page_type( (string) \get_post_type(), (int) \get_the_ID() ),
 				'i18n'            => [
 					'pageType'               => \esc_html__( 'Page type', 'progress-planner' ),
 					'progressPlannerSidebar' => \esc_html__( 'Progress Planner Sidebar', 'progress-planner' ),
