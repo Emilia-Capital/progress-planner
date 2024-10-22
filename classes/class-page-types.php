@@ -286,6 +286,15 @@ class Page_Types {
 	}
 
 	/**
+	 * Get the taxonomy name.
+	 *
+	 * @return string
+	 */
+	public function get_taxonomy_name() {
+		return self::TAXONOMY_NAME;
+	}
+
+	/**
 	 * Update the `page_on_front` option.
 	 *
 	 * @param int $page_id The page ID.
