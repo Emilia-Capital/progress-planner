@@ -94,7 +94,6 @@
 	list-style: none;
 	padding: 0;
 	margin: 0;
-	position: relative;
 
 	&:not(:has(+ .prpl-suggested-tasks-list)) .prpl-suggested-task:last-child {
 		border-bottom: none;
@@ -104,6 +103,7 @@
 		border-bottom: 1px solid var(--prpl-color-gray-3);
 		display: flex;
 		justify-content: space-between;
+		position: relative;
 
 		h3 {
 			font-size: 1rem;
@@ -144,18 +144,163 @@
 		.prpl-suggested-snooze-duration-selector {
 			position: absolute;
 			top: 0;
-			left: 0;
-			padding: 0.75rem;
-			background: var(--prpl-background-orange);
+			left: 100%;
+			transform: translateY(-10px);
+
+			padding: 0.75rem 1.5rem 0.75rem 0.75rem;
+			width: 150px;
+			background: var(--prpl-background-green);
 			border-radius: var(--prpl-border-radius);
-			z-index: 1;
-			width: calc(100% - 1.5rem);
-			height: calc(100% - 1.5rem);
+			z-index: 2; /* above the gauges */
+			visibility: hidden; /* hidden by default */
 
 			.close {
 				position: absolute;
 				top: 0.75rem;
-				right: 0.75rem;
+				right: 0;
+			}
+
+			/* Arrow */
+			&::after {
+				content: "";
+				position: absolute;
+				left: 0;
+				top: 15px;
+				transform: translateX(-100%);
+
+				width: 0;
+				height: 0;
+				border-style: solid;
+				border-width: 7.5px 10px 7.5px 0;
+				border-color: transparent var(--prpl-background-green) transparent transparent;
+			}
+		}
+
+		.prpl-suggested-snooze-duration-selector {
+			margin-left: 10px;
+
+			&.prpl-toggle-radio-group-open {
+
+				.prpl-snooze-duration-radio-group {
+					display: block;
+				}
+
+				.prpl-toggle-radio-group-arrow {
+					transform: rotate(270deg);
+				}
+			}
+
+			legend {
+				display: block;
+				width: 100%;
+
+				.prpl-toggle-radio-group {
+					display: flex;
+					justify-content: space-between;
+					width: 100%;
+					margin-top: 0.5rem;
+					padding: 0.5rem;
+					background-color: #fff;
+					border-radius: var(--prpl-border-radius);
+					line-height: 1;
+					text-align: start;
+
+					.prpl-toggle-radio-group-arrow {
+						transform: rotate(90deg);
+					}
+				}
+			}
+
+			label {
+				display: block;
+				background-color: #fff;
+				padding: 0.5rem;
+
+				&:hover {
+					background-color: var(--prpl-color-gray-1);
+				}
+
+				input[type="radio"] {
+					display: none;
+				}
+			}
+
+			.prpl-snooze-duration-radio-group {
+				display: none;
+				margin-top: 0.75rem;
+
+				label {
+					border-top: 1px solid #dcdcde;
+
+					&:first-child {
+						border-top-left-radius: var(--prpl-border-radius);
+						border-top-right-radius: var(--prpl-border-radius);
+						border-top: none;
+					}
+
+					&:last-child {
+						border-bottom-left-radius: var(--prpl-border-radius);
+						border-bottom-right-radius: var(--prpl-border-radius);
+					}
+				}
+
+			}
+
+
+		}
+
+		.prpl-suggested-task-info {
+			margin-left: -20px;
+		}
+
+		/* Open */
+		&.prpl-suggested-task-snooze-open,
+		&.prpl-suggested-task-info-open {
+
+			.actions {
+				visibility: visible;
+			}
+		}
+
+		/* Info open */
+		&.prpl-suggested-task-info-open {
+
+			.prpl-suggested-task-info {
+				visibility: visible;
+			}
+		}
+
+		/* Snooze open */
+		&.prpl-suggested-task-snooze-open {
+
+			.prpl-suggested-snooze-duration-selector {
+				visibility: visible;
+			}
+		}
+	}
+}
+
+/* WIP styles, tooltip needs to be repositioned
+- otherwise it will overflow the page width. */
+@media screen and ( max-width: 1403px ) {
+
+	/* Move tooltip above controls */
+	.prpl-suggested-tasks-list {
+
+		.prpl-suggested-task {
+
+			.prpl-suggested-task-info,
+			.prpl-suggested-snooze-duration-selector {
+				top: auto;
+				bottom: 0;
+				transform: translate(-100%, calc(100% + 10px));
+
+				&::after {
+					transform: translate(-20px, -10px) rotate(90deg);
+					top: 0;
+					left: auto;
+					right: 0;
+				}
 			}
 		}
 	}
