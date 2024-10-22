@@ -10,6 +10,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+global $progress_planner;
+
 // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 $progress_planner_active_range = isset( $_GET['range'] ) ? \sanitize_text_field( \wp_unslash( $_GET['range'] ) ) : '-6 months';
 // phpcs:ignore WordPress.Security.NonceVerification.Recommended
@@ -27,7 +29,7 @@ $progress_planner_active_frequency = isset( $_GET['frequency'] ) ? \sanitize_tex
 			<span class="dashicons dashicons-lightbulb"></span>
 			<span class="screen-reader-text"><?php \esc_html_e( 'Start tour', 'progress-planner' ); ?>
 		</button>
-		<?php new \Progress_Planner\Popups\Settings(); ?>
+		<?php $progress_planner->get_popovers()->settings->render(); ?>
 		<div class="prpl-header-select-range">
 			<label for="prpl-select-range" class="screen-reader-text">
 				<?php \esc_html_e( 'Select range:', 'progress-planner' ); ?>

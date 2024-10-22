@@ -5,15 +5,14 @@
  * @package Progress_Planner
  */
 
-namespace Progress_Planner\Popups;
+namespace Progress_Planner\Popovers;
 
 use Progress_Planner\Badges as Root_Badges;
-use Progress_Planner\Base;
 
 /**
  * Activity Scores Widget.
  */
-final class Badges extends Popup {
+final class Badges extends Popover {
 
 	/**
 	 * An array of badge IDs.

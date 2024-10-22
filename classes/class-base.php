@@ -79,6 +79,13 @@ class Base {
 	private $suggested_tasks;
 
 	/**
+	 * An object containing all popovers.
+	 *
+	 * @var \stdClass|null
+	 */
+	private $popovers;
+
+	/**
 	 * An array of configuration values for points awarded by action-type.
 	 *
 	 * @var array
@@ -245,6 +252,21 @@ class Base {
 			$this->suggested_tasks = new Suggested_Tasks();
 		}
 		return $this->suggested_tasks;
+	}
+
+	/**
+	 * Get the popovers instance.
+	 *
+	 * @return \stdClass
+	 */
+	public function get_popovers() {
+		if ( ! $this->popovers ) {
+			$this->popovers = new \stdClass();
+		}
+		$this->popovers->badges   = new \Progress_Planner\Popovers\Badges();
+		$this->popovers->settings = new \Progress_Planner\Popovers\Settings();
+
+		return $this->popovers;
 	}
 
 	/**

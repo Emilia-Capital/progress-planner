@@ -153,7 +153,7 @@ class Page {
 			true
 		);
 
-		// Register the admin script for the settings popup.
+		// Register the admin script for the settings popover.
 		\wp_register_script(
 			'progress-planner-settings',
 			PROGRESS_PLANNER_URL . '/assets/js/settings.js',

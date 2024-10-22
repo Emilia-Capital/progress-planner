@@ -14,11 +14,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+global $progress_planner;
+
 ?>
 
 <h2 class="prpl-widget-title">
 	<?php \esc_html_e( 'Your streak badges', 'progress-planner' ); ?>
-	<?php new \Progress_Planner\Popups\Badges(); ?>
+	<?php $progress_planner->get_popovers()->badges->render(); ?>
 </h2>
 
 <div class="prpl-latest-badges-wrapper">
