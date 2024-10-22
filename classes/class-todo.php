@@ -44,7 +44,7 @@ class Todo {
 	 *
 	 * @return array
 	 */
-	public static function get_items() {
+	public function get_items() {
 		$value = \get_option( self::OPTION_NAME, [] );
 		foreach ( $value as $key => $item ) {
 			if ( ! isset( $item['content'] ) || empty( $item['content'] ) ) {

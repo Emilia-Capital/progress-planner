@@ -13,7 +13,6 @@
 namespace Progress_Planner;
 
 use Progress_Planner\Badges;
-use Progress_Planner\Todo;
 use Progress_Planner\Widgets\Activity_Scores;
 use Progress_Planner\Badges\Badge\Wonderful_Writer as Badge_Wonderful_Writer;
 use Progress_Planner\Badges\Badge\Bold_Blogger as Badge_Bold_Blogger;
@@ -165,7 +164,7 @@ class Rest_API {
 		$data['timezone_offset'] = \wp_timezone()->getOffset( new \DateTime( 'midnight' ) ) / 3600;
 
 		// Pending todo items.
-		$todo_items         = Todo::get_items();
+		$todo_items         = $progress_planner->get_todo()->get_items();
 		$pending_todo_items = [];
 		foreach ( $todo_items as $item ) {
 			if ( ! $todo_items['done'] ) {

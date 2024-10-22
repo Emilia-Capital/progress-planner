@@ -109,6 +109,7 @@ class Page {
 	 * @return void
 	 */
 	public static function register_scripts() {
+		global $progress_planner;
 		// Register Chart.js.
 		\wp_register_script(
 			'chart-js',
@@ -206,7 +207,7 @@ class Page {
 			[
 				'ajaxUrl'   => \admin_url( 'admin-ajax.php' ),
 				'nonce'     => \wp_create_nonce( 'progress_planner_todo' ),
-				'listItems' => \Progress_Planner\Todo::get_items(),
+				'listItems' => $progress_planner->get_todo()->get_items(),
 				'i18n'      => [
 					'drag'             => \esc_html__( 'Drag to reorder', 'progress-planner' ),
 					/* translators: %s: The task content. */

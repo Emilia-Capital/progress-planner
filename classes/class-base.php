@@ -79,6 +79,13 @@ class Base {
 	private $suggested_tasks;
 
 	/**
+	 * An instance of the \Progress_Planner\Todo class.
+	 *
+	 * @var \Progress_Planner\Todo|null
+	 */
+	private $todo;
+
+	/**
 	 * An object containing all popovers.
 	 *
 	 * @var \stdClass|null
@@ -252,6 +259,18 @@ class Base {
 			$this->suggested_tasks = new Suggested_Tasks();
 		}
 		return $this->suggested_tasks;
+	}
+
+	/**
+	 * Get the todo instance.
+	 *
+	 * @return \Progress_Planner\Todo
+	 */
+	public function get_todo() {
+		if ( ! $this->todo ) {
+			$this->todo = new Todo();
+		}
+		return $this->todo;
 	}
 
 	/**
