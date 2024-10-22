@@ -13,12 +13,6 @@
 namespace Progress_Planner;
 
 use Progress_Planner\Widgets\Activity_Scores;
-use Progress_Planner\Badges\Content\Wonderful_Writer as Badge_Wonderful_Writer;
-use Progress_Planner\Badges\Content\Bold_Blogger as Badge_Bold_Blogger;
-use Progress_Planner\Badges\Content\Awesome_Author as Badge_Awesome_Author;
-use Progress_Planner\Badges\Maintenance\Progress_Padawan as Badge_Progress_Padawan;
-use Progress_Planner\Badges\Maintenance\Maintenance_Maniac as Badge_Maintenance_Maniac;
-use Progress_Planner\Badges\Maintenance\Super_Site_Specialist as Badge_Super_Site_Specialist;
 
 /**
  * Rest_API class.
@@ -103,20 +97,17 @@ class Rest_API {
 		];
 
 		// Get the badges.
-		$badges = [
-			'wonderful-writer'      => new Badge_Wonderful_Writer(),
-			'bold-blogger'          => new Badge_Bold_Blogger(),
-			'awesome-author'        => new Badge_Awesome_Author(),
-			'progress-padawan'      => new Badge_Progress_Padawan(),
-			'maintenance-maniac'    => new Badge_Maintenance_Maniac(),
-			'super-site-specialist' => new Badge_Super_Site_Specialist(),
-		];
+		$badges = array_merge(
+			$progress_planner->get_badges()->get_badges( 'content' ),
+			$progress_planner->get_badges()->get_badges( 'maintenance' ),
+			$progress_planner->get_badges()->get_badges( 'monthly' )
+		);
 
 		$data['badges'] = [];
-		foreach ( $badges as $key => $badge ) {
-			$data['badges'][ $key ] = array_merge(
+		foreach ( $badges as $badge ) {
+			$data['badges'][ $badge->get_id() ] = array_merge(
 				[
-					'id'   => $key,
+					'id'   => $badge->get_id(),
 					'name' => $badge->get_name(),
 				],
 				$badge->progress_callback()
