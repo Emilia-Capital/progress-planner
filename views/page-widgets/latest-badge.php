@@ -5,15 +5,14 @@
  * @package Progress_Planner
  */
 
-use Progress_Planner\Badges;
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+global $progress_planner;
+
 // Get the latest completed badge.
-$latest_badge_id = Badges::get_latest_completed_badge();
-$latest_badge    = $latest_badge_id ? Badges::get_badge( $latest_badge_id ) : false;
+$latest_badge = $progress_planner->get_badges()->get_latest_completed_badge();
 ?>
 <h2 class="prpl-widget-title">
 	<?php \esc_html_e( 'Latest new badge!', 'progress-planner' ); ?>
@@ -26,9 +25,9 @@ $latest_badge    = $latest_badge_id ? Badges::get_badge( $latest_badge_id ) : fa
 		printf(
 			/* translators: %s: The badge name. */
 			\esc_html__( 'Wooohoooo! Congratulations! You have earned a new badge. You are now a %s.', 'progress-planner' ),
-			'<strong>' . \esc_html( $latest_badge['name'] ) . '</strong>'
+			'<strong>' . \esc_html( $latest_badge->get_name() ) . '</strong>'
 		);
 		?>
 	</p>
-	<img src="<?php echo \esc_url( $this->endpoint . $latest_badge_id ); ?>" alt="<?php echo \esc_attr( $latest_badge['name'] ); ?>" />
+	<img src="<?php echo \esc_url( $this->endpoint . $latest_badge->get_id() ); ?>" alt="<?php echo \esc_attr( $latest_badge->get_name() ); ?>" />
 <?php endif; ?>

@@ -71,7 +71,7 @@ final class Activity_Scores extends Widget {
 	 *
 	 * @return int The score.
 	 */
-	public static function get_score() {
+	public function get_score() {
 		global $progress_planner;
 		$activities = $progress_planner->get_query()->query_activities(
 			[

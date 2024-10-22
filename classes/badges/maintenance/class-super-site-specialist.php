@@ -5,21 +5,21 @@
  * @package Progress_Planner
  */
 
-namespace Progress_Planner\Badges\Badge;
+namespace Progress_Planner\Badges\Maintenance;
 
 use Progress_Planner\Badges\Badge_Maintenance;
 
 /**
  * Badge class.
  */
-final class Progress_Padawan extends Badge_Maintenance {
+final class Super_Site_Specialist extends Badge_Maintenance {
 
 	/**
 	 * The badge ID.
 	 *
 	 * @var string
 	 */
-	protected $id = 'progress-padawan';
+	protected $id = 'super-site-specialist';
 
 	/**
 	 * The badge name.
@@ -27,7 +27,7 @@ final class Progress_Padawan extends Badge_Maintenance {
 	 * @return string
 	 */
 	public function get_name() {
-		return \__( 'Progress Padawan', 'progress-planner' );
+		return \__( 'Super Site Specialist', 'progress-planner' );
 	}
 
 	/**
@@ -37,7 +37,7 @@ final class Progress_Padawan extends Badge_Maintenance {
 	 */
 	public function get_description() {
 		/* translators: %d: The number of weeks. */
-		return sprintf( \esc_html__( '%d weeks streak', 'progress-planner' ), 6 );
+		return sprintf( \esc_html__( '%d weeks streak', 'progress-planner' ), 52 );
 	}
 
 	/**
@@ -54,8 +54,8 @@ final class Progress_Padawan extends Badge_Maintenance {
 		}
 
 		$max_streak = $this->get_goal()->get_streak()['max_streak'];
-		$percent    = min( 100, floor( 100 * $max_streak / 6 ) );
-		$remaining  = 6 - min( 6, $max_streak );
+		$percent    = min( 100, floor( 100 * $max_streak / 52 ) );
+		$remaining  = 52 - min( 52, $max_streak );
 
 		$this->save_progress(
 			[

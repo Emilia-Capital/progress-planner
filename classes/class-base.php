@@ -7,23 +7,6 @@
 
 namespace Progress_Planner;
 
-use Progress_Planner\Admin\Page as Admin_page;
-use Progress_Planner\Admin\Dashboard_Widget_Score;
-use Progress_Planner\Admin\Tour;
-use Progress_Planner\Admin\Dashboard_Widget_Todo;
-use Progress_Planner\Actions\Content as Actions_Content;
-use Progress_Planner\Actions\Content_Scan as Actions_Content_Scan;
-use Progress_Planner\Actions\Maintenance as Actions_Maintenance;
-use Progress_Planner\Badges\Badge\Wonderful_Writer as Badge_Wonderful_Writer;
-use Progress_Planner\Badges\Badge\Bold_Blogger as Badge_Bold_Blogger;
-use Progress_Planner\Badges\Badge\Awesome_Author as Badge_Awesome_Author;
-use Progress_Planner\Badges\Badge\Progress_Padawan as Badge_Progress_Padawan;
-use Progress_Planner\Badges\Badge\Maintenance_Maniac as Badge_Maintenance_Maniac;
-use Progress_Planner\Badges\Badge\Super_Site_Specialist as Badge_Super_Site_Specialist;
-use Progress_Planner\Rest_API;
-use Progress_Planner\Todo;
-use Progress_Planner\Suggested_Tasks;
-
 /**
  * Main plugin class.
  */
@@ -93,6 +76,13 @@ class Base {
 	private $popovers;
 
 	/**
+	 * An object containing all badges.
+	 *
+	 * @var \Progress_Planner\Badges|null
+	 */
+	private $badges;
+
+	/**
 	 * An array of configuration values for points awarded by action-type.
 	 *
 	 * @var array
@@ -144,25 +134,14 @@ class Base {
 
 		// Basic classes.
 		if ( \is_admin() && \current_user_can( 'publish_posts' ) ) {
-			new Admin_Page();
-			new Tour();
-			new Dashboard_Widget_Score();
-			new Dashboard_Widget_Todo();
-			new Page_Types();
+			new \Progress_Planner\Admin\Page();
+			new \Progress_Planner\Admin\Tour();
+			new \Progress_Planner\Admin\Dashboard_Widget_Score();
+			new \Progress_Planner\Admin\Dashboard_Widget_Todo();
 		}
-		new Actions_Content();
-		new Actions_Maintenance();
-		new Actions_Content_Scan();
-
-		// Content badges.
-		new Badge_Wonderful_Writer();
-		new Badge_Bold_Blogger();
-		new Badge_Awesome_Author();
-
-		// Maintenance badges.
-		new Badge_Progress_Padawan();
-		new Badge_Maintenance_Maniac();
-		new Badge_Super_Site_Specialist();
+		new \Progress_Planner\Actions\Content();
+		new \Progress_Planner\Actions\Content_Scan();
+		new \Progress_Planner\Actions\Maintenance();
 
 		// REST API.
 		new Rest_API();
@@ -286,6 +265,18 @@ class Base {
 		$this->popovers->settings = new \Progress_Planner\Popovers\Settings();
 
 		return $this->popovers;
+	}
+
+	/**
+	 * Get the badges instance.
+	 *
+	 * @return \Progress_Planner\Badges
+	 */
+	public function get_badges() {
+		if ( ! $this->badges ) {
+			$this->badges = new Badges();
+		}
+		return $this->badges;
 	}
 
 	/**

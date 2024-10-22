@@ -5,22 +5,21 @@
  * @package Progress_Planner
  */
 
-namespace Progress_Planner\Badges\Badge;
+namespace Progress_Planner\Badges\Content;
 
-use Progress_Planner\Badges\Badge_Maintenance;
-
+use Progress_Planner\Badges\Badge_Content;
 
 /**
  * Badge class.
  */
-final class Maintenance_Maniac extends Badge_Maintenance {
+final class Bold_Blogger extends Badge_Content {
 
 	/**
 	 * The badge ID.
 	 *
 	 * @var string
 	 */
-	protected $id = 'maintenance-maniac';
+	protected $id = 'bold-blogger';
 
 	/**
 	 * The badge name.
@@ -28,7 +27,7 @@ final class Maintenance_Maniac extends Badge_Maintenance {
 	 * @return string
 	 */
 	public function get_name() {
-		return \__( 'Maintenance Maniac', 'progress-planner' );
+		return \__( 'Bold Blogger', 'progress-planner' );
 	}
 
 	/**
@@ -37,8 +36,8 @@ final class Maintenance_Maniac extends Badge_Maintenance {
 	 * @return string
 	 */
 	public function get_description() {
-		/* translators: %d: The number of weeks. */
-		return sprintf( \esc_html__( '%d weeks streak', 'progress-planner' ), 26 );
+		/* translators: %d: The number of new posts to write. */
+		return sprintf( \esc_html__( 'Write %d new posts or pages', 'progress-planner' ), 30 );
 	}
 
 	/**
@@ -47,6 +46,7 @@ final class Maintenance_Maniac extends Badge_Maintenance {
 	 * @return array
 	 */
 	public function progress_callback() {
+		global $progress_planner;
 		$saved_progress = $this->get_saved();
 
 		// If we have a saved value, return it.
@@ -54,9 +54,19 @@ final class Maintenance_Maniac extends Badge_Maintenance {
 			return $saved_progress;
 		}
 
-		$max_streak = $this->get_goal()->get_streak()['max_streak'];
-		$percent    = min( 100, floor( 100 * $max_streak / 26 ) );
-		$remaining  = 26 - min( 26, $max_streak );
+		// Get the number of new posts published.
+		$new_count = count(
+			$progress_planner->get_query()->query_activities(
+				[
+					'category'   => 'content',
+					'type'       => 'publish',
+					'start_date' => $progress_planner->get_activation_date(),
+				],
+			)
+		);
+
+		$percent   = min( 100, floor( 100 * $new_count / 30 ) );
+		$remaining = 30 - min( 30, $new_count );
 
 		$this->save_progress(
 			[

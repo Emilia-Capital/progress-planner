@@ -12,14 +12,13 @@
 
 namespace Progress_Planner;
 
-use Progress_Planner\Badges;
 use Progress_Planner\Widgets\Activity_Scores;
-use Progress_Planner\Badges\Badge\Wonderful_Writer as Badge_Wonderful_Writer;
-use Progress_Planner\Badges\Badge\Bold_Blogger as Badge_Bold_Blogger;
-use Progress_Planner\Badges\Badge\Awesome_Author as Badge_Awesome_Author;
-use Progress_Planner\Badges\Badge\Progress_Padawan as Badge_Progress_Padawan;
-use Progress_Planner\Badges\Badge\Maintenance_Maniac as Badge_Maintenance_Maniac;
-use Progress_Planner\Badges\Badge\Super_Site_Specialist as Badge_Super_Site_Specialist;
+use Progress_Planner\Badges\Content\Wonderful_Writer as Badge_Wonderful_Writer;
+use Progress_Planner\Badges\Content\Bold_Blogger as Badge_Bold_Blogger;
+use Progress_Planner\Badges\Content\Awesome_Author as Badge_Awesome_Author;
+use Progress_Planner\Badges\Maintenance\Progress_Padawan as Badge_Progress_Padawan;
+use Progress_Planner\Badges\Maintenance\Maintenance_Maniac as Badge_Maintenance_Maniac;
+use Progress_Planner\Badges\Maintenance\Super_Site_Specialist as Badge_Super_Site_Specialist;
 
 /**
  * Rest_API class.
@@ -124,7 +123,7 @@ class Rest_API {
 			);
 		}
 
-		$data['latest_badge'] = Badges::get_latest_completed_badge();
+		$data['latest_badge'] = $progress_planner->get_badges()->get_latest_completed_badge();
 
 		$scores = $progress_planner->get_chart()->get_chart_data(
 			[

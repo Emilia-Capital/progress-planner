@@ -7,7 +7,7 @@
 
 $show_badges = (
 	$this->get_badge_details( 'content' )['progress']['progress'] ||
-	$this->get_badge_details( 'streak' )['progress']['progress']
+	$this->get_badge_details( 'maintenance' )['progress']['progress']
 );
 
 ?>
@@ -19,7 +19,7 @@ $show_badges = (
 		<div class="grid-separator"></div>
 		<div class="prpl-badges">
 			<h3><?php \esc_html_e( 'Next badges', 'progress-planner' ); ?></h3>
-			<?php foreach ( [ 'content', 'streak' ] as $category ) : ?>
+			<?php foreach ( [ 'content', 'maintenance' ] as $category ) : ?>
 				<?php
 				$details = $this->get_badge_details( $category );
 				if ( 100 <= (int) $details['progress']['progress'] ) {

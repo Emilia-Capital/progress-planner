@@ -5,7 +5,7 @@
  * @package Progress_Planner
  */
 
-namespace Progress_Planner\Badges\Badge;
+namespace Progress_Planner\Badges\Content;
 
 use Progress_Planner\Badges\Badge_Content;
 use Progress_Planner\Activities\Content_Helpers;

@@ -5,9 +5,7 @@
  * @package Progress_Planner
  */
 
-namespace Progress_Planner\Badges\Badge;
-
-use Progress_Planner\Badges\Badge;
+namespace Progress_Planner\Badges;
 
 /**
  * Badge class.
@@ -36,6 +34,15 @@ final class Monthly extends Badge {
 	protected static $instances = [];
 
 	/**
+	 * Contructor.
+	 *
+	 * @param string $id The badge ID.
+	 */
+	public function __construct( $id ) {
+		$this->id = $id;
+	}
+
+	/**
 	 * Get an array of instances (one for each month).
 	 *
 	 * @return array
@@ -46,18 +53,7 @@ final class Monthly extends Badge {
 		}
 
 		foreach ( array_keys( self::get_months() ) as $month ) {
-			self::$instances[ $month ]     = new self();
-			self::$instances[ $month ]->id = 'monthly-' . strtolower( $month );
-			self::$instances[ $month ]->progress_callback();
-		}
-
-		// If the current month is January to June, return the 1st 6 months.
-		// If the current month is July to December, return the last 6 months.
-		$current_month = gmdate( 'm' );
-		if ( $current_month >= 1 && $current_month <= 6 ) {
-			self::$instances = array_slice( self::$instances, 0, 6 );
-		} else {
-			self::$instances = array_slice( self::$instances, -6 );
+			self::$instances[] = new self( 'monthly-' . strtolower( $month ) );
 		}
 
 		return self::$instances;
@@ -69,13 +65,18 @@ final class Monthly extends Badge {
 	 * @return array
 	 */
 	public static function get_months() {
+		$current_month = gmdate( 'm' );
+		if ( $current_month >= 1 && $current_month <= 6 ) {
+			return [
+				'jan' => __( 'Jack January', 'progress-planner' ),
+				'feb' => __( 'Felix February', 'progress-planner' ),
+				'mar' => __( 'Mary March', 'progress-planner' ),
+				'apr' => __( 'Avery April', 'progress-planner' ),
+				'may' => __( 'Matteo May', 'progress-planner' ),
+				'jun' => __( 'Jasmine June', 'progress-planner' ),
+			];
+		}
 		return [
-			'jan' => __( 'Jack January', 'progress-planner' ),
-			'feb' => __( 'Felix February', 'progress-planner' ),
-			'mar' => __( 'Mary March', 'progress-planner' ),
-			'apr' => __( 'Avery April', 'progress-planner' ),
-			'may' => __( 'Matteo May', 'progress-planner' ),
-			'jun' => __( 'Jasmine June', 'progress-planner' ),
 			'jul' => __( 'July', 'progress-planner' ),
 			'aug' => __( 'August', 'progress-planner' ),
 			'sep' => __( 'September', 'progress-planner' ),
@@ -94,7 +95,7 @@ final class Monthly extends Badge {
 		if ( ! $this->id ) {
 			return '';
 		}
-		return self::get_months()[ str_replace( 'monthly-', '', $this->id ) ];
+		return self::get_months()[ $this->get_month() ];
 	}
 
 	/**
@@ -107,13 +108,26 @@ final class Monthly extends Badge {
 	}
 
 	/**
+	 * Get the month for the badge.
+	 *
+	 * @return string
+	 */
+	public function get_month() {
+		static $month;
+		if ( ! $month ) {
+			$month = str_replace( 'monthly-', '', $this->id );
+		}
+		return $month;
+	}
+
+	/**
 	 * Progress callback.
 	 *
 	 * @return array
 	 */
 	public function progress_callback() {
 		global $progress_planner;
-		$month     = self::get_months()[ str_replace( 'monthly-', '', $this->id ) ];
+		$month     = self::get_months()[ $this->get_month() ];
 		$year      = $this->get_year( $month );
 		$month_num = gmdate( 'm', strtotime( $month ) );
 

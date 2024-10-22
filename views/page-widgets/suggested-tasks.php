@@ -5,7 +5,7 @@
  * @package Progress_Planner
  */
 
-use Progress_Planner\Badges\Badge\Monthly;
+use Progress_Planner\Badges\Monthly;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
