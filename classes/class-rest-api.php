@@ -15,7 +15,6 @@ namespace Progress_Planner;
 use Progress_Planner\Badges;
 use Progress_Planner\Chart;
 use Progress_Planner\Todo;
-use Progress_Planner\Query;
 use Progress_Planner\Widgets\Activity_Scores;
 use Progress_Planner\Badges\Badge\Wonderful_Writer as Badge_Wonderful_Writer;
 use Progress_Planner\Badges\Badge\Bold_Blogger as Badge_Bold_Blogger;
@@ -70,6 +69,7 @@ class Rest_API {
 	 * @return \WP_REST_Response The REST response object containing the stats.
 	 */
 	public function get_stats( \WP_REST_Request $request ) {
+		global $progress_planner;
 		$data = $request->get_json_params();
 
 		$data = [];
@@ -91,7 +91,7 @@ class Rest_API {
 
 		// Get the number of activities in the past week.
 		$data['activities'] = count(
-			Query::get_instance()->query_activities(
+			$progress_planner->query->query_activities(
 				[
 					'start_date' => new \DateTime( '-7 days' ),
 				]

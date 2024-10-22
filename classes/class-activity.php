@@ -8,7 +8,6 @@
 namespace Progress_Planner;
 
 use Progress_Planner\Date;
-use Progress_Planner\Query;
 
 /**
  * Activity class.
@@ -72,7 +71,8 @@ class Activity {
 	 * @return void
 	 */
 	public function save() {
-		$existing = Query::get_instance()->query_activities(
+		global $progress_planner;
+		$existing = $progress_planner->query->get_instance()->query_activities(
 			[
 				'category' => $this->category,
 				'type'     => $this->type,
@@ -81,10 +81,10 @@ class Activity {
 			'RAW'
 		);
 		if ( ! empty( $existing ) ) {
-			Query::get_instance()->update_activity( $existing[0]->id, $this );
+			$progress_planner->query->update_activity( $existing[0]->id, $this );
 			return;
 		}
-		Query::get_instance()->insert_activity( $this );
+		$progress_planner->query->insert_activity( $this );
 		\do_action( 'progress_planner_activity_saved', $this );
 	}
 
@@ -94,7 +94,8 @@ class Activity {
 	 * @return void
 	 */
 	public function delete() {
-		Query::get_instance()->delete_activity( $this );
+		global $progress_planner;
+		$progress_planner->query->delete_activity( $this );
 		\do_action( 'progress_planner_activity_deleted', $this );
 	}
 

@@ -7,7 +7,6 @@
 
 namespace Progress_Planner;
 
-use Progress_Planner\Query;
 use Progress_Planner\Admin\Page as Admin_page;
 use Progress_Planner\Admin\Dashboard_Widget_Score;
 use Progress_Planner\Admin\Tour;
@@ -34,11 +33,11 @@ use Progress_Planner\Lessons;
 class Base {
 
 	/**
-	 * An instance of this class.
+	 * An instance of the Query class.
 	 *
-	 * @var \Progress_Planner\Base
+	 * @var \Progress_Planner\Query
 	 */
-	private static $instance;
+	public $query;
 
 	/**
 	 * An array of configuration values for points awarded by action-type.
@@ -67,22 +66,9 @@ class Base {
 	];
 
 	/**
-	 * Get the single instance of this class.
-	 *
-	 * @return \Progress_Planner\Base
-	 */
-	public static function get_instance() {
-		if ( null === self::$instance ) {
-			self::$instance = new self();
-		}
-
-		return self::$instance;
-	}
-
-	/**
 	 * Constructor.
 	 */
-	private function __construct() {
+	public function __construct() {
 		$this->init();
 	}
 
@@ -102,6 +88,8 @@ class Base {
 		if ( defined( '\IS_PLAYGROUND_PREVIEW' ) && constant( '\IS_PLAYGROUND_PREVIEW' ) === true ) {
 			new Playground();
 		}
+
+		$this->query = new Query();
 
 		// Basic classes.
 		if ( \is_admin() && \current_user_can( 'publish_posts' ) ) {
@@ -139,15 +127,6 @@ class Base {
 
 		\add_filter( 'plugin_action_links_' . plugin_basename( PROGRESS_PLANNER_FILE ), [ $this, 'add_action_links' ] );
 		\add_action( 'enqueue_block_editor_assets', [ $this, 'enqueue_editor_script' ] );
-	}
-
-	/**
-	 * Get the query object.
-	 *
-	 * @return \Progress_Planner\Query
-	 */
-	public function get_query() {
-		return Query::get_instance();
 	}
 
 	/**

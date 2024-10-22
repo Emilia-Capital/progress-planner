@@ -8,7 +8,6 @@
 namespace Progress_Planner;
 
 use Progress_Planner\Date;
-use Progress_Planner\Query;
 
 /**
  * Render a chart.
@@ -82,6 +81,7 @@ class Chart {
 	 * @return array
 	 */
 	public function get_chart_data( $args = [] ) {
+		global $progress_planner;
 		$activities = [];
 
 		/*
@@ -144,12 +144,12 @@ class Chart {
 		 */
 		$score = 0;
 		if ( $args['compound'] ) {
-			$oldest_activity = Query::get_instance()->get_oldest_activity();
+			$oldest_activity = $progress_planner->query->get_oldest_activity();
 			if ( null !== $oldest_activity ) {
 				// Get the activities before the first period.
 				// We need to subtract one day from the start date to get the activities before the first period.
 				// Get all activities before the first period.
-				$activities = Query::get_instance()->query_activities(
+				$activities = $progress_planner->query->query_activities(
 					array_merge(
 						$args['query_params'],
 						[
@@ -177,7 +177,7 @@ class Chart {
 		if ( $args['normalized'] ) {
 			$previous_month_start      = ( clone $periods[0]['start'] )->modify( '-1 month' );
 			$previous_month_end        = ( clone $periods[0]['start'] )->modify( '-1 day' );
-			$previous_month_activities = Query::get_instance()->query_activities(
+			$previous_month_activities = $progress_planner->query->query_activities(
 				array_merge(
 					$args['query_params'],
 					[
@@ -218,8 +218,9 @@ class Chart {
 	 * @return array
 	 */
 	public function get_period_data( $period, $data, $datasets, $args, $score, $previous_month_activities ) {
+		global $progress_planner;
 		// Get the activities for the period.
-		$activities = Query::get_instance()->query_activities(
+		$activities = $progress_planner->query->query_activities(
 			array_merge(
 				$args['query_params'],
 				[

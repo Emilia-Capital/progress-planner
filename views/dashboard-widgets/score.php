@@ -5,8 +5,6 @@
  * @package Progress_Planner
  */
 
-use Progress_Planner\Query;
-
 $show_badges = (
 	$this->get_badge_details( 'content' )['progress']['progress'] ||
 	$this->get_badge_details( 'streak' )['progress']['progress']
@@ -56,7 +54,8 @@ $show_badges = (
 	<h3><?php \esc_html_e( 'Latest activity', 'progress-planner' ); ?></h3>
 
 	<?php
-	$latest_activities = Query::get_instance()->get_latest_activities( 2 );
+	global $progress_planner;
+	$latest_activities = $progress_planner->query->get_latest_activities( 2 );
 	$activity_type_map = [
 		'content-publish'               => __( 'Published content', 'progress-planner' ),
 		'content-update'                => __( 'Updated content', 'progress-planner' ),

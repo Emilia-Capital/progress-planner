@@ -7,7 +7,6 @@
 
 namespace Progress_Planner\Widgets;
 
-use Progress_Planner\Query;
 use Progress_Planner\Widgets\Widget;
 use Progress_Planner\Goals\Goal_Recurring;
 use Progress_Planner\Goals\Goal;
@@ -73,7 +72,8 @@ final class Activity_Scores extends Widget {
 	 * @return int The score.
 	 */
 	public static function get_score() {
-		$activities = Query::get_instance()->query_activities(
+		global $progress_planner;
+		$activities = $progress_planner->query->query_activities(
 			[
 				// Use 31 days to take into account
 				// the activities score decay from previous activities.
@@ -120,7 +120,8 @@ final class Activity_Scores extends Widget {
 			[
 				'label'    => \esc_html__( 'published content', 'progress-planner' ),
 				'callback' => function () {
-					$events = Query::get_instance()->query_activities(
+					global $progress_planner;
+					$events = $progress_planner->query->query_activities(
 						[
 							'start_date' => new \DateTime( '-7 days' ),
 							'category'   => 'content',
@@ -133,7 +134,8 @@ final class Activity_Scores extends Widget {
 			[
 				'label'    => \esc_html__( 'updated content', 'progress-planner' ),
 				'callback' => function () {
-					$events = Query::get_instance()->query_activities(
+					global $progress_planner;
+					$events = $progress_planner->query->query_activities(
 						[
 							'start_date' => new \DateTime( '-7 days' ),
 							'category'   => 'content',
@@ -187,8 +189,9 @@ final class Activity_Scores extends Widget {
 				'status'      => 'active',
 				'priority'    => 'low',
 				'evaluate'    => function ( $goal_object ) {
+					global $progress_planner;
 					return (bool) count(
-						Query::get_instance()->query_activities(
+						$progress_planner->query->query_activities(
 							[
 								'category'   => 'content',
 								'type'       => 'publish',

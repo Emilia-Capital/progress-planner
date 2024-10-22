@@ -54,7 +54,9 @@ spl_autoload_register(
 	}
 );
 
-\Progress_Planner\Base::get_instance();
+global $progress_planner;
+
+$progress_planner = new \Progress_Planner\Base();
 
 // Include deprecated functions.
 require_once PROGRESS_PLANNER_DIR . '/deprecated.php';

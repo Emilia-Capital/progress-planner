@@ -10,7 +10,6 @@ namespace Progress_Planner\Actions;
 use Progress_Planner\Actions\Content as Content_Action;
 use Progress_Planner\Activities\Content_Helpers;
 use Progress_Planner\Settings;
-use Progress_Planner\Query;
 
 /**
  * Content scan class.
@@ -74,6 +73,7 @@ class Content_Scan extends Content_Action {
 	 * @return void
 	 */
 	public function ajax_reset_posts_data() {
+		global $progress_planner;
 		// Check the nonce.
 		if ( ! \check_ajax_referer( 'progress_planner', 'nonce', false ) ) {
 			\wp_send_json_error( [ 'message' => \esc_html__( 'Invalid nonce.', 'progress-planner' ) ] );
@@ -83,8 +83,8 @@ class Content_Scan extends Content_Action {
 		Settings::set( static::LAST_SCANNED_PAGE_OPTION, 0 );
 
 		// Reset the activities.
-		$activities = Query::get_instance()->query_activities( [ 'category' => 'content' ] );
-		Query::get_instance()->delete_activities( $activities );
+		$activities = $progress_planner->query->query_activities( [ 'category' => 'content' ] );
+		$progress_planner->query->delete_activities( $activities );
 
 		// Reset the word count.
 		Settings::set( 'word_count', [] );
@@ -172,6 +172,7 @@ class Content_Scan extends Content_Action {
 	 * @return void
 	 */
 	public static function insert_activities( $posts ) {
+		global $progress_planner;
 		$activities = [];
 		// Loop through the posts and update the stats.
 		foreach ( $posts as $post ) {
@@ -181,6 +182,6 @@ class Content_Scan extends Content_Action {
 			Content_Helpers::get_word_count( $post->post_content, $post->ID );
 		}
 
-		Query::get_instance()->insert_activities( $activities );
+		$progress_planner->query->insert_activities( $activities );
 	}
 }

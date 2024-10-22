@@ -8,7 +8,6 @@
 namespace Progress_Planner\Badges\Badge;
 
 use Progress_Planner\Base;
-use Progress_Planner\Query;
 use Progress_Planner\Badges\Badge_Content;
 
 /**
@@ -48,6 +47,7 @@ final class Bold_Blogger extends Badge_Content {
 	 * @return array
 	 */
 	public function progress_callback() {
+		global $progress_planner;
 		$saved_progress = $this->get_saved();
 
 		// If we have a saved value, return it.
@@ -57,7 +57,7 @@ final class Bold_Blogger extends Badge_Content {
 
 		// Get the number of new posts published.
 		$new_count = count(
-			Query::get_instance()->query_activities(
+			$progress_planner->query->query_activities(
 				[
 					'category'   => 'content',
 					'type'       => 'publish',

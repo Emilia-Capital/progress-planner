@@ -11,7 +11,6 @@ use Progress_Planner\Activities\Content_Helpers;
 use Progress_Planner\Activities\Content as Content_Activity;
 use Progress_Planner\Date;
 use Progress_Planner\Settings;
-use Progress_Planner\Query;
 
 /**
  * Scan existing posts and populate the options.
@@ -54,6 +53,7 @@ class Content {
 	 * @return void
 	 */
 	public function post_updated( $post_id, $post ) {
+		global $progress_planner;
 		// Bail if we should skip saving.
 		if ( $this->should_skip_saving( $post ) ) {
 			return;
@@ -67,7 +67,7 @@ class Content {
 		}
 
 		// Check if there is an update activity for this post, on this date.
-		$existing = Query::get_instance()->query_activities(
+		$existing = $progress_planner->query->query_activities(
 			[
 				'category'   => 'content',
 				'type'       => 'update',
@@ -96,6 +96,7 @@ class Content {
 	 * @return void
 	 */
 	public function insert_post( $post_id, $post ) {
+		global $progress_planner;
 		// Bail if we should skip saving.
 		if ( $this->should_skip_saving( $post ) ) {
 			return;
@@ -106,7 +107,7 @@ class Content {
 		}
 
 		// Check if there is a publish activity for this post.
-		$existing = Query::get_instance()->query_activities(
+		$existing = $progress_planner->query->query_activities(
 			[
 				'category' => 'content',
 				'type'     => 'publish',
@@ -241,10 +242,11 @@ class Content {
 	 * @return void
 	 */
 	private function add_post_activity( $post, $type ) {
+		global $progress_planner;
 		if ( 'update' === $type ) {
 			if ( 'publish' === $post->post_status ) {
 				// Check if there is a publish activity for this post.
-				$existing = Query::get_instance()->query_activities(
+				$existing = $progress_planner->query->query_activities(
 					[
 						'category' => 'content',
 						'type'     => 'publish',
@@ -261,7 +263,7 @@ class Content {
 			}
 
 			// Check if there are any activities for this post, on this date.
-			$existing = Query::get_instance()->query_activities(
+			$existing = $progress_planner->query->query_activities(
 				[
 					'category'   => 'content',
 					'data_id'    => (string) $post->ID,
@@ -298,7 +300,7 @@ class Content {
 			}
 
 			// Check if there is a publish activity for this post.
-			$existing = Query::get_instance()->query_activities(
+			$existing = $progress_planner->query->query_activities(
 				[
 					'category' => 'content',
 					'type'     => 'publish',

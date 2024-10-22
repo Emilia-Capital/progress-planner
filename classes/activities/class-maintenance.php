@@ -10,7 +10,6 @@ namespace Progress_Planner\Activities;
 use Progress_Planner\Activity;
 use Progress_Planner\Date;
 use Progress_Planner\Base;
-use Progress_Planner\Query;
 
 /**
  * Handle activities for Core updates.
@@ -39,10 +38,11 @@ class Maintenance extends Activity {
 	 * @return void
 	 */
 	public function save() {
+		global $progress_planner;
 		$this->date    = new \DateTime();
 		$this->user_id = \get_current_user_id();
 
-		$existing = Query::get_instance()->query_activities(
+		$existing = $progress_planner->query->query_activities(
 			[
 				'category'   => $this->category,
 				'type'       => $this->type,
@@ -52,10 +52,10 @@ class Maintenance extends Activity {
 			'RAW'
 		);
 		if ( ! empty( $existing ) ) {
-			Query::get_instance()->update_activity( $existing[0]->id, $this );
+			$progress_planner->query->update_activity( $existing[0]->id, $this );
 			return;
 		}
-		Query::get_instance()->insert_activity( $this );
+		$progress_planner->query->insert_activity( $this );
 		\do_action( 'progress_planner_activity_saved', $this );
 	}
 
