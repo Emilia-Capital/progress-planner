@@ -9,7 +9,6 @@ namespace Progress_Planner\Actions;
 
 use Progress_Planner\Activities\Content_Helpers;
 use Progress_Planner\Activities\Content as Content_Activity;
-use Progress_Planner\Settings;
 
 /**
  * Scan existing posts and populate the options.
@@ -59,7 +58,7 @@ class Content {
 		}
 
 		// Reset the words count.
-		Settings::set( [ 'word_count', $post_id ], false );
+		$progress_planner->settings->set( [ 'word_count', $post_id ], false );
 
 		if ( 'publish' !== $post->post_status ) {
 			return;
@@ -155,6 +154,7 @@ class Content {
 	 * @return void
 	 */
 	public function trash_post( $post_id ) {
+		global $progress_planner;
 		$post = \get_post( $post_id );
 
 		// Bail if we should skip saving.
@@ -165,7 +165,7 @@ class Content {
 		$this->add_post_activity( $post, 'trash' );
 
 		// Reset the words count.
-		Settings::set( [ 'word_count', $post_id ], false );
+		$progress_planner->settings->set( [ 'word_count', $post_id ], false );
 	}
 
 	/**
@@ -177,6 +177,7 @@ class Content {
 	 * @return void
 	 */
 	public function delete_post( $post_id ) {
+		global $progress_planner;
 		$post = \get_post( $post_id );
 
 		// Bail if we should skip saving.
@@ -185,7 +186,7 @@ class Content {
 		}
 
 		// Reset the words count.
-		Settings::set( [ 'word_count', $post_id ], false );
+		$progress_planner->settings->set( [ 'word_count', $post_id ], false );
 
 		// Add activity.
 		$activity           = new Content_Activity();
@@ -275,7 +276,7 @@ class Content {
 			// If there are activities for this post, on this date, bail.
 			if ( ! empty( $existing ) ) {
 				// Reset the words count.
-				Settings::set( [ 'word_count', $post->ID ], false );
+				$progress_planner->settings->set( [ 'word_count', $post->ID ], false );
 
 				return;
 			}
@@ -290,12 +291,12 @@ class Content {
 			foreach ( $badge_ids as $badge_id ) {
 
 				// If the badge is already complete, skip it.
-				if ( 100 === Settings::get( [ 'badges', $badge_id, 'progress' ], 0 ) ) {
+				if ( 100 === $progress_planner->settings->get( [ 'badges', $badge_id, 'progress' ], 0 ) ) {
 					continue;
 				}
 
 				// Delete the badge value so it can be re-calculated.
-				Settings::set( [ 'badges', $badge_id ], [] );
+				$progress_planner->settings->set( [ 'badges', $badge_id ], [] );
 			}
 
 			// Check if there is a publish activity for this post.
@@ -318,6 +319,6 @@ class Content {
 		$activity->save();
 
 		// Reset the words count.
-		Settings::set( [ 'word_count', $post->ID ], false );
+		$progress_planner->settings->set( [ 'word_count', $post->ID ], false );
 	}
 }

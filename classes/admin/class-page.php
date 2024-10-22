@@ -257,10 +257,11 @@ class Page {
 	 * @return void
 	 */
 	public function save_cpt_settings() {
+		global $progress_planner;
 		\check_ajax_referer( 'progress_planner', 'nonce', false );
 		$include_post_types = isset( $_POST['include_post_types'] ) ? \sanitize_text_field( \wp_unslash( $_POST['include_post_types'] ) ) : 'post,page';
 		$include_post_types = \explode( ',', $include_post_types );
-		\Progress_Planner\Settings::set( 'include_post_types', $include_post_types );
+		$progress_planner->settings->set( 'include_post_types', $include_post_types );
 
 		\wp_send_json_success(
 			[

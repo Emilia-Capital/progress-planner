@@ -61,7 +61,7 @@ final class Bold_Blogger extends Badge_Content {
 				[
 					'category'   => 'content',
 					'type'       => 'publish',
-					'start_date' => Base::get_activation_date(),
+					'start_date' => $progress_planner->get_activation_date(),
 				],
 			)
 		);

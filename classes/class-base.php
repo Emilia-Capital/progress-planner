@@ -14,7 +14,6 @@ use Progress_Planner\Admin\Dashboard_Widget_Todo;
 use Progress_Planner\Actions\Content as Actions_Content;
 use Progress_Planner\Actions\Content_Scan as Actions_Content_Scan;
 use Progress_Planner\Actions\Maintenance as Actions_Maintenance;
-use Progress_Planner\Settings;
 use Progress_Planner\Page_Types;
 use Progress_Planner\Badges\Badge\Wonderful_Writer as Badge_Wonderful_Writer;
 use Progress_Planner\Badges\Badge\Bold_Blogger as Badge_Bold_Blogger;
@@ -30,6 +29,13 @@ use Progress_Planner\Suggested_Tasks;
  * Main plugin class.
  */
 class Base {
+
+	/**
+	 * An instance of the \Progress_Planner\Settings class.
+	 *
+	 * @var \Progress_Planner\Settings
+	 */
+	public $settings;
 
 	/**
 	 * An instance of the Query class.
@@ -102,9 +108,10 @@ class Base {
 			new Playground();
 		}
 
-		$this->query   = new Query();
-		$this->date    = new Date();
-		$this->lessons = new Lessons();
+		$this->settings = new Settings();
+		$this->query    = new Query();
+		$this->date     = new Date();
+		$this->lessons  = new Lessons();
 
 		// Basic classes.
 		if ( \is_admin() && \current_user_can( 'publish_posts' ) ) {
@@ -149,11 +156,11 @@ class Base {
 	 *
 	 * @return \DateTime
 	 */
-	public static function get_activation_date() {
-		$activation_date = Settings::get( 'activation_date' );
+	public function get_activation_date() {
+		$activation_date = $this->settings->get( 'activation_date' );
 		if ( ! $activation_date ) {
 			$activation_date = new \DateTime();
-			Settings::set( 'activation_date', $activation_date->format( 'Y-m-d' ) );
+			$this->settings->set( 'activation_date', $activation_date->format( 'Y-m-d' ) );
 			return $activation_date;
 		}
 		return \DateTime::createFromFormat( 'Y-m-d', $activation_date );

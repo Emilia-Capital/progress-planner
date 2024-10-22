@@ -8,7 +8,6 @@
 namespace Progress_Planner\Badges;
 
 use Progress_Planner\Badges;
-use Progress_Planner\Settings;
 
 /**
  * Badge class.
@@ -81,7 +80,8 @@ abstract class Badge {
 	 * @return array
 	 */
 	protected function get_saved() {
-		return Settings::get( [ 'badges', $this->id ], [] );
+		global $progress_planner;
+		return $progress_planner->settings->get( [ 'badges', $this->id ], [] );
 	}
 
 	/**
@@ -92,7 +92,8 @@ abstract class Badge {
 	 * @return void
 	 */
 	protected function save_progress( $progress ) {
+		global $progress_planner;
 		$progress['date'] = ( new \DateTime() )->format( 'Y-m-d H:i:s' );
-		Settings::set( [ 'badges', $this->id ], $progress );
+		$progress_planner->settings->set( [ 'badges', $this->id ], $progress );
 	}
 }

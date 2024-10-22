@@ -10,7 +10,7 @@ namespace Progress_Planner;
 use Progress_Planner\Activities\Todo as Todo_Activity;
 
 /**
- * Settings class.
+ * Todo class.
  */
 class Todo {
 

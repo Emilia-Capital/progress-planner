@@ -8,7 +8,6 @@
 namespace Progress_Planner\Activities;
 
 use Progress_Planner\Activities\Content;
-use Progress_Planner\Settings;
 
 /**
  * Handler for posts activities.
@@ -28,13 +27,14 @@ class Content_Helpers {
 	 * @return string[]
 	 */
 	public static function get_post_types_names() {
+		global $progress_planner;
 		static $include_post_types;
 		if ( isset( $include_post_types ) && ! empty( $include_post_types ) ) {
 			return $include_post_types;
 		}
 		$default            = [ 'post', 'page' ];
 		$include_post_types = \array_filter(
-			Settings::get( [ 'include_post_types' ], $default ),
+			$progress_planner->settings->get( [ 'include_post_types' ], $default ),
 			function ( $post_type ) {
 				return $post_type && \post_type_exists( $post_type ) && \is_post_type_viewable( $post_type );
 			}
@@ -54,13 +54,14 @@ class Content_Helpers {
 	 * @return int
 	 */
 	public static function get_word_count( $content, $post_id = 0 ) {
-		$counts = Settings::get( [ 'word_count' ], [] );
+		global $progress_planner;
+		$counts = $progress_planner->settings->get( [ 'word_count' ], [] );
 		if ( $post_id && isset( $counts[ $post_id ] ) && false !== $counts[ $post_id ] ) {
 			return $counts[ $post_id ];
 		}
 
 		if ( empty( $content ) && $post_id ) {
-			Settings::set( [ 'word_count', $post_id ], 0 );
+			$progress_planner->settings->set( [ 'word_count', $post_id ], 0 );
 			return 0;
 		}
 
@@ -90,7 +91,7 @@ class Content_Helpers {
 		}
 
 		if ( $post_id && \is_int( $post_id ) ) {
-			Settings::set( [ 'word_count', $post_id ], $count );
+			$progress_planner->settings->set( [ 'word_count', $post_id ], $count );
 		}
 
 		return $count;

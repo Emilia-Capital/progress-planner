@@ -13,7 +13,7 @@ use Progress_Planner\Suggested_Tasks\Local_Tasks\Update_Core as Local_Tasks_Upda
 use Progress_Planner\Activities\Suggested_Task as Suggested_Task_Activity;
 
 /**
- * Settings class.
+ * Suggested_Tasks class.
  */
 class Suggested_Tasks {
 

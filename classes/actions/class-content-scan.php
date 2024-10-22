@@ -9,7 +9,6 @@ namespace Progress_Planner\Actions;
 
 use Progress_Planner\Actions\Content as Content_Action;
 use Progress_Planner\Activities\Content_Helpers;
-use Progress_Planner\Settings;
 
 /**
  * Content scan class.
@@ -80,14 +79,14 @@ class Content_Scan extends Content_Action {
 		}
 
 		// Reset the last scanned page.
-		Settings::set( static::LAST_SCANNED_PAGE_OPTION, 0 );
+		$progress_planner->settings->set( static::LAST_SCANNED_PAGE_OPTION, 0 );
 
 		// Reset the activities.
 		$activities = $progress_planner->query->query_activities( [ 'category' => 'content' ] );
 		$progress_planner->query->delete_activities( $activities );
 
 		// Reset the word count.
-		Settings::set( 'word_count', [] );
+		$progress_planner->settings->set( 'word_count', [] );
 
 		\wp_send_json_success(
 			[
@@ -108,11 +107,11 @@ class Content_Scan extends Content_Action {
 	 * @return array
 	 */
 	public static function update_stats() {
-
+		global $progress_planner;
 		// Calculate the total pages to scan.
 		$total_pages = self::get_total_pages();
 		// Get the last scanned page.
-		$last_page = (int) Settings::get( static::LAST_SCANNED_PAGE_OPTION, 0 );
+		$last_page = (int) $progress_planner->settings->get( static::LAST_SCANNED_PAGE_OPTION, 0 );
 		// The current page to scan.
 		$current_page = $last_page + 1;
 
@@ -127,8 +126,8 @@ class Content_Scan extends Content_Action {
 		);
 
 		if ( ! $posts ) {
-			Settings::delete( static::LAST_SCANNED_PAGE_OPTION );
-			Settings::set( 'content_scanned', true );
+			$progress_planner->settings->delete( static::LAST_SCANNED_PAGE_OPTION );
+			$progress_planner->settings->set( 'content_scanned', true );
 			return [
 				'lastScannedPage' => $current_page,
 				'lastPage'        => $total_pages,
@@ -140,7 +139,7 @@ class Content_Scan extends Content_Action {
 		self::insert_activities( $posts );
 
 		// Update the last scanned page.
-		Settings::set( static::LAST_SCANNED_PAGE_OPTION, $current_page );
+		$progress_planner->settings->set( static::LAST_SCANNED_PAGE_OPTION, $current_page );
 
 		return [
 			'lastScannedPage' => $current_page,
