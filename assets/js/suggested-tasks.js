@@ -144,6 +144,17 @@ const progressPlannerInjectSuggestedTodoItem = ( details ) => {
 	// Remove the ID attribute.
 	item.removeAttribute( 'id' );
 
+	// Hide the info button if the description is empty.
+	if (
+		'string' === typeof details.description &&
+		'' === details.description.trim()
+	) {
+		const infoButton = item.querySelector( 'button[data-action="info"]' );
+		if ( !! infoButton ) {
+			infoButton.style.display = 'none';
+		}
+	}
+
 	// Replace placeholders with the actual values.
 	const itemHTML = item.outerHTML
 		.replace( new RegExp( '{taskTitle}', 'g' ), details.title )
