@@ -5,12 +5,11 @@
  * @package Progress_Planner
  */
 
-use Progress_Planner\Chart;
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+global $progress_planner;
 ?>
 
 <div class="prpl-counter-big-wrapper">
@@ -45,6 +44,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	</p>
 </div>
 <div class="prpl-graph-wrapper">
-	<?php ( new Chart() )->the_chart( $this->get_chart_args() ); ?>
+	<?php $progress_planner->chart->the_chart( $this->get_chart_args() ); ?>
 </div>
 <?php

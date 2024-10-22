@@ -6,11 +6,12 @@
  */
 
 use Progress_Planner\Base;
-use Progress_Planner\Chart;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+global $progress_planner;
 
 $record = $this->personal_record_callback();
 
@@ -40,7 +41,7 @@ $record = $this->personal_record_callback();
 <p><?php \esc_html_e( 'Check out your website activity in the past months:', 'progress-planner' ); ?></p>
 <div class="prpl-graph-wrapper">
 	<?php
-	( new Chart() )->the_chart(
+	$progress_planner->chart->the_chart(
 		[
 			'query_params'   => [],
 			'dates_params'   => [

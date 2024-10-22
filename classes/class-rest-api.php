@@ -13,7 +13,6 @@
 namespace Progress_Planner;
 
 use Progress_Planner\Badges;
-use Progress_Planner\Chart;
 use Progress_Planner\Todo;
 use Progress_Planner\Widgets\Activity_Scores;
 use Progress_Planner\Badges\Badge\Wonderful_Writer as Badge_Wonderful_Writer;
@@ -128,7 +127,7 @@ class Rest_API {
 
 		$data['latest_badge'] = Badges::get_latest_completed_badge();
 
-		$scores = ( new Chart() )->get_chart_data(
+		$scores = $progress_planner->chart->get_chart_data(
 			[
 				'query_params'   => [],
 				'dates_params'   => [

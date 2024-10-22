@@ -65,6 +65,13 @@ class Base {
 	public $page_types;
 
 	/**
+	 * An instance of the \Progress_Planner\Chart class.
+	 *
+	 * @var \Progress_Planner\Chart
+	 */
+	public $chart;
+
+	/**
 	 * An array of configuration values for points awarded by action-type.
 	 *
 	 * @var array
@@ -118,6 +125,7 @@ class Base {
 		$this->query    = new Query();
 		$this->date     = new Date();
 		$this->lessons  = new Lessons();
+		$this->chart    = new Chart();
 
 		// Basic classes.
 		if ( \is_admin() && \current_user_can( 'publish_posts' ) ) {
