@@ -34,7 +34,7 @@ class Content_Helpers {
 		}
 		$default            = [ 'post', 'page' ];
 		$include_post_types = \array_filter(
-			$progress_planner->settings->get( [ 'include_post_types' ], $default ),
+			$progress_planner->get_settings()->get( [ 'include_post_types' ], $default ),
 			function ( $post_type ) {
 				return $post_type && \post_type_exists( $post_type ) && \is_post_type_viewable( $post_type );
 			}
@@ -55,13 +55,13 @@ class Content_Helpers {
 	 */
 	public static function get_word_count( $content, $post_id = 0 ) {
 		global $progress_planner;
-		$counts = $progress_planner->settings->get( [ 'word_count' ], [] );
+		$counts = $progress_planner->get_settings()->get( [ 'word_count' ], [] );
 		if ( $post_id && isset( $counts[ $post_id ] ) && false !== $counts[ $post_id ] ) {
 			return $counts[ $post_id ];
 		}
 
 		if ( empty( $content ) && $post_id ) {
-			$progress_planner->settings->set( [ 'word_count', $post_id ], 0 );
+			$progress_planner->get_settings()->set( [ 'word_count', $post_id ], 0 );
 			return 0;
 		}
 
@@ -91,7 +91,7 @@ class Content_Helpers {
 		}
 
 		if ( $post_id && \is_int( $post_id ) ) {
-			$progress_planner->settings->set( [ 'word_count', $post_id ], $count );
+			$progress_planner->get_settings()->set( [ 'word_count', $post_id ], $count );
 		}
 
 		return $count;
@@ -112,7 +112,7 @@ class Content_Helpers {
 		$activity           = new Content();
 		$activity->category = 'content';
 		$activity->type     = $type;
-		$activity->date     = $progress_planner->date->get_datetime_from_mysql_date( $date );
+		$activity->date     = $progress_planner->get_date()->get_datetime_from_mysql_date( $date );
 		$activity->data_id  = (string) $post->ID;
 		$activity->user_id  = (int) $post->post_author;
 		return $activity;

@@ -55,7 +55,7 @@ $show_badges = (
 
 	<?php
 	global $progress_planner;
-	$latest_activities = $progress_planner->query->get_latest_activities( 2 );
+	$latest_activities = $progress_planner->get_query()->get_latest_activities( 2 );
 	$activity_type_map = [
 		'content-publish'               => __( 'Published content', 'progress-planner' ),
 		'content-update'                => __( 'Updated content', 'progress-planner' ),

@@ -82,7 +82,7 @@ class Badges {
 	public static function get_latest_completed_badge() {
 		global $progress_planner;
 		// Get the settings for badges.
-		$settings = $progress_planner->settings->get( 'badges', [] );
+		$settings = $progress_planner->get_settings()->get( 'badges', [] );
 
 		$latest_date = null;
 		$latest_id   = null;

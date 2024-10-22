@@ -41,7 +41,7 @@ $record = $this->personal_record_callback();
 <p><?php \esc_html_e( 'Check out your website activity in the past months:', 'progress-planner' ); ?></p>
 <div class="prpl-graph-wrapper">
 	<?php
-	$progress_planner->chart->the_chart(
+	$progress_planner->get_chart()->the_chart(
 		[
 			'query_params'   => [],
 			'dates_params'   => [

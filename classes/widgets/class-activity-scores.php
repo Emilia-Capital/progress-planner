@@ -73,7 +73,7 @@ final class Activity_Scores extends Widget {
 	 */
 	public static function get_score() {
 		global $progress_planner;
-		$activities = $progress_planner->query->query_activities(
+		$activities = $progress_planner->get_query()->query_activities(
 			[
 				// Use 31 days to take into account
 				// the activities score decay from previous activities.
@@ -121,7 +121,7 @@ final class Activity_Scores extends Widget {
 				'label'    => \esc_html__( 'published content', 'progress-planner' ),
 				'callback' => function () {
 					global $progress_planner;
-					$events = $progress_planner->query->query_activities(
+					$events = $progress_planner->get_query()->query_activities(
 						[
 							'start_date' => new \DateTime( '-7 days' ),
 							'category'   => 'content',
@@ -135,7 +135,7 @@ final class Activity_Scores extends Widget {
 				'label'    => \esc_html__( 'updated content', 'progress-planner' ),
 				'callback' => function () {
 					global $progress_planner;
-					$events = $progress_planner->query->query_activities(
+					$events = $progress_planner->get_query()->query_activities(
 						[
 							'start_date' => new \DateTime( '-7 days' ),
 							'category'   => 'content',
@@ -191,7 +191,7 @@ final class Activity_Scores extends Widget {
 				'evaluate'    => function ( $goal_object ) {
 					global $progress_planner;
 					return (bool) count(
-						$progress_planner->query->query_activities(
+						$progress_planner->get_query()->query_activities(
 							[
 								'category'   => 'content',
 								'type'       => 'publish',

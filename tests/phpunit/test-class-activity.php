@@ -46,7 +46,7 @@ class Activity_Test extends \WP_UnitTestCase {
 		global $progress_planner;
 		$this->activity->save();
 
-		$activity = $progress_planner->query->query_activities(
+		$activity = $progress_planner->get_query()->query_activities(
 			[
 				'category' => $this->activity->category,
 				'type'     => $this->activity->type,

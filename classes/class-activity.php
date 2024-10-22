@@ -70,7 +70,7 @@ class Activity {
 	 */
 	public function save() {
 		global $progress_planner;
-		$existing = $progress_planner->query->get_instance()->query_activities(
+		$existing = $progress_planner->get_query()->get_instance()->query_activities(
 			[
 				'category' => $this->category,
 				'type'     => $this->type,
@@ -79,10 +79,10 @@ class Activity {
 			'RAW'
 		);
 		if ( ! empty( $existing ) ) {
-			$progress_planner->query->update_activity( $existing[0]->id, $this );
+			$progress_planner->get_query()->update_activity( $existing[0]->id, $this );
 			return;
 		}
-		$progress_planner->query->insert_activity( $this );
+		$progress_planner->get_query()->insert_activity( $this );
 		\do_action( 'progress_planner_activity_saved', $this );
 	}
 
@@ -93,7 +93,7 @@ class Activity {
 	 */
 	public function delete() {
 		global $progress_planner;
-		$progress_planner->query->delete_activity( $this );
+		$progress_planner->get_query()->delete_activity( $this );
 		\do_action( 'progress_planner_activity_deleted', $this );
 	}
 
@@ -110,7 +110,7 @@ class Activity {
 		if ( isset( $this->points[ $date_ymd ] ) ) {
 			return $this->points[ $date_ymd ];
 		}
-		$days = abs( $progress_planner->date->get_days_between_dates( $date, $this->date ) );
+		$days = abs( $progress_planner->get_date()->get_days_between_dates( $date, $this->date ) );
 
 		// Default points.
 		$default_points = 10;

@@ -40,7 +40,7 @@ class Todo extends Activity {
 		$this->date    = new \DateTime();
 		$this->user_id = \get_current_user_id();
 
-		$progress_planner->query->insert_activity( $this );
+		$progress_planner->get_query()->insert_activity( $this );
 		\do_action( 'progress_planner_activity_saved', $this );
 	}
 }

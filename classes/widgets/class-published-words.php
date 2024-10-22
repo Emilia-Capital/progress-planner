@@ -77,7 +77,7 @@ final class Published_Words extends Widget {
 		static $weekly_words;
 		if ( null === $weekly_words ) {
 			$weekly_words = $this->count_words(
-				$progress_planner->query->query_activities(
+				$progress_planner->get_query()->query_activities(
 					[
 						'category'   => 'content',
 						'type'       => 'publish',

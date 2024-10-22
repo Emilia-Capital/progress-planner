@@ -7,7 +7,6 @@
 
 namespace Progress_Planner\Badges;
 
-use Progress_Planner\Base;
 use Progress_Planner\Goals\Goal_Recurring;
 use Progress_Planner\Goals\Goal;
 
@@ -34,7 +33,7 @@ abstract class Badge_Maintenance extends Badge {
 				'priority'    => 'low',
 				'evaluate'    => function ( $goal_object ) use ( $progress_planner ) {
 					return (bool) count(
-						$progress_planner->query->query_activities(
+						$progress_planner->get_query()->query_activities(
 							[
 								'start_date' => $goal_object->get_details()['start_date'],
 								'end_date'   => $goal_object->get_details()['end_date'],

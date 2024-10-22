@@ -7,7 +7,6 @@
 
 namespace Progress_Planner\Badges\Badge;
 
-use Progress_Planner\Base;
 use Progress_Planner\Badges\Badge_Content;
 use Progress_Planner\Activities\Content_Helpers;
 
@@ -81,7 +80,7 @@ final class Wonderful_Writer extends Badge_Content {
 
 		// Get the new posts count.
 		$new_count = count(
-			$progress_planner->query->query_activities(
+			$progress_planner->get_query()->query_activities(
 				[
 					'category'   => 'content',
 					'type'       => 'publish',

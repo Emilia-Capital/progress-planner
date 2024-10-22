@@ -44,6 +44,6 @@ global $progress_planner;
 	</p>
 </div>
 <div class="prpl-graph-wrapper">
-	<?php $progress_planner->chart->the_chart( $this->get_chart_args() ); ?>
+	<?php $progress_planner->get_chart()->the_chart( $this->get_chart_args() ); ?>
 </div>
 <?php

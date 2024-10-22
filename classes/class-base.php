@@ -32,42 +32,42 @@ class Base {
 	/**
 	 * An instance of the \Progress_Planner\Settings class.
 	 *
-	 * @var \Progress_Planner\Settings
+	 * @var \Progress_Planner\Settings|null
 	 */
-	public $settings;
+	private $settings;
 
 	/**
 	 * An instance of the Query class.
 	 *
-	 * @var \Progress_Planner\Query
+	 * @var \Progress_Planner\Query|null
 	 */
-	public $query;
+	private $query;
 
 	/**
 	 * An instance of the \Progress_Planner\Date class.
 	 *
-	 * @var \Progress_Planner\Date
+	 * @var \Progress_Planner\Date|null
 	 */
-	public $date;
+	private $date;
 
 	/**
 	 * An instance of the \Progress_Planner\Lessons class.
 	 *
-	 * @var \Progress_Planner\Lessons
+	 * @var \Progress_Planner\Lessons|null
 	 */
-	public $lessons;
+	private $lessons;
 
 	/**
 	 * An instance of the \Progress_Planner\Page_Types class.
 	 *
-	 * @var \Progress_Planner\Page_Types
+	 * @var \Progress_Planner\Page_Types|null
 	 */
-	public $page_types;
+	private $page_types;
 
 	/**
 	 * An instance of the \Progress_Planner\Chart class.
 	 *
-	 * @var \Progress_Planner\Chart
+	 * @var \Progress_Planner\Chart|null
 	 */
 	public $chart;
 
@@ -121,12 +121,6 @@ class Base {
 			new Playground();
 		}
 
-		$this->settings = new Settings();
-		$this->query    = new Query();
-		$this->date     = new Date();
-		$this->lessons  = new Lessons();
-		$this->chart    = new Chart();
-
 		// Basic classes.
 		if ( \is_admin() && \current_user_can( 'publish_posts' ) ) {
 			new Admin_Page();
@@ -166,15 +160,87 @@ class Base {
 	}
 
 	/**
+	 * Get the settings instance.
+	 *
+	 * @return \Progress_Planner\Settings
+	 */
+	public function get_settings() {
+		if ( ! $this->settings ) {
+			$this->settings = new Settings();
+		}
+		return $this->settings;
+	}
+
+	/**
+	 * Get the query instance.
+	 *
+	 * @return \Progress_Planner\Query
+	 */
+	public function get_query() {
+		if ( ! $this->query ) {
+			$this->query = new Query();
+		}
+		return $this->query;
+	}
+
+	/**
+	 * Get the date instance.
+	 *
+	 * @return \Progress_Planner\Date
+	 */
+	public function get_date() {
+		if ( ! $this->date ) {
+			$this->date = new Date();
+		}
+		return $this->date;
+	}
+
+	/**
+	 * Get the lessons instance.
+	 *
+	 * @return \Progress_Planner\Lessons
+	 */
+	public function get_lessons() {
+		if ( ! $this->lessons ) {
+			$this->lessons = new Lessons();
+		}
+		return $this->lessons;
+	}
+
+	/**
+	 * Get the page types instance.
+	 *
+	 * @return \Progress_Planner\Page_Types
+	 */
+	public function get_page_types() {
+		if ( ! $this->page_types ) {
+			$this->page_types = new Page_Types();
+		}
+		return $this->page_types;
+	}
+
+	/**
+	 * Get the chart instance.
+	 *
+	 * @return \Progress_Planner\Chart
+	 */
+	public function get_chart() {
+		if ( ! $this->chart ) {
+			$this->chart = new Chart();
+		}
+		return $this->chart;
+	}
+
+	/**
 	 * Get the activation date.
 	 *
 	 * @return \DateTime
 	 */
 	public function get_activation_date() {
-		$activation_date = $this->settings->get( 'activation_date' );
+		$activation_date = $this->get_settings()->get( 'activation_date' );
 		if ( ! $activation_date ) {
 			$activation_date = new \DateTime();
-			$this->settings->set( 'activation_date', $activation_date->format( 'Y-m-d' ) );
+			$this->get_settings()->set( 'activation_date', $activation_date->format( 'Y-m-d' ) );
 			return $activation_date;
 		}
 		return \DateTime::createFromFormat( 'Y-m-d', $activation_date );
@@ -217,9 +283,9 @@ class Base {
 			'progress-planner-editor',
 			'progressPlannerEditor',
 			[
-				'lessons'         => $this->lessons->get_remote_api_items(),
-				'pageTypes'       => $this->page_types->get_page_types(),
-				'defaultPageType' => $this->page_types->get_default_page_type( (string) \get_post_type(), (int) \get_the_ID() ),
+				'lessons'         => $this->get_lessons()->get_remote_api_items(),
+				'pageTypes'       => $this->get_page_types()->get_page_types(),
+				'defaultPageType' => $this->get_page_types()->get_default_page_type( (string) \get_post_type(), (int) \get_the_ID() ),
 				'i18n'            => [
 					'pageType'               => \esc_html__( 'Page type', 'progress-planner' ),
 					'progressPlannerSidebar' => \esc_html__( 'Progress Planner Sidebar', 'progress-planner' ),

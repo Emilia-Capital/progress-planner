@@ -90,7 +90,7 @@ class Rest_API {
 
 		// Get the number of activities in the past week.
 		$data['activities'] = count(
-			$progress_planner->query->query_activities(
+			$progress_planner->get_query()->query_activities(
 				[
 					'start_date' => new \DateTime( '-7 days' ),
 				]
@@ -127,7 +127,7 @@ class Rest_API {
 
 		$data['latest_badge'] = Badges::get_latest_completed_badge();
 
-		$scores = $progress_planner->chart->get_chart_data(
+		$scores = $progress_planner->get_chart()->get_chart_data(
 			[
 				'query_params'   => [],
 				'dates_params'   => [

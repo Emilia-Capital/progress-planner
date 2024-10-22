@@ -79,14 +79,14 @@ class Content_Scan extends Content_Action {
 		}
 
 		// Reset the last scanned page.
-		$progress_planner->settings->set( static::LAST_SCANNED_PAGE_OPTION, 0 );
+		$progress_planner->get_settings()->set( static::LAST_SCANNED_PAGE_OPTION, 0 );
 
 		// Reset the activities.
-		$activities = $progress_planner->query->query_activities( [ 'category' => 'content' ] );
-		$progress_planner->query->delete_activities( $activities );
+		$activities = $progress_planner->get_query()->query_activities( [ 'category' => 'content' ] );
+		$progress_planner->get_query()->delete_activities( $activities );
 
 		// Reset the word count.
-		$progress_planner->settings->set( 'word_count', [] );
+		$progress_planner->get_settings()->set( 'word_count', [] );
 
 		\wp_send_json_success(
 			[
@@ -111,7 +111,7 @@ class Content_Scan extends Content_Action {
 		// Calculate the total pages to scan.
 		$total_pages = self::get_total_pages();
 		// Get the last scanned page.
-		$last_page = (int) $progress_planner->settings->get( static::LAST_SCANNED_PAGE_OPTION, 0 );
+		$last_page = (int) $progress_planner->get_settings()->get( static::LAST_SCANNED_PAGE_OPTION, 0 );
 		// The current page to scan.
 		$current_page = $last_page + 1;
 
@@ -126,8 +126,8 @@ class Content_Scan extends Content_Action {
 		);
 
 		if ( ! $posts ) {
-			$progress_planner->settings->delete( static::LAST_SCANNED_PAGE_OPTION );
-			$progress_planner->settings->set( 'content_scanned', true );
+			$progress_planner->get_settings()->delete( static::LAST_SCANNED_PAGE_OPTION );
+			$progress_planner->get_settings()->set( 'content_scanned', true );
 			return [
 				'lastScannedPage' => $current_page,
 				'lastPage'        => $total_pages,
@@ -139,7 +139,7 @@ class Content_Scan extends Content_Action {
 		self::insert_activities( $posts );
 
 		// Update the last scanned page.
-		$progress_planner->settings->set( static::LAST_SCANNED_PAGE_OPTION, $current_page );
+		$progress_planner->get_settings()->set( static::LAST_SCANNED_PAGE_OPTION, $current_page );
 
 		return [
 			'lastScannedPage' => $current_page,
@@ -181,6 +181,6 @@ class Content_Scan extends Content_Action {
 			Content_Helpers::get_word_count( $post->post_content, $post->ID );
 		}
 
-		$progress_planner->query->insert_activities( $activities );
+		$progress_planner->get_query()->insert_activities( $activities );
 	}
 }

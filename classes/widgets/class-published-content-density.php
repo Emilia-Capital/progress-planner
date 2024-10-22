@@ -113,7 +113,7 @@ final class Published_Content_Density extends Widget {
 		static $density;
 		if ( null === $density ) {
 			$activities = $this->filter_activities(
-				$progress_planner->query->query_activities(
+				$progress_planner->get_query()->query_activities(
 					[
 						'category' => 'content',
 						'type'     => 'publish',
@@ -136,7 +136,7 @@ final class Published_Content_Density extends Widget {
 		if ( null === $density ) {
 			// Get the weekly average.
 			$density = $this->count_density(
-				$progress_planner->query->query_activities(
+				$progress_planner->get_query()->query_activities(
 					[
 						'category'   => 'content',
 						'type'       => 'publish',
