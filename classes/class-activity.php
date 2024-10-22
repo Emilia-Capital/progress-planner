@@ -7,9 +7,6 @@
 
 namespace Progress_Planner;
 
-use Progress_Planner\Date;
-use Progress_Planner\Query;
-
 /**
  * Activity class.
  */
@@ -72,7 +69,8 @@ class Activity {
 	 * @return void
 	 */
 	public function save() {
-		$existing = Query::get_instance()->query_activities(
+		global $progress_planner;
+		$existing = $progress_planner->get_query()->get_instance()->query_activities(
 			[
 				'category' => $this->category,
 				'type'     => $this->type,
@@ -81,10 +79,10 @@ class Activity {
 			'RAW'
 		);
 		if ( ! empty( $existing ) ) {
-			Query::get_instance()->update_activity( $existing[0]->id, $this );
+			$progress_planner->get_query()->update_activity( $existing[0]->id, $this );
 			return;
 		}
-		Query::get_instance()->insert_activity( $this );
+		$progress_planner->get_query()->insert_activity( $this );
 		\do_action( 'progress_planner_activity_saved', $this );
 	}
 
@@ -94,7 +92,8 @@ class Activity {
 	 * @return void
 	 */
 	public function delete() {
-		Query::get_instance()->delete_activity( $this );
+		global $progress_planner;
+		$progress_planner->get_query()->delete_activity( $this );
 		\do_action( 'progress_planner_activity_deleted', $this );
 	}
 
@@ -106,11 +105,12 @@ class Activity {
 	 * @return int
 	 */
 	public function get_points( $date ) {
+		global $progress_planner;
 		$date_ymd = $date->format( 'Ymd' );
 		if ( isset( $this->points[ $date_ymd ] ) ) {
 			return $this->points[ $date_ymd ];
 		}
-		$days = abs( Date::get_days_between_dates( $date, $this->date ) );
+		$days = abs( $progress_planner->get_date()->get_days_between_dates( $date, $this->date ) );
 
 		// Default points.
 		$default_points = 10;

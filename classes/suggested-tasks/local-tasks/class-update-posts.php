@@ -8,7 +8,6 @@
 namespace Progress_Planner\Suggested_Tasks\Local_Tasks;
 
 use Progress_Planner\Suggested_Tasks\Local_Tasks;
-use Progress_Planner\Suggested_Tasks;
 use Progress_Planner\Activities\Content_Helpers;
 
 /**
@@ -24,13 +23,6 @@ class Update_Posts extends Local_Tasks {
 	const ITEMS_TO_INJECT = 2;
 
 	/**
-	 * The threshold (in words) for a long post.
-	 *
-	 * @var int
-	 */
-	const LONG_POST_THRESHOLD = 300;
-
-	/**
 	 * Evaluate a task.
 	 *
 	 * @param string $task_id The task ID.
@@ -38,7 +30,7 @@ class Update_Posts extends Local_Tasks {
 	 * @return bool
 	 */
 	public function evaluate_task( $task_id ) {
-		$data = $this->get_data_from_task_id( $task_id );
+		$data = self::get_data_from_task_id( $task_id );
 		if ( ! isset( $data['type'] ) || ! isset( $data['post_id'] ) ) {
 			return false;
 		}
@@ -62,9 +54,10 @@ class Update_Posts extends Local_Tasks {
 	 * @return bool
 	 */
 	public function evaluate_update_post_task( $data ) {
+		global $progress_planner;
 		if ( (int) \get_post_modified_time( 'U', false, (int) $data['post_id'] ) > strtotime( '-6 months' ) ) {
 			$data['date'] = \gmdate( 'YW' );
-			Suggested_Tasks::mark_task_as_completed( $this->get_task_id( $data ) );
+			$progress_planner->get_suggested_tasks()->mark_task_as_completed( $this->get_task_id( $data ) );
 			return true;
 		}
 		return false;
@@ -78,6 +71,7 @@ class Update_Posts extends Local_Tasks {
 	 * @return bool
 	 */
 	public function evaluate_create_post_task( $data ) {
+		global $progress_planner;
 		$last_posts = \get_posts(
 			[
 				'posts_per_page' => 1,
@@ -101,13 +95,13 @@ class Update_Posts extends Local_Tasks {
 			return false;
 		}
 
-		Suggested_Tasks::mark_task_as_completed(
+		$progress_planner->get_suggested_tasks()->mark_task_as_completed(
 			self::get_task_id(
 				[
 					'type'    => 'create-post',
 					'date'    => \gmdate( 'YW' ),
 					'post_id' => $last_post->ID,
-					'long'    => Content_Helpers::is_post_long( $last_post->ID ),
+					'long'    => Content_Helpers::is_post_long( $last_post->ID ) ? '1' : '0',
 				]
 			)
 		);
@@ -141,16 +135,8 @@ class Update_Posts extends Local_Tasks {
 				'order'          => 'ASC',
 			]
 		);
-		// Get the word count of the last created post.
-		$word_count = 0;
-		if ( $last_created_posts ) {
-			$word_count = Content_Helpers::get_word_count(
-				$last_created_posts[0]->post_content,
-				$last_created_posts[0]->ID
-			);
-		}
 
-		$is_last_post_long = $word_count > self::LONG_POST_THRESHOLD;
+		$is_last_post_long = is_array( $last_created_posts ) && Content_Helpers::is_post_long( $last_created_posts[0]->ID );
 		$items             = [];
 
 		$task_id  = 'create-post-';
@@ -170,12 +156,12 @@ class Update_Posts extends Local_Tasks {
 				? sprintf(
 					/* translators: %d: The threshold (number, words count) for a long post. */
 					esc_html__( 'Create a new short post (no longer than %d words).', 'progress-planner' ),
-					self::LONG_POST_THRESHOLD
+					Content_Helpers::LONG_POST_THRESHOLD
 				)
 				: sprintf(
 					/* translators: %d: The threshold (number, words count) for a long post. */
 					esc_html__( 'Create a new long post (longer than %d words).', 'progress-planner' ),
-					self::LONG_POST_THRESHOLD
+					Content_Helpers::LONG_POST_THRESHOLD
 				),
 		];
 		$this->add_pending_task( $task_id );
@@ -255,7 +241,7 @@ class Update_Posts extends Local_Tasks {
 	 *
 	 * @return array The data.
 	 */
-	public function get_data_from_task_id( $task_id ) {
+	public static function get_data_from_task_id( $task_id ) {
 		$parts = \explode( '|', $task_id );
 		$data  = [];
 		foreach ( $parts as $part ) {
@@ -268,6 +254,11 @@ class Update_Posts extends Local_Tasks {
 				: $part[1];
 		}
 		\ksort( $data );
+
+		// Convert (int) 1 and (int) 0 to (bool) true and (bool) false.
+		if ( isset( $data['long'] ) ) {
+			$data['long'] = (bool) $data['long'];
+		}
 
 		return $data;
 	}

@@ -1,18 +1,18 @@
 <?php
 /**
- * Settings popup.
+ * Settings popover.
  *
  * @package Progress_Planner
  */
 
-namespace Progress_Planner\Popups;
+namespace Progress_Planner\Popovers;
 
 use Progress_Planner\Activities\Content_Helpers;
 
 /**
- * Settings popup.
+ * Settings popover.
  */
-final class Settings extends Popup {
+final class Settings extends Popover {
 
 	/**
 	 * The popover ID.

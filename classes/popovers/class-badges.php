@@ -5,15 +5,14 @@
  * @package Progress_Planner
  */
 
-namespace Progress_Planner\Popups;
+namespace Progress_Planner\Popovers;
 
 use Progress_Planner\Badges as Root_Badges;
-use Progress_Planner\Base;
 
 /**
  * Activity Scores Widget.
  */
-final class Badges extends Popup {
+final class Badges extends Popover {
 
 	/**
 	 * An array of badge IDs.
@@ -50,8 +49,8 @@ final class Badges extends Popup {
 		<h2><?php \esc_html_e( 'You are on the right track!', 'progress-planner' ); ?></h2>
 		<p><?php \esc_html_e( 'Find out which badges to unlock next and become a Progress Planner Professional!', 'progress-planner' ); ?></p>
 
-		<div class="prpl-widgets-container">
-			<div class="prpl-widget-wrapper">
+		<div class="prpl-widgets-container in-popover">
+			<div class="prpl-widget-wrapper in-popover">
 				<h3><?php \esc_html_e( 'Don’t break your streak and stay active every week!', 'progress-planner' ); ?></h3>
 				<p><?php \esc_html_e( 'Execute at least one website maintenance task every week. That could be publishing content, adding content, updating a post, or updating a plugin.', 'progress-planner' ); ?></p>
 				<p><?php \esc_html_e( 'Not able to work on your site for a week? Use your streak freeze!', 'progress-planner' ); ?></p>
@@ -61,7 +60,7 @@ final class Badges extends Popup {
 				<?php $this->print_progressbar( 'maintenance' ); ?>
 			</div>
 
-			<div class="prpl-widget-wrapper">
+			<div class="prpl-widget-wrapper in-popover">
 				<h3><?php \esc_html_e( 'Keep adding posts and pages', 'progress-planner' ); ?></h3>
 				<p><?php \esc_html_e( 'The more you write, the sooner you unlock new badges. You can earn level 1 of this badge immediately after installing the plugin if you have written 20 or more blog posts.', 'progress-planner' ); ?></p>
 				<div id="popover-badges-maintenance">
@@ -100,9 +99,9 @@ final class Badges extends Popup {
 			>
 				<div class="inner">
 					<?php
-					include $badge_completed
-						? $badge_args['icons-svg']['complete']['path']
-						: $badge_args['icons-svg']['pending']['path'];
+					include $badge_completed // phpcs:ignore PEAR.Files.IncludingFile.UseRequire
+						? PROGRESS_PLANNER_DIR . '/assets/images/badges/' . $badge . '.svg'
+						: PROGRESS_PLANNER_DIR . '/assets/images/badges/' . $badge . '-bw.svg';
 					?>
 					<?php echo \esc_html( Root_Badges::get_badge( $badge )['name'] ); ?>
 				</div>

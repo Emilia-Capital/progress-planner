@@ -7,8 +7,6 @@
 
 namespace Progress_Planner\Badges\Badge;
 
-use Progress_Planner\Base;
-use Progress_Planner\Query;
 use Progress_Planner\Badges\Badge_Content;
 
 /**
@@ -43,29 +41,12 @@ final class Bold_Blogger extends Badge_Content {
 	}
 
 	/**
-	 * The badge icons.
-	 *
-	 * @return array
-	 */
-	public function get_icons_svg() {
-		return [
-			'pending'  => [
-				'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge2_gray.svg',
-				'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge2_gray.svg',
-			],
-			'complete' => [
-				'path' => \PROGRESS_PLANNER_DIR . '/assets/images/badges/writing_badge2.svg',
-				'url'  => \PROGRESS_PLANNER_URL . '/assets/images/badges/writing_badge2.svg',
-			],
-		];
-	}
-
-	/**
 	 * Progress callback.
 	 *
 	 * @return array
 	 */
 	public function progress_callback() {
+		global $progress_planner;
 		$saved_progress = $this->get_saved();
 
 		// If we have a saved value, return it.
@@ -75,11 +56,11 @@ final class Bold_Blogger extends Badge_Content {
 
 		// Get the number of new posts published.
 		$new_count = count(
-			Query::get_instance()->query_activities(
+			$progress_planner->get_query()->query_activities(
 				[
 					'category'   => 'content',
 					'type'       => 'publish',
-					'start_date' => Base::get_activation_date(),
+					'start_date' => $progress_planner->get_activation_date(),
 				],
 			)
 		);

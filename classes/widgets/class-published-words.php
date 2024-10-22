@@ -8,8 +8,6 @@
 namespace Progress_Planner\Widgets;
 
 use Progress_Planner\Activities\Content_Helpers;
-use Progress_Planner\Chart;
-use Progress_Planner\Query;
 
 /**
  * Published Content Widget.
@@ -22,44 +20,6 @@ final class Published_Words extends Widget {
 	 * @var string
 	 */
 	protected $id = 'published-words';
-
-	/**
-	 * Render the widget content.
-	 *
-	 * @return void
-	 */
-	protected function the_content() {
-		?>
-		<div class="prpl-top-counter-bottom-content">
-			<?php $this->render_big_counter( (int) $this->get_weekly_words(), __( 'words', 'progress-planner' ) ); ?>
-			<div class="prpl-widget-content">
-				<p>
-					<?php if ( 0 === $this->get_weekly_words() ) : ?>
-						<?php \esc_html_e( 'You didn\'t write last week. Let\'s get started!', 'progress-planner' ); ?>
-					<?php else : ?>
-						<?php
-						printf(
-							\esc_html(
-								/* translators: %1$s: number of posts published this week. %2$s: Total number of posts. */
-								\_n(
-									'Great job! You have written %1$s word in the past 7 days.',
-									'Great job! You have written %1$s words in the past 7 days.',
-									$this->get_weekly_words(),
-									'progress-planner'
-								)
-							),
-							\esc_html( \number_format_i18n( $this->get_weekly_words() ) ),
-						);
-						?>
-					<?php endif; ?>
-				</p>
-			</div>
-		</div>
-		<div class="prpl-graph-wrapper">
-			<?php ( new Chart() )->the_chart( $this->get_chart_args() ); ?>
-		</div>
-		<?php
-	}
 
 	/**
 	 * Get the chart args.
@@ -113,10 +73,11 @@ final class Published_Words extends Widget {
 	 * @return int The weekly words count.
 	 */
 	public function get_weekly_words() {
+		global $progress_planner;
 		static $weekly_words;
 		if ( null === $weekly_words ) {
 			$weekly_words = $this->count_words(
-				Query::get_instance()->query_activities(
+				$progress_planner->get_query()->query_activities(
 					[
 						'category'   => 'content',
 						'type'       => 'publish',

@@ -13,10 +13,7 @@
 namespace Progress_Planner;
 
 use Progress_Planner\Badges;
-use Progress_Planner\Chart;
-use Progress_Planner\Todo;
-use Progress_Planner\Query;
-use Progress_Planner\Widgets\Website_Activity_Score;
+use Progress_Planner\Widgets\Activity_Scores;
 use Progress_Planner\Badges\Badge\Wonderful_Writer as Badge_Wonderful_Writer;
 use Progress_Planner\Badges\Badge\Bold_Blogger as Badge_Bold_Blogger;
 use Progress_Planner\Badges\Badge\Awesome_Author as Badge_Awesome_Author;
@@ -70,6 +67,7 @@ class Rest_API {
 	 * @return \WP_REST_Response The REST response object containing the stats.
 	 */
 	public function get_stats( \WP_REST_Request $request ) {
+		global $progress_planner;
 		$data = $request->get_json_params();
 
 		$data = [];
@@ -91,7 +89,7 @@ class Rest_API {
 
 		// Get the number of activities in the past week.
 		$data['activities'] = count(
-			Query::get_instance()->query_activities(
+			$progress_planner->get_query()->query_activities(
 				[
 					'start_date' => new \DateTime( '-7 days' ),
 				]
@@ -99,9 +97,10 @@ class Rest_API {
 		);
 
 		// Get the website activity score.
+		$activity_score           = new Activity_Scores();
 		$data['website_activity'] = [
-			'score'     => Website_Activity_Score::get_score(),
-			'checklist' => Website_Activity_Score::get_checklist_results(),
+			'score'     => $activity_score->get_score(),
+			'checklist' => $activity_score->get_checklist_results(),
 		];
 
 		// Get the badges.
@@ -127,7 +126,7 @@ class Rest_API {
 
 		$data['latest_badge'] = Badges::get_latest_completed_badge();
 
-		$scores = ( new Chart() )->get_chart_data(
+		$scores = $progress_planner->get_chart()->get_chart_data(
 			[
 				'query_params'   => [],
 				'dates_params'   => [
@@ -165,7 +164,7 @@ class Rest_API {
 		$data['timezone_offset'] = \wp_timezone()->getOffset( new \DateTime( 'midnight' ) ) / 3600;
 
 		// Pending todo items.
-		$todo_items         = Todo::get_items();
+		$todo_items         = $progress_planner->get_todo()->get_items();
 		$pending_todo_items = [];
 		foreach ( $todo_items as $item ) {
 			if ( ! $todo_items['done'] ) {

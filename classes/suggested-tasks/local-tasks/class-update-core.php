@@ -8,7 +8,6 @@
 namespace Progress_Planner\Suggested_Tasks\Local_Tasks;
 
 use Progress_Planner\Suggested_Tasks\Local_Tasks;
-use Progress_Planner\Suggested_Tasks;
 
 /**
  * Handle Suggestred-tasks items.
@@ -23,8 +22,9 @@ class Update_Core extends Local_Tasks {
 	 * @return bool
 	 */
 	public function evaluate_task( $task_id ) {
+		global $progress_planner;
 		if ( 'update-core' === $task_id && 0 === \wp_get_update_data()['counts']['total'] ) {
-			Suggested_Tasks::mark_task_as_completed( $task_id . '-' . \gmdate( 'YW' ) );
+			$progress_planner->get_suggested_tasks()->mark_task_as_completed( $task_id . '-' . \gmdate( 'YW' ) );
 			return true;
 		}
 		return false;

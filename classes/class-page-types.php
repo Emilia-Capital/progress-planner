@@ -7,8 +7,6 @@
 
 namespace Progress_Planner;
 
-use Progress_Planner\Lessons;
-
 /**
  * Class Page_Types
  */
@@ -76,7 +74,8 @@ class Page_Types {
 	 * @return void
 	 */
 	public function maybe_add_terms() {
-		$lessons = ( new Lessons() )->get_remote_api_items();
+		global $progress_planner;
+		$lessons = $progress_planner->get_lessons()->get_remote_api_items();
 		foreach ( $lessons as $lesson ) {
 			if ( \term_exists( $lesson['settings']['id'], self::TAXONOMY_NAME ) ) {
 				continue;
@@ -98,12 +97,13 @@ class Page_Types {
 	 * @return void
 	 */
 	public function maybe_update_terms() {
+		global $progress_planner;
 		$updated = \get_transient( 'progress_planner_page_types_updated' );
 		if ( $updated ) {
 			return;
 		}
 
-		$lessons = ( new Lessons() )->get_remote_api_items();
+		$lessons = $progress_planner->get_lessons()->get_remote_api_items();
 		foreach ( $lessons as $lesson ) {
 			$term = \get_term_by( 'slug', $lesson['settings']['id'], self::TAXONOMY_NAME );
 			if ( ! $term instanceof \WP_Term ) {
@@ -187,7 +187,7 @@ class Page_Types {
 	 *
 	 * @return \WP_Post[] Return the posts.
 	 */
-	public static function get_posts_by_type( $post_type, $slug, $field = 'slug' ) {
+	public function get_posts_by_type( $post_type, $slug, $field = 'slug' ) {
 		$posts = \get_posts(
 			[
 				'post_type'      => $post_type,
@@ -212,12 +212,12 @@ class Page_Types {
 	 *
 	 * @return void
 	 */
-	public static function set_page_type_by_slug( $post_id, $page_type ) {
+	public function set_page_type_by_slug( $post_id, $page_type ) {
 		$term = \get_term_by( 'slug', $page_type, self::TAXONOMY_NAME );
 		if ( ! $term || ! $term instanceof \WP_Term ) {
 			return;
 		}
-		self::set_page_type_by_id( $post_id, $term->term_id );
+		$this->set_page_type_by_id( $post_id, $term->term_id );
 	}
 
 	/**
@@ -228,9 +228,9 @@ class Page_Types {
 	 *
 	 * @return void
 	 */
-	public static function set_page_type_by_id( $post_id, $page_type_id ) {
+	public function set_page_type_by_id( $post_id, $page_type_id ) {
 		\wp_set_object_terms( (int) $post_id, $page_type_id, self::TAXONOMY_NAME );
-		self::assign_child_pages( $post_id, $page_type_id );
+		$this->assign_child_pages( $post_id, $page_type_id );
 
 		// Get the term.
 		$term = \get_term( $page_type_id, self::TAXONOMY_NAME );
@@ -256,7 +256,7 @@ class Page_Types {
 	 *
 	 * @return int
 	 */
-	public static function get_default_page_type( $post_type, $post_id ) {
+	public function get_default_page_type( $post_type, $post_id ) {
 		// Post-type checks.
 		switch ( $post_type ) {
 
@@ -294,7 +294,7 @@ class Page_Types {
 	 */
 	public function update_option_page_on_front( $page_id ) {
 		// Get the posts for the homepage.
-		$posts = self::get_posts_by_type( 'page', 'homepage', 'slug' );
+		$posts = $this->get_posts_by_type( 'page', 'homepage', 'slug' );
 		$term  = \get_term_by( 'slug', 'homepage', self::TAXONOMY_NAME );
 
 		if ( ! $term || ! $term instanceof \WP_Term ) {
@@ -366,7 +366,7 @@ class Page_Types {
 	 *
 	 * @return void
 	 */
-	public static function assign_child_pages( $post_id, $term_id ) {
+	public function assign_child_pages( $post_id, $term_id ) {
 		$children = \get_children( [ 'post_parent' => $post_id ] );
 
 		if ( ! $children ) {

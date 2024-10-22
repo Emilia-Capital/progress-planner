@@ -8,7 +8,9 @@
 namespace Progress_Planner\Widgets;
 
 /**
- * Abstract class for widgets.
+ * Widgets class.
+ *
+ * All widgets should extend this class.
  */
 abstract class Widget {
 
@@ -18,27 +20,6 @@ abstract class Widget {
 	 * @var string
 	 */
 	protected $id;
-
-	/**
-	 * The col-span for the 12-column grid layout.
-	 *
-	 * @var int
-	 */
-	protected $colspan = 4;
-
-	/**
-	 * The row-span for the grid layout.
-	 *
-	 * @var int
-	 */
-	protected $rowspan = 6;
-
-	/**
-	 * Constructor.
-	 */
-	public function __construct() {
-		$this->render();
-	}
 
 	/**
 	 * Get the widget range.
@@ -71,18 +52,28 @@ abstract class Widget {
 	 *
 	 * @return void
 	 */
-	protected function render() {
+	public function render() {
 		if ( ! $this->should_render() ) {
 			return;
+		}
+
+		$stylesheet = "/assets/css/page-widgets/{$this->id}.css";
+		if ( \file_exists( PROGRESS_PLANNER_DIR . $stylesheet ) ) {
+			\wp_enqueue_style(
+				'prpl-widget-' . $this->id,
+				PROGRESS_PLANNER_URL . $stylesheet,
+				[],
+				(string) filemtime( PROGRESS_PLANNER_DIR . $stylesheet )
+			);
 		}
 		$classes = [
 			'prpl-widget-wrapper',
 			'prpl-' . \esc_attr( $this->id ),
-			'prpl-widget-colspan-' . \esc_attr( (string) $this->colspan ),
-			'prpl-widget-rowspan-' . \esc_attr( (string) $this->rowspan ),
 		];
 		echo '<div class="' . esc_attr( \implode( ' ', $classes ) ) . '">';
+		echo '<div class="widget-inner-container">';
 		$this->the_content();
+		echo '</div>';
 		echo '</div>';
 	}
 
@@ -96,30 +87,23 @@ abstract class Widget {
 	}
 
 	/**
-	 * Render a big counter.
-	 *
-	 * @param int    $number The number to display.
-	 * @param string $text   The text to display.
+	 * Render the widget content.
 	 *
 	 * @return void
 	 */
-	protected function render_big_counter( int $number, $text ) {
-		?>
-		<div class="counter-big-wrapper">
-			<span class="counter-big-number">
-				<?php echo \esc_html( \number_format_i18n( $number ) ); ?>
-			</span>
-			<span class="counter-big-text">
-				<?php echo \esc_html( $text ); ?>
-			</span>
-		</div>
-		<?php
+	public function the_content() {
+		/**
+		 * Filters the template to use for the widget.
+		 *
+		 * @param string $template The template to use.
+		 * @param string $id       The widget ID.
+		 *
+		 * @return string The template to use.
+		 */
+		include \apply_filters( // phpcs:ignore PEAR.Files.IncludingFile.UseRequire
+			'progress_planner_widgets_template',
+			PROGRESS_PLANNER_DIR . "/views/page-widgets/{$this->id}.php",
+			$this->id
+		);
 	}
-
-	/**
-	 * The widget content.
-	 *
-	 * @return void
-	 */
-	abstract protected function the_content();
 }

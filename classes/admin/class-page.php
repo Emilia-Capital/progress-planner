@@ -18,21 +18,15 @@ class Page {
 	 * The widgets to display on the admin page.
 	 */
 	const WIDGETS = [
-		'\Progress_Planner\Widgets\Website_Activity_Score',
-		'\Progress_Planner\Widgets\Suggested_Tasks_Score',
 		'\Progress_Planner\Widgets\Activity_Scores',
-		'\Progress_Planner\Widgets\ToDo',
 		'\Progress_Planner\Widgets\Suggested_Tasks',
+		'\Progress_Planner\Widgets\ToDo',
+		'\Progress_Planner\Widgets\Badge_Streak',
 		'\Progress_Planner\Widgets\Latest_Badge',
 		'\Progress_Planner\Widgets\Published_Content_Density',
 		'\Progress_Planner\Widgets\Published_Words',
-		'\Progress_Planner\Widgets\Badges_Progress',
-		'\Progress_Planner\Widgets\Badge_Content',
-		'\Progress_Planner\Widgets\Badge_Streak',
-		'\Progress_Planner\Widgets\Personal_Record_Content',
 		'\Progress_Planner\Widgets\Published_Content',
 		'\Progress_Planner\Widgets\Whats_New',
-		'\Progress_Planner\Widgets\Badge_Monthly',
 	];
 
 	/**
@@ -86,7 +80,7 @@ class Page {
 			<div class="prpl-widgets-container">
 				<?php $widgets = \apply_filters( 'progress_planner_admin_widgets', self::WIDGETS ); ?>
 				<?php foreach ( $widgets as $class_name ) : ?>
-					<?php new $class_name(); ?>
+					<?php ( new $class_name() )->render(); ?>
 				<?php endforeach; ?>
 			</div>
 		</div>
@@ -115,6 +109,7 @@ class Page {
 	 * @return void
 	 */
 	public static function register_scripts() {
+		global $progress_planner;
 		// Register Chart.js.
 		\wp_register_script(
 			'chart-js',
@@ -122,6 +117,14 @@ class Page {
 			[],
 			'4.4.2',
 			false
+		);
+
+		\wp_register_script(
+			'progress-planner-grid-masonry',
+			PROGRESS_PLANNER_URL . '/assets/js/grid-masonry.js',
+			[],
+			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/grid-masonry.js' ),
+			true
 		);
 
 		// Register the ajax-request helper.
@@ -151,7 +154,7 @@ class Page {
 			true
 		);
 
-		// Register the admin script for the settings popup.
+		// Register the admin script for the settings popover.
 		\wp_register_script(
 			'progress-planner-settings',
 			PROGRESS_PLANNER_URL . '/assets/js/settings.js',
@@ -181,7 +184,7 @@ class Page {
 		\wp_register_script(
 			'progress-planner-todo',
 			PROGRESS_PLANNER_URL . '/assets/js/todo.js',
-			[ 'jquery-ui-sortable', 'progress-planner-ajax', 'wp-util' ],
+			[ 'jquery-ui-sortable', 'progress-planner-ajax', 'wp-util', 'progress-planner-grid-masonry' ],
 			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/todo.js' ),
 			true
 		);
@@ -213,7 +216,7 @@ class Page {
 			[
 				'ajaxUrl'   => \admin_url( 'admin-ajax.php' ),
 				'nonce'     => \wp_create_nonce( 'progress_planner_todo' ),
-				'listItems' => \Progress_Planner\Todo::get_items(),
+				'listItems' => $progress_planner->get_todo()->get_items(),
 				'i18n'      => [
 					'drag'             => \esc_html__( 'Drag to reorder', 'progress-planner' ),
 					/* translators: %s: The task content. */
@@ -256,6 +259,7 @@ class Page {
 			\wp_enqueue_script( 'progress-planner-todo' );
 			\wp_enqueue_script( 'progress-planner-settings' );
 			\wp_enqueue_script( 'progress-planner-suggested-tasks' );
+			\wp_enqueue_script( 'progress-planner-grid-masonry' );
 		}
 
 		if ( 'progress-planner_page_progress-planner-settings' === $current_screen->id ) {
@@ -269,12 +273,26 @@ class Page {
 	 * @return void
 	 */
 	public static function enqueue_styles() {
+		$current_screen = \get_current_screen();
+		if ( ! $current_screen ) {
+			return;
+		}
+
 		\wp_enqueue_style(
 			'progress-planner-admin',
 			PROGRESS_PLANNER_URL . '/assets/css/admin.css',
 			[],
 			filemtime( PROGRESS_PLANNER_DIR . '/assets/css/admin.css' )
 		);
+
+		if ( 'progress-planner_page_progress-planner-settings' === $current_screen->id ) {
+			\wp_enqueue_style(
+				'progress-planner-settings-page',
+				PROGRESS_PLANNER_URL . '/assets/css/settings-page.css',
+				[],
+				filemtime( PROGRESS_PLANNER_DIR . '/assets/css/settings-page.css' )
+			);
+		}
 	}
 
 	/**
@@ -283,10 +301,11 @@ class Page {
 	 * @return void
 	 */
 	public function save_cpt_settings() {
+		global $progress_planner;
 		\check_ajax_referer( 'progress_planner', 'nonce', false );
 		$include_post_types = isset( $_POST['include_post_types'] ) ? \sanitize_text_field( \wp_unslash( $_POST['include_post_types'] ) ) : 'post,page';
 		$include_post_types = \explode( ',', $include_post_types );
-		\Progress_Planner\Settings::set( 'include_post_types', $include_post_types );
+		$progress_planner->get_settings()->set( 'include_post_types', $include_post_types );
 
 		\wp_send_json_success(
 			[

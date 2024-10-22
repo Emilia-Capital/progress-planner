@@ -8,7 +8,6 @@
 namespace Progress_Planner\Suggested_Tasks;
 
 use Progress_Planner\Suggested_Tasks\API as Suggested_Tasks_API;
-use Progress_Planner\Suggested_Tasks;
 
 /**
  * Handle scripts for the Suggested Tasks.
@@ -48,6 +47,7 @@ class Scripts {
 	 * @return void
 	 */
 	public function suggested_task_action() {
+		global $progress_planner;
 		// Check the nonce.
 		if ( ! \check_ajax_referer( 'progress_planner', 'nonce', false ) ) {
 			\wp_send_json_error( [ 'message' => \esc_html__( 'Invalid nonce.', 'progress-planner' ) ] );
@@ -62,13 +62,13 @@ class Scripts {
 
 		switch ( $action ) {
 			case 'complete':
-				Suggested_Tasks::mark_task_as_completed( $task_id );
+				$progress_planner->get_suggested_tasks()->mark_task_as_completed( $task_id );
 				$updated = true;
 				break;
 
 			case 'snooze':
 				$duration = isset( $_POST['duration'] ) ? \sanitize_text_field( \wp_unslash( $_POST['duration'] ) ) : '';
-				$updated  = Suggested_Tasks::mark_task_as_snoozed( $task_id, $duration );
+				$updated  = $progress_planner->get_suggested_tasks()->mark_task_as_snoozed( $task_id, $duration );
 				break;
 
 			default:
@@ -88,10 +88,26 @@ class Scripts {
 	 * @return void
 	 */
 	public function register_scripts() {
+		global $progress_planner;
+
+		\wp_register_script(
+			'particles-confetti-js',
+			PROGRESS_PLANNER_URL . '/assets/js/vendor/tsparticles.confetti.bundle.min.js',
+			[],
+			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/vendor/tsparticles.confetti.bundle.min.js' ),
+			true
+		);
+
+		$pending_celebration = $progress_planner->get_suggested_tasks()->get_pending_celebration();
+		$deps                = [ 'progress-planner-todo', 'progress-planner-grid-masonry' ];
+		if ( ! empty( $pending_celebration ) ) {
+			$deps[] = 'particles-confetti-js';
+		}
+
 		\wp_register_script(
 			'progress-planner-suggested-tasks',
 			PROGRESS_PLANNER_URL . '/assets/js/suggested-tasks.js',
-			[ 'progress-planner-todo' ],
+			$deps,
 			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/suggested-tasks.js' ),
 			true
 		);

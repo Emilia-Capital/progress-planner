@@ -5,12 +5,12 @@
  * @package Progress_Planner
  */
 
-namespace Progress_Planner\Popups;
+namespace Progress_Planner\Popovers;
 
 /**
  * Activity Scores Widget.
  */
-abstract class Popup {
+abstract class Popover {
 
 	/**
 	 * The popover ID.
@@ -18,13 +18,6 @@ abstract class Popup {
 	 * @var string
 	 */
 	protected $id;
-
-	/**
-	 * Constructor.
-	 */
-	public function __construct() {
-		$this->render();
-	}
 
 	/**
 	 * Render the triggering button.

@@ -7,9 +7,9 @@
 
 namespace Progress_Planner\Widgets;
 
-use Progress_Planner\Base;
 use Progress_Planner\Widgets\Widget;
-use Progress_Planner\Chart;
+use Progress_Planner\Goals\Goal_Recurring;
+use Progress_Planner\Goals\Goal;
 
 /**
  * Activity Scores Widget.
@@ -22,22 +22,6 @@ final class Activity_Scores extends Widget {
 	 * @var string
 	 */
 	protected $id = 'activity-scores';
-
-	/**
-	 * Render the widget content.
-	 */
-	public function the_content() {
-		// @todo "past months" should be "past month" if the website is not older than a month yet.
-		?>
-		<h2 class="prpl-widget-title">
-			<?php \esc_html_e( 'Longterm activity scores', 'progress-planner' ); ?>
-		</h2>
-		<p><?php \esc_html_e( 'Check out your website activity in the past months:', 'progress-planner' ); ?></p>
-		<div class="prpl-graph-wrapper">
-			<?php ( new Chart() )->the_chart( $this->get_chart_args() ); ?>
-		</div>
-		<?php
-	}
 
 	/**
 	 * The color callback.
@@ -74,53 +58,158 @@ final class Activity_Scores extends Widget {
 	}
 
 	/**
-	 * Get the chart args.
+	 * Print the score gauge.
 	 *
-	 * @return array The chart args.
+	 * @return void
 	 */
-	public function get_chart_args() {
+	public function print_score_gauge() {
+		include \PROGRESS_PLANNER_DIR . '/views/page-widgets/parts/activity-scores-gauge.php'; // phpcs:ignore PEAR.Files.IncludingFile.UseRequire
+	}
+
+	/**
+	 * Get the score.
+	 *
+	 * @return int The score.
+	 */
+	public static function get_score() {
+		global $progress_planner;
+		$activities = $progress_planner->get_query()->query_activities(
+			[
+				// Use 31 days to take into account
+				// the activities score decay from previous activities.
+				'start_date' => new \DateTime( '-31 days' ),
+			]
+		);
+
+		$score        = 0;
+		$current_date = new \DateTime();
+		foreach ( $activities as $activity ) {
+			$score += $activity->get_points( $current_date );
+		}
+		$score = min( 100, max( 0, $score ) );
+
+		// Get the number of pending updates.
+		$pending_updates = \wp_get_update_data()['counts']['total'];
+
+		// Reduce points for pending updates.
+		$score -= min( min( $score / 2, 25 ), $pending_updates * 5 );
+		return (int) floor( $score );
+	}
+
+	/**
+	 * Get the checklist results.
+	 *
+	 * @return array<string, bool> The checklist results.
+	 */
+	public function get_checklist_results() {
+		$items   = $this->get_checklist();
+		$results = [];
+		foreach ( $items as $item ) {
+			$results[ $item['label'] ] = $item['callback']();
+		}
+		return $results;
+	}
+
+	/**
+	 * Get the checklist items.
+	 *
+	 * @return array The checklist items.
+	 */
+	public function get_checklist() {
 		return [
-			'query_params'   => [],
-			'dates_params'   => [
-				'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) )->modify( $this->get_range() ),
-				'end'       => new \DateTime(),
-				'frequency' => $this->get_frequency(),
-				'format'    => 'M',
+			[
+				'label'    => \esc_html__( 'published content', 'progress-planner' ),
+				'callback' => function () {
+					global $progress_planner;
+					$events = $progress_planner->get_query()->query_activities(
+						[
+							'start_date' => new \DateTime( '-7 days' ),
+							'category'   => 'content',
+							'type'       => 'publish',
+						]
+					);
+					return count( $events ) > 0;
+				},
 			],
-			'chart_params'   => [
-				'type'    => 'bar',
-				'options' => [
-					'responsive'          => true,
-					'maintainAspectRatio' => false,
-					'pointStyle'          => false,
-					'plugins'             => [
-						'legend' => [
-							'display' => false,
-						],
-					],
-					'scales'              => [
-						'yAxis' => [
-							'min' => 0,
-							'max' => 100,
-						],
-					],
-				],
+			[
+				'label'    => \esc_html__( 'updated content', 'progress-planner' ),
+				'callback' => function () {
+					global $progress_planner;
+					$events = $progress_planner->get_query()->query_activities(
+						[
+							'start_date' => new \DateTime( '-7 days' ),
+							'category'   => 'content',
+							'type'       => 'update',
+						]
+					);
+					return count( $events ) > 0;
+				},
 			],
-			'count_callback' => function ( $activities, $date ) {
-				$score = 0;
-				foreach ( $activities as $activity ) {
-					$score += $activity->get_points( $date );
-				}
-				$target = Base::$points_config['score-target'];
-				return $score * 100 / $target;
-			},
-			'compound'       => false,
-			'normalized'     => true,
-			'colors'         => [
-				'background' => [ $this, 'get_color' ],
-				'border'     => [ $this, 'get_color' ],
+			[
+				'label'    => 0 === \wp_get_update_data()['counts']['total']
+					? \esc_html__( 'performed all updates', 'progress-planner' )
+					: '<a href="' . \esc_url( \admin_url( 'update-core.php' ) ) . '">' . \esc_html__( 'Perform all updates', 'progress-planner' ) . '</a>',
+				'callback' => function () {
+					return ! \wp_get_update_data()['counts']['total'];
+				},
 			],
-			'max'            => 100,
 		];
+	}
+
+	/**
+	 * Get the gauge color.
+	 *
+	 * @param int $score The score.
+	 *
+	 * @return string The color.
+	 */
+	protected function get_gauge_color( $score ) {
+		if ( $score >= 75 ) {
+			return 'var(--prpl-color-accent-green)';
+		}
+		if ( $score >= 50 ) {
+			return 'var(--prpl-color-accent-orange)';
+		}
+		return 'var(--prpl-color-accent-red)';
+	}
+
+	/**
+	 * Get the personal record goal.
+	 *
+	 * @return array
+	 */
+	public function personal_record_callback() {
+		$goal = Goal_Recurring::get_instance(
+			'weekly_post_record',
+			[
+				'class_name'  => Goal::class,
+				'id'          => 'weekly_post',
+				'title'       => \esc_html__( 'Write a weekly blog post', 'progress-planner' ),
+				'description' => \esc_html__( 'Streak: The number of weeks this goal has been accomplished consistently.', 'progress-planner' ),
+				'status'      => 'active',
+				'priority'    => 'low',
+				'evaluate'    => function ( $goal_object ) {
+					global $progress_planner;
+					return (bool) count(
+						$progress_planner->get_query()->query_activities(
+							[
+								'category'   => 'content',
+								'type'       => 'publish',
+								'start_date' => $goal_object->get_details()['start_date'],
+								'end_date'   => $goal_object->get_details()['end_date'],
+							]
+						)
+					);
+				},
+			],
+			[
+				'frequency'     => 'weekly',
+				'start'         => new \DateTime( '-2 years' ),
+				'end'           => new \DateTime(), // Today.
+				'allowed_break' => 0, // Do not allow breaks in the streak.
+			]
+		);
+
+		return $goal->get_streak();
 	}
 }

@@ -1,4 +1,4 @@
-/* global progressPlannerSuggestedTasks, jQuery */
+/* global progressPlannerSuggestedTasks, jQuery, confetti */
 const PRPL_SUGGESTED_TASK_CLASSNAME = 'prpl-suggested-task';
 const PRPL_SUGGESTED_TASKS_MAX_ITEMS = 5;
 
@@ -144,6 +144,17 @@ const progressPlannerInjectSuggestedTodoItem = ( details ) => {
 	// Remove the ID attribute.
 	item.removeAttribute( 'id' );
 
+	// Hide the info button if the description is empty.
+	if (
+		'string' === typeof details.description &&
+		'' === details.description.trim()
+	) {
+		const infoButton = item.querySelector( 'button[data-action="info"]' );
+		if ( !! infoButton ) {
+			infoButton.style.display = 'none';
+		}
+	}
+
 	// Replace placeholders with the actual values.
 	const itemHTML = item.outerHTML
 		.replace( new RegExp( '{taskTitle}', 'g' ), details.title )
@@ -160,7 +171,7 @@ const progressPlannerInjectSuggestedTodoItem = ( details ) => {
 	if ( ! parent ) {
 		// Inject the item into the list.
 		document
-			.querySelector( '.prpl-suggested-todos-list' )
+			.querySelector( '.prpl-suggested-tasks-list' )
 			.insertAdjacentHTML( 'beforeend', itemHTML );
 	} else {
 		const parentItem = document.querySelector(
@@ -216,29 +227,94 @@ const prplSuggestedTodoItemListeners = ( item ) => {
 
 			switch ( action ) {
 				case 'snooze':
+					item.classList.remove( 'prpl-suggested-task-info-open' );
+					item.classList.toggle( 'prpl-suggested-task-snooze-open' );
+					break;
+
+				case 'close-snooze':
+					item.classList.remove( 'prpl-suggested-task-snooze-open' );
 					item.querySelector(
-						'.prpl-suggested-snooze-duration-selector'
-					).classList.toggle( 'hidden' );
-					item.querySelector(
-						'.prpl-suggested-snooze-duration'
-					).addEventListener( 'change', function () {
-						progressPlannerSnoozeTask(
-							button.getAttribute( 'data-task-id' ),
-							this.value
-						);
-					} );
+						'.prpl-suggested-snooze-duration-selector.prpl-toggle-radio-group-open'
+					)?.classList.remove( 'prpl-toggle-radio-group-open' );
 					break;
 
 				case 'info':
 				case 'close-info':
-					item.querySelector(
-						'.prpl-suggested-task-info'
-					).classList.toggle( 'hidden' );
+					item.classList.remove( 'prpl-suggested-task-snooze-open' );
+					item.classList.toggle( 'prpl-suggested-task-info-open' );
 					break;
 			}
 		} );
 	} );
+
+	// Toggle snooze duration radio group.
+	item.querySelector( '.prpl-toggle-radio-group' ).addEventListener(
+		'click',
+		function () {
+			this.closest(
+				'.prpl-suggested-snooze-duration-selector'
+			).classList.toggle( 'prpl-toggle-radio-group-open' );
+		}
+	);
+
+	// Handle snooze duration radio group change.
+	item.querySelectorAll(
+		'.prpl-snooze-duration-radio-group input[type="radio"]'
+	).forEach( ( radioElement ) => {
+		radioElement.addEventListener( 'change', function () {
+			progressPlannerSnoozeTask(
+				item.getAttribute( 'data-task-id' ),
+				this.value
+			);
+		} );
+	} );
 };
+
+const prplTriggerConfetti = () => {
+	const prplConfettiDefaults = {
+		spread: 360,
+		ticks: 50,
+		gravity: 0,
+		decay: 0.94,
+		startVelocity: 30,
+		shapes: [ 'star' ],
+		colors: [ 'FFE400', 'FFBD00', 'E89400', 'FFCA6C', 'FDFFB8' ],
+	};
+
+	const progressPlannerRenderAttemptshoot = () => {
+		confetti( {
+			...prplConfettiDefaults,
+			particleCount: 40,
+			scalar: 1.2,
+			shapes: [ 'star' ],
+		} );
+
+		confetti( {
+			...prplConfettiDefaults,
+			particleCount: 10,
+			scalar: 0.75,
+			shapes: [ 'circle' ],
+		} );
+	};
+
+	setTimeout( progressPlannerRenderAttemptshoot, 0 );
+	setTimeout( progressPlannerRenderAttemptshoot, 100 );
+	setTimeout( progressPlannerRenderAttemptshoot, 200 );
+};
+
+const prplPendingCelebration =
+	progressPlannerSuggestedTasks.tasks.pending_celebration;
+if ( prplPendingCelebration && prplPendingCelebration.length ) {
+	setTimeout( () => {
+		// Trigger the celebration event.
+		document.dispatchEvent( new Event( 'prplCelebrateTasks' ) );
+	}, 3000 );
+}
+
+// Create a new custom event to trigger the celebration.
+document.addEventListener( 'prplCelebrateTasks', () => {
+	prplTriggerConfetti();
+} );
 
 // Populate the list on load.
 document.addEventListener( 'DOMContentLoaded', () => {
@@ -248,5 +324,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
 		progressPlannerGetNextItem()
 	) {
 		progressPlannerInjectNextItem();
+		const event = new Event( 'prplResizeAllGridItemsEvent' );
+		document.dispatchEvent( event );
 	}
 } );

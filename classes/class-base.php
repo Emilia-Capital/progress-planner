@@ -7,7 +7,6 @@
 
 namespace Progress_Planner;
 
-use Progress_Planner\Query;
 use Progress_Planner\Admin\Page as Admin_page;
 use Progress_Planner\Admin\Dashboard_Widget_Score;
 use Progress_Planner\Admin\Tour;
@@ -16,8 +15,6 @@ use Progress_Planner\Admin\Page_Settings as Admin_Page_Settings;
 use Progress_Planner\Actions\Content as Actions_Content;
 use Progress_Planner\Actions\Content_Scan as Actions_Content_Scan;
 use Progress_Planner\Actions\Maintenance as Actions_Maintenance;
-use Progress_Planner\Settings;
-use Progress_Planner\Page_Types;
 use Progress_Planner\Badges\Badge\Wonderful_Writer as Badge_Wonderful_Writer;
 use Progress_Planner\Badges\Badge\Bold_Blogger as Badge_Bold_Blogger;
 use Progress_Planner\Badges\Badge\Awesome_Author as Badge_Awesome_Author;
@@ -27,7 +24,6 @@ use Progress_Planner\Badges\Badge\Super_Site_Specialist as Badge_Super_Site_Spec
 use Progress_Planner\Rest_API;
 use Progress_Planner\Todo;
 use Progress_Planner\Suggested_Tasks;
-use Progress_Planner\Lessons;
 
 /**
  * Main plugin class.
@@ -35,11 +31,67 @@ use Progress_Planner\Lessons;
 class Base {
 
 	/**
-	 * An instance of this class.
+	 * An instance of the \Progress_Planner\Settings class.
 	 *
-	 * @var \Progress_Planner\Base
+	 * @var \Progress_Planner\Settings|null
 	 */
-	private static $instance;
+	private $settings;
+
+	/**
+	 * An instance of the Query class.
+	 *
+	 * @var \Progress_Planner\Query|null
+	 */
+	private $query;
+
+	/**
+	 * An instance of the \Progress_Planner\Date class.
+	 *
+	 * @var \Progress_Planner\Date|null
+	 */
+	private $date;
+
+	/**
+	 * An instance of the \Progress_Planner\Lessons class.
+	 *
+	 * @var \Progress_Planner\Lessons|null
+	 */
+	private $lessons;
+
+	/**
+	 * An instance of the \Progress_Planner\Page_Types class.
+	 *
+	 * @var \Progress_Planner\Page_Types|null
+	 */
+	private $page_types;
+
+	/**
+	 * An instance of the \Progress_Planner\Chart class.
+	 *
+	 * @var \Progress_Planner\Chart|null
+	 */
+	public $chart;
+
+	/**
+	 * An instance of the \Progress_Planner\Suggested_Tasks class.
+	 *
+	 * @var \Progress_Planner\Suggested_Tasks|null
+	 */
+	private $suggested_tasks;
+
+	/**
+	 * An instance of the \Progress_Planner\Todo class.
+	 *
+	 * @var \Progress_Planner\Todo|null
+	 */
+	private $todo;
+
+	/**
+	 * An object containing all popovers.
+	 *
+	 * @var \stdClass|null
+	 */
+	private $popovers;
 
 	/**
 	 * An array of configuration values for points awarded by action-type.
@@ -68,22 +120,9 @@ class Base {
 	];
 
 	/**
-	 * Get the single instance of this class.
-	 *
-	 * @return \Progress_Planner\Base
-	 */
-	public static function get_instance() {
-		if ( null === self::$instance ) {
-			self::$instance = new self();
-		}
-
-		return self::$instance;
-	}
-
-	/**
 	 * Constructor.
 	 */
-	private function __construct() {
+	public function __construct() {
 		$this->init();
 	}
 
@@ -136,20 +175,119 @@ class Base {
 		// To-do.
 		new Todo();
 
-		// Suggested tasks.
-		new Suggested_Tasks();
-
 		\add_filter( 'plugin_action_links_' . plugin_basename( PROGRESS_PLANNER_FILE ), [ $this, 'add_action_links' ] );
 		\add_action( 'enqueue_block_editor_assets', [ $this, 'enqueue_editor_script' ] );
 	}
 
 	/**
-	 * Get the query object.
+	 * Get the settings instance.
+	 *
+	 * @return \Progress_Planner\Settings
+	 */
+	public function get_settings() {
+		if ( ! $this->settings ) {
+			$this->settings = new Settings();
+		}
+		return $this->settings;
+	}
+
+	/**
+	 * Get the query instance.
 	 *
 	 * @return \Progress_Planner\Query
 	 */
 	public function get_query() {
-		return Query::get_instance();
+		if ( ! $this->query ) {
+			$this->query = new Query();
+		}
+		return $this->query;
+	}
+
+	/**
+	 * Get the date instance.
+	 *
+	 * @return \Progress_Planner\Date
+	 */
+	public function get_date() {
+		if ( ! $this->date ) {
+			$this->date = new Date();
+		}
+		return $this->date;
+	}
+
+	/**
+	 * Get the lessons instance.
+	 *
+	 * @return \Progress_Planner\Lessons
+	 */
+	public function get_lessons() {
+		if ( ! $this->lessons ) {
+			$this->lessons = new Lessons();
+		}
+		return $this->lessons;
+	}
+
+	/**
+	 * Get the page types instance.
+	 *
+	 * @return \Progress_Planner\Page_Types
+	 */
+	public function get_page_types() {
+		if ( ! $this->page_types ) {
+			$this->page_types = new Page_Types();
+		}
+		return $this->page_types;
+	}
+
+	/**
+	 * Get the chart instance.
+	 *
+	 * @return \Progress_Planner\Chart
+	 */
+	public function get_chart() {
+		if ( ! $this->chart ) {
+			$this->chart = new Chart();
+		}
+		return $this->chart;
+	}
+
+	/**
+	 * Get the suggested tasks instance.
+	 *
+	 * @return \Progress_Planner\Suggested_Tasks
+	 */
+	public function get_suggested_tasks() {
+		if ( ! $this->suggested_tasks ) {
+			$this->suggested_tasks = new Suggested_Tasks();
+		}
+		return $this->suggested_tasks;
+	}
+
+	/**
+	 * Get the todo instance.
+	 *
+	 * @return \Progress_Planner\Todo
+	 */
+	public function get_todo() {
+		if ( ! $this->todo ) {
+			$this->todo = new Todo();
+		}
+		return $this->todo;
+	}
+
+	/**
+	 * Get the popovers instance.
+	 *
+	 * @return \stdClass
+	 */
+	public function get_popovers() {
+		if ( ! $this->popovers ) {
+			$this->popovers = new \stdClass();
+		}
+		$this->popovers->badges   = new \Progress_Planner\Popovers\Badges();
+		$this->popovers->settings = new \Progress_Planner\Popovers\Settings();
+
+		return $this->popovers;
 	}
 
 	/**
@@ -157,11 +295,11 @@ class Base {
 	 *
 	 * @return \DateTime
 	 */
-	public static function get_activation_date() {
-		$activation_date = Settings::get( 'activation_date' );
+	public function get_activation_date() {
+		$activation_date = $this->get_settings()->get( 'activation_date' );
 		if ( ! $activation_date ) {
 			$activation_date = new \DateTime();
-			Settings::set( 'activation_date', $activation_date->format( 'Y-m-d' ) );
+			$this->get_settings()->set( 'activation_date', $activation_date->format( 'Y-m-d' ) );
 			return $activation_date;
 		}
 		return \DateTime::createFromFormat( 'Y-m-d', $activation_date );
@@ -204,9 +342,9 @@ class Base {
 			'progress-planner-editor',
 			'progressPlannerEditor',
 			[
-				'lessons'         => ( new Lessons() )->get_remote_api_items(),
-				'pageTypes'       => ( new Page_Types() )->get_page_types(),
-				'defaultPageType' => Page_Types::get_default_page_type( (string) \get_post_type(), (int) \get_the_ID() ),
+				'lessons'         => $this->get_lessons()->get_remote_api_items(),
+				'pageTypes'       => $this->get_page_types()->get_page_types(),
+				'defaultPageType' => $this->get_page_types()->get_default_page_type( (string) \get_post_type(), (int) \get_the_ID() ),
 				'i18n'            => [
 					'pageType'               => \esc_html__( 'Page type', 'progress-planner' ),
 					'progressPlannerSidebar' => \esc_html__( 'Progress Planner Sidebar', 'progress-planner' ),
