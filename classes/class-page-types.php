@@ -7,8 +7,6 @@
 
 namespace Progress_Planner;
 
-use Progress_Planner\Lessons;
-
 /**
  * Class Page_Types
  */
@@ -76,7 +74,8 @@ class Page_Types {
 	 * @return void
 	 */
 	public function maybe_add_terms() {
-		$lessons = ( new Lessons() )->get_remote_api_items();
+		global $progress_planner;
+		$lessons = $progress_planner->lessons->get_remote_api_items();
 		foreach ( $lessons as $lesson ) {
 			if ( \term_exists( $lesson['settings']['id'], self::TAXONOMY_NAME ) ) {
 				continue;
@@ -98,12 +97,13 @@ class Page_Types {
 	 * @return void
 	 */
 	public function maybe_update_terms() {
+		global $progress_planner;
 		$updated = \get_transient( 'progress_planner_page_types_updated' );
 		if ( $updated ) {
 			return;
 		}
 
-		$lessons = ( new Lessons() )->get_remote_api_items();
+		$lessons = $progress_planner->lessons->get_remote_api_items();
 		foreach ( $lessons as $lesson ) {
 			$term = \get_term_by( 'slug', $lesson['settings']['id'], self::TAXONOMY_NAME );
 			if ( ! $term instanceof \WP_Term ) {

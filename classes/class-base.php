@@ -25,7 +25,6 @@ use Progress_Planner\Badges\Badge\Super_Site_Specialist as Badge_Super_Site_Spec
 use Progress_Planner\Rest_API;
 use Progress_Planner\Todo;
 use Progress_Planner\Suggested_Tasks;
-use Progress_Planner\Lessons;
 
 /**
  * Main plugin class.
@@ -45,6 +44,13 @@ class Base {
 	 * @var \Progress_Planner\Date
 	 */
 	public $date;
+
+	/**
+	 * An instance of the \Progress_Planner\Lessons class.
+	 *
+	 * @var \Progress_Planner\Lessons
+	 */
+	public $lessons;
 
 	/**
 	 * An array of configuration values for points awarded by action-type.
@@ -96,8 +102,10 @@ class Base {
 			new Playground();
 		}
 
-		$this->query = new Query();
-		$this->date  = new Date();
+		$this->query   = new Query();
+		$this->date    = new Date();
+		$this->lessons = new Lessons();
+
 		// Basic classes.
 		if ( \is_admin() && \current_user_can( 'publish_posts' ) ) {
 			new Admin_Page();
@@ -188,7 +196,7 @@ class Base {
 			'progress-planner-editor',
 			'progressPlannerEditor',
 			[
-				'lessons'         => ( new Lessons() )->get_remote_api_items(),
+				'lessons'         => $this->lessons->get_remote_api_items(),
 				'pageTypes'       => ( new Page_Types() )->get_page_types(),
 				'defaultPageType' => Page_Types::get_default_page_type( (string) \get_post_type(), (int) \get_the_ID() ),
 				'i18n'            => [
