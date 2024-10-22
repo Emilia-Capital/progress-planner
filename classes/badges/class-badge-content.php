@@ -7,8 +7,6 @@
 
 namespace Progress_Planner\Badges;
 
-use Progress_Planner\Badges\Badge;
-
 /**
  * Badge class.
  */

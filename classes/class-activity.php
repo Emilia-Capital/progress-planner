@@ -70,7 +70,7 @@ class Activity {
 	 */
 	public function save() {
 		global $progress_planner;
-		$existing = $progress_planner->get_query()->get_instance()->query_activities(
+		$existing = $progress_planner->get_query()->query_activities(
 			[
 				'category' => $this->category,
 				'type'     => $this->type,

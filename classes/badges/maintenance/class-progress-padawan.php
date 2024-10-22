@@ -5,21 +5,21 @@
  * @package Progress_Planner
  */
 
-namespace Progress_Planner\Badges\Badge;
+namespace Progress_Planner\Badges\Maintenance;
 
-use Progress_Planner\Badges\Badge_Content;
+use Progress_Planner\Badges\Badge_Maintenance;
 
 /**
  * Badge class.
  */
-final class Bold_Blogger extends Badge_Content {
+final class Progress_Padawan extends Badge_Maintenance {
 
 	/**
 	 * The badge ID.
 	 *
 	 * @var string
 	 */
-	protected $id = 'bold-blogger';
+	protected $id = 'progress-padawan';
 
 	/**
 	 * The badge name.
@@ -27,7 +27,7 @@ final class Bold_Blogger extends Badge_Content {
 	 * @return string
 	 */
 	public function get_name() {
-		return \__( 'Bold Blogger', 'progress-planner' );
+		return \__( 'Progress Padawan', 'progress-planner' );
 	}
 
 	/**
@@ -36,8 +36,8 @@ final class Bold_Blogger extends Badge_Content {
 	 * @return string
 	 */
 	public function get_description() {
-		/* translators: %d: The number of new posts to write. */
-		return sprintf( \esc_html__( 'Write %d new posts or pages', 'progress-planner' ), 30 );
+		/* translators: %d: The number of weeks. */
+		return sprintf( \esc_html__( '%d weeks streak', 'progress-planner' ), 6 );
 	}
 
 	/**
@@ -46,7 +46,6 @@ final class Bold_Blogger extends Badge_Content {
 	 * @return array
 	 */
 	public function progress_callback() {
-		global $progress_planner;
 		$saved_progress = $this->get_saved();
 
 		// If we have a saved value, return it.
@@ -54,19 +53,9 @@ final class Bold_Blogger extends Badge_Content {
 			return $saved_progress;
 		}
 
-		// Get the number of new posts published.
-		$new_count = count(
-			$progress_planner->get_query()->query_activities(
-				[
-					'category'   => 'content',
-					'type'       => 'publish',
-					'start_date' => $progress_planner->get_activation_date(),
-				],
-			)
-		);
-
-		$percent   = min( 100, floor( 100 * $new_count / 30 ) );
-		$remaining = 30 - min( 30, $new_count );
+		$max_streak = $this->get_goal()->get_streak()['max_streak'];
+		$percent    = min( 100, floor( 100 * $max_streak / 6 ) );
+		$remaining  = 6 - min( 6, $max_streak );
 
 		$this->save_progress(
 			[

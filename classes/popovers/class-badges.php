@@ -15,24 +15,6 @@ use Progress_Planner\Badges as Root_Badges;
 final class Badges extends Popover {
 
 	/**
-	 * An array of badge IDs.
-	 *
-	 * @var array<string, string[]>
-	 */
-	const BADGES = [
-		'content'     => [
-			'wonderful-writer',
-			'bold-blogger',
-			'awesome-author',
-		],
-		'maintenance' => [
-			'progress-padawan',
-			'maintenance-maniac',
-			'super-site-specialist',
-		],
-	];
-
-	/**
 	 * The popover ID.
 	 *
 	 * @var string
@@ -86,12 +68,12 @@ final class Badges extends Popover {
 	 * @return void
 	 */
 	public static function print_badges( $category ) {
+		global $progress_planner;
 		?>
-		<?php foreach ( self::BADGES[ $category ] as $badge ) : ?>
+		<?php foreach ( $progress_planner->get_badges()->get_badges( $category ) as $badge ) : ?>
 			<?php
-			$badge_progress  = Root_Badges::get_badge_progress( $badge );
+			$badge_progress  = $badge->get_progress();
 			$badge_completed = 100 === (int) $badge_progress['progress'];
-			$badge_args      = Root_Badges::get_badge( $badge );
 			?>
 			<span
 				class="prpl-badge"
@@ -100,12 +82,12 @@ final class Badges extends Popover {
 				<div class="inner">
 					<?php
 					include $badge_completed // phpcs:ignore PEAR.Files.IncludingFile.UseRequire
-						? PROGRESS_PLANNER_DIR . '/assets/images/badges/' . $badge . '.svg'
-						: PROGRESS_PLANNER_DIR . '/assets/images/badges/' . $badge . '-bw.svg';
+						? PROGRESS_PLANNER_DIR . '/assets/images/badges/' . $badge->get_id() . '.svg'
+						: PROGRESS_PLANNER_DIR . '/assets/images/badges/' . $badge->get_id() . '-bw.svg';
 					?>
-					<?php echo \esc_html( Root_Badges::get_badge( $badge )['name'] ); ?>
+					<?php echo \esc_html( $badge->get_name() ); ?>
 				</div>
-				<p><?php echo \esc_html( Root_Badges::get_badge( $badge )['description'] ); ?></p>
+				<p><?php echo \esc_html( $badge->get_description() ); ?></p>
 			</span>
 		<?php endforeach; ?>
 		<?php
@@ -119,16 +101,17 @@ final class Badges extends Popover {
 	 * @return void
 	 */
 	public static function print_progressbar( $context ) {
-		$badges = self::BADGES[ $context ];
+		global $progress_planner;
+		$badges = $progress_planner->get_badges()->get_badges( $context );
 		?>
 		<div class="progress-badges">
 			<span class="badges-popover-progress-total">
-				<span style="width: <?php echo (int) Root_Badges::get_badge_progress( end( $badges ) )['progress']; ?>%"></span>
+				<span style="width: <?php echo (int) end( $badges )->get_progress()['progress']; ?>%"></span>
 			</span>
 			<div class="indicators">
 				<?php foreach ( $badges as $badge ) : ?>
 					<div class="indicator">
-						<?php $badge_progress = Root_Badges::get_badge_progress( $badge ); ?>
+						<?php $badge_progress = $badge->get_progress(); ?>
 						<span class="indicator-label">
 							<?php if ( 0 === (int) $badge_progress['remaining'] ) : ?>
 								✔️

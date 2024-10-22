@@ -7,7 +7,7 @@
 
 namespace Progress_Planner\Widgets;
 
-use Progress_Planner\Badges\Badge\Monthly;
+use Progress_Planner\Badges\Monthly;
 
 /**
  * Published Content Widget.
@@ -26,7 +26,7 @@ final class Suggested_Tasks extends Widget {
 	 *
 	 * @return int The score.
 	 */
-	public static function get_score() {
+	public function get_score() {
 		global $progress_planner;
 		$activities = $progress_planner->get_query()->query_activities(
 			[

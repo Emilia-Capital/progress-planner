@@ -22,29 +22,6 @@ abstract class Badge {
 	protected $id;
 
 	/**
-	 * Constructor.
-	 */
-	public function __construct() {
-		$this->register_badge();
-	}
-
-	/**
-	 * Register the badge.
-	 *
-	 * @return void
-	 */
-	public function register_badge() {
-		Badges::register_badge(
-			$this->id,
-			[
-				'name'              => $this->get_name(),
-				'description'       => $this->get_description(),
-				'progress_callback' => [ $this, 'progress_callback' ],
-			]
-		);
-	}
-
-	/**
 	 * Get the badge ID.
 	 *
 	 * @return string
@@ -82,6 +59,15 @@ abstract class Badge {
 	protected function get_saved() {
 		global $progress_planner;
 		return $progress_planner->get_settings()->get( [ 'badges', $this->id ], [] );
+	}
+
+	/**
+	 * Get the badge progress.
+	 *
+	 * @return array
+	 */
+	public function get_progress() {
+		return $this->progress_callback();
 	}
 
 	/**

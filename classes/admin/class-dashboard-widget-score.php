@@ -8,7 +8,6 @@
 namespace Progress_Planner\Admin;
 
 use Progress_Planner\Admin\Dashboard_Widget;
-use Progress_Planner\Badges;
 use Progress_Planner\Admin\Page;
 
 /**
@@ -67,9 +66,10 @@ class Dashboard_Widget_Score extends Dashboard_Widget {
 	 * @return array
 	 */
 	public function get_badge_details( $category = 'content' ) {
+		global $progress_planner;
 		static $cached = [
-			'content' => false,
-			'streak'  => false,
+			'content'     => false,
+			'maintenance' => false,
 		];
 
 		if ( $cached[ $category ] ) {
@@ -77,20 +77,26 @@ class Dashboard_Widget_Score extends Dashboard_Widget {
 		}
 
 		$result = [];
-		$badges = [
-			'content' => [ 'wonderful-writer', 'bold-blogger', 'awesome-author' ],
-			'streak'  => [ 'progress-padawan', 'maintenance-maniac', 'super-site-specialist' ],
-		];
 
 		// Get the badge to display.
-		foreach ( $badges[ $category ] as $badge ) {
-			$progress = Badges::get_badge_progress( $badge );
+		foreach ( $progress_planner->get_badges()->get_badges( $category ) as $badge ) {
+			$progress = $badge->get_progress();
 			if ( 100 > $progress['progress'] ) {
 				break;
 			}
 		}
+
+		if ( ! isset( $badge ) || ! isset( $progress ) ) {
+			return $result;
+		}
+
 		$result['progress'] = $progress;
-		$result['badge']    = Badges::get_badge( $badge );
+		$result['badge']    = [
+			'id'                => $badge->get_id(),
+			'name'              => $badge->get_name(),
+			'description'       => $badge->get_description(),
+			'progress_callback' => [ $badge, 'progress_callback' ],
+		];
 
 		$result['color'] = 'var(--prpl-color-accent-red)';
 		if ( $result['progress']['progress'] > 50 ) {
