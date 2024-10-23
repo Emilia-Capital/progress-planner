@@ -55,7 +55,7 @@ $percentage = $score / Monthly::TARGET_POINTS;
 <hr>
 
 <h2 class="prpl-widget-title">
-	<?php \esc_html_e( 'Ravi\'s recomendations', 'progress-planner' ); ?>
+	<?php \esc_html_e( 'Ravi\'s recommendations', 'progress-planner' ); ?>
 </h2>
 
 <ul style="display:none">
