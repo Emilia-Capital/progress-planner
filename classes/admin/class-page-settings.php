@@ -57,12 +57,10 @@ class Page_Settings {
 	 * @return array
 	 */
 	public function get_tabs_settings() {
-		global $progress_planner;
-
-		$page_types = $progress_planner->get_page_types()->get_page_types();
+		$page_types = \progress_planner()->get_page_types()->get_page_types();
 
 		foreach ( $page_types as $page_type ) {
-			$type_pages = $progress_planner->get_page_types()->get_posts_by_type( 'any', $page_type['slug'], 'slug' );
+			$type_pages = \progress_planner()->get_page_types()->get_posts_by_type( 'any', $page_type['slug'], 'slug' );
 
 			$tabs[ "page-{$page_type['slug']}" ] = [
 				'title'    => sprintf(
@@ -112,15 +110,13 @@ class Page_Settings {
 	 * @return void
 	 */
 	public function store_settings_form_options() {
-		global $progress_planner;
-
 		// Check the nonce.
 		\check_admin_referer( 'prpl-settings' );
 
 		if ( isset( $_POST['pages'] ) ) {
 			foreach ( wp_unslash( $_POST['pages'] ) as $type => $page_args ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 				// Remove the post-meta from the existing posts.
-				$existing_posts = $progress_planner->get_page_types()->get_posts_by_type( 'any', $type, 'slug' );
+				$existing_posts = \progress_planner()->get_page_types()->get_posts_by_type( 'any', $type, 'slug' );
 				foreach ( $existing_posts as $post ) {
 					if ( $post->ID === (int) $page_args['id'] ) {
 						continue;
@@ -142,7 +138,7 @@ class Page_Settings {
 				}
 
 				// Add the term to the `progress_planner_page_types` taxonomy.
-				$progress_planner->get_page_types()->set_page_type_by_id( (int) $page_args['id'], $type );
+				\progress_planner()->get_page_types()->set_page_type_by_id( (int) $page_args['id'], $type );
 
 				/**
 				 * TODO: Handle the $page_args['assign-user'] and $page_args['plan-date'] values.

@@ -5,10 +5,8 @@
  * @package Progress_Planner
  */
 
-global $progress_planner;
-
-$prpl_tabs_settings = $progress_planner->get_settings_page()->get_tabs_settings();
-$prpl_page_types    = $progress_planner->get_page_types()->get_page_types();
+$prpl_tabs_settings = \progress_planner()->get_settings_page()->get_tabs_settings();
+$prpl_page_types    = \progress_planner()->get_page_types()->get_page_types();
 ?>
 
 <div class="wrap prpl-wrap prpl-settings-wrap">
