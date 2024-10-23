@@ -95,7 +95,7 @@ class Page {
 	 * @return void
 	 */
 	public function enqueue_assets( $hook ) {
-		if ( 'toplevel_page_progress-planner' !== $hook ) {
+		if ( 'toplevel_page_progress-planner' !== $hook && 'progress-planner_page_progress-planner-settings' !== $hook ) {
 			return;
 		}
 
@@ -162,6 +162,15 @@ class Page {
 			true
 		);
 
+		// Register the admin script for the settings page.
+		\wp_register_script(
+			'progress-planner-settings-page',
+			PROGRESS_PLANNER_URL . '/assets/js/settings-page.js',
+			[ 'wp-util' ],
+			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/settings-page.js' ),
+			true
+		);
+
 		// Register the admin script for the page.
 		\wp_register_script(
 			'progress-planner-admin',
@@ -219,6 +228,15 @@ class Page {
 			]
 		);
 
+		\wp_localize_script(
+			'progress-planner-settings-page',
+			'progressPlannerSettingsPage',
+			[
+				'siteUrl'    => get_site_url(),
+				'savingText' => esc_html__( 'Saving...', 'progress-planner' ),
+			]
+		);
+
 		\wp_register_script(
 			'particles-confetti-js',
 			PROGRESS_PLANNER_URL . '/assets/js/vendor/tsparticles.confetti.bundle.min.js',
@@ -256,15 +274,26 @@ class Page {
 	 * @return void
 	 */
 	public static function enqueue_scripts() {
+		$current_screen = \get_current_screen();
+		if ( ! $current_screen ) {
+			return;
+		}
+
 		self::register_scripts();
 
-		\wp_enqueue_script( 'chart-js' );
-		\wp_enqueue_script( 'progress-planner-onboard' );
-		\wp_enqueue_script( 'progress-planner-admin' );
-		\wp_enqueue_script( 'progress-planner-todo' );
-		\wp_enqueue_script( 'progress-planner-settings' );
-		\wp_enqueue_script( 'progress-planner-suggested-tasks' );
-		\wp_enqueue_script( 'progress-planner-grid-masonry' );
+		if ( 'toplevel_page_progress-planner' === $current_screen->id ) {
+			\wp_enqueue_script( 'chart-js' );
+			\wp_enqueue_script( 'progress-planner-onboard' );
+			\wp_enqueue_script( 'progress-planner-admin' );
+			\wp_enqueue_script( 'progress-planner-todo' );
+			\wp_enqueue_script( 'progress-planner-settings' );
+			\wp_enqueue_script( 'progress-planner-suggested-tasks' );
+			\wp_enqueue_script( 'progress-planner-grid-masonry' );
+		}
+
+		if ( 'progress-planner_page_progress-planner-settings' === $current_screen->id ) {
+			\wp_enqueue_script( 'progress-planner-settings-page' );
+		}
 	}
 
 	/**
@@ -273,12 +302,26 @@ class Page {
 	 * @return void
 	 */
 	public static function enqueue_styles() {
+		$current_screen = \get_current_screen();
+		if ( ! $current_screen ) {
+			return;
+		}
+
 		\wp_enqueue_style(
 			'progress-planner-admin',
 			PROGRESS_PLANNER_URL . '/assets/css/admin.css',
 			[],
 			filemtime( PROGRESS_PLANNER_DIR . '/assets/css/admin.css' )
 		);
+
+		if ( 'progress-planner_page_progress-planner-settings' === $current_screen->id ) {
+			\wp_enqueue_style(
+				'progress-planner-settings-page',
+				PROGRESS_PLANNER_URL . '/assets/css/settings-page.css',
+				[],
+				filemtime( PROGRESS_PLANNER_DIR . '/assets/css/settings-page.css' )
+			);
+		}
 	}
 
 	/**

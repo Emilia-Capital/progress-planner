@@ -83,7 +83,13 @@ class Base {
 	private $badges;
 
 	/**
-	 * An object containing helper classes.
+	 * An instance of the \Progress_Planner\Admin\Page_Settings class.
+	 *
+	 * @var \Progress_Planner\Admin\Page_Settings|null
+	 */
+	private $settings_page;
+
+	/** An object containing helper classes.
 	 *
 	 * @var \stdClass|null
 	 */
@@ -165,6 +171,7 @@ class Base {
 		// We need to initialize some classes early.
 		$this->page_types      = new Page_Types();
 		$this->settings        = new Settings();
+		$this->settings_page   = new \Progress_Planner\Admin\Page_Settings();
 		$this->suggested_tasks = new Suggested_Tasks();
 	}
 
@@ -292,7 +299,18 @@ class Base {
 	}
 
 	/**
-	 * Get the helpers instance.
+	 * Get the settings page instance.
+	 *
+	 * @return \Progress_Planner\Admin\Page_Settings
+	 */
+	public function get_settings_page() {
+		if ( ! $this->settings_page ) {
+			$this->settings_page = new \Progress_Planner\Admin\Page_Settings();
+		}
+		return $this->settings_page;
+	}
+
+	/** Get the helpers instance.
 	 *
 	 * @return \stdClass
 	 */
