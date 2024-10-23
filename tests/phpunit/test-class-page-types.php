@@ -34,16 +34,18 @@ class Page_Types_Test extends \WP_UnitTestCase {
 		\progress_planner()->get_page_types()->create_taxonomy();
 		\progress_planner()->get_page_types()->maybe_add_terms();
 
+		// Insert the homepage post.
 		self::$homepage_post_id = \wp_insert_post(
 			[
-				'post_type'  => 'page',
-				'post_name'  => 'homepage',
-				'post_title' => 'Homepage',
+				'post_type'   => 'page',
+				'post_name'   => 'homepage',
+				'post_title'  => 'Homepage',
+				'post_status' => 'publish',
 			]
 		);
 
 		// Assign the post to the "homepage" page type.
-		\wp_set_object_terms( self::$homepage_post_id, 'homepage', Page_Types::TAXONOMY_NAME );
+		\progress_planner()->get_page_types()->set_page_type_by_slug( self::$homepage_post_id, 'homepage' );
 	}
 
 	/**
@@ -114,22 +116,8 @@ class Page_Types_Test extends \WP_UnitTestCase {
 	 * @return void
 	 */
 	public function test_get_posts_by_type() {
-	}
-
-	/**
-	 * Test set_page_type_by_slug.
-	 *
-	 * @return void
-	 */
-	public function test_set_page_type_by_slug() {
-	}
-
-	/**
-	 * Test set_page_type_by_id.
-	 *
-	 * @return void
-	 */
-	public function test_set_page_type_by_id() {
+		$posts = \progress_planner()->get_page_types()->get_posts_by_type( 'page', 'homepage' );
+		$this->assertEquals( self::$homepage_post_id, $posts[0]->ID );
 	}
 
 	/**
