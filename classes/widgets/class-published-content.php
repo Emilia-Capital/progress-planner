@@ -1,16 +1,16 @@
 <?php
 /**
- * Progress_Planner widget.
+ * A widget class.
  *
  * @package Progress_Planner
  */
 
 namespace Progress_Planner\Widgets;
 
-use Progress_Planner\Widgets\Widget;
+use Progress_Planner\Widget;
 
 /**
- * Published Content Widget.
+ * Published_Content class.
  */
 final class Published_Content extends Widget {
 

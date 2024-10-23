@@ -1,6 +1,6 @@
 <?php
 /**
- * Scan existing posts and populate the options.
+ * Content actions.
  *
  * @package Progress_Planner
  */
@@ -10,7 +10,7 @@ namespace Progress_Planner\Actions;
 use Progress_Planner\Activities\Content as Content_Activity;
 
 /**
- * Scan existing posts and populate the options.
+ * Content actions.
  */
 class Content {
 

@@ -1,16 +1,14 @@
 <?php
 /**
- * Activity Scores Widget.
+ * Badges popover.
  *
  * @package Progress_Planner
  */
 
 namespace Progress_Planner\Popovers;
 
-use Progress_Planner\Badges as Root_Badges;
-
 /**
- * Activity Scores Widget.
+ * Badges popover.
  */
 final class Badges extends Popover {
 

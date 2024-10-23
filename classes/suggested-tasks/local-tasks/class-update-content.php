@@ -1,6 +1,6 @@
 <?php
 /**
- * Handle Suggestred-tasks items.
+ * Add tasks for content updates.
  *
  * @package Progress_Planner
  */
@@ -11,9 +11,9 @@ use Progress_Planner\Suggested_Tasks\Local_Tasks;
 use Progress_Planner\Activities\Content_Helpers;
 
 /**
- * Handle Suggestred-tasks items.
+ * Add tasks for content updates.
  */
-class Update_Posts extends Local_Tasks {
+class Update_Content extends Local_Tasks {
 
 	/**
 	 * The number of items to inject.
@@ -30,7 +30,7 @@ class Update_Posts extends Local_Tasks {
 	 * @return bool
 	 */
 	public function evaluate_task( $task_id ) {
-		$data = self::get_data_from_task_id( $task_id );
+		$data = $this->get_data_from_task_id( $task_id );
 		if ( ! isset( $data['type'] ) || ! isset( $data['post_id'] ) ) {
 			return false;
 		}
@@ -242,7 +242,7 @@ class Update_Posts extends Local_Tasks {
 	 *
 	 * @return array The data.
 	 */
-	public static function get_data_from_task_id( $task_id ) {
+	public function get_data_from_task_id( $task_id ) {
 		$parts = \explode( '|', $task_id );
 		$data  = [];
 		foreach ( $parts as $part ) {

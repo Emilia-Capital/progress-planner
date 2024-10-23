@@ -2,7 +2,7 @@
 /**
  * Class Settings_Test
  *
- * @package FewerTags
+ * @package Progress_Planner\Tests
  */
 
 namespace Progress_Planner\Tests;

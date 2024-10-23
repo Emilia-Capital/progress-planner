@@ -1,16 +1,17 @@
 <?php
 /**
- * Progress_Planner widget.
+ * A widget class.
  *
  * @package Progress_Planner
  */
 
 namespace Progress_Planner\Widgets;
 
+use Progress_Planner\Widget;
 use Progress_Planner\Badges\Monthly;
 
 /**
- * Published Content Widget.
+ * Suggested_Tasks class.
  */
 final class Suggested_Tasks extends Widget {
 

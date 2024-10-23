@@ -1,6 +1,6 @@
 <?php
 /**
- * Handle Suggestred-tasks items.
+ * Add tasks for Core updates.
  *
  * @package Progress_Planner
  */
@@ -10,7 +10,7 @@ namespace Progress_Planner\Suggested_Tasks\Local_Tasks;
 use Progress_Planner\Suggested_Tasks\Local_Tasks;
 
 /**
- * Handle Suggestred-tasks items.
+ * Add tasks for Core updates.
  */
 class Update_Core extends Local_Tasks {
 
