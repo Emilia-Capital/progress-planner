@@ -17,10 +17,33 @@ class Page_Types_Test extends \WP_UnitTestCase {
 	const REMOTE_API_RESPONSE = '[{"id":1619,"name":"Product page","settings":{"show_in_settings":"no","id":"product-page","title":"Product page","description":"Describes a product you sell"},"content_update_cycle":{"heading":"Content update cycle","update_cycle":"6 months","text":"<p>A {page_type} should be regularly updated. For this type of page, we suggest every {update_cycle}. We will remind you {update_cycle} after you&#8217;ve last saved this page.<\/p>\n","video":"","video_button_text":""}},{"id":1317,"name":"Blog post","settings":{"show_in_settings":"no","id":"blog","title":"Blog","description":"A blog post."},"content_update_cycle":{"heading":"Content update cycle","update_cycle":"6 months","text":"<p>A {page_type} should be regularly updated. For this type of page, we suggest updating them {update_cycle}. We will remind you {update_cycle} after you&#8217;ve last saved this page.<\/p>\n","video":"","video_button_text":""}},{"id":1316,"name":"FAQ page","settings":{"show_in_settings":"yes","id":"faq","title":"FAQ page","description":"Frequently Asked Questions."},"content_update_cycle":{"heading":"Content update cycle","update_cycle":"6 months","text":"<p>A {page_type} should be regularly updated. For this type of page, we suggest updating every {update_cycle}. We will remind you {update_cycle} after you&#8217;ve last saved this page.<\/p>\n","video":"","video_button_text":""}},{"id":1309,"name":"Contact page","settings":{"show_in_settings":"yes","id":"contact","title":"Contact","description":"Create an easy to use contact page."},"content_update_cycle":{"heading":"Content update cycle","update_cycle":"6 months","text":"<p>A {page_type} should be regularly updated. For this type of page, we suggest updating <strong>every {update_cycle}<\/strong>. We will remind you {update_cycle} after you&#8217;ve last saved this page.<\/p>\n","video":"","video_button_text":""}},{"id":1307,"name":"About page","settings":{"show_in_settings":"yes","id":"about-us","title":"About Us","description":"Who are you and why are you the person they need."},"content_update_cycle":{"heading":"Content update cycle","update_cycle":"6 months","text":"<p>A {page_type} should be regularly updated. For this type of page, we suggest updating every {update_cycle}. We will remind you {update_cycle} after you&#8217;ve last saved this page.<\/p>\n","video":"","video_button_text":""}},{"id":1269,"name":"Home page","settings":{"show_in_settings":"yes","id":"homepage","title":"Home page","description":"Describe your mission and much more."},"content_update_cycle":{"heading":"Content update cycle","update_cycle":"6 months","text":"<p>A {page_type} should be regularly updated. For this type of page, we suggest updating every {update_cycle}. We will remind you {update_cycle} after you&#8217;ve last saved this page.<\/p>\n","video":"","video_button_text":""}}]';
 
 	/**
-	 * Set up the test.
+	 * The ID of a page with the "homepage" slug.
+	 *
+	 * @var int
 	 */
-	public function setUp(): void {
-		\set_site_transient( 'progress_planner_lessons', $this->get_lessons(), WEEK_IN_SECONDS );
+	private static $homepage_post_id;
+
+	/**
+	 * Run before the tests.
+	 *
+	 * @return void
+	 */
+	public static function setUpBeforeClass(): void {
+		\set_site_transient( 'progress_planner_lessons', self::get_lessons(), WEEK_IN_SECONDS );
+
+		\progress_planner()->get_page_types()->create_taxonomy();
+		\progress_planner()->get_page_types()->maybe_add_terms();
+
+		self::$homepage_post_id = \wp_insert_post(
+			[
+				'post_type'  => 'page',
+				'post_name'  => 'homepage',
+				'post_title' => 'Homepage',
+			]
+		);
+
+		// Assign the post to the "homepage" page type.
+		\wp_set_object_terms( self::$homepage_post_id, 'homepage', Page_Types::TAXONOMY_NAME );
 	}
 
 	/**
@@ -28,7 +51,7 @@ class Page_Types_Test extends \WP_UnitTestCase {
 	 *
 	 * @return array
 	 */
-	public function get_lessons() {
+	public static function get_lessons() {
 		return \json_decode( self::REMOTE_API_RESPONSE, true );
 	}
 
@@ -38,7 +61,6 @@ class Page_Types_Test extends \WP_UnitTestCase {
 	 * @return void
 	 */
 	public function test_create_taxonomy() {
-		\progress_planner()->get_page_types()->create_taxonomy();
 		$this->assertTrue( \taxonomy_exists( Page_Types::TAXONOMY_NAME ) );
 	}
 
@@ -48,8 +70,7 @@ class Page_Types_Test extends \WP_UnitTestCase {
 	 * @return void
 	 */
 	public function test_maybe_add_terms() {
-		$lessons = $this->get_lessons();
-		\progress_planner()->get_page_types()->maybe_add_terms();
+		$lessons = self::get_lessons();
 
 		foreach ( $lessons as $lesson ) {
 			$this->assertNotNull( \term_exists( $lesson['settings']['id'], Page_Types::TAXONOMY_NAME ) );
@@ -71,7 +92,7 @@ class Page_Types_Test extends \WP_UnitTestCase {
 	 */
 	public function test_get_page_types() {
 		$page_types = \progress_planner()->get_page_types()->get_page_types();
-		$lessons    = $this->get_lessons();
+		$lessons    = self::get_lessons();
 		$this->assertCount( count( $lessons ), $page_types );
 
 		foreach ( $lessons as $lesson ) {
