@@ -2,7 +2,7 @@
 /**
  * Class Suggested_Tasks_Test
  *
- * @package Progress_Planner
+ * @package Progress_Planner\Tests
  */
 
 namespace Progress_Planner\Tests;
