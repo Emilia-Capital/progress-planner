@@ -27,13 +27,12 @@ final class Badge_Streak extends Widget {
 	 * @return array
 	 */
 	public function get_details( $context ) {
-		global $progress_planner;
 		static $result = [];
 		if ( ! empty( $result ) ) {
 			return $result;
 		}
 
-		$badges = $progress_planner->get_badges()->get_badges( $context );
+		$badges = \progress_planner()->get_badges()->get_badges( $context );
 
 		// Get the badge to display.
 		foreach ( $badges as $badge ) {

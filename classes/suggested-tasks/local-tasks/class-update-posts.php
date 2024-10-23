@@ -54,10 +54,9 @@ class Update_Posts extends Local_Tasks {
 	 * @return bool
 	 */
 	public function evaluate_update_post_task( $data ) {
-		global $progress_planner;
 		if ( (int) \get_post_modified_time( 'U', false, (int) $data['post_id'] ) > strtotime( '-6 months' ) ) {
 			$data['date'] = \gmdate( 'YW' );
-			$progress_planner->get_suggested_tasks()->mark_task_as_completed( $this->get_task_id( $data ) );
+			\progress_planner()->get_suggested_tasks()->mark_task_as_completed( $this->get_task_id( $data ) );
 			return true;
 		}
 		return false;
@@ -71,7 +70,6 @@ class Update_Posts extends Local_Tasks {
 	 * @return bool
 	 */
 	public function evaluate_create_post_task( $data ) {
-		global $progress_planner;
 		$last_posts = \get_posts(
 			[
 				'posts_per_page' => 1,
@@ -95,13 +93,13 @@ class Update_Posts extends Local_Tasks {
 			return false;
 		}
 
-		$progress_planner->get_suggested_tasks()->mark_task_as_completed(
+		\progress_planner()->get_suggested_tasks()->mark_task_as_completed(
 			self::get_task_id(
 				[
 					'type'    => 'create-post',
 					'date'    => \gmdate( 'YW' ),
 					'post_id' => $last_post->ID,
-					'long'    => Content_Helpers::is_post_long( $last_post->ID ) ? '1' : '0',
+					'long'    => \progress_planner()->get_helpers()->content->is_post_long( $last_post->ID ) ? '1' : '0',
 				]
 			)
 		);
@@ -136,7 +134,10 @@ class Update_Posts extends Local_Tasks {
 			]
 		);
 
-		$is_last_post_long = is_array( $last_created_posts ) && Content_Helpers::is_post_long( $last_created_posts[0]->ID );
+		$is_last_post_long = (
+			is_array( $last_created_posts )
+			&& \progress_planner()->get_helpers()->content->is_post_long( $last_created_posts[0]->ID )
+		);
 		$items             = [];
 
 		$task_id  = 'create-post-';

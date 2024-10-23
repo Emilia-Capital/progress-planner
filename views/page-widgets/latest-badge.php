@@ -9,10 +9,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-global $progress_planner;
-
 // Get the latest completed badge.
-$latest_badge = $progress_planner->get_badges()->get_latest_completed_badge();
+$latest_badge = \progress_planner()->get_badges()->get_latest_completed_badge();
 ?>
 <h2 class="prpl-widget-title">
 	<?php \esc_html_e( 'Latest new badge!', 'progress-planner' ); ?>

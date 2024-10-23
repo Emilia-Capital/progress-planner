@@ -57,8 +57,7 @@ abstract class Badge {
 	 * @return array
 	 */
 	protected function get_saved() {
-		global $progress_planner;
-		return $progress_planner->get_settings()->get( [ 'badges', $this->id ], [] );
+		return \progress_planner()->get_settings()->get( [ 'badges', $this->id ], [] );
 	}
 
 	/**
@@ -78,8 +77,7 @@ abstract class Badge {
 	 * @return void
 	 */
 	protected function save_progress( $progress ) {
-		global $progress_planner;
 		$progress['date'] = ( new \DateTime() )->format( 'Y-m-d H:i:s' );
-		$progress_planner->get_settings()->set( [ 'badges', $this->id ], $progress );
+		\progress_planner()->get_settings()->set( [ 'badges', $this->id ], $progress );
 	}
 }

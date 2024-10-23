@@ -109,7 +109,6 @@ class Page {
 	 * @return void
 	 */
 	public static function register_scripts() {
-		global $progress_planner;
 		// Register Chart.js.
 		\wp_register_script(
 			'chart-js',
@@ -216,7 +215,7 @@ class Page {
 			[
 				'ajaxUrl'   => \admin_url( 'admin-ajax.php' ),
 				'nonce'     => \wp_create_nonce( 'progress_planner_todo' ),
-				'listItems' => $progress_planner->get_todo()->get_items(),
+				'listItems' => \progress_planner()->get_todo()->get_items(),
 				'i18n'      => [
 					'drag'             => \esc_html__( 'Drag to reorder', 'progress-planner' ),
 					/* translators: %s: The task content. */
@@ -301,11 +300,10 @@ class Page {
 	 * @return void
 	 */
 	public function save_cpt_settings() {
-		global $progress_planner;
 		\check_ajax_referer( 'progress_planner', 'nonce', false );
 		$include_post_types = isset( $_POST['include_post_types'] ) ? \sanitize_text_field( \wp_unslash( $_POST['include_post_types'] ) ) : 'post,page';
 		$include_post_types = \explode( ',', $include_post_types );
-		$progress_planner->get_settings()->set( 'include_post_types', $include_post_types );
+		\progress_planner()->get_settings()->set( 'include_post_types', $include_post_types );
 
 		\wp_send_json_success(
 			[

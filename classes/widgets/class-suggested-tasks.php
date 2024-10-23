@@ -27,8 +27,7 @@ final class Suggested_Tasks extends Widget {
 	 * @return int The score.
 	 */
 	public function get_score() {
-		global $progress_planner;
-		$activities = $progress_planner->get_query()->query_activities(
+		$activities = \progress_planner()->get_query()->query_activities(
 			[
 				'category'   => 'suggested_task',
 				'start_date' => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) ),

@@ -8,7 +8,6 @@
 namespace Progress_Planner\Badges\Content;
 
 use Progress_Planner\Badges\Badge_Content;
-use Progress_Planner\Activities\Content_Helpers;
 
 /**
  * Badge class.
@@ -46,7 +45,6 @@ final class Wonderful_Writer extends Badge_Content {
 	 * @return array
 	 */
 	public function progress_callback() {
-		global $progress_planner;
 		// Get the saved progress.
 		$saved_progress = $this->get_saved();
 
@@ -57,7 +55,7 @@ final class Wonderful_Writer extends Badge_Content {
 
 		// Get the total number of posts.
 		$total_posts_count = 0;
-		foreach ( Content_Helpers::get_post_types_names() as $post_type ) {
+		foreach ( \progress_planner()->get_helpers()->content->get_post_types_names() as $post_type ) {
 			$total_posts_count += \wp_count_posts( $post_type )->publish;
 		}
 
@@ -80,11 +78,11 @@ final class Wonderful_Writer extends Badge_Content {
 
 		// Get the new posts count.
 		$new_count = count(
-			$progress_planner->get_query()->query_activities(
+			\progress_planner()->get_query()->query_activities(
 				[
 					'category'   => 'content',
 					'type'       => 'publish',
-					'start_date' => $progress_planner->get_activation_date(),
+					'start_date' => \progress_planner()->get_activation_date(),
 				]
 			)
 		);

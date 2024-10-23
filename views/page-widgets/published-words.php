@@ -8,8 +8,6 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-
-global $progress_planner;
 ?>
 
 <div class="prpl-counter-big-wrapper">
@@ -44,6 +42,6 @@ global $progress_planner;
 	</p>
 </div>
 <div class="prpl-graph-wrapper">
-	<?php $progress_planner->get_chart()->the_chart( $this->get_chart_args() ); ?>
+	<?php \progress_planner()->get_chart()->the_chart( $this->get_chart_args() ); ?>
 </div>
 <?php

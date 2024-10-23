@@ -89,6 +89,12 @@ class Base {
 	 */
 	private $settings_page;
 
+	/** An object containing helper classes.
+	 *
+	 * @var \stdClass|null
+	 */
+	private $helpers;
+
 	/**
 	 * An array of configuration values for points awarded by action-type.
 	 *
@@ -162,11 +168,13 @@ class Base {
 		\add_filter( 'plugin_action_links_' . plugin_basename( PROGRESS_PLANNER_FILE ), [ $this, 'add_action_links' ] );
 		\add_action( 'enqueue_block_editor_assets', [ $this, 'enqueue_editor_script' ] );
 
-		// We need to initialize the page types class early, sa taxonomy is registered in time.
+		// We need to initialize the page types class early, 'register_taxonomy' hook.
 		$this->page_types = new Page_Types();
 
-		// We need to initialize the settings page class early, sa admin page is registered in time.
+		// We need to initialize the settings page class early, 'admin_page' hook.
 		$this->settings_page = new \Progress_Planner\Admin\Page_Settings();
+
+		$this->settings = new Settings();
 	}
 
 	/**
@@ -302,6 +310,18 @@ class Base {
 			$this->settings_page = new \Progress_Planner\Admin\Page_Settings();
 		}
 		return $this->settings_page;
+	}
+
+	/** Get the helpers instance.
+	 *
+	 * @return \stdClass
+	 */
+	public function get_helpers() {
+		if ( ! $this->helpers ) {
+			$this->helpers          = new \stdClass();
+			$this->helpers->content = new \Progress_Planner\Activities\Content_Helpers();
+		}
+		return $this->helpers;
 	}
 
 	/**

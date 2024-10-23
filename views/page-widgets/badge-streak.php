@@ -9,13 +9,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-global $progress_planner;
-
 ?>
 
 <h2 class="prpl-widget-title">
 	<?php \esc_html_e( 'Your streak badges', 'progress-planner' ); ?>
-	<?php $progress_planner->get_popovers()->badges->render(); ?>
+	<?php \progress_planner()->get_popovers()->badges->render(); ?>
 </h2>
 
 <?php $content_badge_details = $this->get_details( 'content' ); ?>
@@ -110,7 +108,7 @@ global $progress_planner;
 <div class="prpl-badges-container-achievements">
 	<?php
 	foreach ( [ 'content', 'maintenance' ] as $badge_group ) :
-		$group_badges = $progress_planner->get_badges()->get_badges( $badge_group );
+		$group_badges = \progress_planner()->get_badges()->get_badges( $badge_group );
 		?>
 		<div class="progress-wrapper badge-group-<?php echo \esc_attr( $badge_group ); ?>">
 			<?php foreach ( $group_badges as $badge ) : ?>
