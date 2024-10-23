@@ -181,11 +181,10 @@ class Page_Types {
 	 *
 	 * @param string $post_type The post-type for the query.
 	 * @param string $slug      The slug of the post-meta value.
-	 * @param string $field     The field to search for (default: 'slug').
 	 *
 	 * @return \WP_Post[] Return the posts.
 	 */
-	public function get_posts_by_type( $post_type, $slug, $field = 'slug' ) {
+	public function get_posts_by_type( $post_type, $slug ) {
 		$posts = \get_posts(
 			[
 				'post_type'      => $post_type,
@@ -193,7 +192,7 @@ class Page_Types {
 				'tax_query'      => [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 					[
 						'taxonomy' => self::TAXONOMY_NAME,
-						'field'    => $field,
+						'field'    => 'slug',
 						'terms'    => $slug,
 					],
 				],
@@ -301,7 +300,7 @@ class Page_Types {
 	 */
 	public function update_option_page_on_front( $page_id ) {
 		// Get the posts for the homepage.
-		$posts = $this->get_posts_by_type( 'page', 'homepage', 'slug' );
+		$posts = $this->get_posts_by_type( 'page', 'homepage' );
 		$term  = \get_term_by( 'slug', 'homepage', self::TAXONOMY_NAME );
 
 		if ( ! $term || ! $term instanceof \WP_Term ) {
