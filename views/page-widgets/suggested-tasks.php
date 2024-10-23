@@ -11,8 +11,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$monthly = Monthly::get_instances();
-
 $score      = $this->get_score();
 $percentage = $score / Monthly::TARGET_POINTS;
 ?>
@@ -57,7 +55,7 @@ $percentage = $score / Monthly::TARGET_POINTS;
 <hr>
 
 <h2 class="prpl-widget-title">
-	<?php \esc_html_e( 'Ravi\'s recomendations', 'progress-planner' ); ?>
+	<?php \esc_html_e( 'Ravi\'s recommendations', 'progress-planner' ); ?>
 </h2>
 
 <ul style="display:none">
@@ -82,21 +80,16 @@ $percentage = $score / Monthly::TARGET_POINTS;
 	<?php \esc_html_e( 'Check out your progress! Which badge will you unlock next?', 'progress-planner' ); ?>
 </div>
 <div class="progress-wrapper badge-group-monthly">
-	<?php foreach ( $monthly as $month => $badge ) : ?>
-		<?php
-		$badge_progress  = $badge->progress_callback();
-		$badge_completed = 100 === (int) $badge_progress['progress'];
-		$month_key       = str_replace( 'monthly-', '', $badge->get_id() );
-		?>
+	<?php foreach ( \progress_planner()->get_badges()->get_badges( 'monthly' ) as $badge ) : ?>
 		<span
-			class="prpl-badge"
-			data-value="<?php echo \esc_attr( $badge_progress['progress'] ); ?>"
+			class="prpl-badge prpl-badge-<?php echo \esc_attr( $badge->get_id() ); ?>"
+			data-value="<?php echo \esc_attr( $badge->progress_callback()['progress'] ); ?>"
 		>
 			<?php
 			/**
 			 * TODO: Add badges icons by month. Files should have a month suffix so we can include them directly.
 			 */
-			include $badge_completed // phpcs:ignore PEAR.Files.IncludingFile.UseRequire
+			include 100 === (int) $badge->progress_callback()['progress'] // phpcs:ignore PEAR.Files.IncludingFile.UseRequire
 				? \PROGRESS_PLANNER_DIR . '/assets/images/badges/bold-blogger.svg'
 				: \PROGRESS_PLANNER_DIR . '/assets/images/badges/bold-blogger-bw.svg';
 			?>

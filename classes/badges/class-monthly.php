@@ -113,11 +113,7 @@ final class Monthly extends Badge {
 	 * @return string
 	 */
 	public function get_month() {
-		static $month;
-		if ( ! $month ) {
-			$month = str_replace( 'monthly-', '', $this->id );
-		}
-		return $month;
+		return str_replace( 'monthly-', '', $this->id );
 	}
 
 	/**

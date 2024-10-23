@@ -7,7 +7,6 @@
 
 namespace Progress_Planner;
 
-use Progress_Planner\Suggested_Tasks\Scripts;
 use Progress_Planner\Suggested_Tasks\Local_Tasks\Update_Posts as Local_Tasks_Update_Posts;
 use Progress_Planner\Suggested_Tasks\Local_Tasks\Update_Core as Local_Tasks_Update_Core;
 use Progress_Planner\Activities\Suggested_Task as Suggested_Task_Activity;
@@ -16,6 +15,13 @@ use Progress_Planner\Activities\Suggested_Task as Suggested_Task_Activity;
  * Suggested_Tasks class.
  */
 class Suggested_Tasks {
+
+	/**
+	 * The API object.
+	 *
+	 * @var \Progress_Planner\Suggested_Tasks\API|null
+	 */
+	private $api;
 
 	/**
 	 * The name of the settings option.
@@ -30,11 +36,23 @@ class Suggested_Tasks {
 	 * @return void
 	 */
 	public function __construct() {
-		new Scripts();
 		new Local_Tasks_Update_Posts();
 		new Local_Tasks_Update_Core();
 		$this->maybe_unsnooze_tasks();
 		\add_action( 'shutdown', [ $this, 'maybe_celebrate_tasks' ] );
+		\add_action( 'wp_ajax_progress_planner_suggested_task_action', [ $this, 'suggested_task_action' ] );
+	}
+
+	/**
+	 * Get the API object.
+	 *
+	 * @return \Progress_Planner\Suggested_Tasks\API
+	 */
+	public function get_api() {
+		if ( ! $this->api ) {
+			$this->api = new \Progress_Planner\Suggested_Tasks\API();
+		}
+		return $this->api;
 	}
 
 	/**
@@ -203,5 +221,45 @@ class Suggested_Tasks {
 		if ( $update ) {
 			\update_option( self::OPTION_NAME, $option );
 		}
+	}
+
+	/**
+	 * Handle the suggested task action.
+	 *
+	 * @return void
+	 */
+	public function suggested_task_action() {
+		// Check the nonce.
+		if ( ! \check_ajax_referer( 'progress_planner', 'nonce', false ) ) {
+			\wp_send_json_error( [ 'message' => \esc_html__( 'Invalid nonce.', 'progress-planner' ) ] );
+		}
+
+		if ( ! isset( $_POST['task_id'] ) || ! isset( $_POST['action_type'] ) ) {
+			\wp_send_json_error( [ 'message' => \esc_html__( 'Missing data.', 'progress-planner' ) ] );
+		}
+
+		$action  = \sanitize_text_field( \wp_unslash( $_POST['action_type'] ) );
+		$task_id = (string) \sanitize_text_field( \wp_unslash( $_POST['task_id'] ) );
+
+		switch ( $action ) {
+			case 'complete':
+				\progress_planner()->get_suggested_tasks()->mark_task_as_completed( $task_id );
+				$updated = true;
+				break;
+
+			case 'snooze':
+				$duration = isset( $_POST['duration'] ) ? \sanitize_text_field( \wp_unslash( $_POST['duration'] ) ) : '';
+				$updated  = \progress_planner()->get_suggested_tasks()->mark_task_as_snoozed( $task_id, $duration );
+				break;
+
+			default:
+				\wp_send_json_error( [ 'message' => \esc_html__( 'Invalid action.', 'progress-planner' ) ] );
+		}
+
+		if ( ! $updated ) {
+			\wp_send_json_error( [ 'message' => \esc_html__( 'Failed to save.', 'progress-planner' ) ] );
+		}
+
+		\wp_send_json_success( [ 'message' => \esc_html__( 'Saved.', 'progress-planner' ) ] );
 	}
 }
