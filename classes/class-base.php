@@ -83,6 +83,13 @@ class Base {
 	private $badges;
 
 	/**
+	 * An instance of the \Progress_Planner\Admin\Page_Settings class.
+	 *
+	 * @var \Progress_Planner\Admin\Page_Settings|null
+	 */
+	private $settings_page;
+
+	/**
 	 * An array of configuration values for points awarded by action-type.
 	 *
 	 * @var array
@@ -157,6 +164,9 @@ class Base {
 
 		// We need to initialize the page types class early, sa taxonomy is registered in time.
 		$this->page_types = new Page_Types();
+
+		// We need to initialize the settings page class early, sa admin page is registered in time.
+		$this->settings_page = new \Progress_Planner\Admin\Page_Settings();
 	}
 
 	/**
@@ -280,6 +290,18 @@ class Base {
 			$this->badges = new Badges();
 		}
 		return $this->badges;
+	}
+
+	/**
+	 * Get the settings page instance.
+	 *
+	 * @return \Progress_Planner\Admin\Page_Settings
+	 */
+	public function get_settings_page() {
+		if ( ! $this->settings_page ) {
+			$this->settings_page = new \Progress_Planner\Admin\Page_Settings();
+		}
+		return $this->settings_page;
 	}
 
 	/**

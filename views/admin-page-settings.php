@@ -5,9 +5,10 @@
  * @package Progress_Planner
  */
 
-$prpl_admin         = new \Progress_Planner\Admin\Page_Settings();
-$prpl_tabs_settings = $prpl_admin->get_tabs_settings();
-$prpl_page_types    = \Progress_Planner\Page_Types::get_page_types();
+global $progress_planner;
+
+$prpl_tabs_settings = $progress_planner->get_settings_page()->get_tabs_settings();
+$prpl_page_types    = $progress_planner->get_page_types()->get_page_types();
 ?>
 
 <div class="wrap prpl-wrap prpl-settings-wrap">
