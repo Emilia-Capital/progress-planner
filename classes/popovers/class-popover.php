@@ -1,6 +1,6 @@
 <?php
 /**
- * Activity Scores Widget.
+ * Popover base class.
  *
  * @package Progress_Planner
  */
@@ -8,7 +8,7 @@
 namespace Progress_Planner\Popovers;
 
 /**
- * Activity Scores Widget.
+ * Popover base class.
  */
 abstract class Popover {
 

@@ -1,20 +1,25 @@
 <?php
 /**
- * Handle TODO list items.
+ * Handle suggested tasks.
  *
  * @package Progress_Planner
  */
 
 namespace Progress_Planner;
 
-use Progress_Planner\Suggested_Tasks\Local_Tasks\Update_Posts as Local_Tasks_Update_Posts;
-use Progress_Planner\Suggested_Tasks\Local_Tasks\Update_Core as Local_Tasks_Update_Core;
 use Progress_Planner\Activities\Suggested_Task as Suggested_Task_Activity;
 
 /**
  * Suggested_Tasks class.
  */
 class Suggested_Tasks {
+
+	/**
+	 * An object containing local tasks.
+	 *
+	 * @var \stdClass
+	 */
+	private $local;
 
 	/**
 	 * The API object.
@@ -36,8 +41,10 @@ class Suggested_Tasks {
 	 * @return void
 	 */
 	public function __construct() {
-		new Local_Tasks_Update_Posts();
-		new Local_Tasks_Update_Core();
+		$this->local               = new \stdClass();
+		$this->local->update_posts = new \Progress_Planner\Suggested_Tasks\Local_Tasks\Update_Content();
+		$this->local->update_core  = new \Progress_Planner\Suggested_Tasks\Local_Tasks\Update_Core();
+
 		$this->maybe_unsnooze_tasks();
 		\add_action( 'shutdown', [ $this, 'maybe_celebrate_tasks' ] );
 		\add_action( 'wp_ajax_progress_planner_suggested_task_action', [ $this, 'suggested_task_action' ] );
@@ -53,6 +60,15 @@ class Suggested_Tasks {
 			$this->api = new \Progress_Planner\Suggested_Tasks\API();
 		}
 		return $this->api;
+	}
+
+	/**
+	 * Get the local tasks object.
+	 *
+	 * @return \stdClass
+	 */
+	public function get_local() {
+		return $this->local;
 	}
 
 	/**

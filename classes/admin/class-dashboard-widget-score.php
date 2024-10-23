@@ -11,7 +11,7 @@ use Progress_Planner\Admin\Dashboard_Widget;
 use Progress_Planner\Admin\Page;
 
 /**
- * Class Dashboard_Widget
+ * Class Dashboard_Widget_Score
  */
 class Dashboard_Widget_Score extends Dashboard_Widget {
 

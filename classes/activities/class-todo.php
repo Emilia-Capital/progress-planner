@@ -1,6 +1,6 @@
 <?php
 /**
- * Handler for posts activities.
+ * Handler for todo activities.
  *
  * @package Progress_Planner
  */
@@ -10,7 +10,7 @@ namespace Progress_Planner\Activities;
 use Progress_Planner\Activity;
 
 /**
- * Handler for posts activities.
+ * Handler for todo activities.
  */
 class Todo extends Activity {
 

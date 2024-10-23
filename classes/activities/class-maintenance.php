@@ -11,7 +11,7 @@ use Progress_Planner\Activity;
 use Progress_Planner\Base;
 
 /**
- * Handle activities for Core updates.
+ * Handle activities for maintenance activities.
  */
 class Maintenance extends Activity {
 

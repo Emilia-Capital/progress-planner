@@ -1,11 +1,11 @@
 <?php
 /**
- * Abstract class for widgets.
+ * Base class for widgets.
  *
  * @package Progress_Planner
  */
 
-namespace Progress_Planner\Widgets;
+namespace Progress_Planner;
 
 /**
  * Widgets class.

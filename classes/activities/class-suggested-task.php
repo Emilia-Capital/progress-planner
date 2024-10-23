@@ -1,6 +1,6 @@
 <?php
 /**
- * Handler for posts activities.
+ * Handler for suggested tasks activities.
  *
  * @package Progress_Planner
  */
@@ -8,10 +8,9 @@
 namespace Progress_Planner\Activities;
 
 use Progress_Planner\Activity;
-use Progress_Planner\Suggested_Tasks\Local_Tasks\Update_Posts;
 
 /**
- * Handler for posts activities.
+ * Handler for suggested tasks activities.
  */
 class Suggested_Task extends Activity {
 
@@ -48,7 +47,7 @@ class Suggested_Task extends Activity {
 			return $this->points[ $date_ymd ];
 		}
 
-		$data = Update_Posts::get_data_from_task_id( $this->data_id );
+		$data = \progress_planner()->get_suggested_tasks()->get_local()->update_posts->get_data_from_task_id( $this->data_id );
 
 		// Default points for a suggested task.
 		$points = 1;

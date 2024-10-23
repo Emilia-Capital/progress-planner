@@ -10,7 +10,7 @@ namespace Progress_Planner\Actions;
 use Progress_Planner\Activities\Maintenance as Activity_Maintenance;
 
 /**
- * Handle activities for Core updates.
+ * Handle activities for updates.
  */
 class Maintenance {
 

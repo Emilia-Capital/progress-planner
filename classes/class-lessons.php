@@ -1,8 +1,8 @@
 <?php
 /**
- * The admin pages and functionality for Progress Planner.
+ * Lessons class.
  *
- * @package ProgressPlannerPro/Admin
+ * @package Progress_Planner
  */
 
 namespace Progress_Planner;
@@ -10,7 +10,7 @@ namespace Progress_Planner;
 /**
  * Get the lessons from a remote server.
  *
- * @package ProgressPlannerPro
+ * @package Progress_Planner
  */
 class Lessons {
 

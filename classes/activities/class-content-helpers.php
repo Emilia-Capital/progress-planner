@@ -1,6 +1,6 @@
 <?php
 /**
- * Handler for posts activities.
+ * Helper methods for content activities.
  *
  * @package Progress_Planner
  */
@@ -10,7 +10,7 @@ namespace Progress_Planner\Activities;
 use Progress_Planner\Activities\Content;
 
 /**
- * Handler for posts activities.
+ * Helper methods for content activities.
  */
 class Content_Helpers {
 

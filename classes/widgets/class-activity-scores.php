@@ -1,18 +1,18 @@
 <?php
 /**
- * Activity Scores Widget.
+ * A widget class.
  *
  * @package Progress_Planner
  */
 
 namespace Progress_Planner\Widgets;
 
-use Progress_Planner\Widgets\Widget;
+use Progress_Planner\Widget;
 use Progress_Planner\Goals\Goal_Recurring;
 use Progress_Planner\Goals\Goal;
 
 /**
- * Activity Scores Widget.
+ * A widget class.
  */
 final class Activity_Scores extends Widget {
 

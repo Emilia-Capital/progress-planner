@@ -11,7 +11,7 @@ use Progress_Planner\Admin\Dashboard_Widget;
 use Progress_Planner\Admin\Page;
 
 /**
- * Class Dashboard_Widget
+ * Class Dashboard_Widget_Todo
  */
 class Dashboard_Widget_Todo extends Dashboard_Widget {
 

@@ -2,7 +2,7 @@
 /**
  * The class handling page types.
  *
- * @package ProgressPlannerPro
+ * @package Progress_Planner
  */
 
 namespace Progress_Planner;

@@ -1,14 +1,16 @@
 <?php
 /**
- * Progress_Planner widget.
+ * A widget class.
  *
  * @package Progress_Planner
  */
 
 namespace Progress_Planner\Widgets;
 
+use Progress_Planner\Widget;
+
 /**
- * Latest badge widget.
+ * Latest_Badge class.
  */
 final class Latest_Badge extends Widget {
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * Handler for posts activities.
+ * Handler for content activities.
  *
  * @package Progress_Planner
  */
@@ -11,7 +11,7 @@ use Progress_Planner\Base;
 use Progress_Planner\Activity;
 
 /**
- * Handler for posts activities.
+ * Handler for content activities.
  */
 class Content extends Activity {
 
