@@ -41,9 +41,9 @@ class Suggested_Tasks {
 	 * @return void
 	 */
 	public function __construct() {
-		$this->local               = new \stdClass();
-		$this->local->update_posts = new \Progress_Planner\Suggested_Tasks\Local_Tasks\Update_Content();
-		$this->local->update_core  = new \Progress_Planner\Suggested_Tasks\Local_Tasks\Update_Core();
+		$this->local                 = new \stdClass();
+		$this->local->update_content = new \Progress_Planner\Suggested_Tasks\Local_Tasks\Update_Content();
+		$this->local->update_core    = new \Progress_Planner\Suggested_Tasks\Local_Tasks\Update_Core();
 
 		$this->maybe_unsnooze_tasks();
 		\add_action( 'shutdown', [ $this, 'maybe_celebrate_tasks' ] );

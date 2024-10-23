@@ -7,30 +7,10 @@
 
 namespace Progress_Planner\Tests;
 
-use Progress_Planner\Suggested_Tasks\Local_Tasks\Update_Posts;
-
 /**
  * Update posts test case.
  */
-class Update_Posts_Test extends \WP_UnitTestCase {
-
-	/**
-	 * Update posts object.
-	 *
-	 * @var Update_Posts
-	 */
-	protected $update_posts;
-
-	/**
-	 * Setup the test case.
-	 *
-	 * @return void
-	 */
-	public function set_up() {
-		parent::set_up();
-
-		$this->update_posts = new Update_Posts();
-	}
+class Update_Content_Test extends \WP_UnitTestCase {
 
 	/**
 	 * Test transforming task data to task id and back.
@@ -55,8 +35,8 @@ class Update_Posts_Test extends \WP_UnitTestCase {
 		];
 
 		foreach ( $task_data as $data ) {
-			$task_id           = $this->update_posts->get_task_id( $data );
-			$task_data_from_id = $this->update_posts::get_data_from_task_id( $task_id );
+			$task_id           = \progress_planner()->get_suggested_tasks()->get_local()->update_content->get_task_id( $data );
+			$task_data_from_id = \progress_planner()->get_suggested_tasks()->get_local()->update_content->get_data_from_task_id( $task_id );
 
 			$this->assertEquals( $data, $task_data_from_id );
 		}

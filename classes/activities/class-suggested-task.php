@@ -47,7 +47,7 @@ class Suggested_Task extends Activity {
 			return $this->points[ $date_ymd ];
 		}
 
-		$data = \progress_planner()->get_suggested_tasks()->get_local()->update_posts->get_data_from_task_id( $this->data_id );
+		$data = \progress_planner()->get_suggested_tasks()->get_local()->update_content->get_data_from_task_id( $this->data_id );
 
 		// Default points for a suggested task.
 		$points = 1;
