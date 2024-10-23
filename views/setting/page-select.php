@@ -48,11 +48,5 @@
 				<?php esc_html_e( 'Create', 'progress-planner' ); ?>
 			</a>
 		</div>
-		<div data-action="plan">
-			<?php include PROGRESS_PLANNER_DIR . '/views/popover/plan.php'; // phpcs:ignore PEAR.Files.IncludingFile.UseRequire ?>
-		</div>
-		<div data-action="assign">
-			<?php include PROGRESS_PLANNER_DIR . '/views/popover/assign.php'; // phpcs:ignore PEAR.Files.IncludingFile.UseRequire ?>
-		</div>
 	</div>
 </div>

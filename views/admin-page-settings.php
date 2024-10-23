@@ -47,10 +47,6 @@ $prpl_page_types    = $progress_planner->get_page_types()->get_page_types();
 			</div>
 		</div>
 
-		<?php /* So Submit button is not stretched in right column. */ ?>
-		<div class="prpl-column-main prpl-column-main-secondary">
-		</div>
-
 		<?php wp_nonce_field( 'prpl-settings' ); ?>
 
 		<button
