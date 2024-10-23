@@ -151,7 +151,7 @@ class Page_Types {
 	 *
 	 * @return array
 	 */
-	public static function get_page_types() {
+	public function get_page_types() {
 		$terms = \get_terms(
 			[
 				'taxonomy'   => self::TAXONOMY_NAME,
