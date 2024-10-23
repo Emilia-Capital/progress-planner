@@ -60,7 +60,7 @@ class Page_Settings {
 		$page_types = \progress_planner()->get_page_types()->get_page_types();
 
 		foreach ( $page_types as $page_type ) {
-			$type_pages = \progress_planner()->get_page_types()->get_posts_by_type( 'any', $page_type['slug'], 'slug' );
+			$type_pages = \progress_planner()->get_page_types()->get_posts_by_type( 'any', $page_type['slug'] );
 
 			$tabs[ "page-{$page_type['slug']}" ] = [
 				'title'    => sprintf(
@@ -116,7 +116,7 @@ class Page_Settings {
 		if ( isset( $_POST['pages'] ) ) {
 			foreach ( wp_unslash( $_POST['pages'] ) as $type => $page_args ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 				// Remove the post-meta from the existing posts.
-				$existing_posts = \progress_planner()->get_page_types()->get_posts_by_type( 'any', $type, 'slug' );
+				$existing_posts = \progress_planner()->get_page_types()->get_posts_by_type( 'any', $type );
 				foreach ( $existing_posts as $post ) {
 					if ( $post->ID === (int) $page_args['id'] ) {
 						continue;
