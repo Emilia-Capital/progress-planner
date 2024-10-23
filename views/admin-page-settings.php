@@ -27,20 +27,24 @@ $prpl_page_types    = $progress_planner->get_page_types()->get_page_types();
 
 	<form id="prpl-settings">
 
-		<div class="prpl-column-main prpl-column-main-secondary">
-			<div class="prpl-column">
-				<div class="prpl-widget-wrapper">
-					<h2 class="prpl-widget-title">
-						<?php esc_html_e( 'Your pages', 'progress-planner' ); ?>
-					</h2>
+		<div class="prpl-column">
+			<div class="prpl-widget-wrapper">
+				<h2 class="prpl-widget-title">
+					<?php esc_html_e( 'Your pages', 'progress-planner' ); ?>
+				</h2>
+				<div class="prpl-pages-list">
 					<?php foreach ( $prpl_page_types as $prpl_pagetype ) : ?>
 						<?php if ( isset( $prpl_tabs_settings[ "page-{$prpl_pagetype['slug']}" ] ) ) : ?>
-							<?php
-							$prpl_setting = $prpl_tabs_settings[ "page-{$prpl_pagetype['slug']}" ]['settings'][ $prpl_pagetype['slug'] ];
-
-							// phpcs:ignore PEAR.Files.IncludingFile.UseRequire
-							include PROGRESS_PLANNER_DIR . "/views/setting/{$prpl_setting['type']}.php";
-							?>
+							<?php $prpl_setting = $prpl_tabs_settings[ "page-{$prpl_pagetype['slug']}" ]['settings'][ $prpl_pagetype['slug'] ]; ?>
+							<div
+								class="prpl-pages-item prpl-pages-item-<?php echo esc_attr( $prpl_setting['page'] ); ?>"
+								data-page-item="<?php echo esc_attr( $prpl_setting['page'] ); ?>"
+							>
+								<?php
+								// phpcs:ignore PEAR.Files.IncludingFile.UseRequire
+								include PROGRESS_PLANNER_DIR . "/views/setting/{$prpl_setting['type']}.php";
+								?>
+							</div>
 						<?php endif; ?>
 					<?php endforeach; ?>
 				</div>
