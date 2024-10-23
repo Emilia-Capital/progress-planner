@@ -19,7 +19,7 @@ const prplDocumentReady = function ( fn ) {
  *
  * @param {string} page The page.
  */
-const prplProToggleEditActionVisibility = function ( page ) {
+const prplToggleEditActionVisibility = function ( page ) {
 	const itemActionsEl = document.querySelector(
 		`.item-actions[data-page="${ page }"]`
 	);
@@ -77,10 +77,10 @@ prplDocumentReady( function () {
 		const page =
 			select.parentElement.parentElement.getAttribute( 'data-page' );
 
-		prplProToggleEditActionVisibility( page );
+		prplToggleEditActionVisibility( page );
 		if ( select ) {
 			select.addEventListener( 'change', function () {
-				prplProToggleEditActionVisibility( page );
+				prplToggleEditActionVisibility( page );
 			} );
 		}
 	} );
