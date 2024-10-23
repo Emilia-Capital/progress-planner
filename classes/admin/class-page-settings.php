@@ -7,7 +7,6 @@
 
 namespace Progress_Planner\Admin;
 
-use Progress_Planner\Lessons;
 use Progress_Planner\Page_Types;
 
 /**
