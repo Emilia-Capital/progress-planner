@@ -83,6 +83,13 @@ class Base {
 	private $badges;
 
 	/**
+	 * An object containing helper classes.
+	 *
+	 * @var \stdClass|null
+	 */
+	private $helpers;
+
+	/**
 	 * An array of configuration values for points awarded by action-type.
 	 *
 	 * @var array
@@ -280,6 +287,19 @@ class Base {
 			$this->badges = new Badges();
 		}
 		return $this->badges;
+	}
+
+	/**
+	 * Get the helpers instance.
+	 *
+	 * @return \stdClass
+	 */
+	public function get_helpers() {
+		if ( ! $this->helpers ) {
+			$this->helpers          = new \stdClass();
+			$this->helpers->content = new \Progress_Planner\Activities\Content_Helpers();
+		}
+		return $this->helpers;
 	}
 
 	/**

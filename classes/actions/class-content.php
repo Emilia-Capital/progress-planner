@@ -7,7 +7,6 @@
 
 namespace Progress_Planner\Actions;
 
-use Progress_Planner\Activities\Content_Helpers;
 use Progress_Planner\Activities\Content as Content_Activity;
 
 /**
@@ -206,10 +205,11 @@ class Content {
 	 * @return bool
 	 */
 	private function should_skip_saving( $post ) {
+		global $progress_planner;
 		// Bail if the post is not included in the post-types we're tracking.
 		if ( ! \in_array(
 			$post->post_type,
-			Content_Helpers::get_post_types_names(),
+			$progress_planner->get_helpers()->content->get_post_types_names(),
 			true
 		) ) {
 			return true;
@@ -282,7 +282,7 @@ class Content {
 			}
 		}
 
-		$activity       = Content_Helpers::get_activity_from_post( $post );
+		$activity       = $progress_planner->get_helpers()->content->get_activity_from_post( $post );
 		$activity->type = $type;
 
 		// Update the badges.

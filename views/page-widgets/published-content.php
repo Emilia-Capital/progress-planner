@@ -5,15 +5,13 @@
  * @package Progress_Planner
  */
 
-use Progress_Planner\Activities\Content_Helpers;
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 global $progress_planner;
 
-$post_types = Content_Helpers::get_post_types_names();
+$post_types = $progress_planner->get_helpers()->content->get_post_types_names();
 $stats      = $this->get_stats();
 $sum_weekly = array_sum( $stats['weekly'] );
 ?>

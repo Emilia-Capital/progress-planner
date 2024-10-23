@@ -9,7 +9,6 @@ namespace Progress_Planner\Activities;
 
 use Progress_Planner\Base;
 use Progress_Planner\Activity;
-use Progress_Planner\Activities\Content_Helpers;
 
 /**
  * Handler for posts activities.
@@ -77,6 +76,7 @@ class Content extends Activity {
 	 * @return int
 	 */
 	public function get_points_on_publish_date() {
+		global $progress_planner;
 		$points = Base::$points_config['content']['publish'];
 		if ( isset( Base::$points_config['content'][ $this->type ] ) ) {
 			$points = Base::$points_config['content'][ $this->type ];
@@ -88,7 +88,7 @@ class Content extends Activity {
 		}
 
 		// Modify the score based on the words count.
-		$words       = Content_Helpers::get_word_count( $post->post_content, $post->ID );
+		$words       = $progress_planner->get_helpers()->content->get_word_count( $post->post_content, $post->ID );
 		$multipliers = Base::$points_config['content']['word-multipliers'];
 		if ( $words > 1000 ) {
 			return (int) ( $points * $multipliers[1000] );

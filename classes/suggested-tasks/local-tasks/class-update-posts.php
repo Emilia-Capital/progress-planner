@@ -101,7 +101,7 @@ class Update_Posts extends Local_Tasks {
 					'type'    => 'create-post',
 					'date'    => \gmdate( 'YW' ),
 					'post_id' => $last_post->ID,
-					'long'    => Content_Helpers::is_post_long( $last_post->ID ) ? '1' : '0',
+					'long'    => $progress_planner->get_helpers()->content->is_post_long( $last_post->ID ) ? '1' : '0',
 				]
 			)
 		);
@@ -126,6 +126,7 @@ class Update_Posts extends Local_Tasks {
 	 * @return array
 	 */
 	public function get_tasks_to_create_posts() {
+		global $progress_planner;
 		// Get the post that was created last.
 		$last_created_posts = \get_posts(
 			[
@@ -136,7 +137,10 @@ class Update_Posts extends Local_Tasks {
 			]
 		);
 
-		$is_last_post_long = is_array( $last_created_posts ) && Content_Helpers::is_post_long( $last_created_posts[0]->ID );
+		$is_last_post_long = (
+			is_array( $last_created_posts )
+			&& $progress_planner->get_helpers()->content->is_post_long( $last_created_posts[0]->ID )
+		);
 		$items             = [];
 
 		$task_id  = 'create-post-';

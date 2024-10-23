@@ -7,7 +7,6 @@
 
 namespace Progress_Planner\Widgets;
 
-use Progress_Planner\Activities\Content_Helpers;
 use Progress_Planner\Widgets\Widget;
 
 /**
@@ -59,9 +58,10 @@ final class Published_Content_Density extends Widget {
 		return array_filter(
 			$activities,
 			function ( $activity ) {
+				global $progress_planner;
 				$post = $activity->get_post();
 				return is_object( $post )
-					&& \in_array( $post->post_type, Content_Helpers::get_post_types_names(), true );
+					&& \in_array( $post->post_type, $progress_planner->get_helpers()->content->get_post_types_names(), true );
 			}
 		);
 	}
@@ -74,12 +74,13 @@ final class Published_Content_Density extends Widget {
 	 * @return int
 	 */
 	public function count_words( $activities ) {
+		global $progress_planner;
 		$words = 0;
 		foreach ( $activities as $activity ) {
 			if ( ! $activity->get_post() ) {
 				continue;
 			}
-			$words += Content_Helpers::get_word_count(
+			$words += $progress_planner->get_helpers()->content->get_word_count(
 				$activity->get_post()->post_content,
 				(int) $activity->data_id
 			);

@@ -26,7 +26,7 @@ class Content_Helpers {
 	 *
 	 * @return string[]
 	 */
-	public static function get_post_types_names() {
+	public function get_post_types_names() {
 		global $progress_planner;
 		static $include_post_types;
 		if ( isset( $include_post_types ) && ! empty( $include_post_types ) ) {
@@ -53,7 +53,7 @@ class Content_Helpers {
 	 *
 	 * @return int
 	 */
-	public static function get_word_count( $content, $post_id = 0 ) {
+	public function get_word_count( $content, $post_id = 0 ) {
 		global $progress_planner;
 		$counts = $progress_planner->get_settings()->get( [ 'word_count' ], [] );
 		if ( $post_id && isset( $counts[ $post_id ] ) && false !== $counts[ $post_id ] ) {
@@ -104,7 +104,7 @@ class Content_Helpers {
 	 *
 	 * @return \Progress_Planner\Activities\Content
 	 */
-	public static function get_activity_from_post( $post ) {
+	public function get_activity_from_post( $post ) {
 		global $progress_planner;
 		$type = 'publish' === $post->post_status ? 'publish' : 'update';
 		$date = 'publish' === $post->post_status ? $post->post_date : $post->post_modified;
@@ -125,8 +125,8 @@ class Content_Helpers {
 	 *
 	 * @return bool
 	 */
-	public static function is_post_long( $post_id ) {
-		$word_count = self::get_word_count( \get_post_field( 'post_content', $post_id ), $post_id );
+	public function is_post_long( $post_id ) {
+		$word_count = $this->get_word_count( \get_post_field( 'post_content', $post_id ), $post_id );
 		return $word_count >= self::LONG_POST_THRESHOLD;
 	}
 }

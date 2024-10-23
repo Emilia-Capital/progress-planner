@@ -8,7 +8,6 @@
 namespace Progress_Planner\Actions;
 
 use Progress_Planner\Actions\Content as Content_Action;
-use Progress_Planner\Activities\Content_Helpers;
 
 /**
  * Content scan class.
@@ -120,7 +119,7 @@ class Content_Scan extends Content_Action {
 			[
 				'posts_per_page' => static::SCAN_POSTS_PER_PAGE,
 				'paged'          => $current_page,
-				'post_type'      => Content_Helpers::get_post_types_names(),
+				'post_type'      => $progress_planner->get_helpers()->content->get_post_types_names(),
 				'post_status'    => 'publish',
 			]
 		);
@@ -154,9 +153,10 @@ class Content_Scan extends Content_Action {
 	 * @return int
 	 */
 	public function get_total_pages() {
+		global $progress_planner;
 		// Get the total number of posts.
 		$total_posts_count = 0;
-		foreach ( Content_Helpers::get_post_types_names() as $post_type ) {
+		foreach ( $progress_planner->get_helpers()->content->get_post_types_names() as $post_type ) {
 			$total_posts_count += \wp_count_posts( $post_type )->publish;
 		}
 		// Calculate the total pages to scan.
@@ -176,9 +176,9 @@ class Content_Scan extends Content_Action {
 		// Loop through the posts and update the stats.
 		foreach ( $posts as $post ) {
 			// Set the activity.
-			$activities[ $post->ID ] = Content_Helpers::get_activity_from_post( $post );
+			$activities[ $post->ID ] = $progress_planner->get_helpers()->content->get_activity_from_post( $post );
 			// Set the word count.
-			Content_Helpers::get_word_count( $post->post_content, $post->ID );
+			$progress_planner->get_helpers()->content->get_word_count( $post->post_content, $post->ID );
 		}
 
 		$progress_planner->get_query()->insert_activities( $activities );
