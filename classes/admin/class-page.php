@@ -218,6 +218,36 @@ class Page {
 				],
 			]
 		);
+
+		\wp_register_script(
+			'particles-confetti-js',
+			PROGRESS_PLANNER_URL . '/assets/js/vendor/tsparticles.confetti.bundle.min.js',
+			[],
+			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/vendor/tsparticles.confetti.bundle.min.js' ),
+			true
+		);
+
+		$pending_celebration = \progress_planner()->get_suggested_tasks()->get_pending_celebration();
+		$deps                = [ 'progress-planner-todo', 'progress-planner-grid-masonry' ];
+		if ( ! empty( $pending_celebration ) ) {
+			$deps[] = 'particles-confetti-js';
+		}
+
+		\wp_register_script(
+			'progress-planner-suggested-tasks',
+			PROGRESS_PLANNER_URL . '/assets/js/suggested-tasks.js',
+			$deps,
+			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/suggested-tasks.js' ),
+			true
+		);
+		$tasks            = \progress_planner()->get_suggested_tasks()->get_api()->get_saved_tasks();
+		$tasks['details'] = \progress_planner()->get_suggested_tasks()->get_api()->get_tasks();
+		$localize_data    = [
+			'ajaxUrl' => \admin_url( 'admin-ajax.php' ),
+			'nonce'   => \wp_create_nonce( 'progress_planner' ),
+			'tasks'   => $tasks,
+		];
+		\wp_localize_script( 'progress-planner-suggested-tasks', 'progressPlannerSuggestedTasks', $localize_data );
 	}
 
 	/**

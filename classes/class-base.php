@@ -162,9 +162,10 @@ class Base {
 		\add_filter( 'plugin_action_links_' . plugin_basename( PROGRESS_PLANNER_FILE ), [ $this, 'add_action_links' ] );
 		\add_action( 'enqueue_block_editor_assets', [ $this, 'enqueue_editor_script' ] );
 
-		// We need to initialize the page types class early, so taxonomy is registered in time.
-		$this->page_types = new Page_Types();
-		$this->settings   = new Settings();
+		// We need to initialize some classes early.
+		$this->page_types      = new Page_Types();
+		$this->settings        = new Settings();
+		$this->suggested_tasks = new Suggested_Tasks();
 	}
 
 	/**
