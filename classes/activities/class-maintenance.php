@@ -37,11 +37,10 @@ class Maintenance extends Activity {
 	 * @return void
 	 */
 	public function save() {
-		global $progress_planner;
 		$this->date    = new \DateTime();
 		$this->user_id = \get_current_user_id();
 
-		$existing = $progress_planner->get_query()->query_activities(
+		$existing = \progress_planner()->get_query()->query_activities(
 			[
 				'category'   => $this->category,
 				'type'       => $this->type,
@@ -51,10 +50,10 @@ class Maintenance extends Activity {
 			'RAW'
 		);
 		if ( ! empty( $existing ) ) {
-			$progress_planner->get_query()->update_activity( $existing[0]->id, $this );
+			\progress_planner()->get_query()->update_activity( $existing[0]->id, $this );
 			return;
 		}
-		$progress_planner->get_query()->insert_activity( $this );
+		\progress_planner()->get_query()->insert_activity( $this );
 		\do_action( 'progress_planner_activity_saved', $this );
 	}
 
@@ -66,13 +65,12 @@ class Maintenance extends Activity {
 	 * @return int
 	 */
 	public function get_points( $date ) {
-		global $progress_planner;
 		$date_ymd = $date->format( 'Ymd' );
 		if ( isset( $this->points[ $date_ymd ] ) ) {
 			return $this->points[ $date_ymd ];
 		}
 		$this->points[ $date_ymd ] = Base::$points_config['maintenance'];
-		$days                      = abs( $progress_planner->get_date()->get_days_between_dates( $date, $this->date ) );
+		$days                      = abs( \progress_planner()->get_date()->get_days_between_dates( $date, $this->date ) );
 
 		$this->points[ $date_ymd ] = ( $days < 7 ) ? $this->points[ $date_ymd ] : 0;
 

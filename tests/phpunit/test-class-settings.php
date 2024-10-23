@@ -21,8 +21,7 @@ class Settings_Test extends \WP_UnitTestCase {
 	 * @param mixed        $value   Expected value.
 	 */
 	public function test_set_get( $setting, $value ) {
-		global $progress_planner;
-		$progress_planner->get_settings()->set( $setting, $value );
+		\progress_planner()->get_settings()->set( $setting, $value );
 
 		$saved = \get_option( \Progress_Planner\Settings::OPTION_NAME );
 		if ( \is_string( $setting ) ) {
@@ -31,7 +30,7 @@ class Settings_Test extends \WP_UnitTestCase {
 			$this->assertEquals( $value, \_wp_array_get( $saved, $setting ) );
 		}
 
-		$this->assertEquals( $value, $progress_planner->get_settings()->get( $setting ) );
+		$this->assertEquals( $value, \progress_planner()->get_settings()->get( $setting ) );
 	}
 
 	/**

@@ -68,9 +68,8 @@ final class Badges extends Popover {
 	 * @return void
 	 */
 	public static function print_badges( $category ) {
-		global $progress_planner;
 		?>
-		<?php foreach ( $progress_planner->get_badges()->get_badges( $category ) as $badge ) : ?>
+		<?php foreach ( \progress_planner()->get_badges()->get_badges( $category ) as $badge ) : ?>
 			<?php
 			$badge_progress  = $badge->get_progress();
 			$badge_completed = 100 === (int) $badge_progress['progress'];
@@ -101,8 +100,7 @@ final class Badges extends Popover {
 	 * @return void
 	 */
 	public static function print_progressbar( $context ) {
-		global $progress_planner;
-		$badges = $progress_planner->get_badges()->get_badges( $context );
+		$badges = \progress_planner()->get_badges()->get_badges( $context );
 		?>
 		<div class="progress-badges">
 			<span class="badges-popover-progress-total">

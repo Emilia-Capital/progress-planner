@@ -66,7 +66,6 @@ class Dashboard_Widget_Score extends Dashboard_Widget {
 	 * @return array
 	 */
 	public function get_badge_details( $category = 'content' ) {
-		global $progress_planner;
 		static $cached = [
 			'content'     => false,
 			'maintenance' => false,
@@ -79,7 +78,7 @@ class Dashboard_Widget_Score extends Dashboard_Widget {
 		$result = [];
 
 		// Get the badge to display.
-		foreach ( $progress_planner->get_badges()->get_badges( $category ) as $badge ) {
+		foreach ( \progress_planner()->get_badges()->get_badges( $category ) as $badge ) {
 			$progress = $badge->get_progress();
 			if ( 100 > $progress['progress'] ) {
 				break;

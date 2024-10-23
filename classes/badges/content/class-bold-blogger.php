@@ -46,7 +46,6 @@ final class Bold_Blogger extends Badge_Content {
 	 * @return array
 	 */
 	public function progress_callback() {
-		global $progress_planner;
 		$saved_progress = $this->get_saved();
 
 		// If we have a saved value, return it.
@@ -56,11 +55,11 @@ final class Bold_Blogger extends Badge_Content {
 
 		// Get the number of new posts published.
 		$new_count = count(
-			$progress_planner->get_query()->query_activities(
+			\progress_planner()->get_query()->query_activities(
 				[
 					'category'   => 'content',
 					'type'       => 'publish',
-					'start_date' => $progress_planner->get_activation_date(),
+					'start_date' => \progress_planner()->get_activation_date(),
 				],
 			)
 		);

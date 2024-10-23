@@ -39,14 +39,13 @@ class Content extends Activity {
 	 * @return int
 	 */
 	public function get_points( $date ) {
-		global $progress_planner;
 		$date_ymd = $date->format( 'Ymd' );
 		if ( isset( $this->points[ $date_ymd ] ) ) {
 			return $this->points[ $date_ymd ];
 		}
 
 		// Get the number of days between the activity date and the given date.
-		$days = absint( $progress_planner->get_date()->get_days_between_dates( $date, $this->date ) );
+		$days = absint( \progress_planner()->get_date()->get_days_between_dates( $date, $this->date ) );
 
 		// Maximum range for awarded points is 30 days.
 		if ( $days >= 30 ) {
@@ -76,7 +75,6 @@ class Content extends Activity {
 	 * @return int
 	 */
 	public function get_points_on_publish_date() {
-		global $progress_planner;
 		$points = Base::$points_config['content']['publish'];
 		if ( isset( Base::$points_config['content'][ $this->type ] ) ) {
 			$points = Base::$points_config['content'][ $this->type ];
@@ -88,7 +86,7 @@ class Content extends Activity {
 		}
 
 		// Modify the score based on the words count.
-		$words       = $progress_planner->get_helpers()->content->get_word_count( $post->post_content, $post->ID );
+		$words       = \progress_planner()->get_helpers()->content->get_word_count( $post->post_content, $post->ID );
 		$multipliers = Base::$points_config['content']['word-multipliers'];
 		if ( $words > 1000 ) {
 			return (int) ( $points * $multipliers[1000] );

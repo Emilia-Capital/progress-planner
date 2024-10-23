@@ -60,7 +60,6 @@ class Rest_API {
 	 * @return \WP_REST_Response The REST response object containing the stats.
 	 */
 	public function get_stats( \WP_REST_Request $request ) {
-		global $progress_planner;
 		$data = $request->get_json_params();
 
 		$data = [];
@@ -82,7 +81,7 @@ class Rest_API {
 
 		// Get the number of activities in the past week.
 		$data['activities'] = count(
-			$progress_planner->get_query()->query_activities(
+			\progress_planner()->get_query()->query_activities(
 				[
 					'start_date' => new \DateTime( '-7 days' ),
 				]
@@ -98,9 +97,9 @@ class Rest_API {
 
 		// Get the badges.
 		$badges = array_merge(
-			$progress_planner->get_badges()->get_badges( 'content' ),
-			$progress_planner->get_badges()->get_badges( 'maintenance' ),
-			$progress_planner->get_badges()->get_badges( 'monthly' )
+			\progress_planner()->get_badges()->get_badges( 'content' ),
+			\progress_planner()->get_badges()->get_badges( 'maintenance' ),
+			\progress_planner()->get_badges()->get_badges( 'monthly' )
 		);
 
 		$data['badges'] = [];
@@ -114,9 +113,9 @@ class Rest_API {
 			);
 		}
 
-		$data['latest_badge'] = $progress_planner->get_badges()->get_latest_completed_badge();
+		$data['latest_badge'] = \progress_planner()->get_badges()->get_latest_completed_badge();
 
-		$scores = $progress_planner->get_chart()->get_chart_data(
+		$scores = \progress_planner()->get_chart()->get_chart_data(
 			[
 				'query_params'   => [],
 				'dates_params'   => [
@@ -154,7 +153,7 @@ class Rest_API {
 		$data['timezone_offset'] = \wp_timezone()->getOffset( new \DateTime( 'midnight' ) ) / 3600;
 
 		// Pending todo items.
-		$todo_items         = $progress_planner->get_todo()->get_items();
+		$todo_items         = \progress_planner()->get_todo()->get_items();
 		$pending_todo_items = [];
 		foreach ( $todo_items as $item ) {
 			if ( ! $todo_items['done'] ) {

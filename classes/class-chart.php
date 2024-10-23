@@ -79,7 +79,6 @@ class Chart {
 	 * @return array
 	 */
 	public function get_chart_data( $args = [] ) {
-		global $progress_planner;
 		$activities = [];
 
 		/*
@@ -111,7 +110,7 @@ class Chart {
 		);
 
 		// Get the periods for the chart.
-		$periods = $progress_planner->get_date()->get_periods(
+		$periods = \progress_planner()->get_date()->get_periods(
 			$args['dates_params']['start'],
 			$args['dates_params']['end'],
 			$args['dates_params']['frequency']
@@ -142,12 +141,12 @@ class Chart {
 		 */
 		$score = 0;
 		if ( $args['compound'] ) {
-			$oldest_activity = $progress_planner->get_query()->get_oldest_activity();
+			$oldest_activity = \progress_planner()->get_query()->get_oldest_activity();
 			if ( null !== $oldest_activity ) {
 				// Get the activities before the first period.
 				// We need to subtract one day from the start date to get the activities before the first period.
 				// Get all activities before the first period.
-				$activities = $progress_planner->get_query()->query_activities(
+				$activities = \progress_planner()->get_query()->query_activities(
 					array_merge(
 						$args['query_params'],
 						[
@@ -175,7 +174,7 @@ class Chart {
 		if ( $args['normalized'] ) {
 			$previous_month_start      = ( clone $periods[0]['start'] )->modify( '-1 month' );
 			$previous_month_end        = ( clone $periods[0]['start'] )->modify( '-1 day' );
-			$previous_month_activities = $progress_planner->get_query()->query_activities(
+			$previous_month_activities = \progress_planner()->get_query()->query_activities(
 				array_merge(
 					$args['query_params'],
 					[
@@ -216,9 +215,8 @@ class Chart {
 	 * @return array
 	 */
 	public function get_period_data( $period, $data, $datasets, $args, $score, $previous_month_activities ) {
-		global $progress_planner;
 		// Get the activities for the period.
-		$activities = $progress_planner->get_query()->query_activities(
+		$activities = \progress_planner()->get_query()->query_activities(
 			array_merge(
 				$args['query_params'],
 				[

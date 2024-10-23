@@ -91,9 +91,8 @@ class Badges {
 			return $this->latest_completed_badge;
 		}
 
-		global $progress_planner;
 		// Get the settings for badges.
-		$settings = $progress_planner->get_settings()->get( 'badges', [] );
+		$settings = \progress_planner()->get_settings()->get( 'badges', [] );
 
 		$latest_date = null;
 

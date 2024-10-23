@@ -27,8 +27,7 @@ final class Published_Content extends Widget {
 	 * @return array The stats.
 	 */
 	public function get_stats() {
-		global $progress_planner;
-		$post_types = $progress_planner->get_helpers()->content->get_post_types_names();
+		$post_types = \progress_planner()->get_helpers()->content->get_post_types_names();
 		$weekly     = [];
 		$all        = [];
 		foreach ( $post_types as $post_type ) {
@@ -93,10 +92,9 @@ final class Published_Content extends Widget {
 		return array_filter(
 			$activities,
 			function ( $activity ) {
-				global $progress_planner;
 				$post = $activity->get_post();
 				return is_object( $post )
-					&& \in_array( $post->post_type, $progress_planner->get_helpers()->content->get_post_types_names(), true );
+					&& \in_array( $post->post_type, \progress_planner()->get_helpers()->content->get_post_types_names(), true );
 			}
 		);
 	}

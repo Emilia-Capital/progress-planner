@@ -58,10 +58,9 @@ final class Published_Content_Density extends Widget {
 		return array_filter(
 			$activities,
 			function ( $activity ) {
-				global $progress_planner;
 				$post = $activity->get_post();
 				return is_object( $post )
-					&& \in_array( $post->post_type, $progress_planner->get_helpers()->content->get_post_types_names(), true );
+					&& \in_array( $post->post_type, \progress_planner()->get_helpers()->content->get_post_types_names(), true );
 			}
 		);
 	}
@@ -74,13 +73,12 @@ final class Published_Content_Density extends Widget {
 	 * @return int
 	 */
 	public function count_words( $activities ) {
-		global $progress_planner;
 		$words = 0;
 		foreach ( $activities as $activity ) {
 			if ( ! $activity->get_post() ) {
 				continue;
 			}
-			$words += $progress_planner->get_helpers()->content->get_word_count(
+			$words += \progress_planner()->get_helpers()->content->get_word_count(
 				$activity->get_post()->post_content,
 				(int) $activity->data_id
 			);
@@ -109,12 +107,11 @@ final class Published_Content_Density extends Widget {
 	 * @return int
 	 */
 	public function get_all_activities_density() {
-		global $progress_planner;
 		// Get the all-time average.
 		static $density;
 		if ( null === $density ) {
 			$activities = $this->filter_activities(
-				$progress_planner->get_query()->query_activities(
+				\progress_planner()->get_query()->query_activities(
 					[
 						'category' => 'content',
 						'type'     => 'publish',
@@ -132,12 +129,11 @@ final class Published_Content_Density extends Widget {
 	 * @return int
 	 */
 	public function get_weekly_activities_density() {
-		global $progress_planner;
 		static $density;
 		if ( null === $density ) {
 			// Get the weekly average.
 			$density = $this->count_density(
-				$progress_planner->get_query()->query_activities(
+				\progress_planner()->get_query()->query_activities(
 					[
 						'category'   => 'content',
 						'type'       => 'publish',
