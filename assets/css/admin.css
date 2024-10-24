@@ -149,6 +149,11 @@ button.prpl-info-icon {
 	max-height: 300px;
 }
 
+/* Make sure the graph wrapper doesn't overflow the .prpl-widget-wrapper. */
+.prpl-graph-wrapper:has(.prpl-chart-container) {
+	max-height: 300px;
+}
+
 /*------------------------------------*\
 	Layout for widgets.
 \*------------------------------------*/
