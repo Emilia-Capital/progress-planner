@@ -117,6 +117,20 @@ class Base {
 	private $onboard;
 
 	/**
+	 * An object containing actions classes.
+	 *
+	 * @var \stdClass|null
+	 */
+	private $actions;
+
+	/**
+	 * An instance of the \Progress_Planner\Rest_API class.
+	 *
+	 * @var \Progress_Planner\Rest_API|null
+	 */
+	private $rest_api;
+
+	/**
 	 * Constructor.
 	 */
 	public function __construct() {
@@ -148,18 +162,20 @@ class Base {
 			$this->get_admin()->dashboard_widgets->score = new \Progress_Planner\Admin\Dashboard_Widget_Score();
 			$this->get_admin()->dashboard_widgets->todo  = new \Progress_Planner\Admin\Dashboard_Widget_Todo();
 		}
-		new \Progress_Planner\Actions\Content();
-		new \Progress_Planner\Actions\Content_Scan();
-		new \Progress_Planner\Actions\Maintenance();
+
+		$this->actions               = new \stdClass();
+		$this->actions->content      = new \Progress_Planner\Actions\Content();
+		$this->actions->content_scan = new \Progress_Planner\Actions\Content_Scan();
+		$this->actions->maintenance  = new \Progress_Planner\Actions\Maintenance();
 
 		// REST API.
-		new Rest_API();
+		$this->rest_api = new Rest_API();
 
 		// Onboarding.
 		$this->onboard = new Onboard();
 
 		// To-do.
-		new Todo();
+		$this->todo = new Todo();
 
 		\add_filter( 'plugin_action_links_' . plugin_basename( PROGRESS_PLANNER_FILE ), [ $this, 'add_action_links' ] );
 		\add_action( 'enqueue_block_editor_assets', [ $this, 'enqueue_editor_script' ] );
@@ -340,6 +356,30 @@ class Base {
 			$this->onboard = new Onboard();
 		}
 		return $this->onboard;
+	}
+
+	/**
+	 * Get the actions instance.
+	 *
+	 * @return \stdClass
+	 */
+	public function get_actions() {
+		if ( ! $this->actions ) {
+			$this->actions = new \stdClass();
+		}
+		return $this->actions;
+	}
+
+	/**
+	 * Get the rest api instance.
+	 *
+	 * @return \Progress_Planner\Rest_API
+	 */
+	public function get_rest_api() {
+		if ( ! $this->rest_api ) {
+			$this->rest_api = new Rest_API();
+		}
+		return $this->rest_api;
 	}
 
 	/**
