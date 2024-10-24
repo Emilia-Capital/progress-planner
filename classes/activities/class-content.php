@@ -22,6 +22,23 @@ class Content extends Activity {
 	 */
 	public $category = 'content';
 
+
+	/**
+	 * Points configuration for content activities.
+	 *
+	 * @var array
+	 */
+	const POINTS_CONFIG = [
+		'publish'          => 50,
+		'update'           => 10,
+		'delete'           => 5,
+		'word-multipliers' => [
+			100  => 1.1,
+			350  => 1.25,
+			1000 => 0.8,
+		],
+	];
+
 	/**
 	 * Get WP_Post from the activity.
 	 *
@@ -75,9 +92,9 @@ class Content extends Activity {
 	 * @return int
 	 */
 	public function get_points_on_publish_date() {
-		$points = Base::$points_config['content']['publish'];
-		if ( isset( Base::$points_config['content'][ $this->type ] ) ) {
-			$points = Base::$points_config['content'][ $this->type ];
+		$points = self::POINTS_CONFIG['publish'];
+		if ( isset( self::POINTS_CONFIG[ $this->type ] ) ) {
+			$points = self::POINTS_CONFIG[ $this->type ];
 		}
 		$post = $this->get_post();
 
@@ -87,7 +104,7 @@ class Content extends Activity {
 
 		// Modify the score based on the words count.
 		$words       = \progress_planner()->get_helpers()->content->get_word_count( $post->post_content, $post->ID );
-		$multipliers = Base::$points_config['content']['word-multipliers'];
+		$multipliers = self::POINTS_CONFIG['word-multipliers'];
 		if ( $words > 1000 ) {
 			return (int) ( $points * $multipliers[1000] );
 		}

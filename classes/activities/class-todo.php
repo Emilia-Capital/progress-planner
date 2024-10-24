@@ -15,6 +15,18 @@ use Progress_Planner\Activity;
 class Todo extends Activity {
 
 	/**
+	 * Points configuration for todo activities.
+	 *
+	 * @var array
+	 */
+	const POINTS_CONFIG = [
+		'add'     => 1,
+		'delete'  => 1,
+		'update'  => 3, // Handles marking as done, and updating the content.
+		'default' => 1,
+	];
+
+	/**
 	 * Category of the activity.
 	 *
 	 * @var string

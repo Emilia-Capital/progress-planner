@@ -13,6 +13,13 @@ namespace Progress_Planner;
 class Activity {
 
 	/**
+	 * Points configuration.
+	 *
+	 * @var array|int
+	 */
+	const POINTS_CONFIG = [];
+
+	/**
 	 * Category of the activity.
 	 *
 	 * @var string
@@ -111,12 +118,12 @@ class Activity {
 
 		// Default points.
 		$default_points = 10;
-		if ( isset( Base::$points_config[ $this->category ][ $this->type ] ) ) {
-			$default_points = Base::$points_config[ $this->category ][ $this->type ];
-		} elseif ( isset( Base::$points_config[ $this->category ]['default'] ) ) {
-			$default_points = Base::$points_config[ $this->category ]['default'];
-		} elseif ( isset( Base::$points_config[ $this->category ] ) && \is_int( Base::$points_config[ $this->category ] ) ) {
-			$default_points = Base::$points_config[ $this->category ];
+		if ( isset( self::POINTS_CONFIG[ $this->type ] ) ) {
+			$default_points = self::POINTS_CONFIG[ $this->type ];
+		} elseif ( isset( self::POINTS_CONFIG['default'] ) ) {
+			$default_points = self::POINTS_CONFIG['default'];
+		} elseif ( \is_int( self::POINTS_CONFIG ) ) {
+			$default_points = self::POINTS_CONFIG;
 		}
 
 		$this->points[ $date_ymd ] = ( $days < 7 )

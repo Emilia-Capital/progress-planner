@@ -16,6 +16,13 @@ use Progress_Planner\Base;
 class Maintenance extends Activity {
 
 	/**
+	 * Points configuration.
+	 *
+	 * @var int
+	 */
+	const POINTS_CONFIG = 10;
+
+	/**
 	 * Category of the activity.
 	 *
 	 * @var string
@@ -69,7 +76,7 @@ class Maintenance extends Activity {
 		if ( isset( $this->points[ $date_ymd ] ) ) {
 			return $this->points[ $date_ymd ];
 		}
-		$this->points[ $date_ymd ] = Base::$points_config['maintenance'];
+		$this->points[ $date_ymd ] = self::POINTS_CONFIG;
 		$days                      = abs( \progress_planner()->get_date()->get_days_between_dates( $date, $this->date ) );
 
 		$this->points[ $date_ymd ] = ( $days < 7 ) ? $this->points[ $date_ymd ] : 0;

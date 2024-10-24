@@ -15,6 +15,13 @@ use Progress_Planner\Activity;
 class Suggested_Task extends Activity {
 
 	/**
+	 * Points configuration for suggested tasks activities.
+	 *
+	 * @var int
+	 */
+	const POINTS_CONFIG = 1;
+
+	/**
 	 * Category of the activity.
 	 *
 	 * @var string

@@ -72,8 +72,7 @@ $record = $this->personal_record_callback();
 				foreach ( $activities as $activity ) {
 					$score += $activity->get_points( $date );
 				}
-				$target = Base::$points_config['score-target'];
-				return $score * 100 / $target;
+				return $score * 100 / Base::SCORE_TARGET;
 			},
 			'compound'       => false,
 			'normalized'     => true,

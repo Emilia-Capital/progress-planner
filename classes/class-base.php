@@ -13,6 +13,13 @@ namespace Progress_Planner;
 class Base {
 
 	/**
+	 * The target score.
+	 *
+	 * @var int
+	 */
+	const SCORE_TARGET = 200;
+
+	/**
 	 * An instance of the \Progress_Planner\Settings class.
 	 *
 	 * @var \Progress_Planner\Settings|null
@@ -94,32 +101,6 @@ class Base {
 	 * @var \stdClass|null
 	 */
 	private $helpers;
-
-	/**
-	 * An array of configuration values for points awarded by action-type.
-	 *
-	 * @var array
-	 */
-	public static $points_config = [
-		'content'      => [
-			'publish'          => 50,
-			'update'           => 10,
-			'delete'           => 5,
-			'word-multipliers' => [
-				100  => 1.1,
-				350  => 1.25,
-				1000 => 0.8,
-			],
-		],
-		'maintenance'  => 10,
-		'todo'         => [
-			'add'     => 1,
-			'delete'  => 1,
-			'update'  => 3, // Handles marking as done, and updating the content.
-			'default' => 1,
-		],
-		'score-target' => 200,
-	];
 
 	/**
 	 * Constructor.
