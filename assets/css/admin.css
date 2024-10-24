@@ -369,7 +369,7 @@ button.prpl-info-icon {
 		color: var(--prpl-color-headings);
 	}
 
-	button:hover {
+	button:not(.driver-popover-close-btn):hover {
 		background-color: var(--prpl-background-orange);
 	}
 }
