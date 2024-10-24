@@ -17,7 +17,7 @@ class Activity {
 	 *
 	 * @var array|int
 	 */
-	const POINTS_CONFIG = [];
+	public static $points_config = [];
 
 	/**
 	 * Category of the activity.
@@ -118,12 +118,12 @@ class Activity {
 
 		// Default points.
 		$default_points = 10;
-		if ( isset( self::POINTS_CONFIG[ $this->type ] ) ) {
-			$default_points = self::POINTS_CONFIG[ $this->type ];
-		} elseif ( isset( self::POINTS_CONFIG['default'] ) ) {
-			$default_points = self::POINTS_CONFIG['default'];
-		} elseif ( \is_int( self::POINTS_CONFIG ) ) {
-			$default_points = self::POINTS_CONFIG;
+		if ( isset( self::$points_config[ $this->type ] ) ) {
+			$default_points = self::$points_config[ $this->type ];
+		} elseif ( isset( self::$points_config['default'] ) ) {
+			$default_points = self::$points_config['default'];
+		} elseif ( \is_int( self::$points_config ) ) {
+			$default_points = self::$points_config;
 		}
 
 		$this->points[ $date_ymd ] = ( $days < 7 )

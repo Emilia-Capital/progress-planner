@@ -20,7 +20,7 @@ class Maintenance extends Activity {
 	 *
 	 * @var int
 	 */
-	const POINTS_CONFIG = 10;
+	public static $points_config = 10;
 
 	/**
 	 * Category of the activity.
@@ -76,7 +76,7 @@ class Maintenance extends Activity {
 		if ( isset( $this->points[ $date_ymd ] ) ) {
 			return $this->points[ $date_ymd ];
 		}
-		$this->points[ $date_ymd ] = self::POINTS_CONFIG;
+		$this->points[ $date_ymd ] = self::$points_config;
 		$days                      = abs( \progress_planner()->get_date()->get_days_between_dates( $date, $this->date ) );
 
 		$this->points[ $date_ymd ] = ( $days < 7 ) ? $this->points[ $date_ymd ] : 0;

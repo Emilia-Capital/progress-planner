@@ -8,7 +8,6 @@
 namespace Progress_Planner\Admin;
 
 use Progress_Planner\Admin\Dashboard_Widget;
-use Progress_Planner\Admin\Page;
 
 /**
  * Class Dashboard_Widget_Score

@@ -19,7 +19,7 @@ class Suggested_Task extends Activity {
 	 *
 	 * @var int
 	 */
-	const POINTS_CONFIG = 1;
+	public static $points_config = 1;
 
 	/**
 	 * Category of the activity.

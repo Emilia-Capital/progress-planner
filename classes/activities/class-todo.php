@@ -19,7 +19,7 @@ class Todo extends Activity {
 	 *
 	 * @var array
 	 */
-	const POINTS_CONFIG = [
+	public static $points_config = [
 		'add'     => 1,
 		'delete'  => 1,
 		'update'  => 3, // Handles marking as done, and updating the content.
