@@ -35,7 +35,7 @@ if ( false !== \get_option( 'progress_planner_license_key', false ) ) {
 	</div>
 	<div class="inner-content">
 		<div class="left">
-			<?php Onboard::the_form(); ?>
+			<?php \progress_planner()->get_onboard()->the_form(); ?>
 		</div>
 		<div class="right">
 			<img src="<?php echo \esc_url( PROGRESS_PLANNER_URL . '/assets/images/image_onboaring_block.png' ); ?>" alt="" class="onboarding" />

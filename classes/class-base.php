@@ -103,6 +103,20 @@ class Base {
 	private $helpers;
 
 	/**
+	 * An object containing admin classes.
+	 *
+	 * @var \stdClass|null
+	 */
+	private $admin;
+
+	/**
+	 * An instance of the \Progress_Planner\Onboard class.
+	 *
+	 * @var \Progress_Planner\Onboard|null
+	 */
+	private $onboard;
+
+	/**
 	 * Constructor.
 	 */
 	public function __construct() {
@@ -128,10 +142,11 @@ class Base {
 
 		// Basic classes.
 		if ( \is_admin() && \current_user_can( 'publish_posts' ) ) {
-			new \Progress_Planner\Admin\Page();
-			new \Progress_Planner\Admin\Tour();
-			new \Progress_Planner\Admin\Dashboard_Widget_Score();
-			new \Progress_Planner\Admin\Dashboard_Widget_Todo();
+			$this->get_admin()->page                     = new \Progress_Planner\Admin\Page();
+			$this->get_admin()->tour                     = new \Progress_Planner\Admin\Tour();
+			$this->get_admin()->dashboard_widgets        = new \stdClass();
+			$this->get_admin()->dashboard_widgets->score = new \Progress_Planner\Admin\Dashboard_Widget_Score();
+			$this->get_admin()->dashboard_widgets->todo  = new \Progress_Planner\Admin\Dashboard_Widget_Todo();
 		}
 		new \Progress_Planner\Actions\Content();
 		new \Progress_Planner\Actions\Content_Scan();
@@ -141,7 +156,7 @@ class Base {
 		new Rest_API();
 
 		// Onboarding.
-		new Onboard();
+		$this->onboard = new Onboard();
 
 		// To-do.
 		new Todo();
@@ -301,6 +316,30 @@ class Base {
 			$this->helpers->content = new \Progress_Planner\Activities\Content_Helpers();
 		}
 		return $this->helpers;
+	}
+
+	/**
+	 * Get the admin instance.
+	 *
+	 * @return \stdClass
+	 */
+	public function get_admin() {
+		if ( ! $this->admin ) {
+			$this->admin = new \stdClass();
+		}
+		return $this->admin;
+	}
+
+	/**
+	 * Get the onboard instance.
+	 *
+	 * @return \Progress_Planner\Onboard
+	 */
+	public function get_onboard() {
+		if ( ! $this->onboard ) {
+			$this->onboard = new Onboard();
+		}
+		return $this->onboard;
 	}
 
 	/**

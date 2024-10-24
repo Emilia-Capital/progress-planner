@@ -65,7 +65,7 @@ class Onboard {
 	 *
 	 * @return void
 	 */
-	public static function the_form() {
+	public function the_form() {
 		$current_user = \wp_get_current_user();
 
 		// Enqueue onboarding styles.
@@ -202,7 +202,7 @@ class Onboard {
 	 *
 	 * @return string
 	 */
-	public static function get_remote_nonce_url() {
+	public function get_remote_nonce_url() {
 		return self::REMOTE_DOMAIN . self::REMOTE_API_URL . 'get-nonce';
 	}
 
@@ -211,7 +211,7 @@ class Onboard {
 	 *
 	 * @return string
 	 */
-	public static function get_remote_url() {
+	public function get_remote_url() {
 		return self::REMOTE_DOMAIN . self::REMOTE_API_URL . 'onboard';
 	}
 }

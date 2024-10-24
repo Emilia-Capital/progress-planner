@@ -7,8 +7,6 @@
 
 namespace Progress_Planner\Admin;
 
-use Progress_Planner\Onboard;
-
 /**
  * Admin page class.
  */
@@ -99,8 +97,8 @@ class Page {
 			return;
 		}
 
-		self::enqueue_scripts();
-		self::enqueue_styles();
+		$this->enqueue_scripts();
+		$this->enqueue_styles();
 	}
 
 	/**
@@ -108,7 +106,7 @@ class Page {
 	 *
 	 * @return void
 	 */
-	public static function register_scripts() {
+	public function register_scripts() {
 		// Register Chart.js.
 		\wp_register_script(
 			'chart-js',
@@ -189,8 +187,8 @@ class Page {
 		);
 
 		$localize_data = [
-			'onboardNonceURL' => Onboard::get_remote_nonce_url(),
-			'onboardAPIUrl'   => Onboard::get_remote_url(),
+			'onboardNonceURL' => \progress_planner()->get_onboard()->get_remote_nonce_url(),
+			'onboardAPIUrl'   => \progress_planner()->get_onboard()->get_remote_url(),
 			'ajaxUrl'         => \admin_url( 'admin-ajax.php' ),
 			'nonce'           => \wp_create_nonce( 'progress_planner' ),
 		];
@@ -273,13 +271,13 @@ class Page {
 	 *
 	 * @return void
 	 */
-	public static function enqueue_scripts() {
+	public function enqueue_scripts() {
 		$current_screen = \get_current_screen();
 		if ( ! $current_screen ) {
 			return;
 		}
 
-		self::register_scripts();
+		$this->register_scripts();
 
 		if ( 'toplevel_page_progress-planner' === $current_screen->id ) {
 			\wp_enqueue_script( 'chart-js' );
@@ -301,7 +299,7 @@ class Page {
 	 *
 	 * @return void
 	 */
-	public static function enqueue_styles() {
+	public function enqueue_styles() {
 		$current_screen = \get_current_screen();
 		if ( ! $current_screen ) {
 			return;
