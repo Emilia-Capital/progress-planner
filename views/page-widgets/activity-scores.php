@@ -29,7 +29,7 @@ $record      = $prpl_widget->personal_record_callback();
 </h2>
 
 <div style="--background: var(--prpl-background-orange)">
-	<?php \progress_planner()->the_template( 'page-widgets/parts/activity-scores-gauge.php' ); ?>
+	<?php \progress_planner()->the_view( 'page-widgets/parts/activity-scores-gauge.php' ); ?>
 	<p class="hidden" id="prpl-activity-details">
 		<?php \esc_html_e( 'Your website activity score is based on the amount of website maintenance work you have done over the past 30 days.', 'progress-planner' ); ?>
 	</p>

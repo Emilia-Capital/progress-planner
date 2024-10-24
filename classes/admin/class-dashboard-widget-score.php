@@ -54,7 +54,7 @@ class Dashboard_Widget_Score extends Dashboard_Widget {
 			(string) filemtime( PROGRESS_PLANNER_DIR . "/assets/css/dashboard-widgets/{$this->id}.css" )
 		);
 
-		\progress_planner()->the_template( "dashboard-widgets/{$this->id}.php" );
+		\progress_planner()->the_view( "dashboard-widgets/{$this->id}.php" );
 	}
 
 	/**

@@ -63,7 +63,7 @@ final class Activity_Scores extends Widget {
 	 * @return void
 	 */
 	public function print_score_gauge() {
-		\progress_planner()->the_template( 'page-widgets/parts/activity-scores-gauge.php' );
+		\progress_planner()->the_view( 'page-widgets/parts/activity-scores-gauge.php' );
 	}
 
 	/**

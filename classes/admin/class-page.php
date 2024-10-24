@@ -96,7 +96,7 @@ class Page {
 	 * @return void
 	 */
 	public function render_page() {
-		\progress_planner()->the_template( 'admin-page.php' );
+		\progress_planner()->the_view( 'admin-page.php' );
 	}
 
 	/**

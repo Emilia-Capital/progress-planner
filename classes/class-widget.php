@@ -103,6 +103,6 @@ abstract class Widget {
 	 * @return void
 	 */
 	public function the_content() {
-		\progress_planner()->the_template( "page-widgets/{$this->id}.php" );
+		\progress_planner()->the_view( "page-widgets/{$this->id}.php" );
 	}
 }

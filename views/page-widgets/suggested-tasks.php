@@ -59,7 +59,7 @@ $percentage  = $prpl_widget->get_score() / Monthly::TARGET_POINTS;
 </h2>
 
 <ul style="display:none">
-	<?php \progress_planner()->the_template( 'views/suggested-tasks-item.php' ); ?>
+	<?php \progress_planner()->the_view( 'views/suggested-tasks-item.php' ); ?>
 </ul>
 <ul class="prpl-suggested-tasks-list"></ul>
 

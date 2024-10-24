@@ -9,8 +9,8 @@
 
 <div class="wrap prpl-wrap">
 	<h1 class="screen-reader-text"><?php \esc_html_e( 'Progress Planner', 'progress-planner' ); ?></h1>
-	<?php \progress_planner()->the_template( 'admin-page-header.php' ); ?>
-	<?php \progress_planner()->the_template( 'welcome.php' ); ?>
+	<?php \progress_planner()->the_view( 'admin-page-header.php' ); ?>
+	<?php \progress_planner()->the_view( 'welcome.php' ); ?>
 
 	<?php \do_action( 'progress_planner_admin_after_header' ); ?>
 

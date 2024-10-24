@@ -46,6 +46,6 @@ class Dashboard_Widget_Todo extends Dashboard_Widget {
 			(string) filemtime( PROGRESS_PLANNER_DIR . '/assets/css/page-widgets/todo.css' )
 		);
 
-		\progress_planner()->the_template( "dashboard-widgets/{$this->id}.php" );
+		\progress_planner()->the_view( "dashboard-widgets/{$this->id}.php" );
 	}
 }

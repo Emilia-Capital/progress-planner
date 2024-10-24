@@ -418,7 +418,7 @@ class Base {
 	 * @param array        $args   The arguments to pass to the template.
 	 * @return void
 	 */
-	public function the_template( $template, $args = [] ) {
+	public function the_view( $template, $args = [] ) {
 		$this->the_file( [ $template, "/views/{$template}" ], $args );
 	}
 
