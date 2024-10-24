@@ -162,6 +162,7 @@ class Base {
 			$this->get_admin()->dashboard_widgets->score = new \Progress_Planner\Admin\Dashboard_Widget_Score();
 			$this->get_admin()->dashboard_widgets->todo  = new \Progress_Planner\Admin\Dashboard_Widget_Todo();
 		}
+		$this->get_admin()->editor = new \Progress_Planner\Admin\Editor();
 
 		$this->actions               = new \stdClass();
 		$this->actions->content      = new \Progress_Planner\Actions\Content();
@@ -178,7 +179,6 @@ class Base {
 		$this->todo = new Todo();
 
 		\add_filter( 'plugin_action_links_' . plugin_basename( PROGRESS_PLANNER_FILE ), [ $this, 'add_action_links' ] );
-		\add_action( 'enqueue_block_editor_assets', [ $this, 'enqueue_editor_script' ] );
 
 		// We need to initialize some classes early.
 		$this->page_types      = new Page_Types();
@@ -408,47 +408,5 @@ class Base {
 		$action_link = [ '<a href="' . admin_url( 'admin.php?page=progress-planner' ) . '">' . __( 'Dashboard', 'progress-planner' ), '</a>' ];
 		$actions     = array_merge( $action_link, $actions );
 		return $actions;
-	}
-
-	/**
-	 * Enqueue the editor script.
-	 *
-	 * @return void
-	 */
-	public function enqueue_editor_script() {
-		// Bail early when we're on the site-editor.php page.
-		$request = \filter_input( INPUT_SERVER, 'REQUEST_URI' );
-		if ( false !== \strpos( (string) $request, '/site-editor.php' ) ) {
-			return;
-		}
-
-		\wp_enqueue_script(
-			'progress-planner-editor',
-			\plugins_url( '/assets/js/editor.js', PROGRESS_PLANNER_FILE ),
-			[ 'wp-plugins', 'wp-edit-post', 'wp-element' ],
-			(string) filemtime( \plugin_dir_path( PROGRESS_PLANNER_FILE ) . 'assets/js/editor.js' ),
-			true
-		);
-
-		\wp_localize_script(
-			'progress-planner-editor',
-			'progressPlannerEditor',
-			[
-				'lessons'         => $this->get_lessons()->get_remote_api_items(),
-				'pageTypes'       => $this->get_page_types()->get_page_types(),
-				'defaultPageType' => $this->get_page_types()->get_default_page_type( (string) \get_post_type(), (int) \get_the_ID() ),
-				'i18n'            => [
-					'pageType'               => \esc_html__( 'Page type', 'progress-planner' ),
-					'progressPlannerSidebar' => \esc_html__( 'Progress Planner Sidebar', 'progress-planner' ),
-					'progressPlanner'        => \esc_html__( 'Progress Planner', 'progress-planner' ),
-				],
-			]
-		);
-		\wp_enqueue_style(
-			'progress-planner-editor',
-			\plugins_url( '/assets/css/editor.css', PROGRESS_PLANNER_FILE ),
-			[],
-			(string) filemtime( PROGRESS_PLANNER_DIR . '/assets/css/editor.css' )
-		);
 	}
 }
