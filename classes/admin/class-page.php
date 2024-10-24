@@ -13,21 +13,6 @@ namespace Progress_Planner\Admin;
 class Page {
 
 	/**
-	 * The widgets to display on the admin page.
-	 */
-	const WIDGETS = [
-		'\Progress_Planner\Widgets\Activity_Scores',
-		'\Progress_Planner\Widgets\Suggested_Tasks',
-		'\Progress_Planner\Widgets\ToDo',
-		'\Progress_Planner\Widgets\Badge_Streak',
-		'\Progress_Planner\Widgets\Latest_Badge',
-		'\Progress_Planner\Widgets\Published_Content_Density',
-		'\Progress_Planner\Widgets\Published_Words',
-		'\Progress_Planner\Widgets\Published_Content',
-		'\Progress_Planner\Widgets\Whats_New',
-	];
-
-	/**
 	 * Constructor.
 	 */
 	public function __construct() {
@@ -43,6 +28,34 @@ class Page {
 		\add_action( 'admin_menu', [ $this, 'add_page' ] );
 		\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 		\add_action( 'wp_ajax_progress_planner_save_cpt_settings', [ $this, 'save_cpt_settings' ] );
+	}
+
+	/**
+	 * Get the widgets objects
+	 *
+	 * @return array<\Progress_Planner\Widget>
+	 */
+	private function get_widgets() {
+		$widgets = [
+			new \Progress_Planner\Widgets\Activity_Scores(),
+			new \Progress_Planner\Widgets\Suggested_Tasks(),
+			new \Progress_Planner\Widgets\ToDo(),
+			new \Progress_Planner\Widgets\Badge_Streak(),
+			new \Progress_Planner\Widgets\Latest_Badge(),
+			new \Progress_Planner\Widgets\Published_Content_Density(),
+			new \Progress_Planner\Widgets\Published_Words(),
+			new \Progress_Planner\Widgets\Published_Content(),
+			new \Progress_Planner\Widgets\Whats_New(),
+		];
+
+		/**
+		 * Filter the widgets.
+		 *
+		 * @param array<\Progress_Planner\Widget> $widgets The widgets.
+		 *
+		 * @return array<\Progress_Planner\Widget>
+		 */
+		return \apply_filters( 'progress_planner_admin_widgets', $widgets );
 	}
 
 	/**
@@ -76,9 +89,8 @@ class Page {
 			<?php \do_action( 'progress_planner_admin_after_header' ); ?>
 
 			<div class="prpl-widgets-container">
-				<?php $widgets = \apply_filters( 'progress_planner_admin_widgets', self::WIDGETS ); ?>
-				<?php foreach ( $widgets as $class_name ) : ?>
-					<?php ( new $class_name() )->render(); ?>
+				<?php foreach ( $this->get_widgets() as $widget ) : ?>
+					<?php $widget->render(); ?>
 				<?php endforeach; ?>
 			</div>
 		</div>
