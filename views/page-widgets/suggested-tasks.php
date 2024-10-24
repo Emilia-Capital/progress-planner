@@ -40,7 +40,7 @@ $percentage  = $prpl_widget->get_score() / Monthly::TARGET_POINTS;
 		?>
 		</span>
 		<span class="prpl-gauge-100">
-			<?php echo \esc_html( Monthly::TARGET_POINTS ); ?>
+			<?php echo \esc_html( (string) Monthly::TARGET_POINTS ); ?>
 		</span>
 	</div>
 </div>
