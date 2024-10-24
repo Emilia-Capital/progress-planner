@@ -188,198 +188,55 @@ class Base {
 	}
 
 	/**
-	 * Get the settings instance.
+	 * Magic method to get properties.
+	 * We use this to avoid a lot of code duplication.
 	 *
-	 * @return \Progress_Planner\Settings
-	 */
-	public function get_settings() {
-		if ( ! $this->settings ) {
-			$this->settings = new Settings();
-		}
-		return $this->settings;
-	}
-
-	/**
-	 * Get the query instance.
+	 * If we call $this->get_settings(), we need to check if $this->settings exists.
+	 * If it exists and is null, we create a new instance of the `Settings` class.
 	 *
-	 * @return \Progress_Planner\Query
-	 */
-	public function get_query() {
-		if ( ! $this->query ) {
-			$this->query = new Query();
-		}
-		return $this->query;
-	}
-
-	/**
-	 * Get the date instance.
+	 * @param string $name The name of the property.
+	 * @param array  $arguments The arguments passed to the class constructor.
 	 *
-	 * @return \Progress_Planner\Date
+	 * @return mixed
 	 */
-	public function get_date() {
-		if ( ! $this->date ) {
-			$this->date = new Date();
+	public function __call( $name, $arguments ) {
+		$map           = [
+			'popovers'      => [
+				'badges'   => '\Progress_Planner\Popovers\Badges',
+				'settings' => '\Progress_Planner\Popovers\Settings',
+			],
+			'settings_page' => '\Progress_Planner\Admin\Page_Settings',
+			'helpers'       => [
+				'content' => '\Progress_Planner\Activities\Content_Helpers',
+			],
+			'admin'         => [],
+			'actions'       => [],
+		];
+		$property_name = str_replace( 'get_', '', $name );
+		if ( ! property_exists( $this, $property_name ) ) {
+			return null;
 		}
-		return $this->date;
-	}
 
-	/**
-	 * Get the lessons instance.
-	 *
-	 * @return \Progress_Planner\Lessons
-	 */
-	public function get_lessons() {
-		if ( ! $this->lessons ) {
-			$this->lessons = new Lessons();
+		if ( is_null( $this->$property_name ) ) {
+			if ( isset( $map[ $property_name ] ) ) {
+				if ( is_array( $map[ $property_name ] ) ) {
+					$this->$property_name = new \stdClass();
+					foreach ( $map[ $property_name ] as $key => $class_name ) {
+						if ( class_exists( $class_name ) ) {
+							$this->$property_name->$key = new $class_name( $arguments );
+						}
+					}
+				} elseif ( class_exists( $map[ $property_name ] ) ) {
+					$this->$property_name = new $map[ $property_name ]( $arguments );
+				}
+			} else {
+				$class_name = 'Progress_Planner\\' . implode( '_', array_map( 'ucfirst', explode( '_', $property_name ) ) );
+				if ( class_exists( $class_name ) ) {
+					$this->$property_name = new $class_name( $arguments );
+				}
+			}
 		}
-		return $this->lessons;
-	}
-
-	/**
-	 * Get the page types instance.
-	 *
-	 * @return \Progress_Planner\Page_Types
-	 */
-	public function get_page_types() {
-		if ( ! $this->page_types ) {
-			$this->page_types = new Page_Types();
-		}
-		return $this->page_types;
-	}
-
-	/**
-	 * Get the chart instance.
-	 *
-	 * @return \Progress_Planner\Chart
-	 */
-	public function get_chart() {
-		if ( ! $this->chart ) {
-			$this->chart = new Chart();
-		}
-		return $this->chart;
-	}
-
-	/**
-	 * Get the suggested tasks instance.
-	 *
-	 * @return \Progress_Planner\Suggested_Tasks
-	 */
-	public function get_suggested_tasks() {
-		if ( ! $this->suggested_tasks ) {
-			$this->suggested_tasks = new Suggested_Tasks();
-		}
-		return $this->suggested_tasks;
-	}
-
-	/**
-	 * Get the todo instance.
-	 *
-	 * @return \Progress_Planner\Todo
-	 */
-	public function get_todo() {
-		if ( ! $this->todo ) {
-			$this->todo = new Todo();
-		}
-		return $this->todo;
-	}
-
-	/**
-	 * Get the popovers instance.
-	 *
-	 * @return \stdClass
-	 */
-	public function get_popovers() {
-		if ( ! $this->popovers ) {
-			$this->popovers = new \stdClass();
-		}
-		$this->popovers->badges   = new \Progress_Planner\Popovers\Badges();
-		$this->popovers->settings = new \Progress_Planner\Popovers\Settings();
-
-		return $this->popovers;
-	}
-
-	/**
-	 * Get the badges instance.
-	 *
-	 * @return \Progress_Planner\Badges
-	 */
-	public function get_badges() {
-		if ( ! $this->badges ) {
-			$this->badges = new Badges();
-		}
-		return $this->badges;
-	}
-
-	/**
-	 * Get the settings page instance.
-	 *
-	 * @return \Progress_Planner\Admin\Page_Settings
-	 */
-	public function get_settings_page() {
-		if ( ! $this->settings_page ) {
-			$this->settings_page = new \Progress_Planner\Admin\Page_Settings();
-		}
-		return $this->settings_page;
-	}
-
-	/** Get the helpers instance.
-	 *
-	 * @return \stdClass
-	 */
-	public function get_helpers() {
-		if ( ! $this->helpers ) {
-			$this->helpers          = new \stdClass();
-			$this->helpers->content = new \Progress_Planner\Activities\Content_Helpers();
-		}
-		return $this->helpers;
-	}
-
-	/**
-	 * Get the admin instance.
-	 *
-	 * @return \stdClass
-	 */
-	public function get_admin() {
-		if ( ! $this->admin ) {
-			$this->admin = new \stdClass();
-		}
-		return $this->admin;
-	}
-
-	/**
-	 * Get the onboard instance.
-	 *
-	 * @return \Progress_Planner\Onboard
-	 */
-	public function get_onboard() {
-		if ( ! $this->onboard ) {
-			$this->onboard = new Onboard();
-		}
-		return $this->onboard;
-	}
-
-	/**
-	 * Get the actions instance.
-	 *
-	 * @return \stdClass
-	 */
-	public function get_actions() {
-		if ( ! $this->actions ) {
-			$this->actions = new \stdClass();
-		}
-		return $this->actions;
-	}
-
-	/**
-	 * Get the rest api instance.
-	 *
-	 * @return \Progress_Planner\Rest_API
-	 */
-	public function get_rest_api() {
-		if ( ! $this->rest_api ) {
-			$this->rest_api = new Rest_API();
-		}
-		return $this->rest_api;
+		return $this->$property_name;
 	}
 
 	/**
