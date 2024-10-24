@@ -35,7 +35,7 @@ $prpl_page_types    = \progress_planner()->get_page_types()->get_page_types();
 								class="prpl-pages-item prpl-pages-item-<?php echo esc_attr( $prpl_setting['page'] ); ?>"
 								data-page-item="<?php echo esc_attr( $prpl_setting['page'] ); ?>"
 							>
-								<?php \progress_planner()->the_view( "setting/{$prpl_setting['type']}.php" ); ?>
+								<?php \progress_planner()->the_view( "setting/{$prpl_setting['type']}.php", [ 'prpl_setting' => $prpl_setting ] ); ?>
 							</div>
 						<?php endif; ?>
 					<?php endforeach; ?>
