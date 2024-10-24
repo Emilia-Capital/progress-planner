@@ -35,7 +35,7 @@ class Page {
 	 *
 	 * @return array<\Progress_Planner\Widget>
 	 */
-	private function get_widgets() {
+	public function get_widgets() {
 		$widgets = [
 			new \Progress_Planner\Widgets\Activity_Scores(),
 			new \Progress_Planner\Widgets\Suggested_Tasks(),
@@ -56,6 +56,22 @@ class Page {
 		 * @return array<\Progress_Planner\Widget>
 		 */
 		return \apply_filters( 'progress_planner_admin_widgets', $widgets );
+	}
+
+	/**
+	 * Get a widget object.
+	 *
+	 * @param string $id The widget ID.
+	 *
+	 * @return \Progress_Planner\Widget|void
+	 */
+	public function get_widget( $id ) {
+		$widgets = $this->get_widgets();
+		foreach ( $widgets as $widget ) {
+			if ( $widget->get_id() === $id ) {
+				return $widget;
+			}
+		}
 	}
 
 	/**
@@ -80,21 +96,7 @@ class Page {
 	 * @return void
 	 */
 	public function render_page() {
-		?>
-		<div class="wrap prpl-wrap">
-			<h1 class="screen-reader-text"><?php \esc_html_e( 'Progress Planner', 'progress-planner' ); ?></h1>
-			<?php require PROGRESS_PLANNER_DIR . '/views/admin-page-header.php'; ?>
-			<?php require PROGRESS_PLANNER_DIR . '/views/welcome.php'; ?>
-
-			<?php \do_action( 'progress_planner_admin_after_header' ); ?>
-
-			<div class="prpl-widgets-container">
-				<?php foreach ( $this->get_widgets() as $widget ) : ?>
-					<?php $widget->render(); ?>
-				<?php endforeach; ?>
-			</div>
-		</div>
-		<?php
+		\progress_planner()->the_template( 'admin-page.php' );
 	}
 
 	/**

@@ -22,6 +22,15 @@ abstract class Widget {
 	protected $id;
 
 	/**
+	 * Get the widget ID.
+	 *
+	 * @return string
+	 */
+	public function get_id() {
+		return $this->id;
+	}
+
+	/**
 	 * Get the widget range.
 	 *
 	 * @return string
@@ -70,11 +79,13 @@ abstract class Widget {
 			'prpl-widget-wrapper',
 			'prpl-' . \esc_attr( $this->id ),
 		];
-		echo '<div class="' . esc_attr( \implode( ' ', $classes ) ) . '">';
-		echo '<div class="widget-inner-container">';
-		$this->the_content();
-		echo '</div>';
-		echo '</div>';
+		?>
+		<div class="<?php echo \esc_attr( \implode( ' ', $classes ) ); ?>">
+			<div class="widget-inner-container">
+				<?php $this->the_content(); ?>
+			</div>
+		</div>
+		<?php
 	}
 
 	/**
@@ -92,18 +103,6 @@ abstract class Widget {
 	 * @return void
 	 */
 	public function the_content() {
-		/**
-		 * Filters the template to use for the widget.
-		 *
-		 * @param string $template The template to use.
-		 * @param string $id       The widget ID.
-		 *
-		 * @return string The template to use.
-		 */
-		include \apply_filters( // phpcs:ignore PEAR.Files.IncludingFile.UseRequire
-			'progress_planner_widgets_template',
-			PROGRESS_PLANNER_DIR . "/views/page-widgets/{$this->id}.php",
-			$this->id
-		);
+		\progress_planner()->the_template( "page-widgets/{$this->id}.php" );
 	}
 }

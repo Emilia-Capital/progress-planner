@@ -11,7 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$record = $this->personal_record_callback();
+$prpl_widget = \progress_planner()->get_admin()->page->get_widget( 'activity-scores' );
+$record      = $prpl_widget->personal_record_callback();
 
 // @todo "past months" should be "past month" if the website is not older than a month yet.
 ?>
@@ -28,7 +29,7 @@ $record = $this->personal_record_callback();
 </h2>
 
 <div style="--background: var(--prpl-background-orange)">
-	<?php include \PROGRESS_PLANNER_DIR . '/views/page-widgets/parts/activity-scores-gauge.php'; // phpcs:ignore PEAR.Files.IncludingFile.UseRequire ?>
+	<?php \progress_planner()->the_template( 'page-widgets/parts/activity-scores-gauge.php' ); ?>
 	<p class="hidden" id="prpl-activity-details">
 		<?php \esc_html_e( 'Your website activity score is based on the amount of website maintenance work you have done over the past 30 days.', 'progress-planner' ); ?>
 	</p>
@@ -43,9 +44,9 @@ $record = $this->personal_record_callback();
 		[
 			'query_params'   => [],
 			'dates_params'   => [
-				'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) )->modify( $this->get_range() ),
+				'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) )->modify( $prpl_widget->get_range() ),
 				'end'       => new \DateTime(),
-				'frequency' => $this->get_frequency(),
+				'frequency' => $prpl_widget->get_frequency(),
 				'format'    => 'M',
 			],
 			'chart_params'   => [
@@ -77,8 +78,8 @@ $record = $this->personal_record_callback();
 			'compound'       => false,
 			'normalized'     => true,
 			'colors'         => [
-				'background' => [ $this, 'get_color' ],
-				'border'     => [ $this, 'get_color' ],
+				'background' => [ $prpl_widget, 'get_color' ],
+				'border'     => [ $prpl_widget, 'get_color' ],
 			],
 			'max'            => 100,
 		]

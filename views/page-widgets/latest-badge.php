@@ -9,6 +9,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+$prpl_widget = \progress_planner()->get_admin()->page->get_widget( 'latest-badge' );
+
 // Get the latest completed badge.
 $latest_badge = \progress_planner()->get_badges()->get_latest_completed_badge();
 ?>
@@ -27,5 +29,8 @@ $latest_badge = \progress_planner()->get_badges()->get_latest_completed_badge();
 		);
 		?>
 	</p>
-	<img src="<?php echo \esc_url( $this->endpoint . $latest_badge->get_id() ); ?>" alt="<?php echo \esc_attr( $latest_badge->get_name() ); ?>" />
+	<img
+		src="<?php echo \esc_url( $prpl_widget->endpoint . $latest_badge->get_id() ); ?>"
+		alt="<?php echo \esc_attr( $latest_badge->get_name() ); ?>"
+	/>
 <?php endif; ?>

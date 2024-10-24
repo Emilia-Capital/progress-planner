@@ -6,8 +6,8 @@
  */
 
 $show_badges = (
-	$this->get_badge_details( 'content' )['progress']['progress'] ||
-	$this->get_badge_details( 'maintenance' )['progress']['progress']
+	\progress_planner()->get_admin()->dashboard_widgets->score->get_badge_details( 'content' )['progress']['progress'] ||
+	\progress_planner()->get_admin()->dashboard_widgets->score->get_badge_details( 'maintenance' )['progress']['progress']
 );
 
 ?>
@@ -21,7 +21,7 @@ $show_badges = (
 			<h3><?php \esc_html_e( 'Next badges', 'progress-planner' ); ?></h3>
 			<?php foreach ( [ 'content', 'maintenance' ] as $category ) : ?>
 				<?php
-				$details = $this->get_badge_details( $category );
+				$details = \progress_planner()->get_admin()->dashboard_widgets->score->get_badge_details( $category );
 				if ( 100 <= (int) $details['progress']['progress'] ) {
 					return;
 				}
@@ -39,7 +39,7 @@ $show_badges = (
 									--max: 360deg;
 									--start: 180deg;
 								">
-								<?php require PROGRESS_PLANNER_DIR . '/assets/images/badges/' . $details['badge']['id'] . '.svg'; ?>
+								<?php \progress_planner()->the_asset( 'images/badges/' . $details['badge']['id'] . '.svg' ); ?>
 							</div>
 						</span>
 						<span class="progress-percent"><?php echo \esc_attr( $details['progress']['progress'] ); ?>%</span>

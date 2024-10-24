@@ -119,6 +119,8 @@
 		<exclude name="WordPress.PHP.YodaConditions"/>
 	</rule>
 
+	<exclude name="PEAR.Files.IncludingFile.UseRequire"/>
+
 	<!-- Enforce short arrays: -->
 	<rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
 

@@ -78,9 +78,11 @@ final class Badges extends Popover {
 			>
 				<div class="inner">
 					<?php
-					include $badge_completed // phpcs:ignore PEAR.Files.IncludingFile.UseRequire
-						? PROGRESS_PLANNER_DIR . '/assets/images/badges/' . $badge->get_id() . '.svg'
-						: PROGRESS_PLANNER_DIR . '/assets/images/badges/' . $badge->get_id() . '-bw.svg';
+					\progress_planner()->the_asset(
+						$badge_completed
+							? 'images/badges/' . $badge->get_id() . '.svg'
+							: 'images/badges/' . $badge->get_id() . '-bw.svg'
+					);
 					?>
 					<?php echo \esc_html( $badge->get_name() ); ?>
 				</div>

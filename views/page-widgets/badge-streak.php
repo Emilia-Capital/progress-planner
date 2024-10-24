@@ -9,6 +9,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+$prpl_widget = \progress_planner()->get_admin()->page->get_widget( 'badge-streak' );
+
 ?>
 
 <h2 class="prpl-widget-title">
@@ -16,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<?php \progress_planner()->get_popovers()->badges->render(); ?>
 </h2>
 
-<?php $content_badge_details = $this->get_details( 'content' ); ?>
+<?php $content_badge_details = $prpl_widget->get_details( 'content' ); ?>
 
 <div class="prpl-latest-badges-wrapper">
 	<div class="prpl-badges-columns-wrapper">
@@ -32,7 +34,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 						--max: 360deg;
 						--start: 180deg;
 					">
-					<?php require PROGRESS_PLANNER_DIR . '/assets/images/badges/' . $content_badge_details['badge']['id'] . '.svg'; ?>
+					<?php \progress_planner()->the_asset( 'images/badges/' . $content_badge_details['badge']['id'] . '.svg' ); ?>
 				</div>
 			</span>
 			<span class="progress-percent"><?php echo \esc_attr( $content_badge_details['progress']['progress'] ); ?>%</span>
@@ -60,7 +62,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 	<hr>
 
-	<?php $streak_badge_details = $this->get_details( 'maintenance' ); ?>
+	<?php $streak_badge_details = $prpl_widget->get_details( 'maintenance' ); ?>
 
 	<div class="prpl-badges-columns-wrapper">
 		<div class="prpl-badge-wrapper" style="--background: var(--prpl-background-red);">
@@ -75,7 +77,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 						--max: 360deg;
 						--start: 180deg;
 					">
-					<?php require PROGRESS_PLANNER_DIR . '/assets/images/badges/' . $streak_badge_details['badge']['id'] . '.svg'; ?>
+					<?php \progress_planner()->the_asset( 'images/badges/' . $streak_badge_details['badge']['id'] . '.svg' ); ?>
 				</div>
 			</span>
 			<span class="progress-percent"><?php echo \esc_attr( $streak_badge_details['progress']['progress'] ); ?>%</span>
@@ -121,9 +123,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 					data-value="<?php echo \esc_attr( $badge_progress['progress'] ); ?>"
 				>
 					<?php
-					include $badge_completed // phpcs:ignore PEAR.Files.IncludingFile.UseRequire
-						? PROGRESS_PLANNER_DIR . '/assets/images/badges/' . $badge->get_id() . '.svg'
-						: PROGRESS_PLANNER_DIR . '/assets/images/badges/' . $badge->get_id() . '-bw.svg';
+					\progress_planner()->the_asset(
+						$badge_completed
+							? 'images/badges/' . $badge->get_id() . '.svg'
+							: 'images/badges/' . $badge->get_id() . '-bw.svg'
+					);
 					?>
 					<p><?php echo \esc_html( $badge->get_name() ); ?></p>
 				</span>

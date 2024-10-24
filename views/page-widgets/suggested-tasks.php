@@ -11,8 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$score      = $this->get_score();
-$percentage = $score / Monthly::TARGET_POINTS;
+$prpl_widget = \progress_planner()->get_admin()->page->get_widget( 'suggested-tasks' );
+$percentage  = $prpl_widget->get_score() / Monthly::TARGET_POINTS;
 ?>
 <h2 class="prpl-widget-title">
 	<?php \esc_html_e( 'Your monthly badge', 'progress-planner' ); ?>
@@ -34,9 +34,9 @@ $percentage = $score / Monthly::TARGET_POINTS;
 		<span class="prpl-gauge-badge">
 		<?php
 			/**
-			 * TODO: Add badges icons by month. Files should have a month suffix so we can include them directly.
+			 * TODO: Add badges icons by month. Files should have a month suffix.
 			 */
-			include \PROGRESS_PLANNER_DIR . '/assets/images/badges/bold-blogger.svg' // phpcs:ignore PEAR.Files.IncludingFile.UseRequire
+			\progress_planner()->the_asset( 'images/badges/bold-blogger.svg' );
 		?>
 		</span>
 		<span class="prpl-gauge-100">
@@ -48,7 +48,7 @@ $percentage = $score / Monthly::TARGET_POINTS;
 <div class="prpl-widget-content-points">
 	<span><?php \esc_html_e( 'Progress monthly badge', 'progress-planner' ); ?></span>
 	<span class="prpl-widget-content-points-number">
-		<?php echo (int) $score; ?>pt
+		<?php echo (int) $prpl_widget->get_score(); ?>pt
 	</span>
 </div>
 
@@ -59,15 +59,7 @@ $percentage = $score / Monthly::TARGET_POINTS;
 </h2>
 
 <ul style="display:none">
-	<?php
-	/**
-	 * Allow filtering the template for suggested tasks items.
-	 *
-	 * @param string $template_file The template file path.
-	 */
-	$template_file = \apply_filters( 'progress_planner_suggested_todo_item_template', PROGRESS_PLANNER_DIR . '/views/suggested-tasks-item.php' );
-	include $template_file; // phpcs:ignore PEAR.Files.IncludingFile.UseRequire
-	?>
+	<?php \progress_planner()->the_template( 'views/suggested-tasks-item.php' ); ?>
 </ul>
 <ul class="prpl-suggested-tasks-list"></ul>
 
@@ -87,11 +79,13 @@ $percentage = $score / Monthly::TARGET_POINTS;
 		>
 			<?php
 			/**
-			 * TODO: Add badges icons by month. Files should have a month suffix so we can include them directly.
+			 * TODO: Add badges icons by month. Files should have a month suffix.
 			 */
-			include 100 === (int) $badge->progress_callback()['progress'] // phpcs:ignore PEAR.Files.IncludingFile.UseRequire
-				? \PROGRESS_PLANNER_DIR . '/assets/images/badges/bold-blogger.svg'
-				: \PROGRESS_PLANNER_DIR . '/assets/images/badges/bold-blogger-bw.svg';
+			\progress_planner()->the_asset(
+				100 === (int) $badge->progress_callback()['progress']
+					? 'images/badges/bold-blogger.svg'
+					: 'images/badges/bold-blogger-bw.svg'
+			);
 			?>
 			<p><?php echo \esc_html( $badge->get_name() ); ?></p>
 		</span>

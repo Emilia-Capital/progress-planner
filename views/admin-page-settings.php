@@ -12,10 +12,7 @@ $prpl_page_types    = \progress_planner()->get_page_types()->get_page_types();
 <div class="wrap prpl-wrap prpl-settings-wrap">
 	<div class="prpl-header">
 		<div class="prpl-header-logo">
-			<?php
-			// phpcs:ignore PEAR.Files.IncludingFile.UseRequire
-			include PROGRESS_PLANNER_DIR . '/assets/images/logo_progress_planner.svg';
-			?>
+			<?php \progress_planner()->the_asset( 'images/logo_progress_planner.svg' ); ?>
 		</div>
 	</div>
 
@@ -38,10 +35,7 @@ $prpl_page_types    = \progress_planner()->get_page_types()->get_page_types();
 								class="prpl-pages-item prpl-pages-item-<?php echo esc_attr( $prpl_setting['page'] ); ?>"
 								data-page-item="<?php echo esc_attr( $prpl_setting['page'] ); ?>"
 							>
-								<?php
-								// phpcs:ignore PEAR.Files.IncludingFile.UseRequire
-								include PROGRESS_PLANNER_DIR . "/views/setting/{$prpl_setting['type']}.php";
-								?>
+								<?php \progress_planner()->the_template( "setting/{$prpl_setting['type']}.php" ); ?>
 							</div>
 						<?php endif; ?>
 					<?php endforeach; ?>

@@ -409,4 +409,57 @@ class Base {
 		$actions     = array_merge( $action_link, $actions );
 		return $actions;
 	}
+
+	/**
+	 * Include a template.
+	 *
+	 * @param string|array $template The template to include.
+	 *                               If an array, go through each item until the template exists.
+	 * @param array        $args   The arguments to pass to the template.
+	 * @return void
+	 */
+	public function the_template( $template, $args = [] ) {
+		$this->the_file( [ $template, "/views/{$template}" ], $args );
+	}
+
+	/**
+	 * Include an asset.
+	 *
+	 * @param string|array $asset The asset to include.
+	 *                            If an array, go through each item until the asset exists.
+	 * @param array        $args  The arguments to pass to the template.
+	 *
+	 * @return void
+	 */
+	public function the_asset( $asset, $args = [] ) {
+		$this->the_file( [ $asset, "/assets/{$asset}" ], $args );
+	}
+
+	/**
+	 * Include a file.
+	 *
+	 * @param string|array $files The file to include.
+	 *                           If an array, go through each item until the file exists.
+	 * @param array        $args  The arguments to pass to the template.
+	 * @return void
+	 */
+	public function the_file( $files, $args = [] ) {
+		/**
+		 * Allow filtering the files to include.
+		 *
+		 * @param array $files The files to include.
+		 */
+		$files = apply_filters( 'progress_planner_the_file', (array) $files );
+		foreach ( $files as $file ) {
+			$path = $file;
+			if ( ! \file_exists( $path ) ) {
+				$path = \PROGRESS_PLANNER_DIR . "/{$file}";
+			}
+			if ( \file_exists( $path ) ) {
+				extract( $args ); // phpcs:ignore WordPress.PHP.DontExtract.extract_extract
+				include $path; // phpcs:ignore PEAR.Files.IncludingFile.UseRequire
+				break;
+			}
+		}
+	}
 }

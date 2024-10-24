@@ -63,7 +63,7 @@ final class Activity_Scores extends Widget {
 	 * @return void
 	 */
 	public function print_score_gauge() {
-		include \PROGRESS_PLANNER_DIR . '/views/page-widgets/parts/activity-scores-gauge.php'; // phpcs:ignore PEAR.Files.IncludingFile.UseRequire
+		\progress_planner()->the_template( 'page-widgets/parts/activity-scores-gauge.php' );
 	}
 
 	/**
@@ -160,7 +160,7 @@ final class Activity_Scores extends Widget {
 	 *
 	 * @return string The color.
 	 */
-	protected function get_gauge_color( $score ) {
+	public function get_gauge_color( $score ) {
 		if ( $score >= 75 ) {
 			return 'var(--prpl-color-accent-green)';
 		}

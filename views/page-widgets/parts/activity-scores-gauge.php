@@ -9,23 +9,23 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$gauge_score = $this->get_score();
+$prpl_widget = \progress_planner()->get_admin()->page->get_widget( 'activity-scores' );
 
 ?>
 <div class="prpl-activities-gauge-container activities-scores">
 	<div
 		class="prpl-activities-gauge"
 		style="
-			--value:<?php echo (float) ( $gauge_score / 100 ); ?>;
+			--value:<?php echo (float) ( $prpl_widget->get_score() / 100 ); ?>;
 			--max: 180deg;
 			--start: 270deg;
-			--color:<?php echo \esc_attr( $this->get_gauge_color( $gauge_score ) ); ?>"
+			--color:<?php echo \esc_attr( $prpl_widget->get_gauge_color( $prpl_widget->get_score() ) ); ?>"
 	>
 		<span class="prpl-gauge-0">
 			0
 		</span>
 		<span class="prpl-gauge-number">
-			<?php echo (int) $gauge_score; ?>
+			<?php echo (int) $prpl_widget->get_score(); ?>
 		</span>
 		<span class="prpl-gauge-100">
 			100
