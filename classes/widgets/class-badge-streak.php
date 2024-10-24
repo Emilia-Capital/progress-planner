@@ -1,16 +1,16 @@
 <?php
 /**
- * Progress_Planner widget.
+ * A widget class.
  *
  * @package Progress_Planner
  */
 
 namespace Progress_Planner\Widgets;
 
-use Progress_Planner\Badges;
+use Progress_Planner\Widget;
 
 /**
- * Badge content widget.
+ * Badge_Streak class.
  */
 final class Badge_Streak extends Widget {
 
@@ -22,40 +22,39 @@ final class Badge_Streak extends Widget {
 	protected $id = 'badge-streak';
 
 	/**
-	 * Whether we should render the widget or not.
-	 *
-	 * @return bool
-	 */
-	protected function should_render() {
-		$details = $this->get_badge_details();
-		return ( 100 > (int) $details['progress']['progress'] );
-	}
-
-	/**
 	 * Get the badge.
+	 *
+	 * @param string $context The context of the badges (content|maintenance|monthly).
 	 *
 	 * @return array
 	 */
-	public function get_badge_details() {
+	public function get_details( $context ) {
 		static $result = [];
 		if ( ! empty( $result ) ) {
 			return $result;
 		}
-		$badges = [
-			'progress-padawan',
-			'maintenance-maniac',
-			'super-site-specialist',
-		];
+
+		$badges = \progress_planner()->get_badges()->get_badges( $context );
 
 		// Get the badge to display.
 		foreach ( $badges as $badge ) {
-			$progress = Badges::get_badge_progress( $badge );
+			$progress = $badge->get_progress();
 			if ( 100 > $progress['progress'] ) {
 				break;
 			}
 		}
+
+		if ( ! isset( $badge ) || ! isset( $progress ) ) {
+			return $result;
+		}
+
 		$result['progress'] = $progress;
-		$result['badge']    = Badges::get_badge( $badge );
+		$result['badge']    = [
+			'id'                => $badge->get_id(),
+			'name'              => $badge->get_name(),
+			'description'       => $badge->get_description(),
+			'progress_callback' => [ $badge, 'progress_callback' ],
+		];
 
 		$result['color'] = 'var(--prpl-color-accent-red)';
 		if ( $result['progress']['progress'] > 50 ) {

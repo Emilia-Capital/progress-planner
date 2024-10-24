@@ -8,8 +8,6 @@
 namespace Progress_Planner\Actions;
 
 use Progress_Planner\Actions\Content as Content_Action;
-use Progress_Planner\Activities\Content_Helpers;
-use Progress_Planner\Settings;
 
 /**
  * Content scan class.
@@ -53,7 +51,7 @@ class Content_Scan extends Content_Action {
 		}
 
 		// Scan the posts.
-		$updated_stats = static::update_stats();
+		$updated_stats = $this->update_stats();
 
 		\wp_send_json_success(
 			[
@@ -79,14 +77,14 @@ class Content_Scan extends Content_Action {
 		}
 
 		// Reset the last scanned page.
-		Settings::set( static::LAST_SCANNED_PAGE_OPTION, 0 );
+		\progress_planner()->get_settings()->set( static::LAST_SCANNED_PAGE_OPTION, 0 );
 
 		// Reset the activities.
 		$activities = \progress_planner()->get_query()->query_activities( [ 'category' => 'content' ] );
 		\progress_planner()->get_query()->delete_activities( $activities );
 
 		// Reset the word count.
-		Settings::set( 'word_count', [] );
+		\progress_planner()->get_settings()->set( 'word_count', [] );
 
 		\wp_send_json_success(
 			[
@@ -106,12 +104,11 @@ class Content_Scan extends Content_Action {
 	 *
 	 * @return array
 	 */
-	public static function update_stats() {
-
+	public function update_stats() {
 		// Calculate the total pages to scan.
-		$total_pages = self::get_total_pages();
+		$total_pages = $this->get_total_pages();
 		// Get the last scanned page.
-		$last_page = (int) Settings::get( static::LAST_SCANNED_PAGE_OPTION, 0 );
+		$last_page = (int) \progress_planner()->get_settings()->get( static::LAST_SCANNED_PAGE_OPTION, 0 );
 		// The current page to scan.
 		$current_page = $last_page + 1;
 
@@ -120,14 +117,14 @@ class Content_Scan extends Content_Action {
 			[
 				'posts_per_page' => static::SCAN_POSTS_PER_PAGE,
 				'paged'          => $current_page,
-				'post_type'      => Content_Helpers::get_post_types_names(),
+				'post_type'      => \progress_planner()->get_helpers()->content->get_post_types_names(),
 				'post_status'    => 'publish',
 			]
 		);
 
 		if ( ! $posts ) {
-			Settings::delete( static::LAST_SCANNED_PAGE_OPTION );
-			Settings::set( 'content_scanned', true );
+			\progress_planner()->get_settings()->delete( static::LAST_SCANNED_PAGE_OPTION );
+			\progress_planner()->get_settings()->set( 'content_scanned', true );
 			return [
 				'lastScannedPage' => $current_page,
 				'lastPage'        => $total_pages,
@@ -136,10 +133,10 @@ class Content_Scan extends Content_Action {
 		}
 
 		// Insert the activities and the word-count for posts in the db.
-		self::insert_activities( $posts );
+		$this->insert_activities( $posts );
 
 		// Update the last scanned page.
-		Settings::set( static::LAST_SCANNED_PAGE_OPTION, $current_page );
+		\progress_planner()->get_settings()->set( static::LAST_SCANNED_PAGE_OPTION, $current_page );
 
 		return [
 			'lastScannedPage' => $current_page,
@@ -153,10 +150,10 @@ class Content_Scan extends Content_Action {
 	 *
 	 * @return int
 	 */
-	public static function get_total_pages() {
+	public function get_total_pages() {
 		// Get the total number of posts.
 		$total_posts_count = 0;
-		foreach ( Content_Helpers::get_post_types_names() as $post_type ) {
+		foreach ( \progress_planner()->get_helpers()->content->get_post_types_names() as $post_type ) {
 			$total_posts_count += \wp_count_posts( $post_type )->publish;
 		}
 		// Calculate the total pages to scan.
@@ -170,14 +167,14 @@ class Content_Scan extends Content_Action {
 	 *
 	 * @return void
 	 */
-	public static function insert_activities( $posts ) {
+	public function insert_activities( $posts ) {
 		$activities = [];
 		// Loop through the posts and update the stats.
 		foreach ( $posts as $post ) {
 			// Set the activity.
-			$activities[ $post->ID ] = Content_Helpers::get_activity_from_post( $post );
+			$activities[ $post->ID ] = \progress_planner()->get_helpers()->content->get_activity_from_post( $post );
 			// Set the word count.
-			Content_Helpers::get_word_count( $post->post_content, $post->ID );
+			\progress_planner()->get_helpers()->content->get_word_count( $post->post_content, $post->ID );
 		}
 
 		\progress_planner()->get_query()->insert_activities( $activities );

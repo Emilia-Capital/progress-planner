@@ -2,13 +2,12 @@
 /**
  * Class Date_Test
  *
- * @package FewerTags
+ * @package Progress_Planner\Tests
  */
 
 namespace Progress_Planner\Tests;
 
 use Progress_Planner\Activity;
-use Progress_Planner\Query;
 
 /**
  * Date test case.

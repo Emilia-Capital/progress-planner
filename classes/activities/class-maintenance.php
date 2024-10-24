@@ -8,13 +8,19 @@
 namespace Progress_Planner\Activities;
 
 use Progress_Planner\Activity;
-use Progress_Planner\Date;
 use Progress_Planner\Base;
 
 /**
- * Handle activities for Core updates.
+ * Handle activities for maintenance activities.
  */
 class Maintenance extends Activity {
+
+	/**
+	 * Points configuration.
+	 *
+	 * @var int
+	 */
+	public static $points_config = 10;
 
 	/**
 	 * Category of the activity.
@@ -39,7 +45,7 @@ class Maintenance extends Activity {
 	 */
 	public function save() {
 		$this->date    = new \DateTime();
-		$this->user_id = get_current_user_id();
+		$this->user_id = \get_current_user_id();
 
 		$existing = \progress_planner()->get_query()->query_activities(
 			[
@@ -55,6 +61,7 @@ class Maintenance extends Activity {
 			return;
 		}
 		\progress_planner()->get_query()->insert_activity( $this );
+		\do_action( 'progress_planner_activity_saved', $this );
 	}
 
 	/**
@@ -69,8 +76,8 @@ class Maintenance extends Activity {
 		if ( isset( $this->points[ $date_ymd ] ) ) {
 			return $this->points[ $date_ymd ];
 		}
-		$this->points[ $date_ymd ] = Base::$points_config['maintenance'];
-		$days                      = abs( Date::get_days_between_dates( $date, $this->date ) );
+		$this->points[ $date_ymd ] = self::$points_config;
+		$days                      = abs( \progress_planner()->get_date()->get_days_between_dates( $date, $this->date ) );
 
 		$this->points[ $date_ymd ] = ( $days < 7 ) ? $this->points[ $date_ymd ] : 0;
 

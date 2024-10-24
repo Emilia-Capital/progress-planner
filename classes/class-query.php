@@ -24,29 +24,9 @@ class Query {
 	const TABLE_NAME = 'progress_planner_activities';
 
 	/**
-	 * An instance of this class.
-	 *
-	 * @var \Progress_Planner\Query
-	 */
-	private static $instance;
-
-	/**
-	 * Get the single instance of this class.
-	 *
-	 * @return \Progress_Planner\Query
-	 */
-	public static function get_instance() {
-		if ( null === self::$instance ) {
-			self::$instance = new self();
-		}
-
-		return self::$instance;
-	}
-
-	/**
 	 * Constructor.
 	 */
-	private function __construct() {
+	public function __construct() {
 		$this->create_tables();
 		$this->maybe_upgrade();
 	}

@@ -2,12 +2,10 @@
 /**
  * Class Settings_Test
  *
- * @package FewerTags
+ * @package Progress_Planner\Tests
  */
 
 namespace Progress_Planner\Tests;
-
-use Progress_Planner\Settings;
 
 /**
  * Settings test case.
@@ -23,16 +21,16 @@ class Settings_Test extends \WP_UnitTestCase {
 	 * @param mixed        $value   Expected value.
 	 */
 	public function test_set_get( $setting, $value ) {
-		\Progress_Planner\Settings::set( $setting, $value );
+		\progress_planner()->get_settings()->set( $setting, $value );
 
-		$saved = \get_option( Settings::OPTION_NAME );
+		$saved = \get_option( \Progress_Planner\Settings::OPTION_NAME );
 		if ( \is_string( $setting ) ) {
 			$this->assertEquals( $value, $saved[ $setting ] );
 		} else {
 			$this->assertEquals( $value, \_wp_array_get( $saved, $setting ) );
 		}
 
-		$this->assertEquals( $value, \Progress_Planner\Settings::get( $setting ) );
+		$this->assertEquals( $value, \progress_planner()->get_settings()->get( $setting ) );
 	}
 
 	/**

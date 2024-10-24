@@ -37,8 +37,8 @@ class Settings {
 	 *
 	 * @return mixed The value of the setting.
 	 */
-	public static function get( $setting, $default_value = null ) {
-		self::load_settings();
+	public function get( $setting, $default_value = null ) {
+		$this->load_settings();
 
 		if ( is_array( $setting ) ) {
 			return \_wp_array_get( self::$settings, $setting, $default_value );
@@ -57,14 +57,14 @@ class Settings {
 	 *
 	 * @return bool
 	 */
-	public static function set( $setting, $value ) {
-		self::load_settings();
+	public function set( $setting, $value ) {
+		$this->load_settings();
 		if ( is_array( $setting ) ) {
 			\_wp_array_set( self::$settings, $setting, $value );
 		} else {
 			self::$settings[ $setting ] = $value;
 		}
-		return self::save_settings();
+		return $this->save_settings();
 	}
 
 	/**
@@ -72,7 +72,7 @@ class Settings {
 	 *
 	 * @return void
 	 */
-	private static function load_settings() {
+	private function load_settings() {
 		if ( ! empty( self::$settings ) ) {
 			return;
 		}
@@ -84,7 +84,7 @@ class Settings {
 	 *
 	 * @return bool
 	 */
-	private static function save_settings() {
+	private function save_settings() {
 		return \update_option( self::OPTION_NAME, self::$settings, false );
 	}
 
@@ -95,10 +95,10 @@ class Settings {
 	 *
 	 * @return bool
 	 */
-	public static function delete( $setting ) {
-		self::load_settings();
+	public function delete( $setting ) {
+		$this->load_settings();
 		unset( self::$settings[ $setting ] );
-		return self::save_settings();
+		return $this->save_settings();
 	}
 
 	/**
@@ -106,8 +106,8 @@ class Settings {
 	 *
 	 * @return bool
 	 */
-	public static function delete_all() {
+	public function delete_all() {
 		self::$settings = [];
-		return self::save_settings();
+		return $this->save_settings();
 	}
 }
