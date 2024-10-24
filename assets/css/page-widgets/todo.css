@@ -63,6 +63,10 @@
 		align-items: center;
 		font-size: 14px;
 
+		&.ui-sortable-helper {
+			left: auto !important; /* Override the left: 0; from the jquery-ui-sortable */
+		}
+
 		.content {
 			padding: 0 0.5em;
 			width: 100%;
