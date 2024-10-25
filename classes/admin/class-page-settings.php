@@ -145,7 +145,7 @@ class Page_Settings {
 			}
 		}
 
-		do_action( 'progress_planner_settings_form_options_stored', $_POST );
+		do_action( 'progress_planner_settings_form_options_stored' );
 
 		\wp_send_json_success( \esc_html__( 'Options stored successfully', 'progress-planner' ) );
 	}
