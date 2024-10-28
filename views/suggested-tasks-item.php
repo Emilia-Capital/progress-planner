@@ -84,14 +84,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 				</div>
 			</fieldset>
 
-			<button type="button" class="prpl-suggested-task-button close" data-action="close-snooze" data-target="snooze">
+			<button type="button" class="prpl-suggested-task-button prpl-tooltip-close" data-action="close-snooze" data-target="snooze">
 				<span class="dashicons dashicons-no-alt"></span>
 				<span class="screen-reader-text"><?php \esc_html_e( 'Close', 'progress-planner' ); ?></span>
 			</button>
 		</div>
 		<div class="prpl-suggested-task-info prpl-tooltip" data-target="info">
 			{taskDescription}
-			<button type="button" class="prpl-suggested-task-button close" data-action="close-info" data-target="info">
+			<button type="button" class="prpl-suggested-task-button prpl-tooltip-close" data-action="close-info" data-target="info">
 				<span class="dashicons dashicons-no-alt"></span>
 				<span class="screen-reader-text"><?php \esc_html_e( 'Close', 'progress-planner' ); ?></span>
 			</button>

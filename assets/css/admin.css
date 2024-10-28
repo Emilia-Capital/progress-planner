@@ -416,10 +416,16 @@ button.prpl-info-icon {
 		visibility: visible;
 	}
 
-	.close {
+	.close,
+	.prpl-tooltip-close {
 		position: absolute;
 		top: 0.75rem;
 		right: 0;
+		padding: 0.1rem;
+		line-height: 0;
+		margin: 0;
+		background: none;
+		border: none;
 		cursor: pointer;
 	}
 

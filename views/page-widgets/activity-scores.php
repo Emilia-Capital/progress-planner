@@ -30,6 +30,11 @@ $record      = $prpl_widget->personal_record_callback();
 
 		<div class="prpl-tooltip">
 			<?php \esc_html_e( 'Your website activity score is based on the amount of website maintenance work you have done over the past 30 days.', 'progress-planner' ); ?>
+
+			<button type="button" class="prpl-tooltip-close" onclick="this.closest( '.prpl-tooltip' ).removeAttribute( 'data-tooltip-visible' )">
+				<span class="dashicons dashicons-no-alt"></span>
+				<span class="screen-reader-text"><?php \esc_html_e( 'Close', 'progress-planner' ); ?></span>
+			</button>
 		</div>
 	</div>
 </h2>
