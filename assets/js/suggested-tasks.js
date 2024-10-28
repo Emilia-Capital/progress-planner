@@ -227,12 +227,18 @@ const prplSuggestedTodoItemListeners = ( item ) => {
 
 			switch ( action ) {
 				case 'snooze':
-					item.classList.remove( 'prpl-suggested-task-info-open' );
-					item.classList.toggle( 'prpl-suggested-task-snooze-open' );
+					item.querySelector( '.tooltip-actions' ).classList.remove(
+						'prpl-suggested-task-info-open'
+					);
+					item.querySelector( '.tooltip-actions' ).classList.toggle(
+						'prpl-suggested-task-snooze-open'
+					);
 					break;
 
 				case 'close-snooze':
-					item.classList.remove( 'prpl-suggested-task-snooze-open' );
+					item.querySelector( '.tooltip-actions' ).classList.remove(
+						'prpl-suggested-task-snooze-open'
+					);
 					item.querySelector(
 						'.prpl-suggested-snooze-duration-selector.prpl-toggle-radio-group-open'
 					)?.classList.remove( 'prpl-toggle-radio-group-open' );
@@ -240,8 +246,12 @@ const prplSuggestedTodoItemListeners = ( item ) => {
 
 				case 'info':
 				case 'close-info':
-					item.classList.remove( 'prpl-suggested-task-snooze-open' );
-					item.classList.toggle( 'prpl-suggested-task-info-open' );
+					item.querySelector( '.tooltip-actions' ).classList.remove(
+						'prpl-suggested-task-snooze-open'
+					);
+					item.querySelector( '.tooltip-actions' ).classList.toggle(
+						'prpl-suggested-task-info-open'
+					);
 					break;
 			}
 		} );

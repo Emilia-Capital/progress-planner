@@ -18,21 +18,24 @@ $record      = $prpl_widget->personal_record_callback();
 ?>
 <h2 class="prpl-widget-title">
 	<?php \esc_html_e( 'Your website activity score', 'progress-planner' ); ?>
-	<script>const prplResizeAllGridItemsEventOnDetailsToggle = new Event( 'prplResizeAllGridItemsEvent' );</script>
-	<button
-		class="prpl-info-icon"
-		onclick="document.getElementById('prpl-activity-details').classList.toggle('hidden');document.dispatchEvent(prplResizeAllGridItemsEventOnDetailsToggle);"
-	>
-		<span class="dashicons dashicons-info-outline"></span>
-		<span class="screen-reader-text"><?php \esc_html_e( 'More info', 'progress-planner' ); ?></span>
-	</button>
+
+	<div class="tooltip-actions">
+		<button
+			class="prpl-info-icon"
+			onclick="this.closest( '.tooltip-actions' ).querySelector( '.prpl-tooltip' ).toggleAttribute( 'data-tooltip-visible' )"
+		>
+			<span class="dashicons dashicons-info-outline"></span>
+			<span class="screen-reader-text"><?php \esc_html_e( 'More info', 'progress-planner' ); ?></span>
+		</button>
+
+		<div class="prpl-tooltip">
+			<?php \esc_html_e( 'Your website activity score is based on the amount of website maintenance work you have done over the past 30 days.', 'progress-planner' ); ?>
+		</div>
+	</div>
 </h2>
 
 <div style="--background: var(--prpl-background-orange)">
 	<?php \progress_planner()->the_view( 'page-widgets/parts/activity-scores-gauge.php' ); ?>
-	<p class="hidden" id="prpl-activity-details">
-		<?php \esc_html_e( 'Your website activity score is based on the amount of website maintenance work you have done over the past 30 days.', 'progress-planner' ); ?>
-	</p>
 </div>
 
 <hr>

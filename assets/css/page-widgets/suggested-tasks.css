@@ -103,7 +103,6 @@
 		border-bottom: 1px solid var(--prpl-color-gray-3);
 		display: flex;
 		justify-content: space-between;
-		position: relative;
 
 		h3 {
 			font-size: 1rem;
@@ -111,17 +110,13 @@
 			font-weight: 500;
 		}
 
-		.actions {
-
+		.tooltip-actions {
 			visibility: hidden;
-			justify-content: flex-end;
-			gap: 0.5em;
-			display: flex;
 		}
 
 		&:hover {
 
-			.actions {
+			.tooltip-actions {
 				visibility: visible;
 			}
 		}
@@ -139,43 +134,6 @@
 			background: none;
 			border: none;
 			cursor: pointer;
-		}
-
-		.prpl-suggested-task-info,
-		.prpl-suggested-snooze-duration-selector {
-			position: absolute;
-			bottom: 0;
-			left: 100%;
-			transform: translate(-100%, calc(100% + 10px));
-
-			padding: 0.75rem 1.5rem 0.75rem 0.75rem;
-			width: 150px;
-			background: var(--prpl-background-green);
-			border-radius: var(--prpl-border-radius);
-			z-index: 2; /* above the gauges */
-			visibility: hidden; /* hidden by default */
-
-			.close {
-				position: absolute;
-				top: 0.75rem;
-				right: 0;
-				cursor: pointer;
-			}
-
-			/* Arrow */
-			&::after {
-				content: "";
-				position: absolute;
-				top: 0;
-				right: 0;
-				transform: translate(-20px, -10px) rotate(90deg);
-
-				width: 0;
-				height: 0;
-				border-style: solid;
-				border-width: 7.5px 10px 7.5px 0;
-				border-color: transparent var(--prpl-background-green) transparent transparent;
-			}
 		}
 
 		.prpl-suggested-snooze-duration-selector {
@@ -256,16 +214,13 @@
 		}
 
 		/* Open */
-		&.prpl-suggested-task-snooze-open,
-		&.prpl-suggested-task-info-open {
-
-			.actions {
-				visibility: visible;
-			}
+		.prpl-suggested-task-snooze-open,
+		.prpl-suggested-task-info-open {
+			visibility: visible;
 		}
 
 		/* Info open */
-		&.prpl-suggested-task-info-open {
+		.prpl-suggested-task-info-open {
 
 			.prpl-suggested-task-info {
 				visibility: visible;
@@ -273,7 +228,7 @@
 		}
 
 		/* Snooze open */
-		&.prpl-suggested-task-snooze-open {
+		.prpl-suggested-task-snooze-open {
 
 			.prpl-suggested-snooze-duration-selector {
 				visibility: visible;
