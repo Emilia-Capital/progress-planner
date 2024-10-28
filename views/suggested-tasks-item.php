@@ -20,6 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			data-task-id="{taskId}"
 			data-task-title="{taskTitle}"
 			data-action="info"
+			data-target="info"
 			title="<?php \esc_html_e( 'Info', 'progress-planner' ); ?>"
 		>
 			<span class="dashicons dashicons-info"></span>
@@ -31,13 +32,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 			data-task-id="{taskId}"
 			data-task-title="{taskTitle}"
 			data-action="snooze"
+			data-target="snooze"
 			title="<?php \esc_html_e( 'Snooze', 'progress-planner' ); ?>"
 		>
 			<span class="dashicons dashicons-clock"></span>
 			<span class="screen-reader-text"><?php \esc_html_e( 'Snooze', 'progress-planner' ); ?></span>
 		</button>
 
-		<div class="prpl-suggested-snooze-duration-selector prpl-tooltip">
+		<div class="prpl-suggested-task-snooze prpl-tooltip">
 
 			<fieldset>
 				<legend>
@@ -82,14 +84,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 				</div>
 			</fieldset>
 
-			<button type="button" class="prpl-suggested-task-button close" data-action="close-snooze">
+			<button type="button" class="prpl-suggested-task-button close" data-action="close-snooze" data-target="snooze">
 				<span class="dashicons dashicons-no-alt"></span>
 				<span class="screen-reader-text"><?php \esc_html_e( 'Close', 'progress-planner' ); ?></span>
 			</button>
 		</div>
-		<div class="prpl-suggested-task-info prpl-tooltip">
+		<div class="prpl-suggested-task-info prpl-tooltip" data-target="info">
 			{taskDescription}
-			<button type="button" class="prpl-suggested-task-button close" data-action="close-info">
+			<button type="button" class="prpl-suggested-task-button close" data-action="close-info" data-target="info">
 				<span class="dashicons dashicons-no-alt"></span>
 				<span class="screen-reader-text"><?php \esc_html_e( 'Close', 'progress-planner' ); ?></span>
 			</button>

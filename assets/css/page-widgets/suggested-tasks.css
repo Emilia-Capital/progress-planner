@@ -121,6 +121,10 @@
 			}
 		}
 
+		.tooltip-actions:has([data-tooltip-visible]) {
+			visibility: visible;
+		}
+
 		.prpl-suggested-task-description {
 			font-size: 0.825rem;
 			color: var(--prpl-color-gray-6);
@@ -136,7 +140,7 @@
 			cursor: pointer;
 		}
 
-		.prpl-suggested-snooze-duration-selector {
+		.prpl-suggested-task-snooze {
 			margin-left: 10px;
 
 			&.prpl-toggle-radio-group-open {
@@ -213,26 +217,5 @@
 			margin-left: -20px;
 		}
 
-		/* Open */
-		.prpl-suggested-task-snooze-open,
-		.prpl-suggested-task-info-open {
-			visibility: visible;
-		}
-
-		/* Info open */
-		.prpl-suggested-task-info-open {
-
-			.prpl-suggested-task-info {
-				visibility: visible;
-			}
-		}
-
-		/* Snooze open */
-		.prpl-suggested-task-snooze-open {
-
-			.prpl-suggested-snooze-duration-selector {
-				visibility: visible;
-			}
-		}
 	}
 }
