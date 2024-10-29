@@ -78,13 +78,10 @@ $percentage  = $prpl_widget->get_score() / Monthly::TARGET_POINTS;
 			data-value="<?php echo \esc_attr( $badge->progress_callback()['progress'] ); ?>"
 		>
 			<?php
-			/**
-			 * TODO: Add badges icons by month. Files should have a month suffix.
-			 */
 			\progress_planner()->the_asset(
 				100 === (int) $badge->progress_callback()['progress']
-					? 'images/badges/bold-blogger.svg'
-					: 'images/badges/bold-blogger-bw.svg'
+					? $badge->get_icons_paths()[0]
+					: $badge->get_icons_paths()[1]
 			);
 			?>
 			<p><?php echo \esc_html( $badge->get_name() ); ?></p>

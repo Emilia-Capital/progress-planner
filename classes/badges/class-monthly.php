@@ -53,7 +53,8 @@ final class Monthly extends Badge {
 		}
 
 		foreach ( array_keys( self::get_months() ) as $month ) {
-			self::$instances[] = new self( 'monthly-' . strtolower( $month ) );
+			$id                = 'monthly-' . gmdate( 'Y' ) . '-' . str_replace( '-', '', $month );
+			self::$instances[] = new self( $id );
 		}
 
 		return self::$instances;
@@ -66,24 +67,25 @@ final class Monthly extends Badge {
 	 */
 	public static function get_months() {
 		$current_month = gmdate( 'm' );
-		if ( $current_month >= 1 && $current_month <= 6 ) {
-			return [
-				'jan' => __( 'Jack January', 'progress-planner' ),
-				'feb' => __( 'Felix February', 'progress-planner' ),
-				'mar' => __( 'Mary March', 'progress-planner' ),
-				'apr' => __( 'Avery April', 'progress-planner' ),
-				'may' => __( 'Matteo May', 'progress-planner' ),
-				'jun' => __( 'Jasmine June', 'progress-planner' ),
-			];
-		}
-		return [
-			'jul' => __( 'July', 'progress-planner' ),
-			'aug' => __( 'August', 'progress-planner' ),
-			'sep' => __( 'September', 'progress-planner' ),
-			'oct' => __( 'October', 'progress-planner' ),
-			'nov' => __( 'November', 'progress-planner' ),
-			'dec' => __( 'December', 'progress-planner' ),
+		$months        = [
+			// Indexed months, The array keys are prefixed with a dash
+			// so that they are strings and not integers.
+			'-1'  => __( 'Jack January', 'progress-planner' ),
+			'-2'  => __( 'Felix February', 'progress-planner' ),
+			'-3'  => __( 'Mary March', 'progress-planner' ),
+			'-4'  => __( 'Avery April', 'progress-planner' ),
+			'-5'  => __( 'Matteo May', 'progress-planner' ),
+			'-6'  => __( 'Jasmine June', 'progress-planner' ),
+			'-7'  => __( 'July', 'progress-planner' ),
+			'-8'  => __( 'August', 'progress-planner' ),
+			'-9'  => __( 'September', 'progress-planner' ),
+			'-10' => __( 'October', 'progress-planner' ),
+			'-11' => __( 'November', 'progress-planner' ),
+			'-12' => __( 'December', 'progress-planner' ),
 		];
+		return ( $current_month >= 1 && $current_month <= 6 )
+			? array_slice( $months, 0, 6 )
+			: array_slice( $months, -6 );
 	}
 
 	/**
@@ -113,7 +115,7 @@ final class Monthly extends Badge {
 	 * @return string
 	 */
 	public function get_month() {
-		return str_replace( 'monthly-', '', $this->id );
+		return explode( '-', str_replace( 'monthly-', '', $this->id ) )[1];
 	}
 
 	/**
@@ -123,8 +125,8 @@ final class Monthly extends Badge {
 	 */
 	public function progress_callback() {
 		$month     = self::get_months()[ $this->get_month() ];
-		$year      = $this->get_year( $month );
-		$month_num = gmdate( 'm', strtotime( $month ) );
+		$year      = $this->get_year();
+		$month_num = (int) $this->get_month();
 
 		$start_date = \DateTime::createFromFormat( 'Y-m-d', "{$year}-{$month_num}-01" );
 		$end_date   = \DateTime::createFromFormat( 'Y-m-d', "{$year}-{$month_num}-" . gmdate( 't', strtotime( $month ) ) );
@@ -159,16 +161,22 @@ final class Monthly extends Badge {
 	/**
 	 * Get the year for the month.
 	 *
-	 * @param string $month The month.
-	 * @return int
+	 * @return string
 	 */
-	public function get_year( $month ) {
-		$current_month_num = gmdate( 'm' );
-		$month_num         = gmdate( 'm', strtotime( $month ) );
-		$year              = (int) gmdate( 'Y' );
-		if ( $current_month_num < $month_num ) {
-			return $year - 1;
-		}
-		return $year;
+	public function get_year() {
+		return explode( '-', str_replace( 'monthly-', '', $this->id ) )[0];
+	}
+
+	/**
+	 * Print the icon.
+	 *
+	 * @return array
+	 */
+	public function get_icons_paths() {
+		// Icons are named "YEAR-MONTH.svg".
+		return [
+			"images/badges/monthly/{$this->get_year()}-{$this->get_month()}.svg",
+			"images/badges/monthly/{$this->get_year()}-{$this->get_month()}-gray.svg",
+		];
 	}
 }
