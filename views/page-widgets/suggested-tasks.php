@@ -77,13 +77,7 @@ $percentage  = $prpl_widget->get_score() / Monthly::TARGET_POINTS;
 			class="prpl-badge prpl-badge-<?php echo \esc_attr( $badge->get_id() ); ?>"
 			data-value="<?php echo \esc_attr( $badge->progress_callback()['progress'] ); ?>"
 		>
-			<?php
-			\progress_planner()->the_asset(
-				100 === (int) $badge->progress_callback()['progress']
-					? $badge->get_icons_paths()[0]
-					: $badge->get_icons_paths()[1]
-			);
-			?>
+			<?php $badge->the_icon( 100 === (int) $badge->progress_callback()['progress'] ); ?>
 			<p><?php echo \esc_html( $badge->get_name() ); ?></p>
 		</span>
 	<?php endforeach; ?>

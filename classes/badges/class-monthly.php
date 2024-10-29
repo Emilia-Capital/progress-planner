@@ -67,21 +67,24 @@ final class Monthly extends Badge {
 	 */
 	public static function get_months() {
 		$current_month = gmdate( 'm' );
-		$months        = [
-			// Indexed months, The array keys are prefixed with a dash
-			// so that they are strings and not integers.
-			'-1'  => __( 'Jack January', 'progress-planner' ),
-			'-2'  => __( 'Felix February', 'progress-planner' ),
-			'-3'  => __( 'Mary March', 'progress-planner' ),
-			'-4'  => __( 'Avery April', 'progress-planner' ),
-			'-5'  => __( 'Matteo May', 'progress-planner' ),
-			'-6'  => __( 'Jasmine June', 'progress-planner' ),
-			'-7'  => __( 'July', 'progress-planner' ),
-			'-8'  => __( 'August', 'progress-planner' ),
-			'-9'  => __( 'September', 'progress-planner' ),
-			'-10' => __( 'October', 'progress-planner' ),
-			'-11' => __( 'November', 'progress-planner' ),
-			'-12' => __( 'December', 'progress-planner' ),
+
+		/*
+		 * Indexed months, The array keys are prefixed with an "m"
+		 * so that they are strings and not integers.
+		 */
+		$months = [
+			'm1'  => __( 'Jack January', 'progress-planner' ),
+			'm2'  => __( 'Felix February', 'progress-planner' ),
+			'm3'  => __( 'Mary March', 'progress-planner' ),
+			'm4'  => __( 'Avery April', 'progress-planner' ),
+			'm5'  => __( 'Matteo May', 'progress-planner' ),
+			'm6'  => __( 'Jasmine June', 'progress-planner' ),
+			'm7'  => __( 'July', 'progress-planner' ),
+			'm8'  => __( 'August', 'progress-planner' ),
+			'm9'  => __( 'September', 'progress-planner' ),
+			'm10' => __( 'October', 'progress-planner' ),
+			'm11' => __( 'November', 'progress-planner' ),
+			'm12' => __( 'December', 'progress-planner' ),
 		];
 		return ( $current_month >= 1 && $current_month <= 6 )
 			? array_slice( $months, 0, 6 )
@@ -97,7 +100,7 @@ final class Monthly extends Badge {
 		if ( ! $this->id ) {
 			return '';
 		}
-		return self::get_months()[ $this->get_month() ];
+		return self::get_months()[ 'm' . $this->get_month() ];
 	}
 
 	/**
@@ -110,12 +113,21 @@ final class Monthly extends Badge {
 	}
 
 	/**
+	 * Get the year for the month.
+	 *
+	 * @return string
+	 */
+	public function get_year() {
+		return explode( '-', str_replace( 'monthly-', '', $this->id ) )[0];
+	}
+
+	/**
 	 * Get the month for the badge.
 	 *
 	 * @return string
 	 */
 	public function get_month() {
-		return explode( '-', str_replace( 'monthly-', '', $this->id ) )[1];
+		return str_replace( 'm', '', explode( '-', str_replace( 'monthly-', '', $this->id ) )[1] );
 	}
 
 	/**
@@ -124,7 +136,7 @@ final class Monthly extends Badge {
 	 * @return array
 	 */
 	public function progress_callback() {
-		$month     = self::get_months()[ $this->get_month() ];
+		$month     = self::get_months()[ 'm' . $this->get_month() ];
 		$year      = $this->get_year();
 		$month_num = (int) $this->get_month();
 
@@ -159,24 +171,44 @@ final class Monthly extends Badge {
 	}
 
 	/**
-	 * Get the year for the month.
-	 *
-	 * @return string
-	 */
-	public function get_year() {
-		return explode( '-', str_replace( 'monthly-', '', $this->id ) )[0];
-	}
-
-	/**
 	 * Print the icon.
 	 *
-	 * @return array
+	 * @param bool $complete Whether the badge is complete.
+	 *
+	 * @return void
 	 */
-	public function get_icons_paths() {
-		// Icons are named "YEAR-MONTH.svg".
-		return [
-			"images/badges/monthly/{$this->get_year()}-{$this->get_month()}.svg",
-			"images/badges/monthly/{$this->get_year()}-{$this->get_month()}-gray.svg",
-		];
+	public function the_icon( $complete = false ) {
+		$cache_key = "progress_planner_monthly_badge_svg_{$this->id}";
+		$cached    = \get_site_transient( $cache_key );
+		if ( $cached ) {
+			echo $cached; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			return;
+		}
+		// Get the SVG from the API.
+		$response  = \wp_remote_get(
+			\add_query_arg(
+				[
+					'year'     => $this->get_year(),
+					'month'    => $this->get_month(),
+					'complete' => $complete ? 'true' : 'false',
+				],
+				'https://progressplanner.com/wp-json/progress-planner-saas/v1/monthly-badge-svg/'
+			)
+		);
+		$image_url = PROGRESS_PLANNER_URL . '/assets/images/badges/monthly-badge-default.svg';
+		if ( ! is_wp_error( $response ) && 200 === \wp_remote_retrieve_response_code( $response ) ) {
+			$body = \wp_remote_retrieve_body( $response );
+			if ( ! empty( $body ) ) {
+				$image_url = $body;
+				\set_site_transient( $cache_key, $body, 60 * 60 * 24 );
+			}
+		}
+		?>
+		<img
+			class="prpl-monthly-badge-icon-image <?php echo $complete ? 'complete' : 'incomplete'; ?>"
+			src="<?php echo esc_url( $image_url ); ?>"
+			alt=""
+		>
+		<?php
 	}
 }

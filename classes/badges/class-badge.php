@@ -82,9 +82,9 @@ abstract class Badge {
 	/**
 	 * Print the icon.
 	 *
-	 * @return array
+	 * @param bool $complete Whether the badge is complete.
+	 *
+	 * @return void
 	 */
-	public function get_icons_paths() {
-		return [];
-	}
+	public function the_icon( $complete = false ) {}
 }
