@@ -33,10 +33,13 @@ $percentage  = $prpl_widget->get_score() / Monthly::TARGET_POINTS;
 		</span>
 		<span class="prpl-gauge-badge">
 		<?php
-			/**
-			 * TODO: Add badges icons by month. Files should have a month suffix.
-			 */
-			\progress_planner()->the_asset( 'images/badges/bold-blogger.svg' );
+		$prpl_badge = \progress_planner()
+			->get_badges()
+			->get_badge( 'monthly-' . gmdate( 'Y' ) . '-m' . (int) gmdate( 'm' ) );
+
+		if ( $prpl_badge ) {
+			$prpl_badge->the_icon( Monthly::TARGET_POINTS === (int) $prpl_widget->get_score() );
+		}
 		?>
 		</span>
 		<span class="prpl-gauge-100">
@@ -90,16 +93,7 @@ $percentage  = $prpl_widget->get_score() / Monthly::TARGET_POINTS;
 						class="prpl-badge prpl-badge-<?php echo \esc_attr( $badge->get_id() ); ?>"
 						data-value="<?php echo \esc_attr( $badge->progress_callback()['progress'] ); ?>"
 					>
-						<?php
-						/**
-						 * TODO: Add badges icons by month. Files should have a month suffix.
-						 */
-						\progress_planner()->the_asset(
-							100 === (int) $badge->progress_callback()['progress']
-							? 'images/badges/bold-blogger.svg'
-							: 'images/badges/bold-blogger-bw.svg'
-						);
-						?>
+						<?php $badge->the_icon( 100 === (int) $badge->progress_callback()['progress'] ); ?>
 						<p><?php echo \esc_html( $badge->get_name() ); ?></p>
 					</span>
 				<?php endforeach; ?>

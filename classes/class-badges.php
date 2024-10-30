@@ -82,6 +82,24 @@ class Badges {
 	}
 
 	/**
+	 * Get a single badge.
+	 *
+	 * @param string $badge_id The badge ID.
+	 *
+	 * @return \Progress_Planner\Badges\Badge|null
+	 */
+	public function get_badge( $badge_id ) {
+		foreach ( [ 'content', 'maintenance', 'monthly' ] as $context ) {
+			foreach ( $this->$context as $badge ) {
+				if ( $badge->get_id() === $badge_id ) {
+					return $badge;
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
 	 * Get the latest completed badge.
 	 *
 	 * @return \Progress_Planner\Badges\Badge|null
