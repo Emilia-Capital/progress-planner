@@ -404,21 +404,6 @@ document.addEventListener( 'DOMContentLoaded', () => {
 		badgeRowWrapper.style.height = twoRowsHeight + 'px';
 	}
 
-	// Scroll to next / previous row.
-	document.querySelectorAll( '.prpl-badge-row-input' ).forEach( ( input ) => {
-		input.addEventListener( 'change', function () {
-			const currentRow = this.value,
-				badgeRowWrapper = document.querySelector(
-					'.prpl-badge-row-wrapper-inner'
-				);
-
-			badgeRowWrapper.style.setProperty(
-				'--prpl-current-row',
-				currentRow
-			);
-		} );
-	} );
-
 	// Handle click on up button.
 	document
 		.querySelector( '.prpl-badge-row-button-up' )
