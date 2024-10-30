@@ -417,6 +417,10 @@ class BadgeScroller {
 		// Set wrapper height to show 2 rows.
 		const twoRowsHeight = this.badges[ 0 ].offsetHeight * 2 + gridGap;
 		this.badgeRowWrapperInner.style.height = twoRowsHeight + 'px';
+
+		// Dispatch a custom event to resize all grid items.
+		const event = new Event( 'prplResizeAllGridItemsEvent' );
+		document.dispatchEvent( event );
 	}
 
 	addEventListeners() {
