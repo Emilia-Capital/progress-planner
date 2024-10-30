@@ -369,79 +369,115 @@ document.addEventListener( 'DOMContentLoaded', () => {
 } );
 
 // Handle the monthly badges scrolling.
-document.addEventListener( 'DOMContentLoaded', () => {
-	const badgeButtonUp = document.querySelector( '.prpl-badge-row-button-up' ),
-		badgeButtonDown = document.querySelector(
+class BadgeScroller {
+	constructor() {
+		this.badgeButtonUp = document.querySelector(
+			'.prpl-badge-row-button-up'
+		);
+		this.badgeButtonDown = document.querySelector(
 			'.prpl-badge-row-button-down'
-		),
-		badgeRowWrapper = document.querySelector( '.prpl-badge-row-wrapper' ),
-		badgeRowWrapperInner = document.querySelector(
+		);
+		this.badgeRowWrapper = document.querySelector(
+			'.prpl-badge-row-wrapper'
+		);
+		this.badgeRowWrapperInner = document.querySelector(
 			'.prpl-badge-row-wrapper-inner'
 		);
+		this.badges =
+			this.badgeRowWrapperInner.querySelectorAll( '.prpl-badge' );
+		this.totalRows = this.badges.length / 3;
 
-	// On page load.
-	setMonthlyBadgeWrapperHeight();
-
-	// On window resize.
-	window.addEventListener( 'resize', function () {
-		setMonthlyBadgeWrapperHeight();
-	} );
-
-	function setMonthlyBadgeWrapperHeight() {
-		const badges = document.querySelectorAll( '.prpl-badge' ),
-			computedStyle = window.getComputedStyle( badgeRowWrapperInner ),
-			gridGap = parseInt( computedStyle.gap );
-
-		// Set CSS variables for the transform calculation
-		badgeRowWrapper.style.setProperty(
-			'--row-height',
-			`${ badges[ 0 ].offsetHeight }px`
-		);
-		badgeRowWrapper.style.setProperty( '--grid-gap', `${ gridGap }px` );
-
-		// Set wrapper height to show 2 rows
-		const twoRowsHeight = badges[ 0 ].offsetHeight * 2 + gridGap;
-		badgeRowWrapperInner.style.height = twoRowsHeight + 'px';
+		this.init();
 	}
 
-	// Handle click on up button.
-	badgeButtonUp.addEventListener( 'click', function () {
-		const computedStyle = window.getComputedStyle( badgeRowWrapperInner ),
-			currentRow = computedStyle.getPropertyValue( '--prpl-current-row' ),
-			nextRow = parseInt( currentRow ) - 1;
+	init() {
+		this.addEventListeners();
+		this.setWrapperHeight();
 
-		badgeButtonDown
+		// Handle window resize.
+		window.addEventListener( 'resize', () => this.setWrapperHeight() );
+	}
+
+	setWrapperHeight() {
+		const computedStyle = window.getComputedStyle(
+			this.badgeRowWrapperInner
+		);
+		const gridGap = parseInt( computedStyle.gap );
+
+		// Set CSS variables for the transform calculation.
+		this.badgeRowWrapper.style.setProperty(
+			'--row-height',
+			`${ this.badges[ 0 ].offsetHeight }px`
+		);
+		this.badgeRowWrapper.style.setProperty(
+			'--grid-gap',
+			`${ gridGap }px`
+		);
+
+		// Set wrapper height to show 2 rows.
+		const twoRowsHeight = this.badges[ 0 ].offsetHeight * 2 + gridGap;
+		this.badgeRowWrapperInner.style.height = twoRowsHeight + 'px';
+	}
+
+	addEventListeners() {
+		this.badgeButtonUp.addEventListener( 'click', () =>
+			this.handleUpClick()
+		);
+		this.badgeButtonDown.addEventListener( 'click', () =>
+			this.handleDownClick()
+		);
+	}
+
+	handleUpClick() {
+		const computedStyle = window.getComputedStyle(
+			this.badgeRowWrapperInner
+		);
+		const currentRow =
+			computedStyle.getPropertyValue( '--prpl-current-row' );
+		const nextRow = parseInt( currentRow ) - 1;
+
+		this.badgeButtonDown
 			.closest( '.prpl-badge-row-button-wrapper' )
 			.classList.remove( 'prpl-badge-row-button-disabled' );
 
-		badgeRowWrapperInner.style.setProperty( '--prpl-current-row', nextRow );
+		this.badgeRowWrapperInner.style.setProperty(
+			'--prpl-current-row',
+			nextRow
+		);
 
 		if ( nextRow <= 1 ) {
-			this.closest( '.prpl-badge-row-button-wrapper' ).classList.add(
-				'prpl-badge-row-button-disabled'
-			);
+			this.badgeButtonUp
+				.closest( '.prpl-badge-row-button-wrapper' )
+				.classList.add( 'prpl-badge-row-button-disabled' );
 		}
-	} );
+	}
 
-	// Handle click on down button.
-	badgeButtonDown.addEventListener( 'click', function () {
-		const computedStyle = window.getComputedStyle( badgeRowWrapperInner ),
-			currentRow = computedStyle.getPropertyValue( '--prpl-current-row' ),
-			nextRow = parseInt( currentRow ) + 1,
-			totalRows =
-				badgeRowWrapperInner.querySelectorAll( '.prpl-badge' ).length /
-				3;
+	handleDownClick() {
+		const computedStyle = window.getComputedStyle(
+			this.badgeRowWrapperInner
+		);
+		const currentRow =
+			computedStyle.getPropertyValue( '--prpl-current-row' );
+		const nextRow = parseInt( currentRow ) + 1;
 
-		badgeButtonUp
+		this.badgeButtonUp
 			.closest( '.prpl-badge-row-button-wrapper' )
 			.classList.remove( 'prpl-badge-row-button-disabled' );
 
-		badgeRowWrapperInner.style.setProperty( '--prpl-current-row', nextRow );
+		this.badgeRowWrapperInner.style.setProperty(
+			'--prpl-current-row',
+			nextRow
+		);
 
-		if ( nextRow >= totalRows - 1 ) {
-			this.closest( '.prpl-badge-row-button-wrapper' ).classList.add(
-				'prpl-badge-row-button-disabled'
-			);
+		if ( nextRow >= this.totalRows - 1 ) {
+			this.badgeButtonDown
+				.closest( '.prpl-badge-row-button-wrapper' )
+				.classList.add( 'prpl-badge-row-button-disabled' );
 		}
-	} );
+	}
+}
+
+// Initialize on DOM load
+document.addEventListener( 'DOMContentLoaded', () => {
+	new BadgeScroller();
 } );
