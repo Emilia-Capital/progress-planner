@@ -27,10 +27,21 @@
 
 			&:has(.prpl-badge-row-button-up) {
 				margin-bottom: var(--prpl-padding);
+				padding-bottom: 0.2rem;
+
+				border-bottom: 1px solid var(--prpl-color-gray-3);
 			}
 
 			&:has(.prpl-badge-row-button-down) {
 				margin-top: var(--prpl-padding);
+				padding-top: 0.2rem;
+
+				border-top: 1px solid var(--prpl-color-gray-3);
+			}
+
+			&.prpl-badge-row-button-disabled {
+				opacity: 0.5;
+				pointer-events: none;
 			}
 		}
 

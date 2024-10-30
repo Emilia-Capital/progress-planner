@@ -118,7 +118,7 @@ if ( $badges ) :
 		</div>
 	</div>
 	<?php if ( is_array( $badges ) && 6 < count( $badges ) ) : ?>
-		<div class="prpl-badge-row-button-wrapper">
+		<div class="prpl-badge-row-button-wrapper prpl-badge-row-button-disabled">
 			<button class="prpl-badge-row-button prpl-badge-row-button-down">
 				<span class="dashicons dashicons-arrow-down-alt2"></span>
 			</button>
