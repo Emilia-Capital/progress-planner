@@ -176,27 +176,25 @@ final class Monthly extends Badge {
 	public function the_icon( $complete = false ) {
 		$cache_key = "progress_planner_monthly_badge_svg_{$this->id}";
 		$cached    = \get_site_transient( $cache_key );
-		if ( $cached ) {
-			echo $cached; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-			return;
-		}
-		// Get the SVG from the API.
-		$response  = \wp_remote_get(
-			\add_query_arg(
-				[
-					'year'     => $this->get_year(),
-					'month'    => $this->get_month(),
-					'complete' => $complete ? 'true' : 'false',
-				],
-				'https://progressplanner.com/wp-json/progress-planner-saas/v1/monthly-badge-svg/'
-			)
-		);
 		$image_url = PROGRESS_PLANNER_URL . '/assets/images/badges/monthly-badge-default.svg';
-		if ( ! is_wp_error( $response ) && 200 === \wp_remote_retrieve_response_code( $response ) ) {
-			$body = \wp_remote_retrieve_body( $response );
-			if ( ! empty( $body ) ) {
-				$image_url = $body;
-				\set_site_transient( $cache_key, $body, 60 * 60 * 24 );
+		if ( ! $cached ) {
+			// Get the SVG from the API.
+			$response = \wp_remote_get(
+				\add_query_arg(
+					[
+						'year'     => $this->get_year(),
+						'month'    => $this->get_month(),
+						'complete' => $complete ? 'true' : 'false',
+					],
+					'https://progressplanner.com/wp-json/progress-planner-saas/v1/monthly-badge-svg/'
+				)
+			);
+			if ( ! is_wp_error( $response ) && 200 === \wp_remote_retrieve_response_code( $response ) ) {
+				$body = \wp_remote_retrieve_body( $response );
+				if ( ! empty( $body ) ) {
+					$image_url = $body;
+					\set_site_transient( $cache_key, $image_url, \MONTH_IN_SECONDS );
+				}
 			}
 		}
 		?>
