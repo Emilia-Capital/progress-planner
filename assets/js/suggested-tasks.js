@@ -367,3 +367,99 @@ document.addEventListener( 'DOMContentLoaded', () => {
 		document.dispatchEvent( event );
 	}
 } );
+
+// Handle the monthly badges scrolling.
+document.addEventListener( 'DOMContentLoaded', () => {
+	// On page load.
+	setMonthlyBadgeWrapperHeight();
+
+	// On window resize.
+	window.addEventListener( 'resize', function () {
+		setMonthlyBadgeWrapperHeight();
+	} );
+
+	function setMonthlyBadgeWrapperHeight() {
+		const badgeRowWrapperInner = document.querySelector(
+				'.prpl-badge-row-wrapper'
+			),
+			badgeRowWrapper = document.querySelector(
+				'.prpl-badge-row-wrapper-inner'
+			),
+			badges = document.querySelectorAll( '.prpl-badge' ),
+			computedStyle = window.getComputedStyle( badgeRowWrapper ),
+			gridGap = parseInt( computedStyle.gap );
+
+		// Set CSS variables for the transform calculation
+		badgeRowWrapperInner.style.setProperty(
+			'--row-height',
+			`${ badges[ 0 ].offsetHeight }px`
+		);
+		badgeRowWrapperInner.style.setProperty(
+			'--grid-gap',
+			`${ gridGap }px`
+		);
+
+		// Set wrapper height to show 2 rows
+		const twoRowsHeight = badges[ 0 ].offsetHeight * 2 + gridGap;
+		badgeRowWrapper.style.height = twoRowsHeight + 'px';
+	}
+
+	// Scroll to next / previous row.
+	document.querySelectorAll( '.prpl-badge-row-input' ).forEach( ( input ) => {
+		input.addEventListener( 'change', function () {
+			const currentRow = this.value,
+				badgeRowWrapper = document.querySelector(
+					'.prpl-badge-row-wrapper-inner'
+				);
+
+			badgeRowWrapper.style.setProperty(
+				'--prpl-current-row',
+				currentRow
+			);
+		} );
+	} );
+
+	// Handle click on up button.
+	document
+		.querySelector( '.prpl-badge-row-button-up' )
+		.addEventListener( 'click', function () {
+			const badgeRowWrapper = document.querySelector(
+					'.prpl-badge-row-wrapper-inner'
+				),
+				computedStyle = window.getComputedStyle( badgeRowWrapper ),
+				currentRow =
+					computedStyle.getPropertyValue( '--prpl-current-row' ),
+				nextRow = parseInt( currentRow ) + 1,
+				totalRows =
+					badgeRowWrapper.querySelectorAll( '.prpl-badge' ).length /
+					3;
+
+			if ( nextRow > totalRows - 1 ) {
+				return;
+			}
+
+			badgeRowWrapper.style.setProperty(
+				'--prpl-current-row',
+				parseInt( currentRow ) + 1
+			);
+		} );
+
+	// Handle click on down button.
+	document
+		.querySelector( '.prpl-badge-row-button-down' )
+		.addEventListener( 'click', function () {
+			const badgeRowWrapper = document.querySelector(
+					'.prpl-badge-row-wrapper-inner'
+				),
+				computedStyle = window.getComputedStyle( badgeRowWrapper ),
+				currentRow =
+					computedStyle.getPropertyValue( '--prpl-current-row' ),
+				nextRow = parseInt( currentRow ) - 1;
+
+			if ( nextRow < 1 ) {
+				return;
+			}
+
+			badgeRowWrapper.style.setProperty( '--prpl-current-row', nextRow );
+		} );
+} );
