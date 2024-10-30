@@ -53,7 +53,8 @@ final class Monthly extends Badge {
 		}
 
 		foreach ( array_keys( self::get_months() ) as $month ) {
-			self::$instances[] = new self( 'monthly-' . strtolower( $month ) );
+			$id                = 'monthly-' . gmdate( 'Y' ) . '-' . str_replace( '-', '', $month );
+			self::$instances[] = new self( $id );
 		}
 
 		return self::$instances;
@@ -65,25 +66,25 @@ final class Monthly extends Badge {
 	 * @return array
 	 */
 	public static function get_months() {
-		$current_month = gmdate( 'm' );
-		if ( $current_month >= 1 && $current_month <= 6 ) {
-			return [
-				'jan' => __( 'Jack January', 'progress-planner' ),
-				'feb' => __( 'Felix February', 'progress-planner' ),
-				'mar' => __( 'Mary March', 'progress-planner' ),
-				'apr' => __( 'Avery April', 'progress-planner' ),
-				'may' => __( 'Matteo May', 'progress-planner' ),
-				'jun' => __( 'Jasmine June', 'progress-planner' ),
-			];
-		}
-		return [
-			'jul' => __( 'July', 'progress-planner' ),
-			'aug' => __( 'August', 'progress-planner' ),
-			'sep' => __( 'September', 'progress-planner' ),
-			'oct' => __( 'October', 'progress-planner' ),
-			'nov' => __( 'November', 'progress-planner' ),
-			'dec' => __( 'December', 'progress-planner' ),
+		/*
+		 * Indexed months, The array keys are prefixed with an "m"
+		 * so that they are strings and not integers.
+		 */
+		$months = [
+			'm1'  => __( 'Jack January', 'progress-planner' ),
+			'm2'  => __( 'Felix February', 'progress-planner' ),
+			'm3'  => __( 'Mary March', 'progress-planner' ),
+			'm4'  => __( 'Avery April', 'progress-planner' ),
+			'm5'  => __( 'Matteo May', 'progress-planner' ),
+			'm6'  => __( 'Jasmine June', 'progress-planner' ),
+			'm7'  => __( 'July', 'progress-planner' ),
+			'm8'  => __( 'August', 'progress-planner' ),
+			'm9'  => __( 'September', 'progress-planner' ),
+			'm10' => __( 'October', 'progress-planner' ),
+			'm11' => __( 'November', 'progress-planner' ),
+			'm12' => __( 'December', 'progress-planner' ),
 		];
+		return $months;
 	}
 
 	/**
@@ -95,7 +96,7 @@ final class Monthly extends Badge {
 		if ( ! $this->id ) {
 			return '';
 		}
-		return self::get_months()[ $this->get_month() ];
+		return self::get_months()[ 'm' . $this->get_month() ];
 	}
 
 	/**
@@ -108,12 +109,21 @@ final class Monthly extends Badge {
 	}
 
 	/**
+	 * Get the year for the month.
+	 *
+	 * @return string
+	 */
+	public function get_year() {
+		return explode( '-', str_replace( 'monthly-', '', $this->id ) )[0];
+	}
+
+	/**
 	 * Get the month for the badge.
 	 *
 	 * @return string
 	 */
 	public function get_month() {
-		return str_replace( 'monthly-', '', $this->id );
+		return str_replace( 'm', '', explode( '-', str_replace( 'monthly-', '', $this->id ) )[1] );
 	}
 
 	/**
@@ -122,9 +132,9 @@ final class Monthly extends Badge {
 	 * @return array
 	 */
 	public function progress_callback() {
-		$month     = self::get_months()[ $this->get_month() ];
-		$year      = $this->get_year( $month );
-		$month_num = gmdate( 'm', strtotime( $month ) );
+		$month     = self::get_months()[ 'm' . $this->get_month() ];
+		$year      = $this->get_year();
+		$month_num = (int) $this->get_month();
 
 		$start_date = \DateTime::createFromFormat( 'Y-m-d', "{$year}-{$month_num}-01" );
 		$end_date   = \DateTime::createFromFormat( 'Y-m-d', "{$year}-{$month_num}-" . gmdate( 't', strtotime( $month ) ) );
@@ -157,18 +167,42 @@ final class Monthly extends Badge {
 	}
 
 	/**
-	 * Get the year for the month.
+	 * Print the icon.
 	 *
-	 * @param string $month The month.
-	 * @return int
+	 * @param bool $complete Whether the badge is complete.
+	 *
+	 * @return void
 	 */
-	public function get_year( $month ) {
-		$current_month_num = gmdate( 'm' );
-		$month_num         = gmdate( 'm', strtotime( $month ) );
-		$year              = (int) gmdate( 'Y' );
-		if ( $current_month_num < $month_num ) {
-			return $year - 1;
+	public function the_icon( $complete = false ) {
+		$cache_key = "progress_planner_monthly_badge_svg_{$this->id}";
+		$cached    = \get_site_transient( $cache_key );
+		$image_url = PROGRESS_PLANNER_URL . '/assets/images/badges/monthly-badge-default.svg';
+		if ( ! $cached ) {
+			// Get the SVG from the API.
+			$response = \wp_remote_get(
+				\add_query_arg(
+					[
+						'year'     => $this->get_year(),
+						'month'    => $this->get_month(),
+						'complete' => $complete ? 'true' : 'false',
+					],
+					'https://progressplanner.com/wp-json/progress-planner-saas/v1/monthly-badge-svg/'
+				)
+			);
+			if ( ! is_wp_error( $response ) && 200 === \wp_remote_retrieve_response_code( $response ) ) {
+				$body = \wp_remote_retrieve_body( $response );
+				if ( ! empty( $body ) ) {
+					$image_url = $body;
+					\set_site_transient( $cache_key, $image_url, \MONTH_IN_SECONDS );
+				}
+			}
 		}
-		return $year;
+		?>
+		<img
+			class="prpl-monthly-badge-icon-image <?php echo $complete ? 'complete' : 'incomplete'; ?>"
+			src="<?php echo esc_url( $image_url ); ?>"
+			alt=""
+		>
+		<?php
 	}
 }

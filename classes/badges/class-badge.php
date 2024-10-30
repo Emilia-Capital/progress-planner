@@ -78,4 +78,13 @@ abstract class Badge {
 		$progress['date'] = ( new \DateTime() )->format( 'Y-m-d H:i:s' );
 		\progress_planner()->get_settings()->set( [ 'badges', $this->id ], $progress );
 	}
+
+	/**
+	 * Print the icon.
+	 *
+	 * @param bool $complete Whether the badge is complete.
+	 *
+	 * @return void
+	 */
+	public function the_icon( $complete = false ) {}
 }

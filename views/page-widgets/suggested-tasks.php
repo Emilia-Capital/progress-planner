@@ -33,10 +33,13 @@ $percentage  = $prpl_widget->get_score() / Monthly::TARGET_POINTS;
 		</span>
 		<span class="prpl-gauge-badge">
 		<?php
-			/**
-			 * TODO: Add badges icons by month. Files should have a month suffix.
-			 */
-			\progress_planner()->the_asset( 'images/badges/bold-blogger.svg' );
+		$prpl_badge = \progress_planner()
+			->get_badges()
+			->get_badge( 'monthly-' . gmdate( 'Y' ) . '-m' . (int) gmdate( 'm' ) );
+
+		if ( $prpl_badge ) {
+			$prpl_badge->the_icon( Monthly::TARGET_POINTS === (int) $prpl_widget->get_score() );
+		}
 		?>
 		</span>
 		<span class="prpl-gauge-100">
@@ -63,69 +66,48 @@ $percentage  = $prpl_widget->get_score() / Monthly::TARGET_POINTS;
 </ul>
 <ul class="prpl-suggested-tasks-list"></ul>
 
+<?php $badges = \progress_planner()->get_badges()->get_badges( 'monthly' ); ?>
+<?php if ( $badges ) : ?>
+	<hr>
 
-
-<?php
-	$badges = \progress_planner()->get_badges()->get_badges( 'monthly' );
-
-if ( $badges ) :
-	?>
-
-
-<hr>
-
-<h2 class="prpl-widget-title">
-	<?php \esc_html_e( 'Your monthly badges', 'progress-planner' ); ?>
-</h2>
-<div class="prpl-widget-content">
-	<?php \esc_html_e( 'Check out your progress! Which badge will you unlock next?', 'progress-planner' ); ?>
-</div>
-
-<div class="progress-wrapper badge-group-monthly">
-
-	<?php if ( is_array( $badges ) && 6 < count( $badges ) ) : ?>
-	<div class="prpl-badge-row-button-wrapper prpl-badge-row-button-disabled">
-		<button class="prpl-badge-row-button prpl-badge-row-button-up">
-			<span class="dashicons dashicons-arrow-up-alt2"></span>
-		</button>
+	<h2 class="prpl-widget-title">
+		<?php \esc_html_e( 'Your monthly badges', 'progress-planner' ); ?>
+	</h2>
+	<div class="prpl-widget-content">
+		<?php \esc_html_e( 'Check out your progress! Which badge will you unlock next?', 'progress-planner' ); ?>
 	</div>
-	<?php endif; ?>
 
-	<div class="prpl-badge-row-wrapper">
-		<div class="prpl-badge-row-wrapper-inner">
-		<?php
-		foreach ( $badges as $badge ) :
-			?>
+	<div class="progress-wrapper badge-group-monthly">
+		<?php if ( is_array( $badges ) && 6 < count( $badges ) ) : ?>
+			<div class="prpl-badge-row-button-wrapper  prpl-badge-row-button-disabled">
+				<button class="prpl-badge-row-button prpl-badge-row-button-up">
+					<span class="dashicons dashicons-arrow-up-alt2"></span>
+				</button>
+			</div>
+		<?php endif; ?>
 
-				<span
-					class="prpl-badge prpl-badge-<?php echo \esc_attr( $badge->get_id() ); ?>"
-					data-value="<?php echo \esc_attr( $badge->progress_callback()['progress'] ); ?>"
-				>
-					<?php
-					/**
-					 * TODO: Add badges icons by month. Files should have a month suffix.
-					 */
-					\progress_planner()->the_asset(
-						100 === (int) $badge->progress_callback()['progress']
-						? 'images/badges/bold-blogger.svg'
-						: 'images/badges/bold-blogger-bw.svg'
-					);
-					?>
-					<p><?php echo \esc_html( $badge->get_name() ); ?></p>
-				</span>
-
-			<?php endforeach; ?>
+		<div class="prpl-badge-row-wrapper">
+			<div class="prpl-badge-row-wrapper-inner">
+				<?php foreach ( $badges as $badge ) : ?>
+					<span
+						class="prpl-badge prpl-badge-<?php echo \esc_attr( $badge->get_id() ); ?>"
+						data-value="<?php echo \esc_attr( $badge->progress_callback()['progress'] ); ?>"
+					>
+						<?php $badge->the_icon( 100 === (int) $badge->progress_callback()['progress'] ); ?>
+						<p><?php echo \esc_html( $badge->get_name() ); ?></p>
+					</span>
+				<?php endforeach; ?>
+			</div>
 		</div>
+		<?php if ( is_array( $badges ) && 6 < count( $badges ) ) : ?>
+			<div class="prpl-badge-row-button-wrapper">
+				<button class="prpl-badge-row-button prpl-badge-row-button-down">
+					<span class="dashicons dashicons-arrow-down-alt2"></span>
+				</button>
+			</div>
+		<?php endif; ?>
 	</div>
-	<?php if ( is_array( $badges ) && 6 < count( $badges ) ) : ?>
-		<div class="prpl-badge-row-button-wrapper">
-			<button class="prpl-badge-row-button prpl-badge-row-button-down">
-				<span class="dashicons dashicons-arrow-down-alt2"></span>
-			</button>
-		</div>
-	<?php endif; ?>
-</div>
-<div class="prpl-widget-content">
-	<?php \esc_html_e( 'Stay tuned for more badges!', 'progress-planner' ); ?>
-</div>
+	<div class="prpl-widget-content">
+		<?php \esc_html_e( 'Stay tuned for more badges!', 'progress-planner' ); ?>
+	</div>
 <?php endif; ?>
