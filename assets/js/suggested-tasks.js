@@ -408,45 +408,40 @@ document.addEventListener( 'DOMContentLoaded', () => {
 	badgeButtonUp.addEventListener( 'click', function () {
 		const computedStyle = window.getComputedStyle( badgeRowWrapperInner ),
 			currentRow = computedStyle.getPropertyValue( '--prpl-current-row' ),
-			nextRow = parseInt( currentRow ) + 1,
-			totalRows =
-				badgeRowWrapperInner.querySelectorAll( '.prpl-badge' ).length /
-				3;
-
-		if ( nextRow > totalRows - 1 ) {
-			this.closest( '.prpl-badge-row-button-wrapper' ).classList.add(
-				'prpl-badge-row-button-disabled'
-			);
-			return;
-		}
+			nextRow = parseInt( currentRow ) - 1;
 
 		badgeButtonDown
 			.closest( '.prpl-badge-row-button-wrapper' )
 			.classList.remove( 'prpl-badge-row-button-disabled' );
 
-		badgeRowWrapperInner.style.setProperty(
-			'--prpl-current-row',
-			parseInt( currentRow ) + 1
-		);
+		badgeRowWrapperInner.style.setProperty( '--prpl-current-row', nextRow );
+
+		if ( nextRow <= 1 ) {
+			this.closest( '.prpl-badge-row-button-wrapper' ).classList.add(
+				'prpl-badge-row-button-disabled'
+			);
+		}
 	} );
 
 	// Handle click on down button.
 	badgeButtonDown.addEventListener( 'click', function () {
 		const computedStyle = window.getComputedStyle( badgeRowWrapperInner ),
 			currentRow = computedStyle.getPropertyValue( '--prpl-current-row' ),
-			nextRow = parseInt( currentRow ) - 1;
-
-		if ( nextRow < 1 ) {
-			this.closest( '.prpl-badge-row-button-wrapper' ).classList.add(
-				'prpl-badge-row-button-disabled'
-			);
-			return;
-		}
+			nextRow = parseInt( currentRow ) + 1,
+			totalRows =
+				badgeRowWrapperInner.querySelectorAll( '.prpl-badge' ).length /
+				3;
 
 		badgeButtonUp
 			.closest( '.prpl-badge-row-button-wrapper' )
 			.classList.remove( 'prpl-badge-row-button-disabled' );
 
 		badgeRowWrapperInner.style.setProperty( '--prpl-current-row', nextRow );
+
+		if ( nextRow >= totalRows - 1 ) {
+			this.closest( '.prpl-badge-row-button-wrapper' ).classList.add(
+				'prpl-badge-row-button-disabled'
+			);
+		}
 	} );
 } );
