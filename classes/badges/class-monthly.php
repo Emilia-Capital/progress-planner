@@ -65,18 +65,13 @@ final class Monthly extends Badge {
 	 * @return array
 	 */
 	public static function get_months() {
-		$current_month = gmdate( 'm' );
-		if ( $current_month >= 1 && $current_month <= 6 ) {
-			return [
-				'jan' => __( 'Jack January', 'progress-planner' ),
-				'feb' => __( 'Felix February', 'progress-planner' ),
-				'mar' => __( 'Mary March', 'progress-planner' ),
-				'apr' => __( 'Avery April', 'progress-planner' ),
-				'may' => __( 'Matteo May', 'progress-planner' ),
-				'jun' => __( 'Jasmine June', 'progress-planner' ),
-			];
-		}
 		return [
+			'jan' => __( 'Jack January', 'progress-planner' ),
+			'feb' => __( 'Felix February', 'progress-planner' ),
+			'mar' => __( 'Mary March', 'progress-planner' ),
+			'apr' => __( 'Avery April', 'progress-planner' ),
+			'may' => __( 'Matteo May', 'progress-planner' ),
+			'jun' => __( 'Jasmine June', 'progress-planner' ),
 			'jul' => __( 'July', 'progress-planner' ),
 			'aug' => __( 'August', 'progress-planner' ),
 			'sep' => __( 'September', 'progress-planner' ),
