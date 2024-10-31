@@ -51,6 +51,7 @@ if ( $prpl_widget->get_details( 'maintenance' ) ) {
 
 <h2 class="prpl-widget-title">
 	<?php \esc_html_e( 'Your streak badges', 'progress-planner' ); ?>
+	<?php \progress_planner()->get_popovers()->badges->render_button(); ?>
 	<?php \progress_planner()->get_popovers()->badges->render(); ?>
 </h2>
 

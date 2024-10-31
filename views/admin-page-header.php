@@ -27,6 +27,7 @@ $progress_planner_active_frequency = isset( $_GET['frequency'] ) ? \sanitize_tex
 			<span class="dashicons dashicons-lightbulb"></span>
 			<span class="screen-reader-text"><?php \esc_html_e( 'Start tour', 'progress-planner' ); ?>
 		</button>
+		<?php \progress_planner()->get_popovers()->settings->render_button(); ?>
 		<?php \progress_planner()->get_popovers()->settings->render(); ?>
 		<div class="prpl-header-select-range">
 			<label for="prpl-select-range" class="screen-reader-text">

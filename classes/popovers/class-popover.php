@@ -41,7 +41,6 @@ abstract class Popover {
 	 */
 	public function render() {
 		?>
-		<?php $this->render_button(); ?>
 		<div id="prpl-popover-<?php echo \esc_attr( $this->id ); ?>" class="prpl-popover" popover>
 			<!-- The content. -->
 			<?php $this->the_content(); ?>
