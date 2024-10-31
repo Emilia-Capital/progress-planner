@@ -482,6 +482,10 @@ class BadgeScroller {
 }
 
 // Initialize on DOM load
-document.addEventListener( 'DOMContentLoaded', () => {
+if ( document.readyState !== 'loading' ) {
 	new BadgeScroller();
-} );
+} else {
+	document.addEventListener( 'DOMContentLoaded', () => {
+		new BadgeScroller();
+	} );
+}
