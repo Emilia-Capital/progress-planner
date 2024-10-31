@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:disable Generic.Commenting.Todo
 /**
  * Class Todo_Test
  *
@@ -25,3 +25,4 @@ class Todo_Test extends \WP_UnitTestCase {
 		$this->assertEmpty( $items );
 	}
 }
+// phpcs:enable Generic.Commenting.Todo

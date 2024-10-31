@@ -32,6 +32,18 @@ const prplResizeGridItem = ( item ) => {
 		( elHeight + paddingTop + paddingBottom ) / rowHeight
 	);
 	item.style.gridRowEnd = 'span ' + ( rowSpan + 1 );
+
+	// If this is the last item and taller than the 2 previous items, move it to the 1st column.
+	if (
+		item.nextElementSibling === null &&
+		item.getBoundingClientRect().height >
+			item.previousElementSibling.getBoundingClientRect().height &&
+		item.getBoundingClientRect().height >
+			item.previousElementSibling.previousElementSibling.getBoundingClientRect()
+				.height
+	) {
+		item.style.gridColumn = '1';
+	}
 };
 
 /**

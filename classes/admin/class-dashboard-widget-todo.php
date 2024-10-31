@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:disable Generic.Commenting.Todo
 /**
  * Add a widget to the WordPress dashboard.
  *
@@ -49,3 +49,4 @@ class Dashboard_Widget_Todo extends Dashboard_Widget {
 		\progress_planner()->the_view( "dashboard-widgets/{$this->id}.php" );
 	}
 }
+// phpcs:enable Generic.Commenting.Todo

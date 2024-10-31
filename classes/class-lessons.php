@@ -27,7 +27,7 @@ class Lessons {
 	 * @return array
 	 */
 	public function get_remote_api_items() {
-		$cached = \get_site_transient( 'progress_planner_lessons' );
+		$cached = \progress_planner()->get_cache()->get( 'lessons' );
 		if ( is_array( $cached ) && ! empty( $cached ) ) {
 			return $cached;
 		}
@@ -47,7 +47,7 @@ class Lessons {
 			return [];
 		}
 
-		\set_site_transient( 'progress_planner_lessons', $json, WEEK_IN_SECONDS );
+		\progress_planner()->get_cache()->set( 'lessons', $json, WEEK_IN_SECONDS );
 
 		return $json;
 	}

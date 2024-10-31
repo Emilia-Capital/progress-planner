@@ -153,6 +153,7 @@ class Update_Content extends Local_Tasks {
 			'parent'      => 0,
 			'priority'    => 'medium',
 			'type'        => 'writing',
+			'points'      => $is_last_post_long ? 1 : 2,
 			'description' => $is_last_post_long
 				? sprintf(
 					/* translators: %d: The threshold (number, words count) for a long post. */
@@ -208,6 +209,7 @@ class Update_Content extends Local_Tasks {
 				'parent'      => 0,
 				'priority'    => 'high',
 				'type'        => 'writing',
+				'points'      => 1,
 				'description' => '<p>' . sprintf(
 					/* translators: %s: The post title. */
 					\esc_html__( 'Update the post "%s" as it was last updated more than 6 months ago.', 'progress-planner' ),

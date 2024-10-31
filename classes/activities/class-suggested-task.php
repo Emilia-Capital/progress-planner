@@ -59,8 +59,6 @@ class Suggested_Task extends Activity {
 		// Default points for a suggested task.
 		$points = 1;
 
-		// TODO: Do we use date into account?
-
 		if ( isset( $data['type'] ) && ( 'create-post' === $data['type'] || 'update-post' === $data['type'] ) && isset( $data['long'] ) && true === $data['long'] ) {
 			$points = 2;
 		}

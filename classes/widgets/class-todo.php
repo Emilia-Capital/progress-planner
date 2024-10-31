@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:disable Generic.Commenting.Todo
 /**
  * A widget class.
  *
@@ -55,3 +55,4 @@ final class ToDo extends Widget {
 		<?php
 	}
 }
+// phpcs:enable Generic.Commenting.Todo

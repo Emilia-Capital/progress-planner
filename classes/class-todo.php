@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:disable Generic.Commenting.Todo
 /**
  * Handle TODO list items.
  *
@@ -105,3 +105,4 @@ class Todo {
 		\wp_send_json_success( [ 'message' => \esc_html__( 'Saved.', 'progress-planner' ) ] );
 	}
 }
+// phpcs:enable Generic.Commenting.Todo

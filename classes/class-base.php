@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:disable Generic.Commenting.Todo
 /**
  * Progress Planner main plugin class.
  *
@@ -129,6 +129,13 @@ class Base {
 	 * @var \Progress_Planner\Rest_API|null
 	 */
 	private $rest_api;
+
+	/**
+	 * An instance of the \Progress_Planner\Cache class.
+	 *
+	 * @var \Progress_Planner\Cache|null
+	 */
+	private $cache;
 
 	/**
 	 * Constructor.
@@ -292,8 +299,9 @@ class Base {
 		if ( ! $this->popovers ) {
 			$this->popovers = new \stdClass();
 		}
-		$this->popovers->badges   = new \Progress_Planner\Popovers\Badges();
-		$this->popovers->settings = new \Progress_Planner\Popovers\Settings();
+		$this->popovers->badges         = new \Progress_Planner\Popovers\Badges();
+		$this->popovers->settings       = new \Progress_Planner\Popovers\Settings();
+		$this->popovers->subscribe_form = new \Progress_Planner\Popovers\Subscribe_Form();
 
 		return $this->popovers;
 	}
@@ -383,6 +391,18 @@ class Base {
 	}
 
 	/**
+	 * Get the cache instance.
+	 *
+	 * @return \Progress_Planner\Cache
+	 */
+	public function get_cache() {
+		if ( ! $this->cache ) {
+			$this->cache = new Cache();
+		}
+		return $this->cache;
+	}
+
+	/**
 	 * Get the activation date.
 	 *
 	 * @return \DateTime
@@ -463,3 +483,4 @@ class Base {
 		}
 	}
 }
+// phpcs:enable Generic.Commenting.Todo

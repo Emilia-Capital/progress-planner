@@ -13,6 +13,7 @@ $prpl_widget = \progress_planner()->get_admin()->page->get_widget( 'latest-badge
 
 // Get the latest completed badge.
 $latest_badge = \progress_planner()->get_badges()->get_latest_completed_badge();
+
 ?>
 <h2 class="prpl-widget-title">
 	<?php \esc_html_e( 'Latest new badge!', 'progress-planner' ); ?>
@@ -33,4 +34,26 @@ $latest_badge = \progress_planner()->get_badges()->get_latest_completed_badge();
 		src="<?php echo \esc_url( $prpl_widget->endpoint . $latest_badge->get_id() ); ?>"
 		alt="<?php echo \esc_attr( $latest_badge->get_name() ); ?>"
 	/>
+	<?php if ( 'no-license' !== \get_option( 'progress_planner_license_key', 'no-license' ) ) : ?>
+		<?php
+		// Generate the share badge URL.
+		$prpl_share_badge_url = \add_query_arg(
+			[
+				'badge' => $latest_badge->get_id(),
+				'url'   => \home_url(),
+			],
+			'https://progressplanner.com/wp-json/progress-planner-saas/v1/share-badge'
+		);
+		?>
+		<a href="<?php echo \esc_url( $prpl_share_badge_url ); ?>" target="_blank">
+			<?php \esc_html_e( 'Share your badge!', 'progress-planner' ); ?>
+		</a>
+	<?php else : ?>
+		<?php
+		\progress_planner()->get_popovers()->subscribe_form->render_button(
+			'',
+			\esc_html__( 'Subscribe to share your badge!', 'progress-planner' )
+		);
+		?>
+	<?php endif; ?>
 <?php endif; ?>

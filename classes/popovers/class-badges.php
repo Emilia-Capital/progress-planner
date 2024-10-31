@@ -77,13 +77,7 @@ final class Badges extends Popover {
 				data-value="<?php echo \esc_attr( $badge_progress['progress'] ); ?>"
 			>
 				<div class="inner">
-					<?php
-					\progress_planner()->the_asset(
-						$badge_completed
-							? 'images/badges/' . $badge->get_id() . '.svg'
-							: 'images/badges/' . $badge->get_id() . '-bw.svg'
-					);
-					?>
+					<?php $badge->the_icon( $badge_completed ); ?>
 					<?php echo \esc_html( $badge->get_name() ); ?>
 				</div>
 				<p><?php echo \esc_html( $badge->get_description() ); ?></p>
