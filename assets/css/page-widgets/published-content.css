@@ -8,9 +8,9 @@
 	th,
 	td {
 		border: none;
+		padding: 0.5em;
 
 		&:not(:first-child) {
-			padding: 0.5em;
 			text-align: center;
 		}
 	}
