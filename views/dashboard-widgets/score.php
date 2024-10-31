@@ -39,7 +39,7 @@ $show_badges = (
 									--max: 360deg;
 									--start: 180deg;
 								">
-								<?php \progress_planner()->the_asset( 'images/badges/' . $details['badge']['id'] . '.svg' ); ?>
+								<?php $details['badge']->the_icon( true ); ?>
 							</div>
 						</span>
 						<span class="progress-percent"><?php echo \esc_attr( $details['progress']['progress'] ); ?>%</span>

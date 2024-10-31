@@ -34,13 +34,13 @@ $prpl_widget = \progress_planner()->get_admin()->page->get_widget( 'badge-streak
 						--max: 360deg;
 						--start: 180deg;
 					">
-					<?php \progress_planner()->the_asset( 'images/badges/' . $content_badge_details['badge']['id'] . '.svg' ); ?>
+					<?php $content_badge_details['badge']->the_icon( true ); ?>
 				</div>
 			</span>
 			<span class="progress-percent"><?php echo \esc_attr( $content_badge_details['progress']['progress'] ); ?>%</span>
 		</div>
 		<div class="prpl-badge-content-wrapper">
-			<h3><?php echo \esc_html( $content_badge_details['badge']['name'] ); ?></h3>
+			<h3><?php echo \esc_html( $content_badge_details['badge']->get_name() ); ?></h3>
 			<p>
 				<?php
 				printf(
@@ -77,13 +77,13 @@ $prpl_widget = \progress_planner()->get_admin()->page->get_widget( 'badge-streak
 						--max: 360deg;
 						--start: 180deg;
 					">
-					<?php \progress_planner()->the_asset( 'images/badges/' . $streak_badge_details['badge']['id'] . '.svg' ); ?>
+					<?php $streak_badge_details['badge']->the_icon( true ); ?>
 				</div>
 			</span>
 			<span class="progress-percent"><?php echo \esc_attr( $streak_badge_details['progress']['progress'] ); ?>%</span>
 		</div>
 		<div class="prpl-badge-content-wrapper">
-			<h3><?php echo \esc_html( $streak_badge_details['badge']['name'] ); ?></h3>
+			<h3><?php echo \esc_html( $streak_badge_details['badge']->get_name() ); ?></h3>
 			<p>
 				<?php
 				printf(
@@ -122,13 +122,7 @@ $prpl_widget = \progress_planner()->get_admin()->page->get_widget( 'badge-streak
 					class="prpl-badge"
 					data-value="<?php echo \esc_attr( $badge_progress['progress'] ); ?>"
 				>
-					<?php
-					\progress_planner()->the_asset(
-						$badge_completed
-							? 'images/badges/' . $badge->get_id() . '.svg'
-							: 'images/badges/' . $badge->get_id() . '-bw.svg'
-					);
-					?>
+					<?php $badge->the_icon( $badge_completed ); ?>
 					<p><?php echo \esc_html( $badge->get_name() ); ?></p>
 				</span>
 			<?php endforeach; ?>

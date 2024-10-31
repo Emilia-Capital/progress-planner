@@ -89,12 +89,7 @@ class Dashboard_Widget_Score extends Dashboard_Widget {
 		}
 
 		$result['progress'] = $progress;
-		$result['badge']    = [
-			'id'                => $badge->get_id(),
-			'name'              => $badge->get_name(),
-			'description'       => $badge->get_description(),
-			'progress_callback' => [ $badge, 'progress_callback' ],
-		];
+		$result['badge']    = $badge;
 
 		$result['color'] = 'var(--prpl-color-accent-red)';
 		if ( $result['progress']['progress'] > 50 ) {
