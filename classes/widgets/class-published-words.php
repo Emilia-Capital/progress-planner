@@ -1,16 +1,16 @@
 <?php
 /**
- * Progress_Planner widget.
+ * A widget class.
  *
  * @package Progress_Planner
  */
 
 namespace Progress_Planner\Widgets;
 
-use Progress_Planner\Activities\Content_Helpers;
+use Progress_Planner\Widget;
 
 /**
- * Published Content Widget.
+ * Published_Words class.
  */
 final class Published_Words extends Widget {
 
@@ -59,7 +59,7 @@ final class Published_Words extends Widget {
 			if ( null === $activity->get_post() ) {
 				continue;
 			}
-			$words += Content_Helpers::get_word_count(
+			$words += \progress_planner()->get_helpers()->content->get_word_count(
 				$activity->get_post()->post_content,
 				(int) $activity->data_id
 			);

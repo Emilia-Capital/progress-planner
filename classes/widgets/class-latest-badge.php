@@ -1,14 +1,16 @@
 <?php
 /**
- * Progress_Planner widget.
+ * A widget class.
  *
  * @package Progress_Planner
  */
 
 namespace Progress_Planner\Widgets;
 
+use Progress_Planner\Widget;
+
 /**
- * Latest badge widget.
+ * Latest_Badge class.
  */
 final class Latest_Badge extends Widget {
 
@@ -24,5 +26,5 @@ final class Latest_Badge extends Widget {
 	 *
 	 * @var string
 	 */
-	protected $endpoint = 'https://progressplanner.com/wp-json/progress-planner-saas/v1/share-badge-image?badge=';
+	public $endpoint = 'https://progressplanner.com/wp-json/progress-planner-saas/v1/share-badge-image?badge=';
 }

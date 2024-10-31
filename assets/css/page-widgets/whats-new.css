@@ -1,0 +1,47 @@
+.prpl-widget-wrapper.prpl-whats-new {
+
+	ul {
+		margin: 0;
+
+		p {
+			margin: 0;
+		}
+	}
+
+	li {
+
+		> a {
+			color: var(--prpl-color-gray-6);
+			text-decoration: none;
+
+			h3 {
+				margin-top: 0;
+				font-size: 1.15em;
+				font-weight: 600;
+
+				&::after {
+					content: url('data:image/svg+xml,<%3Fxml version="1.0" encoding="UTF-8"%3F><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12"><path fill="%23currentcolor" d="M6 1h5v5L8.86 3.85 4.7 8 4 7.3l4.15-4.16zM2 3h2v1H2v6h6V8h1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1"/></svg>');
+					margin-left: 0.25em;
+					width: 0.75em;
+					height: 0.75em;
+					display: inline-block;
+				}
+			}
+		}
+
+		img {
+			width: 100%;
+		}
+	}
+}
+
+.prpl-blog-post-image {
+	width: 100%;
+	min-height: 120px;
+	aspect-ratio: 16 / 9;
+	background-size: cover;
+	margin-bottom: 1em;
+	border-radius: var(--prpl-border-radius);
+	box-shadow: 5px 5px 5px var(--prpl-color-gray-2);
+	border: 1px solid var(--prpl-color-gray-2);
+}

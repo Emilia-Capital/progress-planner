@@ -7,12 +7,17 @@
 
 namespace Progress_Planner;
 
-use Progress_Planner\Date;
-
 /**
  * Activity class.
  */
 class Activity {
+
+	/**
+	 * Points configuration.
+	 *
+	 * @var array|int
+	 */
+	public static $points_config = [];
 
 	/**
 	 * Category of the activity.
@@ -84,6 +89,7 @@ class Activity {
 			return;
 		}
 		\progress_planner()->get_query()->insert_activity( $this );
+		\do_action( 'progress_planner_activity_saved', $this );
 	}
 
 	/**
@@ -93,6 +99,7 @@ class Activity {
 	 */
 	public function delete() {
 		\progress_planner()->get_query()->delete_activity( $this );
+		\do_action( 'progress_planner_activity_deleted', $this );
 	}
 
 	/**
@@ -107,16 +114,16 @@ class Activity {
 		if ( isset( $this->points[ $date_ymd ] ) ) {
 			return $this->points[ $date_ymd ];
 		}
-		$days = abs( Date::get_days_between_dates( $date, $this->date ) );
+		$days = abs( \progress_planner()->get_date()->get_days_between_dates( $date, $this->date ) );
 
 		// Default points.
 		$default_points = 10;
-		if ( isset( Base::$points_config[ $this->category ][ $this->type ] ) ) {
-			$default_points = Base::$points_config[ $this->category ][ $this->type ];
-		} elseif ( isset( Base::$points_config[ $this->category ]['default'] ) ) {
-			$default_points = Base::$points_config[ $this->category ]['default'];
-		} elseif ( isset( Base::$points_config[ $this->category ] ) && \is_int( Base::$points_config[ $this->category ] ) ) {
-			$default_points = Base::$points_config[ $this->category ];
+		if ( isset( self::$points_config[ $this->type ] ) ) {
+			$default_points = self::$points_config[ $this->type ];
+		} elseif ( isset( self::$points_config['default'] ) ) {
+			$default_points = self::$points_config['default'];
+		} elseif ( \is_int( self::$points_config ) ) {
+			$default_points = self::$points_config;
 		}
 
 		$this->points[ $date_ymd ] = ( $days < 7 )

@@ -4,13 +4,12 @@
 :root {
 	--prpl-gap: 32px;
 	--prpl-padding: 20px;
-	--prpl-column-min-width: 15rem;
-	--prpl-column-max-width: 30rem;
-	--prpl-max-columns: 4;
+	--prpl-column-min-width: 22rem;
+	--prpl-max-columns: 3;
 	--prpl-border-radius: 8px;
 	--prpl-border-radius-big: calc(var(--prpl-border-radius) * 2);
 
-	--prpl-container-max-width: calc(var(--prpl-column-max-width) * var(--prpl-max-columns) + var(--prpl-gap) * (var(--prpl-max-columns) - 1));
+	--prpl-container-max-width: calc(var(--prpl-column-min-width) * var(--prpl-max-columns) + var(--prpl-gap) * (var(--prpl-max-columns) - 1) + var(--prpl-column-min-width));
 
 	--prpl-color-gray-1: #e1e3e7;
 	--prpl-color-gray-2: #d1d5db;
@@ -150,12 +149,9 @@ button.prpl-info-icon {
 	max-height: 300px;
 }
 
-/*------------------------------------*\
-	Progress bar styles for the posts scanner.
-\*------------------------------------*/
-#progress-planner-scan-progress progress {
-	width: 100%;
-	min-height: 1px;
+/* Make sure the graph wrapper doesn't overflow the .prpl-widget-wrapper. */
+.prpl-graph-wrapper:has(.prpl-chart-container) {
+	max-height: 300px;
 }
 
 /*------------------------------------*\
@@ -163,56 +159,18 @@ button.prpl-info-icon {
 \*------------------------------------*/
 .prpl-widgets-container {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(calc(var(--prpl-column-min-width) * 2), 1fr));
-	grid-gap: var(--prpl-gap);
-}
-
-.prpl-column-main {
-	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(var(--prpl-column-min-width), 1fr));
-	grid-gap: var(--prpl-gap);
-}
+	column-gap: var(--prpl-gap);
+	grid-auto-rows: var(--prpl-gap);
 
-.prpl-column {
-	display: flex;
-	flex-direction: column;
-	gap: var(--prpl-gap);
-}
-
-.prpl-column-main-primary {
-
-	.prpl-column {
-		display: flex;
-		flex-direction: column;
-	}
-
-	.prpl-column-two-col {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(var(--prpl-column-min-width), 1fr));
-		grid-gap: var(--prpl-gap);
-	}
-}
-
-/*------------------------------------*\
-	Widgets with 2 columns.
-\*------------------------------------*/
-.two-col {
-	display: flex;
-	flex-wrap: wrap;
-	gap: var(--prpl-gap);
-
-	&:has(.counter-big-wrapper) {
-		gap: var(--prpl-padding);
-	}
-
-	> * {
-		flex: 1;
-		min-width: 12em;
+	img {
 		max-width: 100%;
+		height: auto;
 	}
 
-	&.narrow > * {
-		min-width: 7em;
+	h3 {
+		font-size: 1.15rem;
+		margin-top: 0;
 	}
 }
 
@@ -223,16 +181,16 @@ button.prpl-info-icon {
 	border: 1px solid var(--prpl-color-gray-2);
 	border-radius: var(--prpl-border-radius);
 	padding: var(--prpl-padding);
-	display: flex;
-	flex-direction: column;
 	min-width: 0;
 	min-height: 0;
+	margin-bottom: var(--prpl-gap);
+	box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.07), -2px 0 6px rgba(0, 0, 0, 0.07);
 }
 
 /*------------------------------------*\
 	The big counters in widgets.
 \*------------------------------------*/
-.prpl-wrap .counter-big-wrapper {
+.prpl-counter-big-wrapper {
 	background-color: var(--prpl-background-purple);
 	padding: var(--prpl-padding);
 	border-radius: var(--prpl-border-radius-big);
@@ -242,16 +200,17 @@ button.prpl-info-icon {
 	text-align: center;
 	align-content: center;
 	justify-content: center;
-}
+	height: calc(var(--prpl-font-size-5xl) + var(--prpl-font-size-2xl) + var(--prpl-padding) * 2);
 
-.prpl-wrap .counter-big-number {
-	font-size: var(--prpl-font-size-5xl);
-	line-height: 1;
-	font-weight: 600;
-}
+	.counter-big-number {
+		font-size: var(--prpl-font-size-5xl);
+		line-height: 1;
+		font-weight: 600;
+	}
 
-.prpl-wrap .counter-big-text {
-	font-size: var(--prpl-font-size-2xl);
+	.counter-big-text {
+		font-size: var(--prpl-font-size-2xl);
+	}
 }
 
 /*------------------------------------*\
@@ -260,372 +219,6 @@ button.prpl-info-icon {
 .prpl-graph-wrapper {
 	position: relative;
 	height: 100%;
-}
-
-/*------------------------------------*\
-	The wrapper for widgets that have a
-	big counter at the top, and content at the bottom.
-\*------------------------------------*/
-.prpl-top-counter-bottom-content {
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-
-	.counter-big-wrapper {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-	}
-}
-
-/*------------------------------------*\
-	Percent display for badges.
-\*------------------------------------*/
-.prpl-badge-wrapper .progress-percent {
-	font-size: var(--prpl-font-size-3xl);
-	line-height: 1;
-	font-weight: 600;
-	display: block;
-	text-align: center;
-	padding-top: calc(var(--prpl-padding) / 2);
-}
-
-/*------------------------------------*\
-	Activity-score widget.
-\*------------------------------------*/
-.prpl-widget-wrapper.prpl-website-activity-score {
-
-	.two-col > *:first-child {
-		flex: 1.4;
-	}
-
-	ul {
-		margin-top: 10px;
-
-		li {
-			margin-left: 10px;
-			line-height: 1.2;
-		}
-	}
-
-	.prpl-icon {
-		display: inline-block;
-		text-align: center;
-		width: 0.75em;
-		font-size: 1.25em;
-		margin-right: 5px;
-		vertical-align: top;
-	}
-}
-
-.prpl-gauge-number {
-	font-size: var(--prpl-font-size-6xl);
-	top: -1em;
-	display: block;
-	padding-top: 50%;
-	font-weight: 600;
-	text-align: center;
-	position: absolute;
-	color: var(--prpl-color-gray-5);
-	width: 100%;
-	line-height: 1.2;
-}
-
-.prpl-activities-gauge-container {
-	padding: var(--prpl-padding);
-	background: var(--prpl-background-orange);
-	border-radius: var(--prpl-border-radius);
-	aspect-ratio: 2 / 1;
-	overflow: hidden;
-	position: relative;
-	margin-bottom: var(--prpl-padding);
-
-	.prpl-gauge-0 {
-		left: 10px;
-	}
-
-	.prpl-gauge-100 {
-		right: 3px;
-	}
-}
-
-.prpl-activities-gauge-container .prpl-gauge-0,
-.prpl-gauge-100 {
-	font-size: var(--prpl-font-size-small);
-	position: absolute;
-	top: 50%;
-	color: var(--prpl-color-gray-5);
-}
-
-/*------------------------------------*\
-	Activity scores
-\*------------------------------------*/
-.prpl-widget-wrapper.prpl-activity-scores .prpl-graph-wrapper {
-	max-height: 300px;
-}
-
-/*------------------------------------*\
-	Badges progress widget.
-\*------------------------------------*/
-.prpl-widget-wrapper.prpl-badges-progress {
-
-	.progress-label {
-		display: inline-block;
-	}
-
-	.progress-wrapper {
-		display: grid;
-		grid-template-columns: 1fr 1fr 1fr;
-		gap: calc(var(--prpl-gap) / 2);
-		background-color: var(--prpl-background-blue);
-		padding: calc(var(--prpl-padding) / 2);
-		border-radius: var(--prpl-border-radius);
-		margin-bottom: var(--prpl-padding);
-
-		.prpl-badge {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			justify-content: space-between;
-			flex-wrap: wrap;
-			min-width: 0;
-		}
-
-		p {
-			margin: 0;
-			font-size: var(--prpl-font-size-xs);
-			text-align: center;
-			line-height: 1.2;
-		}
-
-		svg {
-			width: calc(100% * var(--multiplier));
-			margin-left: calc(100% * (1 - var(--multiplier)) / 2);
-		}
-
-		+ .progress-wrapper {
-			background-color: var(--prpl-background-orange);
-
-			&.badge-group-maintenance {
-				background-color: var(--prpl-background-red);
-			}
-		}
-	}
-
-	.prpl-badge {
-
-		/* Change this number to adjust the rate of growth of the badges size. */
-		--multiplier-default: 1.125;
-		--multiplier: var(--multiplier-default);
-
-		+ .prpl-badge {
-			--multiplier: calc(var(--multiplier-default) * var(--multiplier-default));
-
-			+ .prpl-badge {
-				--multiplier: calc(var(--multiplier-default) * var(--multiplier-default) * var(--multiplier-default));
-			}
-		}
-	}
-
-	.prpl-widget-content {
-		margin-bottom: 1em;
-	}
-}
-
-/*------------------------------------*\
-	Published content widget.
-\*------------------------------------*/
-.prpl-widget-wrapper.prpl-published-content {
-
-	.two-col {
-		align-items: flex-start;
-	}
-
-	table {
-		width: 100%;
-		margin-bottom: 1em;
-	}
-
-	th,
-	td {
-		border: none;
-
-		&:not(:first-child) {
-			padding: 0.5em;
-			text-align: center;
-		}
-	}
-
-	th {
-		text-align: start;
-		border-bottom: 1px solid var(--prpl-color-gray-3);
-	}
-
-	tr:nth-child(even) {
-		background-color: #f9fafb;
-	}
-
-	tr:last-child td {
-		border-bottom: none;
-	}
-}
-
-/*------------------------------------*\
-	Individual badge widgets.
-\*------------------------------------*/
-.prpl-badges-columns-wrapper {
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(calc(var(--prpl-column-min-width) / 2), 1fr));
-	grid-gap: var(--prpl-padding);
-}
-
-.prpl-badge-gauge,
-.prpl-activities-gauge {
-	--background: var(--prpl-background-blue);
-	--cutout: 57%;
-	--max: 270deg;
-	--start: -135deg;
-	--color: var(--prpl-color-accent-orange);
-	width: 100%;
-	aspect-ratio: 1 / 1;
-	border-radius: 100%;
-	position: relative;
-	background:
-		radial-gradient(var(--background) 0 var(--cutout), transparent var(--cutout) 100%),
-		conic-gradient(from var(--start), var(--color) calc(var(--max) * var(--value)), var(--prpl-color-gray-1) calc(var(--max) * var(--value)) var(--max), transparent var(--max));
-	text-align: center;
-}
-
-.prpl-badge-gauge svg {
-	aspect-ratio: 1.15;
-	filter: drop-shadow(0 0 1px rgb(0 0 0 / 0.4));
-}
-
-.prpl-badge-wrapper {
-	background: var(--prpl-background-blue);
-	padding: var(--prpl-padding);
-	border-radius: calc(var(--prpl-border-radius) * 2);
-	position: relative;
-	overflow: hidden;
-
-	* {
-		z-index: 1;
-	}
-}
-
-.prpl-badge-watermark {
-	display: block;
-	width: 150%;
-	height: 150%;
-	background-image: url(data:image/svg+xml;base64,PHN2ZyByb2xlPSJpbWciIGFyaWEtaGlkZGVuPSJ0cnVlIiBmb2N1c2FibGU9ImZhbHNlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzNjggNTAwIj48cGF0aCBmaWxsPSIjMzgyOTZkIiBkPSJNMjE3LjQ2IDE3Mi45YzMuMjEuMTIgNS45NyAxLjc0IDcuNzMgNC4xNS0xLjg3LTEwLjI0LTEwLjY0LTE4LjE3LTIxLjQ4LTE4LjU2LTEyLjUyLS40NS0yMy4wMyA5LjMzLTIzLjQ4IDIxLjg1LS40NSAxMi41MiA5LjMzIDIzLjAzIDIxLjg1IDIzLjQ4IDkuNC4zNCAxNy42Ny01LjEgMjEuNC0xMy4xMy0xLjgzIDEuNTEtNC4xOCAyLjQyLTYuNzQgMi4zMy01LjU1LS4yLTkuODktNC44Ni05LjY5LTEwLjQxLjItNS41NSA0Ljg2LTkuODkgMTAuNDEtOS42OVpNMjQxLjUxIDMwNS44NGMuNTggMS45MiAxLjEzIDMuODYgMS43MyA1Ljc3IDE0LjA0IDQ0Ljk3IDMzLjk0IDg4Ljc1IDU2LjQyIDEyNC4yN2w2Ny43NS0xMzAuMDRoLTEyNS45Wk0yOTcuOTYgMjA1Ljk3YzEyLjEyLTQuNSAyMy41NC03LjE4IDMzLjY0LTguOTYtMjIuNTEtMjIuMjctNjEuMjQtMjcuMDYtNjEuNDctMjcuMDkgMS4yNyA2LjE3LjU4IDE1LjgtMi40NCAyNi40Ni0zLjMgMTEuNjYtOS4zOCAyNC41NC0xOC43IDM1LjQ4LTMuNDUgNC4wNi03LjM2IDcuODMtMTEuNzMgMTEuMTloLjA3di0uMDFjLjE2LjYyLjM4IDEuMi41OCAxLjc5IDIuNzQgOC4yNyA4LjYxIDEzLjc0IDE0LjkzIDE3LjE0IDYuNDggMy40OSAxMy4zNyA0LjgzIDE3LjY4IDQuODMgNi40IDAgMTEuODgtMy43OSAxNC40My05LjIyLjk3LTIuMDYgMS41NS00LjMzIDEuNTUtNi43NiAwLTMuODUtMS40Mi03LjM0LTMuNjktMTAuMS0xLjkyLTIuMzMtNC40Ni00LjA4LTcuMzktNS4wM2w0NC44Mi04LjY1Yy02LjYzLTYuMTItMTQuNzItMTEuNTktMjIuNzMtMTYuMjMtMS45Ny0xLjE0LTEuNjktNC4wNS40NS00Ljg0WiIvPjxwYXRoIGZpbGw9IiNmYWEzMTAiIGQ9Ik0yODEuMzcgNDU4LjM3Yy0yNS43OS0zOC44NC00OC42OC04OC4wNC02NC40NS0xMzguNTQtMS40NS00LjYzLTIuODMtOS4zMS00LjE3LTEzLjk5LTEuMTItMy45NC0yLjIyLTcuODgtMy4yNS0xMS44LTIuMDktNy45Mi05LjI4LTEzLjQ2LTE3LjQ4LTEzLjQ2aC0yNy45NWMtOC4yIDAtMTUuMzkgNS41My0xNy40OCAxMy40NS0yLjI4IDguNjUtNC43OCAxNy4zMi03LjQyIDI1Ljc5LTE1Ljc3IDUwLjUtMzguNjUgOTkuNy02NC40NSAxMzguNTQtNC4wMSA2LjAzLTEuNzggMTEuNjMtLjY0IDEzLjc2IDIuNCA0LjQ3IDYuODYgNy4xNCAxMS45NCA3LjE0aDY2LjAxbDMuOTcgNi45MmM0LjU0IDcuOSAxMi45OSAxMi44MSAyMi4wNSAxMi44MXMxNy41MS00LjkxIDIyLjA2LTEyLjgxbDMuOTgtNi45Mmg2NmMzLjIyIDAgNi4xOS0xLjA4IDguNTUtMy4wMiAxLjM1LTEuMTEgMi41MS0yLjQ5IDMuMzgtNC4xMy41Ny0xLjA3IDEuNDItMy4wMiAxLjYxLTUuNDYuMTktMi40MS0uMjYtNS4zMS0yLjI1LTguMzFaIi8+PHBhdGggZmlsbD0iIzM4Mjk2ZCIgZD0iTTI5NS43IDc2LjA2Yy03LjU0LTEyLjA1LTMyLjM4IDEtNTkuNTQgMi44Ni0xNS4wNCAxLjAzLTM3LjA1LTExMC42My03MS43Ny01Ni45OS0zOS41NiA2MS4xLTc5LjEyLTQ0LjY4LTg4LjY2LTE1LjgzLTIxLjExIDQzLjI3IDI1LjE1IDg0LjYxIDI1LjE1IDg0LjYxcy0xMi44NCA3LjkyLTIwLjYzIDEzLjkzYy01LjQ3IDQuMTctMTAuODIgOC42NS0xNi4wMyAxMy41MS0yMC40NSAxOS4wMy0zNi4wNCA0MC4zMi00Ni43NyA2My44NkM2LjcyIDIwNS41NSAxLjExIDIyOS41OS42MiAyNTQuMTVjLS40OSAyNC41NiA0LjAxIDQ5LjEgMTMuNTQgNzMuNjMgOS41MiAyNC41MyAyNC4xNyA0Ny40MiA0My45NSA2OC42OCA0LjAyIDQuMzIgOC4xMiA4LjQxIDEyLjMxIDEyLjMgNC4xLTYuMzEgNy45Ny0xMi43NCAxMS42NC0xOS4yNiA0LjM5LTcuOCA4LjUtMTUuNzIgMTIuMjUtMjMuNzgtLjMzLS4zNS0uNjYtLjY5LS45OS0xLjAzLS4xNy0uMTgtLjM0LS4zNS0uNTEtLjUzLTE1LjUzLTE2LjY5LTI3LjE3LTM0LjU5LTM0LjkzLTUzLjcyLTcuNzctMTkuMTMtMTEuNS0zOC4yNS0xMS4yLTU3LjM2LjI5LTE5LjEgNC40Ny0zNy42OCAxMi41My01NS43MiA4LjA2LTE4LjA1IDIwLjAyLTM0LjQ1IDM1LjktNDkuMjIgMTMuOTktMTMuMDIgMjguODQtMjIuODMgNDQuNTUtMjkuNDEgMTUuNy02LjU5IDMxLjYzLTkuOTggNDcuNzYtMTAuMTggOS4wNS0uMTEgMTkuMTEgMS4xNSAyOS41MSA0LjUgMTAuMzIgNC4yNyAxOS4yMiA5LjQ0IDI2LjYzIDE1LjM1IDEwLjE5IDguMTMgMTcuNjEgMTcuNjUgMjIuMjIgMjguMSAxLjkxIDQuMzIgMy4zNyA4LjggNC4zMiAxMy40MSAxNi4yNy0yOC4yNyAzNi43NS03NS45NiAyNS41Ny05My44M1oiLz48L3N2Zz4=);
-	position: absolute;
-	top: -20%;
-	left: -10%;
-	opacity: 0.04;
-	z-index: 0;
-	filter: grayscale(80%);
-	background-repeat: no-repeat;
-}
-
-/*------------------------------------*\
-	Streak badge widget.
-\*------------------------------------*/
-.prpl-widget-wrapper.prpl-badge-streak .prpl-badge-wrapper {
-	background: var(--prpl-background-red);
-
-	.prpl-badge-gauge {
-		--background: var(--prpl-background-red);
-	}
-}
-
-/*------------------------------------*\
-	Personal record widget.
-\*------------------------------------*/
-.prpl-widget-wrapper.prpl-personal-record-content .counter-big-wrapper {
-	background-color: var(--prpl-background-green);
-}
-
-/*------------------------------------*\
-	What's new widget.
-\*------------------------------------*/
-.prpl-widget-wrapper.prpl-whats-new {
-
-	ul {
-		margin: 0;
-
-		p {
-			margin: 0;
-		}
-	}
-
-	li {
-
-		> a {
-			color: var(--prpl-color-gray-6);
-			text-decoration: none;
-
-			h3 {
-				margin-top: 0;
-				font-size: 1.15em;
-				font-weight: 600;
-
-				&::after {
-					content: url('data:image/svg+xml,<%3Fxml version="1.0" encoding="UTF-8"%3F><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12"><path fill="%23currentcolor" d="M6 1h5v5L8.86 3.85 4.7 8 4 7.3l4.15-4.16zM2 3h2v1H2v6h6V8h1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1"/></svg>');
-					margin-left: 0.25em;
-					width: 0.75em;
-					height: 0.75em;
-					display: inline-block;
-				}
-			}
-		}
-
-		img {
-			width: 100%;
-		}
-	}
-}
-
-.prpl-blog-post-image {
-	width: 100%;
-	min-height: 120px;
-	aspect-ratio: 16 / 9;
-	background-size: cover;
-	margin-bottom: 1em;
-	border-radius: var(--prpl-border-radius);
-	box-shadow: 5px 5px 5px var(--prpl-color-gray-2);
-	border: 1px solid var(--prpl-color-gray-2);
-}
-
-/*------------------------------------*\
-	Latest badge widget.
-\*------------------------------------*/
-
-.prpl-widget-wrapper.prpl-latest-badge img {
-	border: 1px solid var(--prpl-color-gray-2);
-	border-radius: var(--prpl-border-radius);
-}
-
-/*------------------------------------*\
-	Plugins widget.
-\*------------------------------------*/
-
-/* .prpl-widget-wrapper.prpl-plugins:has(.pending-updates) {
-	border-color: var(--prpl-color-notification-red);
-	border-width: 2px;
-	background-color: var(--prpl-background-orange);
-}
-
-.prpl-widget-wrapper.prpl-plugins:has(.pending-updates) .counter-big-wrapper {
-	background-color: var(--prpl-background-orange);
-}
-
-.prpl-widget-wrapper.prpl-plugins:has(.pending-updates) .accent {
-	color: var(--prpl-color-notification-red);
-	font-weight: 600;
-} */
-
-.prpl-widget-wrapper.prpl-plugins .counter-big-wrapper {
-	background-color: var(--prpl-background-green);
 }
 
 /*------------------------------------*\
@@ -652,62 +245,6 @@ button.prpl-info-icon {
 	}
 }
 
-/*------------------------------------*\
-	Welcome widget.
-\*------------------------------------*/
-.prpl-widget-wrapper.prpl-welcome {
-	padding: 0;
-	overflow-x: hidden;
-	max-height: 80vh;
-	width: 80vw;
-	margin: 10vh 10vw;
-	z-index: 9999;
-
-	.inner-content {
-		padding: calc(var(--prpl-gap) * 1.5);
-		padding-bottom: 0;
-		margin-bottom: calc(var(--prpl-gap) * 1.5);
-		display: flex;
-		grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
-		gap: calc(var(--prpl-gap) * 2);
-
-		img {
-			max-width: 100%;
-			height: auto;
-		}
-	}
-}
-
-.welcome-header {
-
-	.welcome-header-icon {
-		background: var(--prpl-background-orange);
-		background: linear-gradient(105deg, var(--prpl-color-accent-orange) 25%, var(--prpl-background-orange) 25%);
-		padding: var(--prpl-padding);
-		padding-left: 100px;
-		padding-right: calc(var(--prpl-gap) * 1.5);
-
-		svg {
-			height: 100px;
-		}
-	}
-}
-
-.prpl-welcome {
-
-	.welcome-header {
-		background: var(--prpl-color-accent-orange);
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-
-		h1 {
-			font-size: var(--prpl-font-size-3xl);
-			padding: var(--prpl-padding) calc(var(--prpl-gap) * 1.5);
-			font-weight: 600;
-		}
-	}
-}
 
 /*------------------------------------*\
   Buttons
@@ -748,30 +285,6 @@ button.prpl-info-icon {
 }
 
 /*------------------------------------*\
-	Onboarding form.
-\*------------------------------------*/
-
-#prpl-onboarding-form label,
-#prpl-onboarding-submit-grid-wrapper {
-	display: grid;
-	grid-template-columns: 1fr 3fr;
-	margin-bottom: 0.5em;
-	gap: var(--prpl-padding);
-}
-
-#prpl-onboarding-form label > span:has(input[type="checkbox"]) {
-	display: flex;
-	align-items: baseline;
-}
-
-.prpl-onboard-form-radio-select {
-
-	label {
-		display: block !important;
-	}
-}
-
-/*------------------------------------*\
 	Popovers generic styles.
 \*------------------------------------*/
 .prpl-popover {
@@ -792,7 +305,7 @@ button.prpl-info-icon {
 }
 
 /*------------------------------------*\
-	Popups close button.
+	Popovers close button.
 \*------------------------------------*/
 .prpl-popover-close {
 	position: absolute;
@@ -811,111 +324,8 @@ button.prpl-info-icon {
 }
 
 /*------------------------------------*\
-	Badges popover.
-\*------------------------------------*/
-#popover-badges-content,
-#popover-badges-maintenance {
-	display: grid;
-	grid-template-columns: 1fr 1fr 1fr;
-	grid-gap: var(--prpl-padding);
-
-	.inner {
-		border-radius: var(--prpl-border-radius-big);
-		padding: var(--prpl-padding);
-		font-size: var(--prpl-font-size-small);
-		text-align: center;
-	}
-}
-
-#popover-badges-content .inner {
-	background: var(--prpl-background-red);
-}
-
-#popover-badges-maintenance .inner {
-	background: var(--prpl-background-blue);
-}
-
-.badges-popover-progress-total {
-	display: block;
-	width: 100%;
-	height: 20px;
-	background: var(--prpl-color-gray-1);
-
-	> span {
-		display: block;
-		height: 100%;
-		background: var(--prpl-color-accent-red);
-	}
-}
-
-#prpl-popover-badges-details {
-
-	.indicators {
-		display: grid;
-		grid-template-columns: 1fr 1fr 1fr;
-		grid-gap: var(--prpl-padding);
-
-		.indicator {
-			text-align: center;
-			line-height: 1.2;
-			margin-top: 5px;
-
-			.number {
-				font-size: var(--prpl-font-size-2xl);
-				font-weight: 500;
-				display: block;
-			}
-		}
-	}
-
-	.prpl-widgets-container {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(var(--prpl-column-min-width), 1fr));
-		grid-gap: var(--prpl-gap);
-
-		.prpl-widget-wrapper {
-			display: flex;
-			flex-direction: column;
-			justify-content: space-between;
-		}
-	}
-}
-
-.string-freeze-explain {
-	max-width: 42em;
-}
-
-/*------------------------------------*\
 	Mobile styles.
 \*------------------------------------*/
-@media all and (max-width: 610px) {
-
-	:root {
-		--prpl-gap: 16px;
-		--prpl-padding: 10px;
-		--prpl-column-min-width: 0;
-	}
-
-	.prpl-column-main,
-	.prpl-column-main-primary .prpl-column-two-col {
-		grid-template-columns: 1fr;
-	}
-
-	.prpl-welcome .welcome-header {
-		flex-wrap: wrap;
-	}
-
-	.prpl-widget-wrapper.prpl-welcome .inner-content,
-	#prpl-onboarding-form label,
-	#prpl-onboarding-submit-grid-wrapper {
-		display: flex;
-		flex-direction: column;
-	}
-
-	.prpl-graph-wrapper {
-		max-width: calc(100vw - 4 * var(--prpl-padding) - 4 * var(--prpl-gap));
-	}
-}
 
 @media all and (max-width: 1024px) {
 
@@ -925,236 +335,7 @@ button.prpl-info-icon {
 }
 
 /*------------------------------------*\
-	TODO list styles.
-\*------------------------------------*/
-
-.prpl-widget-wrapper.prpl-todo {
-	padding-left: 0;
-
-	> * {
-		padding-left: var(--prpl-padding);
-	}
-}
-
-#create-todo-item {
-	display: flex;
-	align-items: center;
-	flex-direction: row-reverse;
-	gap: 1em;
-
-	button {
-		border: 1.5px solid;
-		border-radius: 50%;
-		background: none;
-		box-shadow: none;
-		color: var(--prpl-color-gray-3);
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		padding: 0.2em;
-
-		.dashicons {
-			font-size: 0.825em;
-			width: 1em;
-			height: 1em;
-		}
-	}
-}
-
-#new-todo-content {
-	flex: 1;
-	min-width: 0;
-}
-
-#todo-list {
-	list-style: none;
-	padding: 0;
-	max-height: 30em;
-	overflow-y: auto;
-	margin: 0 0 0.5em -5px;
-
-	li {
-		position: relative;
-		display: flex;
-		align-items: center;
-		font-size: 14px;
-
-		.content {
-			padding: 0 0.5em;
-			width: 100%;
-			display: border-box;
-			border-bottom: 1.5px solid transparent;
-		}
-
-		input {
-			margin: 0 5px;
-
-			&[type="checkbox"]:checked::before {
-				content: url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2020%2020%27%3E%3Cpath%20d%3D%27M14.83%204.89l1.34.94-5.81%208.38H9.02L5.78%209.67l1.34-1.25%202.57%202.4z%27%20fill%3D%27%2316a34a%27%2F%3E%3C%2Fsvg%3E");
-			}
-		}
-
-		.trash {
-			opacity: 0;
-			padding: 0;
-			border: 0;
-			background: none;
-			color: var(--prpl-color-gray-3);
-			cursor: pointer;
-			box-shadow: none;
-			transition: all 0.1s;
-
-			&:hover {
-				color: var(--prpl-color-accent-red);
-			}
-		}
-
-		:not(:focus-within):has(:checked) .content {
-			opacity: 0.5;
-			text-decoration: line-through;
-		}
-
-		&:focus-within .content {
-			outline: none;
-			border-bottom: 1.5px solid var(--prpl-color-gray-3);
-		}
-
-		&:hover,
-		&:focus-within {
-
-			.trash {
-				opacity: 1;
-			}
-
-			.prpl-todo-drag-handle {
-				opacity: 1;
-			}
-		}
-	}
-}
-
-.prpl-todo-drag-handle {
-	width: var(--prpl-padding);
-	display: flex;
-	opacity: 0;
-}
-
-/*------------------------------------*\
-	Dashboard widget styles.
-\*------------------------------------*/
-#progress_planner_dashboard_widget_score {
-
-	.prpl-dashboard-widget.show-badges {
-		display: grid;
-		grid-template-columns: 1fr 1px 140px;
-		grid-gap: calc(var(--prpl-gap) / 2);
-	}
-
-	.prpl-activities-gauge-container {
-		padding-bottom: calc(var(--prpl-padding) * 2);
-		background-color: #fff;
-	}
-
-	.prpl-badge-wrapper {
-		background: none;
-		display: grid;
-		grid-template-columns: 1fr max-content;
-		grid-gap: 1em;
-		align-items: center;
-		border: none;
-		padding: 0 0 1em 0;
-
-		.progress-percent {
-			font-size: 28px;
-			font-weight: 600;
-			padding-top: 0;
-			color: var(--prpl-color-gray-5);
-		}
-	}
-
-	.prpl-gauge-0,
-	.prpl-gauge-100 {
-		font-size: var(--prpl-font-size-small);
-		position: absolute;
-		top: 50%;
-		color: var(--prpl-color-gray-5);
-	}
-
-	.prpl-gauge-0 {
-		left: 6px;
-	}
-
-	.prpl-gauge-100 {
-		right: 0;
-	}
-
-	h3 {
-		font-weight: 500;
-	}
-
-	.grid-separator {
-		background: #c3c4c7; /* same color as the one WP-Core uses */
-		width: 0.5px;
-		height: 100%;
-	}
-
-	.prpl-badge-gauge {
-		width: 64px;
-	}
-
-	.prpl-dashboard-widget-latest-activities {
-		margin-top: 1em;
-		padding-top: 1em;
-		border-top: 1px solid #c3c4c7; /* same color as the one WP-Core uses */
-		li {
-			display: flex;
-			justify-content: space-between;
-		}
-	}
-
-	.prpl-dashboard-widget-footer {
-		margin-top: 1em;
-		padding-top: 1em;
-		border-top: 1px solid #c3c4c7; /* same color as the one WP-Core uses */
-		font-size: var(--prpl-font-size-base);
-		display: flex;
-		gap: 1em;
-		align-items: center;
-	}
-
-	.prpl-activities-gauge-container-container p {
-		text-align: center;
-		font-size: var(--prpl-font-size-base);
-		color: var(--prpl-color-gray-5);
-		margin-top: -15px;
-	}
-
-	.prpl-gauge-number {
-		font-size: var(--prpl-font-size-4xl);
-	}
-}
-
-/*------------------------------------*\
-	Progress Planner TODO Dashboard widget styles.
-\*------------------------------------*/
-#progress_planner_dashboard_widget_todo #create-todo-item {
-	padding: 0 16px;
-}
-
-#prpl-dashboard-widget-todo-header {
-	display: flex;
-	gap: 1em;
-	align-items: center;
-	margin-bottom: 1em;
-	padding: 0 16px;
-
-	p {
-		font-size: 14px;
-	}
-}
-
-/*------------------------------------*\
-	Settings popup.
+	Settings popover.
 \*------------------------------------*/
 #prpl-settings-license-form,
 #prpl-settings-form {
@@ -1188,7 +369,7 @@ button.prpl-info-icon {
 		color: var(--prpl-color-headings);
 	}
 
-	button:hover {
+	button:not(.driver-popover-close-btn):hover {
 		background-color: var(--prpl-background-orange);
 	}
 }
@@ -1200,5 +381,66 @@ button.prpl-info-icon {
 		grid-template-columns: 1fr 3fr;
 		margin-bottom: 0.5em;
 		gap: var(--prpl-padding);
+	}
+}
+
+
+/*------------------------------------*\
+	Tooltip.
+\*------------------------------------*/
+.tooltip-actions {
+	justify-content: flex-end;
+	gap: 0.5em;
+	display: flex;
+	position: relative;
+}
+
+.prpl-tooltip {
+	position: absolute;
+	bottom: 0;
+	left: 100%;
+	transform: translate(-100%, calc(100% + 10px));
+
+	padding: 0.75rem 1.5rem 0.75rem 0.75rem;
+	width: 150px;
+	background: var(--prpl-background-green);
+	border-radius: var(--prpl-border-radius);
+	z-index: 2; /* above the gauges */
+	visibility: hidden; /* hidden by default */
+
+	font-size: 1rem;
+	font-weight: 400;
+	color: var(--prpl-color-text);
+
+	&[data-tooltip-visible] {
+		visibility: visible;
+	}
+
+	.close,
+	.prpl-tooltip-close {
+		position: absolute;
+		top: 0.75rem;
+		right: 0;
+		padding: 0.1rem;
+		line-height: 0;
+		margin: 0;
+		background: none;
+		border: none;
+		cursor: pointer;
+	}
+
+	/* Arrow */
+	&::after {
+		content: "";
+		position: absolute;
+		top: 0;
+		right: 0;
+		transform: translate(-10px, -10px) rotate(90deg);
+
+		width: 0;
+		height: 0;
+		border-style: solid;
+		border-width: 7.5px 10px 7.5px 0;
+		border-color: transparent var(--prpl-background-green) transparent transparent;
 	}
 }

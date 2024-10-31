@@ -1,0 +1,207 @@
+.prpl-widget-wrapper.prpl-badge-streak {
+
+	.progress-label {
+		display: inline-block;
+	}
+
+	.progress-wrapper {
+		display: grid;
+		grid-template-columns: 1fr 1fr 1fr;
+		gap: calc(var(--prpl-gap) / 2);
+		background-color: var(--prpl-background-blue);
+		padding: calc(var(--prpl-padding) / 2);
+		border-radius: var(--prpl-border-radius);
+		margin-bottom: var(--prpl-padding);
+
+		.prpl-badge {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: space-between;
+			flex-wrap: wrap;
+			min-width: 0;
+		}
+
+		p {
+			margin: 0;
+			font-size: var(--prpl-font-size-xs);
+			text-align: center;
+			line-height: 1.2;
+		}
+
+		.prpl-badge-icon-image {
+			width: calc(100% * var(--multiplier));
+			margin-bottom: 1rem;
+
+			&.incomplete {
+				filter: grayscale(1);
+				opacity: 0.2;
+			}
+		}
+
+		+ .progress-wrapper {
+			background-color: var(--prpl-background-orange);
+
+			&.badge-group-maintenance {
+				background-color: var(--prpl-background-red);
+			}
+		}
+	}
+
+	.prpl-badge {
+
+		/* Change this number to adjust the rate of growth of the badges size. */
+		--multiplier-default: 1.125;
+		--multiplier: var(--multiplier-default);
+
+		+ .prpl-badge {
+			--multiplier: calc(var(--multiplier-default) * var(--multiplier-default));
+
+			+ .prpl-badge {
+				--multiplier: calc(var(--multiplier-default) * var(--multiplier-default) * var(--multiplier-default));
+			}
+		}
+	}
+
+	.prpl-widget-content {
+		margin-bottom: 1em;
+	}
+
+	.prpl-badge-wrapper {
+		background: var(--background, var(--prpl-background-red));
+	}
+}
+
+.prpl-badge-wrapper {
+	width: calc(100% - var(--prpl-padding) * 2);
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: center;
+	align-items: center;
+	gap: var(--prpl-gap);
+	background: var(--prpl-background-blue);
+	padding: var(--prpl-padding);
+	border-radius: calc(var(--prpl-border-radius) * 2);
+	position: relative;
+	overflow: hidden;
+
+	* {
+		z-index: 1;
+	}
+
+	.prpl-badge {
+
+		.prpl-badge-gauge {
+			width: 80px;
+			height: 80px;
+		}
+	}
+
+	.progress-percent {
+		font-size: var(--prpl-font-size-3xl);
+		line-height: 1;
+		font-weight: 600;
+		display: block;
+		text-align: center;
+		padding-top: calc(var(--prpl-padding) / 2);
+	}
+}
+
+
+.prpl-badge-gauge,
+.prpl-activities-gauge {
+	--cutout: 57%;
+	--max: 270deg;
+	--start: -135deg;
+	--color: var(--prpl-color-accent-orange);
+	width: 100%;
+	aspect-ratio: 1 / 1;
+	border-radius: 100%;
+	position: relative;
+	background:
+		radial-gradient(var(--background) 0 var(--cutout), transparent var(--cutout) 100%),
+		conic-gradient(from var(--start), var(--color) calc(var(--max) * var(--value)), var(--prpl-color-gray-1) calc(var(--max) * var(--value)) var(--max), transparent var(--max));
+	text-align: center;
+}
+
+.prpl-badge-gauge img {
+	aspect-ratio: 1.15;
+	filter: drop-shadow(0 0 1px rgb(0 0 0 / 0.4));
+}
+
+#popover-badges-content,
+#popover-badges-maintenance {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-gap: var(--prpl-padding);
+
+	.inner {
+		border-radius: var(--prpl-border-radius-big);
+		padding: var(--prpl-padding);
+		font-size: var(--prpl-font-size-small);
+		text-align: center;
+	}
+}
+
+#popover-badges-content .inner {
+	background: var(--prpl-background-red);
+}
+
+#popover-badges-maintenance .inner {
+	background: var(--prpl-background-blue);
+}
+
+.badges-popover-progress-total {
+	display: block;
+	width: 100%;
+	height: 20px;
+	background: var(--prpl-color-gray-1);
+
+	> span {
+		display: block;
+		height: 100%;
+		background: var(--prpl-color-accent-red);
+	}
+}
+
+/*------------------------------------*\
+	Badges popover.
+\*------------------------------------*/
+
+#prpl-popover-badges-details {
+
+	.indicators {
+		display: grid;
+		grid-template-columns: 1fr 1fr 1fr;
+		grid-gap: var(--prpl-padding);
+
+		.indicator {
+			text-align: center;
+			line-height: 1.2;
+			margin-top: 5px;
+
+			.number {
+				font-size: var(--prpl-font-size-2xl);
+				font-weight: 500;
+				display: block;
+			}
+		}
+	}
+
+	.prpl-widgets-container.in-popover {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(var(--prpl-column-min-width), 1fr));
+		grid-gap: var(--prpl-gap);
+		grid-auto-rows: auto;
+
+		.prpl-widget-wrapper {
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+		}
+	}
+}
+
+.string-freeze-explain {
+	max-width: 42em;
+}

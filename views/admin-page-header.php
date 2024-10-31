@@ -15,14 +15,11 @@ $progress_planner_active_range = isset( $_GET['range'] ) ? \sanitize_text_field(
 // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 $progress_planner_active_frequency = isset( $_GET['frequency'] ) ? \sanitize_text_field( \wp_unslash( $_GET['frequency'] ) ) : 'monthly';
 
-do_action( 'progress_planner_admin_page_header_before' );
+\do_action( 'progress_planner_admin_page_header_before' );
 ?>
 <div class="prpl-header">
 	<div class="prpl-header-logo">
-		<?php
-		// phpcs:ignore PEAR.Files.IncludingFile.UseRequire
-		include PROGRESS_PLANNER_DIR . '/assets/images/logo_progress_planner.svg';
-		?>
+		<?php \progress_planner()->the_asset( 'images/logo_progress_planner.svg' ); ?>
 	</div>
 
 	<div class="prpl-header-right">
@@ -30,7 +27,8 @@ do_action( 'progress_planner_admin_page_header_before' );
 			<span class="dashicons dashicons-lightbulb"></span>
 			<span class="screen-reader-text"><?php \esc_html_e( 'Start tour', 'progress-planner' ); ?>
 		</button>
-		<?php new \Progress_Planner\Popups\Settings(); ?>
+		<?php \progress_planner()->get_popovers()->settings->render_button(); ?>
+		<?php \progress_planner()->get_popovers()->settings->render(); ?>
 		<div class="prpl-header-select-range">
 			<label for="prpl-select-range" class="screen-reader-text">
 				<?php \esc_html_e( 'Select range:', 'progress-planner' ); ?>

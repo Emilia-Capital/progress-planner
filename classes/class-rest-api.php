@@ -12,16 +12,7 @@
 
 namespace Progress_Planner;
 
-use Progress_Planner\Badges;
-use Progress_Planner\Chart;
-use Progress_Planner\Todo;
-use Progress_Planner\Widgets\Website_Activity_Score;
-use Progress_Planner\Badges\Badge\Wonderful_Writer as Badge_Wonderful_Writer;
-use Progress_Planner\Badges\Badge\Bold_Blogger as Badge_Bold_Blogger;
-use Progress_Planner\Badges\Badge\Awesome_Author as Badge_Awesome_Author;
-use Progress_Planner\Badges\Badge\Progress_Padawan as Badge_Progress_Padawan;
-use Progress_Planner\Badges\Badge\Maintenance_Maniac as Badge_Maintenance_Maniac;
-use Progress_Planner\Badges\Badge\Super_Site_Specialist as Badge_Super_Site_Specialist;
+use Progress_Planner\Widgets\Activity_Scores;
 
 /**
  * Rest_API class.
@@ -31,7 +22,7 @@ class Rest_API {
 	 * Constructor.
 	 */
 	public function __construct() {
-		add_action( 'rest_api_init', [ $this, 'register_rest_endpoint' ] );
+		\add_action( 'rest_api_init', [ $this, 'register_rest_endpoint' ] );
 	}
 
 	/**
@@ -40,7 +31,7 @@ class Rest_API {
 	 * @return void
 	 */
 	public function register_rest_endpoint() {
-		register_rest_route(
+		\register_rest_route(
 			'progress-planner/v1',
 			'/get-stats/(?P<token>\S+)',
 			[
@@ -98,36 +89,33 @@ class Rest_API {
 		);
 
 		// Get the website activity score.
-		$activity_score           = new Website_Activity_Score();
+		$activity_score           = new Activity_Scores();
 		$data['website_activity'] = [
 			'score'     => $activity_score->get_score(),
 			'checklist' => $activity_score->get_checklist_results(),
 		];
 
 		// Get the badges.
-		$badges = [
-			'wonderful-writer'      => new Badge_Wonderful_Writer(),
-			'bold-blogger'          => new Badge_Bold_Blogger(),
-			'awesome-author'        => new Badge_Awesome_Author(),
-			'progress-padawan'      => new Badge_Progress_Padawan(),
-			'maintenance-maniac'    => new Badge_Maintenance_Maniac(),
-			'super-site-specialist' => new Badge_Super_Site_Specialist(),
-		];
+		$badges = array_merge(
+			\progress_planner()->get_badges()->get_badges( 'content' ),
+			\progress_planner()->get_badges()->get_badges( 'maintenance' ),
+			\progress_planner()->get_badges()->get_badges( 'monthly' )
+		);
 
 		$data['badges'] = [];
-		foreach ( $badges as $key => $badge ) {
-			$data['badges'][ $key ] = array_merge(
+		foreach ( $badges as $badge ) {
+			$data['badges'][ $badge->get_id() ] = array_merge(
 				[
-					'id'   => $key,
+					'id'   => $badge->get_id(),
 					'name' => $badge->get_name(),
 				],
 				$badge->progress_callback()
 			);
 		}
 
-		$data['latest_badge'] = Badges::get_latest_completed_badge();
+		$data['latest_badge'] = \progress_planner()->get_badges()->get_latest_completed_badge();
 
-		$scores = ( new Chart() )->get_chart_data(
+		$scores = \progress_planner()->get_chart()->get_chart_data(
 			[
 				'query_params'   => [],
 				'dates_params'   => [
@@ -141,8 +129,7 @@ class Rest_API {
 					foreach ( $activities as $activity ) {
 						$score += $activity->get_points( $date );
 					}
-					$target = Base::$points_config['score-target'];
-					return $score * 100 / $target;
+					return $score * 100 / Base::SCORE_TARGET;
 				},
 				'compound'       => false,
 				'normalized'     => true,
@@ -164,8 +151,7 @@ class Rest_API {
 		// Timezone offset.
 		$data['timezone_offset'] = \wp_timezone()->getOffset( new \DateTime( 'midnight' ) ) / 3600;
 
-		// Pending todo items.
-		$todo_items         = Todo::get_items();
+		$todo_items         = \progress_planner()->get_todo()->get_items();
 		$pending_todo_items = [];
 		foreach ( $todo_items as $item ) {
 			if ( ! $todo_items['done'] ) {
@@ -176,7 +162,7 @@ class Rest_API {
 
 		$data['plugin_url'] = \esc_url( \get_admin_url( null, 'admin.php?page=progress-planner' ) );
 
-		$data = apply_filters( 'progress_planner_rest_api_get_stats', $data );
+		$data = \apply_filters( 'progress_planner_rest_api_get_stats', $data );
 
 		return new \WP_REST_Response( $data );
 	}

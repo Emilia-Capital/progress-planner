@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:disable Generic.Commenting.Todo
 /**
  * Handle TODO list items.
  *
@@ -10,7 +10,7 @@ namespace Progress_Planner;
 use Progress_Planner\Activities\Todo as Todo_Activity;
 
 /**
- * Settings class.
+ * Todo class.
  */
 class Todo {
 
@@ -36,7 +36,7 @@ class Todo {
 	 * @return void
 	 */
 	private function register_hooks() {
-		add_action( 'wp_ajax_progress_planner_save_todo_list', [ $this, 'save' ] );
+		\add_action( 'wp_ajax_progress_planner_save_todo_list', [ $this, 'save' ] );
 	}
 
 	/**
@@ -44,13 +44,13 @@ class Todo {
 	 *
 	 * @return array
 	 */
-	public static function get_items() {
-		$value = get_option( self::OPTION_NAME, [] );
+	public function get_items() {
+		$value = \get_option( self::OPTION_NAME, [] );
 		foreach ( $value as $key => $item ) {
 			if ( ! isset( $item['content'] ) || empty( $item['content'] ) ) {
 				unset( $value[ $key ] );
 			}
-			$value[ $key ]['content'] = wp_kses_post( $item['content'] );
+			$value[ $key ]['content'] = \wp_kses_post( $item['content'] );
 		}
 
 		return array_values( $value );
@@ -80,7 +80,7 @@ class Todo {
 		$previous_items = self::get_items();
 
 		if ( ! empty( $_POST['todo_list'] ) ) {
-			foreach ( array_values( wp_unslash( $_POST['todo_list'] ) ) as $item ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			foreach ( array_values( \wp_unslash( $_POST['todo_list'] ) ) as $item ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 				$items[] = [
 					'content' => \wp_strip_all_tags( \sanitize_text_field( $item['content'] ) ),
 					'done'    => true === $item['done'] || 'true' === $item['done'],
@@ -105,3 +105,4 @@ class Todo {
 		\wp_send_json_success( [ 'message' => \esc_html__( 'Saved.', 'progress-planner' ) ] );
 	}
 }
+// phpcs:enable Generic.Commenting.Todo

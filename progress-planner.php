@@ -44,7 +44,7 @@ spl_autoload_register(
 		$last  = \array_pop( $parts );
 
 		foreach ( $parts as $part ) {
-			$file .= strtolower( $part ) . '/';
+			$file .= str_replace( '_', '-', strtolower( $part ) ) . '/';
 		}
 		$file .= 'class-' . \str_replace( '_', '-', \strtolower( $last ) ) . '.php';
 
@@ -60,7 +60,10 @@ spl_autoload_register(
  * @return \Progress_Planner\Base
  */
 function progress_planner() {
-	return \Progress_Planner\Base::get_instance();
+	global $progress_planner;
+	if ( ! $progress_planner ) {
+		$progress_planner = new \Progress_Planner\Base();
+	}
+	return $progress_planner;
 }
-
-progress_planner();
+\progress_planner();

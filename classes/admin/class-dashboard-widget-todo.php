@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:disable Generic.Commenting.Todo
 /**
  * Add a widget to the WordPress dashboard.
  *
@@ -8,11 +8,9 @@
 namespace Progress_Planner\Admin;
 
 use Progress_Planner\Admin\Dashboard_Widget;
-use Progress_Planner\Admin\Page;
-use Progress_Planner\Widgets\ToDo;
 
 /**
- * Class Dashboard_Widget
+ * Class Dashboard_Widget_Todo
  */
 class Dashboard_Widget_Todo extends Dashboard_Widget {
 
@@ -21,7 +19,7 @@ class Dashboard_Widget_Todo extends Dashboard_Widget {
 	 *
 	 * @var string
 	 */
-	protected $id = 'progress_planner_dashboard_widget_todo';
+	protected $id = 'todo';
 
 	/**
 	 * Get the title of the widget.
@@ -38,17 +36,17 @@ class Dashboard_Widget_Todo extends Dashboard_Widget {
 	 * @return void
 	 */
 	public function render_widget() {
-		Page::enqueue_styles();
-		Page::register_scripts();
+		\progress_planner()->get_admin()->page->enqueue_styles();
+		\progress_planner()->get_admin()->page->register_scripts();
 		\wp_enqueue_script( 'progress-planner-todo' );
+		\wp_enqueue_style(
+			'prpl-widget-todo',
+			PROGRESS_PLANNER_URL . '/assets/css/page-widgets/todo.css',
+			[],
+			(string) filemtime( PROGRESS_PLANNER_DIR . '/assets/css/page-widgets/todo.css' )
+		);
 
-		?>
-		<div id="prpl-dashboard-widget-todo-header">
-			<img src="<?php echo esc_attr( PROGRESS_PLANNER_URL . '/assets/images/icon_progress_planner.svg' ); ?>" style="width:2.5em;" alt="" />
-			<p><?php esc_html_e( 'Keep track of all your tasks and make sure your site is up-to-date!', 'progress-planner' ); ?></p>
-		</div>
-		<?php
-
-		( new ToDo() )->the_todo_list();
+		\progress_planner()->the_view( "dashboard-widgets/{$this->id}.php" );
 	}
 }
+// phpcs:enable Generic.Commenting.Todo

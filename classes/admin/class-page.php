@@ -7,43 +7,10 @@
 
 namespace Progress_Planner\Admin;
 
-use Progress_Planner\Onboard;
-
 /**
  * Admin page class.
  */
 class Page {
-
-	/**
-	 * The columns and widgets to display on the admin page.
-	 */
-	const COLUMNS = [
-		'prpl-column-main prpl-column-main-primary'   => [
-			'prpl-column prpl-column-first' => [
-				'\Progress_Planner\Widgets\Website_Activity_Score',
-				'prpl-column prpl-column-two-col' => [
-					'\Progress_Planner\Widgets\Published_Content_Density',
-					'\Progress_Planner\Widgets\Published_Words',
-				],
-				'\Progress_Planner\Widgets\Published_Content',
-				'\Progress_Planner\Widgets\Whats_New',
-			],
-		],
-		'prpl-column-main prpl-column-main-secondary' => [
-			'prpl-column prpl-column-first'  => [
-				'\Progress_Planner\Widgets\Activity_Scores',
-				'\Progress_Planner\Widgets\Plugins',
-				'\Progress_Planner\Widgets\Badges_Progress',
-				'\Progress_Planner\Widgets\Personal_Record_Content',
-			],
-			'prpl-column prpl-column-second' => [
-				'\Progress_Planner\Widgets\ToDo',
-				'\Progress_Planner\Widgets\Latest_Badge',
-				'\Progress_Planner\Widgets\Badge_Content',
-				'\Progress_Planner\Widgets\Badge_Streak',
-			],
-		],
-	];
 
 	/**
 	 * Constructor.
@@ -61,6 +28,50 @@ class Page {
 		\add_action( 'admin_menu', [ $this, 'add_page' ] );
 		\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 		\add_action( 'wp_ajax_progress_planner_save_cpt_settings', [ $this, 'save_cpt_settings' ] );
+	}
+
+	/**
+	 * Get the widgets objects
+	 *
+	 * @return array<\Progress_Planner\Widget>
+	 */
+	public function get_widgets() {
+		$widgets = [
+			new \Progress_Planner\Widgets\Activity_Scores(),
+			new \Progress_Planner\Widgets\Suggested_Tasks(),
+			new \Progress_Planner\Widgets\ToDo(),
+			new \Progress_Planner\Widgets\Badge_Streak(),
+			new \Progress_Planner\Widgets\Latest_Badge(),
+			new \Progress_Planner\Widgets\Published_Content_Density(),
+			new \Progress_Planner\Widgets\Published_Words(),
+			new \Progress_Planner\Widgets\Published_Content(),
+			new \Progress_Planner\Widgets\Whats_New(),
+		];
+
+		/**
+		 * Filter the widgets.
+		 *
+		 * @param array<\Progress_Planner\Widget> $widgets The widgets.
+		 *
+		 * @return array<\Progress_Planner\Widget>
+		 */
+		return \apply_filters( 'progress_planner_admin_widgets', $widgets );
+	}
+
+	/**
+	 * Get a widget object.
+	 *
+	 * @param string $id The widget ID.
+	 *
+	 * @return \Progress_Planner\Widget|void
+	 */
+	public function get_widget( $id ) {
+		$widgets = $this->get_widgets();
+		foreach ( $widgets as $widget ) {
+			if ( $widget->get_id() === $id ) {
+				return $widget;
+			}
+		}
 	}
 
 	/**
@@ -85,51 +96,7 @@ class Page {
 	 * @return void
 	 */
 	public function render_page() {
-		?>
-		<div class="wrap prpl-wrap">
-			<h1 class="screen-reader-text"><?php \esc_html_e( 'Progress Planner', 'progress-planner' ); ?></h1>
-			<?php require PROGRESS_PLANNER_DIR . '/views/admin-page-header.php'; ?>
-			<?php require PROGRESS_PLANNER_DIR . '/views/welcome.php'; ?>
-
-			<?php do_action( 'progress_planner_admin_after_header' ); ?>
-
-			<div class="prpl-widgets-container">
-				<?php
-				$columns = apply_filters( 'progress_planner_admin_columns_widgets', self::COLUMNS );
-
-				foreach ( $columns as $key => $value ) {
-					$this->render_column( $key, $value );
-				}
-				?>
-			</div>
-		</div>
-		<?php
-	}
-
-	/**
-	 * Render a column.
-	 *
-	 * @param string       $key   The column key.
-	 * @param string|array $value The widget(s) to render.
-	 *
-	 * @return void
-	 */
-	private function render_column( $key, $value ) {
-		echo '<div class="' . \esc_attr( $key ) . '">';
-
-		if ( \is_array( $value ) ) {
-			foreach ( $value as $sub_key => $sub_value ) {
-				if ( \is_string( $sub_value ) && \str_starts_with( $sub_value, '\\' ) ) {
-					( new $sub_value() )->render();
-					continue;
-				}
-				$this->render_column( $sub_key, $sub_value );
-			}
-		} elseif ( \str_starts_with( $value, '\\' ) ) {
-			( new $value() )->render();
-		}
-
-		echo '</div>';
+		\progress_planner()->the_view( 'admin-page.php' );
 	}
 
 	/**
@@ -140,12 +107,12 @@ class Page {
 	 * @return void
 	 */
 	public function enqueue_assets( $hook ) {
-		if ( 'toplevel_page_progress-planner' !== $hook ) {
+		if ( 'toplevel_page_progress-planner' !== $hook && 'progress-planner_page_progress-planner-settings' !== $hook ) {
 			return;
 		}
 
-		self::enqueue_scripts();
-		self::enqueue_styles();
+		$this->enqueue_scripts();
+		$this->enqueue_styles();
 	}
 
 	/**
@@ -153,7 +120,7 @@ class Page {
 	 *
 	 * @return void
 	 */
-	public static function register_scripts() {
+	public function register_scripts() {
 		// Register Chart.js.
 		\wp_register_script(
 			'chart-js',
@@ -161,6 +128,14 @@ class Page {
 			[],
 			'4.4.2',
 			false
+		);
+
+		\wp_register_script(
+			'progress-planner-grid-masonry',
+			PROGRESS_PLANNER_URL . '/assets/js/grid-masonry.js',
+			[],
+			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/grid-masonry.js' ),
+			true
 		);
 
 		// Register the ajax-request helper.
@@ -190,12 +165,21 @@ class Page {
 			true
 		);
 
-		// Register the admin script for the settings popup.
+		// Register the admin script for the settings popover.
 		\wp_register_script(
 			'progress-planner-settings',
 			PROGRESS_PLANNER_URL . '/assets/js/settings.js',
 			[ 'progress-planner-ajax', 'wp-util' ],
 			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/settings.js' ),
+			true
+		);
+
+		// Register the admin script for the settings page.
+		\wp_register_script(
+			'progress-planner-settings-page',
+			PROGRESS_PLANNER_URL . '/assets/js/settings-page.js',
+			[ 'wp-util' ],
+			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/settings-page.js' ),
 			true
 		);
 
@@ -211,14 +195,14 @@ class Page {
 		\wp_register_script(
 			'progress-planner-todo',
 			PROGRESS_PLANNER_URL . '/assets/js/todo.js',
-			[ 'jquery-ui-sortable', 'progress-planner-ajax', 'wp-util' ],
+			[ 'jquery-ui-sortable', 'progress-planner-ajax', 'wp-util', 'progress-planner-grid-masonry' ],
 			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/todo.js' ),
 			true
 		);
 
 		$localize_data = [
-			'onboardNonceURL' => Onboard::get_remote_nonce_url(),
-			'onboardAPIUrl'   => Onboard::get_remote_url(),
+			'onboardNonceURL' => \progress_planner()->get_onboard()->get_remote_nonce_url(),
+			'onboardAPIUrl'   => \progress_planner()->get_onboard()->get_remote_url(),
 			'ajaxUrl'         => \admin_url( 'admin-ajax.php' ),
 			'nonce'           => \wp_create_nonce( 'progress_planner' ),
 		];
@@ -243,7 +227,7 @@ class Page {
 			[
 				'ajaxUrl'   => \admin_url( 'admin-ajax.php' ),
 				'nonce'     => \wp_create_nonce( 'progress_planner_todo' ),
-				'listItems' => \Progress_Planner\Todo::get_items(),
+				'listItems' => \progress_planner()->get_todo()->get_items(),
 				'i18n'      => [
 					'drag'             => \esc_html__( 'Drag to reorder', 'progress-planner' ),
 					/* translators: %s: The task content. */
@@ -255,6 +239,45 @@ class Page {
 				],
 			]
 		);
+
+		\wp_localize_script(
+			'progress-planner-settings-page',
+			'progressPlannerSettingsPage',
+			[
+				'siteUrl'    => get_site_url(),
+				'savingText' => esc_html__( 'Saving...', 'progress-planner' ),
+			]
+		);
+
+		\wp_register_script(
+			'particles-confetti-js',
+			PROGRESS_PLANNER_URL . '/assets/js/vendor/tsparticles.confetti.bundle.min.js',
+			[],
+			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/vendor/tsparticles.confetti.bundle.min.js' ),
+			true
+		);
+
+		$pending_celebration = \progress_planner()->get_suggested_tasks()->get_pending_celebration();
+		$deps                = [ 'progress-planner-todo', 'progress-planner-grid-masonry' ];
+		if ( ! empty( $pending_celebration ) ) {
+			$deps[] = 'particles-confetti-js';
+		}
+
+		\wp_register_script(
+			'progress-planner-suggested-tasks',
+			PROGRESS_PLANNER_URL . '/assets/js/suggested-tasks.js',
+			$deps,
+			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/suggested-tasks.js' ),
+			true
+		);
+		$tasks            = \progress_planner()->get_suggested_tasks()->get_api()->get_saved_tasks();
+		$tasks['details'] = \progress_planner()->get_suggested_tasks()->get_api()->get_tasks();
+		$localize_data    = [
+			'ajaxUrl' => \admin_url( 'admin-ajax.php' ),
+			'nonce'   => \wp_create_nonce( 'progress_planner' ),
+			'tasks'   => $tasks,
+		];
+		\wp_localize_script( 'progress-planner-suggested-tasks', 'progressPlannerSuggestedTasks', $localize_data );
 	}
 
 	/**
@@ -262,14 +285,27 @@ class Page {
 	 *
 	 * @return void
 	 */
-	public static function enqueue_scripts() {
-		self::register_scripts();
+	public function enqueue_scripts() {
+		$current_screen = \get_current_screen();
+		if ( ! $current_screen ) {
+			return;
+		}
 
-		\wp_enqueue_script( 'chart-js' );
-		\wp_enqueue_script( 'progress-planner-onboard' );
-		\wp_enqueue_script( 'progress-planner-admin' );
-		\wp_enqueue_script( 'progress-planner-todo' );
-		\wp_enqueue_script( 'progress-planner-settings' );
+		$this->register_scripts();
+
+		if ( 'toplevel_page_progress-planner' === $current_screen->id ) {
+			\wp_enqueue_script( 'chart-js' );
+			\wp_enqueue_script( 'progress-planner-onboard' );
+			\wp_enqueue_script( 'progress-planner-admin' );
+			\wp_enqueue_script( 'progress-planner-todo' );
+			\wp_enqueue_script( 'progress-planner-settings' );
+			\wp_enqueue_script( 'progress-planner-suggested-tasks' );
+			\wp_enqueue_script( 'progress-planner-grid-masonry' );
+		}
+
+		if ( 'progress-planner_page_progress-planner-settings' === $current_screen->id ) {
+			\wp_enqueue_script( 'progress-planner-settings-page' );
+		}
 	}
 
 	/**
@@ -277,13 +313,27 @@ class Page {
 	 *
 	 * @return void
 	 */
-	public static function enqueue_styles() {
+	public function enqueue_styles() {
+		$current_screen = \get_current_screen();
+		if ( ! $current_screen ) {
+			return;
+		}
+
 		\wp_enqueue_style(
 			'progress-planner-admin',
 			PROGRESS_PLANNER_URL . '/assets/css/admin.css',
 			[],
 			filemtime( PROGRESS_PLANNER_DIR . '/assets/css/admin.css' )
 		);
+
+		if ( 'progress-planner_page_progress-planner-settings' === $current_screen->id ) {
+			\wp_enqueue_style(
+				'progress-planner-settings-page',
+				PROGRESS_PLANNER_URL . '/assets/css/settings-page.css',
+				[],
+				filemtime( PROGRESS_PLANNER_DIR . '/assets/css/settings-page.css' )
+			);
+		}
 	}
 
 	/**
@@ -295,7 +345,7 @@ class Page {
 		\check_ajax_referer( 'progress_planner', 'nonce', false );
 		$include_post_types = isset( $_POST['include_post_types'] ) ? \sanitize_text_field( \wp_unslash( $_POST['include_post_types'] ) ) : 'post,page';
 		$include_post_types = \explode( ',', $include_post_types );
-		\Progress_Planner\Settings::set( 'include_post_types', $include_post_types );
+		\progress_planner()->get_settings()->set( 'include_post_types', $include_post_types );
 
 		\wp_send_json_success(
 			[

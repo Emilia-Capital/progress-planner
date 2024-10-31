@@ -7,8 +7,6 @@
 
 namespace Progress_Planner;
 
-use Progress_Planner\Date;
-
 /**
  * Render a chart.
  */
@@ -112,7 +110,7 @@ class Chart {
 		);
 
 		// Get the periods for the chart.
-		$periods = Date::get_periods(
+		$periods = \progress_planner()->get_date()->get_periods(
 			$args['dates_params']['start'],
 			$args['dates_params']['end'],
 			$args['dates_params']['frequency']

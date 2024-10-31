@@ -51,6 +51,9 @@ const progressPlannerSaveTodoList = () => {
 		todo_list: todoList,
 		nonce: progressPlannerTodo.nonce,
 	} );
+
+	const event = new Event( 'prplResizeAllGridItemsEvent' );
+	document.dispatchEvent( event );
 };
 
 /**
@@ -141,6 +144,8 @@ progressPlannerDomReady( () => {
 		// If this is the last item in the array, initialize the sortable
 		if ( index === array.length - 1 ) {
 			progressPlannerInitSortable();
+			const event = new Event( 'prplResizeAllGridItemsEvent' );
+			document.dispatchEvent( event );
 		}
 	} );
 
