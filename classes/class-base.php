@@ -27,47 +27,6 @@ class Base {
 	private $cached = [];
 
 	/**
-	 * An object containing all popovers.
-	 *
-	 * @var \stdClass|null
-	 */
-	private $popovers;
-
-	/**
-	 * An instance of the \Progress_Planner\Admin\Page_Settings class.
-	 *
-	 * @var \Progress_Planner\Admin\Page_Settings|null
-	 */
-	private $settings_page;
-
-	/** An object containing helper classes.
-	 *
-	 * @var \stdClass|null
-	 */
-	private $helpers;
-
-	/**
-	 * An object containing admin classes.
-	 *
-	 * @var \stdClass|null
-	 */
-	private $admin;
-
-	/**
-	 * An object containing actions classes.
-	 *
-	 * @var \stdClass|null
-	 */
-	private $actions;
-
-	/**
-	 * An instance of the \Progress_Planner\Cache class.
-	 *
-	 * @var \Progress_Planner\Cache|null
-	 */
-	private $cache;
-
-	/**
 	 * Constructor.
 	 */
 	public function __construct() {
@@ -130,13 +89,13 @@ class Base {
 	 * @return \stdClass
 	 */
 	public function get_popovers() {
-		if ( ! $this->popovers ) {
-			$this->popovers = new \stdClass();
+		if ( ! isset( $this->cached['popovers'] ) ) {
+			$this->cached['popovers'] = new \stdClass();
 		}
-		$this->popovers->badges   = new \Progress_Planner\Popovers\Badges();
-		$this->popovers->settings = new \Progress_Planner\Popovers\Settings();
+		$this->cached['popovers']->badges   = new \Progress_Planner\Popovers\Badges();
+		$this->cached['popovers']->settings = new \Progress_Planner\Popovers\Settings();
 
-		return $this->popovers;
+		return $this->cached['popovers'];
 	}
 
 	/**
@@ -145,10 +104,10 @@ class Base {
 	 * @return \Progress_Planner\Admin\Page_Settings
 	 */
 	public function get_settings_page() {
-		if ( ! $this->settings_page ) {
-			$this->settings_page = new \Progress_Planner\Admin\Page_Settings();
+		if ( ! isset( $this->cached['settings_page'] ) ) {
+			$this->cached['settings_page'] = new \Progress_Planner\Admin\Page_Settings();
 		}
-		return $this->settings_page;
+		return $this->cached['settings_page'];
 	}
 
 	/** Get the helpers instance.
@@ -156,11 +115,11 @@ class Base {
 	 * @return \stdClass
 	 */
 	public function get_helpers() {
-		if ( ! $this->helpers ) {
-			$this->helpers          = new \stdClass();
-			$this->helpers->content = new \Progress_Planner\Activities\Content_Helpers();
+		if ( ! isset( $this->cached['helpers'] ) ) {
+			$this->cached['helpers']          = new \stdClass();
+			$this->cached['helpers']->content = new \Progress_Planner\Activities\Content_Helpers();
 		}
-		return $this->helpers;
+		return $this->cached['helpers'];
 	}
 
 	/**
@@ -169,10 +128,10 @@ class Base {
 	 * @return \stdClass
 	 */
 	public function get_admin() {
-		if ( ! $this->admin ) {
-			$this->admin = new \stdClass();
+		if ( ! isset( $this->cached['admin'] ) ) {
+			$this->cached['admin'] = new \stdClass();
 		}
-		return $this->admin;
+		return $this->cached['admin'];
 	}
 
 	/**
@@ -181,10 +140,10 @@ class Base {
 	 * @return \stdClass
 	 */
 	public function get_actions() {
-		if ( ! $this->actions ) {
-			$this->actions = new \stdClass();
+		if ( ! isset( $this->cached['actions'] ) ) {
+			$this->cached['actions'] = new \stdClass();
 		}
-		return $this->actions;
+		return $this->cached['actions'];
 	}
 
 	/**
@@ -209,18 +168,6 @@ class Base {
 				return $this->cached[ $cache_name ];
 			}
 		}
-	}
-
-	/**
-	 * Get the cache instance.
-	 *
-	 * @return \Progress_Planner\Cache
-	 */
-	public function get_cache() {
-		if ( ! $this->cache ) {
-			$this->cache = new Cache();
-		}
-		return $this->cache;
 	}
 
 	/**

@@ -23,3 +23,4 @@ parameters:
     - '#Call to an undefined method Progress_Planner\\Base\:\:get_suggested_tasks\(\).#'
     - '#Call to an undefined method Progress_Planner\\Base\:\:get_todo\(\).#'
     - '#Call to an undefined method Progress_Planner\\Base\:\:get_onboard\(\).#'
+    - '#Call to an undefined method Progress_Planner\\Base\:\:get_cache\(\).#'
