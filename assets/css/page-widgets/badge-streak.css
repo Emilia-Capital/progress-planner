@@ -84,6 +84,7 @@
 	border-radius: calc(var(--prpl-border-radius) * 2);
 	position: relative;
 	overflow: hidden;
+	margin-bottom: var(--prpl-padding);
 
 	* {
 		z-index: 1;
