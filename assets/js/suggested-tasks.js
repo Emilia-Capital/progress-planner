@@ -160,7 +160,8 @@ const progressPlannerInjectSuggestedTodoItem = ( details ) => {
 		.replace( new RegExp( '{taskTitle}', 'g' ), details.title )
 		.replace( new RegExp( '{taskId}', 'g' ), details.task_id.toString() )
 		.replace( new RegExp( '{taskDescription}', 'g' ), details.description )
-		.replace( new RegExp( '{taskPriority}', 'g' ), details.priority );
+		.replace( new RegExp( '{taskPriority}', 'g' ), details.priority )
+		.replace( new RegExp( '{taskPoints}', 'g' ), details.points ?? 1 );
 
 	/**
 	 * @todo Implement the parent task functionality.

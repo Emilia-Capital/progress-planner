@@ -99,7 +99,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			</div>
 		</div>
 		<span class="prpl-suggested-task-points">
-			+<?php echo \esc_html( '1' ); // WIP: Add the points to the suggested task. ?>
+			+{taskPoints}
 		</span>
 	</div>
 </li>
