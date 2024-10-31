@@ -28,9 +28,12 @@ $prpl_widget = \progress_planner()->get_admin()->page->get_widget( 'whats-new' )
 			<p>
 				<?php echo \esc_html( \wp_trim_words( \wp_strip_all_tags( $blog_post['content']['rendered'] ), 55 ) ); ?>
 			</p>
+			<hr />
 		</li>
 	<?php endforeach; ?>
 </ul>
-<a href="https://prpl.fyi/blog" target="_blank">
-	<?php \esc_html_e( 'Read all posts', 'progress-planner' ); ?>
-</a>
+<div class="prpl-widget-footer">
+	<a href="https://prpl.fyi/blog" target="_blank">
+		<?php \esc_html_e( 'Read all posts', 'progress-planner' ); ?>
+	</a>
+</div>
