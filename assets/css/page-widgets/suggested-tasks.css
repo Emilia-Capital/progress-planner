@@ -81,6 +81,10 @@
 
 	.prpl-widget-content {
 		margin-bottom: 1em;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
 	}
 
 	.prpl-gauge-badge {
@@ -152,6 +156,7 @@
 		padding: 0.5rem 0.5rem;
 		display: flex;
 		justify-content: space-between;
+		align-items: center;
 
 		&:nth-child(odd) {
 			background-color: #f9fafb;
