@@ -29,6 +29,8 @@ $progress_planner_active_frequency = isset( $_GET['frequency'] ) ? \sanitize_tex
 		</button>
 		<?php \progress_planner()->get_popovers()->settings->render_button(); ?>
 		<?php \progress_planner()->get_popovers()->settings->render(); ?>
+		<?php \progress_planner()->get_popovers()->subscribe_form->render_button(); ?>
+		<?php \progress_planner()->get_popovers()->subscribe_form->render(); ?>
 		<div class="prpl-header-select-range">
 			<label for="prpl-select-range" class="screen-reader-text">
 				<?php \esc_html_e( 'Select range:', 'progress-planner' ); ?>

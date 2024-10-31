@@ -56,6 +56,9 @@ if ( !! settingsLicenseForm ) {
 							document.getElementById(
 								'submit-license-key'
 							).innerHTML = progressPlanner.l10n.subscribed;
+
+							// Reload the page.
+							window.location.reload();
 						},
 						failAction: ( apiResponse ) => {
 							// eslint-disable-next-line no-console
