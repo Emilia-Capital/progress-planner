@@ -27,15 +27,16 @@ final class Subscribe_Form extends Popover {
 	public function render_button() {
 
 		$saved_license_key = \get_option( 'progress_planner_license_key', 'no-license' );
-
-		if ( false === $saved_license_key || 'no-license' === $saved_license_key ) : ?>
+		if ( false !== $saved_license_key && 'no-license' !== $saved_license_key ) {
+			return;
+		}
+		?>
 		<!-- The triggering button. -->
 		<button class="prpl-info-icon" popovertarget="prpl-popover-<?php echo \esc_attr( $this->id ); ?>" id="prpl-popover-subscribe-form-trigger">
 			<span class="dashicons dashicons-email-alt"></span>
 			<span class="screen-reader-text"><?php \esc_html_e( 'Subscribe', 'progress-planner' ); ?>
 		</button>
-			<?php
-		endif;
+		<?php
 	}
 
 	/**
