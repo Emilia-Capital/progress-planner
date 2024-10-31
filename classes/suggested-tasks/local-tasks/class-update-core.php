@@ -47,6 +47,7 @@ class Update_Core extends Local_Tasks {
 				'parent'      => 0,
 				'priority'    => 'high',
 				'type'        => 'maintenance',
+				'points'      => 1,
 				'description' => '<p>' . \esc_html__( 'Perform all updates to ensure your website is secure and up-to-date.', 'progress-planner' ) . '</p>',
 			],
 		];
