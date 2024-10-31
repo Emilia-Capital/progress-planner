@@ -22,14 +22,22 @@ abstract class Popover {
 	/**
 	 * Render the triggering button.
 	 *
+	 * @param string $icon    The dashicon to use.
+	 * @param string $content The content to use.
 	 * @return void
 	 */
-	public function render_button() {
+	public function render_button( $icon, $content ) {
 		?>
 		<!-- The triggering button. -->
-		<button class="prpl-info-icon" popovertarget="prpl-popover-<?php echo \esc_attr( $this->id ); ?>">
-			<span class="dashicons dashicons-info-outline"></span>
-			<span class="screen-reader-text"><?php \esc_html_e( 'More info', 'progress-planner' ); ?>
+		<button
+			class="prpl-info-icon"
+			popovertarget="prpl-popover-<?php echo \esc_attr( $this->id ); ?>"
+			id="prpl-popover-<?php echo \esc_attr( $this->id ); ?>-trigger"
+		>
+			<?php if ( '' !== $icon ) : ?>
+				<span class="dashicons dashicons-<?php echo \esc_attr( $icon ); ?>"></span>
+			<?php endif; ?>
+			<?php echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 		</button>
 		<?php
 	}

@@ -20,21 +20,6 @@ final class Settings extends Popover {
 	protected $id = 'settings';
 
 	/**
-	 * Render the triggering button.
-	 *
-	 * @return void
-	 */
-	public function render_button() {
-		?>
-		<!-- The triggering button. -->
-		<button class="prpl-info-icon" popovertarget="prpl-popover-<?php echo \esc_attr( $this->id ); ?>" id="prpl-popover-settings-trigger">
-			<span class="dashicons dashicons-admin-generic"></span>
-			<span class="screen-reader-text"><?php \esc_html_e( 'Settings', 'progress-planner' ); ?>
-		</button>
-		<?php
-	}
-
-	/**
 	 * Render the widget content.
 	 *
 	 * @return void
