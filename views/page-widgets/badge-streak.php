@@ -18,9 +18,10 @@ $prpl_widget = \progress_planner()->get_admin()->page->get_widget( 'badge-streak
 	<?php \progress_planner()->get_popovers()->badges->render(); ?>
 </h2>
 
-<?php $content_badge_details = $prpl_widget->get_details( 'content' ); ?>
-
 <div class="prpl-latest-badges-wrapper">
+
+	<?php $content_badge_details = $prpl_widget->get_details( 'content' ); ?>
+
 	<div class="prpl-badges-columns-wrapper">
 		<div class="prpl-badge-wrapper" style="--background: var(--prpl-background-blue);">
 			<span

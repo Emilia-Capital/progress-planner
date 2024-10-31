@@ -30,8 +30,8 @@ final class Badge_Streak extends Widget {
 	 */
 	public function get_details( $context ) {
 		static $result = [];
-		if ( ! empty( $result ) ) {
-			return $result;
+		if ( isset( $result[ $context ] ) && ! empty( $result[ $context ] ) ) {
+			return $result[ $context ];
 		}
 
 		$badges = \progress_planner()->get_badges()->get_badges( $context );
@@ -45,19 +45,19 @@ final class Badge_Streak extends Widget {
 		}
 
 		if ( ! isset( $badge ) || ! isset( $progress ) ) {
-			return $result;
+			return [];
 		}
 
-		$result['progress'] = $progress;
-		$result['badge']    = $badge;
+		$result[ $context ]['progress'] = $progress;
+		$result[ $context ]['badge']    = $badge;
 
-		$result['color'] = 'var(--prpl-color-accent-red)';
-		if ( $result['progress']['progress'] > 50 ) {
-			$result['color'] = 'var(--prpl-color-accent-orange)';
+		$result[ $context ]['color'] = 'var(--prpl-color-accent-red)';
+		if ( $result[ $context ]['progress']['progress'] > 50 ) {
+			$result[ $context ]['color'] = 'var(--prpl-color-accent-orange)';
 		}
-		if ( $result['progress']['progress'] > 75 ) {
-			$result['color'] = 'var(--prpl-color-accent-green)';
+		if ( $result[ $context ]['progress']['progress'] > 75 ) {
+			$result[ $context ]['color'] = 'var(--prpl-color-accent-green)';
 		}
-		return $result;
+		return $result[ $context ];
 	}
 }
