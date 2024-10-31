@@ -131,6 +131,13 @@ class Base {
 	private $rest_api;
 
 	/**
+	 * An instance of the \Progress_Planner\Cache class.
+	 *
+	 * @var \Progress_Planner\Cache|null
+	 */
+	private $cache;
+
+	/**
 	 * Constructor.
 	 */
 	public function __construct() {
@@ -380,6 +387,18 @@ class Base {
 			$this->rest_api = new Rest_API();
 		}
 		return $this->rest_api;
+	}
+
+	/**
+	 * Get the cache instance.
+	 *
+	 * @return \Progress_Planner\Cache
+	 */
+	public function get_cache() {
+		if ( ! $this->cache ) {
+			$this->cache = new Cache();
+		}
+		return $this->cache;
 	}
 
 	/**

@@ -174,8 +174,8 @@ final class Monthly extends Badge {
 	 * @return void
 	 */
 	public function the_icon( $complete = false ) {
-		$cache_key = "progress_planner_monthly_badge_svg_{$this->id}";
-		$cached    = \get_site_transient( $cache_key );
+		$cache_key = "monthly_badge_svg_{$this->id}";
+		$cached    = \progress_planner()->get_cache()->get( $cache_key );
 		$image_url = PROGRESS_PLANNER_URL . '/assets/images/badges/monthly-badge-default.svg';
 		if ( ! $cached ) {
 			// Get the SVG from the API.
@@ -193,9 +193,9 @@ final class Monthly extends Badge {
 				$body = \wp_remote_retrieve_body( $response );
 				if ( ! empty( $body ) ) {
 					$image_url = $body;
-					\set_site_transient( $cache_key, $image_url, \MONTH_IN_SECONDS );
 				}
 			}
+			\progress_planner()->get_cache()->set( $cache_key, $image_url, \MONTH_IN_SECONDS );
 		}
 		?>
 		<img

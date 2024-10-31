@@ -96,7 +96,7 @@ class Page_Types {
 	 * @return void
 	 */
 	public function maybe_update_terms() {
-		$updated = \get_transient( 'progress_planner_page_types_updated' );
+		$updated = \progress_planner()->get_cache()->get( 'page_types_updated' );
 		if ( $updated ) {
 			return;
 		}
@@ -143,7 +143,7 @@ class Page_Types {
 			}
 		}
 
-		\set_transient( 'progress_planner_page_types_updated', true, \WEEK_IN_SECONDS );
+		\progress_planner()->get_cache()->set( 'page_types_updated', true, \WEEK_IN_SECONDS );
 	}
 
 	/**

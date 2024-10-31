@@ -8,6 +8,7 @@
 namespace Progress_Planner\Widgets;
 
 use Progress_Planner\Widget;
+use Progress_Planner\Cache;
 
 /**
  * Whats_New class.
@@ -22,11 +23,11 @@ final class Whats_New extends Widget {
 	const REMOTE_SERVER_ROOT_URL = 'https://progressplanner.com';
 
 	/**
-	 * The transient name.
+	 * The cache key.
 	 *
 	 * @var string
 	 */
-	const TRANSIENT_NAME = 'progress_planner_blog_feed_with_images';
+	const CACHE_KEY = 'blog_feed';
 
 	/**
 	 * The widget ID.
@@ -41,13 +42,13 @@ final class Whats_New extends Widget {
 	 * @return array
 	 */
 	public function get_blog_feed() {
-		$feed_data = \get_site_transient( self::TRANSIENT_NAME );
+		$feed_data = \progress_planner()->get_cache()->get( self::CACHE_KEY );
 
 		// Migrate old feed to new format.
 		if ( is_array( $feed_data ) && ! isset( $feed_data['expires'] ) && ! isset( $feed_data['feed'] ) ) {
 			$feed_data = [
 				'feed'    => $feed_data,
-				'expires' => get_option( '_site_transient_timeout_' . self::TRANSIENT_NAME, 0 ),
+				'expires' => get_option( '_transient_timeout_' . Cache::CACHE_PREFIX . self::CACHE_KEY, 0 ),
 			];
 		}
 
@@ -89,7 +90,7 @@ final class Whats_New extends Widget {
 			}
 
 			// Transient uses 'expires' key to determine if it's expired.
-			\set_site_transient( self::TRANSIENT_NAME, $feed_data, 0 );
+			\progress_planner()->get_cache()->set( self::CACHE_KEY, $feed_data, 0 );
 		}
 
 		return $feed_data['feed'];
