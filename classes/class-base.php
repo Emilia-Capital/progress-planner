@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:disable Generic.Commenting.Todo
 /**
  * Progress Planner main plugin class.
  *
@@ -482,3 +482,4 @@ class Base {
 		}
 	}
 }
+// phpcs:enable Generic.Commenting.Todo

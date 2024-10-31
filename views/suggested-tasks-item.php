@@ -1,6 +1,6 @@
 <?php
 /**
- * Template for suggested-todo item.
+ * Template for suggested-task item.
  *
  * @package Progress_Planner
  */

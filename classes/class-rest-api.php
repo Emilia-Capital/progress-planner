@@ -151,7 +151,6 @@ class Rest_API {
 		// Timezone offset.
 		$data['timezone_offset'] = \wp_timezone()->getOffset( new \DateTime( 'midnight' ) ) / 3600;
 
-		// Pending todo items.
 		$todo_items         = \progress_planner()->get_todo()->get_items();
 		$pending_todo_items = [];
 		foreach ( $todo_items as $item ) {

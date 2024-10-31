@@ -60,8 +60,10 @@
 	<!-- Let's also check that everything is properly documented. -->
 	<rule ref="WordPress-Docs"/>
 
-	<!-- Add in some extra rules from other standards. -->
-	<!-- <rule ref="Generic.Commenting.Todo"/> -->
+	<!-- Reduce the importance of the Generic.Commenting.Todo rule. -->
+	<rule ref="Generic.Commenting.Todo">
+		<severity>5</severity>
+	</rule>
 
 	<!-- Check for PHP cross-version compatibility. -->
 	<!--
