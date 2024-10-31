@@ -91,10 +91,9 @@ class Base {
 	public function get_popovers() {
 		if ( ! isset( $this->cached['popovers'] ) ) {
 			$this->cached['popovers'] = new \stdClass();
+			$this->cached['popovers']->badges   = new \Progress_Planner\Popovers\Badges();
+			$this->cached['popovers']->settings = new \Progress_Planner\Popovers\Settings();
 		}
-		$this->cached['popovers']->badges   = new \Progress_Planner\Popovers\Badges();
-		$this->cached['popovers']->settings = new \Progress_Planner\Popovers\Settings();
-
 		return $this->cached['popovers'];
 	}
 
