@@ -26,7 +26,7 @@ final class Badge_Streak extends Widget {
 	 *
 	 * @param string $context The context of the badges (content|maintenance|monthly).
 	 *
-	 * @return array
+	 * @return \Progress_Planner\Badges\Badge|false
 	 */
 	public function get_details( $context ) {
 		static $result = [];
@@ -40,24 +40,11 @@ final class Badge_Streak extends Widget {
 		foreach ( $badges as $badge ) {
 			$progress = $badge->get_progress();
 			if ( 100 > $progress['progress'] ) {
+				$result[ $context ] = $badge;
 				break;
 			}
 		}
 
-		if ( ! isset( $badge ) || ! isset( $progress ) ) {
-			return [];
-		}
-
-		$result[ $context ]['progress'] = $progress;
-		$result[ $context ]['badge']    = $badge;
-
-		$result[ $context ]['color'] = 'var(--prpl-color-accent-red)';
-		if ( $result[ $context ]['progress']['progress'] > 50 ) {
-			$result[ $context ]['color'] = 'var(--prpl-color-accent-orange)';
-		}
-		if ( $result[ $context ]['progress']['progress'] > 75 ) {
-			$result[ $context ]['color'] = 'var(--prpl-color-accent-green)';
-		}
-		return $result[ $context ];
+		return isset( $result[ $context ] ) ? $result[ $context ] : false;
 	}
 }
