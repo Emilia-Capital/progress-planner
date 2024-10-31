@@ -9,15 +9,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-// Get the blog feed.
-$blog_feed = $this->get_blog_feed();
+$prpl_widget = \progress_planner()->get_admin()->page->get_widget( 'whats-new' );
+
 ?>
 <h2 class="prpl-widget-title">
 	<?php \esc_html_e( 'What\'s new on the Progress Planner blog', 'progress-planner' ); ?>
 </h2>
 
 <ul>
-	<?php foreach ( $blog_feed as $blog_post ) : ?>
+	<?php foreach ( $prpl_widget->get_blog_feed() as $blog_post ) : ?>
 		<li>
 			<a href="<?php echo \esc_url( $blog_post['link'] ); ?>" target="_blank">
 				<h3><?php echo \esc_html( $blog_post['title']['rendered'] ); ?></h3>

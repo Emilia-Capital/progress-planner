@@ -9,8 +9,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+$prpl_widget = \progress_planner()->get_admin()->page->get_widget( 'published-content' );
+
 $post_types = \progress_planner()->get_helpers()->content->get_post_types_names();
-$stats      = $this->get_stats();
+$stats      = $prpl_widget->get_stats();
 $sum_weekly = array_sum( $stats['weekly'] );
 ?>
 <div class="prpl-counter-big-wrapper">
@@ -46,7 +48,7 @@ $sum_weekly = array_sum( $stats['weekly'] );
 	</p>
 </div>
 <div class="prpl-graph-wrapper">
-	<?php \progress_planner()->get_chart()->the_chart( $this->get_chart_args() ); ?>
+	<?php \progress_planner()->get_chart()->the_chart( $prpl_widget->get_chart_args() ); ?>
 </div>
 <table>
 	<thead>

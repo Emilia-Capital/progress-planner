@@ -19,7 +19,7 @@ $progress_planner_active_frequency = isset( $_GET['frequency'] ) ? \sanitize_tex
 ?>
 <div class="prpl-header">
 	<div class="prpl-header-logo">
-		<?php include PROGRESS_PLANNER_DIR . '/assets/images/logo_progress_planner.svg'; // phpcs:ignore PEAR.Files.IncludingFile.UseRequire ?>
+		<?php \progress_planner()->the_asset( 'images/logo_progress_planner.svg' ); ?>
 	</div>
 
 	<div class="prpl-header-right">
@@ -27,6 +27,7 @@ $progress_planner_active_frequency = isset( $_GET['frequency'] ) ? \sanitize_tex
 			<span class="dashicons dashicons-lightbulb"></span>
 			<span class="screen-reader-text"><?php \esc_html_e( 'Start tour', 'progress-planner' ); ?>
 		</button>
+		<?php \progress_planner()->get_popovers()->settings->render_button(); ?>
 		<?php \progress_planner()->get_popovers()->settings->render(); ?>
 		<div class="prpl-header-select-range">
 			<label for="prpl-select-range" class="screen-reader-text">

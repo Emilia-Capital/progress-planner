@@ -60,7 +60,7 @@
 	li {
 		position: relative;
 		display: flex;
-		align-items: center;
+		align-items: self-start;
 		font-size: 14px;
 
 		&.ui-sortable-helper {
@@ -69,6 +69,7 @@
 
 		.content {
 			padding: 0;
+			margin-top: 2px;
 			margin-left: 1em;
 			margin-right: 0.5em;
 			width: 100%;
@@ -77,7 +78,8 @@
 		}
 
 		input {
-			margin: 0 5px 0 2px;
+			margin: 4px 5px 0 2px;
+			flex-shrink: 0;
 
 			&[type="checkbox"]:checked::before {
 				content: url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2020%2020%27%3E%3Cpath%20d%3D%27M14.83%204.89l1.34.94-5.81%208.38H9.02L5.78%209.67l1.34-1.25%202.57%202.4z%27%20fill%3D%27%2316a34a%27%2F%3E%3C%2Fsvg%3E");
@@ -93,6 +95,7 @@
 			cursor: pointer;
 			box-shadow: none;
 			transition: all 0.1s;
+			margin-top: 1px;
 
 			&:hover {
 				color: var(--prpl-color-accent-red);

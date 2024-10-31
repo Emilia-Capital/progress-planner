@@ -54,7 +54,7 @@ class Dashboard_Widget_Score extends Dashboard_Widget {
 			(string) filemtime( PROGRESS_PLANNER_DIR . "/assets/css/dashboard-widgets/{$this->id}.css" )
 		);
 
-		include \PROGRESS_PLANNER_DIR . "/views/dashboard-widgets/{$this->id}.php"; // phpcs:ignore PEAR.Files.IncludingFile.UseInclude
+		\progress_planner()->the_view( "dashboard-widgets/{$this->id}.php" );
 	}
 
 	/**
@@ -89,12 +89,7 @@ class Dashboard_Widget_Score extends Dashboard_Widget {
 		}
 
 		$result['progress'] = $progress;
-		$result['badge']    = [
-			'id'                => $badge->get_id(),
-			'name'              => $badge->get_name(),
-			'description'       => $badge->get_description(),
-			'progress_callback' => [ $badge, 'progress_callback' ],
-		];
+		$result['badge']    = $badge;
 
 		$result['color'] = 'var(--prpl-color-accent-red)';
 		if ( $result['progress']['progress'] > 50 ) {

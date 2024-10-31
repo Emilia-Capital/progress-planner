@@ -20,11 +20,11 @@ class API {
 	const REMOTE_DOMAIN = 'https://progressplanner.com';
 
 	/**
-	 * The transient to use for remote-API tasks.
+	 * The cache key to use for remote-API tasks.
 	 *
 	 * @var string
 	 */
-	const TRANSIENT_NAME = 'progress_planner_suggested_tasks_remote';
+	const CACHE_KEY = 'suggested_tasks_remote';
 
 	/**
 	 * Return filtered items.
@@ -49,7 +49,7 @@ class API {
 	 */
 	protected function get_api_tasks() {
 		// Check if we have a cached response.
-		$items = \get_transient( self::TRANSIENT_NAME );
+		$items = \progress_planner()->get_cache()->get( self::CACHE_KEY );
 
 		// If we have a cached response, return it.
 		if ( $items ) {
@@ -70,7 +70,7 @@ class API {
 
 				if ( \is_array( $data ) ) {
 					// Cache the response for 1 day.
-					\set_transient( self::TRANSIENT_NAME, $data, DAY_IN_SECONDS );
+					\progress_planner()->get_cache()->set( self::CACHE_KEY, $data, DAY_IN_SECONDS );
 					return $data;
 				}
 			}

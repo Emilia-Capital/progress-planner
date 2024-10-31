@@ -160,7 +160,8 @@ const progressPlannerInjectSuggestedTodoItem = ( details ) => {
 		.replace( new RegExp( '{taskTitle}', 'g' ), details.title )
 		.replace( new RegExp( '{taskId}', 'g' ), details.task_id.toString() )
 		.replace( new RegExp( '{taskDescription}', 'g' ), details.description )
-		.replace( new RegExp( '{taskPriority}', 'g' ), details.priority );
+		.replace( new RegExp( '{taskPriority}', 'g' ), details.priority )
+		.replace( new RegExp( '{taskPoints}', 'g' ), details.points ?? 1 );
 
 	/**
 	 * @todo Implement the parent task functionality.
@@ -223,25 +224,64 @@ const prplSuggestedTodoItemListeners = ( item ) => {
 		`.${ PRPL_SUGGESTED_TASK_CLASSNAME }-button`
 	).forEach( function ( button ) {
 		button.addEventListener( 'click', function () {
-			const action = button.getAttribute( 'data-action' );
+			let action = button.getAttribute( 'data-action' );
+			const target = button.getAttribute( 'data-target' ),
+				tooltipActions = item.querySelector( '.tooltip-actions' );
+
+			// If the tooltip was already open, close it.
+			if (
+				!! tooltipActions.querySelector(
+					'.prpl-suggested-task-' + target + '[data-tooltip-visible]'
+				)
+			) {
+				action = 'close-' + target;
+			} else {
+				// Close the any opened radio group.
+				item.closest( '.prpl-suggested-tasks-list' )
+					.querySelector( `[data-tooltip-visible]` )
+					?.classList.remove( 'prpl-toggle-radio-group-open' );
+				// Remove any existing tooltip visible attribute, in the entire list.
+				item.closest( '.prpl-suggested-tasks-list' )
+					.querySelector( `[data-tooltip-visible]` )
+					?.removeAttribute( 'data-tooltip-visible' );
+			}
 
 			switch ( action ) {
 				case 'snooze':
-					item.classList.remove( 'prpl-suggested-task-info-open' );
-					item.classList.toggle( 'prpl-suggested-task-snooze-open' );
+					tooltipActions
+						.querySelector( '.prpl-suggested-task-' + target )
+						.setAttribute( 'data-tooltip-visible', 'true' );
 					break;
 
 				case 'close-snooze':
-					item.classList.remove( 'prpl-suggested-task-snooze-open' );
-					item.querySelector(
-						'.prpl-suggested-snooze-duration-selector.prpl-toggle-radio-group-open'
-					)?.classList.remove( 'prpl-toggle-radio-group-open' );
+					// Close the radio group.
+					tooltipActions
+						.querySelector(
+							'.prpl-suggested-task-' +
+								target +
+								'.prpl-toggle-radio-group-open'
+						)
+						?.classList.remove( 'prpl-toggle-radio-group-open' );
+					// Close the tooltip.
+					tooltipActions
+						.querySelector(
+							'.prpl-suggested-task-' +
+								target +
+								'[data-tooltip-visible]'
+						)
+						?.removeAttribute( 'data-tooltip-visible' );
 					break;
 
 				case 'info':
+					tooltipActions
+						.querySelector( '.prpl-suggested-task-' + target )
+						.setAttribute( 'data-tooltip-visible', 'true' );
+					break;
+
 				case 'close-info':
-					item.classList.remove( 'prpl-suggested-task-snooze-open' );
-					item.classList.toggle( 'prpl-suggested-task-info-open' );
+					tooltipActions
+						.querySelector( '.prpl-suggested-task-' + target )
+						.removeAttribute( 'data-tooltip-visible' );
 					break;
 			}
 		} );
@@ -251,9 +291,9 @@ const prplSuggestedTodoItemListeners = ( item ) => {
 	item.querySelector( '.prpl-toggle-radio-group' ).addEventListener(
 		'click',
 		function () {
-			this.closest(
-				'.prpl-suggested-snooze-duration-selector'
-			).classList.toggle( 'prpl-toggle-radio-group-open' );
+			this.closest( '.prpl-suggested-task-snooze' ).classList.toggle(
+				'prpl-toggle-radio-group-open'
+			);
 		}
 	);
 
@@ -328,3 +368,125 @@ document.addEventListener( 'DOMContentLoaded', () => {
 		document.dispatchEvent( event );
 	}
 } );
+
+// Handle the monthly badges scrolling.
+class BadgeScroller {
+	constructor() {
+		this.badgeButtonUp = document.querySelector(
+			'.prpl-badge-row-button-up'
+		);
+		this.badgeButtonDown = document.querySelector(
+			'.prpl-badge-row-button-down'
+		);
+		this.badgeRowWrapper = document.querySelector(
+			'.prpl-badge-row-wrapper'
+		);
+		this.badgeRowWrapperInner = document.querySelector(
+			'.prpl-badge-row-wrapper-inner'
+		);
+		this.badges =
+			this.badgeRowWrapperInner.querySelectorAll( '.prpl-badge' );
+		this.totalRows = this.badges.length / 3;
+
+		this.init();
+	}
+
+	init() {
+		this.addEventListeners();
+		this.setWrapperHeight();
+
+		// Handle window resize.
+		window.addEventListener( 'resize', () => this.setWrapperHeight() );
+	}
+
+	setWrapperHeight() {
+		const computedStyle = window.getComputedStyle(
+			this.badgeRowWrapperInner
+		);
+		const gridGap = parseInt( computedStyle.gap );
+
+		// Set CSS variables for the transform calculation.
+		this.badgeRowWrapper.style.setProperty(
+			'--row-height',
+			`${ this.badges[ 0 ].offsetHeight }px`
+		);
+		this.badgeRowWrapper.style.setProperty(
+			'--grid-gap',
+			`${ gridGap }px`
+		);
+
+		// Set wrapper height to show 2 rows.
+		const twoRowsHeight = this.badges[ 0 ].offsetHeight * 2 + gridGap;
+		this.badgeRowWrapperInner.style.height = twoRowsHeight + 'px';
+
+		// Dispatch a custom event to resize all grid items.
+		const event = new Event( 'prplResizeAllGridItemsEvent' );
+		document.dispatchEvent( event );
+	}
+
+	addEventListeners() {
+		this.badgeButtonUp.addEventListener( 'click', () =>
+			this.handleUpClick()
+		);
+		this.badgeButtonDown.addEventListener( 'click', () =>
+			this.handleDownClick()
+		);
+	}
+
+	handleUpClick() {
+		const computedStyle = window.getComputedStyle(
+			this.badgeRowWrapperInner
+		);
+		const currentRow =
+			computedStyle.getPropertyValue( '--prpl-current-row' );
+		const nextRow = parseInt( currentRow ) - 1;
+
+		this.badgeButtonDown
+			.closest( '.prpl-badge-row-button-wrapper' )
+			.classList.remove( 'prpl-badge-row-button-disabled' );
+
+		this.badgeRowWrapperInner.style.setProperty(
+			'--prpl-current-row',
+			nextRow
+		);
+
+		if ( nextRow <= 1 ) {
+			this.badgeButtonUp
+				.closest( '.prpl-badge-row-button-wrapper' )
+				.classList.add( 'prpl-badge-row-button-disabled' );
+		}
+	}
+
+	handleDownClick() {
+		const computedStyle = window.getComputedStyle(
+			this.badgeRowWrapperInner
+		);
+		const currentRow =
+			computedStyle.getPropertyValue( '--prpl-current-row' );
+		const nextRow = parseInt( currentRow ) + 1;
+
+		this.badgeButtonUp
+			.closest( '.prpl-badge-row-button-wrapper' )
+			.classList.remove( 'prpl-badge-row-button-disabled' );
+
+		this.badgeRowWrapperInner.style.setProperty(
+			'--prpl-current-row',
+			nextRow
+		);
+
+		if ( nextRow >= this.totalRows - 1 ) {
+			this.badgeButtonDown
+				.closest( '.prpl-badge-row-button-wrapper' )
+				.classList.add( 'prpl-badge-row-button-disabled' );
+		}
+	}
+}
+
+// Initialize on DOM load
+if ( document.readyState !== 'loading' ) {
+	new BadgeScroller();
+} else {
+	document.addEventListener( 'DOMContentLoaded', () => {
+		new BadgeScroller();
+	} );
+}

@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:disable Generic.Commenting.Todo
 /**
  * Handler for todo activities.
  *
@@ -55,3 +55,4 @@ class Todo extends Activity {
 		\do_action( 'progress_planner_activity_saved', $this );
 	}
 }
+// phpcs:enable Generic.Commenting.Todo

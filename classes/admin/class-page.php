@@ -13,21 +13,6 @@ namespace Progress_Planner\Admin;
 class Page {
 
 	/**
-	 * The widgets to display on the admin page.
-	 */
-	const WIDGETS = [
-		'\Progress_Planner\Widgets\Activity_Scores',
-		'\Progress_Planner\Widgets\Suggested_Tasks',
-		'\Progress_Planner\Widgets\ToDo',
-		'\Progress_Planner\Widgets\Badge_Streak',
-		'\Progress_Planner\Widgets\Latest_Badge',
-		'\Progress_Planner\Widgets\Published_Content_Density',
-		'\Progress_Planner\Widgets\Published_Words',
-		'\Progress_Planner\Widgets\Published_Content',
-		'\Progress_Planner\Widgets\Whats_New',
-	];
-
-	/**
 	 * Constructor.
 	 */
 	public function __construct() {
@@ -43,6 +28,50 @@ class Page {
 		\add_action( 'admin_menu', [ $this, 'add_page' ] );
 		\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 		\add_action( 'wp_ajax_progress_planner_save_cpt_settings', [ $this, 'save_cpt_settings' ] );
+	}
+
+	/**
+	 * Get the widgets objects
+	 *
+	 * @return array<\Progress_Planner\Widget>
+	 */
+	public function get_widgets() {
+		$widgets = [
+			new \Progress_Planner\Widgets\Activity_Scores(),
+			new \Progress_Planner\Widgets\Suggested_Tasks(),
+			new \Progress_Planner\Widgets\ToDo(),
+			new \Progress_Planner\Widgets\Badge_Streak(),
+			new \Progress_Planner\Widgets\Latest_Badge(),
+			new \Progress_Planner\Widgets\Published_Content_Density(),
+			new \Progress_Planner\Widgets\Published_Words(),
+			new \Progress_Planner\Widgets\Published_Content(),
+			new \Progress_Planner\Widgets\Whats_New(),
+		];
+
+		/**
+		 * Filter the widgets.
+		 *
+		 * @param array<\Progress_Planner\Widget> $widgets The widgets.
+		 *
+		 * @return array<\Progress_Planner\Widget>
+		 */
+		return \apply_filters( 'progress_planner_admin_widgets', $widgets );
+	}
+
+	/**
+	 * Get a widget object.
+	 *
+	 * @param string $id The widget ID.
+	 *
+	 * @return \Progress_Planner\Widget|void
+	 */
+	public function get_widget( $id ) {
+		$widgets = $this->get_widgets();
+		foreach ( $widgets as $widget ) {
+			if ( $widget->get_id() === $id ) {
+				return $widget;
+			}
+		}
 	}
 
 	/**
@@ -67,22 +96,7 @@ class Page {
 	 * @return void
 	 */
 	public function render_page() {
-		?>
-		<div class="wrap prpl-wrap">
-			<h1 class="screen-reader-text"><?php \esc_html_e( 'Progress Planner', 'progress-planner' ); ?></h1>
-			<?php require PROGRESS_PLANNER_DIR . '/views/admin-page-header.php'; ?>
-			<?php require PROGRESS_PLANNER_DIR . '/views/welcome.php'; ?>
-
-			<?php \do_action( 'progress_planner_admin_after_header' ); ?>
-
-			<div class="prpl-widgets-container">
-				<?php $widgets = \apply_filters( 'progress_planner_admin_widgets', self::WIDGETS ); ?>
-				<?php foreach ( $widgets as $class_name ) : ?>
-					<?php ( new $class_name() )->render(); ?>
-				<?php endforeach; ?>
-			</div>
-		</div>
-		<?php
+		\progress_planner()->the_view( 'admin-page.php' );
 	}
 
 	/**

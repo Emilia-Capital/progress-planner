@@ -1,22 +1,66 @@
 .prpl-widget-wrapper.prpl-suggested-tasks {
 
 	.badge-group-monthly {
-		display: grid;
-		grid-template-columns: 1fr 1fr 1fr;
-		gap: calc(var(--prpl-gap) / 2);
 		padding: calc(var(--prpl-padding) / 2);
 		border-radius: var(--prpl-border-radius);
 		margin-bottom: var(--prpl-padding);
 		background: var(--prpl-background-orange);
 
-		.prpl-badge {
+		.prpl-badge-row-wrapper {
+			overflow: hidden;
+		}
+
+		.prpl-badge-row-wrapper-inner {
+			--prpl-current-row: 1;
+
+			display: grid;
+			grid-template-columns: 1fr 1fr 1fr;
+			gap: calc(var(--prpl-gap) / 2);
+
+			transition: transform 0.3s ease-in-out;
+			transform: translateY(calc((var(--row-height) + var(--grid-gap)) * (var(--prpl-current-row) - 1) * -1));
+		}
+
+		.prpl-badge-row-button-wrapper {
 			display: flex;
-			flex-direction: column;
-			align-items: center;
-			justify-content: space-between;
-			flex-wrap: wrap;
+			justify-content: center;
+
+			&:has(.prpl-badge-row-button-up) {
+				margin-bottom: var(--prpl-padding);
+				padding-bottom: 0.2rem;
+
+				border-bottom: 1px solid var(--prpl-color-gray-3);
+			}
+
+			&:has(.prpl-badge-row-button-down) {
+				margin-top: var(--prpl-padding);
+				padding-top: 0.2rem;
+
+				border-top: 1px solid var(--prpl-color-gray-3);
+			}
+
+			&.prpl-badge-row-button-disabled {
+				opacity: 0.5;
+				pointer-events: none;
+			}
+		}
+
+		.prpl-badge-row-button {
+			border: none;
+			background: none;
+			cursor: pointer;
+		}
+
+		.prpl-badge {
+			display: grid;
+			grid-template-columns: 1fr;
+
 			min-width: 0;
 			gap: 10px;
+
+			> * {
+				align-self: center;
+			}
 		}
 
 		p {
@@ -26,9 +70,12 @@
 			line-height: 1.2;
 		}
 
-		svg {
-			width: calc(100% * var(--multiplier));
-			margin-left: calc(100% * (1 - var(--multiplier)) / 2);
+		.prpl-badge-icon-image {
+
+			&.incomplete {
+				filter: grayscale(1);
+				opacity: 0.2;
+			}
 		}
 	}
 
@@ -44,6 +91,7 @@
 		position: absolute;
 		width: 100%;
 
+		img,
 		svg {
 			width: 50%;
 		}
@@ -100,10 +148,14 @@
 	}
 
 	.prpl-suggested-task {
-		border-bottom: 1px solid var(--prpl-color-gray-3);
+		margin: 0;
+		padding: 0.5rem 0.5rem;
 		display: flex;
 		justify-content: space-between;
-		position: relative;
+
+		&:nth-child(odd) {
+			background-color: #f9fafb;
+		}
 
 		h3 {
 			font-size: 1rem;
@@ -111,19 +163,37 @@
 			font-weight: 500;
 		}
 
-		.actions {
-
-			visibility: hidden;
-			justify-content: flex-end;
-			gap: 0.5em;
+		.prpl-suggested-task-actions {
 			display: flex;
+			gap: 0.5rem;
+		}
+
+		.prpl-suggested-task-points {
+			font-size: var(--prpl-font-size-xs);
+			font-weight: 600;
+			color: var(--prpl-color-headings);
+			background-color: var(--prpl-color-accent-orange);
+			width: 1.5rem;
+			height: 1.5rem;
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.tooltip-actions {
+			visibility: hidden;
 		}
 
 		&:hover {
 
-			.actions {
+			.tooltip-actions {
 				visibility: visible;
 			}
+		}
+
+		.tooltip-actions:has([data-tooltip-visible]) {
+			visibility: visible;
 		}
 
 		.prpl-suggested-task-description {
@@ -141,45 +211,8 @@
 			cursor: pointer;
 		}
 
-		.prpl-suggested-task-info,
-		.prpl-suggested-snooze-duration-selector {
-			position: absolute;
-			bottom: 0;
-			left: 100%;
-			transform: translate(-100%, calc(100% + 10px));
-
-			padding: 0.75rem 1.5rem 0.75rem 0.75rem;
-			width: 150px;
-			background: var(--prpl-background-green);
-			border-radius: var(--prpl-border-radius);
-			z-index: 2; /* above the gauges */
-			visibility: hidden; /* hidden by default */
-
-			.close {
-				position: absolute;
-				top: 0.75rem;
-				right: 0;
-				cursor: pointer;
-			}
-
-			/* Arrow */
-			&::after {
-				content: "";
-				position: absolute;
-				top: 0;
-				right: 0;
-				transform: translate(-20px, -10px) rotate(90deg);
-
-				width: 0;
-				height: 0;
-				border-style: solid;
-				border-width: 7.5px 10px 7.5px 0;
-				border-color: transparent var(--prpl-background-green) transparent transparent;
-			}
-		}
-
-		.prpl-suggested-snooze-duration-selector {
-			margin-left: 10px;
+		.prpl-suggested-task-snooze {
+			margin-left: 5px;
 
 			&.prpl-toggle-radio-group-open {
 
@@ -252,32 +285,8 @@
 		}
 
 		.prpl-suggested-task-info {
-			margin-left: -20px;
+			margin-left: -30px;
 		}
 
-		/* Open */
-		&.prpl-suggested-task-snooze-open,
-		&.prpl-suggested-task-info-open {
-
-			.actions {
-				visibility: visible;
-			}
-		}
-
-		/* Info open */
-		&.prpl-suggested-task-info-open {
-
-			.prpl-suggested-task-info {
-				visibility: visible;
-			}
-		}
-
-		/* Snooze open */
-		&.prpl-suggested-task-snooze-open {
-
-			.prpl-suggested-snooze-duration-selector {
-				visibility: visible;
-			}
-		}
 	}
 }
