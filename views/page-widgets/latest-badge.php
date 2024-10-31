@@ -48,5 +48,11 @@ $latest_badge = \progress_planner()->get_badges()->get_latest_completed_badge();
 		<a href="<?php echo \esc_url( $prpl_share_badge_url ); ?>" target="_blank">
 			<?php \esc_html_e( 'Share your badge!', 'progress-planner' ); ?>
 		</a>
+	<?php else : ?>
+		<?php
+		/**
+		 * TODO: Add text and button to show the registration form and allow sharing
+		 */
+		?>
 	<?php endif; ?>
 <?php endif; ?>
