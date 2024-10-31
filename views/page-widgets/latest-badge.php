@@ -11,6 +11,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $prpl_widget = \progress_planner()->get_admin()->page->get_widget( 'latest-badge' );
 
+$prpl_share_badge_url = \add_query_arg(
+	[
+		'badge' => $latest_badge->get_id(),
+		'url'   => \home_url(),
+	],
+	'https://progressplanner.com/wp-json/progress-planner-saas/v1/share-badge'
+);
+
 // Get the latest completed badge.
 $latest_badge = \progress_planner()->get_badges()->get_latest_completed_badge();
 ?>
@@ -33,4 +41,7 @@ $latest_badge = \progress_planner()->get_badges()->get_latest_completed_badge();
 		src="<?php echo \esc_url( $prpl_widget->endpoint . $latest_badge->get_id() ); ?>"
 		alt="<?php echo \esc_attr( $latest_badge->get_name() ); ?>"
 	/>
+	<a href="<?php echo \esc_url( $prpl_share_badge_url ); ?>" target="_blank">
+		<?php \esc_html_e( 'Share your badge!', 'progress-planner' ); ?>
+	</a>
 <?php endif; ?>
