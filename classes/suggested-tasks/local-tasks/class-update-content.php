@@ -136,6 +136,7 @@ class Update_Content extends Local_Tasks {
 
 		$is_last_post_long = (
 			is_array( $last_created_posts )
+			&& ! empty( $last_created_posts )
 			&& \progress_planner()->get_activities__content_helpers()->is_post_long( $last_created_posts[0]->ID )
 		);
 		$items             = [];
