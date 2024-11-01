@@ -37,7 +37,7 @@ class Dashboard_Widget_Score extends Dashboard_Widget {
 	 */
 	public function render_widget() {
 		// Enqueue stylesheets.
-		\progress_planner()->get_admin()->page->enqueue_styles();
+		\progress_planner()->get_admin__page()->enqueue_styles();
 		foreach ( [ 'badge-streak', 'activity-scores' ] as $handle ) {
 			$stylesheet = "/assets/css/page-widgets/{$handle}.css";
 			\wp_enqueue_style(

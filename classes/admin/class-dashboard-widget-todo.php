@@ -36,8 +36,8 @@ class Dashboard_Widget_Todo extends Dashboard_Widget {
 	 * @return void
 	 */
 	public function render_widget() {
-		\progress_planner()->get_admin()->page->enqueue_styles();
-		\progress_planner()->get_admin()->page->register_scripts();
+		\progress_planner()->get_admin__page()->enqueue_styles();
+		\progress_planner()->get_admin__page()->register_scripts();
 		\wp_enqueue_script( 'progress-planner-todo' );
 		\wp_enqueue_style(
 			'prpl-widget-todo',

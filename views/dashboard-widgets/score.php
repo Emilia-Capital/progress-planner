@@ -6,8 +6,8 @@
  */
 
 $show_badges = (
-	\progress_planner()->get_admin()->dashboard_widgets->score->get_badge_details( 'content' )['progress']['progress'] ||
-	\progress_planner()->get_admin()->dashboard_widgets->score->get_badge_details( 'maintenance' )['progress']['progress']
+	\progress_planner()->get_admin__dashboard_widget_score()->get_badge_details( 'content' )['progress']['progress'] ||
+	\progress_planner()->get_admin__dashboard_widget_score()->get_badge_details( 'maintenance' )['progress']['progress']
 );
 
 ?>
@@ -21,7 +21,7 @@ $show_badges = (
 			<h3><?php \esc_html_e( 'Next badges', 'progress-planner' ); ?></h3>
 			<?php foreach ( [ 'content', 'maintenance' ] as $category ) : ?>
 				<?php
-				$details = \progress_planner()->get_admin()->dashboard_widgets->score->get_badge_details( $category );
+				$details = \progress_planner()->get_admin__dashboard_widget_score()->get_badge_details( $category );
 				if ( 100 <= (int) $details['progress']['progress'] ) {
 					return;
 				}

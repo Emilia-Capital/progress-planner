@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$prpl_widget = \progress_planner()->get_admin()->page->get_widget( 'latest-badge' );
+$prpl_widget = \progress_planner()->get_admin__page()->get_widget( 'latest-badge' );
 
 // Get the latest completed badge.
 $latest_badge = \progress_planner()->get_badges()->get_latest_completed_badge();
@@ -50,7 +50,7 @@ $latest_badge = \progress_planner()->get_badges()->get_latest_completed_badge();
 		</a>
 	<?php else : ?>
 		<?php
-		\progress_planner()->get_popovers()->subscribe_form->render_button(
+		\progress_planner()->get_popovers__subscribe_form()->render_button(
 			'',
 			\esc_html__( 'Subscribe to share your badge!', 'progress-planner' )
 		);

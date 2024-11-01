@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$prpl_widget = \progress_planner()->get_admin()->page->get_widget( 'suggested-tasks' );
+$prpl_widget = \progress_planner()->get_admin__page()->get_widget( 'suggested-tasks' );
 $percentage  = $prpl_widget->get_score() / Monthly::TARGET_POINTS;
 ?>
 <h2 class="prpl-widget-title">

@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$prpl_widget = \progress_planner()->get_admin()->page->get_widget( 'activity-scores' );
+$prpl_widget = \progress_planner()->get_admin__page()->get_widget( 'activity-scores' );
 
 ?>
 <div class="prpl-activities-gauge-container activities-scores">

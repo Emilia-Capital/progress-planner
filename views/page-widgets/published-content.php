@@ -9,9 +9,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$prpl_widget = \progress_planner()->get_admin()->page->get_widget( 'published-content' );
+$prpl_widget = \progress_planner()->get_admin__page()->get_widget( 'published-content' );
 
-$post_types = \progress_planner()->get_helpers()->content->get_post_types_names();
+$post_types = \progress_planner()->get_activities__content_helpers()->get_post_types_names();
 $stats      = $prpl_widget->get_stats();
 $sum_weekly = array_sum( $stats['weekly'] );
 ?>
