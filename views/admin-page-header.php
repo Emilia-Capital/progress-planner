@@ -29,21 +29,21 @@ $progress_planner_active_frequency = isset( $_GET['frequency'] ) ? \sanitize_tex
 		</button>
 		<?php
 		// Render the settings button.
-		\progress_planner()->get_popovers()->settings->render_button(
+		\progress_planner()->get_popovers__settings()->render_button(
 			'admin-generic',
 			'<span class="screen-reader-text">' . \esc_html__( 'Settings', 'progress-planner' ) . '</span>'
 		);
 		// Render the settings popover.
-		\progress_planner()->get_popovers()->settings->render();
+		\progress_planner()->get_popovers__settings()->render();
 
 		// Render the subscribe form button and popover if the license key is not set.
 		if ( 'no-license' === \get_option( 'progress_planner_license_key', 'no-license' ) ) {
-			\progress_planner()->get_popovers()->subscribe_form->render_button(
+			\progress_planner()->get_popovers__subscribe_form()->render_button(
 				'email-alt',
 				'<span class="screen-reader-text">' . \esc_html__( 'Subscribe', 'progress-planner' ) . '</span>'
 			);
 			// Render the subscribe form popover.
-			\progress_planner()->get_popovers()->subscribe_form->render();
+			\progress_planner()->get_popovers__subscribe_form()->render();
 		}
 		?>
 		<div class="prpl-header-select-range">

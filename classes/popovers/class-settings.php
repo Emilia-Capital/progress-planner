@@ -25,7 +25,7 @@ final class Settings extends Popover {
 	 * @return void
 	 */
 	protected function the_content() {
-		$saved_settings = \progress_planner()->get_helpers()->content->get_post_types_names();
+		$saved_settings = \progress_planner()->get_activities__content_helpers()->get_post_types_names();
 		$post_types     = \array_filter( \get_post_types( [ 'public' => true ] ), 'is_post_type_viewable' );
 		unset( $post_types['attachment'] );
 		unset( $post_types['elementor_library'] ); // Elementor templates are not a post type we want to track.
