@@ -85,6 +85,11 @@ class Base {
 	 * Magic method to get properties.
 	 * We use this to avoid a lot of code duplication.
 	 *
+	 * Use a double underscore to separate namespaces:
+	 * - get_foo() will return an instance of Progress_Planner\Foo.
+	 * - get_foo_bar() will return an instance of Progress_Planner\Foo_Bar.
+	 * - get_foo_bar__baz() will return an instance of Progress_Planner\Foo_Bar\Baz.
+	 *
 	 * @param string $name The name of the property.
 	 * @param array  $arguments The arguments passed to the class constructor.
 	 *
