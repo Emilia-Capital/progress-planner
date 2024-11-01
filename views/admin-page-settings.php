@@ -24,22 +24,48 @@ $prpl_page_types    = \progress_planner()->get_page_types()->get_page_types();
 
 		<div class="prpl-column">
 			<div class="prpl-widget-wrapper">
-				<h2 class="prpl-widget-title">
+				<!-- <h2 class="prpl-widget-title">
 					<?php esc_html_e( 'Your pages', 'progress-planner' ); ?>
-				</h2>
+				</h2> -->
 				<div class="prpl-pages-list">
-					<?php foreach ( $prpl_page_types as $prpl_pagetype ) : ?>
-						<?php if ( isset( $prpl_tabs_settings[ "page-{$prpl_pagetype['slug']}" ] ) ) : ?>
-							<?php $prpl_setting = $prpl_tabs_settings[ "page-{$prpl_pagetype['slug']}" ]['settings'][ $prpl_pagetype['slug'] ]; ?>
-							<div
-								class="prpl-pages-item prpl-pages-item-<?php echo esc_attr( $prpl_setting['page'] ); ?>"
-								data-page-item="<?php echo esc_attr( $prpl_setting['page'] ); ?>"
-							>
-								<?php \progress_planner()->the_view( "setting/{$prpl_setting['type']}.php", [ 'prpl_setting' => $prpl_setting ] ); ?>
-							</div>
-						<?php endif; ?>
+					<?php foreach ( $prpl_tabs_settings as $prpl_tab_key => $prpl_tab ) : ?>
+
+						<div>
+							<?php /* phpcs:disable */ ?>
+							<?php /* echo esc_html( $tab['title'] ); */ ?>
+							<?php /* echo esc_html( $tab['desc'] ); */ ?>
+
+							<?php foreach ( $prpl_tab['settings'] as $prpl_setting ) : ?>
+
+								<?php
+									// WIP. Skip radio buttons with page-select.
+								if ( false !== strpos( $prpl_setting['id'], 'has-page-' ) ) {
+									continue;
+								}
+								?>
+
+								<div class="prpl-pages-item-setting">
+									<?php if ( 'page-select' === $prpl_setting['type'] ) : ?>
+										<div
+											class="prpl-pages-item prpl-pages-item-<?php echo esc_attr( $prpl_setting['page'] ); ?>"
+											data-page-item="<?php echo esc_attr( $prpl_setting['page'] ); ?>"
+										>
+											<?php \progress_planner()->the_view( "setting/{$prpl_setting['type']}.php", [ 'prpl_setting' => $prpl_setting ] ); ?>
+										</div>
+									<?php else : ?>
+										<div class="prpl-pages-item">
+											<?php /* phpcs:disable */ ?>
+											<?php /* echo isset( $prpl_setting['title'] ) ? esc_html( $prpl_setting['title'] ) : ''; */ ?>
+											<?php /* echo isset( $prpl_setting['label'] ) ? esc_html( $prpl_setting['label'] ) : ''; */ ?>
+											<?php /* phpcs:enable */ ?>
+											<?php \progress_planner()->the_view( "setting/{$prpl_setting['type']}.php", [ 'prpl_setting' => $prpl_setting ] ); ?>
+										</div>
+									<?php endif; ?>
+								</div>
+							<?php endforeach; ?>
+						</div>
 					<?php endforeach; ?>
-				</div>
+
 			</div>
 		</div>
 
