@@ -71,18 +71,22 @@ const PrplRenderPageTypeSelector = () => {
 };
 
 /**
- * Render the section content.
+ * Render the lesson items.
  *
  * @return {Element} Element to render.
  */
-const PrplUpdateCycleSectionContent = () => {
-	const selectedPageTypeID = useSelect(
+const PrplLessonItemsHTML = () => {
+	const pageTypeID = useSelect(
 		( select ) =>
 			select( 'core/editor' ).getEditedPostAttribute( TAXONOMY ),
 		[]
 	);
+	const pageType = prplGetPageTypeSlugFromId( pageTypeID );
 
-	const pageType = prplGetPageTypeSlugFromId( selectedPageTypeID );
+	// Bail early if the page type is not set.
+	if ( ! pageType ) {
+		return el( 'div', {}, '' );
+	}
 
 	const lesson = progressPlannerEditor.lessons.find(
 		( lessonItem ) => lessonItem.settings.id === pageType
@@ -101,70 +105,32 @@ const PrplUpdateCycleSectionContent = () => {
 			);
 	}
 
-	if ( lesson.content_update_cycle.text ) {
-		return el( 'div', {
-			key: `progress-planner-sidebar-lesson-section-content_update_cycle-content`,
-			dangerouslySetInnerHTML: {
-				__html: lesson.content_update_cycle.text,
-			},
-		} );
-	}
-
-	return el( 'div', {}, '' );
-};
-
-/**
- * Get the section markup.
- *
- * @return {Element} Element to render, or null.
- */
-const PrplContentUpdateCycleSectionHTML = () => {
-	const pageTypeID = useSelect(
-		( select ) =>
-			select( 'core/editor' ).getEditedPostAttribute( TAXONOMY ),
-		[]
-	);
-
-	const pageType = prplGetPageTypeSlugFromId( pageTypeID );
-
-	// Bail early if the page type is not set.
-	if ( ! pageType ) {
-		return el( 'div', {}, '' );
-	}
-
-	const lesson = progressPlannerEditor.lessons.find(
-		( lessonItem ) => lessonItem.settings.id === pageType
-	);
-
-	// Bail early if the lesson or section is not found.
-	if ( ! lesson || ! lesson.content_update_cycle ) {
-		return el( 'div', {}, '' );
-	}
-
 	return el(
-		'div',
-		{
-			key: `progress-planner-sidebar-lesson-section-content_update_cycle`,
-			title: lesson.content_update_cycle.heading,
-			initialOpen: false,
-		},
-		PrplUpdateCycleSectionContent()
-	);
-};
-
-/**
- * Render the lesson items.
- *
- * @return {Element} Element to render.
- */
-const PrplLessonItemsHTML = () =>
-	el(
 		Fragment,
 		{
 			key: 'progress-planner-sidebar-lesson-items',
 		},
-		PrplContentUpdateCycleSectionHTML()
+		// Update cycle content.
+		! lesson || ! lesson.content_update_cycle
+			? el( 'div', {}, '' )
+			: el(
+					'div',
+					{
+						key: `progress-planner-sidebar-lesson-section-content_update_cycle`,
+						title: lesson.content_update_cycle.heading,
+						initialOpen: false,
+					},
+					lesson.content_update_cycle.text
+						? el( 'div', {
+								key: `progress-planner-sidebar-lesson-section-content_update_cycle-content`,
+								dangerouslySetInnerHTML: {
+									__html: lesson.content_update_cycle.text,
+								},
+						  } )
+						: el( 'div', {}, '' )
+			  )
 	);
+};
 
 /**
  * Render the Progress Planner sidebar.
