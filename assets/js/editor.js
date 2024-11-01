@@ -1,9 +1,10 @@
 /* global progressPlannerEditor */
-const { createElement: el, Fragment } = wp.element;
+const { createElement: el, Fragment, useState } = wp.element;
 const { registerPlugin } = wp.plugins;
 const { PluginSidebar, PluginPostStatusInfo, PluginSidebarMoreMenuItem } =
 	wp.editor;
-const { Button, SelectControl, PanelBody, CheckboxControl } = wp.components;
+const { Button, SelectControl, PanelBody, CheckboxControl, Modal } =
+	wp.components;
 const { useSelect } = wp.data;
 
 const TAXONOMY = 'progress_planner_page_types';
@@ -68,6 +69,73 @@ const PrplRenderPageTypeSelector = () => {
 			wp.data.dispatch( 'core/editor' ).editPost( data );
 		},
 	} );
+};
+
+/**
+ * Render the video section.
+ * This will display a button to open a modal with the video.
+ *
+ * @param {Object} lessonSection The lesson section.
+ * @return {Element} Element to render.
+ */
+const PrplSectionVideo = ( lessonSection ) => {
+	const [ isOpen, setOpen ] = useState( false );
+	const openModal = () => setOpen( true );
+	const closeModal = () => setOpen( false );
+
+	return el(
+		'div',
+		{
+			title: progressPlannerEditor.i18n.video,
+			initialOpen: false,
+		},
+		el(
+			'div',
+			{},
+			el(
+				Button,
+				{
+					key: 'progress-planner-sidebar-video-button',
+					onClick: openModal,
+					icon: 'video-alt3',
+					variant: 'secondary',
+					style: {
+						width: '100%',
+						margin: '15px 0',
+						color: '#38296D',
+						boxShadow: 'inset 0 0 0 1px #38296D',
+					},
+				},
+				lessonSection.video_button_label
+					? lessonSection.video_button_text
+					: progressPlannerEditor.i18n.watchVideo
+			),
+			isOpen &&
+				el(
+					Modal,
+					{
+						key: 'progress-planner-pro-sidebar-video-modal',
+						title: progressPlannerEditor.i18n.video,
+						onRequestClose: closeModal,
+						shouldCloseOnClickOutside: true,
+						shouldCloseOnEsc: true,
+						size: 'large',
+					},
+					el(
+						'div',
+						{
+							key: 'progress-planner-pro-sidebar-video-modal-content',
+						},
+						el( 'div', {
+							key: 'progress-planner-pro-sidebar-video-modal-content-inner',
+							dangerouslySetInnerHTML: {
+								__html: lessonSection.video,
+							},
+						} )
+					)
+				)
+		)
+	);
 };
 
 /**
@@ -137,7 +205,36 @@ const PrplLessonItemsHTML = () => {
 						  } )
 						: el( 'div', {}, '' )
 			  ),
-		lesson.checklist
+
+		// Intro video & content.
+		lesson.intro && lesson.intro.video
+			? PrplSectionVideo( lesson.writers_block )
+			: el( 'div', {}, '' ),
+		lesson.intro && lesson.intro.text
+			? el( 'div', {
+					key: `progress-planner-pro-sidebar-lesson-section-intro-content`,
+					dangerouslySetInnerHTML: { __html: lesson.intro.text },
+			  } )
+			: el( 'div', {}, '' ),
+
+		// Writers block video & content.
+		lesson.writers_block && lesson.writers_block.video
+			? PrplSectionVideo( lesson.writers_block )
+			: el( 'div', {}, '' ),
+		lesson.writers_block && lesson.writers_block.text
+			? el( 'div', {
+					key: `progress-planner-pro-sidebar-lesson-section-writers_block-content`,
+					dangerouslySetInnerHTML: {
+						__html: lesson.writers_block.text,
+					},
+			  } )
+			: el( 'div', {}, '' ),
+
+		// Checklist video & content.
+		lesson.checklist && lesson.checklist.video
+			? PrplSectionVideo( lesson.checklist )
+			: el( 'div', {}, '' ),
+		lesson.checklist && lesson.checklist.text
 			? el(
 					'div',
 					{
