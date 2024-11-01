@@ -59,7 +59,8 @@ class Page_Settings {
 		$page_types = \progress_planner()->get_page_types()->get_page_types();
 
 		foreach ( $page_types as $page_type ) {
-			$type_pages = \progress_planner()->get_page_types()->get_posts_by_type( 'any', $page_type['slug'] );
+			$type_pages     = \progress_planner()->get_page_types()->get_posts_by_type( 'any', $page_type['slug'] );
+			$has_page_value = \progress_planner()->get_settings()->get( "has-page-{$page_type['slug']}", 'no' );
 
 			$tabs[ "page-{$page_type['slug']}" ] = [
 				'title'    => sprintf(
@@ -80,10 +81,11 @@ class Page_Settings {
 						'description' => esc_html__( 'If you don\'t have this page yet, we can help you create it.', 'progress-planner' ),
 						'type'        => 'radio',
 						'options'     => [
-							'no'  => esc_html__( 'No', 'progress-planner' ),
-							'yes' => esc_html__( 'Yes', 'progress-planner' ),
+							'yes'            => esc_html__( 'Yes', 'progress-planner' ),
+							'no'             => esc_html__( 'No', 'progress-planner' ),
+							'not-applicable' => esc_html__( 'I don\'t need this page', 'progress-planner' ),
 						],
-						'value'       => empty( $type_pages ) ? 'no' : 'yes',
+						'value'       => $has_page_value,
 						'page'        => $page_type['slug'],
 					],
 					$page_type['slug']              => [
@@ -142,6 +144,16 @@ class Page_Settings {
 				/**
 				 * TODO: Handle the $page_args['assign-user'] and $page_args['plan-date'] values.
 				 */
+			}
+		}
+
+		// WIP: Save the page selection.
+		$settings   = \progress_planner()->get_settings();
+		$page_types = \progress_planner()->get_page_types()->get_page_types();
+		foreach ( $page_types as $page_type ) {
+			if ( isset( $_POST[ "has-page-{$page_type['slug']}" ] ) ) {
+				$value = \sanitize_text_field( \wp_unslash( $_POST[ "has-page-{$page_type['slug']}" ] ) );
+				$settings->set( "has-page-{$page_type['slug']}", $value );
 			}
 		}
 

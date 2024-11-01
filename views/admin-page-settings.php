@@ -37,13 +37,6 @@ $prpl_page_types    = \progress_planner()->get_page_types()->get_page_types();
 
 							<?php foreach ( $prpl_tab['settings'] as $prpl_setting ) : ?>
 
-								<?php
-									// WIP. Skip radio buttons with page-select.
-								if ( false !== strpos( $prpl_setting['id'], 'has-page-' ) ) {
-									continue;
-								}
-								?>
-
 								<div class="prpl-pages-item-setting">
 									<?php if ( 'page-select' === $prpl_setting['type'] ) : ?>
 										<div
