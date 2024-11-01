@@ -50,9 +50,14 @@ if ( $prpl_widget->get_details( 'maintenance' ) ) {
 ?>
 
 <h2 class="prpl-widget-title">
-	<?php \esc_html_e( 'Your streak badges', 'progress-planner' ); ?>
-	<?php \progress_planner()->get_popovers()->badges->render_button(); ?>
-	<?php \progress_planner()->get_popovers()->badges->render(); ?>
+	<?php
+	\esc_html_e( 'Your streak badges', 'progress-planner' );
+	\progress_planner()->get_popovers()->badges->render_button(
+		'info-outline',
+		'<span class="screen-reader-text">' . \esc_html__( 'More info', 'progress-planner' ) . '</span>'
+	);
+	\progress_planner()->get_popovers()->badges->render();
+	?>
 </h2>
 
 <div class="prpl-latest-badges-wrapper">

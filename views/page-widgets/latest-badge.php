@@ -50,9 +50,10 @@ $latest_badge = \progress_planner()->get_badges()->get_latest_completed_badge();
 		</a>
 	<?php else : ?>
 		<?php
-		/**
-		 * TODO: Add text and button to show the registration form and allow sharing
-		 */
+		\progress_planner()->get_popovers()->subscribe_form->render_button(
+			'',
+			\esc_html__( 'Subscribe to share your badge!', 'progress-planner' )
+		);
 		?>
 	<?php endif; ?>
 <?php endif; ?>
