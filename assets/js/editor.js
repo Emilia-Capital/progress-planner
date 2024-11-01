@@ -3,7 +3,7 @@ const { createElement: el, Fragment } = wp.element;
 const { registerPlugin } = wp.plugins;
 const { PluginSidebar, PluginPostStatusInfo, PluginSidebarMoreMenuItem } =
 	wp.editor;
-const { Button, SelectControl } = wp.components;
+const { Button, SelectControl, PanelBody, CheckboxControl } = wp.components;
 const { useSelect } = wp.data;
 
 const TAXONOMY = 'progress_planner_page_types';
@@ -83,6 +83,14 @@ const PrplLessonItemsHTML = () => {
 	);
 	const pageType = prplGetPageTypeSlugFromId( pageTypeID );
 
+	const pageTodosMeta = useSelect(
+		( select ) =>
+			select( 'core/editor' ).getEditedPostAttribute( 'meta' )
+				.progress_planner_page_todos,
+		[]
+	);
+	const pageTodos = pageTodosMeta || '';
+
 	// Bail early if the page type is not set.
 	if ( ! pageType ) {
 		return el( 'div', {}, '' );
@@ -128,7 +136,17 @@ const PrplLessonItemsHTML = () => {
 								},
 						  } )
 						: el( 'div', {}, '' )
+			  ),
+		lesson.checklist
+			? el(
+					'div',
+					{
+						key: `progress-planner-pro-sidebar-lesson-section-checklist-content`,
+					},
+					PrplTodoProgress( lesson.checklist, pageTodos ),
+					PrplCheckList( lesson.checklist, pageTodos )
 			  )
+			: el( 'div', {}, '' )
 	);
 };
 
@@ -169,6 +187,156 @@ const PrplProgressPlannerSidebar = () =>
 				},
 				PrplRenderPageTypeSelector(),
 				PrplLessonItemsHTML()
+			)
+		)
+	);
+
+/**
+ * Render the todo items progressbar.
+ *
+ * @param {Object} lessonSection The lesson section.
+ * @param {string} pageTodos
+ * @return {Element} Element to render.
+ */
+const PrplTodoProgress = ( lessonSection, pageTodos ) => {
+	// Get an array of required todo items.
+	const requiredToDos = [];
+	if ( lessonSection.todos ) {
+		lessonSection.todos.forEach( ( toDoGroup ) => {
+			toDoGroup.group_todos.forEach( ( item ) => {
+				if ( item.todo_required ) {
+					requiredToDos.push( item.id );
+				}
+			} );
+		} );
+	}
+
+	// Get an array of completed todo items.
+	const completedToDos = pageTodos
+		.split( ',' )
+		.filter( ( item ) => requiredToDos.includes( item ) );
+
+	// Get the percentage of completed todo items.
+	const percentageComplete = Math.round(
+		( completedToDos.length / requiredToDos.length ) * 100
+	);
+
+	return el(
+		'div',
+		{},
+		el(
+			'div',
+			{
+				style: {
+					width: '100%',
+					display: 'flex',
+					alignItems: 'center',
+				},
+			},
+			el(
+				'div',
+				{
+					style: {
+						width: '100%',
+						backgroundColor: '#e1e3e7',
+						height: '15px',
+						borderRadius: '5px',
+					},
+				},
+				el( 'div', {
+					style: {
+						width: `${ percentageComplete }%`,
+						backgroundColor: '#14b8a6',
+						height: '15px',
+						borderRadius: '5px',
+					},
+				} )
+			),
+			el(
+				'div',
+				{
+					style: {
+						margin: '0 5px',
+						fontSize: '12px',
+						color: '#38296D',
+					},
+				},
+				`${ percentageComplete }%`
+			)
+		),
+		el( 'div', {
+			dangerouslySetInnerHTML: {
+				__html: progressPlannerEditor.i18n.checklistProgressDescription,
+			},
+		} )
+	);
+};
+
+/**
+ * Render a single todo item with its checkbox.
+ *
+ * @param {Object} item
+ * @param {string} pageTodos
+ * @return {Element} Element to render.
+ */
+const PrplCheckListItem = ( item, pageTodos ) =>
+	el(
+		'div',
+		{
+			key: item.id,
+		},
+		el( CheckboxControl, {
+			checked: pageTodos.split( ',' ).includes( item.id ),
+			label: item.todo_name,
+			className: item.todo_required
+				? 'progress-planner-pro-todo-item required'
+				: 'progress-planner-pro-todo-item',
+			help: el( 'div', {
+				dangerouslySetInnerHTML: {
+					__html: item.todo_description,
+				},
+			} ),
+			onChange: ( checked ) => {
+				const toDos = pageTodos.split( ',' );
+				if ( checked ) {
+					toDos.push( item.id );
+				} else {
+					toDos.splice( toDos.indexOf( item.id ), 1 );
+				}
+				// Update the `progress_planner_page_todos` meta value.
+				wp.data.dispatch( 'core/editor' ).editPost( {
+					meta: {
+						progress_planner_page_todos: toDos.join( ',' ),
+					},
+				} );
+			},
+		} )
+	);
+
+/**
+ * Render the todo items.
+ *
+ * @param {Object} lessonSection The lesson section.
+ * @param {string} pageTodos
+ * @return {Element} Element to render.
+ */
+const PrplCheckList = ( lessonSection, pageTodos ) =>
+	lessonSection.todos.map( ( toDoGroup ) =>
+		el(
+			PanelBody,
+			{
+				key: `progress-planner-pro-sidebar-lesson-section-${ toDoGroup.group_heading }`,
+				title: toDoGroup.group_heading,
+				initialOpen: false,
+			},
+			el(
+				'div',
+				{
+					key: `progress-planner-pro-sidebar-lesson-section-${ toDoGroup.group_heading }-todos`,
+				},
+				toDoGroup.group_todos.map( ( item ) =>
+					PrplCheckListItem( item, pageTodos )
+				)
 			)
 		)
 	);
