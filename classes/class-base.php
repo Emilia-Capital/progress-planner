@@ -98,18 +98,6 @@ class Base {
 		return $this->cached['popovers'];
 	}
 
-	/**
-	 * Get the settings page instance.
-	 *
-	 * @return \Progress_Planner\Admin\Page_Settings
-	 */
-	public function get_settings_page() {
-		if ( ! isset( $this->cached['settings_page'] ) ) {
-			$this->cached['settings_page'] = new \Progress_Planner\Admin\Page_Settings();
-		}
-		return $this->cached['settings_page'];
-	}
-
 	/** Get the helpers instance.
 	 *
 	 * @return \stdClass
