@@ -23,7 +23,7 @@ $show_badges = (
 				<?php
 				$details = \progress_planner()->get_admin__dashboard_widget_score()->get_badge_details( $category );
 				if ( 100 <= (int) $details['progress']['progress'] ) {
-					return;
+					continue;
 				}
 				?>
 				<div class="prpl-badges-columns-wrapper">
