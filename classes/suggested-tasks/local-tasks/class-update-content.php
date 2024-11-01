@@ -99,7 +99,7 @@ class Update_Content extends Local_Tasks {
 					'type'    => 'create-post',
 					'date'    => \gmdate( 'YW' ),
 					'post_id' => $last_post->ID,
-					'long'    => \progress_planner()->get_helpers()->content->is_post_long( $last_post->ID ) ? '1' : '0',
+					'long'    => \progress_planner()->get_activities__content_helpers()->is_post_long( $last_post->ID ) ? '1' : '0',
 				]
 			)
 		);
@@ -136,7 +136,7 @@ class Update_Content extends Local_Tasks {
 
 		$is_last_post_long = (
 			is_array( $last_created_posts )
-			&& \progress_planner()->get_helpers()->content->is_post_long( $last_created_posts[0]->ID )
+			&& \progress_planner()->get_activities__content_helpers()->is_post_long( $last_created_posts[0]->ID )
 		);
 		$items             = [];
 

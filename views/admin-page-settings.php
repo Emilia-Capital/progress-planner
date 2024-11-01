@@ -5,7 +5,7 @@
  * @package Progress_Planner
  */
 
-$prpl_tabs_settings = \progress_planner()->get_settings_page()->get_tabs_settings();
+$prpl_tabs_settings = ( new \Progress_Planner\Admin\Page_Settings() )->get_tabs_settings();
 $prpl_page_types    = \progress_planner()->get_page_types()->get_page_types();
 ?>
 

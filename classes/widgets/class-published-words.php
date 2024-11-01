@@ -59,7 +59,7 @@ final class Published_Words extends Widget {
 			if ( null === $activity->get_post() ) {
 				continue;
 			}
-			$words += \progress_planner()->get_helpers()->content->get_word_count(
+			$words += \progress_planner()->get_activities__content_helpers()->get_word_count(
 				$activity->get_post()->post_content,
 				(int) $activity->data_id
 			);
