@@ -103,7 +103,7 @@ class Content extends Activity {
 		}
 
 		// Modify the score based on the words count.
-		$words       = \progress_planner()->get_helpers()->content->get_word_count( $post->post_content, $post->ID );
+		$words       = \progress_planner()->get_activities__content_helpers()->get_word_count( $post->post_content, $post->ID );
 		$multipliers = self::$points_config['word-multipliers'];
 		if ( $words > 1000 ) {
 			return (int) ( $points * $multipliers[1000] );

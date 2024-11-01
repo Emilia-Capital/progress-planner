@@ -204,7 +204,7 @@ class Content {
 		// Bail if the post is not included in the post-types we're tracking.
 		if ( ! \in_array(
 			$post->post_type,
-			\progress_planner()->get_helpers()->content->get_post_types_names(),
+			\progress_planner()->get_activities__content_helpers()->get_post_types_names(),
 			true
 		) ) {
 			return true;
@@ -276,7 +276,7 @@ class Content {
 			}
 		}
 
-		$activity       = \progress_planner()->get_helpers()->content->get_activity_from_post( $post );
+		$activity       = \progress_planner()->get_activities__content_helpers()->get_activity_from_post( $post );
 		$activity->type = $type;
 
 		// Update the badges.

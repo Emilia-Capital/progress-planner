@@ -55,7 +55,7 @@ final class Wonderful_Writer extends Badge_Content {
 
 		// Get the total number of posts.
 		$total_posts_count = 0;
-		foreach ( \progress_planner()->get_helpers()->content->get_post_types_names() as $post_type ) {
+		foreach ( \progress_planner()->get_activities__content_helpers()->get_post_types_names() as $post_type ) {
 			$total_posts_count += \wp_count_posts( $post_type )->publish;
 		}
 

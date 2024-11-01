@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$prpl_widget = \progress_planner()->get_admin()->page->get_widget( 'badge-streak' );
+$prpl_widget = \progress_planner()->get_admin__page()->get_widget( 'badge-streak' );
 
 $prpl_widget_context_details = [];
 if ( $prpl_widget->get_details( 'content' ) ) {
@@ -52,11 +52,11 @@ if ( $prpl_widget->get_details( 'maintenance' ) ) {
 <h2 class="prpl-widget-title">
 	<?php
 	\esc_html_e( 'Your streak badges', 'progress-planner' );
-	\progress_planner()->get_popovers()->badges->render_button(
+	\progress_planner()->get_popovers__badges()->render_button(
 		'info-outline',
 		'<span class="screen-reader-text">' . \esc_html__( 'More info', 'progress-planner' ) . '</span>'
 	);
-	\progress_planner()->get_popovers()->badges->render();
+	\progress_planner()->get_popovers__badges()->render();
 	?>
 </h2>
 

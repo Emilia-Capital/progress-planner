@@ -52,18 +52,16 @@ class Base {
 
 		// Basic classes.
 		if ( \is_admin() && \current_user_can( 'publish_posts' ) ) {
-			$this->get_admin()->page                     = new \Progress_Planner\Admin\Page();
-			$this->get_admin()->tour                     = new \Progress_Planner\Admin\Tour();
-			$this->get_admin()->dashboard_widgets        = new \stdClass();
-			$this->get_admin()->dashboard_widgets->score = new \Progress_Planner\Admin\Dashboard_Widget_Score();
-			$this->get_admin()->dashboard_widgets->todo  = new \Progress_Planner\Admin\Dashboard_Widget_Todo();
+			$this->cached['admin__page']                   = new \Progress_Planner\Admin\Page();
+			$this->cached['admin__tour']                   = new \Progress_Planner\Admin\Tour();
+			$this->cached['admin__dashboard_widget_score'] = new \Progress_Planner\Admin\Dashboard_Widget_Score();
+			$this->cached['admin__dashboard_widget_todo']  = new \Progress_Planner\Admin\Dashboard_Widget_Todo();
 		}
-		$this->get_admin()->editor = new \Progress_Planner\Admin\Editor();
+		$this->cached['admin__editor'] = new \Progress_Planner\Admin\Editor();
 
-		$this->cached['actions']               = new \stdClass();
-		$this->cached['actions']->content      = new \Progress_Planner\Actions\Content();
-		$this->cached['actions']->content_scan = new \Progress_Planner\Actions\Content_Scan();
-		$this->cached['actions']->maintenance  = new \Progress_Planner\Actions\Maintenance();
+		$this->cached['actions__content']      = new \Progress_Planner\Actions\Content();
+		$this->cached['actions__content_scan'] = new \Progress_Planner\Actions\Content_Scan();
+		$this->cached['actions__maintenance']  = new \Progress_Planner\Actions\Maintenance();
 
 		// REST API.
 		$this->cached['rest_api'] = new Rest_API();
@@ -84,57 +82,6 @@ class Base {
 	}
 
 	/**
-	 * Get the popovers instance.
-	 *
-	 * @return \stdClass
-	 */
-	public function get_popovers() {
-		if ( ! isset( $this->cached['popovers'] ) ) {
-			$this->cached['popovers']                 = new \stdClass();
-			$this->cached['popovers']->badges         = new \Progress_Planner\Popovers\Badges();
-			$this->cached['popovers']->settings       = new \Progress_Planner\Popovers\Settings();
-			$this->cached['popovers']->subscribe_form = new \Progress_Planner\Popovers\Subscribe_Form();
-		}
-		return $this->cached['popovers'];
-	}
-
-	/** Get the helpers instance.
-	 *
-	 * @return \stdClass
-	 */
-	public function get_helpers() {
-		if ( ! isset( $this->cached['helpers'] ) ) {
-			$this->cached['helpers']          = new \stdClass();
-			$this->cached['helpers']->content = new \Progress_Planner\Activities\Content_Helpers();
-		}
-		return $this->cached['helpers'];
-	}
-
-	/**
-	 * Get the admin instance.
-	 *
-	 * @return \stdClass
-	 */
-	public function get_admin() {
-		if ( ! isset( $this->cached['admin'] ) ) {
-			$this->cached['admin'] = new \stdClass();
-		}
-		return $this->cached['admin'];
-	}
-
-	/**
-	 * Get the actions instance.
-	 *
-	 * @return \stdClass
-	 */
-	public function get_actions() {
-		if ( ! isset( $this->cached['actions'] ) ) {
-			$this->cached['actions'] = new \stdClass();
-		}
-		return $this->cached['actions'];
-	}
-
-	/**
 	 * Magic method to get properties.
 	 * We use this to avoid a lot of code duplication.
 	 *
@@ -150,7 +97,8 @@ class Base {
 		}
 
 		if ( ! isset( $this->cached[ $cache_name ] ) ) {
-			$class_name = 'Progress_Planner\\' . implode( '_', array_map( 'ucfirst', explode( '_', $cache_name ) ) );
+			$class_name = implode( '\\', explode( '__', $cache_name ) );
+			$class_name = 'Progress_Planner\\' . implode( '_', array_map( 'ucfirst', explode( '_', $class_name ) ) );
 			if ( class_exists( $class_name ) ) {
 				$this->cached[ $cache_name ] = new $class_name( $arguments );
 				return $this->cached[ $cache_name ];

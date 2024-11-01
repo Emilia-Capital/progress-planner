@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$prpl_widget = \progress_planner()->get_admin()->page->get_widget( 'activity-scores' );
+$prpl_widget = \progress_planner()->get_admin__page()->get_widget( 'activity-scores' );
 $record      = $prpl_widget->personal_record_callback();
 
 // @todo "past months" should be "past month" if the website is not older than a month yet.
