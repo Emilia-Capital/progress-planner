@@ -31,13 +31,8 @@ $prpl_page_types    = \progress_planner()->get_page_types()->get_page_types();
 					<?php foreach ( $prpl_tabs_settings as $prpl_tab_key => $prpl_tab ) : ?>
 
 						<div>
-							<?php /* phpcs:disable */ ?>
-							<?php /* echo esc_html( $tab['title'] ); */ ?>
-							<?php /* echo esc_html( $tab['desc'] ); */ ?>
-							<?php /* phpcs:enable */ ?>
 
 							<?php foreach ( $prpl_tab['settings'] as $prpl_setting ) : ?>
-
 								<div class="prpl-pages-item-setting">
 									<?php if ( 'page-select' === $prpl_setting['type'] ) : ?>
 										<div

@@ -57,10 +57,10 @@ class Page_Settings {
 	 */
 	public function get_tabs_settings() {
 		$page_types = \progress_planner()->get_page_types()->get_page_types();
+		$settings   = \progress_planner()->get_settings();
 
 		foreach ( $page_types as $page_type ) {
-			$type_pages     = \progress_planner()->get_page_types()->get_posts_by_type( 'any', $page_type['slug'] );
-			$has_page_value = \progress_planner()->get_settings()->get( "has-page-{$page_type['slug']}", 'no' );
+			$value = $settings->get( $page_type['slug'] );
 
 			$tabs[ "page-{$page_type['slug']}" ] = [
 				'title'    => sprintf(
@@ -71,29 +71,12 @@ class Page_Settings {
 				'desc'     => $page_type['description'] ?? '',
 				'intro'    => esc_html__( 'Let\'s determine your needs together.', 'progress-planner' ),
 				'settings' => [
-					"has-page-{$page_type['slug']}" => [
-						'id'          => "has-page-{$page_type['slug']}",
-						'title'       => $page_type['title'],
-						'description' => sprintf(
-							/* translators: The page name. */
-							esc_html__( 'Do your site have the "%s" page?', 'progress-planner' ),
-							esc_html( $page_type['title'] )
-						),
-						'type'        => 'radio',
-						'options'     => [
-							'yes'            => esc_html__( 'Yes', 'progress-planner' ),
-							'no'             => esc_html__( 'No', 'progress-planner' ),
-							'not-applicable' => esc_html__( 'I don\'t need this page', 'progress-planner' ),
-						],
-						'value'       => $has_page_value,
-						'page'        => $page_type['slug'],
-					],
-					$page_type['slug']              => [
+					$page_type['slug'] => [
 						'id'          => $page_type['slug'],
 						'title'       => $page_type['title'],
 						'description' => $page_type['description'] ?? '',
 						'type'        => 'page-select',
-						'value'       => empty( $type_pages ) ? 0 : $type_pages[0]->ID,
+						'value'       => $value,
 						'page'        => $page_type['slug'],
 					],
 				],
@@ -114,8 +97,26 @@ class Page_Settings {
 		// Check the nonce.
 		\check_admin_referer( 'prpl-settings' );
 
+		$settings = \progress_planner()->get_settings();
+
 		if ( isset( $_POST['pages'] ) ) {
 			foreach ( wp_unslash( $_POST['pages'] ) as $type => $page_args ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+
+				// Save option.
+				$page_id   = (int) \sanitize_text_field( \wp_unslash( $page_args['id'] ) );
+				$have_page = \sanitize_text_field( \wp_unslash( $page_args['have_page'] ) );
+
+				// Set the value based submitted data.
+				$value = '';
+				if ( 'not-applicable' === $have_page ) {
+					$value = '_no_page_needed';
+				} elseif ( 'yes' === $have_page && 0 < $page_id ) {
+					$value = $page_id;
+				}
+
+				// Save the value.
+				$settings->set( $type, $value );
+
 				// Remove the post-meta from the existing posts.
 				$existing_posts = \progress_planner()->get_page_types()->get_posts_by_type( 'any', $type );
 				foreach ( $existing_posts as $post ) {

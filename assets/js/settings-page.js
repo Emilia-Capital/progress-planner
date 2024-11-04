@@ -21,7 +21,7 @@ const prplDocumentReady = function ( fn ) {
  */
 const prplToggleEditActionVisibility = function ( page ) {
 	const itemActionsEl = document.querySelector(
-		`.item-actions[data-page="${ page }"]`
+		`.prpl-pages-item[data-page-item="${ page }"] .item-actions`
 	);
 	if ( ! itemActionsEl ) {
 		return;
@@ -48,8 +48,9 @@ const prplToggleEditActionVisibility = function ( page ) {
  */
 prplDocumentReady( function () {
 	document.querySelectorAll( 'select' ).forEach( function ( select ) {
-		const page =
-			select.parentElement.parentElement.getAttribute( 'data-page' );
+		const page = select
+			.closest( '.prpl-pages-item' )
+			.getAttribute( 'data-page-item' );
 
 		prplToggleEditActionVisibility( page );
 		if ( select ) {
@@ -61,9 +62,9 @@ prplDocumentReady( function () {
 } );
 
 const prplTogglePageSelectorSettingVisibility = function ( page, value ) {
-	const pageSelectorWrapperEl = document
-		.querySelector( `.prpl-pages-item-${ page }` )
-		.closest( '.prpl-pages-item-setting' );
+	const pageSelectorWrapperEl = document.querySelector(
+		`.prpl-pages-item-${ page } .item-actions`
+	);
 
 	if ( ! pageSelectorWrapperEl ) {
 		return;
@@ -76,12 +77,9 @@ const prplTogglePageSelectorSettingVisibility = function ( page, value ) {
 
 	// Show only create button.
 	if ( 'no' === value ) {
-		pageSelectorWrapperEl.style.display = 'block';
+		pageSelectorWrapperEl.style.display = 'flex';
 		pageSelectorWrapperEl.querySelector(
-			'[data-action="select"]'
-		).style.display = 'none';
-		pageSelectorWrapperEl.querySelector(
-			'[data-action="edit"]'
+			'.prpl-select-page'
 		).style.display = 'none';
 		pageSelectorWrapperEl.querySelector(
 			'[data-action="create"]'
@@ -90,13 +88,10 @@ const prplTogglePageSelectorSettingVisibility = function ( page, value ) {
 
 	// Show only select and edit button.
 	if ( 'yes' === value ) {
-		pageSelectorWrapperEl.style.display = 'block';
+		pageSelectorWrapperEl.style.display = 'flex';
 		pageSelectorWrapperEl.querySelector(
-			'[data-action="select"]'
-		).style.display = 'block';
-		pageSelectorWrapperEl.querySelector(
-			'[data-action="edit"]'
-		).style.display = 'block';
+			'.prpl-select-page'
+		).style.display = 'flex';
 		pageSelectorWrapperEl.querySelector(
 			'[data-action="create"]'
 		).style.display = 'none';
