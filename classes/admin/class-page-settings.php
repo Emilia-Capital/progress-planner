@@ -103,19 +103,9 @@ class Page_Settings {
 			foreach ( wp_unslash( $_POST['pages'] ) as $type => $page_args ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 				// Save option.
-				$page_id   = (int) \sanitize_text_field( \wp_unslash( $page_args['id'] ) );
-				$have_page = \sanitize_text_field( \wp_unslash( $page_args['have_page'] ) );
+				$setting_value = \sanitize_text_field( \wp_unslash( $page_args['value'] ) );
 
-				// Set the value based submitted data.
-				$value = '';
-				if ( 'not-applicable' === $have_page ) {
-					$value = '_no_page_needed';
-				} elseif ( 'yes' === $have_page && 0 < $page_id ) {
-					$value = $page_id;
-				}
-
-				// Save the value.
-				$settings->set( $type, $value );
+				$settings->set( $type, $setting_value );
 
 				// Remove the post-meta from the existing posts.
 				$existing_posts = \progress_planner()->get_page_types()->get_posts_by_type( 'any', $type );
