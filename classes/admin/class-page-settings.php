@@ -73,12 +73,12 @@ class Page_Settings {
 				'settings' => [
 					"has-page-{$page_type['slug']}" => [
 						'id'          => "has-page-{$page_type['slug']}",
-						'label'       => sprintf(
+						'title'       => $page_type['title'],
+						'description' => sprintf(
 							/* translators: The page name. */
 							esc_html__( 'Do your site have the "%s" page?', 'progress-planner' ),
 							esc_html( $page_type['title'] )
 						),
-						'description' => esc_html__( 'If you don\'t have this page yet, we can help you create it.', 'progress-planner' ),
 						'type'        => 'radio',
 						'options'     => [
 							'yes'            => esc_html__( 'Yes', 'progress-planner' ),

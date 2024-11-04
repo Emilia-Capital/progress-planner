@@ -34,6 +34,7 @@ $prpl_page_types    = \progress_planner()->get_page_types()->get_page_types();
 							<?php /* phpcs:disable */ ?>
 							<?php /* echo esc_html( $tab['title'] ); */ ?>
 							<?php /* echo esc_html( $tab['desc'] ); */ ?>
+							<?php /* phpcs:enable */ ?>
 
 							<?php foreach ( $prpl_tab['settings'] as $prpl_setting ) : ?>
 
@@ -47,10 +48,16 @@ $prpl_page_types    = \progress_planner()->get_page_types()->get_page_types();
 										</div>
 									<?php else : ?>
 										<div class="prpl-pages-item">
-											<?php /* phpcs:disable */ ?>
-											<?php /* echo isset( $prpl_setting['title'] ) ? esc_html( $prpl_setting['title'] ) : ''; */ ?>
-											<?php /* echo isset( $prpl_setting['label'] ) ? esc_html( $prpl_setting['label'] ) : ''; */ ?>
-											<?php /* phpcs:enable */ ?>
+											<?php if ( isset( $prpl_setting['title'] ) ) : ?>
+												<h3>
+													<?php echo wp_kses_post( $prpl_setting['title'] ); ?>
+												</h3>
+											<?php endif; ?>
+											<?php if ( isset( $prpl_setting['description'] ) ) : ?>
+												<p>
+													<?php echo wp_kses_post( $prpl_setting['description'] ); ?>
+												</p>
+											<?php endif; ?>
 											<?php \progress_planner()->the_view( "setting/{$prpl_setting['type']}.php", [ 'prpl_setting' => $prpl_setting ] ); ?>
 										</div>
 									<?php endif; ?>

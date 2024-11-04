@@ -7,8 +7,8 @@
 
 ?>
 <div class="item-description">
-	<h3><?php echo esc_html( $prpl_setting['title'] ); ?></h3>
-	<p><?php echo esc_html( $prpl_setting['description'] ); ?></p>
+	<!-- <h3><?php echo esc_html( $prpl_setting['title'] ); ?></h3>
+	<p><?php echo esc_html( $prpl_setting['description'] ); ?></p> -->
 </div>
 <div class="item-actions" data-page="<?php echo esc_attr( $prpl_setting['page'] ); ?>">
 	<div data-action="select">

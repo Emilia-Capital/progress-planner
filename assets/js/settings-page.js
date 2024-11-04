@@ -42,6 +42,89 @@ const prplToggleEditActionVisibility = function ( page ) {
 };
 
 /**
+ * Handle showing/hiding the edit action,
+ * based on whether a page is selected.
+ * Also changes the link of the edit action.
+ */
+prplDocumentReady( function () {
+	document.querySelectorAll( 'select' ).forEach( function ( select ) {
+		const page =
+			select.parentElement.parentElement.getAttribute( 'data-page' );
+
+		prplToggleEditActionVisibility( page );
+		if ( select ) {
+			select.addEventListener( 'change', function () {
+				prplToggleEditActionVisibility( page );
+			} );
+		}
+	} );
+} );
+
+const prplTogglePageSelectorSettingVisibility = function ( page, value ) {
+	const pageSelectorWrapperEl = document
+		.querySelector( `.prpl-pages-item-${ page }` )
+		.closest( '.prpl-pages-item-setting' );
+
+	if ( ! pageSelectorWrapperEl ) {
+		return;
+	}
+
+	// Hide entire page selector setting if needed.
+	if ( 'not-applicable' === value ) {
+		pageSelectorWrapperEl.style.display = 'none';
+	}
+
+	// Show only create button.
+	if ( 'no' === value ) {
+		pageSelectorWrapperEl.style.display = 'block';
+		pageSelectorWrapperEl.querySelector(
+			'[data-action="select"]'
+		).style.display = 'none';
+		pageSelectorWrapperEl.querySelector(
+			'[data-action="edit"]'
+		).style.display = 'none';
+		pageSelectorWrapperEl.querySelector(
+			'[data-action="create"]'
+		).style.display = 'block';
+	}
+
+	// Show only select and edit button.
+	if ( 'yes' === value ) {
+		pageSelectorWrapperEl.style.display = 'block';
+		pageSelectorWrapperEl.querySelector(
+			'[data-action="select"]'
+		).style.display = 'block';
+		pageSelectorWrapperEl.querySelector(
+			'[data-action="edit"]'
+		).style.display = 'block';
+		pageSelectorWrapperEl.querySelector(
+			'[data-action="create"]'
+		).style.display = 'none';
+	}
+};
+
+prplDocumentReady( function () {
+	document
+		.querySelectorAll( 'input[type="radio"][data-page]' )
+		.forEach( function ( radio ) {
+			const page = radio.getAttribute( 'data-page' ),
+				value = radio.value;
+
+			if ( radio ) {
+				// Show/hide the page selector setting if radio is checked.
+				if ( radio.checked ) {
+					prplTogglePageSelectorSettingVisibility( page, value );
+				}
+
+				// Add listeners for all radio buttons.
+				radio.addEventListener( 'change', function () {
+					prplTogglePageSelectorSettingVisibility( page, value );
+				} );
+			}
+		} );
+} );
+
+/**
  * Handle the form submission.
  */
 prplDocumentReady( function () {
@@ -65,23 +148,4 @@ prplDocumentReady( function () {
 				alert( response.licensingError || response ); // eslint-disable-line no-alert
 			} );
 		} );
-} );
-
-/**
- * Handle showing/hiding the edit action,
- * based on whether a page is selected.
- * Also changes the link of the edit action.
- */
-prplDocumentReady( function () {
-	document.querySelectorAll( 'select' ).forEach( function ( select ) {
-		const page =
-			select.parentElement.parentElement.getAttribute( 'data-page' );
-
-		prplToggleEditActionVisibility( page );
-		if ( select ) {
-			select.addEventListener( 'change', function () {
-				prplToggleEditActionVisibility( page );
-			} );
-		}
-	} );
 } );
