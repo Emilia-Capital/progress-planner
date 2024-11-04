@@ -187,9 +187,8 @@ const PrplLessonItemsHTML = () => {
 			key: 'progress-planner-sidebar-lesson-items',
 		},
 		// Update cycle content.
-		! lesson || ! lesson.content_update_cycle
-			? el( 'div', {}, '' )
-			: el(
+		lesson && lesson.content_update_cycle
+			? el(
 					'div',
 					{
 						key: `progress-planner-sidebar-lesson-section-content_update_cycle`,
@@ -204,44 +203,67 @@ const PrplLessonItemsHTML = () => {
 								},
 						  } )
 						: el( 'div', {}, '' )
-			  ),
+			  )
+			: el( 'div', {}, '' ),
 
 		// Intro video & content.
-		lesson.intro && lesson.intro.video
-			? PrplSectionVideo( lesson.writers_block )
-			: el( 'div', {}, '' ),
-		lesson.intro && lesson.intro.text
-			? el( 'div', {
-					key: `progress-planner-pro-sidebar-lesson-section-intro-content`,
-					dangerouslySetInnerHTML: { __html: lesson.intro.text },
-			  } )
+		lesson.intro
+			? el(
+					PanelBody,
+					{
+						title: lesson.intro.heading,
+						initialOpen: false,
+						key: `progress-planner-pro-sidebar-lesson-section-intro-content`,
+					},
+					lesson.intro.video
+						? PrplSectionVideo( lesson.writers_block )
+						: el( 'div', {}, '' ),
+					el( 'div', {
+						dangerouslySetInnerHTML: {
+							__html: lesson.intro.text || '',
+						},
+					} )
+			  )
 			: el( 'div', {}, '' ),
 
 		// Writers block video & content.
-		lesson.writers_block && lesson.writers_block.video
-			? PrplSectionVideo( lesson.writers_block )
-			: el( 'div', {}, '' ),
-		lesson.writers_block && lesson.writers_block.text
-			? el( 'div', {
-					key: `progress-planner-pro-sidebar-lesson-section-writers_block-content`,
-					dangerouslySetInnerHTML: {
-						__html: lesson.writers_block.text,
+		lesson.writers_block
+			? el(
+					PanelBody,
+					{
+						key: `progress-planner-pro-sidebar-lesson-section-writers_block-content`,
+						title: lesson.writers_block.heading,
+						initialOpen: false,
 					},
-			  } )
+					lesson.writers_block.video
+						? PrplSectionVideo( lesson.writers_block )
+						: el( 'div', {}, '' ),
+					el( 'div', {
+						dangerouslySetInnerHTML: {
+							__html: lesson.writers_block.text || '',
+						},
+					} )
+			  )
 			: el( 'div', {}, '' ),
 
 		// Checklist video & content.
-		lesson.checklist && lesson.checklist.video
-			? PrplSectionVideo( lesson.checklist )
-			: el( 'div', {}, '' ),
-		lesson.checklist && lesson.checklist.text
+		lesson.checklist
 			? el(
-					'div',
+					PanelBody,
 					{
 						key: `progress-planner-pro-sidebar-lesson-section-checklist-content`,
+						title: lesson.checklist.heading,
+						initialOpen: false,
 					},
-					PrplTodoProgress( lesson.checklist, pageTodos ),
-					PrplCheckList( lesson.checklist, pageTodos )
+					el(
+						'div',
+						{},
+						lesson.checklist.video
+							? PrplSectionVideo( lesson.checklist )
+							: el( 'div', {}, '' ),
+						PrplTodoProgress( lesson.checklist, pageTodos ),
+						PrplCheckList( lesson.checklist, pageTodos )
+					)
 			  )
 			: el( 'div', {}, '' )
 	);
