@@ -74,7 +74,7 @@ class Page_Types {
 	 * @return void
 	 */
 	public function maybe_add_terms() {
-		$lessons = \progress_planner()->get_lessons()->get_remote_api_items();
+		$lessons = \progress_planner()->get_lessons()->get_items();
 		foreach ( $lessons as $lesson ) {
 			if ( \term_exists( $lesson['settings']['id'], self::TAXONOMY_NAME ) ) {
 				continue;
@@ -101,7 +101,7 @@ class Page_Types {
 			return;
 		}
 
-		$lessons = \progress_planner()->get_lessons()->get_remote_api_items();
+		$lessons = \progress_planner()->get_lessons()->get_items();
 		foreach ( $lessons as $lesson ) {
 			$term = \get_term_by( 'slug', $lesson['settings']['id'], self::TAXONOMY_NAME );
 			if ( ! $term instanceof \WP_Term ) {
