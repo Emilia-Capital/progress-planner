@@ -76,15 +76,6 @@ class Page_Types {
 	public function maybe_add_terms() {
 		$lessons = \progress_planner()->get_lessons()->get_items();
 
-		// Add a term for when no page is needed.
-		$lessons[] = [
-			'settings' => [
-				'id'          => '_no_page_needed',
-				'title'       => __( 'No page needed', 'progress-planner' ),
-				'description' => '',
-			],
-		];
-
 		foreach ( $lessons as $lesson ) {
 			if ( \term_exists( $lesson['settings']['id'], self::TAXONOMY_NAME ) ) {
 				continue;
@@ -163,18 +154,12 @@ class Page_Types {
 	 */
 	public function get_page_types() {
 
-		$args = [
-			'taxonomy'   => self::TAXONOMY_NAME,
-			'hide_empty' => false,
-		];
-
-		// Exclude the term for when no page is needed.
-		$no_type_needed_term = $this->get_no_type_needed_term();
-		if ( $no_type_needed_term ) {
-			$args['exclude'] = [ $no_type_needed_term->term_id ];
-		}
-
-		$terms = \get_terms( $args );
+		$terms = \get_terms(
+			[
+				'taxonomy'   => self::TAXONOMY_NAME,
+				'hide_empty' => false,
+			]
+		);
 
 		if ( ! $terms || \is_wp_error( $terms ) ) {
 			return [];
@@ -404,13 +389,14 @@ class Page_Types {
 	/**
 	 * Get the term for when no page is needed.
 	 *
+	 * @param string $type The type.
+	 *
 	 * @return \WP_Term|false
 	 */
-	public function get_no_type_needed_term() {
-		$no_type_needed_term = \get_term_by( 'slug', '_no_page_needed', self::TAXONOMY_NAME );
+	public function get_term_by_type( $type ) {
+		$no_type_needed_term = \get_term_by( 'slug', $type, self::TAXONOMY_NAME );
 		return $no_type_needed_term instanceof \WP_Term ? $no_type_needed_term : false;
 	}
-
 
 	/**
 	 * Check if a page is needed for a type.
@@ -420,12 +406,9 @@ class Page_Types {
 	 * @return bool
 	 */
 	public function is_page_needed( $type ) {
-		$no_type_needed_term = $this->get_no_type_needed_term();
-		if ( ! $no_type_needed_term ) {
-			return false;
-		}
-		$term_meta = (array) \get_term_meta( $no_type_needed_term->term_id, 'types', true );
-		return ! \in_array( $type, $term_meta, true );
+		$no_type_needed_term = $this->get_term_by_type( $type );
+
+		return '' !== get_term_meta( $no_type_needed_term->term_id, 'type_not_needed', true ) ? false : true;
 	}
 
 	/**
@@ -436,19 +419,12 @@ class Page_Types {
 	 * @return void
 	 */
 	public function add_no_type_needed( $type ) {
-		$no_type_needed_term = $this->get_no_type_needed_term();
+		$no_type_needed_term = $this->get_term_by_type( $type );
 		if ( ! $no_type_needed_term ) {
 			return;
 		}
 
-		$term_meta = (array) \get_term_meta( $no_type_needed_term->term_id, 'types', true );
-
-		if ( \in_array( $type, $term_meta, true ) ) {
-			return;
-		}
-
-		$term_meta[] = $type;
-		\update_term_meta( $no_type_needed_term->term_id, 'types', $term_meta );
+		\update_term_meta( $no_type_needed_term->term_id, 'type_not_needed', '1' );
 	}
 
 	/**
@@ -459,25 +435,30 @@ class Page_Types {
 	 * @return void
 	 */
 	public function remove_no_type_needed( $type ) {
-		$no_type_needed_term = $this->get_no_type_needed_term();
+		$no_type_needed_term = $this->get_term_by_type( $type );
 		if ( ! $no_type_needed_term ) {
 			return;
 		}
 
-		$term_meta = (array) \get_term_meta( $no_type_needed_term->term_id, 'types', true );
+		\delete_term_meta( $no_type_needed_term->term_id, 'type_not_needed' );
+	}
 
-		if ( ! \in_array( $type, $term_meta, true ) ) {
-			return;
-		}
+	/**
+	 * Get the term types that are not needed.
+	 *
+	 * @return \WP_Term[]
+	 */
+	public function get_not_needed_terms() {
 
-		if ( \in_array( $type, $term_meta, true ) ) {
-			$index = \array_search( $type, $term_meta, true );
-			if ( false !== $index ) {
-				// re-index array.
-				\array_splice( $term_meta, $index, 1 );
-			}
-		}
+		$terms = \get_terms(
+			[
+				'taxonomy'   => self::TAXONOMY_NAME,
+				'hide_empty' => false,
+				'meta_key'   => 'type_not_needed',
+				'meta_value' => '1',
+			]
+		);
 
-		\update_term_meta( $no_type_needed_term->term_id, 'types', $term_meta );
+		return $terms;
 	}
 }
