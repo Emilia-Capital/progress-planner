@@ -30,3 +30,4 @@ parameters:
     - '#Call to an undefined method Progress_Planner\\Base\:\:get_popovers__badges\(\).#'
     - '#Call to an undefined method Progress_Planner\\Base\:\:get_popovers__settings\(\).#'
     - '#Call to an undefined method Progress_Planner\\Base\:\:get_admin__dashboard_widget_score\(\).#'
+    - '#Call to an undefined method Progress_Planner\\Base\:\:get_admin__page_settings\(\).#'

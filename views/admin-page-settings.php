@@ -5,8 +5,6 @@
  * @package Progress_Planner
  */
 
-$prpl_tabs_settings = ( new \Progress_Planner\Admin\Page_Settings() )->get_tabs_settings();
-$prpl_page_types    = \progress_planner()->get_page_types()->get_page_types();
 ?>
 
 <div class="wrap prpl-wrap prpl-settings-wrap">
@@ -28,37 +26,15 @@ $prpl_page_types    = \progress_planner()->get_page_types()->get_page_types();
 					<?php esc_html_e( 'Your pages', 'progress-planner' ); ?>
 				</h2> -->
 				<div class="prpl-pages-list">
-					<?php foreach ( $prpl_tabs_settings as $prpl_tab_key => $prpl_tab ) : ?>
-
-						<div>
-
-							<?php foreach ( $prpl_tab['settings'] as $prpl_setting ) : ?>
-								<div class="prpl-pages-item-setting">
-									<?php if ( 'page-select' === $prpl_setting['type'] ) : ?>
-										<div
-											class="prpl-pages-item prpl-pages-item-<?php echo esc_attr( $prpl_setting['page'] ); ?>"
-											data-page-item="<?php echo esc_attr( $prpl_setting['page'] ); ?>"
-										>
-											<?php \progress_planner()->the_view( "setting/{$prpl_setting['type']}.php", [ 'prpl_setting' => $prpl_setting ] ); ?>
-										</div>
-									<?php else : ?>
-										<div class="prpl-pages-item">
-											<?php if ( isset( $prpl_setting['title'] ) ) : ?>
-												<h3>
-													<?php echo wp_kses_post( $prpl_setting['title'] ); ?>
-												</h3>
-											<?php endif; ?>
-											<?php if ( isset( $prpl_setting['description'] ) ) : ?>
-												<p>
-													<?php echo wp_kses_post( $prpl_setting['description'] ); ?>
-												</p>
-											<?php endif; ?>
-											<?php \progress_planner()->the_view( "setting/{$prpl_setting['type']}.php", [ 'prpl_setting' => $prpl_setting ] ); ?>
-										</div>
-									<?php endif; ?>
-								</div>
-							<?php endforeach; ?>
-						</div>
+					<?php foreach ( \progress_planner()->get_admin__page_settings()->get_tabs_settings() as $prpl_tab_key => $prpl_tab ) : ?>
+						<?php foreach ( $prpl_tab['settings'] as $prpl_setting ) : ?>
+							<div
+								class="prpl-pages-item prpl-pages-item-<?php echo esc_attr( $prpl_setting['page'] ); ?>"
+								data-page-item="<?php echo esc_attr( $prpl_setting['page'] ); ?>"
+							>
+								<?php \progress_planner()->the_view( "setting/{$prpl_setting['type']}.php", [ 'prpl_setting' => $prpl_setting ] ); ?>
+							</div>
+						<?php endforeach; ?>
 					<?php endforeach; ?>
 
 			</div>
