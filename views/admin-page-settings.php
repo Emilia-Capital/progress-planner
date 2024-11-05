@@ -28,12 +28,7 @@
 				<div class="prpl-pages-list">
 					<?php foreach ( \progress_planner()->get_admin__page_settings()->get_tabs_settings() as $prpl_tab_key => $prpl_tab ) : ?>
 						<?php foreach ( $prpl_tab['settings'] as $prpl_setting ) : ?>
-							<div
-								class="prpl-pages-item prpl-pages-item-<?php echo esc_attr( $prpl_setting['page'] ); ?>"
-								data-page-item="<?php echo esc_attr( $prpl_setting['page'] ); ?>"
-							>
-								<?php \progress_planner()->the_view( "setting/{$prpl_setting['type']}.php", [ 'prpl_setting' => $prpl_setting ] ); ?>
-							</div>
+							<?php \progress_planner()->the_view( "setting/{$prpl_setting['type']}.php", [ 'prpl_setting' => $prpl_setting ] ); ?>
 						<?php endforeach; ?>
 					<?php endforeach; ?>
 
