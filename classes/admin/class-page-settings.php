@@ -91,7 +91,7 @@ class Page_Settings {
 				$need_page = \sanitize_text_field( \wp_unslash( $page_args['have_page'] ) );
 
 				// Add the no-page-needed flag if it doesn't exist.
-				if ( '_no_page_needed' === $need_page ) {
+				if ( 'not-applicable' === $need_page ) {
 					\progress_planner()->get_page_types()->add_no_type_needed( $type );
 				} else {
 					// Remove the no-page-needed flag if it exists.
