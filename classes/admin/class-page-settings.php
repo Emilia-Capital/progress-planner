@@ -51,48 +51,29 @@ class Page_Settings {
 	}
 
 	/**
-	 * Get an array of tabs and their settings.
+	 * Get an array of settings.
 	 *
 	 * @return array
 	 */
-	public function get_tabs_settings() {
-		$page_types = \progress_planner()->get_page_types()->get_page_types();
-
-		foreach ( $page_types as $page_type ) {
-
-			$is_page_needed = \progress_planner()->get_page_types()->is_page_needed( $page_type['slug'] );
-
-			if ( ! $is_page_needed ) {
-				$value = '_no_page_needed';
-			} else {
+	public function get_settings() {
+		$settings = [];
+		foreach ( \progress_planner()->get_page_types()->get_page_types() as $page_type ) {
+			$value = '_no_page_needed';
+			if ( \progress_planner()->get_page_types()->is_page_needed( $page_type['slug'] ) ) {
 				$type_pages = \progress_planner()->get_page_types()->get_posts_by_type( 'any', $page_type['slug'] );
 				$value      = empty( $type_pages ) ? 0 : $type_pages[0]->ID;
 			}
-
-			$tabs[ "page-{$page_type['slug']}" ] = [
-				'title'    => sprintf(
-					/* translators: The page name. */
-					esc_html__( 'Your pages: "%s" page', 'progress-planner' ),
-					esc_html( $page_type['title'] )
-				),
-				'desc'     => $page_type['description'] ?? '',
-				'intro'    => esc_html__( 'Let\'s determine your needs together.', 'progress-planner' ),
-				'settings' => [
-					$page_type['slug'] => [
-						'id'          => $page_type['slug'],
-						'title'       => $page_type['title'],
-						'description' => $page_type['description'] ?? '',
-						'type'        => 'page-select',
-						'value'       => $value,
-						'page'        => $page_type['slug'],
-					],
-				],
+			$settings[ $page_type['slug'] ] = [
+				'id'          => $page_type['slug'],
+				'title'       => $page_type['title'],
+				'description' => $page_type['description'] ?? '',
+				'type'        => 'page-select',
+				'value'       => $value,
+				'page'        => $page_type['slug'],
 			];
 		}
 
-		$tabs = apply_filters( 'progress_planner_settings_page_tabs', $tabs );
-
-		return $tabs;
+		return apply_filters( 'progress_planner_settings', $settings );
 	}
 
 	/**
