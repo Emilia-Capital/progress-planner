@@ -441,10 +441,7 @@ class Page_Types {
 			return;
 		}
 
-		$term_meta = \get_term_meta( $no_type_needed_term->term_id, 'types', true );
-		if ( ! \is_array( $term_meta ) ) {
-			$term_meta = [];
-		}
+		$term_meta = (array) \get_term_meta( $no_type_needed_term->term_id, 'types', true );
 
 		if ( \in_array( $type, $term_meta, true ) ) {
 			return;
@@ -467,10 +464,7 @@ class Page_Types {
 			return;
 		}
 
-		$term_meta = \get_term_meta( $no_type_needed_term->term_id, 'types', true );
-		if ( ! \is_array( $term_meta ) ) {
-			$term_meta = [];
-		}
+		$term_meta = (array) \get_term_meta( $no_type_needed_term->term_id, 'types', true );
 
 		if ( ! \in_array( $type, $term_meta, true ) ) {
 			return;
