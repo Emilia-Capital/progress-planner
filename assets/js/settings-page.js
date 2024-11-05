@@ -1,4 +1,4 @@
-/* global progressPlannerSettingsPage, alert, customElements, HTMLElement */
+/* global progressPlannerSettingsPage, alert */
 
 /**
  * Vanilla JS version of jQuery( document ).ready().
@@ -73,11 +73,19 @@ const prplTogglePageSelectorSettingVisibility = function ( page, value ) {
 	// Hide entire page selector setting if needed.
 	if ( 'not-applicable' === value ) {
 		pageSelectorWrapperEl.style.display = 'none';
+		pageSelectorWrapperEl.querySelector( 'select' ).value = '';
+		pageSelectorWrapperEl.querySelector(
+			'[data-action="edit"]'
+		).style.display = 'none';
 	}
 
 	// Show only create button.
 	if ( 'no' === value ) {
 		pageSelectorWrapperEl.style.display = 'flex';
+		pageSelectorWrapperEl.querySelector( 'select' ).value = '';
+		pageSelectorWrapperEl.querySelector(
+			'[data-action="edit"]'
+		).style.display = 'none';
 		pageSelectorWrapperEl.querySelector(
 			'.prpl-select-page'
 		).style.display = 'none';
@@ -144,54 +152,3 @@ prplDocumentReady( function () {
 			} );
 		} );
 } );
-
-customElements.define(
-	'prpl-page-select',
-	class extends HTMLElement {
-		/**
-		 * The class constructor object
-		 */
-		constructor() {
-			super();
-
-			// Instance properties
-			this.radio_buttons = this.querySelectorAll( 'input[type="radio"]' );
-			this.select_page = this.querySelector( 'select' );
-
-			// Update hidden input on change.
-			this.radio_buttons.forEach( ( radio ) =>
-				radio.addEventListener(
-					'change',
-					this.handleChange.bind( this )
-				)
-			);
-			this.select_page.addEventListener(
-				'change',
-				this.handleChange.bind( this )
-			);
-		}
-
-		/**
-		 * Handle events
-		 */
-		handleChange() {
-			const selectValue = this.select_page.value;
-			let radioValue = 'yes',
-				saveValue = '';
-
-			this.radio_buttons.forEach( ( radio ) => {
-				if ( radio.checked ) {
-					radioValue = radio.value;
-				}
-			} );
-
-			if ( 'not-applicable' === radioValue ) {
-				saveValue = '_no_page_needed';
-			} else if ( 'yes' === radioValue && 0 < selectValue ) {
-				saveValue = parseInt( selectValue );
-			}
-
-			this.hidden_input.value = saveValue;
-		}
-	}
-);
