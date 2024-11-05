@@ -424,7 +424,7 @@ class Page_Types {
 		if ( ! $no_type_needed_term ) {
 			return false;
 		}
-		$term_meta = \get_term_meta( $no_type_needed_term->term_id, 'types', true );
+		$term_meta = (array) \get_term_meta( $no_type_needed_term->term_id, 'types', true );
 		return ! \in_array( $type, $term_meta, true );
 	}
 
