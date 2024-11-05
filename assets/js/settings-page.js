@@ -1,4 +1,4 @@
-/* global progressPlannerSettingsPage, alert, customElements, HTMLElement */
+/* global progressPlannerSettingsPage, alert */
 
 /**
  * Vanilla JS version of jQuery( document ).ready().
@@ -30,10 +30,17 @@ const prplToggleEditActionVisibility = function ( page ) {
 		'[data-action="select"] select'
 	);
 	const editEl = itemActionsEl.querySelector( '[data-action="edit"]' );
+	const createEl = itemActionsEl.querySelector( '[data-action="create"]' );
 	const value = selectEl.value;
+
 	if ( ! value || value.length === 0 ) {
+		createEl.style.display = 'block';
+		editEl.style.display = 'none';
+	} else if ( '_no_page_needed' === value ) {
+		createEl.style.display = 'none';
 		editEl.style.display = 'none';
 	} else {
+		createEl.style.display = 'none';
 		editEl.style.display = 'block';
 		editEl.querySelector(
 			'a'
@@ -61,64 +68,6 @@ prplDocumentReady( function () {
 	} );
 } );
 
-const prplTogglePageSelectorSettingVisibility = function ( page, value ) {
-	const pageSelectorWrapperEl = document.querySelector(
-		`.prpl-pages-item-${ page } .item-actions`
-	);
-
-	if ( ! pageSelectorWrapperEl ) {
-		return;
-	}
-
-	// Hide entire page selector setting if needed.
-	if ( 'not-applicable' === value ) {
-		pageSelectorWrapperEl.style.display = 'none';
-	}
-
-	// Show only create button.
-	if ( 'no' === value ) {
-		pageSelectorWrapperEl.style.display = 'flex';
-		pageSelectorWrapperEl.querySelector(
-			'.prpl-select-page'
-		).style.display = 'none';
-		pageSelectorWrapperEl.querySelector(
-			'[data-action="create"]'
-		).style.display = 'block';
-	}
-
-	// Show only select and edit button.
-	if ( 'yes' === value ) {
-		pageSelectorWrapperEl.style.display = 'flex';
-		pageSelectorWrapperEl.querySelector(
-			'.prpl-select-page'
-		).style.display = 'flex';
-		pageSelectorWrapperEl.querySelector(
-			'[data-action="create"]'
-		).style.display = 'none';
-	}
-};
-
-prplDocumentReady( function () {
-	document
-		.querySelectorAll( 'input[type="radio"][data-page]' )
-		.forEach( function ( radio ) {
-			const page = radio.getAttribute( 'data-page' ),
-				value = radio.value;
-
-			if ( radio ) {
-				// Show/hide the page selector setting if radio is checked.
-				if ( radio.checked ) {
-					prplTogglePageSelectorSettingVisibility( page, value );
-				}
-
-				// Add listeners for all radio buttons.
-				radio.addEventListener( 'change', function () {
-					prplTogglePageSelectorSettingVisibility( page, value );
-				} );
-			}
-		} );
-} );
-
 /**
  * Handle the form submission.
  */
@@ -144,75 +93,3 @@ prplDocumentReady( function () {
 			} );
 		} );
 } );
-
-customElements.define(
-	'prpl-page-select',
-	class extends HTMLElement {
-		/**
-		 * The class constructor object
-		 */
-		constructor() {
-			super();
-
-			// Instance properties
-			this.radio_buttons = this.querySelectorAll( 'input[type="radio"]' );
-			this.select_page = this.querySelector( 'select' );
-			this.hidden_input = this.querySelector( 'input[type="hidden"]' );
-
-			// Update inputs on page load.
-			if ( '' !== this.hidden_input.value ) {
-				if ( '_no_page_needed' === this.hidden_input.value ) {
-					this.radio_buttons.forEach( ( radio ) => {
-						if ( radio.value === 'not-applicable' ) {
-							radio.checked = true;
-						}
-					} );
-				} else {
-					// Value is a number.
-					this.radio_buttons.forEach( ( radio ) => {
-						if ( radio.value === 'yes' ) {
-							radio.checked = true;
-						}
-					} );
-
-					this.select_page.value = this.hidden_input.value;
-				}
-			}
-
-			// Update hidden input on change.
-			this.radio_buttons.forEach( ( radio ) =>
-				radio.addEventListener(
-					'change',
-					this.handleChange.bind( this )
-				)
-			);
-			this.select_page.addEventListener(
-				'change',
-				this.handleChange.bind( this )
-			);
-		}
-
-		/**
-		 * Handle events
-		 */
-		handleChange() {
-			const selectValue = this.select_page.value;
-			let radioValue = 'yes',
-				saveValue = '';
-
-			this.radio_buttons.forEach( ( radio ) => {
-				if ( radio.checked ) {
-					radioValue = radio.value;
-				}
-			} );
-
-			if ( 'not-applicable' === radioValue ) {
-				saveValue = '_no_page_needed';
-			} else if ( 'yes' === radioValue && 0 < selectValue ) {
-				saveValue = parseInt( selectValue );
-			}
-
-			this.hidden_input.value = saveValue;
-		}
-	}
-);

@@ -32,6 +32,8 @@ class Page_Types {
 		\add_action( 'post_updated', [ $this, 'post_updated' ], 10, 2 );
 		\add_action( 'wp_insert_post', [ $this, 'post_updated' ], 10, 2 );
 		\add_action( 'transition_post_status', [ $this, 'transition_post_status' ], 10, 3 );
+
+		\add_filter( 'wp_dropdown_pages', [ $this, 'filter_settingspage_select' ], 10, 3 );
 	}
 
 	/**
@@ -75,6 +77,16 @@ class Page_Types {
 	 */
 	public function maybe_add_terms() {
 		$lessons = \progress_planner()->get_lessons()->get_items();
+
+		// Add a term for when no page is needed.
+		$lessons[] = [
+			'settings' => [
+				'id'          => '_no_type_needed',
+				'title'       => __( 'No page needed', 'progress-planner' ),
+				'description' => '',
+			],
+		];
+
 		foreach ( $lessons as $lesson ) {
 			if ( \term_exists( $lesson['settings']['id'], self::TAXONOMY_NAME ) ) {
 				continue;
@@ -152,12 +164,19 @@ class Page_Types {
 	 * @return array
 	 */
 	public function get_page_types() {
-		$terms = \get_terms(
-			[
-				'taxonomy'   => self::TAXONOMY_NAME,
-				'hide_empty' => false,
-			]
-		);
+
+		$args = [
+			'taxonomy'   => self::TAXONOMY_NAME,
+			'hide_empty' => false,
+		];
+
+		// Exclude the term for when no page is needed.
+		$no_type_needed_term = $this->get_no_type_needed_term();
+		if ( $no_type_needed_term ) {
+			$args['exclude'] = [ $no_type_needed_term->term_id ];
+		}
+
+		$terms = \get_terms( $args );
 
 		if ( ! $terms || \is_wp_error( $terms ) ) {
 			return [];
@@ -382,5 +401,108 @@ class Page_Types {
 		foreach ( $children as $child ) {
 			\wp_set_object_terms( $child->ID, $term_id, self::TAXONOMY_NAME );
 		}
+	}
+
+	/**
+	 * Filter the page-select dropdown.
+	 *
+	 * @param string $output The output.
+	 * @param array  $parsed_args The parsed arguments.
+	 * @param array  $pages The pages.
+	 *
+	 * @return string
+	 */
+	public function filter_settingspage_select( $output, $parsed_args, $pages ) {
+		if ( ! is_admin() || ! isset( $_GET['page'] ) || 'progress-planner-settings' !== $_GET['page'] ) {
+			return $output;
+		}
+
+		// Add the option for when no page is needed.
+		$page_not_needed_option = '<option level="0" value="_no_page_needed" ' . selected( '_no_page_needed', $parsed_args['selected'], false ) . '>' . __( 'I don\'t need this page', 'progress-planner' ) . '</option>';
+		$output                 = str_replace( '&mdash;</option>', '&mdash;</option>' . $page_not_needed_option, $output );
+
+		return $output;
+	}
+
+	/**
+	 * Get the term for when no page is needed.
+	 *
+	 * @return \WP_Term|false
+	 */
+	public function get_no_type_needed_term() {
+		$no_type_needed_term = \get_term_by( 'slug', '_no_page_needed', self::TAXONOMY_NAME );
+		return $no_type_needed_term instanceof \WP_Term ? $no_type_needed_term : false;
+	}
+
+
+	/**
+	 * Check if a page is needed for a type.
+	 *
+	 * @param string $type The type.
+	 *
+	 * @return bool
+	 */
+	public function is_page_needed( $type ) {
+		$no_type_needed_term = $this->get_no_type_needed_term();
+		if ( ! $no_type_needed_term ) {
+			return false;
+		}
+		$term_meta = \get_term_meta( $no_type_needed_term->term_id, 'types', true );
+		return ! isset( $term_meta[ $type ] );
+	}
+
+	/**
+	 * Set the no-page-needed term.
+	 *
+	 * @param string $type The type.
+	 *
+	 * @return void
+	 */
+	public function add_no_type_needed( $type ) {
+		$no_type_needed_term = $this->get_no_type_needed_term();
+		if ( ! $no_type_needed_term ) {
+			return;
+		}
+
+		$term_meta = \get_term_meta( $no_type_needed_term->term_id, 'types', true );
+		if ( ! \is_array( $term_meta ) ) {
+			$term_meta = [];
+		}
+
+		if ( isset( $term_meta[ $type ] ) ) {
+			return;
+		}
+
+		$term_meta[ $type ] = $type;
+		\update_term_meta( $no_type_needed_term->term_id, 'types', $term_meta );
+	}
+
+	/**
+	 * Remove the no-page-needed term.
+	 *
+	 * @param string $type The type.
+	 *
+	 * @return void
+	 */
+	public function remove_no_type_needed( $type ) {
+		$no_type_needed_term = $this->get_no_type_needed_term();
+		if ( ! $no_type_needed_term ) {
+			return;
+		}
+
+		$term_meta = \get_term_meta( $no_type_needed_term->term_id, 'types', true );
+		if ( ! \is_array( $term_meta ) ) {
+			$term_meta = [];
+		}
+
+		if ( ! isset( $term_meta[ $type ] ) ) {
+			return;
+		}
+
+		if ( isset( $term_meta[ $type ] ) ) {
+			unset( $term_meta[ $type ] );
+		}
+
+		\update_term_meta( $no_type_needed_term->term_id, 'types', $term_meta );
 	}
 }

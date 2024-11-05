@@ -57,10 +57,17 @@ class Page_Settings {
 	 */
 	public function get_tabs_settings() {
 		$page_types = \progress_planner()->get_page_types()->get_page_types();
-		$settings   = \progress_planner()->get_settings();
 
 		foreach ( $page_types as $page_type ) {
-			$value = $settings->get( $page_type['slug'] );
+
+			$is_page_needed = \progress_planner()->get_page_types()->is_page_needed( $page_type['slug'] );
+
+			if ( ! $is_page_needed ) {
+				$value = '_no_page_needed';
+			} else {
+				$type_pages = \progress_planner()->get_page_types()->get_posts_by_type( 'any', $page_type['slug'] );
+				$value      = empty( $type_pages ) ? 0 : $type_pages[0]->ID;
+			}
 
 			$tabs[ "page-{$page_type['slug']}" ] = [
 				'title'    => sprintf(
@@ -97,15 +104,16 @@ class Page_Settings {
 		// Check the nonce.
 		\check_admin_referer( 'prpl-settings' );
 
-		$settings = \progress_planner()->get_settings();
-
 		if ( isset( $_POST['pages'] ) ) {
 			foreach ( wp_unslash( $_POST['pages'] ) as $type => $page_args ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
-				// Save option.
-				$setting_value = \sanitize_text_field( \wp_unslash( $page_args['value'] ) );
-
-				$settings->set( $type, $setting_value );
+				// Add the no-page-needed flag if it doesn't exist.
+				if ( '_no_page_needed' === $page_args['id'] ) {
+					\progress_planner()->get_page_types()->add_no_type_needed( $type );
+				} else {
+					// Remove the no-page-needed flag if it exists.
+					\progress_planner()->get_page_types()->remove_no_type_needed( $type );
+				}
 
 				// Remove the post-meta from the existing posts.
 				$existing_posts = \progress_planner()->get_page_types()->get_posts_by_type( 'any', $type );
@@ -135,16 +143,6 @@ class Page_Settings {
 				/**
 				 * TODO: Handle the $page_args['assign-user'] and $page_args['plan-date'] values.
 				 */
-			}
-		}
-
-		// WIP: Save the page selection.
-		$settings   = \progress_planner()->get_settings();
-		$page_types = \progress_planner()->get_page_types()->get_page_types();
-		foreach ( $page_types as $page_type ) {
-			if ( isset( $_POST[ "has-page-{$page_type['slug']}" ] ) ) {
-				$value = \sanitize_text_field( \wp_unslash( $_POST[ "has-page-{$page_type['slug']}" ] ) );
-				$settings->set( "has-page-{$page_type['slug']}", $value );
 			}
 		}
 
