@@ -107,8 +107,10 @@ class Page_Settings {
 		if ( isset( $_POST['pages'] ) ) {
 			foreach ( wp_unslash( $_POST['pages'] ) as $type => $page_args ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
+				$need_page = \sanitize_text_field( \wp_unslash( $page_args['have_page'] ) );
+
 				// Add the no-page-needed flag if it doesn't exist.
-				if ( '_no_page_needed' === $page_args['id'] ) {
+				if ( '_no_page_needed' === $need_page ) {
 					\progress_planner()->get_page_types()->add_no_type_needed( $type );
 				} else {
 					// Remove the no-page-needed flag if it exists.

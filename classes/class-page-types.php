@@ -32,8 +32,6 @@ class Page_Types {
 		\add_action( 'post_updated', [ $this, 'post_updated' ], 10, 2 );
 		\add_action( 'wp_insert_post', [ $this, 'post_updated' ], 10, 2 );
 		\add_action( 'transition_post_status', [ $this, 'transition_post_status' ], 10, 3 );
-
-		\add_filter( 'wp_dropdown_pages', [ $this, 'filter_settingspage_select' ], 10, 3 );
 	}
 
 	/**
@@ -404,27 +402,6 @@ class Page_Types {
 	}
 
 	/**
-	 * Filter the page-select dropdown.
-	 *
-	 * @param string $output The output.
-	 * @param array  $parsed_args The parsed arguments.
-	 * @param array  $pages The pages.
-	 *
-	 * @return string
-	 */
-	public function filter_settingspage_select( $output, $parsed_args, $pages ) {
-		if ( ! is_admin() || ! isset( $_GET['page'] ) || 'progress-planner-settings' !== $_GET['page'] ) {
-			return $output;
-		}
-
-		// Add the option for when no page is needed.
-		$page_not_needed_option = '<option level="0" value="_no_page_needed" ' . selected( '_no_page_needed', $parsed_args['selected'], false ) . '>' . __( 'I don\'t need this page', 'progress-planner' ) . '</option>';
-		$output                 = str_replace( '&mdash;</option>', '&mdash;</option>' . $page_not_needed_option, $output );
-
-		return $output;
-	}
-
-	/**
 	 * Get the term for when no page is needed.
 	 *
 	 * @return \WP_Term|false
@@ -500,7 +477,11 @@ class Page_Types {
 		}
 
 		if ( \in_array( $type, $term_meta, true ) ) {
-			unset( $term_meta[ $type ] );
+			$index = \array_search( $type, $term_meta, true );
+			if ( false !== $index ) {
+				// re-index array.
+				\array_splice( $term_meta, $index, 1 );
+			}
 		}
 
 		\update_term_meta( $no_type_needed_term->term_id, 'types', $term_meta );
