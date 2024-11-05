@@ -62,45 +62,64 @@ prplDocumentReady( function () {
 } );
 
 const prplTogglePageSelectorSettingVisibility = function ( page, value ) {
-	const pageSelectorWrapperEl = document.querySelector(
+	const itemActionsWrapperEl = document.querySelector(
 		`.prpl-pages-item-${ page } .item-actions`
 	);
 
-	if ( ! pageSelectorWrapperEl ) {
+	if ( ! itemActionsWrapperEl ) {
 		return;
 	}
 
 	// Hide entire page selector setting if needed.
 	if ( 'not-applicable' === value ) {
-		pageSelectorWrapperEl.style.display = 'none';
-		pageSelectorWrapperEl.querySelector( 'select' ).value = '';
-		pageSelectorWrapperEl.querySelector(
+		// Hide actions wrapper.
+		itemActionsWrapperEl.style.display = 'none';
+
+		// Clear the <select> element value.
+		itemActionsWrapperEl.querySelector( 'select' ).value = '';
+
+		// Hide edit button.
+		itemActionsWrapperEl.querySelector(
 			'[data-action="edit"]'
 		).style.display = 'none';
 	}
 
 	// Show only create button.
 	if ( 'no' === value ) {
-		pageSelectorWrapperEl.style.display = 'flex';
-		pageSelectorWrapperEl.querySelector( 'select' ).value = '';
-		pageSelectorWrapperEl.querySelector(
+		// Show actions wrapper.
+		itemActionsWrapperEl.style.display = 'flex';
+
+		// Clear the <select> element value.
+		itemActionsWrapperEl.querySelector( 'select' ).value = '';
+
+		// Hide edit button.
+		itemActionsWrapperEl.querySelector(
 			'[data-action="edit"]'
 		).style.display = 'none';
-		pageSelectorWrapperEl.querySelector(
+
+		// Hide <select> and Edit wrapper.
+		itemActionsWrapperEl.querySelector(
 			'.prpl-select-page'
 		).style.display = 'none';
-		pageSelectorWrapperEl.querySelector(
+
+		// Show create button.
+		itemActionsWrapperEl.querySelector(
 			'[data-action="create"]'
 		).style.display = 'block';
 	}
 
 	// Show only select and edit button.
 	if ( 'yes' === value ) {
-		pageSelectorWrapperEl.style.display = 'flex';
-		pageSelectorWrapperEl.querySelector(
+		// Show actions wrapper.
+		itemActionsWrapperEl.style.display = 'flex';
+
+		// Show <select> and Edit wrapper.
+		itemActionsWrapperEl.querySelector(
 			'.prpl-select-page'
 		).style.display = 'flex';
-		pageSelectorWrapperEl.querySelector(
+
+		// Hide create button.
+		itemActionsWrapperEl.querySelector(
 			'[data-action="create"]'
 		).style.display = 'none';
 	}
