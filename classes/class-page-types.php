@@ -81,7 +81,7 @@ class Page_Types {
 		// Add a term for when no page is needed.
 		$lessons[] = [
 			'settings' => [
-				'id'          => '_no_type_needed',
+				'id'          => '_no_page_needed',
 				'title'       => __( 'No page needed', 'progress-planner' ),
 				'description' => '',
 			],
