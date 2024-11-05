@@ -448,7 +448,7 @@ class Page_Types {
 			return false;
 		}
 		$term_meta = \get_term_meta( $no_type_needed_term->term_id, 'types', true );
-		return ! isset( $term_meta[ $type ] );
+		return ! \in_array( $type, $term_meta, true );
 	}
 
 	/**
@@ -469,11 +469,11 @@ class Page_Types {
 			$term_meta = [];
 		}
 
-		if ( isset( $term_meta[ $type ] ) ) {
+		if ( \in_array( $type, $term_meta, true ) ) {
 			return;
 		}
 
-		$term_meta[ $type ] = $type;
+		$term_meta[] = $type;
 		\update_term_meta( $no_type_needed_term->term_id, 'types', $term_meta );
 	}
 
@@ -495,11 +495,11 @@ class Page_Types {
 			$term_meta = [];
 		}
 
-		if ( ! isset( $term_meta[ $type ] ) ) {
+		if ( ! \in_array( $type, $term_meta, true ) ) {
 			return;
 		}
 
-		if ( isset( $term_meta[ $type ] ) ) {
+		if ( \in_array( $type, $term_meta, true ) ) {
 			unset( $term_meta[ $type ] );
 		}
 
