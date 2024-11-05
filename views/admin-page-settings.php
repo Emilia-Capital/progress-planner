@@ -29,7 +29,7 @@
 					<?php foreach ( \progress_planner()->get_admin__page_settings()->get_settings() as $prpl_setting ) : ?>
 						<?php \progress_planner()->the_view( "setting/{$prpl_setting['type']}.php", [ 'prpl_setting' => $prpl_setting ] ); ?>
 					<?php endforeach; ?>
-
+				</div>
 			</div>
 		</div>
 
