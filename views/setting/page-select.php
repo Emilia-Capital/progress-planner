@@ -13,14 +13,9 @@ $prpl_radios = [
 
 $prpl_setting_value = isset( $prpl_setting['value'] ) ? $prpl_setting['value'] : '';
 
+// Default values.
 $prpl_select_value = 0;
 $prpl_radio_value  = 'no';
-if ( '_no_page_needed' === $prpl_setting_value ) {
-	$prpl_radio_value = 'not-applicable';
-} elseif ( is_numeric( $prpl_setting_value ) && 0 < $prpl_setting_value ) {
-	$prpl_radio_value  = 'yes';
-	$prpl_select_value = (int) $prpl_setting_value;
-}
 ?>
 <prpl-page-select>
 	<div class="item-description">

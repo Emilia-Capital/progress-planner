@@ -159,6 +159,26 @@ customElements.define(
 			this.select_page = this.querySelector( 'select' );
 			this.hidden_input = this.querySelector( 'input[type="hidden"]' );
 
+			// Update inputs on page load.
+			if ( '' !== this.hidden_input.value ) {
+				if ( '_no_page_needed' === this.hidden_input.value ) {
+					this.radio_buttons.forEach( ( radio ) => {
+						if ( radio.value === 'not-applicable' ) {
+							radio.checked = true;
+						}
+					} );
+				} else {
+					// Value is a number.
+					this.radio_buttons.forEach( ( radio ) => {
+						if ( radio.value === 'yes' ) {
+							radio.checked = true;
+						}
+					} );
+
+					this.select_page.value = this.hidden_input.value;
+				}
+			}
+
 			// Update hidden input on change.
 			this.radio_buttons.forEach( ( radio ) =>
 				radio.addEventListener(
