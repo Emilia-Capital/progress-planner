@@ -73,7 +73,7 @@ $percentage  = $prpl_widget->get_score() / \Progress_Planner\Badges\Monthly::TAR
 			<?php // WIP. ?>
 			<?php \progress_planner()->the_asset( 'images/badges/monthly-badge-default.svg' ); ?>
 		</span>
-		<p>Ravi's remarkable Reward</p>
+		<p><?php esc_html_e( 'Ravi\'s remarkable Reward', 'progress-planner' ); ?></p>
 	</div>
 	<?php
 	\progress_planner()->get_popovers__monthly_badges()->render_button(

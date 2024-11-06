@@ -29,16 +29,16 @@ final class Monthly_Badges extends Popover {
 		<h2><?php \esc_html_e( 'Your badges', 'progress-planner' ); ?></h2>
 		<div class="prpl-widgets-container in-popover">
 
-			<div>
+			<div class="prpl-popover-column">
 				<div class="prpl-widget-wrapper in-popover">
 					<h3 class="prpl-widget-title"><?php esc_html_e( 'Monthly badges 2024', 'progress-planner' ); ?></h3>
 					<div class="prpl-ravi-reward-container">
-					<span class="prpl-ravi-reward-icon">
-						<?php // WIP. ?>
-						<?php \progress_planner()->the_asset( 'images/badges/monthly-badge-default.svg' ); ?>
-					</span>
-					<p>Ravi's remarkable Reward</p>
-				</div>
+						<span class="prpl-ravi-reward-icon">
+							<?php // WIP. ?>
+							<?php \progress_planner()->the_asset( 'images/badges/monthly-badge-default.svg' ); ?>
+						</span>
+						<p><?php esc_html_e( 'Ravi\'s remarkable Reward', 'progress-planner' ); ?></p>
+					</div>
 				</div>
 
 				<div class="prpl-widget-wrapper in-popover">
@@ -60,15 +60,15 @@ final class Monthly_Badges extends Popover {
 							ob_start();
 						foreach ( $badges as $badge ) :
 							?>
-								<?php
-								if ( ! $current_month_found ) {
-									++$current_month_position;
+							<?php
+							if ( ! $current_month_found ) {
+								++$current_month_position;
 
-									if ( $current_month_id === $badge->get_id() ) {
-										$current_month_found = true;
-									}
+								if ( $current_month_id === $badge->get_id() ) {
+									$current_month_found = true;
 								}
-								?>
+							}
+							?>
 								<span
 									class="prpl-badge prpl-badge-<?php echo \esc_attr( $badge->get_id() ); ?>"
 									data-value="<?php echo \esc_attr( $badge->progress_callback()['progress'] ); ?>"
@@ -121,58 +121,40 @@ final class Monthly_Badges extends Popover {
 				</div>
 			</div>
 
-			<div>
-				<div class="prpl-widget-wrapper prpl-widget-wrapper-writing in-popover  prpl-badge-streak">
-					<h3 class="prpl-widget-title"><?php esc_html_e( 'Writing badges', 'progress-planner' ); ?></h3>
-					<div class="prpl-badges-container-achievements">
-					<?php
-					foreach ( [ 'content' ] as $badge_group ) :
-						$group_badges = \progress_planner()->get_badges()->get_badges( $badge_group );
+			<div class="prpl-popover-column">
+				<?php
+				$badges_groups = [
+					'content'     => __( 'Writing badges', 'progress-planner' ),
+					'maintenance' => __( 'Streak badges', 'progress-planner' ),
+				];
+				foreach ( $badges_groups as $badge_group => $widget_title ) :
+					?>
+					<div class="prpl-widget-wrapper prpl-widget-wrapper-<?php echo \esc_attr( $badge_group ); ?> in-popover  prpl-badge-streak">
+						<h3 class="prpl-widget-title">
+							<?php echo \esc_html( $widget_title ); ?>
+						</h3>
+						<div class="prpl-badges-container-achievements">
+						<?php
+							$group_badges = \progress_planner()->get_badges()->get_badges( $badge_group );
 						?>
-						<div class="progress-wrapper badge-group-<?php echo \esc_attr( $badge_group ); ?>">
-							<?php foreach ( $group_badges as $badge ) : ?>
-								<?php
-								$badge_progress  = $badge->get_progress();
-								$badge_completed = 100 === (int) $badge_progress['progress'];
-								?>
-								<span
-									class="prpl-badge"
-									data-value="<?php echo \esc_attr( $badge_progress['progress'] ); ?>"
-								>
-									<?php $badge->the_icon( $badge_completed ); ?>
-									<p><?php echo \esc_html( $badge->get_name() ); ?></p>
-								</span>
-							<?php endforeach; ?>
+							<div class="progress-wrapper badge-group-<?php echo \esc_attr( $badge_group ); ?>">
+								<?php foreach ( $group_badges as $badge ) : ?>
+									<?php
+									$badge_progress  = $badge->get_progress();
+									$badge_completed = 100 === (int) $badge_progress['progress'];
+									?>
+									<span
+										class="prpl-badge"
+										data-value="<?php echo \esc_attr( $badge_progress['progress'] ); ?>"
+									>
+										<?php $badge->the_icon( $badge_completed ); ?>
+										<p><?php echo \esc_html( $badge->get_name() ); ?></p>
+									</span>
+								<?php endforeach; ?>
+							</div>
 						</div>
-						<?php endforeach; ?>
 					</div>
-				</div>
-
-				<div class="prpl-widget-wrapper prpl-widget-wrapper-maintenance in-popover  prpl-badge-streak">
-					<h3 class="prpl-widget-title"><?php esc_html_e( 'Streak badges', 'progress-planner' ); ?></h3>
-					<div class="prpl-badges-container-achievements">
-					<?php
-					foreach ( [ 'maintenance' ] as $badge_group ) :
-						$group_badges = \progress_planner()->get_badges()->get_badges( $badge_group );
-						?>
-						<div class="progress-wrapper badge-group-<?php echo \esc_attr( $badge_group ); ?>">
-							<?php foreach ( $group_badges as $badge ) : ?>
-								<?php
-								$badge_progress  = $badge->get_progress();
-								$badge_completed = 100 === (int) $badge_progress['progress'];
-								?>
-								<span
-									class="prpl-badge"
-									data-value="<?php echo \esc_attr( $badge_progress['progress'] ); ?>"
-								>
-									<?php $badge->the_icon( $badge_completed ); ?>
-									<p><?php echo \esc_html( $badge->get_name() ); ?></p>
-								</span>
-							<?php endforeach; ?>
-						</div>
-						<?php endforeach; ?>
-					</div>
-				</div>
+				<?php endforeach; ?>
 			</div>
 		</div>
 		<?php
