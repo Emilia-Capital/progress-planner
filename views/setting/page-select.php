@@ -6,8 +6,8 @@
  */
 
 $prpl_radios = [
-	'yes'            => esc_html__( 'Yes', 'progress-planner' ),
-	'no'             => esc_html__( 'No', 'progress-planner' ),
+	'yes'            => esc_html__( 'I have this page', 'progress-planner' ),
+	'no'             => esc_html__( 'I don\'t have this page', 'progress-planner' ),
 	'not-applicable' => esc_html__( 'I don\'t need this page', 'progress-planner' ),
 ];
 
@@ -31,7 +31,7 @@ if ( '_no_page_needed' === $prpl_setting_value ) {
 >
 	<prpl-page-select>
 		<div class="item-description">
-				<h3><?php echo esc_html( $prpl_setting['title'] ); ?></h3>
+			<h3><?php echo esc_html( $prpl_setting['title'] ); ?></h3>
 			<p><?php echo esc_html( $prpl_setting['description'] ); ?></p>
 		</div>
 		<div>
@@ -74,7 +74,7 @@ if ( '_no_page_needed' === $prpl_setting_value ) {
 			<div data-action="create">
 				<?php
 				/**
-				 * TODO: Find a way to assign the post-meta for the new page.
+				 * TODO: Find a way to assign the term for the new page.
 				 */
 				?>
 				<a
