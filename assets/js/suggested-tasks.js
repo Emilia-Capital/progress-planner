@@ -393,7 +393,16 @@ class BadgeScroller {
 
 	init() {
 		this.addEventListeners();
-		this.setWrapperHeight();
+		// this.setWrapperHeight();
+
+		// When popover is opened.
+		document
+			.querySelector( '#prpl-popover-monthly-badges' )
+			.addEventListener( 'toggle', ( event ) => {
+				if ( 'open' === event.newState ) {
+					this.setWrapperHeight();
+				}
+			} );
 
 		// Handle window resize.
 		window.addEventListener( 'resize', () => this.setWrapperHeight() );
@@ -418,10 +427,6 @@ class BadgeScroller {
 		// Set wrapper height to show 2 rows.
 		const twoRowsHeight = this.badges[ 0 ].offsetHeight * 2 + gridGap;
 		this.badgeRowWrapperInner.style.height = twoRowsHeight + 'px';
-
-		// Dispatch a custom event to resize all grid items.
-		const event = new Event( 'prplResizeAllGridItemsEvent' );
-		document.dispatchEvent( event );
 	}
 
 	addEventListeners() {
