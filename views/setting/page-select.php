@@ -5,21 +5,13 @@
  * @package Progress_Planner
  */
 
-$prpl_radios = [
-	'yes'            => esc_html__( 'I have this page', 'progress-planner' ),
-	'no'             => esc_html__( 'I don\'t have this page', 'progress-planner' ),
-	'not-applicable' => esc_html__( 'I don\'t need this page', 'progress-planner' ),
-];
-
 $prpl_setting_value = isset( $prpl_setting['value'] ) ? $prpl_setting['value'] : '';
 
 // Default values.
 $prpl_select_value = 0;
-$prpl_radio_value  = 'no';
+$prpl_radio_value  = ( '_no_page_needed' === $prpl_setting_value ) ? 'not-applicable' : 'no';
 
-if ( '_no_page_needed' === $prpl_setting_value ) {
-	$prpl_radio_value = 'not-applicable';
-} elseif ( is_numeric( $prpl_setting_value ) && 0 < $prpl_setting_value ) {
+if ( is_numeric( $prpl_setting_value ) && 0 < $prpl_setting_value ) {
 	$prpl_radio_value  = 'yes';
 	$prpl_select_value = (int) $prpl_setting_value;
 }
@@ -37,9 +29,22 @@ if ( '_no_page_needed' === $prpl_setting_value ) {
 		<div>
 			<fieldset id="prpl-setting-fieldset-<?php echo esc_attr( $prpl_setting['id'] ); ?>">
 				<div class="radios">
-					<?php foreach ( $prpl_radios as $prpl_r_value => $prpl_r_label ) : ?>
+					<?php
+					foreach ( [
+						'yes'            => esc_html__( 'I have this page', 'progress-planner' ),
+						'no'             => esc_html__( 'I don\'t have this page', 'progress-planner' ),
+						'not-applicable' => esc_html__( 'I don\'t need this page', 'progress-planner' ),
+					] as $prpl_r_value => $prpl_r_label ) :
+						?>
 						<label>
-							<input type="radio" id="<?php echo esc_attr( 'pages[' . esc_attr( $prpl_setting['id'] ) . '][have_page]' ); ?>" name="<?php echo esc_attr( 'pages[' . esc_attr( $prpl_setting['id'] ) . '][have_page]' ); ?>" value="<?php echo esc_attr( $prpl_r_value ); ?>" data-page="<?php echo esc_attr( $prpl_setting['page'] ); ?>" <?php checked( $prpl_radio_value, $prpl_r_value ); ?>>
+							<input
+								type="radio"
+								id="<?php echo esc_attr( 'pages[' . esc_attr( $prpl_setting['id'] ) . '][have_page]' ); ?>"
+								name="<?php echo esc_attr( 'pages[' . esc_attr( $prpl_setting['id'] ) . '][have_page]' ); ?>"
+								value="<?php echo esc_attr( $prpl_r_value ); ?>"
+								data-page="<?php echo esc_attr( $prpl_setting['page'] ); ?>"
+								<?php checked( $prpl_radio_value, $prpl_r_value ); ?>
+							>
 							<?php echo esc_html( $prpl_r_label ); ?>
 						</label>
 					<?php endforeach; ?>
@@ -54,7 +59,7 @@ if ( '_no_page_needed' === $prpl_setting_value ) {
 						[
 							'name'             => 'pages[' . esc_attr( $prpl_setting['id'] ) . '][id]',
 							'show_option_none' => '&mdash; ' . esc_html__( 'Select page', 'progress-planner' ) . ' &mdash;',
-							'selected'         => $prpl_setting['value'], // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+							'selected'         => esc_attr( $prpl_setting['value'] ),
 						]
 					);
 					?>

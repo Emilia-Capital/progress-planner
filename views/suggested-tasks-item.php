@@ -58,30 +58,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 					</legend>
 
 					<div class="prpl-snooze-duration-radio-group">
-						<label>
-							<input type="radio" name="snooze-duration-{taskId}" value="1-week">
-							<?php esc_html_e( '1 week', 'progress-planner' ); ?>
-						</label>
-						<label>
-							<input type="radio" name="snooze-duration-{taskId}" value="1-month">
-							<?php esc_html_e( '1 month', 'progress-planner' ); ?>
-						</label>
-						<label>
-							<input type="radio" name="snooze-duration-{taskId}" value="3-months">
-							<?php esc_html_e( '3 months', 'progress-planner' ); ?>
-						</label>
-						<label>
-							<input type="radio" name="snooze-duration-{taskId}" value="6-months">
-							<?php esc_html_e( '6 months', 'progress-planner' ); ?>
-						</label>
-						<label>
-							<input type="radio" name="snooze-duration-{taskId}" value="1-year">
-							<?php esc_html_e( '1 year', 'progress-planner' ); ?>
-						</label>
-						<label>
-							<input type="radio" name="snooze-duration-{taskId}" value="forever">
-							<?php esc_html_e( 'forever', 'progress-planner' ); ?>
-						</label>
+						<?php
+						foreach ( [
+							'1-week'   => __( '1 week', 'progress-planner' ),
+							'1-month'  => __( '1 month', 'progress-planner' ),
+							'3-months' => __( '3 months', 'progress-planner' ),
+							'6-months' => __( '6 months', 'progress-planner' ),
+							'1-year'   => __( '1 year', 'progress-planner' ),
+							'forever'  => __( 'forever', 'progress-planner' ),
+						] as $prpl_snooze_duration_options_value => $prpl_snooze_duration_options_label ) :
+							?>
+							<label>
+								<input type="radio" name="snooze-duration-{taskId}" value="<?php echo \esc_attr( $prpl_snooze_duration_options_value ); ?>">
+								<?php echo \esc_html( $prpl_snooze_duration_options_label ); ?>
+							</label>
+						<?php endforeach; ?>
 					</div>
 				</fieldset>
 

@@ -21,14 +21,8 @@ $prpl_widget = \progress_planner()->get_admin__page()->get_widget( 'activity-sco
 			--start: 270deg;
 			--color:<?php echo \esc_attr( $prpl_widget->get_gauge_color( $prpl_widget->get_score() ) ); ?>"
 	>
-		<span class="prpl-gauge-0">
-			0
-		</span>
-		<span class="prpl-gauge-number">
-			<?php echo (int) $prpl_widget->get_score(); ?>
-		</span>
-		<span class="prpl-gauge-100">
-			100
-		</span>
+		<span class="prpl-gauge-0">0</span>
+		<span class="prpl-gauge-number"><?php echo (int) $prpl_widget->get_score(); ?></span>
+		<span class="prpl-gauge-100">100</span>
 	</div>
 </div>

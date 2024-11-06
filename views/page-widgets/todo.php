@@ -9,8 +9,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$prpl_widget = \progress_planner()->get_admin__page()->get_widget( 'todo' );
-
 ?>
 <h2 class="prpl-widget-title">
 	<span class="icon">
@@ -20,4 +18,4 @@ $prpl_widget = \progress_planner()->get_admin__page()->get_widget( 'todo' );
 </h2>
 
 <p><?php \esc_html_e( 'Write down all your website maintenance tasks you want to get done!', 'progress-planner' ); ?></p>
-<?php $prpl_widget->the_todo_list(); ?>
+<?php \progress_planner()->get_admin__page()->get_widget( 'todo' )->the_todo_list(); ?>
