@@ -21,7 +21,7 @@ const prplDocumentReady = function ( fn ) {
  */
 const prplToggleEditActionVisibility = function ( page ) {
 	const itemActionsEl = document.querySelector(
-		`.item-actions[data-page="${ page }"]`
+		`.prpl-pages-item[data-page-item="${ page }"] .item-actions`
 	);
 	if ( ! itemActionsEl ) {
 		return;
@@ -40,6 +40,111 @@ const prplToggleEditActionVisibility = function ( page ) {
 		).href = `${ progressPlannerSettingsPage.siteUrl }/wp-admin/post.php?post=${ value }&action=edit`;
 	}
 };
+
+/**
+ * Handle showing/hiding the edit action,
+ * based on whether a page is selected.
+ * Also changes the link of the edit action.
+ */
+prplDocumentReady( function () {
+	document.querySelectorAll( 'select' ).forEach( function ( select ) {
+		const page = select
+			.closest( '.prpl-pages-item' )
+			.getAttribute( 'data-page-item' );
+
+		prplToggleEditActionVisibility( page );
+		if ( select ) {
+			select.addEventListener( 'change', function () {
+				prplToggleEditActionVisibility( page );
+			} );
+		}
+	} );
+} );
+
+const prplTogglePageSelectorSettingVisibility = function ( page, value ) {
+	const itemActionsWrapperEl = document.querySelector(
+		`.prpl-pages-item-${ page } .item-actions`
+	);
+
+	if ( ! itemActionsWrapperEl ) {
+		return;
+	}
+
+	// Hide entire page selector setting if needed.
+	if ( 'not-applicable' === value ) {
+		// Hide actions wrapper.
+		itemActionsWrapperEl.style.display = 'none';
+
+		// Clear the <select> element value.
+		itemActionsWrapperEl.querySelector( 'select' ).value = '';
+
+		// Hide edit button.
+		itemActionsWrapperEl.querySelector(
+			'[data-action="edit"]'
+		).style.display = 'none';
+	}
+
+	// Show only create button.
+	if ( 'no' === value ) {
+		// Show actions wrapper.
+		itemActionsWrapperEl.style.display = 'flex';
+
+		// Clear the <select> element value.
+		itemActionsWrapperEl.querySelector( 'select' ).value = '';
+
+		// Hide edit button.
+		itemActionsWrapperEl.querySelector(
+			'[data-action="edit"]'
+		).style.display = 'none';
+
+		// Hide <select> and Edit wrapper.
+		itemActionsWrapperEl.querySelector(
+			'.prpl-select-page'
+		).style.display = 'none';
+
+		// Show create button.
+		itemActionsWrapperEl.querySelector(
+			'[data-action="create"]'
+		).style.display = 'block';
+	}
+
+	// Show only select and edit button.
+	if ( 'yes' === value ) {
+		// Show actions wrapper.
+		itemActionsWrapperEl.style.display = 'flex';
+
+		// Show <select> and Edit wrapper.
+		itemActionsWrapperEl.querySelector(
+			'.prpl-select-page'
+		).style.display = 'flex';
+
+		// Hide create button.
+		itemActionsWrapperEl.querySelector(
+			'[data-action="create"]'
+		).style.display = 'none';
+	}
+};
+
+prplDocumentReady( function () {
+	document
+		.querySelectorAll( 'input[type="radio"][data-page]' )
+		.forEach( function ( radio ) {
+			const page = radio.getAttribute( 'data-page' ),
+				value = radio.value;
+
+			if ( radio ) {
+				// Show/hide the page selector setting if radio is checked.
+				if ( radio.checked ) {
+					prplTogglePageSelectorSettingVisibility( page, value );
+				}
+
+				// Add listeners for all radio buttons.
+				radio.addEventListener( 'change', function () {
+					prplTogglePageSelectorSettingVisibility( page, value );
+				} );
+			}
+		} );
+} );
 
 /**
  * Handle the form submission.
@@ -65,23 +170,4 @@ prplDocumentReady( function () {
 				alert( response.licensingError || response ); // eslint-disable-line no-alert
 			} );
 		} );
-} );
-
-/**
- * Handle showing/hiding the edit action,
- * based on whether a page is selected.
- * Also changes the link of the edit action.
- */
-prplDocumentReady( function () {
-	document.querySelectorAll( 'select' ).forEach( function ( select ) {
-		const page =
-			select.parentElement.parentElement.getAttribute( 'data-page' );
-
-		prplToggleEditActionVisibility( page );
-		if ( select ) {
-			select.addEventListener( 'change', function () {
-				prplToggleEditActionVisibility( page );
-			} );
-		}
-	} );
 } );

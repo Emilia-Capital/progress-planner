@@ -75,6 +75,7 @@ class Page_Types {
 	 */
 	public function maybe_add_terms() {
 		$lessons = \progress_planner()->get_lessons()->get_items();
+
 		foreach ( $lessons as $lesson ) {
 			if ( \term_exists( $lesson['settings']['id'], self::TAXONOMY_NAME ) ) {
 				continue;
@@ -152,6 +153,7 @@ class Page_Types {
 	 * @return array
 	 */
 	public function get_page_types() {
+
 		$terms = \get_terms(
 			[
 				'taxonomy'   => self::TAXONOMY_NAME,
@@ -382,5 +384,81 @@ class Page_Types {
 		foreach ( $children as $child ) {
 			\wp_set_object_terms( $child->ID, $term_id, self::TAXONOMY_NAME );
 		}
+	}
+
+	/**
+	 * Get the term for when no page is needed.
+	 *
+	 * @param string $type The type.
+	 *
+	 * @return \WP_Term|false
+	 */
+	public function get_term_by_type( $type ) {
+		$no_type_needed_term = \get_term_by( 'slug', $type, self::TAXONOMY_NAME );
+		return $no_type_needed_term instanceof \WP_Term ? $no_type_needed_term : false;
+	}
+
+	/**
+	 * Check if a page is needed for a type.
+	 *
+	 * @param string $type The type.
+	 *
+	 * @return bool
+	 */
+	public function is_page_needed( $type ) {
+		$no_type_needed_term = $this->get_term_by_type( $type );
+
+		return '' !== get_term_meta( $no_type_needed_term->term_id, 'type_not_needed', true ) ? false : true;
+	}
+
+	/**
+	 * Set the no-page-needed term.
+	 *
+	 * @param string $type The type.
+	 *
+	 * @return void
+	 */
+	public function add_no_type_needed( $type ) {
+		$no_type_needed_term = $this->get_term_by_type( $type );
+		if ( ! $no_type_needed_term ) {
+			return;
+		}
+
+		\update_term_meta( $no_type_needed_term->term_id, 'type_not_needed', '1' );
+	}
+
+	/**
+	 * Remove the no-page-needed term.
+	 *
+	 * @param string $type The type.
+	 *
+	 * @return void
+	 */
+	public function remove_no_type_needed( $type ) {
+		$no_type_needed_term = $this->get_term_by_type( $type );
+		if ( ! $no_type_needed_term ) {
+			return;
+		}
+
+		\delete_term_meta( $no_type_needed_term->term_id, 'type_not_needed' );
+	}
+
+	/**
+	 * Get the term types that are not needed.
+	 *
+	 * @return \WP_Term[]
+	 */
+	public function get_not_needed_terms() {
+
+		$terms = \get_terms(
+			[
+				'taxonomy'   => self::TAXONOMY_NAME,
+				'hide_empty' => false,
+				'meta_key'   => 'type_not_needed',
+				'meta_value' => '1',
+			]
+		);
+
+		return $terms;
 	}
 }

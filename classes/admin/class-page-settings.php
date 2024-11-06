@@ -51,56 +51,29 @@ class Page_Settings {
 	}
 
 	/**
-	 * Get an array of tabs and their settings.
+	 * Get an array of settings.
 	 *
 	 * @return array
 	 */
-	public function get_tabs_settings() {
-		$page_types = \progress_planner()->get_page_types()->get_page_types();
-
-		foreach ( $page_types as $page_type ) {
-			$type_pages = \progress_planner()->get_page_types()->get_posts_by_type( 'any', $page_type['slug'] );
-
-			$tabs[ "page-{$page_type['slug']}" ] = [
-				'title'    => sprintf(
-					/* translators: The page name. */
-					esc_html__( 'Your pages: "%s" page', 'progress-planner' ),
-					esc_html( $page_type['title'] )
-				),
-				'desc'     => $page_type['description'] ?? '',
-				'intro'    => esc_html__( 'Let\'s determine your needs together.', 'progress-planner' ),
-				'settings' => [
-					"has-page-{$page_type['slug']}" => [
-						'id'          => "has-page-{$page_type['slug']}",
-						'label'       => sprintf(
-							/* translators: The page name. */
-							esc_html__( 'Do your site have the "%s" page?', 'progress-planner' ),
-							esc_html( $page_type['title'] )
-						),
-						'description' => esc_html__( 'If you don\'t have this page yet, we can help you create it.', 'progress-planner' ),
-						'type'        => 'radio',
-						'options'     => [
-							'no'  => esc_html__( 'No', 'progress-planner' ),
-							'yes' => esc_html__( 'Yes', 'progress-planner' ),
-						],
-						'value'       => empty( $type_pages ) ? 'no' : 'yes',
-						'page'        => $page_type['slug'],
-					],
-					$page_type['slug']              => [
-						'id'          => $page_type['slug'],
-						'title'       => $page_type['title'],
-						'description' => $page_type['description'] ?? '',
-						'type'        => 'page-select',
-						'value'       => empty( $type_pages ) ? 0 : $type_pages[0]->ID,
-						'page'        => $page_type['slug'],
-					],
-				],
+	public function get_settings() {
+		$settings = [];
+		foreach ( \progress_planner()->get_page_types()->get_page_types() as $page_type ) {
+			$value = '_no_page_needed';
+			if ( \progress_planner()->get_page_types()->is_page_needed( $page_type['slug'] ) ) {
+				$type_pages = \progress_planner()->get_page_types()->get_posts_by_type( 'any', $page_type['slug'] );
+				$value      = empty( $type_pages ) ? 0 : $type_pages[0]->ID;
+			}
+			$settings[ $page_type['slug'] ] = [
+				'id'          => $page_type['slug'],
+				'title'       => $page_type['title'],
+				'description' => $page_type['description'] ?? '',
+				'type'        => 'page-select',
+				'value'       => $value,
+				'page'        => $page_type['slug'],
 			];
 		}
 
-		$tabs = apply_filters( 'progress_planner_settings_page_tabs', $tabs );
-
-		return $tabs;
+		return apply_filters( 'progress_planner_settings', $settings );
 	}
 
 	/**
@@ -114,6 +87,17 @@ class Page_Settings {
 
 		if ( isset( $_POST['pages'] ) ) {
 			foreach ( wp_unslash( $_POST['pages'] ) as $type => $page_args ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+
+				$need_page = \sanitize_text_field( \wp_unslash( $page_args['have_page'] ) );
+
+				// Add the no-page-needed flag if it doesn't exist.
+				if ( 'not-applicable' === $need_page ) {
+					\progress_planner()->get_page_types()->add_no_type_needed( $type );
+				} else {
+					// Remove the no-page-needed flag if it exists.
+					\progress_planner()->get_page_types()->remove_no_type_needed( $type );
+				}
+
 				// Remove the post-meta from the existing posts.
 				$existing_posts = \progress_planner()->get_page_types()->get_posts_by_type( 'any', $type );
 				foreach ( $existing_posts as $post ) {
