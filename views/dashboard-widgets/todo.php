@@ -5,8 +5,6 @@
  * @package Progress_Planner
  */
 
-use Progress_Planner\Widgets\ToDo;
-
 ?>
 <div id="prpl-dashboard-widget-todo-header">
 	<img src="<?php echo \esc_attr( PROGRESS_PLANNER_URL . '/assets/images/icon_progress_planner.svg' ); ?>" style="width:2.5em;" alt="" />
@@ -14,4 +12,4 @@ use Progress_Planner\Widgets\ToDo;
 </div>
 <?php
 
-( new ToDo() )->the_todo_list();
+\progress_planner()->get_widgets__todo()->the_todo_list();

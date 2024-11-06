@@ -7,13 +7,6 @@
 
 namespace Progress_Planner;
 
-use Progress_Planner\Badges\Content\Wonderful_Writer;
-use Progress_Planner\Badges\Content\Bold_Blogger;
-use Progress_Planner\Badges\Content\Awesome_Author;
-use Progress_Planner\Badges\Maintenance\Progress_Padawan;
-use Progress_Planner\Badges\Maintenance\Maintenance_Maniac;
-use Progress_Planner\Badges\Maintenance\Super_Site_Specialist;
-use Progress_Planner\Badges\Monthly;
 /**
  * Badges class.
  */
@@ -52,18 +45,18 @@ class Badges {
 	 */
 	public function __construct() {
 		$this->content = [
-			new Wonderful_Writer(),
-			new Bold_Blogger(),
-			new Awesome_Author(),
+			\progress_planner()->get_badges__content__wonderful_writer(),
+			\progress_planner()->get_badges__content__bold_blogger(),
+			\progress_planner()->get_badges__content__awesome_author(),
 		];
 
 		$this->maintenance = [
-			new Progress_Padawan(),
-			new Maintenance_Maniac(),
-			new Super_Site_Specialist(),
+			\progress_planner()->get_badges__maintenance__progress_padawan(),
+			\progress_planner()->get_badges__maintenance__maintenance_maniac(),
+			\progress_planner()->get_badges__maintenance__super_site_specialist(),
 		];
 
-		$this->monthly = Monthly::get_instances();
+		$this->monthly = \Progress_Planner\Badges\Monthly::get_instances();
 	}
 
 	/**

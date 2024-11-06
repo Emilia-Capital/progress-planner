@@ -7,9 +7,6 @@
 
 namespace Progress_Planner\Badges;
 
-use Progress_Planner\Goals\Goal_Recurring;
-use Progress_Planner\Goals\Goal;
-
 /**
  * Badge class.
  */
@@ -18,13 +15,13 @@ abstract class Badge_Maintenance extends Badge {
 	/**
 	 * Get a recurring goal for any type of weekly activity.
 	 *
-	 * @return Goal_Recurring
+	 * @return \Progress_Planner\Goals\Goal_Recurring
 	 */
 	public function get_goal() {
-		return Goal_Recurring::get_instance(
+		return \Progress_Planner\Goals\Goal_Recurring::get_instance(
 			'weekly_activity',
 			[
-				'class_name'  => Goal::class,
+				'class_name'  => \Progress_Planner\Goals\Goal::class,
 				'id'          => 'weekly_activity',
 				'title'       => \esc_html__( 'Weekly activity', 'progress-planner' ),
 				'description' => \esc_html__( 'Streak: The number of weeks this goal has been accomplished consistently.', 'progress-planner' ),

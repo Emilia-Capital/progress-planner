@@ -5,8 +5,6 @@
  * @package Progress_Planner
  */
 
-use Progress_Planner\Base;
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -81,7 +79,7 @@ $record      = $prpl_widget->personal_record_callback();
 				foreach ( $activities as $activity ) {
 					$score += $activity->get_points( $date );
 				}
-				return $score * 100 / Base::SCORE_TARGET;
+				return $score * 100 / \Progress_Planner\Base::SCORE_TARGET;
 			},
 			'compound'       => false,
 			'normalized'     => true,

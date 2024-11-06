@@ -7,8 +7,6 @@
 
 namespace Progress_Planner;
 
-use Progress_Planner\Activities\Todo as Todo_Activity;
-
 /**
  * Todo class.
  */
@@ -93,7 +91,7 @@ class Todo {
 		}
 
 		// Save the activity.
-		$activity       = new Todo_Activity();
+		$activity       = new \Progress_Planner\Activities\Todo();
 		$activity->type = 'update';
 		if ( count( $items ) > count( $previous_items ) ) {
 			$activity->type = 'add';

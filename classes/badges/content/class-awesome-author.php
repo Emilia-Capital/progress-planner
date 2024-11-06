@@ -7,12 +7,10 @@
 
 namespace Progress_Planner\Badges\Content;
 
-use Progress_Planner\Badges\Badge_Content;
-
 /**
  * Badge class.
  */
-final class Awesome_Author extends Badge_Content {
+final class Awesome_Author extends \Progress_Planner\Badges\Badge_Content {
 
 	/**
 	 * The badge ID.
