@@ -14,21 +14,18 @@
 		</div>
 	</div>
 
-	<h1>
-		<?php esc_html_e( 'Your Progress Planner settings', 'progress-planner' ); ?>
-	</h1>
+	<h1><?php esc_html_e( 'Your Progress Planner settings', 'progress-planner' ); ?></h1>
 
 	<form id="prpl-settings">
-
 		<div class="prpl-column">
 			<div class="prpl-widget-wrapper">
-				<!-- <h2 class="prpl-widget-title">
-					<?php esc_html_e( 'Your pages', 'progress-planner' ); ?>
-				</h2> -->
+				<?php esc_html_e( 'Your pages', 'progress-planner' ); ?>
 				<div class="prpl-pages-list">
-					<?php foreach ( \progress_planner()->get_admin__page_settings()->get_settings() as $prpl_setting ) : ?>
-						<?php \progress_planner()->the_view( "setting/{$prpl_setting['type']}.php", [ 'prpl_setting' => $prpl_setting ] ); ?>
-					<?php endforeach; ?>
+					<?php
+					foreach ( \progress_planner()->get_admin__page_settings()->get_settings() as $prpl_setting ) {
+						\progress_planner()->the_view( "setting/{$prpl_setting['type']}.php", [ 'prpl_setting' => $prpl_setting ] );
+					}
+					?>
 				</div>
 			</div>
 		</div>

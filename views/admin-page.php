@@ -12,8 +12,6 @@
 	<?php \progress_planner()->the_view( 'admin-page-header.php' ); ?>
 	<?php \progress_planner()->the_view( 'welcome.php' ); ?>
 
-	<?php \do_action( 'progress_planner_admin_after_header' ); ?>
-
 	<div class="prpl-widgets-container">
 		<?php foreach ( \progress_planner()->get_admin__page()->get_widgets() as $prpl_admin_widget ) : ?>
 			<?php $prpl_admin_widget->render(); ?>

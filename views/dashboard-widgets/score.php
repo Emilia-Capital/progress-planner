@@ -13,7 +13,7 @@ $show_badges = (
 ?>
 <div class="prpl-dashboard-widget<?php echo ( $show_badges ) ? ' show-badges' : ''; ?>">
 	<div class="prpl-score-gauge" style="--background: #fff">
-		<?php ( new \Progress_Planner\Widgets\Activity_Scores() )->print_score_gauge(); ?>
+		<?php \progress_planner()->get_widgets__activity_scores()->print_score_gauge(); ?>
 	</div>
 	<?php if ( $show_badges ) : ?>
 		<div class="grid-separator"></div>

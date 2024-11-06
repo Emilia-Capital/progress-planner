@@ -7,8 +7,6 @@
 
 namespace Progress_Planner;
 
-use Progress_Planner\Activities\Suggested_Task as Suggested_Task_Activity;
-
 /**
  * Suggested_Tasks class.
  */
@@ -79,7 +77,7 @@ class Suggested_Tasks {
 	 * @return void
 	 */
 	public function mark_task_as_completed( $task_id ) {
-		$activity          = new Suggested_Task_Activity();
+		$activity          = new \Progress_Planner\Activities\Suggested_Task();
 		$activity->type    = 'completed';
 		$activity->data_id = (string) $task_id;
 		$activity->date    = new \DateTime();

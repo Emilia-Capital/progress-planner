@@ -7,12 +7,10 @@
 
 namespace Progress_Planner\Activities;
 
-use Progress_Planner\Activity;
-
 /**
  * Handler for todo activities.
  */
-class Todo extends Activity {
+class Todo extends \Progress_Planner\Activity {
 
 	/**
 	 * Points configuration for todo activities.

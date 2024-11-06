@@ -7,13 +7,10 @@
 
 namespace Progress_Planner\Suggested_Tasks\Local_Tasks;
 
-use Progress_Planner\Suggested_Tasks\Local_Tasks;
-use Progress_Planner\Activities\Content_Helpers;
-
 /**
  * Add tasks for content updates.
  */
-class Update_Content extends Local_Tasks {
+class Update_Content extends \Progress_Planner\Suggested_Tasks\Local_Tasks {
 
 	/**
 	 * The number of items to inject.
@@ -159,12 +156,12 @@ class Update_Content extends Local_Tasks {
 				? sprintf(
 					/* translators: %d: The threshold (number, words count) for a long post. */
 					esc_html__( 'Create a new short post (no longer than %d words).', 'progress-planner' ),
-					Content_Helpers::LONG_POST_THRESHOLD
+					\Progress_Planner\Activities\Content_Helpers::LONG_POST_THRESHOLD
 				)
 				: sprintf(
 					/* translators: %d: The threshold (number, words count) for a long post. */
 					esc_html__( 'Create a new long post (longer than %d words).', 'progress-planner' ),
-					Content_Helpers::LONG_POST_THRESHOLD
+					\Progress_Planner\Activities\Content_Helpers::LONG_POST_THRESHOLD
 				),
 		];
 		$this->add_pending_task( $task_id );

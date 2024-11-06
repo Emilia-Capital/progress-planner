@@ -7,13 +7,10 @@
 
 namespace Progress_Planner\Widgets;
 
-use Progress_Planner\Widget;
-use Progress_Planner\Badges\Monthly;
-
 /**
  * Suggested_Tasks class.
  */
-final class Suggested_Tasks extends Widget {
+final class Suggested_Tasks extends \Progress_Planner\Widget {
 
 	/**
 	 * The widget ID.
@@ -50,6 +47,6 @@ final class Suggested_Tasks extends Widget {
 			$score += $activity->get_points( $activity->date );
 		}
 
-		return (int) min( Monthly::TARGET_POINTS, max( 0, floor( $score ) ) );
+		return (int) min( \Progress_Planner\Badges\Monthly::TARGET_POINTS, max( 0, floor( $score ) ) );
 	}
 }

@@ -7,12 +7,10 @@
 
 namespace Progress_Planner\Widgets;
 
-use Progress_Planner\Widget;
-
 /**
  * Published_Content class.
  */
-final class Published_Content extends Widget {
+final class Published_Content extends \Progress_Planner\Widget {
 
 	/**
 	 * The widget ID.

@@ -5,8 +5,6 @@
  * @package Progress_Planner
  */
 
-use Progress_Planner\Base;
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -81,7 +79,7 @@ $record      = $prpl_widget->personal_record_callback();
 				foreach ( $activities as $activity ) {
 					$score += $activity->get_points( $date );
 				}
-				return $score * 100 / Base::SCORE_TARGET;
+				return $score * 100 / \Progress_Planner\Base::SCORE_TARGET;
 			},
 			'compound'       => false,
 			'normalized'     => true,
@@ -105,10 +103,10 @@ $record      = $prpl_widget->personal_record_callback();
 </div>
 
 <div class="prpl-widget-content">
-	<?php if ( (int) $record['max_streak'] === 0 ) : ?>
-		<?php \esc_html_e( 'This is the start of your first streak! Add content to your site every week and set a personal record!', 'progress-planner' ); ?>
-	<?php elseif ( (int) $record['max_streak'] <= (int) $record['current_streak'] ) : ?>
-		<?php
+	<?php
+	if ( (int) $record['max_streak'] === 0 ) {
+		\esc_html_e( 'This is the start of your first streak! Add content to your site every week and set a personal record!', 'progress-planner' );
+	} elseif ( (int) $record['max_streak'] <= (int) $record['current_streak'] ) {
 		printf(
 			\esc_html(
 				/* translators: %s: number of weeks. */
@@ -121,9 +119,7 @@ $record      = $prpl_widget->personal_record_callback();
 			),
 			\esc_html( \number_format_i18n( $record['current_streak'] ) )
 		);
-		?>
-	<?php elseif ( 1 <= $record['current_streak'] ) : ?>
-		<?php
+	} elseif ( 1 <= $record['current_streak'] ) {
 		printf(
 			\esc_html(
 				/* translators: %1$s: number of weeks for the current streak. %2$s: number of weeks for the maximum streak. %3$s: The number of weeks to go in order to break the record. */
@@ -138,9 +134,7 @@ $record      = $prpl_widget->personal_record_callback();
 			\esc_html( \number_format_i18n( $record['max_streak'] ) ),
 			\esc_html( \number_format_i18n( $record['max_streak'] - $record['current_streak'] ) )
 		);
-		?>
-	<?php else : ?>
-		<?php
+	} else {
 		printf(
 			\esc_html(
 				/* translators: %1$s: number of weeks for the maximum streak. */
@@ -153,6 +147,6 @@ $record      = $prpl_widget->personal_record_callback();
 			),
 			\esc_html( \number_format_i18n( $record['max_streak'] ) )
 		);
-		?>
-	<?php endif; ?>
+	}
+	?>
 </div>

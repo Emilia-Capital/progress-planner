@@ -7,14 +7,10 @@
 
 namespace Progress_Planner\Widgets;
 
-use Progress_Planner\Widget;
-use Progress_Planner\Goals\Goal_Recurring;
-use Progress_Planner\Goals\Goal;
-
 /**
  * A widget class.
  */
-final class Activity_Scores extends Widget {
+final class Activity_Scores extends \Progress_Planner\Widget {
 
 	/**
 	 * The widget ID.
@@ -176,10 +172,10 @@ final class Activity_Scores extends Widget {
 	 * @return array
 	 */
 	public function personal_record_callback() {
-		$goal = Goal_Recurring::get_instance(
+		$goal = \Progress_Planner\Goals\Goal_Recurring::get_instance(
 			'weekly_post_record',
 			[
-				'class_name'  => Goal::class,
+				'class_name'  => \Progress_Planner\Goals\Goal::class,
 				'id'          => 'weekly_post',
 				'title'       => \esc_html__( 'Write a weekly blog post', 'progress-planner' ),
 				'description' => \esc_html__( 'Streak: The number of weeks this goal has been accomplished consistently.', 'progress-planner' ),

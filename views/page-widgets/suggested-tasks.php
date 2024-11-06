@@ -5,14 +5,12 @@
  * @package Progress_Planner
  */
 
-use Progress_Planner\Badges\Monthly;
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 $prpl_widget = \progress_planner()->get_admin__page()->get_widget( 'suggested-tasks' );
-$percentage  = $prpl_widget->get_score() / Monthly::TARGET_POINTS;
+$percentage  = $prpl_widget->get_score() / \Progress_Planner\Badges\Monthly::TARGET_POINTS;
 ?>
 <h2 class="prpl-widget-title">
 	<?php \esc_html_e( 'Your monthly badge', 'progress-planner' ); ?>
@@ -38,12 +36,12 @@ $percentage  = $prpl_widget->get_score() / Monthly::TARGET_POINTS;
 			->get_badge( 'monthly-' . gmdate( 'Y' ) . '-m' . (int) gmdate( 'm' ) );
 
 		if ( $prpl_badge ) {
-			$prpl_badge->the_icon( Monthly::TARGET_POINTS === (int) $prpl_widget->get_score() );
+			$prpl_badge->the_icon( \Progress_Planner\Badges\Monthly::TARGET_POINTS === (int) $prpl_widget->get_score() );
 		}
 		?>
 		</span>
 		<span class="prpl-gauge-100">
-			<?php echo \esc_html( (string) Monthly::TARGET_POINTS ); ?>
+			<?php echo \esc_html( (string) \Progress_Planner\Badges\Monthly::TARGET_POINTS ); ?>
 		</span>
 	</div>
 </div>

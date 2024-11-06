@@ -7,12 +7,10 @@
 
 namespace Progress_Planner\Admin;
 
-use Progress_Planner\Admin\Dashboard_Widget;
-
 /**
  * Class Dashboard_Widget_Score
  */
-class Dashboard_Widget_Score extends Dashboard_Widget {
+class Dashboard_Widget_Score extends \Progress_Planner\Admin\Dashboard_Widget {
 
 	/**
 	 * The widget ID.
