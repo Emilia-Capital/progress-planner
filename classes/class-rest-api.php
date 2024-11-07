@@ -152,7 +152,7 @@ class Rest_API {
 		$todo_items         = \progress_planner()->get_todo()->get_items();
 		$pending_todo_items = [];
 		foreach ( $todo_items as $item ) {
-			if ( ! $todo_items['done'] ) {
+			if ( ! $item['done'] ) {
 				$pending_todo_items[] = $item['content'];
 			}
 		}
