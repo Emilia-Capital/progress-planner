@@ -96,18 +96,19 @@ class Base {
 	 * @return mixed
 	 */
 	public function __call( $name, $arguments ) {
-		$cache_name = str_replace( 'get_', '', $name );
+		if ( 0 === strpos( $name, 'get_' ) ) {
+			$cache_name = substr( $name, 4 );
+		}
+
 		if ( isset( $this->cached[ $cache_name ] ) ) {
 			return $this->cached[ $cache_name ];
 		}
 
-		if ( ! isset( $this->cached[ $cache_name ] ) ) {
-			$class_name = implode( '\\', explode( '__', $cache_name ) );
-			$class_name = 'Progress_Planner\\' . implode( '_', array_map( 'ucfirst', explode( '_', $class_name ) ) );
-			if ( class_exists( $class_name ) ) {
-				$this->cached[ $cache_name ] = new $class_name( $arguments );
-				return $this->cached[ $cache_name ];
-			}
+		$class_name = implode( '\\', explode( '__', $cache_name ) );
+		$class_name = 'Progress_Planner\\' . implode( '_', array_map( 'ucfirst', explode( '_', $class_name ) ) );
+		if ( class_exists( $class_name ) ) {
+			$this->cached[ $cache_name ] = new $class_name( $arguments );
+			return $this->cached[ $cache_name ];
 		}
 	}
 

@@ -22,32 +22,65 @@ class Lessons {
 	protected $id = 'lessons';
 
 	/**
+	 * Get the items.
+	 *
+	 * @return array
+	 */
+	public function get_items() {
+		$lessons = $this->get_remote_api_items();
+		/**
+		 * Filter the lessons.
+		 *
+		 * @param array $lessons The lessons.
+		 */
+		return apply_filters( 'progress_planner_lessons', $lessons );
+	}
+
+	/**
 	 * Get items from the remote API.
 	 *
 	 * @return array
 	 */
 	public function get_remote_api_items() {
-		$cached = \progress_planner()->get_cache()->get( 'lessons' );
-		if ( is_array( $cached ) && ! empty( $cached ) ) {
+
+		/**
+		 * Filter the endpoint url for the lessons.
+		 *
+		 * @param string $endpoint The endpoint url.
+		 */
+		$url = apply_filters(
+			'progress_planner_lessons_endpoint',
+			'https://progressplanner.com/wp-json/progress-planner-saas/v1/free-lessons'
+		);
+
+		$cache_key = 'lessons-' . md5( $url );
+
+		$cached = \progress_planner()->get_cache()->get( $cache_key );
+		if ( is_array( $cached ) ) {
 			return $cached;
 		}
 
-		$response = \wp_remote_get( 'https://progressplanner.com/wp-json/progress-planner-saas/v1/free-lessons' );
+		$response = \wp_remote_get(
+			$url
+		);
 
 		if ( \is_wp_error( $response ) ) {
+			\progress_planner()->get_cache()->set( $cache_key, [], 5 * MINUTE_IN_SECONDS );
 			return [];
 		}
 
 		if ( 200 !== (int) wp_remote_retrieve_response_code( $response ) ) {
+			\progress_planner()->get_cache()->set( $cache_key, [], 5 * MINUTE_IN_SECONDS );
 			return [];
 		}
 
 		$json = json_decode( \wp_remote_retrieve_body( $response ), true );
 		if ( ! is_array( $json ) ) {
+			\progress_planner()->get_cache()->set( $cache_key, [], 5 * MINUTE_IN_SECONDS );
 			return [];
 		}
 
-		\progress_planner()->get_cache()->set( 'lessons', $json, WEEK_IN_SECONDS );
+		\progress_planner()->get_cache()->set( $cache_key, $json, WEEK_IN_SECONDS );
 
 		return $json;
 	}
@@ -58,7 +91,7 @@ class Lessons {
 	 * @return array
 	 */
 	public function get_lesson_pagetypes() {
-		$lessons       = $this->get_remote_api_items();
+		$lessons       = $this->get_items();
 		$pagetypes     = [];
 		$show_on_front = \get_option( 'show_on_front' );
 

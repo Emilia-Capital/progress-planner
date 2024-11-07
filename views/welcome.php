@@ -126,8 +126,11 @@ if ( false !== \get_option( 'progress_planner_license_key', false ) ) {
 			<div>
 				<p id="prpl-account-created-message" style="display:none;">
 					<?php
-					// translators: %s: progressplanner.com link.
-					printf( \esc_html__( 'Success! We saved your data on %s so we can email you every week.', 'progress-planner' ), '<a href="https://prpl.fyi/home">ProgressPlanner.com</a>' );
+					printf(
+						/* translators: %s: progressplanner.com link */
+						\esc_html__( 'Success! We saved your data on %s so we can email you every week.', 'progress-planner' ),
+						'<a href="https://prpl.fyi/home">ProgressPlanner.com</a>'
+					);
 					?>
 				</p>
 				<div id="progress-planner-scan-progress" style="display:none;">
@@ -136,7 +139,11 @@ if ( false !== \get_option( 'progress_planner_license_key', false ) ) {
 			</div>
 		</div>
 		<div class="right">
-			<img src="<?php echo \esc_url( PROGRESS_PLANNER_URL . '/assets/images/image_onboaring_block.png' ); ?>" alt="" class="onboarding" />
+			<img
+				src="<?php echo \esc_url( PROGRESS_PLANNER_URL . '/assets/images/image_onboaring_block.png' ); ?>"
+				alt=""
+				class="onboarding"
+			/>
 		</div>
 	</div>
 </div>

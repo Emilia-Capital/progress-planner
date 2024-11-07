@@ -27,7 +27,8 @@
 		border-bottom: 1px solid var(--prpl-color-gray-2);
 		padding-bottom: 1rem;
 
-		.item-actions {
+		.item-actions,
+		.prpl-select-page {
 			display: flex;
 			gap: 1rem;
 		}
@@ -54,6 +55,10 @@
 		&:last-child {
 			border-bottom: none;
 		}
+
+		.radios {
+			margin-bottom: 1rem;
+		}
 	}
 
 	#prpl-settings-submit {
@@ -79,6 +84,11 @@
 	.prpl-pages-list {
 		display: flex;
 		flex-direction: column;
+		gap: 1rem;
+	}
+
+	.radios {
+		display: flex;
 		gap: 1rem;
 	}
 }

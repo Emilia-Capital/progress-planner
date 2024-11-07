@@ -7,8 +7,6 @@
 
 namespace Progress_Planner\Goals;
 
-use Progress_Planner\Goals\Goal;
-
 /**
  * A recurring goal.
  */
@@ -52,7 +50,7 @@ class Goal_Recurring {
 	/**
 	 * An array of occurences.
 	 *
-	 * @var Goal[]
+	 * @var \Progress_Planner\Goals\Goal[]
 	 */
 	private $occurences = [];
 
@@ -105,7 +103,7 @@ class Goal_Recurring {
 	/**
 	 * Get the goal title.
 	 *
-	 * @return Goal
+	 * @return \Progress_Planner\Goals\Goal
 	 */
 	public function get_goal() {
 		return $this->goal;
@@ -114,7 +112,7 @@ class Goal_Recurring {
 	/**
 	 * Build an array of occurences for the goal.
 	 *
-	 * @return Goal[]
+	 * @return \Progress_Planner\Goals\Goal[]
 	 */
 	public function get_occurences() {
 		if ( ! empty( $this->occurences ) ) {

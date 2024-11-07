@@ -7,12 +7,10 @@
 
 namespace Progress_Planner\Widgets;
 
-use Progress_Planner\Widget;
-
 /**
  * Published_Content_Density class.
  */
-final class Published_Content_Density extends Widget {
+final class Published_Content_Density extends \Progress_Planner\Widget {
 
 	/**
 	 * The widget ID.

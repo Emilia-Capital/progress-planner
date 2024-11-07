@@ -7,12 +7,10 @@
 
 namespace Progress_Planner\Widgets;
 
-use Progress_Planner\Widget;
-
 /**
  * ToDo class.
  */
-final class ToDo extends Widget {
+final class ToDo extends \Progress_Planner\Widget {
 
 	/**
 	 * The widget ID.

@@ -1,9 +1,10 @@
 /* global progressPlannerEditor */
-const { createElement: el, Fragment } = wp.element;
+const { createElement: el, Fragment, useState } = wp.element;
 const { registerPlugin } = wp.plugins;
 const { PluginSidebar, PluginPostStatusInfo, PluginSidebarMoreMenuItem } =
 	wp.editor;
-const { Button, SelectControl } = wp.components;
+const { Button, SelectControl, PanelBody, CheckboxControl, Modal } =
+	wp.components;
 const { useSelect } = wp.data;
 
 const TAXONOMY = 'progress_planner_page_types';
@@ -71,18 +72,121 @@ const PrplRenderPageTypeSelector = () => {
 };
 
 /**
- * Render the section content.
+ * Render the video section.
+ * This will display a button to open a modal with the video.
+ *
+ * @param {Object} lessonSection The lesson section.
+ * @return {Element} Element to render.
+ */
+const PrplSectionVideo = ( lessonSection ) => {
+	const [ isOpen, setOpen ] = useState( false );
+	const openModal = () => setOpen( true );
+	const closeModal = () => setOpen( false );
+
+	return el(
+		'div',
+		{
+			title: progressPlannerEditor.i18n.video,
+			initialOpen: false,
+		},
+		el(
+			'div',
+			{},
+			el(
+				Button,
+				{
+					key: 'progress-planner-sidebar-video-button',
+					onClick: openModal,
+					icon: 'video-alt3',
+					variant: 'secondary',
+					style: {
+						width: '100%',
+						margin: '15px 0',
+						color: '#38296D',
+						boxShadow: 'inset 0 0 0 1px #38296D',
+					},
+				},
+				lessonSection.video_button_label
+					? lessonSection.video_button_text
+					: progressPlannerEditor.i18n.watchVideo
+			),
+			isOpen &&
+				el(
+					Modal,
+					{
+						key: 'progress-planner-pro-sidebar-video-modal',
+						title: progressPlannerEditor.i18n.video,
+						onRequestClose: closeModal,
+						shouldCloseOnClickOutside: true,
+						shouldCloseOnEsc: true,
+						size: 'large',
+					},
+					el(
+						'div',
+						{
+							key: 'progress-planner-pro-sidebar-video-modal-content',
+						},
+						el( 'div', {
+							key: 'progress-planner-pro-sidebar-video-modal-content-inner',
+							dangerouslySetInnerHTML: {
+								__html: lessonSection.video,
+							},
+						} )
+					)
+				)
+		)
+	);
+};
+
+const PrplSectionHTML = ( lesson, sectionId, wrapperEl = 'div' ) => {
+	return lesson && lesson[ sectionId ]
+		? el(
+				wrapperEl,
+				{
+					key: `progress-planner-sidebar-lesson-section-${ sectionId }`,
+					title: lesson[ sectionId ].heading,
+					initialOpen: false,
+				},
+				lesson[ sectionId ].video
+					? PrplSectionVideo( lesson[ sectionId ] )
+					: el( 'div', {}, '' ),
+				lesson[ sectionId ].text
+					? el( 'div', {
+							key: `progress-planner-sidebar-lesson-section-${ sectionId }-content`,
+							dangerouslySetInnerHTML: {
+								__html: lesson[ sectionId ].text,
+							},
+					  } )
+					: el( 'div', {}, '' )
+		  )
+		: el( 'div', {}, '' );
+};
+
+/**
+ * Render the lesson items.
  *
  * @return {Element} Element to render.
  */
-const PrplUpdateCycleSectionContent = () => {
-	const selectedPageTypeID = useSelect(
+const PrplLessonItemsHTML = () => {
+	const pageTypeID = useSelect(
 		( select ) =>
 			select( 'core/editor' ).getEditedPostAttribute( TAXONOMY ),
 		[]
 	);
+	const pageType = prplGetPageTypeSlugFromId( pageTypeID );
 
-	const pageType = prplGetPageTypeSlugFromId( selectedPageTypeID );
+	const pageTodosMeta = useSelect(
+		( select ) =>
+			select( 'core/editor' ).getEditedPostAttribute( 'meta' )
+				.progress_planner_page_todos,
+		[]
+	);
+	const pageTodos = pageTodosMeta || '';
+
+	// Bail early if the page type is not set.
+	if ( ! pageType ) {
+		return el( 'div', {}, '' );
+	}
 
 	const lesson = progressPlannerEditor.lessons.find(
 		( lessonItem ) => lessonItem.settings.id === pageType
@@ -101,70 +205,42 @@ const PrplUpdateCycleSectionContent = () => {
 			);
 	}
 
-	if ( lesson.content_update_cycle.text ) {
-		return el( 'div', {
-			key: `progress-planner-sidebar-lesson-section-content_update_cycle-content`,
-			dangerouslySetInnerHTML: {
-				__html: lesson.content_update_cycle.text,
-			},
-		} );
-	}
-
-	return el( 'div', {}, '' );
-};
-
-/**
- * Get the section markup.
- *
- * @return {Element} Element to render, or null.
- */
-const PrplContentUpdateCycleSectionHTML = () => {
-	const pageTypeID = useSelect(
-		( select ) =>
-			select( 'core/editor' ).getEditedPostAttribute( TAXONOMY ),
-		[]
-	);
-
-	const pageType = prplGetPageTypeSlugFromId( pageTypeID );
-
-	// Bail early if the page type is not set.
-	if ( ! pageType ) {
-		return el( 'div', {}, '' );
-	}
-
-	const lesson = progressPlannerEditor.lessons.find(
-		( lessonItem ) => lessonItem.settings.id === pageType
-	);
-
-	// Bail early if the lesson or section is not found.
-	if ( ! lesson || ! lesson.content_update_cycle ) {
-		return el( 'div', {}, '' );
-	}
-
 	return el(
-		'div',
-		{
-			key: `progress-planner-sidebar-lesson-section-content_update_cycle`,
-			title: lesson.content_update_cycle.heading,
-			initialOpen: false,
-		},
-		PrplUpdateCycleSectionContent()
-	);
-};
-
-/**
- * Render the lesson items.
- *
- * @return {Element} Element to render.
- */
-const PrplLessonItemsHTML = () =>
-	el(
 		Fragment,
 		{
 			key: 'progress-planner-sidebar-lesson-items',
 		},
-		PrplContentUpdateCycleSectionHTML()
+		// Update cycle content.
+		PrplSectionHTML( lesson, 'content_update_cycle', 'div' ),
+
+		// Intro video & content.
+		PrplSectionHTML( lesson, 'intro', PanelBody ),
+
+		// Writers block video & content.
+		PrplSectionHTML( lesson, 'writers_block', PanelBody ),
+
+		// Checklist video & content.
+		lesson.checklist
+			? el(
+					PanelBody,
+					{
+						key: `progress-planner-pro-sidebar-lesson-section-checklist-content`,
+						title: lesson.checklist.heading,
+						initialOpen: false,
+					},
+					el(
+						'div',
+						{},
+						lesson.checklist.video
+							? PrplSectionVideo( lesson.checklist )
+							: el( 'div', {}, '' ),
+						PrplTodoProgress( lesson.checklist, pageTodos ),
+						PrplCheckList( lesson.checklist, pageTodos )
+					)
+			  )
+			: el( 'div', {}, '' )
 	);
+};
 
 /**
  * Render the Progress Planner sidebar.
@@ -203,6 +279,156 @@ const PrplProgressPlannerSidebar = () =>
 				},
 				PrplRenderPageTypeSelector(),
 				PrplLessonItemsHTML()
+			)
+		)
+	);
+
+/**
+ * Render the todo items progressbar.
+ *
+ * @param {Object} lessonSection The lesson section.
+ * @param {string} pageTodos
+ * @return {Element} Element to render.
+ */
+const PrplTodoProgress = ( lessonSection, pageTodos ) => {
+	// Get an array of required todo items.
+	const requiredToDos = [];
+	if ( lessonSection.todos ) {
+		lessonSection.todos.forEach( ( toDoGroup ) => {
+			toDoGroup.group_todos.forEach( ( item ) => {
+				if ( item.todo_required ) {
+					requiredToDos.push( item.id );
+				}
+			} );
+		} );
+	}
+
+	// Get an array of completed todo items.
+	const completedToDos = pageTodos
+		.split( ',' )
+		.filter( ( item ) => requiredToDos.includes( item ) );
+
+	// Get the percentage of completed todo items.
+	const percentageComplete = Math.round(
+		( completedToDos.length / requiredToDos.length ) * 100
+	);
+
+	return el(
+		'div',
+		{},
+		el(
+			'div',
+			{
+				style: {
+					width: '100%',
+					display: 'flex',
+					alignItems: 'center',
+				},
+			},
+			el(
+				'div',
+				{
+					style: {
+						width: '100%',
+						backgroundColor: '#e1e3e7',
+						height: '15px',
+						borderRadius: '5px',
+					},
+				},
+				el( 'div', {
+					style: {
+						width: `${ percentageComplete }%`,
+						backgroundColor: '#14b8a6',
+						height: '15px',
+						borderRadius: '5px',
+					},
+				} )
+			),
+			el(
+				'div',
+				{
+					style: {
+						margin: '0 5px',
+						fontSize: '12px',
+						color: '#38296D',
+					},
+				},
+				`${ percentageComplete }%`
+			)
+		),
+		el( 'div', {
+			dangerouslySetInnerHTML: {
+				__html: progressPlannerEditor.i18n.checklistProgressDescription,
+			},
+		} )
+	);
+};
+
+/**
+ * Render a single todo item with its checkbox.
+ *
+ * @param {Object} item
+ * @param {string} pageTodos
+ * @return {Element} Element to render.
+ */
+const PrplCheckListItem = ( item, pageTodos ) =>
+	el(
+		'div',
+		{
+			key: item.id,
+		},
+		el( CheckboxControl, {
+			checked: pageTodos.split( ',' ).includes( item.id ),
+			label: item.todo_name,
+			className: item.todo_required
+				? 'progress-planner-pro-todo-item required'
+				: 'progress-planner-pro-todo-item',
+			help: el( 'div', {
+				dangerouslySetInnerHTML: {
+					__html: item.todo_description,
+				},
+			} ),
+			onChange: ( checked ) => {
+				const toDos = pageTodos.split( ',' );
+				if ( checked ) {
+					toDos.push( item.id );
+				} else {
+					toDos.splice( toDos.indexOf( item.id ), 1 );
+				}
+				// Update the `progress_planner_page_todos` meta value.
+				wp.data.dispatch( 'core/editor' ).editPost( {
+					meta: {
+						progress_planner_page_todos: toDos.join( ',' ),
+					},
+				} );
+			},
+		} )
+	);
+
+/**
+ * Render the todo items.
+ *
+ * @param {Object} lessonSection The lesson section.
+ * @param {string} pageTodos
+ * @return {Element} Element to render.
+ */
+const PrplCheckList = ( lessonSection, pageTodos ) =>
+	lessonSection.todos.map( ( toDoGroup ) =>
+		el(
+			PanelBody,
+			{
+				key: `progress-planner-pro-sidebar-lesson-section-${ toDoGroup.group_heading }`,
+				title: toDoGroup.group_heading,
+				initialOpen: false,
+			},
+			el(
+				'div',
+				{
+					key: `progress-planner-pro-sidebar-lesson-section-${ toDoGroup.group_heading }-todos`,
+				},
+				toDoGroup.group_todos.map( ( item ) =>
+					PrplCheckListItem( item, pageTodos )
+				)
 			)
 		)
 	);

@@ -37,15 +37,15 @@ class Page {
 	 */
 	public function get_widgets() {
 		$widgets = [
-			new \Progress_Planner\Widgets\Activity_Scores(),
-			new \Progress_Planner\Widgets\Suggested_Tasks(),
-			new \Progress_Planner\Widgets\ToDo(),
-			new \Progress_Planner\Widgets\Badge_Streak(),
-			new \Progress_Planner\Widgets\Latest_Badge(),
-			new \Progress_Planner\Widgets\Published_Content_Density(),
-			new \Progress_Planner\Widgets\Published_Words(),
-			new \Progress_Planner\Widgets\Published_Content(),
-			new \Progress_Planner\Widgets\Whats_New(),
+			\progress_planner()->get_widgets__activity_scores(),
+			\progress_planner()->get_widgets__suggested_tasks(),
+			\progress_planner()->get_widgets__todo(),
+			\progress_planner()->get_widgets__badge_streak(),
+			\progress_planner()->get_widgets__latest_badge(),
+			\progress_planner()->get_widgets__published_content_density(),
+			\progress_planner()->get_widgets__published_words(),
+			\progress_planner()->get_widgets__published_content(),
+			\progress_planner()->get_widgets__whats_new(),
 		];
 
 		/**

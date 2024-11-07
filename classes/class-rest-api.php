@@ -12,8 +12,6 @@
 
 namespace Progress_Planner;
 
-use Progress_Planner\Widgets\Activity_Scores;
-
 /**
  * Rest_API class.
  */
@@ -89,7 +87,7 @@ class Rest_API {
 		);
 
 		// Get the website activity score.
-		$activity_score           = new Activity_Scores();
+		$activity_score           = new \Progress_Planner\Widgets\Activity_Scores();
 		$data['website_activity'] = [
 			'score'     => $activity_score->get_score(),
 			'checklist' => $activity_score->get_checklist_results(),
@@ -154,7 +152,7 @@ class Rest_API {
 		$todo_items         = \progress_planner()->get_todo()->get_items();
 		$pending_todo_items = [];
 		foreach ( $todo_items as $item ) {
-			if ( ! $todo_items['done'] ) {
+			if ( ! $item['done'] ) {
 				$pending_todo_items[] = $item['content'];
 			}
 		}

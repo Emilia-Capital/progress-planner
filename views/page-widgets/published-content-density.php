@@ -10,7 +10,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $prpl_widget = \progress_planner()->get_admin__page()->get_widget( 'published-content-density' );
-
 ?>
 
 <div class="prpl-counter-big-wrapper">

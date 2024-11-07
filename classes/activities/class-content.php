@@ -7,13 +7,10 @@
 
 namespace Progress_Planner\Activities;
 
-use Progress_Planner\Base;
-use Progress_Planner\Activity;
-
 /**
  * Handler for content activities.
  */
-class Content extends Activity {
+class Content extends \Progress_Planner\Activity {
 
 	/**
 	 * Category of the activity.

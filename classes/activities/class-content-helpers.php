@@ -7,8 +7,6 @@
 
 namespace Progress_Planner\Activities;
 
-use Progress_Planner\Activities\Content;
-
 /**
  * Helper methods for content activities.
  */
@@ -106,7 +104,7 @@ class Content_Helpers {
 		$type = 'publish' === $post->post_status ? 'publish' : 'update';
 		$date = 'publish' === $post->post_status ? $post->post_date : $post->post_modified;
 
-		$activity           = new Content();
+		$activity           = new \Progress_Planner\Activities\Content();
 		$activity->category = 'content';
 		$activity->type     = $type;
 		$activity->date     = \progress_planner()->get_date()->get_datetime_from_mysql_date( $date );

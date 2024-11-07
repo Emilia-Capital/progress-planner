@@ -43,13 +43,20 @@ class Editor {
 			'progress-planner-editor',
 			'progressPlannerEditor',
 			[
-				'lessons'         => \progress_planner()->get_lessons()->get_remote_api_items(),
+				'lessons'         => \progress_planner()->get_lessons()->get_items(),
 				'pageTypes'       => \progress_planner()->get_page_types()->get_page_types(),
 				'defaultPageType' => \progress_planner()->get_page_types()->get_default_page_type( (string) \get_post_type(), (int) \get_the_ID() ),
 				'i18n'            => [
-					'pageType'               => \esc_html__( 'Page type', 'progress-planner' ),
-					'progressPlannerSidebar' => \esc_html__( 'Progress Planner Sidebar', 'progress-planner' ),
-					'progressPlanner'        => \esc_html__( 'Progress Planner', 'progress-planner' ),
+					'pageType'                     => \esc_html__( 'Page type', 'progress-planner' ),
+					'progressPlannerSidebar'       => \esc_html__( 'Progress Planner Sidebar', 'progress-planner' ),
+					'progressPlanner'              => \esc_html__( 'Progress Planner', 'progress-planner' ),
+					'watchVideo'                   => \esc_html__( 'Watch video', 'progress-planner' ),
+					'video'                        => \esc_html__( 'Video', 'progress-planner' ),
+					'checklistProgressDescription' => sprintf(
+						/* translators: %s: the checkmark icon. */
+						\esc_html__( 'Check off all required elements %s in the element checks below', 'progress-planner' ),
+						'<span style="background-color:#14b8a6;padding:0.35em;margin:0 0.25em;border-radius:50%;display:inline-block;"></span>'
+					),
 				],
 			]
 		);

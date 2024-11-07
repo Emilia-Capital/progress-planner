@@ -7,12 +7,10 @@
 
 namespace Progress_Planner\Suggested_Tasks\Local_Tasks;
 
-use Progress_Planner\Suggested_Tasks\Local_Tasks;
-
 /**
  * Add tasks for Core updates.
  */
-class Update_Core extends Local_Tasks {
+class Update_Core extends \Progress_Planner\Suggested_Tasks\Local_Tasks {
 
 	/**
 	 * Evaluate a task.

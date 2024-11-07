@@ -7,8 +7,6 @@
 
 namespace Progress_Planner\Actions;
 
-use Progress_Planner\Activities\Content as Content_Activity;
-
 /**
  * Content actions.
  */
@@ -184,7 +182,7 @@ class Content {
 		\progress_planner()->get_settings()->set( [ 'word_count', $post_id ], false );
 
 		// Add activity.
-		$activity           = new Content_Activity();
+		$activity           = new \Progress_Planner\Activities\Content();
 		$activity->category = 'content';
 		$activity->type     = 'delete';
 		$activity->data_id  = (string) $post_id;
