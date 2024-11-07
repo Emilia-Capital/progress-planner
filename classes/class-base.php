@@ -73,7 +73,6 @@ class Base {
 			\add_filter( 'plugin_action_links_' . plugin_basename( PROGRESS_PLANNER_FILE ), [ $this, 'add_action_links' ] );
 
 			// We need to initialize some classes early.
-			$this->cached['page_types']      = new Page_Types();
 			$this->cached['settings']        = new Settings();
 			$this->cached['settings_page']   = new \Progress_Planner\Admin\Page_Settings();
 			$this->cached['suggested_tasks'] = new Suggested_Tasks();
@@ -81,6 +80,8 @@ class Base {
 
 		// Content actions.
 		$this->cached['actions__content'] = new \Progress_Planner\Actions\Content();
+
+		$this->cached['page_types'] = new Page_Types();
 
 		// REST API.
 		$this->cached['rest_api'] = new Rest_API();
