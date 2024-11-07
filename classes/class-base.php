@@ -51,34 +51,37 @@ class Base {
 		}
 
 		// Basic classes.
-		if ( \is_admin() && \current_user_can( 'publish_posts' ) ) {
-			$this->cached['admin__page']                   = new \Progress_Planner\Admin\Page();
-			$this->cached['admin__tour']                   = new \Progress_Planner\Admin\Tour();
-			$this->cached['admin__dashboard_widget_score'] = new \Progress_Planner\Admin\Dashboard_Widget_Score();
-			$this->cached['admin__dashboard_widget_todo']  = new \Progress_Planner\Admin\Dashboard_Widget_Todo();
-		}
-		$this->cached['admin__editor'] = new \Progress_Planner\Admin\Editor();
+		if ( \is_admin() ) {
 
-		$this->cached['actions__content']      = new \Progress_Planner\Actions\Content();
-		$this->cached['actions__content_scan'] = new \Progress_Planner\Actions\Content_Scan();
-		$this->cached['actions__maintenance']  = new \Progress_Planner\Actions\Maintenance();
+			if ( \current_user_can( 'publish_posts' ) ) {
+				$this->cached['admin__page']                   = new \Progress_Planner\Admin\Page();
+				$this->cached['admin__tour']                   = new \Progress_Planner\Admin\Tour();
+				$this->cached['admin__dashboard_widget_score'] = new \Progress_Planner\Admin\Dashboard_Widget_Score();
+				$this->cached['admin__dashboard_widget_todo']  = new \Progress_Planner\Admin\Dashboard_Widget_Todo();
+			}
+			$this->cached['admin__editor'] = new \Progress_Planner\Admin\Editor();
+
+			$this->cached['actions__content']      = new \Progress_Planner\Actions\Content();
+			$this->cached['actions__content_scan'] = new \Progress_Planner\Actions\Content_Scan();
+			$this->cached['actions__maintenance']  = new \Progress_Planner\Actions\Maintenance();
+
+			// Onboarding.
+			$this->cached['onboard'] = new Onboard();
+
+			// To-do.
+			$this->cached['todo'] = new Todo();
+
+			\add_filter( 'plugin_action_links_' . plugin_basename( PROGRESS_PLANNER_FILE ), [ $this, 'add_action_links' ] );
+
+			// We need to initialize some classes early.
+			$this->cached['page_types']      = new Page_Types();
+			$this->cached['settings']        = new Settings();
+			$this->cached['settings_page']   = new \Progress_Planner\Admin\Page_Settings();
+			$this->cached['suggested_tasks'] = new Suggested_Tasks();
+		}
 
 		// REST API.
 		$this->cached['rest_api'] = new Rest_API();
-
-		// Onboarding.
-		$this->cached['onboard'] = new Onboard();
-
-		// To-do.
-		$this->cached['todo'] = new Todo();
-
-		\add_filter( 'plugin_action_links_' . plugin_basename( PROGRESS_PLANNER_FILE ), [ $this, 'add_action_links' ] );
-
-		// We need to initialize some classes early.
-		$this->cached['page_types']      = new Page_Types();
-		$this->cached['settings']        = new Settings();
-		$this->cached['settings_page']   = new \Progress_Planner\Admin\Page_Settings();
-		$this->cached['suggested_tasks'] = new Suggested_Tasks();
 	}
 
 	/**
