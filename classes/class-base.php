@@ -51,7 +51,7 @@ class Base {
 		}
 
 		// Basic classes.
-		if ( \is_admin() ) {
+		if ( \is_admin() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
 
 			if ( \current_user_can( 'publish_posts' ) ) {
 				$this->cached['admin__page']                   = new \Progress_Planner\Admin\Page();
@@ -61,7 +61,6 @@ class Base {
 			}
 			$this->cached['admin__editor'] = new \Progress_Planner\Admin\Editor();
 
-			$this->cached['actions__content']      = new \Progress_Planner\Actions\Content();
 			$this->cached['actions__content_scan'] = new \Progress_Planner\Actions\Content_Scan();
 			$this->cached['actions__maintenance']  = new \Progress_Planner\Actions\Maintenance();
 
@@ -79,6 +78,9 @@ class Base {
 			$this->cached['settings_page']   = new \Progress_Planner\Admin\Page_Settings();
 			$this->cached['suggested_tasks'] = new Suggested_Tasks();
 		}
+
+		// Content actions.
+		$this->cached['actions__content'] = new \Progress_Planner\Actions\Content();
 
 		// REST API.
 		$this->cached['rest_api'] = new Rest_API();
