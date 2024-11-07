@@ -53,7 +53,7 @@ class Lessons {
 			'https://progressplanner.com/wp-json/progress-planner-saas/v1/free-lessons'
 		);
 
-		$cache_key = 'lessons-' . $url;
+		$cache_key = 'lessons-' . md5( $url );
 
 		$cached = \progress_planner()->get_cache()->get( $cache_key );
 		if ( is_array( $cached ) ) {
