@@ -371,17 +371,19 @@ document.addEventListener( 'DOMContentLoaded', () => {
 
 // Handle the monthly badges scrolling.
 class BadgeScroller {
-	constructor() {
-		this.badgeButtonUp = document.querySelector(
+	constructor( element ) {
+		this.element = element;
+
+		this.badgeButtonUp = this.element.querySelector(
 			'.prpl-badge-row-button-up'
 		);
-		this.badgeButtonDown = document.querySelector(
+		this.badgeButtonDown = this.element.querySelector(
 			'.prpl-badge-row-button-down'
 		);
-		this.badgeRowWrapper = document.querySelector(
+		this.badgeRowWrapper = this.element.querySelector(
 			'.prpl-badge-row-wrapper'
 		);
-		this.badgeRowWrapperInner = document.querySelector(
+		this.badgeRowWrapperInner = this.element.querySelector(
 			'.prpl-badge-row-wrapper-inner'
 		);
 		this.badges =
@@ -393,10 +395,23 @@ class BadgeScroller {
 
 	init() {
 		this.addEventListeners();
+
+		// On page load.
 		this.setWrapperHeight();
 
+		// When popover is opened.
+		document
+			.querySelector( '#prpl-popover-monthly-badges' )
+			.addEventListener( 'toggle', ( event ) => {
+				if ( 'open' === event.newState ) {
+					this.setWrapperHeight();
+				}
+			} );
+
 		// Handle window resize.
-		window.addEventListener( 'resize', () => this.setWrapperHeight() );
+		window.addEventListener( 'resize', () => {
+			this.setWrapperHeight();
+		} );
 	}
 
 	setWrapperHeight() {
@@ -418,10 +433,6 @@ class BadgeScroller {
 		// Set wrapper height to show 2 rows.
 		const twoRowsHeight = this.badges[ 0 ].offsetHeight * 2 + gridGap;
 		this.badgeRowWrapperInner.style.height = twoRowsHeight + 'px';
-
-		// Dispatch a custom event to resize all grid items.
-		const event = new Event( 'prplResizeAllGridItemsEvent' );
-		document.dispatchEvent( event );
 	}
 
 	addEventListeners() {
@@ -484,9 +495,17 @@ class BadgeScroller {
 
 // Initialize on DOM load
 if ( document.readyState !== 'loading' ) {
-	new BadgeScroller();
+	document
+		.querySelectorAll( '.badge-group-monthly' )
+		.forEach( ( element ) => {
+			new BadgeScroller( element );
+		} );
 } else {
 	document.addEventListener( 'DOMContentLoaded', () => {
-		new BadgeScroller();
+		document
+			.querySelectorAll( '.badge-group-monthly' )
+			.forEach( ( element ) => {
+				new BadgeScroller( element );
+			} );
 	} );
 }
