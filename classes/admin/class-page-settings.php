@@ -88,13 +88,10 @@ class Page_Settings {
 
 				$need_page = \sanitize_text_field( \wp_unslash( $page_args['have_page'] ) );
 
-				// Add the no-page-needed flag if it doesn't exist.
-				if ( 'not-applicable' === $need_page ) {
-					\progress_planner()->get_page_types()->add_no_type_needed( $type );
-				} else {
-					// Remove the no-page-needed flag if it exists.
-					\progress_planner()->get_page_types()->remove_no_type_needed( $type );
-				}
+				\progress_planner()->get_page_types()->set_no_page_needed(
+					$type,
+					'not-applicable' === $need_page
+				);
 
 				// Remove the post-meta from the existing posts.
 				$existing_posts = \progress_planner()->get_page_types()->get_posts_by_type( 'any', $type );

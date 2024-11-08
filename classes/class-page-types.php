@@ -218,22 +218,6 @@ class Page_Types {
 	}
 
 	/**
-	 * Set the page-type for a post, by slug.
-	 *
-	 * @param int    $post_id The post ID.
-	 * @param string $page_type The page type.
-	 *
-	 * @return void
-	 */
-	public function set_page_type_by_slug( $post_id, $page_type ) {
-		$term = \get_term_by( 'slug', $page_type, self::TAXONOMY_NAME );
-		if ( ! $term || ! $term instanceof \WP_Term ) {
-			return;
-		}
-		$this->set_page_type_by_id( $post_id, $term->term_id );
-	}
-
-	/**
 	 * Set the page-type for a post, by ID.
 	 *
 	 * @param int $post_id The post ID.
@@ -425,58 +409,28 @@ class Page_Types {
 	 * @return bool
 	 */
 	public function is_page_needed( $type ) {
-		$no_type_needed_term = $this->get_term_by_type( $type );
-
-		return '' !== get_term_meta( $no_type_needed_term->term_id, 'type_not_needed', true ) ? false : true;
+		$term = $this->get_term_by_type( $type );
+		return '' !== get_term_meta( $term->term_id, '_progress_planner_no_page', true ) ? false : true;
 	}
 
 	/**
-	 * Set the no-page-needed term.
+	 * Set or delete the `_progress_planner_no_page` term-meta.
 	 *
-	 * @param string $type The type.
+	 * @param string $type  The type.
+	 * @param bool   $value The value. `true` to set, `false` to delete.
 	 *
 	 * @return void
 	 */
-	public function add_no_type_needed( $type ) {
-		$no_type_needed_term = $this->get_term_by_type( $type );
-		if ( ! $no_type_needed_term ) {
+	public function set_no_page_needed( $type, $value ) {
+		$term = $this->get_term_by_type( $type );
+		if ( ! $term ) {
 			return;
 		}
 
-		\update_term_meta( $no_type_needed_term->term_id, 'type_not_needed', '1' );
-	}
-
-	/**
-	 * Remove the no-page-needed term.
-	 *
-	 * @param string $type The type.
-	 *
-	 * @return void
-	 */
-	public function remove_no_type_needed( $type ) {
-		$no_type_needed_term = $this->get_term_by_type( $type );
-		if ( ! $no_type_needed_term ) {
-			return;
+		if ( $value ) {
+			\update_term_meta( $term->term_id, '_progress_planner_no_page', '1' );
+		} else {
+			\delete_term_meta( $term->term_id, '_progress_planner_no_page' );
 		}
-
-		\delete_term_meta( $no_type_needed_term->term_id, 'type_not_needed' );
-	}
-
-	/**
-	 * Get the term types that are not needed.
-	 *
-	 * @return \WP_Term[]
-	 */
-	public function get_not_needed_terms() {
-		$terms = \get_terms(
-			[
-				'taxonomy'   => self::TAXONOMY_NAME,
-				'hide_empty' => false,
-				'meta_key'   => 'type_not_needed',
-				'meta_value' => '1',
-			]
-		);
-
-		return $terms;
 	}
 }
