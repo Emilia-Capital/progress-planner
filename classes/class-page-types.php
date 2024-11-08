@@ -153,6 +153,10 @@ class Page_Types {
 	 * @return array
 	 */
 	public function get_page_types() {
+		static $page_types;
+		if ( null !== $page_types ) {
+			return $page_types;
+		}
 
 		$terms = \get_terms(
 			[
@@ -162,7 +166,8 @@ class Page_Types {
 		);
 
 		if ( ! $terms || \is_wp_error( $terms ) ) {
-			return [];
+			$page_types = [];
+			return $page_types;
 		}
 
 		$page_types = [];
@@ -187,6 +192,13 @@ class Page_Types {
 	 * @return \WP_Post[] Return the posts.
 	 */
 	public function get_posts_by_type( $post_type, $slug ) {
+		static $cache = [];
+		if ( isset( $cache[ $post_type ][ $slug ] ) ) {
+			return $cache[ $post_type ][ $slug ];
+		}
+		if ( ! isset( $cache[ $post_type ] ) ) {
+			$cache[ $post_type ] = [];
+		}
 		$posts = \get_posts(
 			[
 				'post_type'      => $post_type,
@@ -200,7 +212,9 @@ class Page_Types {
 				],
 			]
 		);
-		return ( empty( $posts ) ) ? [] : $posts;
+
+		$cache[ $post_type ][ $slug ] = empty( $posts ) ? [] : $posts;
+		return $cache[ $post_type ][ $slug ];
 	}
 
 	/**
@@ -394,8 +408,13 @@ class Page_Types {
 	 * @return \WP_Term|false
 	 */
 	public function get_term_by_type( $type ) {
-		$no_type_needed_term = \get_term_by( 'slug', $type, self::TAXONOMY_NAME );
-		return $no_type_needed_term instanceof \WP_Term ? $no_type_needed_term : false;
+		static $cache = [];
+		if ( isset( $cache[ $type ] ) ) {
+			return $cache[ $type ];
+		}
+		$term = \get_term_by( 'slug', $type, self::TAXONOMY_NAME );
+		$cache[ $type ] = $term instanceof \WP_Term ? $term : false;
+		return $cache[ $type ];
 	}
 
 	/**
@@ -449,7 +468,6 @@ class Page_Types {
 	 * @return \WP_Term[]
 	 */
 	public function get_not_needed_terms() {
-
 		$terms = \get_terms(
 			[
 				'taxonomy'   => self::TAXONOMY_NAME,
