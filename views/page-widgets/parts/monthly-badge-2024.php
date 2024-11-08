@@ -14,7 +14,7 @@ $css_class = isset( $args['css_class'] ) ? \esc_attr( $args['css_class'] ) : '';
 ?>
 
 <div class="<?php echo \esc_attr( $css_class ); ?>">
-<<?php echo \esc_html( $title_tag ); ?> class="prpl-widget-title">
+	<<?php echo \esc_html( $title_tag ); ?> class="prpl-widget-title">
 		<?php \esc_html_e( 'Your monthly badge 2024', 'progress-planner' ); ?>
 	</<?php echo \esc_html( $title_tag ); ?>>
 	<div class="prpl-ravi-reward-container">
