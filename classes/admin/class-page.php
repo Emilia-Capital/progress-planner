@@ -40,9 +40,9 @@ class Page {
 			\progress_planner()->get_widgets__activity_scores(),
 			\progress_planner()->get_widgets__suggested_tasks(),
 			\progress_planner()->get_widgets__todo(),
+			\progress_planner()->get_widgets__latest_badge(),
 			\progress_planner()->get_widgets__badge_streak(),
 			\progress_planner()->get_widgets__published_content(),
-			\progress_planner()->get_widgets__latest_badge(),
 			\progress_planner()->get_widgets__whats_new(),
 		];
 
