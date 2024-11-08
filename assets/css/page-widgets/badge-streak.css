@@ -1,76 +1,4 @@
-.prpl-widget-wrapper.prpl-badge-streak {
 
-	.progress-label {
-		display: inline-block;
-	}
-
-	.progress-wrapper {
-		display: grid;
-		grid-template-columns: 1fr 1fr 1fr;
-		gap: calc(var(--prpl-gap) / 2);
-		background-color: var(--prpl-background-blue);
-		padding: calc(var(--prpl-padding) / 2);
-		border-radius: var(--prpl-border-radius);
-		margin-bottom: var(--prpl-padding);
-
-		.prpl-badge {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			justify-content: space-between;
-			flex-wrap: wrap;
-			min-width: 0;
-		}
-
-		p {
-			margin: 0;
-			font-size: var(--prpl-font-size-xs);
-			text-align: center;
-			line-height: 1.2;
-		}
-
-		.prpl-badge-icon-image {
-			width: calc(100% * var(--multiplier));
-			margin-bottom: 1rem;
-
-			&.incomplete {
-				filter: grayscale(1);
-				opacity: 0.25;
-			}
-		}
-
-		+ .progress-wrapper {
-			background-color: var(--prpl-background-orange);
-
-			&.badge-group-maintenance {
-				background-color: var(--prpl-background-red);
-			}
-		}
-	}
-
-	.prpl-badge {
-
-		/* Change this number to adjust the rate of growth of the badges size. */
-		--multiplier-default: 1.125;
-		--multiplier: var(--multiplier-default);
-
-		+ .prpl-badge {
-			--multiplier: calc(var(--multiplier-default) * var(--multiplier-default));
-
-			+ .prpl-badge {
-				--multiplier: calc(var(--multiplier-default) * var(--multiplier-default) * var(--multiplier-default));
-			}
-		}
-	}
-
-	.prpl-widget-content {
-		margin-bottom: 1em;
-	}
-
-	.prpl-badge-wrapper {
-		background: var(--background, var(--prpl-background-red));
-	}
-}
 
 .prpl-badge-wrapper {
 	width: calc(100% - var(--prpl-padding) * 2);
@@ -130,8 +58,8 @@
 	filter: drop-shadow(0 0 1px rgb(0 0 0 / 0.4));
 }
 
-#popover-badges-content,
-#popover-badges-maintenance {
+#popover-badge-streak-content,
+#popover-badge-streak-maintenance {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-gap: var(--prpl-padding);
@@ -144,11 +72,11 @@
 	}
 }
 
-#popover-badges-content .inner {
+#popover-badge-streak-content .inner {
 	background: var(--prpl-background-red);
 }
 
-#popover-badges-maintenance .inner {
+#popover-badge-streak-maintenance .inner {
 	background: var(--prpl-background-blue);
 }
 
@@ -169,7 +97,7 @@
 	Badges popover.
 \*------------------------------------*/
 
-#prpl-popover-badges-details {
+#prpl-popover-badge-streak {
 
 	.indicators {
 		display: grid;
