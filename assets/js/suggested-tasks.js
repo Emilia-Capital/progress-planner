@@ -371,17 +371,19 @@ document.addEventListener( 'DOMContentLoaded', () => {
 
 // Handle the monthly badges scrolling.
 class BadgeScroller {
-	constructor() {
-		this.badgeButtonUp = document.querySelector(
+	constructor( element ) {
+		this.element = element;
+
+		this.badgeButtonUp = this.element.querySelector(
 			'.prpl-badge-row-button-up'
 		);
-		this.badgeButtonDown = document.querySelector(
+		this.badgeButtonDown = this.element.querySelector(
 			'.prpl-badge-row-button-down'
 		);
-		this.badgeRowWrapper = document.querySelector(
+		this.badgeRowWrapper = this.element.querySelector(
 			'.prpl-badge-row-wrapper'
 		);
-		this.badgeRowWrapperInner = document.querySelector(
+		this.badgeRowWrapperInner = this.element.querySelector(
 			'.prpl-badge-row-wrapper-inner'
 		);
 		this.badges =
@@ -393,7 +395,9 @@ class BadgeScroller {
 
 	init() {
 		this.addEventListeners();
-		// this.setWrapperHeight();
+
+		// On page load.
+		this.setWrapperHeight();
 
 		// When popover is opened.
 		document
@@ -405,7 +409,9 @@ class BadgeScroller {
 			} );
 
 		// Handle window resize.
-		window.addEventListener( 'resize', () => this.setWrapperHeight() );
+		window.addEventListener( 'resize', () => {
+			this.setWrapperHeight();
+		} );
 	}
 
 	setWrapperHeight() {
@@ -489,9 +495,17 @@ class BadgeScroller {
 
 // Initialize on DOM load
 if ( document.readyState !== 'loading' ) {
-	new BadgeScroller();
+	document
+		.querySelectorAll( '.badge-group-monthly' )
+		.forEach( ( element ) => {
+			new BadgeScroller( element );
+		} );
 } else {
 	document.addEventListener( 'DOMContentLoaded', () => {
-		new BadgeScroller();
+		document
+			.querySelectorAll( '.badge-group-monthly' )
+			.forEach( ( element ) => {
+				new BadgeScroller( element );
+			} );
 	} );
 }
