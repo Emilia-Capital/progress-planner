@@ -30,15 +30,15 @@ final class Monthly_Badges extends Popover {
 		<div class="prpl-widgets-container in-popover">
 
 			<div class="prpl-popover-column">
-				<div class="prpl-widget-wrapper in-popover">
-					<h3 class="prpl-widget-title"><?php esc_html_e( 'Monthly badges 2024', 'progress-planner' ); ?></h3>
-					<div class="prpl-ravi-reward-container">
-						<span class="prpl-ravi-reward-icon">
-							<?php \progress_planner()->the_asset( 'images/badges/monthly-badge-default.svg' ); ?>
-						</span>
-						<p><?php esc_html_e( 'Ravi\'s remarkable Reward', 'progress-planner' ); ?></p>
-					</div>
-				</div>
+				<?php
+				\progress_planner()->the_view(
+					'page-widgets/parts/monthly-badge-2024.php',
+					[
+						'css_class' => 'prpl-widget-wrapper in-popover',
+						'title_tag' => 'h3',
+					]
+				);
+				?>
 
 				<?php
 				\progress_planner()->the_view(

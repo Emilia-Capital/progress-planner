@@ -66,15 +66,14 @@ $percentage  = $prpl_widget->get_score() / \Progress_Planner\Badges\Monthly::TAR
 
 <div class="prpl-widget-content">
 	<?php if ( 2024 === (int) gmdate( 'Y' ) ) : ?>
-	<h2 class="prpl-widget-title">
-		<?php \esc_html_e( 'Your monthly badge 2024', 'progress-planner' ); ?>
-	</h2>
-	<div class="prpl-ravi-reward-container">
-		<span class="prpl-ravi-reward-icon">
-			<?php \progress_planner()->the_asset( 'images/badges/monthly-badge-default.svg' ); ?>
-		</span>
-		<p><?php esc_html_e( 'Ravi\'s remarkable Reward', 'progress-planner' ); ?></p>
-	</div>
+		<?php
+		\progress_planner()->the_view(
+			'page-widgets/parts/monthly-badge-2024.php',
+			[
+				'title_tag' => 'h2',
+			]
+		);
+		?>
 	<?php else : ?>
 
 		<?php
