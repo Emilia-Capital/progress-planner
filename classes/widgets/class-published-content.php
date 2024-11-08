@@ -82,7 +82,9 @@ final class Published_Content extends \Progress_Planner\Widget {
 		return array_merge(
 			$this->get_chart_args(),
 			[
-				// 'count_callback' => [ $this, 'count_words' ],
+				'count_callback' => function ( $activities, $date = null ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
+					return count( $activities );
+				},
 			]
 		);
 	}
