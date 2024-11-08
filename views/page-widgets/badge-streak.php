@@ -61,28 +61,30 @@ if ( $prpl_widget->get_details( 'maintenance' ) ) {
 </h2>
 
 <div class="prpl-latest-badges-wrapper">
-	<?php foreach ( $prpl_widget_context_details as $context => $details ) : ?>
+	<?php foreach ( $prpl_widget_context_details as $prpl_context => $prpl_details ) : ?>
 		<div class="prpl-badges-columns-wrapper">
-			<div class="prpl-badge-wrapper" style="--background: <?php echo \esc_attr( $details['background'] ); ?>">
+			<div class="prpl-badge-wrapper" style="--background: <?php echo \esc_attr( $prpl_details['background'] ); ?>">
 				<span
 					class="prpl-badge"
-					data-value="<?php echo \esc_attr( $prpl_widget->get_details( $context )->get_progress()['progress'] ); ?>"
+					data-value="<?php echo \esc_attr( $prpl_widget->get_details( $prpl_context )->get_progress()['progress'] ); ?>"
 				>
 					<div
 						class="prpl-badge-gauge"
 						style="
-							--value:<?php echo (float) ( $prpl_widget->get_details( $context )->get_progress()['progress'] / 100 ); ?>;
+							--value:<?php echo (float) ( $prpl_widget->get_details( $prpl_context )->get_progress()['progress'] / 100 ); ?>;
 							--max: 360deg;
 							--start: 180deg;
 						">
-						<?php $prpl_widget->get_details( $context )->the_icon( true ); ?>
+						<?php $prpl_widget->get_details( $prpl_context )->the_icon( true ); ?>
 					</div>
 				</span>
-				<span class="progress-percent"><?php echo \esc_attr( $prpl_widget->get_details( $context )->get_progress()['progress'] ); ?>%</span>
+				<span class="progress-percent">
+					<?php echo \esc_attr( $prpl_widget->get_details( $prpl_context )->get_progress()['progress'] ); ?>%
+				</span>
 			</div>
 			<div class="prpl-badge-content-wrapper">
-				<h3><?php echo \esc_html( $prpl_widget->get_details( $context )->get_name() ); ?></h3>
-				<p><?php echo \esc_html( $details['text'] ); ?></p>
+				<h3><?php echo \esc_html( $prpl_widget->get_details( $prpl_context )->get_name() ); ?></h3>
+				<p><?php echo \esc_html( $prpl_details['text'] ); ?></p>
 			</div>
 		</div>
 
