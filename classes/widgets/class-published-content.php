@@ -25,6 +25,10 @@ final class Published_Content extends \Progress_Planner\Widget {
 	 * @return array The stats.
 	 */
 	public function get_stats() {
+		static $stats;
+		if ( null !== $stats ) {
+			return $stats;
+		}
 		$post_types = \progress_planner()->get_activities__content_helpers()->get_post_types_names();
 		$weekly     = [];
 		$all        = [];
@@ -48,10 +52,11 @@ final class Published_Content extends \Progress_Planner\Widget {
 			$all[ $post_type ] = \wp_count_posts( $post_type )->publish;
 		}
 
-		return [
+		$stats = [
 			'weekly' => $weekly,
 			'all'    => $all,
 		];
+		return $stats;
 	}
 
 	/**
