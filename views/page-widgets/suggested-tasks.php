@@ -9,8 +9,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$prpl_widget = \progress_planner()->get_admin__page()->get_widget( 'suggested-tasks' );
-$percentage  = $prpl_widget->get_score() / \Progress_Planner\Badges\Monthly::TARGET_POINTS;
+$prpl_widget     = \progress_planner()->get_admin__page()->get_widget( 'suggested-tasks' );
+$prpl_percentage = $prpl_widget->get_score() / \Progress_Planner\Badges\Monthly::TARGET_POINTS;
 ?>
 <h2 class="prpl-widget-title">
 	<?php \esc_html_e( 'Your monthly badge', 'progress-planner' ); ?>
@@ -20,7 +20,7 @@ $percentage  = $prpl_widget->get_score() / \Progress_Planner\Badges\Monthly::TAR
 	<div
 		class="prpl-activities-gauge"
 		style="
-			--value:<?php echo (float) $percentage; ?>;
+			--value:<?php echo (float) $prpl_percentage; ?>;
 			--background: var(--prpl-background-orange);
 			--max: 180deg;
 			--start: 270deg;

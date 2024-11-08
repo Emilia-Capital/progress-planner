@@ -396,7 +396,7 @@ class Page_Types {
 		if ( isset( $cache[ $type ] ) ) {
 			return $cache[ $type ];
 		}
-		$term = \get_term_by( 'slug', $type, self::TAXONOMY_NAME );
+		$term           = \get_term_by( 'slug', $type, self::TAXONOMY_NAME );
 		$cache[ $type ] = $term instanceof \WP_Term ? $term : false;
 		return $cache[ $type ];
 	}
