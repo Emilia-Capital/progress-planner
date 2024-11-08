@@ -145,7 +145,7 @@
 .prpl-suggested-tasks-list {
 	list-style: none;
 	padding: 0;
-	margin: 0;
+	margin: 0 0 var(--prpl-padding) 0;
 
 	&:not(:has(+ .prpl-suggested-tasks-list)) .prpl-suggested-task:last-child {
 		border-bottom: none;
@@ -294,4 +294,142 @@
 		}
 
 	}
+}
+
+/*------------------------------------*\
+	Popover styles.
+\*------------------------------------*/
+#prpl-popover-monthly-badges {
+
+	.prpl-widgets-container {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(var(--prpl-column-min-width), 1fr));
+		grid-gap: var(--prpl-gap);
+		grid-auto-rows: auto;
+	}
+
+	.prpl-widget-wrapper {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+
+		&.prpl-badge-streak {
+
+			.progress-label {
+				display: inline-block;
+			}
+
+			.progress-wrapper {
+				display: grid;
+				grid-template-columns: 1fr 1fr 1fr;
+				gap: calc(var(--prpl-gap) / 2);
+				padding: calc(var(--prpl-padding) / 2);
+				margin-bottom: var(--prpl-padding);
+
+				.prpl-badge {
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					justify-content: space-between;
+					flex-wrap: wrap;
+					min-width: 0;
+				}
+
+				p {
+					margin: 0;
+					font-size: var(--prpl-font-size-xs);
+					text-align: center;
+					line-height: 1.2;
+				}
+
+				.prpl-badge-icon-image {
+					width: calc(100% * var(--multiplier));
+					margin-bottom: 1rem;
+
+					&.incomplete {
+						filter: grayscale(1);
+						opacity: 0.25;
+					}
+				}
+
+			}
+
+			.prpl-badge {
+
+				/* Change this number to adjust the rate of growth of the badges size. */
+				--multiplier-default: 1.125;
+				--multiplier: var(--multiplier-default);
+
+				+.prpl-badge {
+					--multiplier: calc(var(--multiplier-default) * var(--multiplier-default));
+
+					+.prpl-badge {
+						--multiplier: calc(var(--multiplier-default) * var(--multiplier-default) * var(--multiplier-default));
+					}
+				}
+			}
+
+			.prpl-widget-content {
+				margin-bottom: 1em;
+			}
+
+			.prpl-badge-wrapper {
+				background: var(--background, var(--prpl-background-red));
+			}
+		}
+	}
+
+	.prpl-widget-title {
+		padding: 0.5rem 1rem;
+		border-radius: 0.5rem;
+		background: var(--prpl-background-orange);
+	}
+
+	.prpl-widget-wrapper-writing {
+
+		.prpl-widget-title {
+			background: var(--prpl-background-blue);
+		}
+	}
+
+	.prpl-widget-wrapper-maintenance {
+
+		.prpl-widget-title {
+			background: var(--prpl-background-red);
+		}
+	}
+}
+
+.prpl-ravi-reward-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding: var(--prpl-padding);
+	background: var(--prpl-background-orange);
+	border-radius: var(--prpl-border-radius);
+	margin-bottom: var(--prpl-padding);
+
+	.prpl-ravi-reward-icon {
+		display: flex;
+		justify-content: center;
+		margin-bottom: 0.5rem;
+
+		/* WIP. */
+		svg {
+			width: 50%;
+		}
+	}
+
+
+	p {
+		margin: 0;
+		text-align: center;
+	}
+}
+
+#prpl-popover-monthly-badges-trigger {
+	font-size: var(--prpl-font-size-base);
+	color: var(--prpl-color-link);
+	text-decoration: underline;
 }

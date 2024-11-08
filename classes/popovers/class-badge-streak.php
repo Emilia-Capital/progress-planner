@@ -10,14 +10,14 @@ namespace Progress_Planner\Popovers;
 /**
  * Badges popover.
  */
-final class Badges extends Popover {
+final class Badge_Streak extends Popover {
 
 	/**
 	 * The popover ID.
 	 *
 	 * @var string
 	 */
-	protected $id = 'badges-details';
+	protected $id = 'badge-streak';
 
 	/**
 	 * Render the widget content.
@@ -34,7 +34,7 @@ final class Badges extends Popover {
 				<h3><?php \esc_html_e( 'Don’t break your streak and stay active every week!', 'progress-planner' ); ?></h3>
 				<p><?php \esc_html_e( 'Execute at least one website maintenance task every week. That could be publishing content, adding content, updating a post, or updating a plugin.', 'progress-planner' ); ?></p>
 				<p><?php \esc_html_e( 'Not able to work on your site for a week? Use your streak freeze!', 'progress-planner' ); ?></p>
-				<div id="popover-badges-content">
+				<div id="popover-badge-streak-content">
 					<?php $this->print_badges( 'maintenance' ); ?>
 				</div>
 				<?php $this->print_progressbar( 'maintenance' ); ?>
@@ -43,7 +43,7 @@ final class Badges extends Popover {
 			<div class="prpl-widget-wrapper in-popover">
 				<h3><?php \esc_html_e( 'Keep adding posts and pages', 'progress-planner' ); ?></h3>
 				<p><?php \esc_html_e( 'The more you write, the sooner you unlock new badges. You can earn level 1 of this badge immediately after installing the plugin if you have written 20 or more blog posts.', 'progress-planner' ); ?></p>
-				<div id="popover-badges-maintenance">
+				<div id="popover-badge-streak-maintenance">
 					<?php $this->print_badges( 'content' ); ?>
 				</div>
 				<?php $this->print_progressbar( 'content' ); ?>
