@@ -52,11 +52,11 @@ if ( $prpl_widget->get_details( 'maintenance' ) ) {
 <h2 class="prpl-widget-title">
 	<?php
 	\esc_html_e( 'Your streak badges', 'progress-planner' );
-	\progress_planner()->get_popovers__badge_streak()->render_button(
+	\progress_planner()->get_popover()->the_popover( 'badge-streak' )->render_button(
 		'info-outline',
 		'<span class="screen-reader-text">' . \esc_html__( 'More info', 'progress-planner' ) . '</span>'
 	);
-	\progress_planner()->get_popovers__badge_streak()->render();
+	\progress_planner()->get_popover()->the_popover( 'badge-streak' )->render();
 	?>
 </h2>
 
