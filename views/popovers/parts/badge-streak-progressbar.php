@@ -21,7 +21,7 @@ $prpl_badges = \progress_planner()->get_badges()->get_badges( $prpl_context );
 					<?php else : ?>
 						<?php
 						printf(
-							'content' === $context
+							'content' === $prpl_context
 								? \esc_html(
 									/* translators: The number of weeks remaining to complete the badge. */
 									_n(
