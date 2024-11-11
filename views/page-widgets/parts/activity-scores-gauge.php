@@ -12,9 +12,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 $prpl_widget = \progress_planner()->get_admin__page()->get_widget( 'activity-scores' );
 
 ?>
-<div class="prpl-activities-gauge-container activities-scores">
+<div class="prpl-gauge-container activities-scores">
 	<div
-		class="prpl-activities-gauge"
+		class="prpl-gauge"
 		style="
 			--value:<?php echo (float) ( $prpl_widget->get_score() / 100 ); ?>;
 			--max: 180deg;

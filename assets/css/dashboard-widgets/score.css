@@ -6,12 +6,16 @@
 		grid-gap: calc(var(--prpl-gap) / 2);
 	}
 
-	.prpl-activities-gauge-container {
+	.prpl-gauge-container {
 		padding-bottom: calc(var(--prpl-padding) * 2);
 		background-color: #fff;
 	}
 
 	.prpl-badge-wrapper {
+		justify-content: center;
+		position: relative;
+		overflow: hidden;
+		margin-bottom: var(--prpl-padding);
 		background: none;
 		display: grid;
 		grid-template-columns: 1fr max-content;
@@ -22,10 +26,22 @@
 		width: auto;
 
 		> * {
+			z-index: 1;
 			align-self: center;
 		}
 
+		.prpl-badge {
+
+			.prpl-badge-gauge {
+				width: 80px;
+				height: 80px;
+			}
+		}
+
 		.progress-percent {
+			line-height: 1;
+			display: block;
+			text-align: center;
 			font-size: 28px;
 			font-weight: 600;
 			padding-top: 0;
@@ -60,8 +76,25 @@
 	}
 
 	.prpl-badge-gauge {
+		--cutout: 57%;
+		--max: 270deg;
+		--start: -135deg;
+		--color: var(--prpl-color-accent-orange);
+		aspect-ratio: 1 / 1;
+		border-radius: 100%;
+		position: relative;
+		background:
+			radial-gradient(var(--background) 0 var(--cutout), transparent var(--cutout) 100%),
+			conic-gradient(from var(--start), var(--color) calc(var(--max) * var(--value)), var(--prpl-color-gray-1) calc(var(--max) * var(--value)) var(--max), transparent var(--max));
+		text-align: center;
 		width: 64px;
+		max-width: 100%;
 		height: auto;
+
+		img {
+			aspect-ratio: 1.15;
+			filter: drop-shadow(0 0 1px rgb(0 0 0 / 0.4));
+		}
 	}
 
 	.prpl-dashboard-widget-latest-activities {

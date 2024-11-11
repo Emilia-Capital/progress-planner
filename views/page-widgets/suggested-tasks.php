@@ -16,9 +16,9 @@ $prpl_percentage = $prpl_widget->get_score() / \Progress_Planner\Badges\Monthly:
 	<?php \esc_html_e( 'Your monthly badge', 'progress-planner' ); ?>
 </h2>
 
-<div class="prpl-activities-gauge-container suggested-tasks">
+<div class="prpl-gauge-container suggested-tasks">
 	<div
-		class="prpl-activities-gauge"
+		class="prpl-gauge"
 		style="
 			--value:<?php echo (float) $prpl_percentage; ?>;
 			--background: var(--prpl-background-orange);
