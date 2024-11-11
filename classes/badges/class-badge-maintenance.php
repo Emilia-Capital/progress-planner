@@ -69,4 +69,13 @@ abstract class Badge_Maintenance extends Badge {
 
 		return [];
 	}
+
+	/**
+	 * Get the background color for the badge.
+	 *
+	 * @return string
+	 */
+	public function get_background() {
+		return 'var(--prpl-background-red)';
+	}
 }

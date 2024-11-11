@@ -20,7 +20,6 @@ $prpl_widget = \progress_planner()->get_admin__page()->get_widget( 'activity-sco
 			'number'     => $prpl_widget->get_score(),
 			'background' => 'var(--prpl-background-orange)',
 			'color'      => $prpl_widget->get_gauge_color( $prpl_widget->get_score() ),
-			'classes'    => 'activities-scores',
 		],
 	]
 );

@@ -1,100 +1,13 @@
 #progress_planner_dashboard_widget_score {
 
-	.prpl-dashboard-widget.show-badges {
+	.prpl-dashboard-widget {
 		display: grid;
-		grid-template-columns: 1fr 1px 140px;
+		grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
 		grid-gap: calc(var(--prpl-gap) / 2);
-	}
-
-	.prpl-gauge-container {
-		padding-bottom: calc(var(--prpl-padding) * 2);
-		background-color: #fff;
-	}
-
-	.prpl-badge-wrapper {
-		justify-content: center;
-		position: relative;
-		overflow: hidden;
-		margin-bottom: var(--prpl-padding);
-		background: none;
-		display: grid;
-		grid-template-columns: 1fr max-content;
-		grid-gap: 1em;
-		align-items: center;
-		border: none;
-		padding: 0 0 1em 0;
-		width: auto;
-
-		> * {
-			z-index: 1;
-			align-self: center;
-		}
-
-		.prpl-badge {
-
-			.prpl-badge-gauge {
-				width: 80px;
-				height: 80px;
-			}
-		}
-
-		.progress-percent {
-			line-height: 1;
-			display: block;
-			text-align: center;
-			font-size: 28px;
-			font-weight: 600;
-			padding-top: 0;
-			color: var(--prpl-color-gray-5);
-		}
-	}
-
-	.prpl-gauge-0,
-	.prpl-gauge-100 {
-		font-size: var(--prpl-font-size-small);
-		position: absolute;
-		top: 50%;
-		color: var(--prpl-color-gray-5);
-	}
-
-	.prpl-gauge-0 {
-		left: 6px;
-	}
-
-	.prpl-gauge-100 {
-		right: 0;
 	}
 
 	h3 {
 		font-weight: 500;
-	}
-
-	.grid-separator {
-		background: #c3c4c7; /* same color as the one WP-Core uses */
-		width: 0.5px;
-		height: 100%;
-	}
-
-	.prpl-badge-gauge {
-		--cutout: 57%;
-		--max: 270deg;
-		--start: -135deg;
-		--color: var(--prpl-color-accent-orange);
-		aspect-ratio: 1 / 1;
-		border-radius: 100%;
-		position: relative;
-		background:
-			radial-gradient(var(--background) 0 var(--cutout), transparent var(--cutout) 100%),
-			conic-gradient(from var(--start), var(--color) calc(var(--max) * var(--value)), var(--prpl-color-gray-1) calc(var(--max) * var(--value)) var(--max), transparent var(--max));
-		text-align: center;
-		width: 64px;
-		max-width: 100%;
-		height: auto;
-
-		img {
-			aspect-ratio: 1.15;
-			filter: drop-shadow(0 0 1px rgb(0 0 0 / 0.4));
-		}
 	}
 
 	.prpl-dashboard-widget-latest-activities {
@@ -115,18 +28,5 @@
 		display: flex;
 		gap: 1em;
 		align-items: center;
-	}
-
-	.prpl-gauge-number {
-		font-size: var(--prpl-font-size-4xl);
-		top: -1em;
-		display: block;
-		padding-top: 50%;
-		font-weight: 600;
-		text-align: center;
-		position: absolute;
-		color: var(--prpl-color-gray-5);
-		width: 100%;
-		line-height: 1.2;
 	}
 }

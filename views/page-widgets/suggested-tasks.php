@@ -26,7 +26,6 @@ $prpl_badge      = \progress_planner()->get_badges()->get_badge( 'monthly-' . gm
 			'max'             => \Progress_Planner\Badges\Monthly::TARGET_POINTS,
 			'background'      => 'var(--prpl-background-orange)',
 			'color'           => 'var(--prpl-color-accent-orange)',
-			'classes'         => 'suggested-tasks',
 			'badge'           => $prpl_badge,
 			'badge_completed' => \Progress_Planner\Badges\Monthly::TARGET_POINTS === (int) $prpl_widget->get_score(),
 		],

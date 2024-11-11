@@ -9,13 +9,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$prpl_widget = \progress_planner()->get_admin__page()->get_widget( 'badge-streak' );
-
+$prpl_widget                 = \progress_planner()->get_admin__page()->get_widget( 'badge-streak' );
 $prpl_widget_context_details = [];
 if ( $prpl_widget->get_details( 'content' ) ) {
 	$prpl_widget_context_details['content'] = [
-		'background' => 'var(--prpl-background-blue)',
-		'text'       => sprintf(
+		'text' => sprintf(
 			\esc_html(
 				/* translators: %s: The remaining number of posts or pages to write. */
 				\_n(
@@ -31,8 +29,7 @@ if ( $prpl_widget->get_details( 'content' ) ) {
 }
 if ( $prpl_widget->get_details( 'maintenance' ) ) {
 	$prpl_widget_context_details['maintenance'] = [
-		'background' => 'var(--prpl-background-red)',
-		'text'       => sprintf(
+		'text' => sprintf(
 			\esc_html(
 				/* translators: %s: The remaining number of weeks. */
 				\_n(
@@ -74,7 +71,7 @@ if ( $prpl_widget->get_details( 'maintenance' ) ) {
 				'prpl_gauge_details' => [
 					'value'           => $prpl_widget->get_details( $prpl_context )->get_progress()['progress'] / 100,
 					'max'             => 100,
-					'background'      => $prpl_details['background'],
+					'background'      => $prpl_widget->get_details( $prpl_context )->get_background(),
 					'color'           => 'var(--prpl-color-accent-orange)',
 					'badge'           => $prpl_widget->get_details( $prpl_context ),
 					'badge_completed' => true,

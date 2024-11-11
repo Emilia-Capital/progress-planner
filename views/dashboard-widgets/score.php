@@ -15,39 +15,33 @@ $prpl_show_badges = (
 	<div class="prpl-score-gauge" style="--background: #fff">
 		<?php \progress_planner()->get_widgets__activity_scores()->print_score_gauge(); ?>
 	</div>
-	<?php if ( $prpl_show_badges ) : ?>
-		<div class="grid-separator"></div>
-		<div class="prpl-badges">
-			<h3><?php \esc_html_e( 'Next badges', 'progress-planner' ); ?></h3>
-			<?php foreach ( [ 'content', 'maintenance' ] as $prpl_category ) : ?>
-				<?php
-				$prpl_details = \progress_planner()->get_admin__dashboard_widget_score()->get_badge_details( $prpl_category );
-				if ( 100 <= (int) $prpl_details['progress']['progress'] ) {
-					continue;
-				}
-				?>
-				<div class="prpl-badges-columns-wrapper">
-					<div class="prpl-badge-wrapper">
-						<span
-							class="prpl-badge"
-							data-value="<?php echo \esc_attr( $prpl_details['progress']['progress'] ); ?>"
-						>
-							<div
-								class="prpl-badge-gauge"
-								style="
-									--value:<?php echo (float) ( $prpl_details['progress']['progress'] / 100 ); ?>;
-									--max: 360deg;
-									--start: 180deg;
-								">
-								<?php $prpl_details['badge']->the_icon( true ); ?>
-							</div>
-						</span>
-						<span class="progress-percent"><?php echo \esc_attr( $prpl_details['progress']['progress'] ); ?>%</span>
-					</div>
-				</div>
-			<?php endforeach; ?>
-		</div>
-	<?php endif; ?>
+	<?php
+	foreach ( [ 'monthly', 'content', 'maintenance' ] as $prpl_category ) {
+		if ( 'monthly' !== $prpl_category && 100 <= (int) \progress_planner()->get_admin__dashboard_widget_score()->get_badge_details( $prpl_category )['progress']['progress'] ) {
+			continue;
+		}
+
+		$prpl_widget        = \progress_planner()->get_admin__page()->get_widget( 'badge-streak' );
+		$prpl_gauge_details = [
+			'value'           => 'monthly' === $prpl_category
+				? \progress_planner()->get_admin__page()->get_widget( 'suggested-tasks' )->get_score() / \Progress_Planner\Badges\Monthly::TARGET_POINTS
+				: $prpl_widget->get_details( $prpl_category )->get_progress()['progress'] / 100,
+			'max'             => 'monthly' === $prpl_category ? \Progress_Planner\Badges\Monthly::TARGET_POINTS : 100,
+			'background'      => 'monthly' === $prpl_category
+				? 'var(--prpl-background-orange)'
+				: $prpl_widget->get_details( $prpl_category )->get_background(),
+			'color'           => 'monthly' === $prpl_category
+				? 'var(--prpl-color-accent-orange)'
+				: 'var(--prpl-color-accent-orange)',
+			'badge'           => 'monthly' === $prpl_category
+				? \progress_planner()->get_badges()->get_badge( 'monthly-' . gmdate( 'Y' ) . '-m' . (int) gmdate( 'm' ) )
+				: $prpl_widget->get_details( $prpl_category ),
+			'badge_completed' => true,
+		];
+
+		\progress_planner()->the_view( 'page-widgets/parts/gauge.php', [ 'prpl_gauge_details' => $prpl_gauge_details ] );
+	}
+	?>
 </div>
 
 <div class="prpl-dashboard-widget-latest-activities">

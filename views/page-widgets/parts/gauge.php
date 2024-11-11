@@ -5,11 +5,8 @@
  * @package Progress_Planner
  */
 
-$prpl_gauge_details['classes'] = isset( $prpl_gauge_details['classes'] )
-	? ' ' . trim( $prpl_gauge_details['classes'] )
-	: '';
 ?>
-<div class="prpl-gauge-container<?php echo \esc_attr( $prpl_gauge_details['classes'] ); ?>" style="background: <?php echo \esc_attr( $prpl_gauge_details['background'] ); ?>">
+<div class="prpl-gauge-container" style="background: <?php echo \esc_attr( $prpl_gauge_details['background'] ); ?>">
 	<div
 		class="prpl-gauge"
 		style="
