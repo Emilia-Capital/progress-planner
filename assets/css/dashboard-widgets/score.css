@@ -6,6 +6,10 @@
 		grid-gap: calc(var(--prpl-gap) / 2);
 	}
 
+	.prpl-gauge-number {
+		font-size: var(--prpl-font-size-4xl);
+	}
+
 	h3 {
 		font-weight: 500;
 	}
