@@ -86,10 +86,10 @@ $prpl_percentage = $prpl_widget->get_score() / \Progress_Planner\Badges\Monthly:
 		?>
 	<?php endif; ?>
 	<?php
-	\progress_planner()->get_popovers__monthly_badges()->render_button(
+	\progress_planner()->get_popover()->the_popover( 'monthly-badges' )->render_button(
 		'',
 		\esc_html__( 'Show all my badges!', 'progress-planner' )
 	);
-	\progress_planner()->get_popovers__monthly_badges()->render();
+	\progress_planner()->get_popover()->the_popover( 'monthly-badges' )->render();
 	?>
 </div>

@@ -5,6 +5,10 @@
  * @package Progress_Planner
  */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 ?>
 
 <div class="wrap prpl-wrap">

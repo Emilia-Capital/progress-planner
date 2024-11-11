@@ -5,19 +5,32 @@
  * @package Progress_Planner
  */
 
-namespace Progress_Planner\Popovers;
+namespace Progress_Planner;
 
 /**
  * Popover base class.
  */
-abstract class Popover {
+class Popover {
 
 	/**
 	 * The popover ID.
 	 *
 	 * @var string
 	 */
-	protected $id;
+	public $id;
+
+	/**
+	 * Get a popover instance.
+	 *
+	 * @param string $id The popover ID.
+	 *
+	 * @return self
+	 */
+	public function the_popover( $id ) {
+		$popover     = new self();
+		$popover->id = $id;
+		return $popover;
+	}
 
 	/**
 	 * Render the triggering button.
@@ -51,7 +64,7 @@ abstract class Popover {
 		?>
 		<div id="prpl-popover-<?php echo \esc_attr( $this->id ); ?>" class="prpl-popover" popover>
 			<!-- The content. -->
-			<?php $this->the_content(); ?>
+			<?php \progress_planner()->the_view( 'popovers/' . $this->id . '.php' ); ?>
 
 			<!-- The close button. -->
 			<button
@@ -66,11 +79,4 @@ abstract class Popover {
 		</div>
 		<?php
 	}
-
-	/**
-	 * Render the widget content.
-	 *
-	 * @return void
-	 */
-	abstract protected function the_content();
 }
