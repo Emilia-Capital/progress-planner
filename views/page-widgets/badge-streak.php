@@ -61,7 +61,12 @@ if ( $prpl_widget->get_details( 'maintenance' ) ) {
 </h2>
 
 <div class="prpl-latest-badges-wrapper">
+	<?php
+	$prpl_current_context = 0;
+	$prpl_contexts_count  = count( array_keys( $prpl_widget_context_details ) );
+	?>
 	<?php foreach ( $prpl_widget_context_details as $prpl_context => $prpl_details ) : ?>
+		<?php ++$prpl_current_context; ?>
 		<div class="prpl-gauge-container" style="background: <?php echo \esc_attr( $prpl_details['background'] ); ?>">
 			<div
 				class="prpl-gauge"
@@ -83,7 +88,8 @@ if ( $prpl_widget->get_details( 'maintenance' ) ) {
 			<h3><?php echo \esc_html( $prpl_widget->get_details( $prpl_context )->get_name() ); ?></h3>
 			<p><?php echo \esc_html( $prpl_details['text'] ); ?></p>
 		</div>
-		<hr>
-
+		<?php if ( $prpl_current_context < $prpl_contexts_count ) : ?>
+			<hr>
+		<?php endif; ?>
 	<?php endforeach; ?>
 </div>
