@@ -299,6 +299,8 @@ button.prpl-info-icon {
 	padding: var(--prpl-padding);
 	font-weight: 400;
 	max-height: 82vh;
+	width: 1200px;
+	max-width: 80vw;
 
 	p {
 		font-weight: 400;

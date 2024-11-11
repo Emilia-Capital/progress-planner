@@ -5,24 +5,24 @@
  * @package Progress_Planner
  */
 
-$show_badges = (
+$prpl_show_badges = (
 	\progress_planner()->get_admin__dashboard_widget_score()->get_badge_details( 'content' )['progress']['progress'] ||
 	\progress_planner()->get_admin__dashboard_widget_score()->get_badge_details( 'maintenance' )['progress']['progress']
 );
 
 ?>
-<div class="prpl-dashboard-widget<?php echo ( $show_badges ) ? ' show-badges' : ''; ?>">
+<div class="prpl-dashboard-widget<?php echo ( $prpl_show_badges ) ? ' show-badges' : ''; ?>">
 	<div class="prpl-score-gauge" style="--background: #fff">
 		<?php \progress_planner()->get_widgets__activity_scores()->print_score_gauge(); ?>
 	</div>
-	<?php if ( $show_badges ) : ?>
+	<?php if ( $prpl_show_badges ) : ?>
 		<div class="grid-separator"></div>
 		<div class="prpl-badges">
 			<h3><?php \esc_html_e( 'Next badges', 'progress-planner' ); ?></h3>
-			<?php foreach ( [ 'content', 'maintenance' ] as $category ) : ?>
+			<?php foreach ( [ 'content', 'maintenance' ] as $prpl_category ) : ?>
 				<?php
-				$details = \progress_planner()->get_admin__dashboard_widget_score()->get_badge_details( $category );
-				if ( 100 <= (int) $details['progress']['progress'] ) {
+				$prpl_details = \progress_planner()->get_admin__dashboard_widget_score()->get_badge_details( $prpl_category );
+				if ( 100 <= (int) $prpl_details['progress']['progress'] ) {
 					continue;
 				}
 				?>
@@ -30,19 +30,19 @@ $show_badges = (
 					<div class="prpl-badge-wrapper">
 						<span
 							class="prpl-badge"
-							data-value="<?php echo \esc_attr( $details['progress']['progress'] ); ?>"
+							data-value="<?php echo \esc_attr( $prpl_details['progress']['progress'] ); ?>"
 						>
 							<div
 								class="prpl-badge-gauge"
 								style="
-									--value:<?php echo (float) ( $details['progress']['progress'] / 100 ); ?>;
+									--value:<?php echo (float) ( $prpl_details['progress']['progress'] / 100 ); ?>;
 									--max: 360deg;
 									--start: 180deg;
 								">
-								<?php $details['badge']->the_icon( true ); ?>
+								<?php $prpl_details['badge']->the_icon( true ); ?>
 							</div>
 						</span>
-						<span class="progress-percent"><?php echo \esc_attr( $details['progress']['progress'] ); ?>%</span>
+						<span class="progress-percent"><?php echo \esc_attr( $prpl_details['progress']['progress'] ); ?>%</span>
 					</div>
 				</div>
 			<?php endforeach; ?>
@@ -54,8 +54,8 @@ $show_badges = (
 	<h3><?php \esc_html_e( 'Latest activity', 'progress-planner' ); ?></h3>
 
 	<?php
-	$latest_activities = \progress_planner()->get_query()->get_latest_activities( 2 );
-	$activity_type_map = [
+	$prpl_latest_activities = \progress_planner()->get_query()->get_latest_activities( 2 );
+	$prpl_activity_type_map = [
 		'content-publish'               => __( 'Published content', 'progress-planner' ),
 		'content-update'                => __( 'Updated content', 'progress-planner' ),
 		'content-delete'                => __( 'Deleted content', 'progress-planner' ),
@@ -76,23 +76,23 @@ $show_badges = (
 	];
 	?>
 	<ul>
-		<?php foreach ( $latest_activities as $activity ) : ?>
+		<?php foreach ( $prpl_latest_activities as $prpl_activity ) : ?>
 			<li>
 				<span class="activity-type">
 					<?php
-					if ( isset( $activity_type_map[ $activity->category . '-' . $activity->type ] ) ) {
-						echo \esc_html( $activity_type_map[ $activity->category . '-' . $activity->type ] );
-					} elseif ( 'content' === $activity->category ) {
+					if ( isset( $prpl_activity_type_map[ $prpl_activity->category . '-' . $prpl_activity->type ] ) ) {
+						echo \esc_html( $prpl_activity_type_map[ $prpl_activity->category . '-' . $prpl_activity->type ] );
+					} elseif ( 'content' === $prpl_activity->category ) {
 						\esc_html_e( 'Updated content', 'progress-planner' );
-					} elseif ( 'maintenance' === $activity->category ) {
+					} elseif ( 'maintenance' === $prpl_activity->category ) {
 						\esc_html_e( 'Site maintenance', 'progress-planner' );
-					} elseif ( 'todo' === $activity->category ) {
+					} elseif ( 'todo' === $prpl_activity->category ) {
 						\esc_html_e( 'Updated To-do list', 'progress-planner' );
 					}
 					?>
 				</span>
 				<span class="activity-date">
-					<?php echo \esc_html( \date_i18n( \get_option( 'date_format' ), strtotime( $activity->date->format( 'Y-m-d' ) ) ) ); ?>
+					<?php echo \esc_html( \date_i18n( \get_option( 'date_format' ), strtotime( $prpl_activity->date->format( 'Y-m-d' ) ) ) ); ?>
 				</span>
 			</li>
 		<?php endforeach; ?>

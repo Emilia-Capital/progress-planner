@@ -10,11 +10,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $prpl_widget     = \progress_planner()->get_admin__page()->get_widget( 'published-content' );
-$prpl_sum_weekly = array_sum( $prpl_widget->get_stats()['weekly'] );
+$prpl_stats      = $prpl_widget->get_stats();
+$prpl_sum_weekly = array_sum( $prpl_stats['weekly'] );
 ?>
 <div class="prpl-counter-big-wrapper">
 	<span class="counter-big-number">
-		<?php echo \esc_html( \number_format_i18n( (int) array_sum( $prpl_widget->get_stats()['weekly'] ) ) ); ?>
+		<?php echo \esc_html( \number_format_i18n( (int) array_sum( $prpl_stats['weekly'] ) ) ); ?>
 	</span>
 	<span class="counter-big-text">
 		<?php echo \esc_html_e( 'content published', 'progress-planner' ); ?>
@@ -38,7 +39,7 @@ $prpl_sum_weekly = array_sum( $prpl_widget->get_stats()['weekly'] );
 					)
 				),
 				\esc_html( \number_format_i18n( $prpl_sum_weekly ) ),
-				\esc_html( \number_format_i18n( array_sum( $prpl_widget->get_stats()['all'] ) ) )
+				\esc_html( \number_format_i18n( array_sum( $prpl_stats['all'] ) ) )
 			);
 			?>
 		<?php endif; ?>
@@ -56,11 +57,11 @@ $prpl_sum_weekly = array_sum( $prpl_widget->get_stats()['weekly'] );
 		</tr>
 	</thead>
 	<tbody>
-		<?php foreach ( \progress_planner()->get_activities__content_helpers()->get_post_types_names() as $post_type_item ) : ?>
+		<?php foreach ( \progress_planner()->get_activities__content_helpers()->get_post_types_names() as $prpl_post_type_item ) : ?>
 			<tr>
-				<td><?php echo \esc_html( \get_post_type_object( $post_type_item )->labels->name ); ?></td>
-				<td><?php echo \esc_html( \number_format_i18n( $prpl_widget->get_stats()['weekly'][ $post_type_item ] ) ); ?></td>
-				<td><?php echo \esc_html( \number_format_i18n( $prpl_widget->get_stats()['all'][ $post_type_item ] ) ); ?></td>
+				<td><?php echo \esc_html( \get_post_type_object( $prpl_post_type_item )->labels->name ); ?></td>
+				<td><?php echo \esc_html( \number_format_i18n( $prpl_stats['weekly'][ $prpl_post_type_item ] ) ); ?></td>
+				<td><?php echo \esc_html( \number_format_i18n( $prpl_stats['all'][ $prpl_post_type_item ] ) ); ?></td>
 			</tr>
 		<?php endforeach; ?>
 	</tbody>
