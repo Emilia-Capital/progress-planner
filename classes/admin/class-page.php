@@ -233,6 +233,10 @@ class Page {
 					/* translators: %s: The task content. */
 					'taskDelete'       => \esc_html__( "Delete task '%s'", 'progress-planner' ),
 					/* translators: %s: The task content. */
+					'taskMoveUp'       => \esc_html__( "Move task '%s' up", 'progress-planner' ),
+					/* translators: %s: The task content. */
+					'taskMoveDown'     => \esc_html__( "Move task '%s' down", 'progress-planner' ),
+					/* translators: %s: The task content. */
 					'taskCompleted'    => \esc_html__( "Task '%s' completed and moved to the bottom", 'progress-planner' ),
 					/* translators: %s: The task content. */
 					'taskNotCompleted' => \esc_html__( "Task '%s' marked as not completed and moved to the top", 'progress-planner' ),

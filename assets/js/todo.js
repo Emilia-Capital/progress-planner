@@ -95,6 +95,14 @@ const progressPlannerInjectTodoItem = ( content, done, addToStart, save ) => {
 		'%s',
 		content
 	);
+	const moveUpTaskAriaLabel = progressPlannerTodo.i18n.taskMoveUp.replace(
+		'%s',
+		content
+	);
+	const moveDownTaskAriaLabel = progressPlannerTodo.i18n.taskMoveDown.replace(
+		'%s',
+		content
+	);
 
 	const todoItemElement = jQuery( '<li></li>' ).html( `
 		<span class="prpl-todo-drag-handle" aria-label="${
@@ -106,6 +114,8 @@ const progressPlannerInjectTodoItem = ( content, done, addToStart, save ) => {
 		</span>
 		<input type="checkbox" aria-label="'${ content }'" ${ done ? 'checked' : '' }>
 		<span class="content" contenteditable="plaintext-only">${ content }</span>
+		<button class="move-up" aria-label="${ moveUpTaskAriaLabel }"><span class="dashicons dashicons-arrow-up-alt"></span></button>
+		<button class="move-down" aria-label="${ moveDownTaskAriaLabel }"><span class="dashicons dashicons-arrow-down-alt"></span></button>
 		<button class="trash" aria-label="${ deleteTaskAriaLabel }"><span class="dashicons dashicons-trash"></span></button>
 	` );
 
@@ -216,5 +226,19 @@ progressPlannerDomReady( () => {
 		} else {
 			jQuery( '#new-todo-content' ).focus();
 		}
+	} );
+
+	// When the move up button is clicked, move the todo item up the list
+	jQuery( '#todo-list' ).on( 'click', '.move-up', function () {
+		const todoItem = jQuery( this ).closest( 'li' );
+		todoItem.insertBefore( todoItem.prev( 'li' ) );
+		progressPlannerSaveTodoList();
+	} );
+
+	// When the move down button is clicked, move the todo item down the list
+	jQuery( '#todo-list' ).on( 'click', '.move-down', function () {
+		const todoItem = jQuery( this ).closest( 'li' );
+		todoItem.insertAfter( todoItem.next( 'li' ) );
+		progressPlannerSaveTodoList();
 	} );
 } );
