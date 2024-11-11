@@ -5,6 +5,11 @@
  * @package Progress_Planner
  */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 $prpl_saved_settings = \progress_planner()->get_activities__content_helpers()->get_post_types_names();
 $prpl_post_types     = \array_filter( \get_post_types( [ 'public' => true ] ), 'is_post_type_viewable' );
 unset( $prpl_post_types['attachment'] );

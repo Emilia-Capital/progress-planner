@@ -5,6 +5,10 @@
  * @package Progress_Planner
  */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 ?>
 <fieldset id="prpl-setting-fieldset-<?php echo esc_attr( $prpl_setting['id'] ); ?>">
 	<legend><?php echo wp_kses_post( $prpl_setting['title'] ); ?></legend>

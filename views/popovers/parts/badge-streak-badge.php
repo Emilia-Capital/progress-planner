@@ -5,6 +5,10 @@
  * @package Progress_Planner
  */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 ?>
 <?php foreach ( \progress_planner()->get_badges()->get_badges( $prpl_category ) as $prpl_badge ) : ?>
 	<?php $prpl_badge_progress  = $prpl_badge->get_progress(); ?>

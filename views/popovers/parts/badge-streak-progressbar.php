@@ -5,6 +5,11 @@
  * @package Progress_Planner
  */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 $prpl_badges = \progress_planner()->get_badges()->get_badges( $prpl_context );
 ?>
 <div class="progress-badges">
