@@ -50,7 +50,7 @@ class Content_Actions_Test extends \WP_UnitTestCase {
 			[
 				'category' => 'content',
 				'type'     => 'publish',
-				'data_id'  => (string) $post_id,
+				'data_id'  => $post_id,
 			],
 			'RAW'
 		);
@@ -81,7 +81,7 @@ class Content_Actions_Test extends \WP_UnitTestCase {
 			[
 				'category' => 'content',
 				'type'     => 'publish',
-				'data_id'  => (string) $post_id,
+				'data_id'  => $post_id,
 			],
 			'ACTIVITIES'
 		);
@@ -103,7 +103,7 @@ class Content_Actions_Test extends \WP_UnitTestCase {
 			[
 				'category' => 'content',
 				// 'type'     => 'update',
-				'data_id'  => (string) $post_id,
+				'data_id'  => $post_id,
 			],
 			'RAW'
 		);
@@ -139,7 +139,7 @@ class Content_Actions_Test extends \WP_UnitTestCase {
 			[
 				'category' => 'content',
 				'type'     => 'publish',
-				'data_id'  => (string) $post_id,
+				'data_id'  => $post_id,
 			],
 			'RAW'
 		);
@@ -167,7 +167,7 @@ class Content_Actions_Test extends \WP_UnitTestCase {
 			[
 				'category' => 'content',
 				// 'type'     => 'trash', phpcs:ignore Squiz.Commenting.InlineComment.InvalidEndChar
-				'data_id'  => (string) $post_id,
+				'data_id'  => $post_id,
 			],
 			'RAW'
 		);
@@ -202,7 +202,7 @@ class Content_Actions_Test extends \WP_UnitTestCase {
 			[
 				'category' => 'content',
 				// 'type'     => 'delete', phpcs:ignore Squiz.Commenting.InlineComment.InvalidEndChar
-				'data_id'  => (string) $post_id,
+				'data_id'  => $post_id,
 			],
 			'RAW'
 		);
@@ -241,7 +241,7 @@ class Content_Actions_Test extends \WP_UnitTestCase {
 			[
 				'category' => 'content',
 				'type'     => 'publish',
-				'data_id'  => (string) $post_id,
+				'data_id'  => $post_id,
 			],
 			'ACTIVITIES'
 		);
@@ -277,7 +277,7 @@ class Content_Actions_Test extends \WP_UnitTestCase {
 		$activities2 = \progress_planner()->get_query()->query_activities(
 			[
 				'category' => 'content',
-				'data_id'  => (string) $post_id,
+				'data_id'  => $post_id,
 			],
 			'RAW'
 		);
