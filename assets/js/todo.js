@@ -233,6 +233,7 @@ progressPlannerDomReady( () => {
 		const todoItem = jQuery( this ).closest( 'li' );
 		todoItem.insertBefore( todoItem.prev( 'li' ) );
 		progressPlannerSaveTodoList();
+		wp.a11y.speak( progressPlannerTodo.i18n.taskMovedUp );
 	} );
 
 	// When the move down button is clicked, move the todo item down the list
@@ -240,5 +241,6 @@ progressPlannerDomReady( () => {
 		const todoItem = jQuery( this ).closest( 'li' );
 		todoItem.insertAfter( todoItem.next( 'li' ) );
 		progressPlannerSaveTodoList();
+		wp.a11y.speak( progressPlannerTodo.i18n.taskMovedDown );
 	} );
 } );

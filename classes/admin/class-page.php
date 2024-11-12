@@ -195,7 +195,7 @@ class Page {
 		\wp_register_script(
 			'progress-planner-todo',
 			PROGRESS_PLANNER_URL . '/assets/js/todo.js',
-			[ 'jquery-ui-sortable', 'progress-planner-ajax', 'wp-util', 'progress-planner-grid-masonry' ],
+			[ 'jquery-ui-sortable', 'progress-planner-ajax', 'wp-util', 'progress-planner-grid-masonry', 'wp-a11y' ],
 			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/todo.js' ),
 			true
 		);
@@ -236,6 +236,8 @@ class Page {
 					'taskMoveUp'       => \esc_html__( "Move task '%s' up", 'progress-planner' ),
 					/* translators: %s: The task content. */
 					'taskMoveDown'     => \esc_html__( "Move task '%s' down", 'progress-planner' ),
+					'taskMovedUp'      => \esc_html__( 'Task moved up', 'progress-planner' ),
+					'taskMovedDown'    => \esc_html__( 'Task moved down', 'progress-planner' ),
 					/* translators: %s: The task content. */
 					'taskCompleted'    => \esc_html__( "Task '%s' completed and moved to the bottom", 'progress-planner' ),
 					/* translators: %s: The task content. */
