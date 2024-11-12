@@ -96,7 +96,6 @@ class Dashboard_Widget_Score extends \Progress_Planner\Admin\Dashboard_Widget {
 		if ( $result['progress']['progress'] > 75 ) {
 			$result['color'] = 'var(--prpl-color-accent-green)';
 		}
-		$result['background'] = $badge->get_background();
 
 		$cached[ $category ] = $result;
 

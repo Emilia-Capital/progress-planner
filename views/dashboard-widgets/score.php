@@ -15,21 +15,39 @@ $prpl_show_badges = (
 	<div class="prpl-score-gauge" style="--background: #fff">
 		<?php \progress_planner()->get_widgets__activity_scores()->print_score_gauge(); ?>
 	</div>
-	<?php
-	\progress_planner()->the_view(
-		'page-widgets/parts/gauge.php',
-		[
-			'prpl_gauge_details' => [
-				'value'           => \progress_planner()->get_admin__page()->get_widget( 'suggested-tasks' )->get_score() / \Progress_Planner\Badges\Monthly::TARGET_POINTS,
-				'max'             => \Progress_Planner\Badges\Monthly::TARGET_POINTS,
-				'background'      => 'var(--prpl-background-orange)',
-				'color'           => 'var(--prpl-color-accent-orange)',
-				'badge'           => \progress_planner()->get_badges()->get_badge( 'monthly-' . gmdate( 'Y' ) . '-m' . (int) gmdate( 'm' ) ),
-				'badge_completed' => true,
-			],
-		]
-	);
-	?>
+	<?php if ( $prpl_show_badges ) : ?>
+		<div class="grid-separator"></div>
+		<div class="prpl-badges">
+			<h3><?php \esc_html_e( 'Next badges', 'progress-planner' ); ?></h3>
+			<?php foreach ( [ 'content', 'maintenance' ] as $prpl_category ) : ?>
+				<?php
+				$prpl_details = \progress_planner()->get_admin__dashboard_widget_score()->get_badge_details( $prpl_category );
+				if ( 100 <= (int) $prpl_details['progress']['progress'] ) {
+					continue;
+				}
+				?>
+				<div class="prpl-badges-columns-wrapper">
+					<div class="prpl-badge-wrapper">
+						<span
+							class="prpl-badge"
+							data-value="<?php echo \esc_attr( $prpl_details['progress']['progress'] ); ?>"
+						>
+							<div
+								class="prpl-badge-gauge"
+								style="
+									--value:<?php echo (float) ( $prpl_details['progress']['progress'] / 100 ); ?>;
+									--max: 360deg;
+									--start: 180deg;
+								">
+								<?php $prpl_details['badge']->the_icon( true ); ?>
+							</div>
+						</span>
+						<span class="progress-percent"><?php echo \esc_attr( $prpl_details['progress']['progress'] ); ?>%</span>
+					</div>
+				</div>
+			<?php endforeach; ?>
+		</div>
+	<?php endif; ?>
 </div>
 
 <div class="prpl-dashboard-widget-latest-activities">
