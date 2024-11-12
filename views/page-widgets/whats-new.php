@@ -17,20 +17,20 @@ $prpl_widget = \progress_planner()->get_admin__page()->get_widget( 'whats-new' )
 </h2>
 
 <ul>
-	<?php foreach ( $prpl_widget->get_blog_feed() as $blog_post ) : ?>
+	<?php foreach ( $prpl_widget->get_blog_feed() as $prpl_blog_post ) : ?>
 		<?php
-		$prpl_blog_post_image_url = isset( $blog_post['featured_media']['media_details']['sizes']['medium_large']['source_url'] )
-			? $blog_post['featured_media']['media_details']['sizes']['medium_large']['source_url']
+		$prpl_blog_post_image_url = isset( $prpl_blog_post['featured_media']['media_details']['sizes']['medium_large']['source_url'] )
+			? $prpl_blog_post['featured_media']['media_details']['sizes']['medium_large']['source_url']
 			: false;
 		?>
 		<li>
-			<a href="<?php echo \esc_url( $blog_post['link'] ); ?>" target="_blank">
-				<h3><?php echo \esc_html( $blog_post['title']['rendered'] ); ?></h3>
+			<a href="<?php echo \esc_url( $prpl_blog_post['link'] ); ?>" target="_blank">
+				<h3><?php echo \esc_html( $prpl_blog_post['title']['rendered'] ); ?></h3>
 				<?php if ( $prpl_blog_post_image_url ) : ?>
 					<div class="prpl-blog-post-image" style="background-image:url(<?php echo \esc_url( $prpl_blog_post_image_url ); ?>)"></div>
 				<?php endif; ?>
 			</a>
-			<p><?php echo \esc_html( \wp_trim_words( \wp_strip_all_tags( $blog_post['content']['rendered'] ), 55 ) ); ?></p>
+			<p><?php echo \esc_html( \wp_trim_words( \wp_strip_all_tags( $prpl_blog_post['content']['rendered'] ), 55 ) ); ?></p>
 			<hr />
 		</li>
 	<?php endforeach; ?>

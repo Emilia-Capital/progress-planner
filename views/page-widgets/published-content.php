@@ -9,14 +9,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$prpl_widget = \progress_planner()->get_admin__page()->get_widget( 'published-content' );
-$post_types  = \progress_planner()->get_activities__content_helpers()->get_post_types_names();
-$stats       = $prpl_widget->get_stats();
-$sum_weekly  = array_sum( $stats['weekly'] );
+$prpl_widget     = \progress_planner()->get_admin__page()->get_widget( 'published-content' );
+$prpl_stats      = $prpl_widget->get_stats();
+$prpl_sum_weekly = array_sum( $prpl_stats['weekly'] );
 ?>
 <div class="prpl-counter-big-wrapper">
 	<span class="counter-big-number">
-		<?php echo \esc_html( \number_format_i18n( (int) array_sum( $stats['weekly'] ) ) ); ?>
+		<?php echo \esc_html( \number_format_i18n( (int) array_sum( $prpl_stats['weekly'] ) ) ); ?>
 	</span>
 	<span class="counter-big-text">
 		<?php echo \esc_html_e( 'content published', 'progress-planner' ); ?>
@@ -25,7 +24,7 @@ $sum_weekly  = array_sum( $stats['weekly'] );
 
 <div class="prpl-widget-content">
 	<p>
-		<?php if ( 0 === $sum_weekly ) : ?>
+		<?php if ( 0 === $prpl_sum_weekly ) : ?>
 			<?php \esc_html_e( 'You didn\'t publish new content last week. You can do better!', 'progress-planner' ); ?>
 		<?php else : ?>
 			<?php
@@ -35,12 +34,12 @@ $sum_weekly  = array_sum( $stats['weekly'] );
 					\_n(
 						'Nice! You published %1$s piece of new content last week. You now have %2$s in total. Keep up the good work!',
 						'Nice! You published %1$s pieces of new content last week. You now have %2$s in total. Keep up the good work!',
-						$sum_weekly,
+						$prpl_sum_weekly,
 						'progress-planner'
 					)
 				),
-				\esc_html( \number_format_i18n( $sum_weekly ) ),
-				\esc_html( \number_format_i18n( array_sum( $stats['all'] ) ) )
+				\esc_html( \number_format_i18n( $prpl_sum_weekly ) ),
+				\esc_html( \number_format_i18n( array_sum( $prpl_stats['all'] ) ) )
 			);
 			?>
 		<?php endif; ?>
@@ -58,11 +57,11 @@ $sum_weekly  = array_sum( $stats['weekly'] );
 		</tr>
 	</thead>
 	<tbody>
-		<?php foreach ( $post_types as $post_type_item ) : ?>
+		<?php foreach ( \progress_planner()->get_activities__content_helpers()->get_post_types_names() as $prpl_post_type_item ) : ?>
 			<tr>
-				<td><?php echo \esc_html( \get_post_type_object( $post_type_item )->labels->name ); ?></td>
-				<td><?php echo \esc_html( \number_format_i18n( $stats['weekly'][ $post_type_item ] ) ); ?></td>
-				<td><?php echo \esc_html( \number_format_i18n( $stats['all'][ $post_type_item ] ) ); ?></td>
+				<td><?php echo \esc_html( \get_post_type_object( $prpl_post_type_item )->labels->name ); ?></td>
+				<td><?php echo \esc_html( \number_format_i18n( $prpl_stats['weekly'][ $prpl_post_type_item ] ) ); ?></td>
+				<td><?php echo \esc_html( \number_format_i18n( $prpl_stats['all'][ $prpl_post_type_item ] ) ); ?></td>
 			</tr>
 		<?php endforeach; ?>
 	</tbody>

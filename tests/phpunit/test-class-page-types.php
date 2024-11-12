@@ -45,7 +45,10 @@ class Page_Types_Test extends \WP_UnitTestCase {
 		);
 
 		// Assign the post to the "homepage" page type.
-		\progress_planner()->get_page_types()->set_page_type_by_slug( self::$homepage_post_id, 'homepage' );
+		\progress_planner()->get_page_types()->set_page_type_by_id(
+			self::$homepage_post_id,
+			\get_term_by( 'slug', 'homepage', Page_Types::TAXONOMY_NAME )->term_id
+		);
 	}
 
 	/**

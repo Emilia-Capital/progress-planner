@@ -153,6 +153,10 @@ class Page_Types {
 	 * @return array
 	 */
 	public function get_page_types() {
+		static $page_types;
+		if ( null !== $page_types ) {
+			return $page_types;
+		}
 
 		$terms = \get_terms(
 			[
@@ -162,7 +166,8 @@ class Page_Types {
 		);
 
 		if ( ! $terms || \is_wp_error( $terms ) ) {
-			return [];
+			$page_types = [];
+			return $page_types;
 		}
 
 		$page_types = [];
@@ -187,6 +192,13 @@ class Page_Types {
 	 * @return \WP_Post[] Return the posts.
 	 */
 	public function get_posts_by_type( $post_type, $slug ) {
+		static $cache = [];
+		if ( isset( $cache[ $post_type ][ $slug ] ) ) {
+			return $cache[ $post_type ][ $slug ];
+		}
+		if ( ! isset( $cache[ $post_type ] ) ) {
+			$cache[ $post_type ] = [];
+		}
 		$posts = \get_posts(
 			[
 				'post_type'      => $post_type,
@@ -200,23 +212,9 @@ class Page_Types {
 				],
 			]
 		);
-		return ( empty( $posts ) ) ? [] : $posts;
-	}
 
-	/**
-	 * Set the page-type for a post, by slug.
-	 *
-	 * @param int    $post_id The post ID.
-	 * @param string $page_type The page type.
-	 *
-	 * @return void
-	 */
-	public function set_page_type_by_slug( $post_id, $page_type ) {
-		$term = \get_term_by( 'slug', $page_type, self::TAXONOMY_NAME );
-		if ( ! $term || ! $term instanceof \WP_Term ) {
-			return;
-		}
-		$this->set_page_type_by_id( $post_id, $term->term_id );
+		$cache[ $post_type ][ $slug ] = empty( $posts ) ? [] : $posts;
+		return $cache[ $post_type ][ $slug ];
 	}
 
 	/**
@@ -394,8 +392,13 @@ class Page_Types {
 	 * @return \WP_Term|false
 	 */
 	public function get_term_by_type( $type ) {
-		$no_type_needed_term = \get_term_by( 'slug', $type, self::TAXONOMY_NAME );
-		return $no_type_needed_term instanceof \WP_Term ? $no_type_needed_term : false;
+		static $cache = [];
+		if ( isset( $cache[ $type ] ) ) {
+			return $cache[ $type ];
+		}
+		$term           = \get_term_by( 'slug', $type, self::TAXONOMY_NAME );
+		$cache[ $type ] = $term instanceof \WP_Term ? $term : false;
+		return $cache[ $type ];
 	}
 
 	/**
@@ -406,59 +409,28 @@ class Page_Types {
 	 * @return bool
 	 */
 	public function is_page_needed( $type ) {
-		$no_type_needed_term = $this->get_term_by_type( $type );
-
-		return '' !== get_term_meta( $no_type_needed_term->term_id, 'type_not_needed', true ) ? false : true;
+		$term = $this->get_term_by_type( $type );
+		return '' !== get_term_meta( $term->term_id, '_progress_planner_no_page', true ) ? false : true;
 	}
 
 	/**
-	 * Set the no-page-needed term.
+	 * Set or delete the `_progress_planner_no_page` term-meta.
 	 *
-	 * @param string $type The type.
+	 * @param string $type  The type.
+	 * @param bool   $value The value. `true` to set, `false` to delete.
 	 *
 	 * @return void
 	 */
-	public function add_no_type_needed( $type ) {
-		$no_type_needed_term = $this->get_term_by_type( $type );
-		if ( ! $no_type_needed_term ) {
+	public function set_no_page_needed( $type, $value ) {
+		$term = $this->get_term_by_type( $type );
+		if ( ! $term ) {
 			return;
 		}
 
-		\update_term_meta( $no_type_needed_term->term_id, 'type_not_needed', '1' );
-	}
-
-	/**
-	 * Remove the no-page-needed term.
-	 *
-	 * @param string $type The type.
-	 *
-	 * @return void
-	 */
-	public function remove_no_type_needed( $type ) {
-		$no_type_needed_term = $this->get_term_by_type( $type );
-		if ( ! $no_type_needed_term ) {
-			return;
+		if ( $value ) {
+			\update_term_meta( $term->term_id, '_progress_planner_no_page', '1' );
+		} else {
+			\delete_term_meta( $term->term_id, '_progress_planner_no_page' );
 		}
-
-		\delete_term_meta( $no_type_needed_term->term_id, 'type_not_needed' );
-	}
-
-	/**
-	 * Get the term types that are not needed.
-	 *
-	 * @return \WP_Term[]
-	 */
-	public function get_not_needed_terms() {
-
-		$terms = \get_terms(
-			[
-				'taxonomy'   => self::TAXONOMY_NAME,
-				'hide_empty' => false,
-				'meta_key'   => 'type_not_needed',
-				'meta_value' => '1',
-			]
-		);
-
-		return $terms;
 	}
 }
