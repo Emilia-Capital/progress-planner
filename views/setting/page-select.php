@@ -5,6 +5,11 @@
  * @package Progress_Planner
  */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 $prpl_setting_value = isset( $prpl_setting['value'] ) ? $prpl_setting['value'] : '';
 
 // Default values.
