@@ -59,66 +59,6 @@ class Content_Actions_Test extends \WP_UnitTestCase {
 	}
 
 	/**
-	 * Test post update hook.
-	 */
-	public function test_post_updated_hook() {
-
-		$post_date = \gmdate( 'Y-m-d H:i:s', \strtotime( '-2 day' ) );
-
-		// First create a post.
-		$post_id = wp_insert_post(
-			[
-				'post_title'   => 'Original Title',
-				'post_content' => 'Original content',
-				'post_status'  => 'publish',
-				'post_date'    => $post_date,
-				'post_type'    => 'post',
-			]
-		);
-
-		// Update post activity to date of post.
-		$activities = \progress_planner()->get_query()->query_activities(
-			[
-				'category' => 'content',
-				'type'     => 'publish',
-				'data_id'  => $post_id,
-			],
-			'ACTIVITIES'
-		);
-
-		$activities[0]->date = new DateTime( $post_date );
-		$activities[0]->save();
-
-		// Update the post.
-		wp_update_post(
-			[
-				'ID'           => $post_id,
-				'post_title'   => 'Updated Title',
-				'post_content' => 'Updated content',
-			]
-		);
-
-		// Assert that update activity was created.
-		$activities = \progress_planner()->get_query()->query_activities(
-			[
-				'category' => 'content',
-				// 'type'     => 'update',
-				'data_id'  => $post_id,
-			],
-			'RAW'
-		);
-
-		$found_activities = [];
-		foreach ( $activities as $activity ) {
-			if ( 'update' === $activity->type ) {
-				$found_activities[] = $activity;
-			}
-		}
-
-		$this->assertNotEmpty( $found_activities );
-	}
-
-	/**
 	 * Test post status transition hook.
 	 */
 	public function test_transition_post_status_hook() {
@@ -223,31 +163,25 @@ class Content_Actions_Test extends \WP_UnitTestCase {
 	 */
 	public function test_multiple_status_transitions() {
 
-		$post_date = \gmdate( 'Y-m-d H:i:s', \strtotime( '-2 day' ) );
-
 		// Create a draft post.
 		$post_id = wp_insert_post(
 			[
 				'post_title'   => 'Test Post',
 				'post_content' => 'Test content',
 				'post_status'  => 'draft',
-				'post_date'    => $post_date,
-
 			]
 		);
 
-		// Update post activity to date of post.
+		// Check if there is any activity for this post (there should be none).
 		$activities = \progress_planner()->get_query()->query_activities(
 			[
 				'category' => 'content',
-				'type'     => 'publish',
 				'data_id'  => $post_id,
 			],
 			'ACTIVITIES'
 		);
 
-		$activities[0]->date = new DateTime( $post_date );
-		$activities[0]->save();
+		$this->assertCount( 0, $activities );
 
 		// Transition to pending.
 		wp_update_post(
@@ -257,11 +191,12 @@ class Content_Actions_Test extends \WP_UnitTestCase {
 			]
 		);
 
-		// Transition to publish.
+		// Transition to publish and update content (insert publish activity).
 		wp_update_post(
 			[
 				'ID'          => $post_id,
 				'post_status' => 'publish',
+				'post_content' => 'Updated content.',
 			]
 		);
 
@@ -273,27 +208,42 @@ class Content_Actions_Test extends \WP_UnitTestCase {
 			]
 		);
 
+		// Transition to publish and update content again (since the post is updated less then 12 hours, we should not add an update activity since 'publish' activity is already created).
+		wp_update_post(
+			[
+				'ID'          => $post_id,
+				'post_status' => 'publish',
+				'post_content' => 'Updated content again.',
+			]
+		);
+
 		// Assert activities were created in correct order.
-		$activities2 = \progress_planner()->get_query()->query_activities(
+		$activities = \progress_planner()->get_query()->query_activities(
 			[
 				'category' => 'content',
-				'data_id'  => $post_id,
+				// 'data_id'  => $post_id,
 			],
 			'RAW'
 		);
 
-		$this->assertNotEmpty( $activities2 );
+		$found_activities = [];
+		foreach ( $activities as $activity ) {
+			if ( $post_id === (int) $activity->data_id ) {
+				$found_activities[] = $activity;
+			}
+		}
 
 		// Get the types in order.
 		$types = array_map(
 			function ( $activity ) {
 				return $activity->type;
 			},
-			$activities2
+			$found_activities
 		);
 
+		$this->assertCount( 1, $types );
 		$this->assertContains( 'publish', $types ); // Should have publish when first published.
-		$this->assertNotContains( 'update', $types ); // Update activity is only added when post is updated.
+		$this->assertnotContains( 'update', $types ); // Update activity is only added when post is updated.
 	}
 
 	/**
