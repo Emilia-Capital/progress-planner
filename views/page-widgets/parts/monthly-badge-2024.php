@@ -17,9 +17,8 @@ $prpl_title_tag = isset( $args['title_tag'] ) ? \esc_attr( $args['title_tag'] ) 
 		<?php \esc_html_e( 'Your monthly badge 2024', 'progress-planner' ); ?>
 	</<?php echo \esc_html( $prpl_title_tag ); ?>>
 	<div class="prpl-ravi-reward-container">
-		<span class="prpl-ravi-reward-icon">
-			<?php \progress_planner()->the_asset( 'images/badges/monthly-badge-default.svg' ); ?>
+		<span class="prpl-ravi-reward-graphic">
+			<img src="<?php echo \esc_attr( PROGRESS_PLANNER_URL . '/assets/images/ravis_remarkable_reward.png' ); ?>" alt="<?php \esc_attr_e( 'Ravi\'s remarkable reward', 'progress-planner' ); ?>">
 		</span>
-		<p><?php esc_html_e( 'Ravi\'s remarkable Reward', 'progress-planner' ); ?></p>
 	</div>
 </div>

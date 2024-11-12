@@ -354,30 +354,20 @@
 }
 
 .prpl-ravi-reward-container {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	padding: var(--prpl-padding);
-	background: var(--prpl-background-orange);
-	border-radius: var(--prpl-border-radius);
 	margin-bottom: var(--prpl-padding);
 
-	.prpl-ravi-reward-icon {
-		display: flex;
-		justify-content: center;
-		margin-bottom: 0.5rem;
-
-		/* WIP. */
-		svg {
-			width: 50%;
-		}
+	.in-popover & {
+		margin-bottom: 0;
 	}
 
+	.prpl-ravi-reward-graphic {
+		display: block;
+		overflow: hidden;
+		border-radius: var(--prpl-border-radius);
 
-	p {
-		margin: 0;
-		text-align: center;
+		img {
+			vertical-align: bottom;
+		}
 	}
 }
 

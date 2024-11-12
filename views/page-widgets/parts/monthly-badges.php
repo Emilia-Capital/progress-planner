@@ -31,7 +31,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		$prpl_current_month_position = 1;
 
 		foreach ( $prpl_badges as $prpl_badge ) {
-			$prpl_current_month_position++;
+			++$prpl_current_month_position;
 			if ( 'monthly-' . gmdate( 'Y' ) . '-m' . (int) gmdate( 'm' ) === $prpl_badge->get_id() ) {
 				break;
 			}
