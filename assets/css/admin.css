@@ -982,7 +982,9 @@ button.prpl-info-icon {
 			}
 		}
 
-		.trash {
+		.trash,
+		.move-up,
+		.move-down {
 			opacity: 0;
 			padding: 0;
 			border: 0;
@@ -994,6 +996,14 @@ button.prpl-info-icon {
 
 			&:hover {
 				color: var(--prpl-color-accent-red);
+			}
+		}
+
+		.move-up,
+		.move-down {
+
+			&:hover {
+				color: var(--prpl-color-accent-green);
 			}
 		}
 
@@ -1010,13 +1020,20 @@ button.prpl-info-icon {
 		&:hover,
 		&:focus-within {
 
-			.trash {
+			.trash,
+			.move-up,
+			.move-down {
 				opacity: 1;
 			}
 
 			.prpl-todo-drag-handle {
 				opacity: 1;
 			}
+		}
+
+		&:first-child .move-up,
+		&:last-child .move-down {
+			display: none;
 		}
 	}
 }
