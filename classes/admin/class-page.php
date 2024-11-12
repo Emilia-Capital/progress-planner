@@ -136,6 +136,14 @@ class Page {
 			true
 		);
 
+		\wp_register_script(
+			'progress-planner-web-components-gauge',
+			PROGRESS_PLANNER_URL . '/assets/js/web-components/prpl-gauge.js',
+			[],
+			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/web-components/prpl-gauge.js' ),
+			true
+		);
+
 		// Register the ajax-request helper.
 		\wp_register_script(
 			'progress-planner-ajax',
@@ -292,6 +300,7 @@ class Page {
 		$this->register_scripts();
 
 		if ( 'toplevel_page_progress-planner' === $current_screen->id ) {
+			\wp_enqueue_script( 'progress-planner-web-components-gauge' );
 			\wp_enqueue_script( 'chart-js' );
 			\wp_enqueue_script( 'progress-planner-onboard' );
 			\wp_enqueue_script( 'progress-planner-admin' );
