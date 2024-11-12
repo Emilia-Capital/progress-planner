@@ -28,8 +28,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 		$prpl_total_rows     = (int) ceil( $prpl_badges_count / $prpl_badges_per_row );
 
 		// We need to know current month badge position.
-		$prpl_current_month_position = 0;
-		$prpl_current_month_found    = false;
+		$prpl_current_month_position = 1;
+
+		foreach ( $prpl_badges as $prpl_badge ) {
+			$prpl_current_month_position++;
+			if ( 'monthly-' . gmdate( 'Y' ) . '-m' . (int) gmdate( 'm' ) === $prpl_badge->get_id() ) {
+				break;
+			}
+		}
 
 		$prpl_scroll_to_row = (int) ceil( $prpl_current_month_position / $prpl_badges_per_row );
 
@@ -57,14 +63,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<div class="prpl-badge-row-wrapper">
 				<div class="prpl-badge-row-wrapper-inner" style="--prpl-current-row: <?php echo \esc_attr( (string) $prpl_scroll_to_row ); ?>">
 					<?php foreach ( $prpl_badges as $prpl_badge ) : ?>
-						<?php
-						if ( ! $prpl_current_month_found ) {
-							++$prpl_current_month_position;
-							if ( 'monthly-' . gmdate( 'Y' ) . '-m' . (int) gmdate( 'm' ) === $prpl_badge->get_id() ) {
-								$prpl_current_month_found = true;
-							}
-						}
-						?>
 						<span
 							class="prpl-badge prpl-badge-<?php echo \esc_attr( $prpl_badge->get_id() ); ?>"
 							data-value="<?php echo \esc_attr( $prpl_badge->progress_callback()['progress'] ); ?>"
