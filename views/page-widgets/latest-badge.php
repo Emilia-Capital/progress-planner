@@ -43,9 +43,14 @@ $prpl_latest_badge = \progress_planner()->get_badges()->get_latest_completed_bad
 			'https://progressplanner.com/wp-json/progress-planner-saas/v1/share-badge'
 		);
 		?>
-		<a href="<?php echo \esc_url( $prpl_share_badge_url ); ?>" target="_blank">
-			<?php \esc_html_e( 'Share your badge!', 'progress-planner' ); ?>
-		</a>
+		<div class="share-badge-wrapper">
+			<a class="prpl-button-share-badge" href="<?php echo \esc_url( $prpl_share_badge_url ); ?>" target="_blank">
+				<span class="dashicons dashicons-share"></span>
+				<span class="prpl-button-share-badge-text">
+					<?php \esc_html_e( 'Share', 'progress-planner' ); ?>
+				</span>
+			</a>
+		</div>
 	<?php else : ?>
 		<?php
 		\progress_planner()->get_popover()->the_popover( 'subscribe-form' )->render_button(
