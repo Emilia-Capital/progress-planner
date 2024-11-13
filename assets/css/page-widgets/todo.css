@@ -99,9 +99,17 @@
 			box-shadow: none;
 			transition: all 0.1s;
 			margin-top: 1px;
+		}
+
+		.trash {
+			width: 2rem;
+			height: 1rem;
 
 			&:hover {
-				color: var(--prpl-color-gray-6);
+
+				svg path {
+					fill: var(--prpl-color-accent-red);
+				}
 			}
 		}
 
@@ -116,7 +124,7 @@
 			height: 0.75rem;
 
 			&:hover {
-				color: var(--prpl-color-accent-green);
+				color: var(--prpl-color-gray-6);
 			}
 
 			.dashicons {
