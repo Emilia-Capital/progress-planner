@@ -1,4 +1,10 @@
-= - in development =
+= 0.9.6 =
+
+Fixed:
+
+* Accessibility of the to-do list.
+
+= 0.9.5 =
 
 Fixed:
 
