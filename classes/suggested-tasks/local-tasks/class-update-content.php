@@ -72,7 +72,7 @@ class Update_Content extends \Progress_Planner\Suggested_Tasks\Local_Tasks {
 				'posts_per_page' => 1,
 				'post_status'    => 'publish',
 				'orderby'        => 'date',
-				'order'          => 'ASC',
+				'order'          => 'DESC',
 			]
 		);
 		$last_post  = $last_posts ? $last_posts[0] : null;
@@ -127,7 +127,7 @@ class Update_Content extends \Progress_Planner\Suggested_Tasks\Local_Tasks {
 				'posts_per_page' => 1,
 				'post_status'    => 'publish',
 				'orderby'        => 'date',
-				'order'          => 'ASC',
+				'order'          => 'DESC',
 			]
 		);
 
