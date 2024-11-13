@@ -968,6 +968,7 @@ button.prpl-info-icon {
 		font-size: 14px;
 
 		.content {
+			font-size: 1rem;
 			padding: 0 0.5em;
 			width: 100%;
 			display: border-box;
@@ -1010,7 +1011,7 @@ button.prpl-info-icon {
 			height: 0.75rem;
 
 			&:hover {
-				color: var(--prpl-color-accent-green);
+				color: var(--prpl-color-gray-6);
 			}
 
 			.dashicons {
