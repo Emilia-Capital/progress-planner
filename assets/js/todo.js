@@ -111,8 +111,10 @@ const progressPlannerInjectTodoItem = ( content, done, addToStart, save ) => {
 		</span>
 		<input type="checkbox" aria-label="'${ content }'" ${ done ? 'checked' : '' }>
 		<span class="content" contenteditable="plaintext-only">${ content }</span>
-		<button class="move-up" aria-label="${ moveUpTaskAriaLabel }"><span class="dashicons dashicons-arrow-up-alt"></span></button>
-		<button class="move-down" aria-label="${ moveDownTaskAriaLabel }"><span class="dashicons dashicons-arrow-down-alt"></span></button>
+		<span class="prpl-move-buttons">
+			<button class="move-up" aria-label="${ moveUpTaskAriaLabel }"><span class="dashicons dashicons-arrow-up-alt2"></span></button>
+			<button class="move-down" aria-label="${ moveDownTaskAriaLabel }"><span class="dashicons dashicons-arrow-down-alt2"></span></button>
+		</span>
 		<button class="trash" aria-label="${ deleteTaskAriaLabel }"><span class="dashicons dashicons-trash"></span></button>
 	` );
 
