@@ -104,11 +104,24 @@
 			}
 		}
 
+		.prpl-move-buttons {
+			display: flex;
+			gap: 0;
+			flex-direction: column;
+		}
+
 		.move-up,
 		.move-down {
+			height: 0.75rem;
 
 			&:hover {
 				color: var(--prpl-color-accent-green);
+			}
+
+			.dashicons {
+				font-size: 0.875rem;
+				width: 1em;
+				height: 1em;
 			}
 		}
 
