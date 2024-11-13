@@ -76,7 +76,7 @@ class Update_Content extends \Progress_Planner\Suggested_Tasks\Local_Tasks {
 			]
 		);
 
-		$last_post  = $last_posts ? $last_posts[0] : null;
+		$last_post = $last_posts ? $last_posts[0] : null;
 		if ( ! $last_post ) {
 			return false;
 		}
@@ -143,13 +143,13 @@ class Update_Content extends \Progress_Planner\Suggested_Tasks\Local_Tasks {
 			&& ! empty( $last_created_posts )
 			&& \progress_planner()->get_activities__content_helpers()->is_post_long( $last_created_posts[0]->ID )
 		);
-		$items = [];
+		$items             = [];
 
 		$task_id = $this->get_task_id(
 			[
-				'type'    => 'create-post',
-				'date'    => \gmdate( 'YW' ),
-				'long'    => $is_last_post_long ? '0' : '1',
+				'type' => 'create-post',
+				'date' => \gmdate( 'YW' ),
+				'long' => $is_last_post_long ? '0' : '1',
 			]
 		);
 
