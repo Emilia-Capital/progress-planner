@@ -28,7 +28,7 @@ class Update_Content extends \Progress_Planner\Suggested_Tasks\Local_Tasks {
 	 */
 	public function evaluate_task( $task_id ) {
 		$data = $this->get_data_from_task_id( $task_id );
-		if ( ! isset( $data['type'] ) || ! isset( $data['post_id'] ) ) {
+		if ( ! isset( $data['type'] ) ) {
 			return false;
 		}
 
@@ -51,7 +51,7 @@ class Update_Content extends \Progress_Planner\Suggested_Tasks\Local_Tasks {
 	 * @return bool
 	 */
 	public function evaluate_update_post_task( $data ) {
-		if ( (int) \get_post_modified_time( 'U', false, (int) $data['post_id'] ) > strtotime( '-6 months' ) ) {
+		if ( isset( $data['post_id'] ) && (int) \get_post_modified_time( 'U', false, (int) $data['post_id'] ) > strtotime( '-6 months' ) ) {
 			$data['date'] = \gmdate( 'YW' );
 			\progress_planner()->get_suggested_tasks()->mark_task_as_completed( $this->get_task_id( $data ) );
 			return true;
@@ -75,6 +75,7 @@ class Update_Content extends \Progress_Planner\Suggested_Tasks\Local_Tasks {
 				'order'          => 'DESC',
 			]
 		);
+
 		$last_post  = $last_posts ? $last_posts[0] : null;
 		if ( ! $last_post ) {
 			return false;
@@ -86,17 +87,23 @@ class Update_Content extends \Progress_Planner\Suggested_Tasks\Local_Tasks {
 		}
 
 		// Check if the task is for this week.
-		if ( ! isset( $data['date'] ) || $data['date'] !== \gmdate( 'YW' ) ) {
+		if ( ! isset( $data['date'] ) || (string) $data['date'] !== (string) \gmdate( 'YW' ) ) {
+			return false;
+		}
+
+		// Check if the task is for a long post.
+		$is_post_long = \progress_planner()->get_activities__content_helpers()->is_post_long( $last_post->ID );
+		if ( ! isset( $data['long'] ) || $data['long'] !== $is_post_long ) {
 			return false;
 		}
 
 		\progress_planner()->get_suggested_tasks()->mark_task_as_completed(
-			self::get_task_id(
+			$this->get_task_id(
 				[
 					'type'    => 'create-post',
 					'date'    => \gmdate( 'YW' ),
 					'post_id' => $last_post->ID,
-					'long'    => \progress_planner()->get_activities__content_helpers()->is_post_long( $last_post->ID ) ? '1' : '0',
+					'long'    => $is_post_long ? '1' : '0',
 				]
 			)
 		);
@@ -136,12 +143,15 @@ class Update_Content extends \Progress_Planner\Suggested_Tasks\Local_Tasks {
 			&& ! empty( $last_created_posts )
 			&& \progress_planner()->get_activities__content_helpers()->is_post_long( $last_created_posts[0]->ID )
 		);
-		$items             = [];
+		$items = [];
 
-		$task_id  = 'create-post-';
-		$task_id .= $is_last_post_long ? 'short' : 'long';
-		// Append the date formatted as Year - Week.
-		$task_id .= '-' . \gmdate( 'YW' );
+		$task_id = $this->get_task_id(
+			[
+				'type'    => 'create-post',
+				'date'    => \gmdate( 'YW' ),
+				'long'    => $is_last_post_long ? '0' : '1',
+			]
+		);
 
 		$items[] = [
 			'task_id'     => $task_id,
