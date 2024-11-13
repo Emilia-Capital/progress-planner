@@ -30,7 +30,6 @@ class Base {
 	 * Constructor.
 	 */
 	public function __construct() {
-		$this->init();
 	}
 
 	/**

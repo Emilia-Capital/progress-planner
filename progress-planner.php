@@ -63,6 +63,7 @@ function progress_planner() {
 	global $progress_planner;
 	if ( ! $progress_planner ) {
 		$progress_planner = new \Progress_Planner\Base();
+		$progress_planner->init();
 	}
 	return $progress_planner;
 }
