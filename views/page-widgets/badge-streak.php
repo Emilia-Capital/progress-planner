@@ -9,13 +9,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$prpl_widget = \progress_planner()->get_admin__page()->get_widget( 'badge-streak' );
-
+$prpl_widget                 = \progress_planner()->get_admin__page()->get_widget( 'badge-streak' );
 $prpl_widget_context_details = [];
 if ( $prpl_widget->get_details( 'content' ) ) {
 	$prpl_widget_context_details['content'] = [
-		'background' => 'var(--prpl-background-blue)',
-		'text'       => sprintf(
+		'text' => sprintf(
 			\esc_html(
 				/* translators: %s: The remaining number of posts or pages to write. */
 				\_n(
@@ -31,8 +29,7 @@ if ( $prpl_widget->get_details( 'content' ) ) {
 }
 if ( $prpl_widget->get_details( 'maintenance' ) ) {
 	$prpl_widget_context_details['maintenance'] = [
-		'background' => 'var(--prpl-background-red)',
-		'text'       => sprintf(
+		'text' => sprintf(
 			\esc_html(
 				/* translators: %s: The remaining number of weeks. */
 				\_n(
@@ -61,34 +58,33 @@ if ( $prpl_widget->get_details( 'maintenance' ) ) {
 </h2>
 
 <div class="prpl-latest-badges-wrapper">
+	<?php
+	$prpl_current_context = 0;
+	$prpl_contexts_count  = count( array_keys( $prpl_widget_context_details ) );
+	?>
 	<?php foreach ( $prpl_widget_context_details as $prpl_context => $prpl_details ) : ?>
-		<div class="prpl-badges-columns-wrapper">
-			<div class="prpl-badge-wrapper" style="--background: <?php echo \esc_attr( $prpl_details['background'] ); ?>">
-				<span
-					class="prpl-badge"
-					data-value="<?php echo \esc_attr( $prpl_widget->get_details( $prpl_context )->get_progress()['progress'] ); ?>"
-				>
-					<div
-						class="prpl-badge-gauge"
-						style="
-							--value:<?php echo (float) ( $prpl_widget->get_details( $prpl_context )->get_progress()['progress'] / 100 ); ?>;
-							--max: 360deg;
-							--start: 180deg;
-						">
-						<?php $prpl_widget->get_details( $prpl_context )->the_icon( true ); ?>
-					</div>
-				</span>
-				<span class="progress-percent">
-					<?php echo \esc_attr( $prpl_widget->get_details( $prpl_context )->get_progress()['progress'] ); ?>%
-				</span>
-			</div>
-			<div class="prpl-badge-content-wrapper">
-				<h3><?php echo \esc_html( $prpl_widget->get_details( $prpl_context )->get_name() ); ?></h3>
-				<p><?php echo \esc_html( $prpl_details['text'] ); ?></p>
-			</div>
+		<?php ++$prpl_current_context; ?>
+		<?php
+		\progress_planner()->the_view(
+			'page-widgets/parts/gauge.php',
+			[
+				'prpl_gauge_details' => [
+					'value'           => $prpl_widget->get_details( $prpl_context )->get_progress()['progress'] / 100,
+					'max'             => 100,
+					'background'      => $prpl_widget->get_details( $prpl_context )->get_background(),
+					'color'           => 'var(--prpl-color-accent-orange)',
+					'badge'           => $prpl_widget->get_details( $prpl_context ),
+					'badge_completed' => true,
+				],
+			]
+		);
+		?>
+		<div class="prpl-badge-content-wrapper">
+			<h3><?php echo \esc_html( $prpl_widget->get_details( $prpl_context )->get_name() ); ?></h3>
+			<p><?php echo \esc_html( $prpl_details['text'] ); ?></p>
 		</div>
-
-		<hr>
-
+		<?php if ( $prpl_current_context < $prpl_contexts_count ) : ?>
+			<hr>
+		<?php endif; ?>
 	<?php endforeach; ?>
 </div>
