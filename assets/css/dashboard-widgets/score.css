@@ -4,6 +4,14 @@
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
 		grid-gap: calc(var(--prpl-gap) / 2);
+
+		> div {
+			border: 1px solid var(--prpl-color-gray-2);
+			border-radius: var(--prpl-border-radius);
+			font-size: 0.875rem;
+			text-align: center;
+			padding-bottom: 1em;
+		}
 	}
 
 	h3 {
