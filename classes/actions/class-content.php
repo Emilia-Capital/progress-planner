@@ -280,17 +280,8 @@ class Content {
 		// Update the badges.
 		if ( 'publish' === $type ) {
 
-			// WIP: So the clearing is done internally by the badges class.
-			$group_badges = \progress_planner()->get_badges()->get_badges( 'content' );
-			foreach ( $group_badges as $badge ) {
-
-				// If the badge is already complete, skip it.
-				if ( 100 === $badge->progress_callback()['progress'] ) {
-					continue;
-				}
-				// Delete the badge value so it can be re-calculated.
-				$badge->clear_progress();
-			}
+			// WIP.
+			\do_action( 'prpl_wip_clear_content_progress_action', $activity->data_id );
 
 			// Check if there is a publish activity for this post.
 			$existing = \progress_planner()->get_query()->query_activities(

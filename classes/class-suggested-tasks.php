@@ -77,28 +77,17 @@ class Suggested_Tasks {
 	 * @return void
 	 */
 	public function mark_task_as_completed( $task_id ) {
-		$activity_date = new \DateTime();
 
 		$activity          = new \Progress_Planner\Activities\Suggested_Task();
 		$activity->type    = 'completed';
 		$activity->data_id = (string) $task_id;
-		$activity->date    = $activity_date;
+		$activity->date    = new \DateTime();
 		$activity->user_id = \get_current_user_id();
 		$activity->save();
 
-		// Clear monthly saved progress.
-		$badge_id      = 'monthly-' . $activity_date->format( 'Y' ) . '-m' . $activity_date->format( 'm' );
-		$monthly_badge = \progress_planner()->get_badges()->get_badge( $badge_id );
-
-		if ( $monthly_badge ) {
-			// Clear the progress.
-			$monthly_badge->clear_progress();
-
-			// Save the progress.
-			$monthly_badge->get_progress();
-		}
-
 		$this->mark_task_as_pending_celebration( $task_id );
+
+		do_action( 'progress_planner_suggested_task_completed', $task_id );
 	}
 
 	/**

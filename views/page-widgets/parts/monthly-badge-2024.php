@@ -9,8 +9,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$prpl_badge = \progress_planner()->get_badges()->get_badge( 'monthly-2024-m12' );
-$prpl_badge_progress = $prpl_badge->get_progress();
+$prpl_badge           = \progress_planner()->get_badges()->get_badge( 'monthly-2024-m12' );
+$prpl_badge_progress  = $prpl_badge->get_progress();
 $prpl_badge_completed = 100 === (int) $prpl_badge_progress['progress'];
 
 if ( ! $prpl_badge_completed ) {
