@@ -16,14 +16,10 @@ $prpl_show_badges = (
 		<?php \progress_planner()->get_widgets__activity_scores()->print_score_gauge(); ?>
 	</div>
 
-	<prpl-gauge
-		value="<?php echo (float) \progress_planner()->get_admin__page()->get_widget( 'suggested-tasks' )->get_score() / \Progress_Planner\Badges\Monthly::TARGET_POINTS; ?>"
-		max="<?php echo (int) \Progress_Planner\Badges\Monthly::TARGET_POINTS; ?>"
-		background="var(--prpl-background-orange)"
-		color="var(--prpl-color-accent-orange)"
-		contentFontSize="var(--prpl-font-size-4xl)"
-	>
-		<?php \progress_planner()->get_badges()->get_badge( 'monthly-' . gmdate( 'Y' ) . '-m' . (int) gmdate( 'm' ) )->the_icon( true ); ?>
+	<prpl-gauge background="var(--prpl-background-orange)" color="var(--prpl-color-accent-orange)" contentFontSize="var(--prpl-font-size-4xl)">
+		<progress max="<?php echo (int) \Progress_Planner\Badges\Monthly::TARGET_POINTS; ?>" value="<?php echo (float) \progress_planner()->get_admin__page()->get_widget( 'suggested-tasks' )->get_score(); ?>">
+			<?php \progress_planner()->get_badges()->get_badge( 'monthly-' . gmdate( 'Y' ) . '-m' . (int) gmdate( 'm' ) )->the_icon( true ); ?>
+		</progress>
 	</prpl-gauge>
 </div>
 
