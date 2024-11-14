@@ -54,15 +54,6 @@ final class Activity_Scores extends \Progress_Planner\Widget {
 	}
 
 	/**
-	 * Print the score gauge.
-	 *
-	 * @return void
-	 */
-	public function print_score_gauge() {
-		\progress_planner()->the_view( 'page-widgets/parts/activity-scores-gauge.php' );
-	}
-
-	/**
 	 * Get the score.
 	 *
 	 * @return int The score.
