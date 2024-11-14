@@ -87,19 +87,15 @@ class Suggested_Tasks {
 		$activity->save();
 
 		// Clear monthly saved progress.
-		$badge_id = 'monthly-' . $activity_date->format( 'Y' ) . '-m' . $activity_date->format( 'm' );
+		$badge_id      = 'monthly-' . $activity_date->format( 'Y' ) . '-m' . $activity_date->format( 'm' );
+		$monthly_badge = \progress_planner()->get_badges()->get_badge( $badge_id );
 
-		foreach ( \progress_planner()->get_badges()->get_badges( 'monthly' ) as $badge ) {
+		if ( $monthly_badge ) {
+			// Clear the progress.
+			$monthly_badge->clear_progress();
 
-			if ( $badge_id === $badge->get_id() ) {
-
-				// Clear the progress.
-				$badge->clear_progress();
-
-				// Save the progress.
-				$badge->get_progress();
-				break;
-			}
+			// Save the progress.
+			$monthly_badge->get_progress();
 		}
 
 		$this->mark_task_as_pending_celebration( $task_id );
