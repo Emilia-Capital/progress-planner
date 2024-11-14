@@ -66,7 +66,7 @@ if ( $prpl_widget->get_details( 'maintenance' ) ) {
 		<?php ++$prpl_current_context; ?>
 		<prpl-gauge background="<?php echo \esc_attr( $prpl_widget->get_details( $prpl_context )->get_background() ); ?>" color="var(--prpl-color-accent-orange)">
 			<progress max="100" value="<?php echo (float) $prpl_widget->get_details( $prpl_context )->get_progress()['progress']; ?>">
-				<?php $prpl_widget->get_details( $prpl_context )->the_icon( $prpl_gauge_details['badge_completed'] ); ?>
+				<?php $prpl_widget->get_details( $prpl_context )->the_icon( true ); ?>
 			</progress>
 		</prpl-gauge>
 		<div class="prpl-badge-content-wrapper">
