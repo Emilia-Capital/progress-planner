@@ -9,6 +9,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+$prpl_badge = \progress_planner()->get_badges()->get_badge( 'monthly-2024-m12' );
+$prpl_badge_progress = $prpl_badge->get_progress();
+$prpl_badge_completed = 100 === (int) $prpl_badge_progress['progress'];
+
+if ( ! $prpl_badge_completed ) {
+	return;
+}
+
 $prpl_title_tag = isset( $args['title_tag'] ) ? \esc_attr( $args['title_tag'] ) : 'h3';
 ?>
 
@@ -18,7 +26,10 @@ $prpl_title_tag = isset( $args['title_tag'] ) ? \esc_attr( $args['title_tag'] ) 
 	</<?php echo \esc_html( $prpl_title_tag ); ?>>
 	<div class="prpl-ravi-reward-container">
 		<span class="prpl-ravi-reward-graphic">
-			<img src="<?php echo \esc_attr( PROGRESS_PLANNER_URL . '/assets/images/ravis_remarkable_reward.png' ); ?>" alt="<?php \esc_attr_e( 'Ravi\'s remarkable reward', 'progress-planner' ); ?>">
+			<img
+				src="<?php echo \esc_url( \progress_planner()->get_admin__page()->get_widget( 'latest-badge' )->endpoint . $prpl_badge->get_id() ); ?>"
+				alt="<?php echo \esc_attr( $prpl_badge->get_name() ); ?>"
+			/>
 		</span>
 	</div>
 </div>
