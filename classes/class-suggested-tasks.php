@@ -77,12 +77,30 @@ class Suggested_Tasks {
 	 * @return void
 	 */
 	public function mark_task_as_completed( $task_id ) {
+		$activity_date = new \DateTime();
+
 		$activity          = new \Progress_Planner\Activities\Suggested_Task();
 		$activity->type    = 'completed';
 		$activity->data_id = (string) $task_id;
-		$activity->date    = new \DateTime();
+		$activity->date    = $activity_date;
 		$activity->user_id = \get_current_user_id();
 		$activity->save();
+
+		// Clear monthly saved progress.
+		$badge_id = 'monthly-' . $activity_date->format( 'Y' ) . '-m' . $activity_date->format( 'm' );
+
+		foreach ( \progress_planner()->get_badges()->get_badges( 'monthly' ) as $badge ) {
+
+			if ( $badge_id === $badge->get_id() ) {
+
+				// Clear the progress.
+				$badge->clear_progress();
+
+				// Save the progress.
+				$badge->get_progress();
+				break;
+			}
+		}
 
 		$this->mark_task_as_pending_celebration( $task_id );
 	}
@@ -257,13 +275,13 @@ class Suggested_Tasks {
 
 		switch ( $action ) {
 			case 'complete':
-				\progress_planner()->get_suggested_tasks()->mark_task_as_completed( $task_id );
+				$this->mark_task_as_completed( $task_id );
 				$updated = true;
 				break;
 
 			case 'snooze':
 				$duration = isset( $_POST['duration'] ) ? \sanitize_text_field( \wp_unslash( $_POST['duration'] ) ) : '';
-				$updated  = \progress_planner()->get_suggested_tasks()->mark_task_as_snoozed( $task_id, $duration );
+				$updated  = $this->mark_task_as_snoozed( $task_id, $duration );
 				break;
 
 			default:

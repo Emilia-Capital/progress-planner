@@ -279,16 +279,17 @@ class Content {
 
 		// Update the badges.
 		if ( 'publish' === $type ) {
-			$badge_ids = [ 'wonderful-writer', 'bold-blogger', 'awesome-author' ];
-			foreach ( $badge_ids as $badge_id ) {
+
+			// WIP: So the clearing is done internally by the badges class.
+			$group_badges = \progress_planner()->get_badges()->get_badges( 'content' );
+			foreach ( $group_badges as $badge ) {
 
 				// If the badge is already complete, skip it.
-				if ( 100 === \progress_planner()->get_settings()->get( [ 'badges', $badge_id, 'progress' ], 0 ) ) {
+				if ( 100 === $badge->progress_callback()['progress'] ) {
 					continue;
 				}
-
 				// Delete the badge value so it can be re-calculated.
-				\progress_planner()->get_settings()->set( [ 'badges', $badge_id ], [] );
+				$badge->clear_progress();
 			}
 
 			// Check if there is a publish activity for this post.

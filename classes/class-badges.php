@@ -107,14 +107,13 @@ class Badges {
 
 		$latest_date = null;
 
-		$flat_badges = array_merge(
-			$this->content,
-			$this->maintenance,
-			$this->monthly,
-		);
-
 		foreach ( [ 'content', 'maintenance', 'monthly' ] as $context ) {
 			foreach ( $this->$context as $badge ) {
+				// Skip if the badge has no date.
+				if ( ! isset( $settings[ $badge->get_id() ]['date'] ) ) {
+					continue;
+				}
+
 				$badge_progress = $badge->get_progress();
 
 				// Continue if the badge is not completed.
@@ -128,11 +127,6 @@ class Badges {
 					if ( isset( $settings[ $badge->get_id() ]['date'] ) ) {
 						$latest_date = $settings[ $badge->get_id() ]['date'];
 					}
-					continue;
-				}
-
-				// Skip if the badge has no date.
-				if ( ! isset( $settings[ $badge->get_id() ]['date'] ) ) {
 					continue;
 				}
 
