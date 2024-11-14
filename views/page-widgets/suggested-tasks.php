@@ -20,7 +20,6 @@ $prpl_badge      = \progress_planner()->get_badges()->get_badge( 'monthly-' . gm
 <prpl-gauge
 	value="<?php echo (float) $prpl_percentage; ?>"
 	max="<?php echo (int) \Progress_Planner\Badges\Monthly::TARGET_POINTS; ?>"
-	start="270deg"
 	background="var(--prpl-background-orange)"
 	color="var(--prpl-color-accent-orange)"
 >

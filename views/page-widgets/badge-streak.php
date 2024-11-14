@@ -67,7 +67,6 @@ if ( $prpl_widget->get_details( 'maintenance' ) ) {
 		<prpl-gauge
 			value="<?php echo (float) $prpl_widget->get_details( $prpl_context )->get_progress()['progress'] / 100; ?>"
 			max="100"
-			start="270deg"
 			background="<?php echo \esc_attr( $prpl_widget->get_details( $prpl_context )->get_background() ); ?>"
 			color="var(--prpl-color-accent-orange)"
 		>

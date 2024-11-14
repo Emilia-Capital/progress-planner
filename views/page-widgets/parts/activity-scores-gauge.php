@@ -15,7 +15,6 @@ $prpl_widget = \progress_planner()->get_admin__page()->get_widget( 'activity-sco
 <prpl-gauge
 	value="<?php echo (float) $prpl_widget->get_score() / 100; ?>"
 	max="100"
-	start="270deg"
 	background="var(--prpl-background-orange)"
 	color="<?php echo esc_attr( $prpl_widget->get_gauge_color( $prpl_widget->get_score() ) ); ?>"
 	contentFontSize="var(--prpl-font-size-6xl)"
