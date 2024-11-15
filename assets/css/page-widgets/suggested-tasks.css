@@ -351,6 +351,10 @@
 			background: var(--prpl-background-red);
 		}
 	}
+
+	.badge-group-monthly {
+		background-color: transparent;
+	}
 }
 
 .prpl-ravi-reward-container {
@@ -360,15 +364,16 @@
 		margin-bottom: 0;
 	}
 
-	.prpl-ravi-reward-graphic {
-		display: block;
-		overflow: hidden;
+	img {
+		border: 1px solid var(--prpl-color-gray-2);
 		border-radius: var(--prpl-border-radius);
 
-		img {
-			vertical-align: bottom;
+		&.incomplete {
+			filter: grayscale(1);
+			opacity: 0.25;
 		}
 	}
+
 }
 
 #prpl-popover-monthly-badges-trigger {
