@@ -64,21 +64,11 @@ if ( $prpl_widget->get_details( 'maintenance' ) ) {
 	?>
 	<?php foreach ( $prpl_widget_context_details as $prpl_context => $prpl_details ) : ?>
 		<?php ++$prpl_current_context; ?>
-		<?php
-		\progress_planner()->the_view(
-			'page-widgets/parts/gauge.php',
-			[
-				'prpl_gauge_details' => [
-					'value'           => $prpl_widget->get_details( $prpl_context )->get_progress()['progress'] / 100,
-					'max'             => 100,
-					'background'      => $prpl_widget->get_details( $prpl_context )->get_background(),
-					'color'           => 'var(--prpl-color-accent-orange)',
-					'badge'           => $prpl_widget->get_details( $prpl_context ),
-					'badge_completed' => true,
-				],
-			]
-		);
-		?>
+		<prpl-gauge background="<?php echo \esc_attr( $prpl_widget->get_details( $prpl_context )->get_background() ); ?>" color="var(--prpl-color-accent-orange)">
+			<progress max="100" value="<?php echo (float) $prpl_widget->get_details( $prpl_context )->get_progress()['progress']; ?>">
+				<?php $prpl_widget->get_details( $prpl_context )->the_icon( true ); ?>
+			</progress>
+		</prpl-gauge>
 		<div class="prpl-badge-content-wrapper">
 			<h3><?php echo \esc_html( $prpl_widget->get_details( $prpl_context )->get_name() ); ?></h3>
 			<p><?php echo \esc_html( $prpl_details['text'] ); ?></p>
