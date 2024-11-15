@@ -59,7 +59,7 @@ class Badges {
 		$this->monthly = \Progress_Planner\Badges\Monthly::get_instances();
 
 		\add_action( 'progress_planner_suggested_task_completed', [ $this, 'clear_monthly_progress' ] );
-		\add_action( 'prpl_wip_clear_content_progress_action', [ $this, 'clear_content_progress' ] );
+		\add_action( 'progress_planner_activity_content_publish_saved', [ $this, 'clear_content_progress' ] );
 	}
 
 	/**

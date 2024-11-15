@@ -230,29 +230,33 @@ class Content {
 	 * Add an update activity.
 	 *
 	 * @param \WP_Post $post The post object.
-	 * @param string   $type The type of activity.
+	 * @param string   $type The type of activity (ie publish, update, trash, delete etc).
 	 *
 	 * @return void
 	 */
 	private function add_post_activity( $post, $type ) {
-		if ( 'update' === $type ) {
-			if ( 'publish' === $post->post_status ) {
-				// Check if there is a publish activity for this post.
-				$existing = \progress_planner()->get_query()->query_activities(
-					[
-						'category' => 'content',
-						'type'     => 'publish',
-						'data_id'  => (string) $post->ID,
-					],
-					'RAW'
-				);
 
-				// If there is no publish activity for this post, add it.
-				if ( empty( $existing ) ) {
-					$this->add_post_activity( $post, 'publish' );
-					return;
-				}
+		// Post was updated to publish for the first time, ie draft was published.
+		if ( 'update' === $type && 'publish' === $post->post_status ) {
+			// Check if there is a publish activity for this post.
+			$existing = \progress_planner()->get_query()->query_activities(
+				[
+					'category' => 'content',
+					'type'     => 'publish',
+					'data_id'  => (string) $post->ID,
+				],
+				'RAW'
+			);
+
+			// If there is no publish activity for this post, add it.
+			if ( empty( $existing ) ) {
+				$this->add_post_activity( $post, 'publish' );
+				return;
 			}
+		}
+
+		// Post was updated, but it was published previously.
+		if ( 'update' === $type ) {
 
 			// Check if there are any activities for this post, on this date.
 			$existing = \progress_planner()->get_query()->query_activities(
@@ -280,9 +284,6 @@ class Content {
 		// Update the badges.
 		if ( 'publish' === $type ) {
 
-			// WIP.
-			\do_action( 'prpl_wip_clear_content_progress_action', $activity->data_id );
-
 			// Check if there is a publish activity for this post.
 			$existing = \progress_planner()->get_query()->query_activities(
 				[
@@ -296,6 +297,9 @@ class Content {
 			// If there is no publish activity for this post, add it.
 			if ( empty( $existing ) ) {
 				$activity->save();
+
+				// WIP.
+				\do_action( 'progress_planner_activity_content_publish_saved', $activity->data_id );
 				return;
 			}
 		}
