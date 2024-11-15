@@ -35,18 +35,17 @@ class Dashboard_Widget_Score extends \Progress_Planner\Admin\Dashboard_Widget {
 	 */
 	public function render_widget() {
 		// Enqueue stylesheets.
+		\progress_planner()->get_admin__page()->register_scripts();
 		\progress_planner()->get_admin__page()->enqueue_styles();
 		\wp_enqueue_script( 'progress-planner-web-components-gauge' );
+		\wp_enqueue_script( 'progress-planner-suggested-tasks' );
+		\wp_enqueue_style(
+			'prpl-widget-suggested-tasks',
+			PROGRESS_PLANNER_URL . '/assets/css/page-widgets/suggested-tasks.css',
+			[],
+			(string) filemtime( PROGRESS_PLANNER_DIR . '/assets/css/page-widgets/suggested-tasks.css' )
+		);
 
-		foreach ( [ 'badge-streak', 'activity-scores' ] as $handle ) {
-			$stylesheet = "/assets/css/page-widgets/{$handle}.css";
-			\wp_enqueue_style(
-				'prpl-widget-' . $handle,
-				PROGRESS_PLANNER_URL . $stylesheet,
-				[],
-				(string) filemtime( PROGRESS_PLANNER_DIR . $stylesheet )
-			);
-		}
 		\wp_enqueue_style(
 			'prpl-dashboard-widget-' . $this->id,
 			PROGRESS_PLANNER_URL . "/assets/css/dashboard-widgets/{$this->id}.css",
