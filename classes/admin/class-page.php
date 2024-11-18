@@ -282,8 +282,8 @@ class Page {
 			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/suggested-tasks.js' ),
 			true
 		);
-		$tasks            = \progress_planner()->get_suggested_tasks()->get_api()->get_saved_tasks();
-		$tasks['details'] = \progress_planner()->get_suggested_tasks()->get_api()->get_tasks();
+		$tasks            = \progress_planner()->get_suggested_tasks()->get_saved_tasks();
+		$tasks['details'] = \progress_planner()->get_suggested_tasks()->get_tasks();
 		$localize_data    = [
 			'ajaxUrl' => \admin_url( 'admin-ajax.php' ),
 			'nonce'   => \wp_create_nonce( 'progress_planner' ),

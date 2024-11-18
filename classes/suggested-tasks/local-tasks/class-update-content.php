@@ -116,9 +116,11 @@ class Update_Content extends \Progress_Planner\Suggested_Tasks\Local_Tasks {
 	 * @return array
 	 */
 	public function get_tasks_to_inject() {
+
+		// WIP: Filter out tasks if they are snoozed.
 		return array_merge(
-			$this->get_tasks_to_update_posts(),
-			$this->get_tasks_to_create_posts()
+			true !== $this->is_task_type_snoozed( 'update-post' ) ? $this->get_tasks_to_update_posts() : [],
+			true !== $this->is_task_type_snoozed( 'create-post' ) ? $this->get_tasks_to_create_posts() : []
 		);
 	}
 
@@ -272,5 +274,23 @@ class Update_Content extends \Progress_Planner\Suggested_Tasks\Local_Tasks {
 		}
 
 		return $data;
+	}
+
+	/**
+	 * Check if a task type is snoozed.
+	 *
+	 * @param string $type The task type.
+	 *
+	 * @return bool
+	 */
+	public function is_task_type_snoozed( $type ) {
+		$snoozed = \progress_planner()->get_suggested_tasks()->get_snoozed_tasks();
+		foreach ( $snoozed as $task ) {
+			$data = $this->get_data_from_task_id( $task['id'] );
+			if ( $data['type'] === $type ) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

@@ -8,7 +8,7 @@
 namespace Progress_Planner\Tests;
 
 use Progress_Planner\Suggested_Tasks;
-use Progress_Planner\Suggested_Tasks\API;
+use Progress_Planner\Suggested_Tasks\Remote_Tasks;
 
 /**
  * Suggested_Tasks test case.
@@ -36,9 +36,9 @@ class Suggested_Tasks_Test extends \WP_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public function test_get_api() {
-		$api = $this->suggested_tasks->get_api();
-		$this->assertInstanceOf( API::class, $api );
+	public function test_get_remote_tasks() {
+		$remote_tasks = $this->suggested_tasks->get_remote();
+		$this->assertInstanceOf( Remote_Tasks::class, $remote_tasks );
 	}
 
 	/**

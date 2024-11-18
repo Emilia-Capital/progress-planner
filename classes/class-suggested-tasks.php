@@ -22,9 +22,9 @@ class Suggested_Tasks {
 	/**
 	 * The API object.
 	 *
-	 * @var \Progress_Planner\Suggested_Tasks\API|null
+	 * @var \Progress_Planner\Suggested_Tasks\Remote_Tasks|null
 	 */
-	private $api;
+	private $remote;
 
 	/**
 	 * The name of the settings option.
@@ -43,6 +43,8 @@ class Suggested_Tasks {
 		$this->local->update_content = new \Progress_Planner\Suggested_Tasks\Local_Tasks\Update_Content();
 		$this->local->update_core    = new \Progress_Planner\Suggested_Tasks\Local_Tasks\Update_Core();
 
+		$this->remote = new \Progress_Planner\Suggested_Tasks\Remote_Tasks();
+
 		$this->maybe_unsnooze_tasks();
 		\add_action( 'shutdown', [ $this, 'maybe_celebrate_tasks' ] );
 		\add_action( 'wp_ajax_progress_planner_suggested_task_action', [ $this, 'suggested_task_action' ] );
@@ -51,13 +53,10 @@ class Suggested_Tasks {
 	/**
 	 * Get the API object.
 	 *
-	 * @return \Progress_Planner\Suggested_Tasks\API
+	 * @return \Progress_Planner\Suggested_Tasks\Remote_Tasks
 	 */
-	public function get_api() {
-		if ( ! $this->api ) {
-			$this->api = new \Progress_Planner\Suggested_Tasks\API();
-		}
-		return $this->api;
+	public function get_remote() {
+		return $this->remote;
 	}
 
 	/**
@@ -67,6 +66,57 @@ class Suggested_Tasks {
 	 */
 	public function get_local() {
 		return $this->local;
+	}
+
+	/**
+	 * Return filtered items.
+	 *
+	 * @return array
+	 */
+	public function get_tasks() {
+		$tasks = [];
+		/**
+		 * Filter the suggested tasks.
+		 *
+		 * @param array $tasks The suggested tasks.
+		 * @return array
+		 */
+		return \apply_filters( 'progress_planner_suggested_tasks_api_items', $tasks );
+	}
+
+	/**
+	 * Get an array of completed and snoozed tasks.
+	 *
+	 * @return array
+	 */
+	public function get_saved_tasks() {
+		$option              = \get_option( self::OPTION_NAME, [] );
+		$option['completed'] = $option['completed'] ?? [];
+		$option['snoozed']   = $option['snoozed'] ?? [];
+
+		// Convert the task IDs to strings.
+		$option['completed'] = \array_map( 'strval', $option['completed'] );
+		$option['snoozed']   = \array_map(
+			function ( $task ) {
+				return [
+					'id'   => (string) $task['id'],
+					'time' => (int) $task['time'],
+				];
+			},
+			$option['snoozed']
+		);
+
+		// Remove items with id 0.
+		$option['completed'] = \array_values( \array_filter( $option['completed'] ) );
+		$option['snoozed']   = \array_values(
+			\array_filter(
+				$option['snoozed'],
+				function ( $task ) {
+					return $task['id'] > 0;
+				}
+			)
+		);
+		return $option;
 	}
 
 	/**
@@ -144,6 +194,12 @@ class Suggested_Tasks {
 	 * @return void
 	 */
 	public function maybe_celebrate_tasks() {
+
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- We're not processing any data.
+		if ( ! is_admin() || ! isset( $_GET['page'] ) || $_GET['page'] !== 'progress-planner' ) {
+			return; // WIP: Only celebrate tasks in the admin area.
+		}
+
 		$option                        = \get_option( self::OPTION_NAME, [] );
 		$option['pending_celebration'] = isset( $option['pending_celebration'] )
 			? $option['pending_celebration']
@@ -155,6 +211,18 @@ class Suggested_Tasks {
 
 		$option['pending_celebration'] = [];
 		\update_option( self::OPTION_NAME, $option );
+	}
+
+	/**
+	 * Get the snoozed tasks.
+	 *
+	 * @return array
+	 */
+	public function get_snoozed_tasks() {
+		$option  = \get_option( self::OPTION_NAME, [] );
+		$snoozed = $option['snoozed'] ?? [];
+
+		return $snoozed;
 	}
 
 	/**
