@@ -87,6 +87,15 @@ abstract class Badge {
 	}
 
 	/**
+	 * Clear the saved progress.
+	 *
+	 * @return void
+	 */
+	public function clear_progress() {
+		\progress_planner()->get_settings()->set( [ 'badges', $this->id ], [] );
+	}
+
+	/**
 	 * Get the icon URL.
 	 *
 	 * @param bool $complete Whether the badge is complete.

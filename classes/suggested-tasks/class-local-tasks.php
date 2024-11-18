@@ -35,6 +35,17 @@ abstract class Local_Tasks {
 	 */
 	public function __construct() {
 		\add_filter( 'progress_planner_suggested_tasks_api_items', [ $this, 'inject_tasks' ] );
+
+		\add_action( 'init', [ $this, 'init' ], 1 );
+	}
+
+	/**
+	 * Initialize the class.
+	 *
+	 * @return void
+	 */
+	public function init() {
+		// WIP: Methods which call class which instantiates this class need to be delayed.
 		$this->evaluate_tasks();
 	}
 

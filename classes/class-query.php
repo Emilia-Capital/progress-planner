@@ -100,6 +100,11 @@ class Query {
 		$cache_key = 'progress-planner-activities-' . md5( \wp_json_encode( $args ) );
 		$results   = \wp_cache_get( $cache_key );
 
+		// Disable caching in unit tests.
+		if ( defined( 'PHPUNIT_COMPOSER_INSTALL' ) && \PHPUNIT_COMPOSER_INSTALL ) {
+			$results = false;
+		}
+
 		if ( false === $results ) {
 			$where_args   = [];
 			$prepare_args = [];
