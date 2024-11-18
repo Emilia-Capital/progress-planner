@@ -27,12 +27,6 @@ class Base {
 	private $cached = [];
 
 	/**
-	 * Constructor.
-	 */
-	public function __construct() {
-	}
-
-	/**
 	 * Init.
 	 *
 	 * @return void
