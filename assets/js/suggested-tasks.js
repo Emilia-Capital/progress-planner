@@ -496,14 +496,18 @@ class BadgeScroller {
 // Initialize on DOM load
 if ( document.readyState !== 'loading' ) {
 	document
-		.querySelectorAll( '.badge-group-monthly' )
+		.querySelectorAll(
+			'.prpl-widget-wrapper:not(.in-popover) > .badge-group-monthly'
+		)
 		.forEach( ( element ) => {
 			new BadgeScroller( element );
 		} );
 } else {
 	document.addEventListener( 'DOMContentLoaded', () => {
 		document
-			.querySelectorAll( '.badge-group-monthly' )
+			.querySelectorAll(
+				'.prpl-widget-wrapper:not(.in-popover) > .badge-group-monthly'
+			)
 			.forEach( ( element ) => {
 				new BadgeScroller( element );
 			} );

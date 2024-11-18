@@ -53,7 +53,7 @@ final class Monthly extends Badge {
 		}
 
 		foreach ( array_keys( self::get_months() ) as $month ) {
-			$id                = 'monthly-' . gmdate( 'Y' ) . '-' . str_replace( '-', '', $month );
+			$id                = 'monthly-' . gmdate( 'Y' ) . '-' . $month;
 			self::$instances[] = new self( $id );
 		}
 
@@ -132,6 +132,13 @@ final class Monthly extends Badge {
 	 * @return array
 	 */
 	public function progress_callback() {
+		$saved_progress = $this->get_saved();
+
+		// If we have a saved value, return it.
+		if ( isset( $saved_progress['progress'] ) && isset( $saved_progress['remaining'] ) ) {
+			return $saved_progress;
+		}
+
 		$month     = self::get_months()[ 'm' . $this->get_month() ];
 		$year      = $this->get_year();
 		$month_num = (int) $this->get_month();
@@ -154,16 +161,20 @@ final class Monthly extends Badge {
 		}
 
 		if ( $points > self::TARGET_POINTS ) {
-			return [
+			$return_progress = [
 				'progress'  => 100,
 				'remaining' => 0,
 			];
+		} else {
+			$return_progress = [
+				'progress'  => (int) max( 0, min( 100, floor( 100 * $points / self::TARGET_POINTS ) ) ),
+				'remaining' => self::TARGET_POINTS - $points,
+			];
 		}
 
-		return [
-			'progress'  => (int) max( 0, min( 100, floor( 100 * $points / self::TARGET_POINTS ) ) ),
-			'remaining' => self::TARGET_POINTS - $points,
-		];
+		$this->save_progress( $return_progress );
+
+		return $return_progress;
 	}
 
 	/**
