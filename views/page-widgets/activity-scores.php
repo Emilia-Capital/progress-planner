@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$prpl_widget = \progress_planner()->get_admin__page()->get_widget( 'activity-scores' );
+$prpl_widget = \progress_planner()->get_widgets__activity_scores();
 $prpl_record = $prpl_widget->personal_record_callback();
 
 ?>

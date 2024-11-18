@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$prpl_widget = \progress_planner()->get_admin__page()->get_widget( 'suggested-tasks' );
+$prpl_widget = \progress_planner()->get_widgets__suggested_tasks();
 $prpl_badge  = \progress_planner()->get_badges()->get_badge( 'monthly-' . gmdate( 'Y' ) . '-m' . (int) gmdate( 'm' ) );
 ?>
 <h2 class="prpl-widget-title">

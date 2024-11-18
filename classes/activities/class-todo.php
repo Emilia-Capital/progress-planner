@@ -17,7 +17,7 @@ class Todo extends \Progress_Planner\Activity {
 	 *
 	 * @var array
 	 */
-	public static $points_config = [
+	public $points_config = [
 		'add'     => 1,
 		'delete'  => 1,
 		'update'  => 3, // Handles marking as done, and updating the content.

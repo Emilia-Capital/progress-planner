@@ -35,7 +35,7 @@ $prpl_title_tag = isset( $args['title_tag'] ) ? \esc_attr( $args['title_tag'] ) 
 	</<?php echo \esc_html( $prpl_title_tag ); ?>>
 	<div class="prpl-ravi-reward-container">
 		<img
-			src="<?php echo \esc_url( \progress_planner()->get_admin__page()->get_widget( 'latest-badge' )->endpoint . $prpl_badge->get_id() ); ?>"
+			src="<?php echo \esc_url( \progress_planner()->get_widgets__latest_badge()->endpoint . $prpl_badge->get_id() ); ?>"
 			alt="<?php echo \esc_attr( $prpl_badge->get_name() ); ?>"
 			class="<?php echo $prpl_badge_completed ? 'complete' : 'incomplete'; ?>"
 		/>

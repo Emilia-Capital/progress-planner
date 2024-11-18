@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$prpl_widget = \progress_planner()->get_admin__page()->get_widget( 'whats-new' );
+$prpl_widget = \progress_planner()->get_widgets__whats_new();
 
 ?>
 <h2 class="prpl-widget-title">
