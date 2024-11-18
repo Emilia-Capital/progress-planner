@@ -17,7 +17,7 @@ class Suggested_Task extends \Progress_Planner\Activity {
 	 *
 	 * @var int
 	 */
-	public $points_config = 1;
+	public static $points_config = 1;
 
 	/**
 	 * Category of the activity.
