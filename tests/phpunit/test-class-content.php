@@ -78,13 +78,14 @@ class Content_Actions_Test extends \WP_UnitTestCase {
 		$activities = \progress_planner()->get_query()->query_activities(
 			[
 				'category' => 'content',
-				'type'     => 'publish',
 				'data_id'  => $post_id,
 			],
 			'RAW'
 		);
 
-		$this->assertNotEmpty( $activities );
+		// There should be only one activity, publish (not update).
+		$this->assertCount( 1, $activities );
+		$this->assertEquals( 'publish', $activities[0]->type );
 	}
 
 	/**
@@ -106,20 +107,14 @@ class Content_Actions_Test extends \WP_UnitTestCase {
 		$activities = \progress_planner()->get_query()->query_activities(
 			[
 				'category' => 'content',
-				// 'type'     => 'trash', phpcs:ignore Squiz.Commenting.InlineComment.InvalidEndChar
+				'type'     => 'trash',
 				'data_id'  => $post_id,
 			],
 			'RAW'
 		);
 
-		$found_activities = [];
-		foreach ( $activities as $activity ) {
-			if ( 'trash' === $activity->type ) {
-				$found_activities[] = $activity;
-			}
-		}
-
-		$this->assertNotEmpty( $found_activities );
+		$this->assertCount( 1, $activities );
+		$this->assertEquals( 'trash', $activities[0]->type );
 	}
 
 	/**
@@ -141,21 +136,14 @@ class Content_Actions_Test extends \WP_UnitTestCase {
 		$activities = \progress_planner()->get_query()->query_activities(
 			[
 				'category' => 'content',
-				// 'type'     => 'delete', phpcs:ignore Squiz.Commenting.InlineComment.InvalidEndChar
+				'type'     => 'delete',
 				'data_id'  => $post_id,
 			],
 			'RAW'
 		);
 
-		$found_activities = [];
-
-		foreach ( $activities as $activity ) {
-			if ( 'delete' === $activity->type ) {
-				$found_activities[] = $activity;
-			}
-		}
-
-		$this->assertNotEmpty( $found_activities );
+		$this->assertCount( 1, $activities );
+		$this->assertEquals( 'delete', $activities[0]->type );
 	}
 
 	/**
@@ -191,11 +179,21 @@ class Content_Actions_Test extends \WP_UnitTestCase {
 			]
 		);
 
+		// Check if there is any activity for this post (there should be none).
+		$activities = \progress_planner()->get_query()->query_activities(
+			[
+				'category' => 'content',
+				'data_id'  => $post_id,
+			],
+			'ACTIVITIES'
+		);
+
+		$this->assertCount( 0, $activities );
+
 		// Transition to publish and update content (insert publish activity).
 		wp_update_post(
 			[
-				'ID'          => $post_id,
-				'post_status' => 'publish',
+				'ID'           => $post_id,
 				'post_content' => 'Updated content.',
 			]
 		);
@@ -208,7 +206,7 @@ class Content_Actions_Test extends \WP_UnitTestCase {
 			]
 		);
 
-		// Transition to publish and update content again (since the post is updated less then 12 hours, we should not add an update activity since 'publish' activity is already created).
+		// Transition to publish and update content again (since the post is updated less then 12 hours, we should not add an update activity because 'publish' activity is already created).
 		wp_update_post(
 			[
 				'ID'          => $post_id,
@@ -221,29 +219,22 @@ class Content_Actions_Test extends \WP_UnitTestCase {
 		$activities = \progress_planner()->get_query()->query_activities(
 			[
 				'category' => 'content',
-				// 'data_id'  => $post_id,
+				'data_id'  => $post_id,
 			],
 			'RAW'
 		);
-
-		$found_activities = [];
-		foreach ( $activities as $activity ) {
-			if ( $post_id === (int) $activity->data_id ) {
-				$found_activities[] = $activity;
-			}
-		}
 
 		// Get the types in order.
 		$types = array_map(
 			function ( $activity ) {
 				return $activity->type;
 			},
-			$found_activities
+			$activities
 		);
 
 		$this->assertCount( 1, $types );
 		$this->assertContains( 'publish', $types ); // Should have publish when first published.
-		$this->assertnotContains( 'update', $types ); // Update activity is only added when post is updated.
+		$this->assertnotContains( 'update', $types ); // Update activity is only added when post is updated more than 12 hours after publish.
 	}
 
 	/**
