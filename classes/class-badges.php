@@ -57,6 +57,9 @@ class Badges {
 		];
 
 		$this->monthly = \Progress_Planner\Badges\Monthly::get_instances();
+
+		\add_action( 'progress_planner_suggested_task_completed', [ $this, 'clear_monthly_progress' ] );
+		\add_action( 'progress_planner_activity_content_publish_saved', [ $this, 'clear_content_progress' ] );
 	}
 
 	/**
@@ -93,6 +96,65 @@ class Badges {
 	}
 
 	/**
+	 * Clear the progress of all monthly badges.
+	 *
+	 * @param string $activity_id The activity ID.
+	 *
+	 * @return void
+	 */
+	public function clear_monthly_progress( $activity_id ) {
+
+		$activities = \progress_planner()->get_query()->query_activities(
+			[
+				'category' => 'suggested_task',
+				'type'     => 'completed',
+				'data_id'  => (string) $activity_id,
+			],
+			'ACTIVITIES'
+		);
+
+		if ( empty( $activities ) ) {
+			return;
+		}
+
+		// Clear monthly saved progress.
+		$badge_id      = 'monthly-' . $activities[0]->date->format( 'Y' ) . '-m' . $activities[0]->date->format( 'm' );
+		$monthly_badge = $this->get_badge( $badge_id );
+
+		if ( $monthly_badge ) {
+			// Clear the progress.
+			$monthly_badge->clear_progress();
+
+			// Save the progress.
+			$monthly_badge->get_progress();
+		}
+	}
+
+
+	/**
+	 * Clear the progress of all badges.
+	 *
+	 * @param string $activity_id The activity ID.
+	 *
+	 * @return void
+	 */
+	public function clear_content_progress( $activity_id ) {
+
+		// Clear content saved progress.
+		foreach ( $this->content as $badge ) {
+
+			// If the badge is already complete, skip it.
+			if ( 100 === $badge->progress_callback()['progress'] ) {
+				continue;
+			}
+
+			// Delete the badge value so it can be re-calculated.
+			$badge->clear_progress();
+		}
+	}
+
+
+	/**
 	 * Get the latest completed badge.
 	 *
 	 * @return \Progress_Planner\Badges\Badge|null
@@ -107,14 +169,13 @@ class Badges {
 
 		$latest_date = null;
 
-		$flat_badges = array_merge(
-			$this->content,
-			$this->maintenance,
-			$this->monthly,
-		);
-
 		foreach ( [ 'content', 'maintenance', 'monthly' ] as $context ) {
 			foreach ( $this->$context as $badge ) {
+				// Skip if the badge has no date.
+				if ( ! isset( $settings[ $badge->get_id() ]['date'] ) ) {
+					continue;
+				}
+
 				$badge_progress = $badge->get_progress();
 
 				// Continue if the badge is not completed.
@@ -128,11 +189,6 @@ class Badges {
 					if ( isset( $settings[ $badge->get_id() ]['date'] ) ) {
 						$latest_date = $settings[ $badge->get_id() ]['date'];
 					}
-					continue;
-				}
-
-				// Skip if the badge has no date.
-				if ( ! isset( $settings[ $badge->get_id() ]['date'] ) ) {
 					continue;
 				}
 

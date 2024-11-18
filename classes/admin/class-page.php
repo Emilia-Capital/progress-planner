@@ -136,6 +136,14 @@ class Page {
 			true
 		);
 
+		\wp_register_script(
+			'progress-planner-web-components-gauge',
+			PROGRESS_PLANNER_URL . '/assets/js/web-components/prpl-gauge.js',
+			[],
+			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/web-components/prpl-gauge.js' ),
+			true
+		);
+
 		// Register the ajax-request helper.
 		\wp_register_script(
 			'progress-planner-ajax',
@@ -193,7 +201,7 @@ class Page {
 		\wp_register_script(
 			'progress-planner-todo',
 			PROGRESS_PLANNER_URL . '/assets/js/todo.js',
-			[ 'jquery-ui-sortable', 'progress-planner-ajax', 'wp-util', 'progress-planner-grid-masonry' ],
+			[ 'jquery-ui-sortable', 'progress-planner-ajax', 'wp-util', 'progress-planner-grid-masonry', 'wp-a11y' ],
 			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/todo.js' ),
 			true
 		);
@@ -230,6 +238,12 @@ class Page {
 					'drag'             => \esc_html__( 'Drag to reorder', 'progress-planner' ),
 					/* translators: %s: The task content. */
 					'taskDelete'       => \esc_html__( "Delete task '%s'", 'progress-planner' ),
+					/* translators: %s: The task content. */
+					'taskMoveUp'       => \esc_html__( "Move task '%s' up", 'progress-planner' ),
+					/* translators: %s: The task content. */
+					'taskMoveDown'     => \esc_html__( "Move task '%s' down", 'progress-planner' ),
+					'taskMovedUp'      => \esc_html__( 'Task moved up', 'progress-planner' ),
+					'taskMovedDown'    => \esc_html__( 'Task moved down', 'progress-planner' ),
 					/* translators: %s: The task content. */
 					'taskCompleted'    => \esc_html__( "Task '%s' completed and moved to the bottom", 'progress-planner' ),
 					/* translators: %s: The task content. */
@@ -292,6 +306,7 @@ class Page {
 		$this->register_scripts();
 
 		if ( 'toplevel_page_progress-planner' === $current_screen->id ) {
+			\wp_enqueue_script( 'progress-planner-web-components-gauge' );
 			\wp_enqueue_script( 'chart-js' );
 			\wp_enqueue_script( 'progress-planner-onboard' );
 			\wp_enqueue_script( 'progress-planner-admin' );

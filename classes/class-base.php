@@ -30,7 +30,6 @@ class Base {
 	 * Constructor.
 	 */
 	public function __construct() {
-		$this->init();
 	}
 
 	/**
@@ -76,6 +75,7 @@ class Base {
 			$this->cached['settings']        = new Settings();
 			$this->cached['settings_page']   = new \Progress_Planner\Admin\Page_Settings();
 			$this->cached['suggested_tasks'] = new Suggested_Tasks();
+			$this->cached['badges']          = new Badges();
 		}
 
 		// Content actions.

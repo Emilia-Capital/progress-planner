@@ -77,6 +77,7 @@ class Suggested_Tasks {
 	 * @return void
 	 */
 	public function mark_task_as_completed( $task_id ) {
+
 		$activity          = new \Progress_Planner\Activities\Suggested_Task();
 		$activity->type    = 'completed';
 		$activity->data_id = (string) $task_id;
@@ -85,6 +86,8 @@ class Suggested_Tasks {
 		$activity->save();
 
 		$this->mark_task_as_pending_celebration( $task_id );
+
+		do_action( 'progress_planner_suggested_task_completed', $task_id );
 	}
 
 	/**
@@ -257,13 +260,13 @@ class Suggested_Tasks {
 
 		switch ( $action ) {
 			case 'complete':
-				\progress_planner()->get_suggested_tasks()->mark_task_as_completed( $task_id );
+				$this->mark_task_as_completed( $task_id );
 				$updated = true;
 				break;
 
 			case 'snooze':
 				$duration = isset( $_POST['duration'] ) ? \sanitize_text_field( \wp_unslash( $_POST['duration'] ) ) : '';
-				$updated  = \progress_planner()->get_suggested_tasks()->mark_task_as_snoozed( $task_id, $duration );
+				$updated  = $this->mark_task_as_snoozed( $task_id, $duration );
 				break;
 
 			default:
