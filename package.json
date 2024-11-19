@@ -22,7 +22,7 @@
 		"format": "wp-scripts format ./assets",
 		"lint:css": "wp-scripts lint-style \"**/*.css\"",
 		"lint:css:fix": "npm run lint:css -- --fix",
-		"lint:js": "wp-scripts lint-js ./assets/js/*.js",
+		"lint:js": "wp-scripts lint-js ./assets/js/*.js && wp-scripts lint-js ./assets/js/web-components/*.js",
 		"lint:js:fix": "npm run lint:js -- --fix",
 		"prepare": "husky"
 	},
