@@ -36,6 +36,7 @@
 		align-items: center;
 		justify-content: center;
 		padding: 0.2em;
+		margin-inline-start: 0.3rem;
 
 		.dashicons {
 			font-size: 0.825em;
@@ -152,6 +153,13 @@ prpl-todo-item {
 	&:first-child .move-up,
 	&:last-child .move-down {
 		display: none;
+	}
+
+	/* If there is only one todo item,
+	let button take up space to prevent layout shift. */
+	&:first-child:last-child .move-up {
+		visibility: hidden;
+		display: block;
 	}
 }
 
