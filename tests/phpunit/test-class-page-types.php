@@ -43,12 +43,6 @@ class Page_Types_Test extends \WP_UnitTestCase {
 				'post_status' => 'publish',
 			]
 		);
-
-		// Assign the post to the "homepage" page type.
-		\progress_planner()->get_page_types()->set_page_type_by_id(
-			self::$homepage_post_id,
-			\get_term_by( 'slug', 'homepage', Page_Types::TAXONOMY_NAME )->term_id
-		);
 	}
 
 	/**
@@ -119,6 +113,13 @@ class Page_Types_Test extends \WP_UnitTestCase {
 	 * @return void
 	 */
 	public function test_get_posts_by_type() {
+
+		// Assign the post to the "homepage" page type.
+		\progress_planner()->get_page_types()->set_page_type_by_id(
+			self::$homepage_post_id,
+			\get_term_by( 'slug', 'homepage', Page_Types::TAXONOMY_NAME )->term_id
+		);
+
 		$posts = \progress_planner()->get_page_types()->get_posts_by_type( 'page', 'homepage' );
 		$this->assertEquals( self::$homepage_post_id, $posts[0]->ID );
 	}
@@ -153,5 +154,42 @@ class Page_Types_Test extends \WP_UnitTestCase {
 	 * @return void
 	 */
 	public function test_assign_child_pages() {
+	}
+
+	/**
+	 * Test if the transition of a page status updates the options.
+	 *
+	 * @return void
+	 */
+	public function test_transition_post_status_updates_options() {
+
+		// Check if the options are set to default values.
+		$this->assertEquals( 0, get_option( 'page_on_front' ) );
+		$this->assertEquals( 'posts', get_option( 'show_on_front' ) );
+
+		// Update homepage page to draft.
+		wp_update_post(
+			[
+				'ID'          => self::$homepage_post_id,
+				'post_status' => 'draft',
+			]
+		);
+
+		$term = \get_term_by( 'slug', 'homepage', \progress_planner()->get_page_types()::TAXONOMY_NAME );
+
+		// Directly assign the term to the page, without using the set_page_type_by_slug method.
+		\wp_set_object_terms( self::$homepage_post_id, $term->term_id, \progress_planner()->get_page_types()::TAXONOMY_NAME );
+
+		// Update the page status to publish.
+		wp_update_post(
+			[
+				'ID'          => self::$homepage_post_id,
+				'post_status' => 'publish',
+			]
+		);
+
+		// Check if the options are updated.
+		$this->assertEquals( self::$homepage_post_id, get_option( 'page_on_front' ) );
+		$this->assertEquals( 'page', get_option( 'show_on_front' ) );
 	}
 }

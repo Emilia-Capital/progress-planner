@@ -9,7 +9,7 @@
 <div class="prpl-dashboard-widget">
 	<div>
 		<prpl-gauge background="#fff" color="var(--prpl-color-accent-orange)" contentFontSize="var(--prpl-font-size-4xl)">
-			<progress max="<?php echo (int) \Progress_Planner\Badges\Monthly::TARGET_POINTS; ?>" value="<?php echo (float) \progress_planner()->get_admin__page()->get_widget( 'suggested-tasks' )->get_score(); ?>">
+			<progress max="<?php echo (int) \Progress_Planner\Badges\Monthly::TARGET_POINTS; ?>" value="<?php echo (float) \progress_planner()->get_widgets__suggested_tasks()->get_score(); ?>">
 				<?php \progress_planner()->get_badges()->get_badge( 'monthly-' . gmdate( 'Y' ) . '-m' . (int) gmdate( 'm' ) )->the_icon( true ); ?>
 			</progress>
 		</prpl-gauge>
@@ -17,9 +17,9 @@
 	</div>
 
 	<div>
-		<prpl-gauge background="#fff" color="<?php echo esc_attr( \progress_planner()->get_admin__page()->get_widget( 'activity-scores' )->get_gauge_color( \progress_planner()->get_admin__page()->get_widget( 'activity-scores' )->get_score() ) ); ?>">
-			<progress max="100" value="<?php echo (float) \progress_planner()->get_admin__page()->get_widget( 'activity-scores' )->get_score(); ?>">
-				<?php echo \esc_html( \progress_planner()->get_admin__page()->get_widget( 'activity-scores' )->get_score() ); ?>
+		<prpl-gauge background="#fff" color="<?php echo esc_attr( \progress_planner()->get_widgets__activity_scores()->get_gauge_color( \progress_planner()->get_widgets__activity_scores()->get_score() ) ); ?>">
+			<progress max="100" value="<?php echo (float) \progress_planner()->get_widgets__activity_scores()->get_score(); ?>">
+				<?php echo \esc_html( \progress_planner()->get_widgets__activity_scores()->get_score() ); ?>
 			</progress>
 		</prpl-gauge>
 		<?php \esc_html_e( 'Website activity score', 'progress-planner' ); ?>
@@ -29,7 +29,7 @@
 <hr style="margin: 1em 0">
 
 <h3><?php \esc_html_e( 'Ravi\'s recommendations', 'progress-planner' ); ?></h3>
-<ul style="display:none"><?php \progress_planner()->the_view( 'views/suggested-tasks-item.php' ); ?></ul>
+<ul style="display:none"></ul>
 <ul class="prpl-suggested-tasks-list"></ul>
 
 <div class="prpl-dashboard-widget-footer">

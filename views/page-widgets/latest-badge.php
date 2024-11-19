@@ -29,7 +29,7 @@ $prpl_latest_badge = \progress_planner()->get_badges()->get_latest_completed_bad
 		?>
 	</p>
 	<img
-		src="<?php echo \esc_url( \progress_planner()->get_admin__page()->get_widget( 'latest-badge' )->endpoint . $prpl_latest_badge->get_id() ); ?>"
+		src="<?php echo \esc_url( \progress_planner()->get_widgets__latest_badge()->endpoint . $prpl_latest_badge->get_id() ); ?>"
 		alt="<?php echo \esc_attr( $prpl_latest_badge->get_name() ); ?>"
 	/>
 	<?php if ( 'no-license' !== \get_option( 'progress_planner_license_key', 'no-license' ) ) : ?>

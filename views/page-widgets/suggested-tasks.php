@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$prpl_widget = \progress_planner()->get_admin__page()->get_widget( 'suggested-tasks' );
+$prpl_widget = \progress_planner()->get_widgets__suggested_tasks();
 $prpl_badge  = \progress_planner()->get_badges()->get_badge( 'monthly-' . gmdate( 'Y' ) . '-m' . (int) gmdate( 'm' ) );
 ?>
 <h2 class="prpl-widget-title">
@@ -36,11 +36,8 @@ $prpl_badge  = \progress_planner()->get_badges()->get_badge( 'monthly-' . gmdate
 		<?php \esc_html_e( 'Ravi\'s recommendations', 'progress-planner' ); ?>
 	</h2>
 
-	<ul style="display:none">
-		<?php \progress_planner()->the_view( 'views/suggested-tasks-item.php' ); ?>
-	</ul>
-	<ul class="prpl-suggested-tasks-list"></ul>
-</div>
+<ul style="display:none"></ul>
+<ul class="prpl-suggested-tasks-list"></ul>
 
 <div class="prpl-widget-content">
 	<?php if ( 2024 === (int) gmdate( 'Y' ) ) : ?>
