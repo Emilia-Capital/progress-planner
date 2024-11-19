@@ -209,8 +209,8 @@ class Content_Actions_Test extends \WP_UnitTestCase {
 		// Transition to publish and update content again (since the post is updated less then 12 hours, we should not add an update activity because 'publish' activity is already created).
 		wp_update_post(
 			[
-				'ID'          => $post_id,
-				'post_status' => 'publish',
+				'ID'           => $post_id,
+				'post_status'  => 'publish',
 				'post_content' => 'Updated content again.',
 			]
 		);

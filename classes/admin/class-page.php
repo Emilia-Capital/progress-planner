@@ -168,7 +168,7 @@ class Page {
 						'oneYear'     => \esc_html__( '1 year', 'progress-planner' ),
 						'forever'     => \esc_html__( 'forever', 'progress-planner' ),
 					],
-					'close'         => \esc_html__( 'Close', 'progress-planner' ),
+					'close'          => \esc_html__( 'Close', 'progress-planner' ),
 				],
 			]
 		);
