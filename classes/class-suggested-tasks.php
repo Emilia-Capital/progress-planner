@@ -195,8 +195,8 @@ class Suggested_Tasks {
 	 */
 	public function maybe_celebrate_tasks() {
 
-		$current_screen = \get_current_screen();
-		if ( ! $current_screen || 'toplevel_page_progress-planner' !== $current_screen->id ) {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- We're not processing any data.
+		if ( ! is_admin() || ! isset( $_GET['page'] ) || $_GET['page'] !== 'progress-planner' ) {
 			return; // WIP: Only celebrate tasks in the admin area.
 		}
 
