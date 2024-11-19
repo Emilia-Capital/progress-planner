@@ -56,13 +56,12 @@ class Update_Content extends \Progress_Planner\Suggested_Tasks\Local_Tasks {
 	 *
 	 * @param array $data    The task data.
 	 *
-	 * @return bool
+	 * @return bool|string
 	 */
 	public function evaluate_update_post_task( $data ) {
 		if ( isset( $data['post_id'] ) && (int) \get_post_modified_time( 'U', false, (int) $data['post_id'] ) > strtotime( '-6 months' ) ) {
 			$data['date'] = \gmdate( 'YW' );
-			\progress_planner()->get_suggested_tasks()->mark_task_as_completed( $this->get_task_id( $data ) );
-			return true;
+			return $this->get_task_id( $data );
 		}
 		return false;
 	}
@@ -72,7 +71,7 @@ class Update_Content extends \Progress_Planner\Suggested_Tasks\Local_Tasks {
 	 *
 	 * @param array $data    The task data.
 	 *
-	 * @return bool
+	 * @return bool|string
 	 */
 	public function evaluate_create_post_task( $data ) {
 		$last_posts = \get_posts(
@@ -105,17 +104,14 @@ class Update_Content extends \Progress_Planner\Suggested_Tasks\Local_Tasks {
 			return false;
 		}
 
-		\progress_planner()->get_suggested_tasks()->mark_task_as_completed(
-			$this->get_task_id(
-				[
-					'type'    => 'create-post',
-					'date'    => \gmdate( 'YW' ),
-					'post_id' => $last_post->ID,
-					'long'    => $is_post_long ? '1' : '0',
-				]
-			)
+		return $this->get_task_id(
+			[
+				'type'    => 'create-post',
+				'date'    => \gmdate( 'YW' ),
+				'post_id' => $last_post->ID,
+				'long'    => $is_post_long ? '1' : '0',
+			]
 		);
-		return true;
 	}
 
 	/**

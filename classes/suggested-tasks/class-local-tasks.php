@@ -85,8 +85,11 @@ abstract class Local_Tasks {
 
 		$tasks = \array_unique( $tasks );
 		foreach ( $tasks as $task ) {
-			if ( $this->evaluate_task( $task ) ) {
+			$task_id = $this->evaluate_task( $task );
+			if ( false !== $task_id ) {
 				$this->remove_pending_task( $task );
+
+				\progress_planner()->get_suggested_tasks()->mark_task_as_completed( $task_id );
 			}
 		}
 	}

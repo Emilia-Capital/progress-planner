@@ -17,12 +17,11 @@ class Update_Core extends \Progress_Planner\Suggested_Tasks\Local_Tasks {
 	 *
 	 * @param string $task_id The task ID.
 	 *
-	 * @return bool
+	 * @return bool|string
 	 */
 	public function evaluate_task( $task_id ) {
 		if ( 'update-core' === $task_id && 0 === \wp_get_update_data()['counts']['total'] ) {
-			\progress_planner()->get_suggested_tasks()->mark_task_as_completed( $task_id . '-' . \gmdate( 'YW' ) );
-			return true;
+			return $task_id . '-' . \gmdate( 'YW' );
 		}
 		return false;
 	}
