@@ -120,12 +120,15 @@ customElements.define(
 				button.addEventListener( 'click', function () {
 					let action = button.getAttribute( 'data-action' );
 					const target = button.getAttribute( 'data-target' ),
-						tooltipActions = item.querySelector( '.tooltip-actions' );
+						tooltipActions =
+							item.querySelector( '.tooltip-actions' );
 
 					// If the tooltip was already open, close it.
 					if (
 						!! tooltipActions.querySelector(
-							'.prpl-suggested-task-' + target + '[data-tooltip-visible]'
+							'.prpl-suggested-task-' +
+								target +
+								'[data-tooltip-visible]'
 						)
 					) {
 						action = 'close-' + target;
@@ -133,7 +136,9 @@ customElements.define(
 						// Close the any opened radio group.
 						item.closest( '.prpl-suggested-tasks-list' )
 							.querySelector( `[data-tooltip-visible]` )
-							?.classList.remove( 'prpl-toggle-radio-group-open' );
+							?.classList.remove(
+								'prpl-toggle-radio-group-open'
+							);
 						// Remove any existing tooltip visible attribute, in the entire list.
 						item.closest( '.prpl-suggested-tasks-list' )
 							.querySelector( `[data-tooltip-visible]` )
@@ -143,7 +148,9 @@ customElements.define(
 					switch ( action ) {
 						case 'snooze':
 							tooltipActions
-								.querySelector( '.prpl-suggested-task-' + target )
+								.querySelector(
+									'.prpl-suggested-task-' + target
+								)
 								.setAttribute( 'data-tooltip-visible', 'true' );
 							break;
 
@@ -155,7 +162,9 @@ customElements.define(
 										target +
 										'.prpl-toggle-radio-group-open'
 								)
-								?.classList.remove( 'prpl-toggle-radio-group-open' );
+								?.classList.remove(
+									'prpl-toggle-radio-group-open'
+								);
 							// Close the tooltip.
 							tooltipActions
 								.querySelector(
@@ -168,13 +177,17 @@ customElements.define(
 
 						case 'info':
 							tooltipActions
-								.querySelector( '.prpl-suggested-task-' + target )
+								.querySelector(
+									'.prpl-suggested-task-' + target
+								)
 								.setAttribute( 'data-tooltip-visible', 'true' );
 							break;
 
 						case 'close-info':
 							tooltipActions
-								.querySelector( '.prpl-suggested-task-' + target )
+								.querySelector(
+									'.prpl-suggested-task-' + target
+								)
 								.removeAttribute( 'data-tooltip-visible' );
 							break;
 					}
@@ -185,9 +198,9 @@ customElements.define(
 			item.querySelector( '.prpl-toggle-radio-group' ).addEventListener(
 				'click',
 				function () {
-					this.closest( '.prpl-suggested-task-snooze' ).classList.toggle(
-						'prpl-toggle-radio-group-open'
-					);
+					this.closest(
+						'.prpl-suggested-task-snooze'
+					).classList.toggle( 'prpl-toggle-radio-group-open' );
 				}
 			);
 
@@ -237,11 +250,14 @@ customElements.define(
 							taskId
 						) === -1
 					) {
-						progressPlannerSuggestedTasks.tasks.snoozed.push( taskId );
+						progressPlannerSuggestedTasks.tasks.snoozed.push(
+							taskId
+						);
 					}
 
 					while (
-						progressPlannerCountItems() <= PRPL_SUGGESTED_TASKS_MAX_ITEMS &&
+						progressPlannerCountItems() <=
+							PRPL_SUGGESTED_TASKS_MAX_ITEMS &&
 						progressPlannerGetNextItem()
 					) {
 						progressPlannerInjectNextItem();
