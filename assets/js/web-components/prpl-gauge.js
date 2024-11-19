@@ -1,7 +1,7 @@
 /* global customElements, HTMLElement */
 
 /**
- * Big counter.
+ * Gauge.
  */
 customElements.define(
 	'prpl-gauge',
