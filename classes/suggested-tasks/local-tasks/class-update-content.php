@@ -279,18 +279,39 @@ class Update_Content extends \Progress_Planner\Suggested_Tasks\Local_Tasks {
 	/**
 	 * Check if a task type is snoozed.
 	 *
-	 * @param string $type The task type.
+	 * @param string $task_id The task ID.
 	 *
 	 * @return bool
 	 */
-	public function is_task_type_snoozed( $type ) {
+	public function is_task_type_snoozed( $task_id ) {
+		$task_data = $this->get_data_from_task_id( $task_id );
+		if ( ! isset( $task_data['type'] ) ) {
+			return false;
+		}
+
 		$snoozed = \progress_planner()->get_suggested_tasks()->get_snoozed_tasks();
-		foreach ( $snoozed as $task ) {
-			$data = $this->get_data_from_task_id( $task['id'] );
-			if ( $data['type'] === $type ) {
-				return true;
+		if ( ! \is_array( $snoozed ) || empty( $snoozed ) ) {
+			return false;
+		}
+
+		if ( 'create-post' === $task_data['type'] ) {
+			foreach ( $snoozed as $task ) {
+				$data = $this->get_data_from_task_id( $task['id'] );
+				if ( $data['type'] === $task_data['type'] && $data['long'] === $task_data['long'] ) {
+					return true;
+				}
 			}
 		}
+
+		if ( 'update-post' === $task_data['type'] ) {
+			foreach ( $snoozed as $task ) {
+				$data = $this->get_data_from_task_id( $task['id'] );
+				if ( $data['type'] === $task_data['type'] && (int) $data['post_id'] === (int) $task_data['post_id'] ) {
+					return true;
+				}
+			}
+		}
+
 		return false;
 	}
 }

@@ -33,6 +33,15 @@ class Update_Core extends \Progress_Planner\Suggested_Tasks\Local_Tasks {
 	 * @return array
 	 */
 	public function get_tasks_to_inject() {
+		return true !== $this->is_task_type_snoozed() ? $this->get_tasks_to_update_core() : [];
+	}
+
+	/**
+	 * Get the tasks to update core.
+	 *
+	 * @return array
+	 */
+	public function get_tasks_to_update_core() {
 		// If all updates are performed, do not add the task.
 		if ( 0 === \wp_get_update_data()['counts']['total'] ) {
 			return [];
@@ -49,5 +58,25 @@ class Update_Core extends \Progress_Planner\Suggested_Tasks\Local_Tasks {
 				'description' => '<p>' . \esc_html__( 'Perform all updates to ensure your website is secure and up-to-date.', 'progress-planner' ) . '</p>',
 			],
 		];
+	}
+
+	/**
+	 * Check if a task type is snoozed.
+	 *
+	 * @return bool
+	 */
+	public function is_task_type_snoozed() {
+		$snoozed = \progress_planner()->get_suggested_tasks()->get_snoozed_tasks();
+		if ( ! \is_array( $snoozed ) || empty( $snoozed ) ) {
+			return false;
+		}
+
+		foreach ( $snoozed as $task ) {
+			if ( 'update-core' === $task['id'] ) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 }
