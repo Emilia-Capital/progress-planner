@@ -1,37 +1,67 @@
 /* global customElements, HTMLElement */
 
 /**
- * Big counter.
+ * Gauge.
  */
 customElements.define(
 	'prpl-gauge',
 	class extends HTMLElement {
-		constructor() {
+		constructor(
+			props = {
+				max: 100,
+				value: 0,
+				maxDeg: '180deg',
+				background: 'var(--prpl-background-orange)',
+				color: 'var(--prpl-color-accent-orange)',
+				start: '270deg',
+				cutout: '57%',
+				contentFontSize: 'var(--prpl-font-size-6xl)',
+			},
+			content = ''
+		) {
 			// Get parent class properties
 			super();
 
-			const max = parseFloat( this.querySelector( 'progress' ).getAttribute( 'max' ) );
-			const value = parseFloat( this.querySelector( 'progress' ).getAttribute( 'value' ) ) / max;
-			const maxDeg = this.getAttribute( 'maxDeg' ) || '180deg';
-			const background = this.getAttribute( 'background' );
-			const color = this.getAttribute( 'color' ) || 'var(--prpl-color-accent-orange)';
-			const start = this.getAttribute( 'start' ) || '270deg';
-			const cutout = this.getAttribute( 'cutout' ) || '57%';
-			const contentFontSize = this.getAttribute( 'contentFontSize' ) || 'var(--prpl-font-size-6xl)';
-			if ( this.querySelector( 'img' ) ) {
-				this.querySelector( 'img' ).style.marginTop = '-1em';
+			if ( this.querySelector( 'progress' ) ) {
+				props.max = parseFloat(
+					this.querySelector( 'progress' ).getAttribute( 'max' )
+				);
+				props.value =
+					parseFloat(
+						this.querySelector( 'progress' ).getAttribute( 'value' )
+					) / props.max;
+
+				content = this.querySelector( 'progress' ).innerHTML;
+			}
+
+			props.background =
+				this.getAttribute( 'background' ) || props.background;
+			props.color = this.getAttribute( 'color' ) || props.color;
+			props.start = this.getAttribute( 'start' ) || props.start;
+			props.cutout = this.getAttribute( 'cutout' ) || props.cutout;
+			props.contentFontSize =
+				this.getAttribute( 'contentFontSize' ) || props.contentFontSize;
+
+			if ( '' !== content ) {
+				const contentElement = document.createElement( 'span' );
+				contentElement.innerHTML = content;
+				if ( contentElement.querySelector( 'img' ) ) {
+					contentElement.querySelector( 'img' ).style.marginTop =
+						'-1em';
+				}
+				content = contentElement.innerHTML;
 			}
 
 			this.innerHTML = `
-			<div style="padding: var(--prpl-padding); background: ${ background }; border-radius:var(--prpl-border-radius); aspect-ratio: 2 / 1; overflow: hidden; position: relative;margin-bottom: var(--prpl-padding);">
-				<div style="width: 100%; aspect-ratio: 1 / 1; border-radius: 100%; position: relative; background: radial-gradient(${ background } 0 ${ cutout }, transparent ${ cutout } 100%), conic-gradient(from ${ start }, ${ color } calc(${ maxDeg } * ${ value }), var(--prpl-color-gray-1) calc(${ maxDeg } * ${ value }) ${ maxDeg }, transparent ${ maxDeg }); text-align: center;">
+			<div style="padding: var(--prpl-padding); background: ${ props.background }; border-radius:var(--prpl-border-radius); aspect-ratio: 2 / 1; overflow: hidden; position: relative;margin-bottom: var(--prpl-padding);">
+				<div style="width: 100%; aspect-ratio: 1 / 1; border-radius: 100%; position: relative; background: radial-gradient(${ props.background } 0 ${ props.cutout }, transparent ${ props.cutout } 100%), conic-gradient(from ${ props.start }, ${ props.color } calc(${ props.maxDeg } * ${ props.value }), var(--prpl-color-gray-1) calc(${ props.maxDeg } * ${ props.value }) ${ props.maxDeg }, transparent ${ props.maxDeg }); text-align: center;">
 					<span style="font-size: var(--prpl-font-size-small); position: absolute; top: 50%; color: var(--prpl-color-gray-5); width: 10%; text-align: center; left:0;">0</span>
-						<span style="font-size: ${ contentFontSize }; top: -1em; display: block; padding-top: 50%; font-weight: 600; text-align: center; position: absolute; color: var(--prpl-color-gray-5); width: 100%; line-height: 1.2;">
+						<span style="font-size: ${ props.contentFontSize }; top: -1em; display: block; padding-top: 50%; font-weight: 600; text-align: center; position: absolute; color: var(--prpl-color-gray-5); width: 100%; line-height: 1.2;">
 							<span style="display:inline-block;width: 50%;">
-								${ this.querySelector( 'progress' ).innerHTML }
+								${ content }
 							</span>
 						</span>
-					<span style="font-size: var(--prpl-font-size-small); position: absolute; top: 50%; color: var(--prpl-color-gray-5); width: 10%; text-align: center; right:0;">${ max }</span>
+					<span style="font-size: var(--prpl-font-size-small); position: absolute; top: 50%; color: var(--prpl-color-gray-5); width: 10%; text-align: center; right:0;">${ props.max }</span>
 				</div>
 			</div>
 			`;
