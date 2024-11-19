@@ -1,5 +1,4 @@
 /* global customElements, progressPlannerSuggestedTasks, confetti */
-const PRPL_SUGGESTED_TASK_CLASSNAME = 'prpl-suggested-task';
 const PRPL_SUGGESTED_TASKS_MAX_ITEMS = 5;
 
 /**
@@ -8,9 +7,7 @@ const PRPL_SUGGESTED_TASKS_MAX_ITEMS = 5;
  * @return {number} The number of items in the list.
  */
 const progressPlannerCountItems = () => {
-	const items = document.querySelectorAll(
-		`.${ PRPL_SUGGESTED_TASK_CLASSNAME }`
-	);
+	const items = document.querySelectorAll( '.prpl-suggested-task' );
 	return items.length;
 };
 
@@ -29,7 +26,7 @@ const progressPlannerGetNextItem = () => {
 	// Create an array of items that are in the list.
 	const inList = [];
 	document
-		.querySelectorAll( `.${ PRPL_SUGGESTED_TASK_CLASSNAME }` )
+		.querySelectorAll( '.prpl-suggested-task' )
 		.forEach( function ( item ) {
 			inList.push( item.getAttribute( 'data-task-id' ).toString() );
 		} );
@@ -112,7 +109,7 @@ const progressPlannerInjectSuggestedTodoItem = ( details ) => {
 			.insertAdjacentElement( 'beforeend', item );
 	} else {
 		const parentItem = document.querySelector(
-			`.${ PRPL_SUGGESTED_TASK_CLASSNAME }[data-task-id="${ parent }"]`
+			`.prpl-suggested-task[data-task-id="${ parent }"]`
 		);
 		// If we could not find the parent item, try again after 500ms.
 		window.progressPlannerRenderAttempts =
@@ -129,21 +126,15 @@ const progressPlannerInjectSuggestedTodoItem = ( details ) => {
 		}
 
 		// If the child list does not exist, create it.
-		if (
-			! parentItem.querySelector(
-				`.${ PRPL_SUGGESTED_TASK_CLASSNAME }-children`
-			)
-		) {
+		if ( ! parentItem.querySelector( '.prpl-suggested-task-children' ) ) {
 			const childListElement = document.createElement( 'ul' );
-			childListElement.classList.add(
-				`${ PRPL_SUGGESTED_TASK_CLASSNAME }-children`
-			);
+			childListElement.classList.add( 'prpl-suggested-task-children' );
 			parentItem.appendChild( childListElement );
 		}
 
 		// Inject the item into the child list.
 		parentItem
-			.querySelector( `.${ PRPL_SUGGESTED_TASK_CLASSNAME }-children` )
+			.querySelector( '.prpl-suggested-task-children' )
 			.insertAdjacentElement( 'beforeend', item );
 	}
 };
@@ -351,3 +342,21 @@ if ( document.readyState !== 'loading' ) {
 			} );
 	} );
 }
+
+const prplMaybeInjectSuggestedTaskEvent = new Event( // eslint-disable-line no-unused-vars
+	'prplMaybeInjectSuggestedTaskEvent'
+);
+
+// Listen for the event.
+document.addEventListener(
+	'prplMaybeInjectSuggestedTaskEvent',
+	() => {
+		while (
+			progressPlannerCountItems() <= PRPL_SUGGESTED_TASKS_MAX_ITEMS &&
+			progressPlannerGetNextItem()
+		) {
+			progressPlannerInjectNextItem();
+		}
+	},
+	false
+);

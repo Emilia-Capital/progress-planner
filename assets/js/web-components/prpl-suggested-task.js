@@ -1,4 +1,4 @@
-/* global customElements, HTMLElement, PRPL_SUGGESTED_TASKS_MAX_ITEMS, PRPL_SUGGESTED_TASK_CLASSNAME */
+/* global customElements, progressPlannerSuggestedTask, HTMLElement */
 
 /**
  * Suggested task.
@@ -114,85 +114,91 @@ customElements.define(
 			const thisObj = this,
 				item = thisObj.querySelector( 'li' );
 
-			item.querySelectorAll(
-				`.${ PRPL_SUGGESTED_TASK_CLASSNAME }-button`
-			).forEach( function ( button ) {
-				button.addEventListener( 'click', function () {
-					let action = button.getAttribute( 'data-action' );
-					const target = button.getAttribute( 'data-target' ),
-						tooltipActions =
-							item.querySelector( '.tooltip-actions' );
+			item.querySelectorAll( '.prpl-suggested-task-button' ).forEach(
+				function ( button ) {
+					button.addEventListener( 'click', function () {
+						let action = button.getAttribute( 'data-action' );
+						const target = button.getAttribute( 'data-target' ),
+							tooltipActions =
+								item.querySelector( '.tooltip-actions' );
 
-					// If the tooltip was already open, close it.
-					if (
-						!! tooltipActions.querySelector(
-							'.prpl-suggested-task-' +
-								target +
-								'[data-tooltip-visible]'
-						)
-					) {
-						action = 'close-' + target;
-					} else {
-						// Close the any opened radio group.
-						item.closest( '.prpl-suggested-tasks-list' )
-							.querySelector( `[data-tooltip-visible]` )
-							?.classList.remove(
-								'prpl-toggle-radio-group-open'
-							);
-						// Remove any existing tooltip visible attribute, in the entire list.
-						item.closest( '.prpl-suggested-tasks-list' )
-							.querySelector( `[data-tooltip-visible]` )
-							?.removeAttribute( 'data-tooltip-visible' );
-					}
-
-					switch ( action ) {
-						case 'snooze':
-							tooltipActions
-								.querySelector(
-									'.prpl-suggested-task-' + target
-								)
-								.setAttribute( 'data-tooltip-visible', 'true' );
-							break;
-
-						case 'close-snooze':
-							// Close the radio group.
-							tooltipActions
-								.querySelector(
-									'.prpl-suggested-task-' +
-										target +
-										'.prpl-toggle-radio-group-open'
-								)
+						// If the tooltip was already open, close it.
+						if (
+							!! tooltipActions.querySelector(
+								'.prpl-suggested-task-' +
+									target +
+									'[data-tooltip-visible]'
+							)
+						) {
+							action = 'close-' + target;
+						} else {
+							// Close the any opened radio group.
+							item.closest( '.prpl-suggested-tasks-list' )
+								.querySelector( `[data-tooltip-visible]` )
 								?.classList.remove(
 									'prpl-toggle-radio-group-open'
 								);
-							// Close the tooltip.
-							tooltipActions
-								.querySelector(
-									'.prpl-suggested-task-' +
-										target +
-										'[data-tooltip-visible]'
-								)
+							// Remove any existing tooltip visible attribute, in the entire list.
+							item.closest( '.prpl-suggested-tasks-list' )
+								.querySelector( `[data-tooltip-visible]` )
 								?.removeAttribute( 'data-tooltip-visible' );
-							break;
+						}
 
-						case 'info':
-							tooltipActions
-								.querySelector(
-									'.prpl-suggested-task-' + target
-								)
-								.setAttribute( 'data-tooltip-visible', 'true' );
-							break;
+						switch ( action ) {
+							case 'snooze':
+								tooltipActions
+									.querySelector(
+										'.prpl-suggested-task-' + target
+									)
+									.setAttribute(
+										'data-tooltip-visible',
+										'true'
+									);
+								break;
 
-						case 'close-info':
-							tooltipActions
-								.querySelector(
-									'.prpl-suggested-task-' + target
-								)
-								.removeAttribute( 'data-tooltip-visible' );
-							break;
-					}
-				} );
-			} );
+							case 'close-snooze':
+								// Close the radio group.
+								tooltipActions
+									.querySelector(
+										'.prpl-suggested-task-' +
+											target +
+											'.prpl-toggle-radio-group-open'
+									)
+									?.classList.remove(
+										'prpl-toggle-radio-group-open'
+									);
+								// Close the tooltip.
+								tooltipActions
+									.querySelector(
+										'.prpl-suggested-task-' +
+											target +
+											'[data-tooltip-visible]'
+									)
+									?.removeAttribute( 'data-tooltip-visible' );
+								break;
+
+							case 'info':
+								tooltipActions
+									.querySelector(
+										'.prpl-suggested-task-' + target
+									)
+									.setAttribute(
+										'data-tooltip-visible',
+										'true'
+									);
+								break;
+
+							case 'close-info':
+								tooltipActions
+									.querySelector(
+										'.prpl-suggested-task-' + target
+									)
+									.removeAttribute( 'data-tooltip-visible' );
+								break;
+						}
+					} );
+				}
+			);
 
 			// Toggle snooze duration radio group.
 			item.querySelector( '.prpl-toggle-radio-group' ).addEventListener(
@@ -226,44 +232,38 @@ customElements.define(
 		progressPlannerSnoozeTask = ( taskId, duration ) => {
 			taskId = taskId.toString();
 			// Save the todo list to the database
-			jQuery.post(
-				progressPlannerSuggestedTasks.ajaxUrl,
+			const request = wp.ajax.post(
+				'progress_planner_suggested_task_action',
 				{
-					action: 'progress_planner_suggested_task_action',
-					task_id: taskId.toString(),
-					nonce: progressPlannerSuggestedTasks.nonce,
+					task_id: taskId,
+					nonce: progressPlannerSuggestedTask.nonce,
 					action_type: 'snooze',
 					duration,
-				},
-				() => {
-					const el = document.querySelector(
-						`.${ PRPL_SUGGESTED_TASK_CLASSNAME }[data-task-id="${ taskId }"]`
-					);
-
-					if ( el ) {
-						el.remove();
-					}
-
-					// Update the global var.
-					if (
-						progressPlannerSuggestedTasks.tasks.snoozed.indexOf(
-							taskId
-						) === -1
-					) {
-						progressPlannerSuggestedTasks.tasks.snoozed.push(
-							taskId
-						);
-					}
-
-					while (
-						progressPlannerCountItems() <=
-							PRPL_SUGGESTED_TASKS_MAX_ITEMS &&
-						progressPlannerGetNextItem()
-					) {
-						progressPlannerInjectNextItem();
-					}
 				}
 			);
+			request.done( () => {
+				const el = document.querySelector(
+					`.prpl-suggested-task[data-task-id="${ taskId }"]`
+				);
+
+				if ( el ) {
+					el.remove();
+				}
+
+				// Update the global var.
+				if (
+					window.progressPlannerSuggestedTasks.tasks.snoozed.indexOf(
+						taskId
+					) === -1
+				) {
+					window.progressPlannerSuggestedTasks.tasks.snoozed.push(
+						taskId
+					);
+				}
+
+				const event = new Event( 'prplMaybeInjectSuggestedTaskEvent' );
+				document.dispatchEvent( event );
+			} );
 		};
 	}
 );
