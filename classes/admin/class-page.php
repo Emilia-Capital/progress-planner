@@ -155,8 +155,8 @@ class Page {
 			'progress-planner-web-components-suggested-task',
 			'progressPlannerSuggestedTask',
 			[
-				'nonce'   => \wp_create_nonce( 'progress_planner' ),
-				'i18n'    => [
+				'nonce' => \wp_create_nonce( 'progress_planner' ),
+				'i18n'  => [
 					'info'           => \esc_html__( 'Info', 'progress-planner' ),
 					'snooze'         => \esc_html__( 'Snooze', 'progress-planner' ),
 					'snoozeThisTask' => \esc_html__( 'Snooze this task?', 'progress-planner' ),

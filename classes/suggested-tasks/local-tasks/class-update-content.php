@@ -20,6 +20,14 @@ class Update_Content extends \Progress_Planner\Suggested_Tasks\Local_Tasks {
 	const ITEMS_TO_INJECT = 2;
 
 	/**
+	 * Constructor.
+	 */
+	public function __construct() {
+		parent::__construct();
+		add_filter( 'progress_planner_update_posts_tasks_args', [ $this, 'filter_update_posts_args' ] );
+	}
+
+	/**
 	 * Evaluate a task.
 	 *
 	 * @param string $task_id The task ID.
@@ -116,11 +124,9 @@ class Update_Content extends \Progress_Planner\Suggested_Tasks\Local_Tasks {
 	 * @return array
 	 */
 	public function get_tasks_to_inject() {
-
-		// WIP: Filter out tasks if they are snoozed.
 		return array_merge(
-			true !== $this->is_task_type_snoozed( 'update-post' ) ? $this->get_tasks_to_update_posts() : [],
-			true !== $this->is_task_type_snoozed( 'create-post' ) ? $this->get_tasks_to_create_posts() : []
+			$this->get_tasks_to_update_posts(),
+			$this->get_tasks_to_create_posts()
 		);
 	}
 
@@ -130,6 +136,14 @@ class Update_Content extends \Progress_Planner\Suggested_Tasks\Local_Tasks {
 	 * @return array
 	 */
 	public function get_tasks_to_create_posts() {
+		$items                = [];
+		$snoozed_post_lengths = $this->get_snoozed_post_lengths();
+
+		// We have both long and short posts snoozed.
+		if ( ! empty( $snoozed_post_lengths ) && \in_array( 'long', $snoozed_post_lengths, true ) && \in_array( 'short', $snoozed_post_lengths, true ) ) {
+			return $items;
+		}
+
 		// Get the post that was created last.
 		$last_created_posts = \get_posts(
 			[
@@ -145,7 +159,11 @@ class Update_Content extends \Progress_Planner\Suggested_Tasks\Local_Tasks {
 			&& ! empty( $last_created_posts )
 			&& \progress_planner()->get_activities__content_helpers()->is_post_long( $last_created_posts[0]->ID )
 		);
-		$items             = [];
+
+		// If the last post is snoozed, don't add a task.
+		if ( ! empty( $snoozed_post_lengths ) && \in_array( $is_last_post_long ? 'long' : 'short', $snoozed_post_lengths, true ) ) {
+			return $items;
+		}
 
 		$task_id = $this->get_task_id(
 			[
@@ -187,15 +205,19 @@ class Update_Content extends \Progress_Planner\Suggested_Tasks\Local_Tasks {
 	 * @return array
 	 */
 	public function get_tasks_to_update_posts() {
-		// Get the post that was updated last.
-		$last_updated_posts = \get_posts(
+
+		$args = apply_filters(
+			'progress_planner_update_posts_tasks_args',
 			[
 				'posts_per_page' => self::ITEMS_TO_INJECT,
 				'post_status'    => 'publish',
 				'orderby'        => 'modified',
 				'order'          => 'ASC',
-			]
+			],
 		);
+
+		// Get the post that was updated last.
+		$last_updated_posts = \get_posts( $args );
 
 		if ( ! $last_updated_posts ) {
 			return [];
@@ -277,41 +299,50 @@ class Update_Content extends \Progress_Planner\Suggested_Tasks\Local_Tasks {
 	}
 
 	/**
-	 * Check if a task type is snoozed.
+	 * Get the snoozed post lengths.
 	 *
-	 * @param string $task_id The task ID.
-	 *
-	 * @return bool
+	 * @return array
 	 */
-	public function is_task_type_snoozed( $task_id ) {
-		$task_data = $this->get_data_from_task_id( $task_id );
-		if ( ! isset( $task_data['type'] ) ) {
-			return false;
-		}
+	public function get_snoozed_post_lengths() {
+		$snoozed              = \progress_planner()->get_suggested_tasks()->get_snoozed_tasks();
+		$snoozed_post_lengths = [];
 
-		$snoozed = \progress_planner()->get_suggested_tasks()->get_snoozed_tasks();
-		if ( ! \is_array( $snoozed ) || empty( $snoozed ) ) {
-			return false;
-		}
-
-		if ( 'create-post' === $task_data['type'] ) {
+		if ( \is_array( $snoozed ) && ! empty( $snoozed ) ) {
 			foreach ( $snoozed as $task ) {
 				$data = $this->get_data_from_task_id( $task['id'] );
-				if ( $data['type'] === $task_data['type'] && $data['long'] === $task_data['long'] ) {
-					return true;
+				if ( isset( $data['type'] ) && 'create-post' === $data['type'] ) {
+					$snoozed_post_lengths[] = true === $data['long'] ? 'long' : 'short';
 				}
 			}
 		}
 
-		if ( 'update-post' === $task_data['type'] ) {
+		return $snoozed_post_lengths;
+	}
+
+	/**
+	 * Filter the update posts tasks args.
+	 *
+	 * @param array $args The args.
+	 *
+	 * @return array
+	 */
+	public function filter_update_posts_args( $args ) {
+		$snoozed          = \progress_planner()->get_suggested_tasks()->get_snoozed_tasks();
+		$snoozed_post_ids = [];
+
+		if ( \is_array( $snoozed ) && ! empty( $snoozed ) ) {
 			foreach ( $snoozed as $task ) {
 				$data = $this->get_data_from_task_id( $task['id'] );
-				if ( $data['type'] === $task_data['type'] && (int) $data['post_id'] === (int) $task_data['post_id'] ) {
-					return true;
+				if ( isset( $data['type'] ) && 'update-post' === $data['type'] ) {
+					$snoozed_post_ids[] = $data['post_id'];
 				}
+			}
+
+			if ( ! empty( $snoozed_post_ids ) ) {
+				$args['post__not_in'] = $snoozed_post_ids;
 			}
 		}
 
-		return false;
+		return $args;
 	}
 }
