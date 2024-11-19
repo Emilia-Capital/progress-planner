@@ -104,13 +104,13 @@ customElements.define(
 				</div>
 			</li>`;
 
-			this.prplSuggestedTaskListeners();
+			this.taskListeners();
 		}
 
 		/**
 		 * Add listeners to the item.
 		 */
-		prplSuggestedTaskListeners = () => {
+		taskListeners = () => {
 			const thisObj = this,
 				item = thisObj.querySelector( 'li' );
 
@@ -215,7 +215,7 @@ customElements.define(
 				'.prpl-snooze-duration-radio-group input[type="radio"]'
 			).forEach( ( radioElement ) => {
 				radioElement.addEventListener( 'change', function () {
-					thisObj.progressPlannerSnoozeTask(
+					thisObj.snoozeTask(
 						item.getAttribute( 'data-task-id' ),
 						this.value
 					);
@@ -229,7 +229,7 @@ customElements.define(
 		 * @param {string} taskId   The task ID.
 		 * @param {string} duration The duration to snooze the task for.
 		 */
-		progressPlannerSnoozeTask = ( taskId, duration ) => {
+		snoozeTask = ( taskId, duration ) => {
 			taskId = taskId.toString();
 			// Save the todo list to the database
 			const request = wp.ajax.post(
