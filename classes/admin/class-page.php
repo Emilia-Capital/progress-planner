@@ -174,6 +174,35 @@ class Page {
 			]
 		);
 
+		\wp_register_script(
+			'progress-planner-web-components-todo-item',
+			PROGRESS_PLANNER_URL . '/assets/js/web-components/prpl-todo-item.js',
+			[],
+			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/web-components/prpl-todo-item.js' ),
+			true
+		);
+
+		\wp_localize_script(
+			'progress-planner-web-components-todo-item',
+			'progressPlannerTodoItem',
+			[
+				'i18n' => [
+					/* translators: %s: The task content. */
+					'taskDelete'       => \esc_html__( "Delete task '%s'", 'progress-planner' ),
+					/* translators: %s: The task content. */
+					'taskMoveUp'       => \esc_html__( "Move task '%s' up", 'progress-planner' ),
+					/* translators: %s: The task content. */
+					'taskMoveDown'     => \esc_html__( "Move task '%s' down", 'progress-planner' ),
+					'taskMovedUp'      => \esc_html__( 'Task moved up', 'progress-planner' ),
+					'taskMovedDown'    => \esc_html__( 'Task moved down', 'progress-planner' ),
+					/* translators: %s: The task content. */
+					'taskCompleted'    => \esc_html__( "Task '%s' completed and moved to the bottom", 'progress-planner' ),
+					/* translators: %s: The task content. */
+					'taskNotCompleted' => \esc_html__( "Task '%s' marked as not completed and moved to the top", 'progress-planner' ),
+				],
+			]
+		);
+
 		// Register the ajax-request helper.
 		\wp_register_script(
 			'progress-planner-ajax',
@@ -231,7 +260,7 @@ class Page {
 		\wp_register_script(
 			'progress-planner-todo',
 			PROGRESS_PLANNER_URL . '/assets/js/todo.js',
-			[ 'jquery-ui-sortable', 'progress-planner-ajax', 'wp-util', 'progress-planner-grid-masonry', 'wp-a11y' ],
+			[ 'progress-planner-ajax', 'wp-util', 'progress-planner-grid-masonry', 'wp-a11y', 'progress-planner-web-components-todo-item' ],
 			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/todo.js' ),
 			true
 		);
@@ -264,21 +293,6 @@ class Page {
 				'ajaxUrl'   => \admin_url( 'admin-ajax.php' ),
 				'nonce'     => \wp_create_nonce( 'progress_planner_todo' ),
 				'listItems' => \progress_planner()->get_todo()->get_items(),
-				'i18n'      => [
-					'drag'             => \esc_html__( 'Drag to reorder', 'progress-planner' ),
-					/* translators: %s: The task content. */
-					'taskDelete'       => \esc_html__( "Delete task '%s'", 'progress-planner' ),
-					/* translators: %s: The task content. */
-					'taskMoveUp'       => \esc_html__( "Move task '%s' up", 'progress-planner' ),
-					/* translators: %s: The task content. */
-					'taskMoveDown'     => \esc_html__( "Move task '%s' down", 'progress-planner' ),
-					'taskMovedUp'      => \esc_html__( 'Task moved up', 'progress-planner' ),
-					'taskMovedDown'    => \esc_html__( 'Task moved down', 'progress-planner' ),
-					/* translators: %s: The task content. */
-					'taskCompleted'    => \esc_html__( "Task '%s' completed and moved to the bottom", 'progress-planner' ),
-					/* translators: %s: The task content. */
-					'taskNotCompleted' => \esc_html__( "Task '%s' marked as not completed and moved to the top", 'progress-planner' ),
-				],
 			]
 		);
 
