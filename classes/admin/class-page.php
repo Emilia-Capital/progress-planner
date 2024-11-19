@@ -144,6 +144,35 @@ class Page {
 			true
 		);
 
+		\wp_register_script(
+			'progress-planner-web-components-suggested-task',
+			PROGRESS_PLANNER_URL . '/assets/js/web-components/prpl-suggested-task.js',
+			[],
+			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/web-components/prpl-gauge.js' ),
+			true
+		);
+		\wp_localize_script(
+			'progress-planner-web-components-suggested-task',
+			'progressPlannerSuggestedTask',
+			[
+				'i18n' => [
+					'info'           => \esc_html__( 'Info', 'progress-planner' ),
+					'snooze'         => \esc_html__( 'Snooze', 'progress-planner' ),
+					'snoozeThisTask' => \esc_html__( 'Snooze this task?', 'progress-planner' ),
+					'howLong'        => \esc_html__( 'How long?', 'progress-planner' ),
+					'snoozeDuration' => [
+						'oneWeek'     => \esc_html__( '1 week', 'progress-planner' ),
+						'oneMonth'    => \esc_html__( '1 month', 'progress-planner' ),
+						'threeMonths' => \esc_html__( '3 months', 'progress-planner' ),
+						'sixMonths'   => \esc_html__( '6 months', 'progress-planner' ),
+						'oneYear'     => \esc_html__( '1 year', 'progress-planner' ),
+						'forever'     => \esc_html__( 'forever', 'progress-planner' ),
+					],
+					'close'         => \esc_html__( 'Close', 'progress-planner' ),
+				],
+			]
+		);
+
 		// Register the ajax-request helper.
 		\wp_register_script(
 			'progress-planner-ajax',
@@ -270,7 +299,7 @@ class Page {
 		);
 
 		$pending_celebration = \progress_planner()->get_suggested_tasks()->get_pending_celebration();
-		$deps                = [ 'progress-planner-todo', 'progress-planner-grid-masonry' ];
+		$deps                = [ 'progress-planner-todo', 'progress-planner-grid-masonry', 'progress-planner-web-components-suggested-task' ];
 		if ( ! empty( $pending_celebration ) ) {
 			$deps[] = 'particles-confetti-js';
 		}

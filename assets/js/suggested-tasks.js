@@ -1,4 +1,4 @@
-/* global progressPlannerSuggestedTasks, jQuery, confetti */
+/* global customElements, progressPlannerSuggestedTasks, jQuery, confetti */
 const PRPL_SUGGESTED_TASK_CLASSNAME = 'prpl-suggested-task';
 const PRPL_SUGGESTED_TASKS_MAX_ITEMS = 5;
 
@@ -137,31 +137,13 @@ const progressPlannerInjectNextItem = () => {
  */
 const progressPlannerInjectSuggestedTodoItem = ( details ) => {
 	// Clone the template element.
-	const item = document
-		.getElementById( `${ PRPL_SUGGESTED_TASK_CLASSNAME }-template` )
-		.cloneNode( true );
-
-	// Remove the ID attribute.
-	item.removeAttribute( 'id' );
-
-	// Hide the info button if the description is empty.
-	if (
-		'string' === typeof details.description &&
-		'' === details.description.trim()
-	) {
-		const infoButton = item.querySelector( 'button[data-action="info"]' );
-		if ( !! infoButton ) {
-			infoButton.style.display = 'none';
-		}
-	}
-
-	// Replace placeholders with the actual values.
-	const itemHTML = item.outerHTML
-		.replace( new RegExp( '{taskTitle}', 'g' ), details.title )
-		.replace( new RegExp( '{taskId}', 'g' ), details.task_id.toString() )
-		.replace( new RegExp( '{taskDescription}', 'g' ), details.description )
-		.replace( new RegExp( '{taskPriority}', 'g' ), details.priority )
-		.replace( new RegExp( '{taskPoints}', 'g' ), details.points ?? 1 );
+	const Item = customElements.get( 'prpl-suggested-task' );
+	const item = new Item(
+		details.task_id,
+		details.title,
+		details.description,
+		details.points
+	);
 
 	/**
 	 * @todo Implement the parent task functionality.
@@ -173,7 +155,7 @@ const progressPlannerInjectSuggestedTodoItem = ( details ) => {
 		// Inject the item into the list.
 		document
 			.querySelector( '.prpl-suggested-tasks-list' )
-			.insertAdjacentHTML( 'beforeend', itemHTML );
+			.insertAdjacentElement( 'beforeend', item );
 	} else {
 		const parentItem = document.querySelector(
 			`.${ PRPL_SUGGESTED_TASK_CLASSNAME }[data-task-id="${ parent }"]`
@@ -208,7 +190,7 @@ const progressPlannerInjectSuggestedTodoItem = ( details ) => {
 		// Inject the item into the child list.
 		parentItem
 			.querySelector( `.${ PRPL_SUGGESTED_TASK_CLASSNAME }-children` )
-			.insertAdjacentHTML( 'beforeend', itemHTML );
+			.insertAdjacentElement( 'beforeend', item );
 	}
 
 	// Add listeners to the item.
