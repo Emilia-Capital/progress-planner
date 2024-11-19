@@ -1,5 +1,4 @@
-/* global progressPlannerSuggestedTasks, jQuery, confetti */
-const PRPL_SUGGESTED_TASK_CLASSNAME = 'prpl-suggested-task';
+/* global customElements, progressPlannerSuggestedTasks, confetti */
 const PRPL_SUGGESTED_TASKS_MAX_ITEMS = 5;
 
 /**
@@ -8,9 +7,7 @@ const PRPL_SUGGESTED_TASKS_MAX_ITEMS = 5;
  * @return {number} The number of items in the list.
  */
 const progressPlannerCountItems = () => {
-	const items = document.querySelectorAll(
-		`.${ PRPL_SUGGESTED_TASK_CLASSNAME }`
-	);
+	const items = document.querySelectorAll( '.prpl-suggested-task' );
 	return items.length;
 };
 
@@ -29,7 +26,7 @@ const progressPlannerGetNextItem = () => {
 	// Create an array of items that are in the list.
 	const inList = [];
 	document
-		.querySelectorAll( `.${ PRPL_SUGGESTED_TASK_CLASSNAME }` )
+		.querySelectorAll( '.prpl-suggested-task' )
 		.forEach( function ( item ) {
 			inList.push( item.getAttribute( 'data-task-id' ).toString() );
 		} );
@@ -73,52 +70,6 @@ const progressPlannerGetNextItem = () => {
 };
 
 /**
- * Snooze a task.
- *
- * @param {string} taskId   The task ID.
- * @param {string} duration The duration to snooze the task for.
- */
-const progressPlannerSnoozeTask = ( taskId, duration ) => {
-	taskId = taskId.toString();
-	// Save the todo list to the database
-	jQuery.post(
-		progressPlannerSuggestedTasks.ajaxUrl,
-		{
-			action: 'progress_planner_suggested_task_action',
-			task_id: taskId.toString(),
-			nonce: progressPlannerSuggestedTasks.nonce,
-			action_type: 'snooze',
-			duration,
-		},
-		() => {
-			const el = document.querySelector(
-				`.${ PRPL_SUGGESTED_TASK_CLASSNAME }[data-task-id="${ taskId }"]`
-			);
-
-			if ( el ) {
-				el.remove();
-			}
-
-			// Update the global var.
-			if (
-				progressPlannerSuggestedTasks.tasks.snoozed.indexOf(
-					taskId
-				) === -1
-			) {
-				progressPlannerSuggestedTasks.tasks.snoozed.push( taskId );
-			}
-
-			while (
-				progressPlannerCountItems() <= PRPL_SUGGESTED_TASKS_MAX_ITEMS &&
-				progressPlannerGetNextItem()
-			) {
-				progressPlannerInjectNextItem();
-			}
-		}
-	);
-};
-
-/**
  * Inject the next item.
  */
 const progressPlannerInjectNextItem = () => {
@@ -137,31 +88,13 @@ const progressPlannerInjectNextItem = () => {
  */
 const progressPlannerInjectSuggestedTodoItem = ( details ) => {
 	// Clone the template element.
-	const item = document
-		.getElementById( `${ PRPL_SUGGESTED_TASK_CLASSNAME }-template` )
-		.cloneNode( true );
-
-	// Remove the ID attribute.
-	item.removeAttribute( 'id' );
-
-	// Hide the info button if the description is empty.
-	if (
-		'string' === typeof details.description &&
-		'' === details.description.trim()
-	) {
-		const infoButton = item.querySelector( 'button[data-action="info"]' );
-		if ( !! infoButton ) {
-			infoButton.style.display = 'none';
-		}
-	}
-
-	// Replace placeholders with the actual values.
-	const itemHTML = item.outerHTML
-		.replace( new RegExp( '{taskTitle}', 'g' ), details.title )
-		.replace( new RegExp( '{taskId}', 'g' ), details.task_id.toString() )
-		.replace( new RegExp( '{taskDescription}', 'g' ), details.description )
-		.replace( new RegExp( '{taskPriority}', 'g' ), details.priority )
-		.replace( new RegExp( '{taskPoints}', 'g' ), details.points ?? 1 );
+	const Item = customElements.get( 'prpl-suggested-task' );
+	const item = new Item(
+		details.task_id,
+		details.title,
+		details.description,
+		details.points
+	);
 
 	/**
 	 * @todo Implement the parent task functionality.
@@ -173,10 +106,10 @@ const progressPlannerInjectSuggestedTodoItem = ( details ) => {
 		// Inject the item into the list.
 		document
 			.querySelector( '.prpl-suggested-tasks-list' )
-			.insertAdjacentHTML( 'beforeend', itemHTML );
+			.insertAdjacentElement( 'beforeend', item );
 	} else {
 		const parentItem = document.querySelector(
-			`.${ PRPL_SUGGESTED_TASK_CLASSNAME }[data-task-id="${ parent }"]`
+			`.prpl-suggested-task[data-task-id="${ parent }"]`
 		);
 		// If we could not find the parent item, try again after 500ms.
 		window.progressPlannerRenderAttempts =
@@ -193,121 +126,17 @@ const progressPlannerInjectSuggestedTodoItem = ( details ) => {
 		}
 
 		// If the child list does not exist, create it.
-		if (
-			! parentItem.querySelector(
-				`.${ PRPL_SUGGESTED_TASK_CLASSNAME }-children`
-			)
-		) {
+		if ( ! parentItem.querySelector( '.prpl-suggested-task-children' ) ) {
 			const childListElement = document.createElement( 'ul' );
-			childListElement.classList.add(
-				`${ PRPL_SUGGESTED_TASK_CLASSNAME }-children`
-			);
+			childListElement.classList.add( 'prpl-suggested-task-children' );
 			parentItem.appendChild( childListElement );
 		}
 
 		// Inject the item into the child list.
 		parentItem
-			.querySelector( `.${ PRPL_SUGGESTED_TASK_CLASSNAME }-children` )
-			.insertAdjacentHTML( 'beforeend', itemHTML );
+			.querySelector( '.prpl-suggested-task-children' )
+			.insertAdjacentElement( 'beforeend', item );
 	}
-
-	// Add listeners to the item.
-	prplSuggestedTodoItemListeners(
-		document.querySelector(
-			`.${ PRPL_SUGGESTED_TASK_CLASSNAME }[data-task-id="${ details.task_id.toString() }"]`
-		)
-	);
-};
-
-const prplSuggestedTodoItemListeners = ( item ) => {
-	item.querySelectorAll(
-		`.${ PRPL_SUGGESTED_TASK_CLASSNAME }-button`
-	).forEach( function ( button ) {
-		button.addEventListener( 'click', function () {
-			let action = button.getAttribute( 'data-action' );
-			const target = button.getAttribute( 'data-target' ),
-				tooltipActions = item.querySelector( '.tooltip-actions' );
-
-			// If the tooltip was already open, close it.
-			if (
-				!! tooltipActions.querySelector(
-					'.prpl-suggested-task-' + target + '[data-tooltip-visible]'
-				)
-			) {
-				action = 'close-' + target;
-			} else {
-				// Close the any opened radio group.
-				item.closest( '.prpl-suggested-tasks-list' )
-					.querySelector( `[data-tooltip-visible]` )
-					?.classList.remove( 'prpl-toggle-radio-group-open' );
-				// Remove any existing tooltip visible attribute, in the entire list.
-				item.closest( '.prpl-suggested-tasks-list' )
-					.querySelector( `[data-tooltip-visible]` )
-					?.removeAttribute( 'data-tooltip-visible' );
-			}
-
-			switch ( action ) {
-				case 'snooze':
-					tooltipActions
-						.querySelector( '.prpl-suggested-task-' + target )
-						.setAttribute( 'data-tooltip-visible', 'true' );
-					break;
-
-				case 'close-snooze':
-					// Close the radio group.
-					tooltipActions
-						.querySelector(
-							'.prpl-suggested-task-' +
-								target +
-								'.prpl-toggle-radio-group-open'
-						)
-						?.classList.remove( 'prpl-toggle-radio-group-open' );
-					// Close the tooltip.
-					tooltipActions
-						.querySelector(
-							'.prpl-suggested-task-' +
-								target +
-								'[data-tooltip-visible]'
-						)
-						?.removeAttribute( 'data-tooltip-visible' );
-					break;
-
-				case 'info':
-					tooltipActions
-						.querySelector( '.prpl-suggested-task-' + target )
-						.setAttribute( 'data-tooltip-visible', 'true' );
-					break;
-
-				case 'close-info':
-					tooltipActions
-						.querySelector( '.prpl-suggested-task-' + target )
-						.removeAttribute( 'data-tooltip-visible' );
-					break;
-			}
-		} );
-	} );
-
-	// Toggle snooze duration radio group.
-	item.querySelector( '.prpl-toggle-radio-group' ).addEventListener(
-		'click',
-		function () {
-			this.closest( '.prpl-suggested-task-snooze' ).classList.toggle(
-				'prpl-toggle-radio-group-open'
-			);
-		}
-	);
-
-	// Handle snooze duration radio group change.
-	item.querySelectorAll(
-		'.prpl-snooze-duration-radio-group input[type="radio"]'
-	).forEach( ( radioElement ) => {
-		radioElement.addEventListener( 'change', function () {
-			progressPlannerSnoozeTask(
-				item.getAttribute( 'data-task-id' ),
-				this.value
-			);
-		} );
-	} );
 };
 
 const prplTriggerConfetti = () => {
@@ -513,3 +342,21 @@ if ( document.readyState !== 'loading' ) {
 			} );
 	} );
 }
+
+const prplMaybeInjectSuggestedTaskEvent = new Event( // eslint-disable-line no-unused-vars
+	'prplMaybeInjectSuggestedTaskEvent'
+);
+
+// Listen for the event.
+document.addEventListener(
+	'prplMaybeInjectSuggestedTaskEvent',
+	() => {
+		while (
+			progressPlannerCountItems() <= PRPL_SUGGESTED_TASKS_MAX_ITEMS &&
+			progressPlannerGetNextItem()
+		) {
+			progressPlannerInjectNextItem();
+		}
+	},
+	false
+);
