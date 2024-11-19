@@ -35,9 +35,7 @@ $prpl_badge  = \progress_planner()->get_badges()->get_badge( 'monthly-' . gmdate
 	<?php \esc_html_e( 'Ravi\'s recommendations', 'progress-planner' ); ?>
 </h2>
 
-<ul style="display:none">
-	<?php \progress_planner()->the_view( 'views/suggested-tasks-item.php' ); ?>
-</ul>
+<ul style="display:none"></ul>
 <ul class="prpl-suggested-tasks-list"></ul>
 
 <div class="prpl-widget-content">
