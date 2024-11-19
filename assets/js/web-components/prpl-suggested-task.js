@@ -1,7 +1,7 @@
 /* global customElements, HTMLElement,  */
 
 /**
- * Big counter.
+ * Suggested task.
  */
 customElements.define(
 	'prpl-suggested-task',
