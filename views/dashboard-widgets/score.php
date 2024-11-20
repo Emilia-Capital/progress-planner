@@ -11,7 +11,7 @@
 		<prpl-gauge background="#fff" color="var(--prpl-color-accent-orange)" contentFontSize="var(--prpl-font-size-4xl)">
 			<progress max="<?php echo (int) \Progress_Planner\Badges\Monthly::TARGET_POINTS; ?>" value="<?php echo (float) \progress_planner()->get_widgets__suggested_tasks()->get_score(); ?>">
 				<prpl-badge
-					class="prpl-badge-icon-image <?php echo $complete ? 'complete' : 'incomplete'; ?>"
+					complete="<?php echo \Progress_Planner\Badges\Monthly::TARGET_POINTS === (int) \progress_planner()->get_widgets__suggested_tasks()->get_score() ? 'true' : 'false'; ?>"
 					badge-id="<?php echo esc_attr( 'monthly-' . gmdate( 'Y' ) . '-m' . (int) gmdate( 'm' ) ); ?>"
 				></prpl-badge>
 			</progress>

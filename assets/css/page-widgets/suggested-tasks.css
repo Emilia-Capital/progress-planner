@@ -69,14 +69,6 @@
 			text-align: center;
 			line-height: 1.2;
 		}
-
-		.prpl-badge-icon-image {
-
-			&.incomplete {
-				filter: grayscale(1);
-				opacity: 0.25;
-			}
-		}
 	}
 
 	.prpl-widget-content {
@@ -299,14 +291,9 @@
 					line-height: 1.2;
 				}
 
-				.prpl-badge-icon-image {
+				prpl-badge {
 					width: calc(100% * var(--multiplier));
 					margin-bottom: 1rem;
-
-					&.incomplete {
-						filter: grayscale(1);
-						opacity: 0.25;
-					}
 				}
 
 			}
