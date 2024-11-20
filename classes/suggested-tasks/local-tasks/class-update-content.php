@@ -23,8 +23,7 @@ class Update_Content extends \Progress_Planner\Suggested_Tasks\Local_Tasks {
 	 * Constructor.
 	 */
 	public function __construct() {
-		parent::__construct();
-		add_filter( 'progress_planner_update_posts_tasks_args', [ $this, 'filter_update_posts_args' ] );
+		\add_filter( 'progress_planner_update_posts_tasks_args', [ $this, 'filter_update_posts_args' ] );
 	}
 
 	/**
@@ -175,8 +174,6 @@ class Update_Content extends \Progress_Planner\Suggested_Tasks\Local_Tasks {
 
 		$items[] = $this->get_task_details( $task_id );
 
-		$this->add_pending_task( $task_id );
-
 		return $items;
 	}
 
@@ -263,7 +260,7 @@ class Update_Content extends \Progress_Planner\Suggested_Tasks\Local_Tasks {
 					\esc_html( $post->post_title )
 				) . '</p><p><a href="' . \esc_url( \get_edit_post_link( $post->ID ) ) . '">' . \esc_html__( 'Edit the post', 'progress-planner' ) . '</a>.</p>',
 			];
-			$this->add_pending_task( $task_id );
+
 		}
 		return $items;
 	}

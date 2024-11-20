@@ -15,7 +15,7 @@ class Suggested_Tasks {
 	/**
 	 * An object containing local tasks.
 	 *
-	 * @var \stdClass
+	 * @var \Progress_Planner\Suggested_Tasks\Local_Tasks_Manager|null
 	 */
 	private $local;
 
@@ -39,10 +39,7 @@ class Suggested_Tasks {
 	 * @return void
 	 */
 	public function __construct() {
-		$this->local                 = new \stdClass();
-		$this->local->update_content = new \Progress_Planner\Suggested_Tasks\Local_Tasks\Update_Content();
-		$this->local->update_core    = new \Progress_Planner\Suggested_Tasks\Local_Tasks\Update_Core();
-
+		$this->local  = new \Progress_Planner\Suggested_Tasks\Local_Tasks_Manager();
 		$this->remote = new \Progress_Planner\Suggested_Tasks\Remote_Tasks();
 
 		\add_action( 'wp_ajax_progress_planner_suggested_task_action', [ $this, 'suggested_task_action' ] );
@@ -58,10 +55,11 @@ class Suggested_Tasks {
 	 * @return void
 	 */
 	public function init() {
-		$completed_tasks = \array_merge(
-			$this->local->update_content->evaluate_tasks(),
-			$this->local->update_core->evaluate_tasks()
-		);
+		// Unsnooze tasks.
+		$this->maybe_unsnooze_tasks();
+
+		// Check for completed tasks.
+		$completed_tasks = $this->local->evaluate_tasks();
 
 		foreach ( $completed_tasks as $task_id ) {
 			$this->mark_task_as_pending_celebration( $task_id );
@@ -74,12 +72,9 @@ class Suggested_Tasks {
 			$activity->user_id = \get_current_user_id();
 			$activity->save();
 
-			// WIP: This is a temporary action to allow other classes to react to the completion of a suggested task.
+			// Allow other classes to react to the completion of a suggested task.
 			do_action( 'progress_planner_suggested_task_completed', $task_id );
 		}
-
-		// Unsnooze tasks.
-		$this->maybe_unsnooze_tasks();
 	}
 
 	/**
@@ -94,7 +89,7 @@ class Suggested_Tasks {
 	/**
 	 * Get the local tasks object.
 	 *
-	 * @return \stdClass
+	 * @return \Progress_Planner\Suggested_Tasks\Local_Tasks_Manager
 	 */
 	public function get_local() {
 		return $this->local;
@@ -405,6 +400,7 @@ class Suggested_Tasks {
 
 			case 'celebrated':
 				$this->transition_task_status( $task_id, 'pending_celebration', 'completed' );
+				$updated = true;
 				break;
 
 			default:

@@ -72,6 +72,22 @@ class Update_Core extends \Progress_Planner\Suggested_Tasks\Local_Tasks {
 	}
 
 	/**
+	 * Get the data from a task-ID.
+	 *
+	 * @param string $task_id The task ID.
+	 *
+	 * @return array The data.
+	 */
+	public function get_data_from_task_id( $task_id ) {
+		$data = [
+			'type' => 'update-core',
+			'id'   => $task_id,
+		];
+
+		return $data;
+	}
+
+	/**
 	 * Check if a task type is snoozed.
 	 *
 	 * @return bool
