@@ -18,7 +18,7 @@ $prpl_badge  = \progress_planner()->get_badges()->get_badge( 'monthly-' . gmdate
 
 <prpl-gauge background="var(--prpl-background-orange)" color="var(--prpl-color-accent-orange)">
 	<progress max="<?php echo (int) \Progress_Planner\Badges\Monthly::TARGET_POINTS; ?>" value="<?php echo (float) $prpl_widget->get_score(); ?>">
-		<?php $prpl_badge->the_icon( \Progress_Planner\Badges\Monthly::TARGET_POINTS === (int) $prpl_widget->get_score() ); ?>
+		<prpl-badge complete="true" badge-id="<?php echo esc_attr( $prpl_badge->get_id() ); ?>"></prpl-badge>
 	</progress>
 </prpl-gauge>
 

@@ -58,7 +58,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 								class="prpl-badge"
 								data-value="<?php echo \esc_attr( $prpl_badge_progress['progress'] ); ?>"
 							>
-								<?php $prpl_badge->the_icon( $prpl_badge_completed ); ?>
+								<prpl-badge
+									complete="<?php echo $prpl_badge_completed ? 'true' : 'false'; ?>"
+									badge-id="<?php echo esc_attr( $prpl_badge->get_id() ); ?>"
+								></prpl-badge>
 								<p><?php echo \esc_html( $prpl_badge->get_name() ); ?></p>
 							</span>
 						<?php endforeach; ?>

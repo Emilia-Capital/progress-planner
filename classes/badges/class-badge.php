@@ -94,20 +94,4 @@ abstract class Badge {
 	public function clear_progress() {
 		\progress_planner()->get_settings()->set( [ 'badges', $this->id ], [] );
 	}
-
-	/**
-	 * Print the icon.
-	 *
-	 * @param bool $complete Whether the badge is complete.
-	 *
-	 * @return void
-	 */
-	public function the_icon( $complete = false ) {
-		?>
-		<prpl-badge
-			class="prpl-badge-icon-image <?php echo $complete ? 'complete' : 'incomplete'; ?>"
-			badge-id="<?php echo esc_attr( $this->id ); ?>"
-		></prpl-badge>
-		<?php
-	}
 }
