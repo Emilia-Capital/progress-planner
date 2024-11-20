@@ -1,4 +1,4 @@
-/* global customElements, progressPlannerSuggestedTasks, confetti, progressPlannerSuggestedTask */
+/* global customElements, progressPlannerSuggestedTasks, confetti, prplDocumentReady, progressPlannerSuggestedTask */
 const PRPL_SUGGESTED_TASKS_MAX_ITEMS = 5;
 
 /**
@@ -391,7 +391,7 @@ class BadgeScroller {
 }
 
 // Initialize on DOM load
-if ( document.readyState !== 'loading' ) {
+prplDocumentReady( () => {
 	document
 		.querySelectorAll(
 			'.prpl-widget-wrapper:not(.in-popover) > .badge-group-monthly'
@@ -399,17 +399,7 @@ if ( document.readyState !== 'loading' ) {
 		.forEach( ( element ) => {
 			new BadgeScroller( element );
 		} );
-} else {
-	document.addEventListener( 'DOMContentLoaded', () => {
-		document
-			.querySelectorAll(
-				'.prpl-widget-wrapper:not(.in-popover) > .badge-group-monthly'
-			)
-			.forEach( ( element ) => {
-				new BadgeScroller( element );
-			} );
-	} );
-}
+} );
 
 const prplMaybeInjectSuggestedTaskEvent = new Event( // eslint-disable-line no-unused-vars
 	'prplMaybeInjectSuggestedTaskEvent'

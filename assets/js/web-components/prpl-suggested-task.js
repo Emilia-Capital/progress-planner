@@ -16,6 +16,8 @@ customElements.define(
 			// Get parent class properties
 			super();
 
+			this.setAttribute( 'role', 'listitem' );
+
 			this.innerHTML = `
 			<li class="prpl-suggested-task" data-task-id="${ taskId }" data-task-action="${ taskAction }">
 				<h3>${ taskTitle }</h3>
