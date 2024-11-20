@@ -10,7 +10,10 @@
 	<div>
 		<prpl-gauge background="#fff" color="var(--prpl-color-accent-orange)" contentFontSize="var(--prpl-font-size-4xl)">
 			<progress max="<?php echo (int) \Progress_Planner\Badges\Monthly::TARGET_POINTS; ?>" value="<?php echo (float) \progress_planner()->get_widgets__suggested_tasks()->get_score(); ?>">
-				<?php \progress_planner()->get_badges()->get_badge( 'monthly-' . gmdate( 'Y' ) . '-m' . (int) gmdate( 'm' ) )->the_icon( true ); ?>
+				<prpl-badge
+					class="prpl-badge-icon-image <?php echo $complete ? 'complete' : 'incomplete'; ?>"
+					badge-id="<?php echo esc_attr( 'monthly-' . gmdate( 'Y' ) . '-m' . (int) gmdate( 'm' ) ); ?>"
+				></prpl-badge>
 			</progress>
 		</prpl-gauge>
 		<?php \esc_html_e( 'Monthly badge', 'progress-planner' ); ?>

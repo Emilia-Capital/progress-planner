@@ -17,7 +17,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 		data-value="<?php echo \esc_attr( $prpl_badge_progress['progress'] ); ?>"
 	>
 		<div class="inner">
-			<?php $prpl_badge->the_icon( 100 === (int) $prpl_badge_progress['progress'] ); ?>
+			<prpl-badge
+				class="prpl-badge-icon-image <?php echo 100 === (int) $prpl_badge_progress['progress'] ? 'complete' : 'incomplete'; ?>"
+				badge-id="<?php echo esc_attr( $prpl_badge->get_id() ); ?>"
+			></prpl-badge>
 			<?php echo \esc_html( $prpl_badge->get_name() ); ?>
 		</div>
 		<p><?php echo \esc_html( $prpl_badge->get_description() ); ?></p>
