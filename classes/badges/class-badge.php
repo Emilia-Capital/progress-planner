@@ -96,17 +96,6 @@ abstract class Badge {
 	}
 
 	/**
-	 * Get the icon URL.
-	 *
-	 * @param bool $complete Whether the badge is complete.
-	 *
-	 * @return string
-	 */
-	protected function get_icon_url( $complete = true ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found
-		return PROGRESS_PLANNER_URL . '/assets/images/badges/' . $this->get_id() . '.svg';
-	}
-
-	/**
 	 * Print the icon.
 	 *
 	 * @param bool $complete Whether the badge is complete.
@@ -115,11 +104,10 @@ abstract class Badge {
 	 */
 	public function the_icon( $complete = false ) {
 		?>
-		<img
+		<prpl-badge
 			class="prpl-badge-icon-image <?php echo $complete ? 'complete' : 'incomplete'; ?>"
-			src="<?php echo esc_url( $this->get_icon_url( $complete ) ); ?>"
-			alt=""
-		>
+			badge-id="<?php echo esc_attr( $this->id ); ?>"
+		></prpl-badge>
 		<?php
 	}
 }

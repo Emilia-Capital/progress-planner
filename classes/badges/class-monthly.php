@@ -176,41 +176,4 @@ final class Monthly extends Badge {
 
 		return $return_progress;
 	}
-
-	/**
-	 * Get the icon URL.
-	 *
-	 * @param bool $complete Whether the badge is complete.
-	 *
-	 * @return string
-	 */
-	public function get_icon_url( $complete = true ) {
-		$cache_key = "monthly_badge_svg_{$this->id}";
-		$cached    = \progress_planner()->get_cache()->get( $cache_key );
-		if ( $cached ) {
-			return $cached;
-		}
-
-		$image_url = PROGRESS_PLANNER_URL . '/assets/images/badges/monthly-badge-default.svg';
-
-		// Get the SVG from the API.
-		$response = \wp_remote_get(
-			\add_query_arg(
-				[
-					'year'     => $this->get_year(),
-					'month'    => $this->get_month(),
-					'complete' => $complete ? 'true' : 'false',
-				],
-				'https://progressplanner.com/wp-json/progress-planner-saas/v1/monthly-badge-svg/'
-			)
-		);
-		if ( ! is_wp_error( $response ) && 200 === \wp_remote_retrieve_response_code( $response ) ) {
-			$body = \wp_remote_retrieve_body( $response );
-			if ( ! empty( $body ) ) {
-				$image_url = $body;
-			}
-		}
-		\progress_planner()->get_cache()->set( $cache_key, $image_url, \MONTH_IN_SECONDS );
-		return $image_url;
-	}
 }
