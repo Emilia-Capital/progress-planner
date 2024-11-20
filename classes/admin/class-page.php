@@ -146,9 +146,17 @@ class Page {
 		);
 
 		\wp_register_script(
+			'progress-planner-web-components-badge',
+			PROGRESS_PLANNER_URL . '/assets/js/web-components/prpl-badge.js',
+			[],
+			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/web-components/prpl-badge.js' ),
+			true
+		);
+
+		\wp_register_script(
 			'progress-planner-web-components-gauge',
 			PROGRESS_PLANNER_URL . '/assets/js/web-components/prpl-gauge.js',
-			[],
+			[ 'progress-planner-web-components-badge' ],
 			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/web-components/prpl-gauge.js' ),
 			true
 		);
