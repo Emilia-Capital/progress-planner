@@ -1,18 +1,4 @@
-/* global progressPlannerTodo, customElements */
-
-/**
- * Run a function when the DOM is ready.
- * Similar to jQuery's $( document ).ready() - which has been deprecated.
- *
- * @param {Function} fn The function to run when the DOM is ready.
- */
-const progressPlannerDomReady = ( fn ) => {
-	if ( document.readyState !== 'loading' ) {
-		fn();
-	} else {
-		document.addEventListener( 'DOMContentLoaded', fn );
-	}
-};
+/* global progressPlannerTodo, customElements, prplDocumentReady */
 
 /**
  * Save the todo list to the database.
@@ -74,7 +60,7 @@ const progressPlannerInjectTodoItem = ( content, done, addToStart, save ) => {
 	}
 };
 
-progressPlannerDomReady( () => {
+prplDocumentReady( () => {
 	// Inject the existing todo list items into the DOM
 	progressPlannerTodo.listItems.forEach( ( todoItem, index, array ) => {
 		progressPlannerInjectTodoItem(

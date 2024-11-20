@@ -1,3 +1,5 @@
+/* global prplDocumentReady */
+
 /**
  * Custom script to allow a grid to behave like a masonry layout.
  *
@@ -43,15 +45,11 @@ const prplResizeAllGridItems = () => {
 	} );
 };
 
-if ( document.readyState !== 'loading' ) {
+prplDocumentReady( () => {
 	prplResizeAllGridItems();
 	setTimeout( prplResizeAllGridItems, 1000 );
-} else {
-	document.addEventListener( 'DOMContentLoaded', () => {
-		prplResizeAllGridItems();
-		setTimeout( prplResizeAllGridItems, 1000 );
-	} );
-}
+} );
+
 window.addEventListener( 'resize', prplResizeAllGridItems );
 
 const prplResizeAllGridItemsEvent = new Event( 'prplResizeAllGridItemsEvent' ); // eslint-disable-line no-unused-vars

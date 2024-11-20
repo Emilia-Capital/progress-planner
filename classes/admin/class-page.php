@@ -119,6 +119,15 @@ class Page {
 	 * @return void
 	 */
 	public function register_scripts() {
+		// Register document-ready.js.
+		\wp_register_script(
+			'progress-planner-document-ready',
+			PROGRESS_PLANNER_URL . '/assets/js/document-ready.js',
+			[],
+			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/document-ready.js' ),
+			true
+		);
+
 		// Register Chart.js.
 		\wp_register_script(
 			'chart-js',
@@ -131,7 +140,7 @@ class Page {
 		\wp_register_script(
 			'progress-planner-grid-masonry',
 			PROGRESS_PLANNER_URL . '/assets/js/grid-masonry.js',
-			[],
+			[ 'progress-planner-document-ready' ],
 			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/grid-masonry.js' ),
 			true
 		);
@@ -260,7 +269,14 @@ class Page {
 		\wp_register_script(
 			'progress-planner-todo',
 			PROGRESS_PLANNER_URL . '/assets/js/todo.js',
-			[ 'progress-planner-ajax', 'wp-util', 'progress-planner-grid-masonry', 'wp-a11y', 'progress-planner-web-components-todo-item' ],
+			[
+				'progress-planner-ajax',
+				'wp-util',
+				'progress-planner-grid-masonry',
+				'wp-a11y',
+				'progress-planner-web-components-todo-item',
+				'progress-planner-document-ready',
+			],
 			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/todo.js' ),
 			true
 		);
@@ -314,7 +330,12 @@ class Page {
 		);
 
 		$pending_celebration = \progress_planner()->get_suggested_tasks()->get_pending_celebration();
-		$deps                = [ 'progress-planner-todo', 'progress-planner-grid-masonry', 'progress-planner-web-components-suggested-task' ];
+		$deps                = [
+			'progress-planner-todo',
+			'progress-planner-grid-masonry',
+			'progress-planner-web-components-suggested-task',
+			'progress-planner-document-ready',
+		];
 		if ( ! empty( $pending_celebration ) ) {
 			$deps[] = 'particles-confetti-js';
 		}
@@ -387,7 +408,7 @@ class Page {
 			\wp_enqueue_style(
 				'progress-planner-settings-page',
 				PROGRESS_PLANNER_URL . '/assets/css/settings-page.css',
-				[],
+				[ 'progress-planner-document-ready' ],
 				filemtime( PROGRESS_PLANNER_DIR . '/assets/css/settings-page.css' )
 			);
 		}
