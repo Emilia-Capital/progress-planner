@@ -47,15 +47,27 @@ class Update_Core extends \Progress_Planner\Suggested_Tasks\Local_Tasks {
 		}
 
 		return [
-			[
-				'task_id'     => 'update-core',
-				'title'       => \esc_html__( 'Perform all updates', 'progress-planner' ),
-				'parent'      => 0,
-				'priority'    => 'high',
-				'type'        => 'maintenance',
-				'points'      => 1,
-				'description' => '<p>' . \esc_html__( 'Perform all updates to ensure your website is secure and up-to-date.', 'progress-planner' ) . '</p>',
-			],
+			$this->get_task_details( 'update-core' ),
+		];
+	}
+
+	/**
+	 * Get the task details.
+	 *
+	 * @param string $task_id The task ID.
+	 *
+	 * @return array
+	 */
+	public function get_task_details( $task_id ) {
+
+		return [
+			'task_id'     => $task_id,
+			'title'       => \esc_html__( 'Perform all updates', 'progress-planner' ),
+			'parent'      => 0,
+			'priority'    => 'high',
+			'type'        => 'maintenance',
+			'points'      => 1,
+			'description' => '<p>' . \esc_html__( 'Perform all updates to ensure your website is secure and up-to-date.', 'progress-planner' ) . '</p>',
 		];
 	}
 

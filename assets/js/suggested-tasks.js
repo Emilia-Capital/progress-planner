@@ -1,4 +1,4 @@
-/* global customElements, progressPlannerSuggestedTasks, confetti */
+/* global customElements, progressPlannerSuggestedTasks, confetti, progressPlannerSuggestedTask */
 const PRPL_SUGGESTED_TASKS_MAX_ITEMS = 5;
 
 /**
@@ -93,7 +93,8 @@ const progressPlannerInjectSuggestedTodoItem = ( details ) => {
 		details.task_id,
 		details.title,
 		details.description,
-		details.points
+		details.points,
+		details.action ?? ''
 	);
 
 	/**
@@ -169,6 +170,73 @@ const prplTriggerConfetti = () => {
 	setTimeout( progressPlannerRenderAttemptshoot, 0 );
 	setTimeout( progressPlannerRenderAttemptshoot, 100 );
 	setTimeout( progressPlannerRenderAttemptshoot, 200 );
+
+	document
+		.querySelectorAll(
+			'.prpl-suggested-task[data-task-action="celebrate"]'
+		)
+		.forEach( ( item ) => {
+			item.classList.add( 'prpl-suggested-task-celebrated' );
+		} );
+
+	// WIP: Remove celebrated tasks and add them to the completed tasks.
+	setTimeout( () => {
+		document
+			.querySelectorAll( '.prpl-suggested-task-celebrated' )
+			.forEach( ( item ) => {
+				const taskId = item.getAttribute( 'data-task-id' );
+
+				const request = wp.ajax.post(
+					'progress_planner_suggested_task_action',
+					{
+						task_id: taskId,
+						nonce: progressPlannerSuggestedTask.nonce,
+						action_type: 'celebrated',
+					}
+				);
+				request.done( () => {
+					const el = document.querySelector(
+						`.prpl-suggested-task[data-task-id="${ taskId }"]`
+					);
+
+					if ( el ) {
+						el.remove();
+					}
+
+					// Remove the task from the pending celebration.
+					window.progressPlannerSuggestedTasks.tasks.pending_celebration =
+						window.progressPlannerSuggestedTasks.tasks.pending_celebration.filter(
+							( id ) => id !== taskId
+						);
+
+					// Add the task to the completed tasks.
+					if (
+						window.progressPlannerSuggestedTasks.tasks.completed.indexOf(
+							taskId
+						) === -1
+					) {
+						window.progressPlannerSuggestedTasks.tasks.completed.push(
+							taskId
+						);
+					}
+
+					const event = new Event(
+						'prplMaybeInjectSuggestedTaskEvent'
+					);
+					document.dispatchEvent( event );
+				} );
+			} );
+
+		// WIP: Refresh the list.
+		while (
+			progressPlannerCountItems() <= PRPL_SUGGESTED_TASKS_MAX_ITEMS &&
+			progressPlannerGetNextItem()
+		) {
+			progressPlannerInjectNextItem();
+			const event = new Event( 'prplResizeAllGridItemsEvent' );
+			document.dispatchEvent( event );
+		}
+	}, 2000 );
 };
 
 const prplPendingCelebration =

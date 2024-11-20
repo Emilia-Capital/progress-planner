@@ -6,12 +6,18 @@
 customElements.define(
 	'prpl-suggested-task',
 	class extends HTMLElement {
-		constructor( taskId, taskTitle, taskDescription, taskPoints ) {
+		constructor(
+			taskId,
+			taskTitle,
+			taskDescription,
+			taskPoints,
+			taskAction = ''
+		) {
 			// Get parent class properties
 			super();
 
 			this.innerHTML = `
-			<li class="prpl-suggested-task" data-task-id="${ taskId }">
+			<li class="prpl-suggested-task" data-task-id="${ taskId }" data-task-action="${ taskAction }">
 				<h3>${ taskTitle }</h3>
 				<div class="prpl-suggested-task-actions">
 					<div class="tooltip-actions">

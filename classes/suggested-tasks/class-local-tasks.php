@@ -34,19 +34,7 @@ abstract class Local_Tasks {
 	 * Constructor.
 	 */
 	public function __construct() {
-		\add_filter( 'progress_planner_suggested_tasks_api_items', [ $this, 'inject_tasks' ] );
-
-		\add_action( 'init', [ $this, 'init' ], 1 );
-	}
-
-	/**
-	 * Initialize the class.
-	 *
-	 * @return void
-	 */
-	public function init() {
-		// WIP: Methods which call class which instantiates this class need to be delayed.
-		$this->evaluate_tasks();
+		\add_filter( 'progress_planner_suggested_tasks_items', [ $this, 'inject_tasks' ] );
 	}
 
 	/**
@@ -75,23 +63,26 @@ abstract class Local_Tasks {
 	/**
 	 * Evaluate tasks stored in the option.
 	 *
-	 * @return void
+	 * @return array
 	 */
-	private function evaluate_tasks() {
+	public function evaluate_tasks() {
 		$tasks = $this->get_pending_tasks();
 		if ( ! is_array( $tasks ) ) {
 			$tasks = [];
 		}
 
-		$tasks = \array_unique( $tasks );
-		foreach ( $tasks as $task ) {
-			$task_id = $this->evaluate_task( $task );
-			if ( false !== $task_id ) {
-				$this->remove_pending_task( $task );
+		$completed_tasks = [];
 
-				\progress_planner()->get_suggested_tasks()->mark_task_as_completed( $task_id );
+		$tasks = \array_unique( $tasks );
+		foreach ( $tasks as $task_id ) {
+			$task_result = $this->evaluate_task( $task_id );
+			if ( false !== $task_result ) {
+				$this->remove_pending_task( $task_id );
+				$completed_tasks[] = $task_id;
 			}
 		}
+
+		return $completed_tasks;
 	}
 
 	/**

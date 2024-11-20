@@ -30,7 +30,7 @@ class Remote_Tasks {
 	 * Constructor.
 	 */
 	public function __construct() {
-		\add_filter( 'progress_planner_suggested_tasks_api_items', [ $this, 'inject_tasks' ] );
+		\add_filter( 'progress_planner_suggested_tasks_items', [ $this, 'inject_tasks' ] );
 	}
 
 	/**

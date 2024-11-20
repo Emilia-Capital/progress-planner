@@ -42,10 +42,10 @@ class Update_Content extends \Progress_Planner\Suggested_Tasks\Local_Tasks {
 
 		switch ( $data['type'] ) {
 			case 'update-post':
-				return $this->evaluate_update_post_task( $data );
+				return $this->evaluate_update_post_task( $task_id );
 
 			case 'create-post':
-				return $this->evaluate_create_post_task( $data );
+				return $this->evaluate_create_post_task( $task_id );
 		}
 
 		return false;
@@ -54,11 +54,13 @@ class Update_Content extends \Progress_Planner\Suggested_Tasks\Local_Tasks {
 	/**
 	 * Evaluate an update-post task.
 	 *
-	 * @param array $data    The task data.
+	 * @param string $task_id The task ID.
 	 *
 	 * @return bool|string
 	 */
-	public function evaluate_update_post_task( $data ) {
+	public function evaluate_update_post_task( $task_id ) {
+		$data = $this->get_data_from_task_id( $task_id );
+
 		if ( isset( $data['post_id'] ) && (int) \get_post_modified_time( 'U', false, (int) $data['post_id'] ) > strtotime( '-6 months' ) ) {
 			$data['date'] = \gmdate( 'YW' );
 			return $this->get_task_id( $data );
@@ -69,11 +71,13 @@ class Update_Content extends \Progress_Planner\Suggested_Tasks\Local_Tasks {
 	/**
 	 * Evaluate a create-post task.
 	 *
-	 * @param array $data    The task data.
+	 * @param string $task_id The task ID.
 	 *
 	 * @return bool|string
 	 */
-	public function evaluate_create_post_task( $data ) {
+	public function evaluate_create_post_task( $task_id ) {
+		$data = $this->get_data_from_task_id( $task_id );
+
 		$last_posts = \get_posts(
 			[
 				'posts_per_page' => 1,
@@ -169,16 +173,34 @@ class Update_Content extends \Progress_Planner\Suggested_Tasks\Local_Tasks {
 			]
 		);
 
-		$items[] = [
+		$items[] = $this->get_task_details( $task_id );
+
+		$this->add_pending_task( $task_id );
+
+		return $items;
+	}
+
+	/**
+	 * Get the task details.
+	 *
+	 * @param string $task_id The task ID.
+	 *
+	 * @return array
+	 */
+	public function get_task_details( $task_id ) {
+
+		$data = $this->get_data_from_task_id( $task_id );
+
+		return [
 			'task_id'     => $task_id,
-			'title'       => $is_last_post_long
-				? esc_html__( 'Create a short post', 'progress-planner' )
-				: esc_html__( 'Create a long post', 'progress-planner' ),
+			'title'       => $data['long']
+				? esc_html__( 'Create a long post', 'progress-planner' )
+				: esc_html__( 'Create a short post', 'progress-planner' ),
 			'parent'      => 0,
 			'priority'    => 'medium',
 			'type'        => 'writing',
-			'points'      => $is_last_post_long ? 1 : 2,
-			'description' => $is_last_post_long
+			'points'      => $data['long'] ? 2 : 1,
+			'description' => $data['long']
 				? sprintf(
 					/* translators: %d: The threshold (number, words count) for a long post. */
 					esc_html__( 'Create a new short post (no longer than %d words).', 'progress-planner' ),
@@ -190,9 +212,6 @@ class Update_Content extends \Progress_Planner\Suggested_Tasks\Local_Tasks {
 					\Progress_Planner\Activities\Content_Helpers::LONG_POST_THRESHOLD
 				),
 		];
-		$this->add_pending_task( $task_id );
-
-		return $items;
 	}
 
 	/**
