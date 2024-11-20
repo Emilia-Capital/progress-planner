@@ -45,19 +45,26 @@ final class Monthly extends Badge {
 	/**
 	 * Get an array of instances (one for each month).
 	 *
+	 * @param int|null $year The year. If null, the current year is used.
+	 *
 	 * @return array
 	 */
-	public static function get_instances() {
-		if ( ! empty( self::$instances ) ) {
-			return self::$instances;
+	public static function get_instances( $year = null ) {
+		$year = $year ? (int) $year : gmdate( 'Y' );
+		if ( ! isset( self::$instances[ $year ] ) ) {
+			self::$instances[ $year ] = [];
+		}
+
+		if ( ! empty( self::$instances[ $year ] ) ) {
+			return self::$instances[ $year ];
 		}
 
 		foreach ( array_keys( self::get_months() ) as $month ) {
-			$id                = 'monthly-' . gmdate( 'Y' ) . '-' . $month;
-			self::$instances[] = new self( $id );
+			$id                         = 'monthly-' . $year . '-' . $month;
+			self::$instances[ $year ][] = new self( $id );
 		}
 
-		return self::$instances;
+		return self::$instances[ $year ];
 	}
 
 	/**
