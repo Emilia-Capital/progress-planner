@@ -160,6 +160,21 @@ class Base {
 	}
 
 	/**
+	 * Get an asset.
+	 *
+	 * @param string|array $asset The asset to include.
+	 *                            If an array, go through each item until the asset exists.
+	 * @param array        $args  The arguments to pass to the template.
+	 *
+	 * @return string
+	 */
+	public function get_asset( $asset, $args = [] ) {
+		ob_start();
+		$this->the_file( [ $asset, "/assets/{$asset}" ], $args );
+		return ob_get_clean();
+	}
+
+	/**
 	 * Include a file.
 	 *
 	 * @param string|array $files The file to include.

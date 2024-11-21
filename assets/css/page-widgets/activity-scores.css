@@ -6,5 +6,6 @@
 }
 
 .prpl-personal-record-content.prpl-counter-big-wrapper {
+	margin-bottom: var(--prpl-padding);
 	background-color: var(--prpl-background-green);
 }
