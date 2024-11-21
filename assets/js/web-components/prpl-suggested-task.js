@@ -21,7 +21,7 @@ customElements.define(
 
 			let taskHeading = taskTitle;
 			if ( taskUrl ) {
-				taskHeading = `<a href="${ taskUrl }" target="_blank">${ taskTitle }</a>`;
+				taskHeading = `<a href="${ taskUrl }">${ taskTitle }</a>`;
 			}
 
 			this.innerHTML = `
