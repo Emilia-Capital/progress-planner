@@ -58,10 +58,14 @@ class Badges {
 
 		$this->monthly = \Progress_Planner\Badges\Monthly::get_instances();
 		if ( 2024 === (int) gmdate( 'Y' ) ) {
-			$this->monthly = array_merge(
-				[ $this->monthly[10], $this->monthly[11] ],
-				\Progress_Planner\Badges\Monthly::get_instances( 2025 )
-			);
+			$monthly_badges_2025 = \Progress_Planner\Badges\Monthly::get_instances( 2025 );
+			$this->monthly       = [
+				$this->monthly[10],
+				$this->monthly[11],
+				$monthly_badges_2025[0],
+				$monthly_badges_2025[1],
+				$monthly_badges_2025[2],
+			];
 		}
 
 		\add_action( 'progress_planner_suggested_task_completed', [ $this, 'clear_monthly_progress' ] );
