@@ -35,8 +35,8 @@ class Update_Content_Test extends \WP_UnitTestCase {
 		];
 
 		foreach ( $task_data as $data ) {
-			$task_id           = \progress_planner()->get_suggested_tasks()->get_local()->update_content->get_task_id( $data );
-			$task_data_from_id = \progress_planner()->get_suggested_tasks()->get_local()->update_content->get_data_from_task_id( $task_id );
+			$task_id           = \progress_planner()->get_suggested_tasks()->get_local()->get_update_content()->get_task_id( $data );
+			$task_data_from_id = \progress_planner()->get_suggested_tasks()->get_local()->get_update_content()->get_data_from_task_id( $task_id );
 
 			$this->assertEquals( $data, $task_data_from_id );
 		}

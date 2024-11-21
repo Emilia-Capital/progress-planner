@@ -45,19 +45,26 @@ final class Monthly extends Badge {
 	/**
 	 * Get an array of instances (one for each month).
 	 *
+	 * @param int|null $year The year. If null, the current year is used.
+	 *
 	 * @return array
 	 */
-	public static function get_instances() {
-		if ( ! empty( self::$instances ) ) {
-			return self::$instances;
+	public static function get_instances( $year = null ) {
+		$year = $year ? (int) $year : gmdate( 'Y' );
+		if ( ! isset( self::$instances[ $year ] ) ) {
+			self::$instances[ $year ] = [];
+		}
+
+		if ( ! empty( self::$instances[ $year ] ) ) {
+			return self::$instances[ $year ];
 		}
 
 		foreach ( array_keys( self::get_months() ) as $month ) {
-			$id                = 'monthly-' . gmdate( 'Y' ) . '-' . $month;
-			self::$instances[] = new self( $id );
+			$id                         = 'monthly-' . $year . '-' . $month;
+			self::$instances[ $year ][] = new self( $id );
 		}
 
-		return self::$instances;
+		return self::$instances[ $year ];
 	}
 
 	/**
@@ -175,42 +182,5 @@ final class Monthly extends Badge {
 		$this->save_progress( $return_progress );
 
 		return $return_progress;
-	}
-
-	/**
-	 * Get the icon URL.
-	 *
-	 * @param bool $complete Whether the badge is complete.
-	 *
-	 * @return string
-	 */
-	public function get_icon_url( $complete = true ) {
-		$cache_key = "monthly_badge_svg_{$this->id}";
-		$cached    = \progress_planner()->get_cache()->get( $cache_key );
-		if ( $cached ) {
-			return $cached;
-		}
-
-		$image_url = PROGRESS_PLANNER_URL . '/assets/images/badges/monthly-badge-default.svg';
-
-		// Get the SVG from the API.
-		$response = \wp_remote_get(
-			\add_query_arg(
-				[
-					'year'     => $this->get_year(),
-					'month'    => $this->get_month(),
-					'complete' => $complete ? 'true' : 'false',
-				],
-				'https://progressplanner.com/wp-json/progress-planner-saas/v1/monthly-badge-svg/'
-			)
-		);
-		if ( ! is_wp_error( $response ) && 200 === \wp_remote_retrieve_response_code( $response ) ) {
-			$body = \wp_remote_retrieve_body( $response );
-			if ( ! empty( $body ) ) {
-				$image_url = $body;
-			}
-		}
-		\progress_planner()->get_cache()->set( $cache_key, $image_url, \MONTH_IN_SECONDS );
-		return $image_url;
 	}
 }
