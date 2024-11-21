@@ -298,7 +298,6 @@ class Content {
 			if ( empty( $existing ) ) {
 				$activity->save();
 
-				// WIP.
 				\do_action( 'progress_planner_activity_content_publish_saved', $activity->data_id );
 				return;
 			}
