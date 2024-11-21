@@ -13,32 +13,6 @@ namespace Progress_Planner;
 class Chart {
 
 	/**
-	 * The default chart parameters.
-	 *
-	 * @var array<string, mixed>
-	 */
-	const DEFAULT_CHART_PARAMS = [
-		'type'    => 'line',
-		'options' => [
-			'responsive'          => true,
-			'maintainAspectRatio' => false,
-			'pointStyle'          => false,
-			'scales'              => [
-				'yAxis' => [
-					'ticks' => [
-						'precision' => 0,
-					],
-				],
-			],
-			'plugins'             => [
-				'legend' => [
-					'display' => false,
-				],
-			],
-		],
-	];
-
-	/**
 	 * Build a chart for the stats.
 	 *
 	 * @param array $args The arguments for the chart.
@@ -47,15 +21,8 @@ class Chart {
 	 * @return void
 	 */
 	public function the_chart( $args = [] ) {
-		$chart_params = \wp_parse_args( $args['chart_params'], static::DEFAULT_CHART_PARAMS );
-
 		// Render the chart.
-		$this->render_chart(
-			md5( \wp_json_encode( $args ) ) . \wp_rand( 0, 1000 ),
-			$chart_params['type'],
-			$this->get_chart_data( $args ),
-			$chart_params['options']
-		);
+		$this->render_chart( $args['type'], $this->get_chart_data( $args ) );
 	}
 
 	/**
@@ -71,8 +38,6 @@ class Chart {
 	 *                                    ['end']       The end date for the chart.
 	 *                                    ['frequency'] The frequency for the chart nodes.
 	 *                                    ['format']    The format for the label
-	 *
-	 *                     ['chart_params'] The chart parameters.
 	 *
 	 *                     [compound]       Whether to add the stats for next node to the previous one.
 	 *
@@ -90,7 +55,6 @@ class Chart {
 				'query_params'   => [],
 				'filter_results' => null,
 				'dates_params'   => [],
-				'chart_params'   => [],
 				'compound'       => false,
 				'normalized'     => false,
 				'colors'         => [
@@ -267,14 +231,12 @@ class Chart {
 	/**
 	 * Render the charts.
 	 *
-	 * @param string $id      The ID of the chart.
 	 * @param string $type    The type of chart.
 	 * @param array  $data    The data for the chart.
-	 * @param array  $options The options for the chart.
 	 *
 	 * @return void
 	 */
-	public function render_chart( $id, $type, $data, $options = [] ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter
+	public function render_chart( $type, $data ) {
 		switch ( $type ) {
 			case 'bar':
 				$this->render_bar_chart_native( $data );
