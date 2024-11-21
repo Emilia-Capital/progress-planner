@@ -359,6 +359,9 @@ class Suggested_Tasks {
 				break;
 		}
 
+		// Remove the task from the pending local tasks list.
+		$this->local->remove_pending_task( $task_id );
+
 		return $this->mark_task_as_snoozed( $task_id, $time );
 	}
 
