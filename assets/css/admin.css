@@ -140,21 +140,6 @@ button.prpl-info-icon {
 }
 
 /*------------------------------------*\
-	Charts container.
-\*------------------------------------*/
-.prpl-chart-container {
-	position: relative;
-	height: 100%;
-	width: 100%;
-	max-height: 300px;
-}
-
-/* Make sure the graph wrapper doesn't overflow the .prpl-widget-wrapper. */
-.prpl-graph-wrapper:has(.prpl-chart-container) {
-	max-height: 300px;
-}
-
-/*------------------------------------*\
 	Layout for widgets.
 \*------------------------------------*/
 .prpl-widgets-container {
