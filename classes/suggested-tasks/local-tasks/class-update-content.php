@@ -197,6 +197,7 @@ class Update_Content extends \Progress_Planner\Suggested_Tasks\Local_Tasks {
 			'priority'    => 'medium',
 			'type'        => 'writing',
 			'points'      => $data['long'] ? 2 : 1,
+			'url'         => \esc_url( \admin_url( 'post-new.php?post_type=post' ) ),
 			'description' => $data['long']
 				? sprintf(
 					/* translators: %d: The threshold (number, words count) for a long post. */

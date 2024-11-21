@@ -11,16 +11,22 @@ customElements.define(
 			taskTitle,
 			taskDescription,
 			taskPoints,
-			taskAction = ''
+			taskAction = '',
+			taskUrl = ''
 		) {
 			// Get parent class properties
 			super();
 
 			this.setAttribute( 'role', 'listitem' );
 
+			let taskHeading = taskTitle;
+			if ( taskUrl ) {
+				taskHeading = `<a href="${ taskUrl }" target="_blank">${ taskTitle }</a>`;
+			}
+
 			this.innerHTML = `
-			<li class="prpl-suggested-task" data-task-id="${ taskId }" data-task-action="${ taskAction }">
-				<h3>${ taskTitle }</h3>
+			<li class="prpl-suggested-task" data-task-id="${ taskId }" data-task-action="${ taskAction }" data-task-url="${ taskUrl }">
+				<h3>${ taskHeading }</h3>
 				<div class="prpl-suggested-task-actions">
 					<div class="tooltip-actions">
 						<button

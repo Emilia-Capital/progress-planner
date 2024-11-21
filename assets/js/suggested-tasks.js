@@ -94,7 +94,8 @@ const progressPlannerInjectSuggestedTodoItem = ( details ) => {
 		details.title,
 		details.description,
 		details.points,
-		details.action ?? ''
+		details.action ?? '',
+		details.url ?? ''
 	);
 
 	/**
@@ -170,7 +171,12 @@ const prplTriggerConfetti = () => {
 	setTimeout( progressPlannerRenderAttemptshoot, 0 );
 	setTimeout( progressPlannerRenderAttemptshoot, 100 );
 	setTimeout( progressPlannerRenderAttemptshoot, 200 );
+};
 
+/**
+ * Strike completed tasks.
+ */
+const prplStrikeCompletedTasks = () => {
 	document
 		.querySelectorAll(
 			'.prpl-suggested-task[data-task-action="celebrate"]'
@@ -179,7 +185,7 @@ const prplTriggerConfetti = () => {
 			item.classList.add( 'prpl-suggested-task-celebrated' );
 		} );
 
-	// WIP: Remove celebrated tasks and add them to the completed tasks.
+	// Remove celebrated tasks and add them to the completed tasks.
 	setTimeout( () => {
 		document
 			.querySelectorAll( '.prpl-suggested-task-celebrated' )
@@ -220,22 +226,13 @@ const prplTriggerConfetti = () => {
 						);
 					}
 
+					// Refresh the list.
 					const event = new Event(
 						'prplMaybeInjectSuggestedTaskEvent'
 					);
 					document.dispatchEvent( event );
 				} );
 			} );
-
-		// WIP: Refresh the list.
-		while (
-			progressPlannerCountItems() <= PRPL_SUGGESTED_TASKS_MAX_ITEMS &&
-			progressPlannerGetNextItem()
-		) {
-			progressPlannerInjectNextItem();
-			const event = new Event( 'prplResizeAllGridItemsEvent' );
-			document.dispatchEvent( event );
-		}
 	}, 2000 );
 };
 
@@ -251,6 +248,7 @@ if ( prplPendingCelebration && prplPendingCelebration.length ) {
 // Create a new custom event to trigger the celebration.
 document.addEventListener( 'prplCelebrateTasks', () => {
 	prplTriggerConfetti();
+	prplStrikeCompletedTasks();
 } );
 
 // Populate the list on load.
