@@ -156,6 +156,10 @@ button.prpl-info-icon {
 	svg {
 		width: 1rem;
 		height: 1rem;
+
+		& path {
+			fill: currentcolor;
+		}
 	}
 
 	&:hover {
