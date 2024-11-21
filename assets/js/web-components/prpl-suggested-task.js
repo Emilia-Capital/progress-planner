@@ -6,15 +6,27 @@
 customElements.define(
 	'prpl-suggested-task',
 	class extends HTMLElement {
-		constructor( taskId, taskTitle, taskDescription, taskPoints ) {
+		constructor(
+			taskId,
+			taskTitle,
+			taskDescription,
+			taskPoints,
+			taskAction = '',
+			taskUrl = ''
+		) {
 			// Get parent class properties
 			super();
 
 			this.setAttribute( 'role', 'listitem' );
 
+			let taskHeading = taskTitle;
+			if ( taskUrl ) {
+				taskHeading = `<a href="${ taskUrl }">${ taskTitle }</a>`;
+			}
+
 			this.innerHTML = `
-			<li class="prpl-suggested-task" data-task-id="${ taskId }">
-				<h3>${ taskTitle }</h3>
+			<li class="prpl-suggested-task" data-task-id="${ taskId }" data-task-action="${ taskAction }" data-task-url="${ taskUrl }">
+				<h3>${ taskHeading }</h3>
 				<div class="prpl-suggested-task-actions">
 					<div class="tooltip-actions">
 						<button

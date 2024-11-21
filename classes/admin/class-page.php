@@ -355,9 +355,26 @@ class Page {
 			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/suggested-tasks.js' ),
 			true
 		);
-		$tasks            = \progress_planner()->get_suggested_tasks()->get_api()->get_saved_tasks();
-		$tasks['details'] = \progress_planner()->get_suggested_tasks()->get_api()->get_tasks();
-		$localize_data    = [
+
+		// Get all saved tasks (completed, pending celebration, snoozed).
+		$tasks = \progress_planner()->get_suggested_tasks()->get_saved_tasks();
+
+		// Get pending tasks.
+		$tasks['details'] = \progress_planner()->get_suggested_tasks()->get_tasks();
+
+		// Insert the pending celebration tasks as high priority tasks, so they are shown always.
+		foreach ( $tasks['pending_celebration'] as $task_id ) {
+
+			$task_details = \progress_planner()->get_suggested_tasks()->get_local()->get_task_details( $task_id );
+
+			if ( $task_details ) {
+				$task_details['priority'] = 'high'; // Celebrate tasks are always on top.
+				$task_details['action']   = 'celebrate';
+				$tasks['details'][]       = $task_details;
+			}
+		}
+
+		$localize_data = [
 			'ajaxUrl' => \admin_url( 'admin-ajax.php' ),
 			'nonce'   => \wp_create_nonce( 'progress_planner' ),
 			'tasks'   => $tasks,

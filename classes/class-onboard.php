@@ -17,7 +17,7 @@ class Onboard {
 	 *
 	 * @var string
 	 */
-	const REMOTE_DOMAIN = 'https://progressplanner.com';
+	const REMOTE_SERVER_ROOT_URL = 'https://progressplanner.com';
 
 	/**
 	 * The remote API endpoints namespace URL.
@@ -94,7 +94,7 @@ class Onboard {
 	 * @return string
 	 */
 	public function get_remote_nonce_url() {
-		return self::REMOTE_DOMAIN . self::REMOTE_API_URL . 'get-nonce';
+		return self::REMOTE_SERVER_ROOT_URL . self::REMOTE_API_URL . 'get-nonce';
 	}
 
 	/**
@@ -103,6 +103,6 @@ class Onboard {
 	 * @return string
 	 */
 	public function get_remote_url() {
-		return self::REMOTE_DOMAIN . self::REMOTE_API_URL . 'onboard';
+		return self::REMOTE_SERVER_ROOT_URL . self::REMOTE_API_URL . 'onboard';
 	}
 }
