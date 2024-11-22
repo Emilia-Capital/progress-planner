@@ -43,9 +43,9 @@ customElements.define(
 				this.getAttribute( 'contentFontSize' ) || props.contentFontSize;
 
 			this.innerHTML = `
-			<div style="padding: var(--prpl-padding); background: ${
+			<div style="padding: var(--prpl-padding) var(--prpl-padding) calc(var(--prpl-padding) * 2) var(--prpl-padding); background: ${
 				props.background
-			}; border-radius:var(--prpl-border-radius); aspect-ratio: 2 / 1; overflow: hidden; position: relative;margin-bottom: var(--prpl-padding);">
+			}; border-radius:var(--prpl-border-radius-big); aspect-ratio: 2 / 1; overflow: hidden; position: relative;margin-bottom: var(--prpl-padding);">
 				<div style="width: 100%; aspect-ratio: 1 / 1; border-radius: 100%; position: relative; background: radial-gradient(${
 					props.background
 				} 0 ${ props.cutout }, transparent ${
