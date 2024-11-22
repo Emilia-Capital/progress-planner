@@ -39,8 +39,8 @@ $progress_planner_active_frequency = isset( $_GET['frequency'] ) ? \sanitize_tex
 		// Render the subscribe form button and popover if the license key is not set.
 		if ( 'no-license' === \get_option( 'progress_planner_license_key', 'no-license' ) ) {
 			\progress_planner()->get_popover()->the_popover( 'subscribe-form' )->render_button(
-				'email-alt',
-				'<span class="screen-reader-text">' . \esc_html__( 'Subscribe', 'progress-planner' ) . '</span>'
+				'',
+				\progress_planner()->get_asset( 'images/register_icon.svg' ) . '<span class="screen-reader-text">' . \esc_html__( 'Subscribe', 'progress-planner' ) . '</span>'
 			);
 			// Render the subscribe form popover.
 			\progress_planner()->get_popover()->the_popover( 'subscribe-form' )->render();
