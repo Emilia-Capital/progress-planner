@@ -166,7 +166,7 @@ class Update_Content extends \Progress_Planner\Suggested_Tasks\Local_Tasks {
 		if ( true === \progress_planner()->get_suggested_tasks()->check_task_condition(
 			[
 				'type'         => 'snoozed-post-length',
-				'post_lengths' => [ $is_last_post_long ? 'long' : 'short' ],
+				'post_lengths' => [ $is_last_post_long ? 'short' : 'long' ],
 			]
 		) ) {
 			return [];
@@ -180,7 +180,7 @@ class Update_Content extends \Progress_Planner\Suggested_Tasks\Local_Tasks {
 			]
 		);
 
-		// If the task with this length is completed, don't add a task.
+		// If the task with this length and id is completed, don't add a task.
 		if ( true === \progress_planner()->get_suggested_tasks()->check_task_condition(
 			[
 				'type'    => 'completed',
