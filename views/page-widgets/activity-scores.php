@@ -68,10 +68,7 @@ $prpl_record = $prpl_widget->personal_record_callback();
 			},
 			'compound'       => false,
 			'normalized'     => true,
-			'colors'         => [
-				'background' => [ $prpl_widget, 'get_color' ],
-				'border'     => [ $prpl_widget, 'get_color' ],
-			],
+			'color'          => [ $prpl_widget, 'get_color' ],
 			'max'            => 100,
 		]
 	);

@@ -57,14 +57,9 @@ class Chart {
 				'dates_params'   => [],
 				'compound'       => false,
 				'normalized'     => false,
-				'colors'         => [
-					'background' => function () {
-						return '#534786';
-					},
-					'border'     => function () {
-						return '#534786';
-					},
-				],
+				'color'          => function () {
+					return '#534786';
+				},
 				// phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter
 				'count_callback' => function ( $activities, $date = null ) {
 					return count( $activities );
@@ -82,17 +77,12 @@ class Chart {
 		);
 
 		// Prepare the data for the chart.
-		$data     = [
-			'labels'   => [],
-			'datasets' => [],
+		$data    = [
+			'labels' => [],
 		];
-		$datasets = [
-			[
-				'label'           => '',
-				'data'            => [],
-				'backgroundColor' => [],
-				'borderColor'     => [],
-			],
+		$dataset = [
+			'data'  => [],
+			'color' => [],
 		];
 
 		/*
@@ -152,16 +142,15 @@ class Chart {
 
 		// Loop through the periods and calculate the score for each period.
 		foreach ( $periods as $period ) {
-			$period_data = $this->get_period_data( $period, $data, $datasets, $args, $score, $previous_month_activities );
+			$period_data = $this->get_period_data( $period, $data, $dataset, $args, $score, $previous_month_activities );
 
 			$data                      = $period_data['data'];
 			$score                     = $period_data['score'];
-			$datasets                  = $period_data['datasets'];
+			$dataset                   = $period_data['dataset'];
 			$previous_month_activities = $period_data['previous_month_activities'];
 		}
-		$data['datasets'] = $datasets;
 
-		return $data;
+		return array_merge( $data, $dataset );
 	}
 
 	/**
@@ -169,14 +158,14 @@ class Chart {
 	 *
 	 * @param array $period                    The period.
 	 * @param array $data                      The data for the chart.
-	 * @param array $datasets                  The datasets for the chart.
+	 * @param array $dataset                   The dataset for the chart.
 	 * @param array $args                      The arguments for the chart.
 	 * @param int   $score                     The score for the period.
 	 * @param array $previous_month_activities The activities for the previous month.
 	 *
 	 * @return array
 	 */
-	public function get_period_data( $period, $data, $datasets, $args, $score, $previous_month_activities ) {
+	public function get_period_data( $period, $data, $dataset, $args, $score, $previous_month_activities ) {
 		// Get the activities for the period.
 		$activities = \progress_planner()->get_query()->query_activities(
 			array_merge(
@@ -210,17 +199,16 @@ class Chart {
 		$score = $args['compound'] ? $score + $period_score : $period_score;
 
 		// Apply a "max" limit to the score if max is defined in the arguments.
-		$datasets[0]['data'][] = null === $args['max']
+		$dataset['data'][] = null === $args['max']
 			? $score
 			: min( $score, $args['max'] );
 
 		// Calculate the colors for the score.
-		$datasets[0]['backgroundColor'][] = $args['colors']['background']( $score, $period['start'] );
-		$datasets[0]['borderColor'][]     = $args['colors']['border']( $score, $period['start'] );
+		$dataset['color'][] = $args['color']( $score, $period['start'] );
 
 		return [
 			'data'                      => $data,
-			'datasets'                  => $datasets,
+			'dataset'                   => $dataset,
 			'score'                     => $score,
 			'previous_month_activities' => $previous_month_activities,
 		];

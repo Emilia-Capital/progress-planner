@@ -16,14 +16,14 @@ customElements.define(
 
 			let html = `<div style="display: flex; max-width: 600px; height: 200px; width: 100%; align-items: flex-end; gap: 5px; margin: 1rem 0;">`;
 			let i = 0;
-			for ( const score of data.datasets[ 0 ].data ) {
+			for ( const score of data.data ) {
 				html += `
 				<div style="flex: auto; display: flex; flex-direction: column; justify-content: flex-end; height: 100%;">
 					<div style="
 						display: block;
 						width: 100%;
 						height: ${ score }%;
-						background: ${ data.datasets[ 0 ].backgroundColor[ i ] }"
+						background: ${ data.color[ i ] }"
 						title="${ score }%
 					"></div>
 					<span style="text-align:center;display:block;width:100%;font-size: 0.75em;">${ data.labels[ i ] }</span>

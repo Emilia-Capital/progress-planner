@@ -22,7 +22,7 @@ customElements.define(
 			const strokeWidth = 4;
 
 			// Determine the maximum value for the chart.
-			const max = Math.max( ...data.datasets[ 0 ].data );
+			const max = Math.max( ...data.data );
 			const maxValue = 100 > max && 70 < max ? 100 : max;
 
 			const calcYCoordinate = ( value ) => {
@@ -54,8 +54,7 @@ customElements.define(
 
 			// Calculate the distance between the points in the X axis.
 			const xDistanceBetweenPoints = Math.round(
-				( width - 2 * axisOffset ) /
-					( data.datasets[ 0 ].data.length - 1 )
+				( width - 2 * axisOffset ) / ( data.data.length - 1 )
 			);
 
 			// X-axis line.
@@ -136,7 +135,7 @@ customElements.define(
 			// Line chart.
 			const polylinePoints = [];
 			let xCoordinate = axisOffset * 2;
-			for ( const point of data.datasets[ 0 ].data ) {
+			for ( const point of data.data ) {
 				polylinePoints.push( [
 					xCoordinate,
 					calcYCoordinate( point ),
@@ -145,7 +144,7 @@ customElements.define(
 			}
 
 			const polyLine = `<g><polyline fill="none" stroke="${
-				data.datasets[ 0 ].borderColor[ 0 ]
+				data.color[ 0 ]
 			}" stroke-width="${ strokeWidth }" points="${ polylinePoints
 				.map( ( point ) => point.join( ',' ) )
 				.join( ' ' ) }" /></g>`;
