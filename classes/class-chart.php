@@ -70,6 +70,7 @@ class Chart {
 					return count( $activities );
 				},
 				'max'            => null,
+				'type'           => 'line',
 			]
 		);
 
@@ -228,12 +229,13 @@ class Chart {
 	/**
 	 * Render the charts.
 	 *
-	 * @param string $type    The type of chart.
-	 * @param array  $data    The data for the chart.
+	 * @param string $type The type of chart.
+	 * @param array  $data The data for the chart.
 	 *
 	 * @return void
 	 */
 	public function render_chart( $type, $data ) {
-		echo '<prpl-chart-' . esc_attr( $type ) . ' data="' . \esc_attr( \wp_json_encode( $data ) ) . '"></prpl-chart-' . esc_attr( $type ) . '>';
+		$type = $type ? $type : 'line';
+		echo '<prpl-chart-' . esc_attr( $type ) . ' data="' . \esc_attr( (string) \wp_json_encode( $data ) ) . '"></prpl-chart-' . esc_attr( $type ) . '>';
 	}
 }

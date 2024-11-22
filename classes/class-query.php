@@ -97,7 +97,7 @@ class Query {
 
 		$args = \wp_parse_args( $args, $defaults );
 
-		$cache_key = 'progress-planner-activities-' . md5( \wp_json_encode( $args ) );
+		$cache_key = 'progress-planner-activities-' . md5( (string) \wp_json_encode( $args ) );
 		$results   = \wp_cache_get( $cache_key );
 
 		// Disable caching in unit tests.

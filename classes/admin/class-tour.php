@@ -135,7 +135,7 @@ class Tour {
 			'progress-planner-tour',
 			PROGRESS_PLANNER_URL . '/assets/js/tour.js',
 			[ 'driver-js' ],
-			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/tour.js' ),
+			(string) filemtime( PROGRESS_PLANNER_DIR . '/assets/js/tour.js' ),
 			true
 		);
 		\wp_localize_script(

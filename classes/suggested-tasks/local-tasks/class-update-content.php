@@ -31,7 +31,7 @@ class Update_Content extends \Progress_Planner\Suggested_Tasks\Local_Tasks {
 	 *
 	 * @param string $task_id The task ID.
 	 *
-	 * @return bool
+	 * @return bool|string
 	 */
 	public function evaluate_task( $task_id ) {
 		$data = $this->get_data_from_task_id( $task_id );
