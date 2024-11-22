@@ -134,7 +134,7 @@ class Rest_API {
 				'max'            => 100,
 			]
 		);
-		unset( $scores['datasets'][0]['data']['tension'] );
+
 		$data['scores'] = [];
 		foreach ( $scores['labels'] as $key => $label ) {
 			$data['scores'][] = [
