@@ -20,8 +20,8 @@ class Update_Core extends \Progress_Planner\Suggested_Tasks\Local_Tasks {
 	 * @return bool|string
 	 */
 	public function evaluate_task( $task_id ) {
-		if ( 'update-core' === $task_id && 0 === \wp_get_update_data()['counts']['total'] ) {
-			return $task_id . '-' . \gmdate( 'YW' );
+		if ( 0 === strpos( $task_id, 'update-core' ) && 0 === \wp_get_update_data()['counts']['total'] ) {
+			return $task_id;
 		}
 		return false;
 	}
@@ -47,7 +47,7 @@ class Update_Core extends \Progress_Planner\Suggested_Tasks\Local_Tasks {
 		}
 
 		return [
-			$this->get_task_details( 'update-core' ),
+			$this->get_task_details( 'update-core-' . \gmdate( 'YW' ) ),
 		];
 	}
 
