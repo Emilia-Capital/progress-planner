@@ -119,6 +119,15 @@ class Page {
 	 * @return void
 	 */
 	public function register_scripts() {
+		// Register document-ready.js.
+		\wp_register_script(
+			'progress-planner-document-ready',
+			PROGRESS_PLANNER_URL . '/assets/js/document-ready.js',
+			[],
+			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/document-ready.js' ),
+			true
+		);
+
 		// Register Chart.js.
 		\wp_register_script(
 			'chart-js',
@@ -131,15 +140,23 @@ class Page {
 		\wp_register_script(
 			'progress-planner-grid-masonry',
 			PROGRESS_PLANNER_URL . '/assets/js/grid-masonry.js',
-			[],
+			[ 'progress-planner-document-ready' ],
 			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/grid-masonry.js' ),
+			true
+		);
+
+		\wp_register_script(
+			'progress-planner-web-components-badge',
+			PROGRESS_PLANNER_URL . '/assets/js/web-components/prpl-badge.js',
+			[],
+			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/web-components/prpl-badge.js' ),
 			true
 		);
 
 		\wp_register_script(
 			'progress-planner-web-components-gauge',
 			PROGRESS_PLANNER_URL . '/assets/js/web-components/prpl-gauge.js',
-			[],
+			[ 'progress-planner-web-components-badge' ],
 			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/web-components/prpl-gauge.js' ),
 			true
 		);
@@ -155,8 +172,8 @@ class Page {
 			'progress-planner-web-components-suggested-task',
 			'progressPlannerSuggestedTask',
 			[
-				'nonce'   => \wp_create_nonce( 'progress_planner' ),
-				'i18n'    => [
+				'nonce' => \wp_create_nonce( 'progress_planner' ),
+				'i18n'  => [
 					'info'           => \esc_html__( 'Info', 'progress-planner' ),
 					'snooze'         => \esc_html__( 'Snooze', 'progress-planner' ),
 					'snoozeThisTask' => \esc_html__( 'Snooze this task?', 'progress-planner' ),
@@ -170,6 +187,35 @@ class Page {
 						'forever'     => \esc_html__( 'forever', 'progress-planner' ),
 					],
 					'close'          => \esc_html__( 'Close', 'progress-planner' ),
+				],
+			]
+		);
+
+		\wp_register_script(
+			'progress-planner-web-components-todo-item',
+			PROGRESS_PLANNER_URL . '/assets/js/web-components/prpl-todo-item.js',
+			[],
+			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/web-components/prpl-todo-item.js' ),
+			true
+		);
+
+		\wp_localize_script(
+			'progress-planner-web-components-todo-item',
+			'progressPlannerTodoItem',
+			[
+				'i18n' => [
+					/* translators: %s: The task content. */
+					'taskDelete'       => \esc_html__( "Delete task '%s'", 'progress-planner' ),
+					/* translators: %s: The task content. */
+					'taskMoveUp'       => \esc_html__( "Move task '%s' up", 'progress-planner' ),
+					/* translators: %s: The task content. */
+					'taskMoveDown'     => \esc_html__( "Move task '%s' down", 'progress-planner' ),
+					'taskMovedUp'      => \esc_html__( 'Task moved up', 'progress-planner' ),
+					'taskMovedDown'    => \esc_html__( 'Task moved down', 'progress-planner' ),
+					/* translators: %s: The task content. */
+					'taskCompleted'    => \esc_html__( "Task '%s' completed and moved to the bottom", 'progress-planner' ),
+					/* translators: %s: The task content. */
+					'taskNotCompleted' => \esc_html__( "Task '%s' marked as not completed and moved to the top", 'progress-planner' ),
 				],
 			]
 		);
@@ -231,7 +277,14 @@ class Page {
 		\wp_register_script(
 			'progress-planner-todo',
 			PROGRESS_PLANNER_URL . '/assets/js/todo.js',
-			[ 'jquery-ui-sortable', 'progress-planner-ajax', 'wp-util', 'progress-planner-grid-masonry', 'wp-a11y' ],
+			[
+				'progress-planner-ajax',
+				'wp-util',
+				'progress-planner-grid-masonry',
+				'wp-a11y',
+				'progress-planner-web-components-todo-item',
+				'progress-planner-document-ready',
+			],
 			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/todo.js' ),
 			true
 		);
@@ -264,21 +317,6 @@ class Page {
 				'ajaxUrl'   => \admin_url( 'admin-ajax.php' ),
 				'nonce'     => \wp_create_nonce( 'progress_planner_todo' ),
 				'listItems' => \progress_planner()->get_todo()->get_items(),
-				'i18n'      => [
-					'drag'             => \esc_html__( 'Drag to reorder', 'progress-planner' ),
-					/* translators: %s: The task content. */
-					'taskDelete'       => \esc_html__( "Delete task '%s'", 'progress-planner' ),
-					/* translators: %s: The task content. */
-					'taskMoveUp'       => \esc_html__( "Move task '%s' up", 'progress-planner' ),
-					/* translators: %s: The task content. */
-					'taskMoveDown'     => \esc_html__( "Move task '%s' down", 'progress-planner' ),
-					'taskMovedUp'      => \esc_html__( 'Task moved up', 'progress-planner' ),
-					'taskMovedDown'    => \esc_html__( 'Task moved down', 'progress-planner' ),
-					/* translators: %s: The task content. */
-					'taskCompleted'    => \esc_html__( "Task '%s' completed and moved to the bottom", 'progress-planner' ),
-					/* translators: %s: The task content. */
-					'taskNotCompleted' => \esc_html__( "Task '%s' marked as not completed and moved to the top", 'progress-planner' ),
-				],
 			]
 		);
 
@@ -300,7 +338,12 @@ class Page {
 		);
 
 		$pending_celebration = \progress_planner()->get_suggested_tasks()->get_pending_celebration();
-		$deps                = [ 'progress-planner-todo', 'progress-planner-grid-masonry', 'progress-planner-web-components-suggested-task' ];
+		$deps                = [
+			'progress-planner-todo',
+			'progress-planner-grid-masonry',
+			'progress-planner-web-components-suggested-task',
+			'progress-planner-document-ready',
+		];
 		if ( ! empty( $pending_celebration ) ) {
 			$deps[] = 'particles-confetti-js';
 		}
@@ -312,9 +355,26 @@ class Page {
 			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/suggested-tasks.js' ),
 			true
 		);
-		$tasks            = \progress_planner()->get_suggested_tasks()->get_api()->get_saved_tasks();
-		$tasks['details'] = \progress_planner()->get_suggested_tasks()->get_api()->get_tasks();
-		$localize_data    = [
+
+		// Get all saved tasks (completed, pending celebration, snoozed).
+		$tasks = \progress_planner()->get_suggested_tasks()->get_saved_tasks();
+
+		// Get pending tasks.
+		$tasks['details'] = \progress_planner()->get_suggested_tasks()->get_tasks();
+
+		// Insert the pending celebration tasks as high priority tasks, so they are shown always.
+		foreach ( $tasks['pending_celebration'] as $task_id ) {
+
+			$task_details = \progress_planner()->get_suggested_tasks()->get_local()->get_task_details( $task_id );
+
+			if ( $task_details ) {
+				$task_details['priority'] = 'high'; // Celebrate tasks are always on top.
+				$task_details['action']   = 'celebrate';
+				$tasks['details'][]       = $task_details;
+			}
+		}
+
+		$localize_data = [
 			'ajaxUrl' => \admin_url( 'admin-ajax.php' ),
 			'nonce'   => \wp_create_nonce( 'progress_planner' ),
 			'tasks'   => $tasks,
@@ -373,7 +433,7 @@ class Page {
 			\wp_enqueue_style(
 				'progress-planner-settings-page',
 				PROGRESS_PLANNER_URL . '/assets/css/settings-page.css',
-				[],
+				[ 'progress-planner-document-ready' ],
 				filemtime( PROGRESS_PLANNER_DIR . '/assets/css/settings-page.css' )
 			);
 		}

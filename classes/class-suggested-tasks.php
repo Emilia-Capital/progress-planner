@@ -15,16 +15,16 @@ class Suggested_Tasks {
 	/**
 	 * An object containing local tasks.
 	 *
-	 * @var \stdClass
+	 * @var \Progress_Planner\Suggested_Tasks\Local_Tasks_Manager|null
 	 */
 	private $local;
 
 	/**
 	 * The API object.
 	 *
-	 * @var \Progress_Planner\Suggested_Tasks\API|null
+	 * @var \Progress_Planner\Suggested_Tasks\Remote_Tasks|null
 	 */
-	private $api;
+	private $remote;
 
 	/**
 	 * The name of the settings option.
@@ -39,55 +39,114 @@ class Suggested_Tasks {
 	 * @return void
 	 */
 	public function __construct() {
-		$this->local                 = new \stdClass();
-		$this->local->update_content = new \Progress_Planner\Suggested_Tasks\Local_Tasks\Update_Content();
-		$this->local->update_core    = new \Progress_Planner\Suggested_Tasks\Local_Tasks\Update_Core();
+		$this->local  = new \Progress_Planner\Suggested_Tasks\Local_Tasks_Manager();
+		$this->remote = new \Progress_Planner\Suggested_Tasks\Remote_Tasks();
 
-		$this->maybe_unsnooze_tasks();
-		\add_action( 'shutdown', [ $this, 'maybe_celebrate_tasks' ] );
 		\add_action( 'wp_ajax_progress_planner_suggested_task_action', [ $this, 'suggested_task_action' ] );
+
+		if ( \is_admin() ) {
+			\add_action( 'init', [ $this, 'init' ], 1 );
+		}
+	}
+
+	/**
+	 * Run the local tasks.
+	 *
+	 * @return void
+	 */
+	public function init() {
+		// Unsnooze tasks.
+		$this->maybe_unsnooze_tasks();
+
+		// Check for completed tasks.
+		$completed_tasks = $this->local->evaluate_tasks();
+
+		foreach ( $completed_tasks as $task_id ) {
+			$this->mark_task_as_pending_celebration( $task_id );
+
+			// Insert an activity.
+			$activity          = new \Progress_Planner\Activities\Suggested_Task();
+			$activity->type    = 'completed';
+			$activity->data_id = (string) $task_id;
+			$activity->date    = new \DateTime();
+			$activity->user_id = \get_current_user_id();
+			$activity->save();
+
+			// Allow other classes to react to the completion of a suggested task.
+			do_action( 'progress_planner_suggested_task_completed', $task_id );
+		}
 	}
 
 	/**
 	 * Get the API object.
 	 *
-	 * @return \Progress_Planner\Suggested_Tasks\API
+	 * @return \Progress_Planner\Suggested_Tasks\Remote_Tasks
 	 */
-	public function get_api() {
-		if ( ! $this->api ) {
-			$this->api = new \Progress_Planner\Suggested_Tasks\API();
-		}
-		return $this->api;
+	public function get_remote() {
+		return $this->remote;
 	}
 
 	/**
 	 * Get the local tasks object.
 	 *
-	 * @return \stdClass
+	 * @return \Progress_Planner\Suggested_Tasks\Local_Tasks_Manager
 	 */
 	public function get_local() {
 		return $this->local;
 	}
 
 	/**
-	 * Mark a task as completed.
+	 * Return filtered items.
 	 *
-	 * @param string $task_id The task ID.
-	 *
-	 * @return void
+	 * @return array
 	 */
-	public function mark_task_as_completed( $task_id ) {
+	public function get_tasks() {
+		$tasks = [];
+		/**
+		 * Filter the suggested tasks.
+		 *
+		 * @param array $tasks The suggested tasks.
+		 * @return array
+		 */
+		return \apply_filters( 'progress_planner_suggested_tasks_items', $tasks );
+	}
 
-		$activity          = new \Progress_Planner\Activities\Suggested_Task();
-		$activity->type    = 'completed';
-		$activity->data_id = (string) $task_id;
-		$activity->date    = new \DateTime();
-		$activity->user_id = \get_current_user_id();
-		$activity->save();
+	/**
+	 * Get an array of completed and snoozed tasks.
+	 *
+	 * @return array
+	 */
+	public function get_saved_tasks() {
+		$option                        = \get_option( self::OPTION_NAME, [] );
+		$option['completed']           = $option['completed'] ?? [];
+		$option['snoozed']             = $option['snoozed'] ?? [];
+		$option['pending_celebration'] = $option['pending_celebration'] ?? [];
 
-		$this->mark_task_as_pending_celebration( $task_id );
+		// Convert the task IDs to strings.
+		$option['completed']           = \array_map( 'strval', $option['completed'] );
+		$option['pending_celebration'] = \array_map( 'strval', $option['pending_celebration'] );
+		$option['snoozed']             = \array_map(
+			function ( $task ) {
+				return [
+					'id'   => (string) $task['id'],
+					'time' => (int) $task['time'],
+				];
+			},
+			$option['snoozed']
+		);
 
-		do_action( 'progress_planner_suggested_task_completed', $task_id );
+		// Remove items with id 0.
+		$option['completed']           = \array_values( \array_filter( $option['completed'] ) );
+		$option['pending_celebration'] = \array_values( \array_filter( $option['pending_celebration'] ) );
+		$option['snoozed']             = \array_values(
+			\array_filter(
+				$option['snoozed'],
+				function ( $task ) {
+					return $task['id'] > 0;
+				}
+			)
+		);
+		return $option;
 	}
 
 	/**
@@ -101,6 +160,17 @@ class Suggested_Tasks {
 	}
 
 	/**
+	 * Mark a task as completed.
+	 *
+	 * @param string $task_id The task ID.
+	 *
+	 * @return bool
+	 */
+	public function mark_task_as_completed( $task_id ) {
+		return $this->mark_task_as( 'completed', $task_id );
+	}
+
+	/**
 	 * Mark a task as pending celebration.
 	 *
 	 * @param string $task_id The task ID.
@@ -108,53 +178,137 @@ class Suggested_Tasks {
 	 * @return bool
 	 */
 	public function mark_task_as_pending_celebration( $task_id ) {
-		$option                        = \get_option( self::OPTION_NAME, [] );
-		$option['pending_celebration'] = isset( $option['pending_celebration'] )
-			? $option['pending_celebration']
+		return $this->mark_task_as( 'pending_celebration', $task_id );
+	}
+
+	/**
+	 * Mark a task as snoozed.
+	 *
+	 * @param string $task_id The task ID.
+	 * @param int    $time The time.
+	 *
+	 * @return bool
+	 */
+	public function mark_task_as_snoozed( $task_id, $time ) {
+		return $this->mark_task_as( 'snoozed', $task_id, [ 'time' => $time ] );
+	}
+
+	/**
+	 * Mark a task as a given status.
+	 *
+	 * @param string $status The status.
+	 * @param string $task_id The task ID.
+	 * @param array  $data The data.
+	 *
+	 * @return bool
+	 */
+	public function mark_task_as( $status, $task_id, $data = [] ) {
+		$option            = \get_option( self::OPTION_NAME, [] );
+		$option[ $status ] = isset( $option[ $status ] )
+			? $option[ $status ]
 			: [];
-		if ( \in_array( $task_id, $option['pending_celebration'], true ) ) {
-			return false;
+
+		// Check if there's already an item with the same ID.
+		if ( 'snoozed' === $status ) {
+			$item_exists = false;
+			foreach ( $option[ $status ] as $key => $snoozed_task ) {
+				if ( $snoozed_task['id'] === $task_id ) {
+
+					// If task is already snoozed, update the time.
+					$option[ $status ][ $key ]['time'] = \time() + $data['time'];
+					$item_exists                       = true;
+					break;
+				}
+			}
+
+			// If task is not snoozed, add it.
+			if ( ! $item_exists ) {
+				$option[ $status ][] = [
+					'id'   => (string) $task_id,
+					'time' => \time() + $data['time'],
+				];
+			}
+		} else {
+			if ( \in_array( $task_id, $option[ $status ], true ) ) {
+				return false;
+			}
+
+			$option[ $status ][] = (string) $task_id;
 		}
-		$option['pending_celebration'][] = (string) $task_id;
+
 		return \update_option( self::OPTION_NAME, $option );
 	}
 
 	/**
 	 * Mark a task as celebrated.
 	 *
+	 * @param string $status The status.
 	 * @param string $task_id The task ID.
 	 *
 	 * @return bool
 	 */
-	public function mark_task_as_celebrated( $task_id ) {
-		$option                        = \get_option( self::OPTION_NAME, [] );
-		$option['pending_celebration'] = isset( $option['pending_celebration'] )
-			? $option['pending_celebration']
+	public function remove_task_from( $status, $task_id ) {
+		$option            = \get_option( self::OPTION_NAME, [] );
+		$option[ $status ] = isset( $option[ $status ] )
+			? $option[ $status ]
 			: [];
-		if ( ! \in_array( $task_id, $option['pending_celebration'], true ) ) {
+		$remove_index      = false;
+
+		if ( 'snoozed' === $status ) {
+			foreach ( $option[ $status ] as $key => $task ) {
+				if ( $task['id'] === $task_id ) {
+					$remove_index = $key;
+					break;
+				}
+			}
+		} else {
+			$remove_index = \array_search( $task_id, $option[ $status ], true );
+		}
+
+		if ( false === $remove_index ) {
 			return false;
 		}
-		unset( $option['pending_celebration'][ \array_search( $task_id, $option['pending_celebration'], true ) ] );
+
+		unset( $option[ $status ][ $remove_index ] );
 		return \update_option( self::OPTION_NAME, $option );
 	}
 
 	/**
-	 * Maybe celebrate tasks.
+	 * Transition a task from one status to another.
 	 *
-	 * @return void
+	 * @param string $task_id The task ID.
+	 * @param string $old_status The old status.
+	 * @param string $new_status The new status.
+	 * @param array  $data The data.
+	 *
+	 * @return bool
 	 */
-	public function maybe_celebrate_tasks() {
-		$option                        = \get_option( self::OPTION_NAME, [] );
-		$option['pending_celebration'] = isset( $option['pending_celebration'] )
-			? $option['pending_celebration']
-			: [];
+	public function transition_task_status( $task_id, $old_status, $new_status, $data = [] ) {
 
-		if ( empty( $option['pending_celebration'] ) ) {
-			return;
+		$return_old_status = false;
+		$return_new_status = false;
+
+		if ( $old_status ) {
+			$return_old_status = $this->remove_task_from( $old_status, $task_id );
 		}
 
-		$option['pending_celebration'] = [];
-		\update_option( self::OPTION_NAME, $option );
+		if ( $new_status ) {
+			$return_new_status = $this->mark_task_as( $new_status, $task_id, $data );
+		}
+
+		return $return_old_status && $return_new_status;
+	}
+
+	/**
+	 * Get the snoozed tasks.
+	 *
+	 * @return array
+	 */
+	public function get_snoozed_tasks() {
+		$option  = \get_option( self::OPTION_NAME, [] );
+		$snoozed = $option['snoozed'] ?? [];
+
+		return $snoozed;
 	}
 
 	/**
@@ -165,9 +319,7 @@ class Suggested_Tasks {
 	 *
 	 * @return bool
 	 */
-	public function mark_task_as_snoozed( $task_id, $duration ) {
-		$option  = \get_option( self::OPTION_NAME, [] );
-		$snoozed = $option['snoozed'] ?? [];
+	public function snooze_task( $task_id, $duration ) {
 
 		switch ( $duration ) {
 			case '1-month':
@@ -195,25 +347,7 @@ class Suggested_Tasks {
 				break;
 		}
 
-		// Check if there's already an item with the same ID.
-		$item_exists = false;
-		foreach ( $snoozed as $key => $snoozed_task ) {
-			if ( $snoozed_task['id'] === $task_id ) {
-				$snoozed[ $key ]['time'] = \time() + $time;
-				$item_exists             = true;
-				break;
-			}
-		}
-
-		if ( ! $item_exists ) {
-			$snoozed[] = [
-				'id'   => (string) $task_id,
-				'time' => \time() + $time,
-			];
-		}
-		$option['snoozed'] = $snoozed;
-
-		return \update_option( self::OPTION_NAME, $option );
+		return $this->mark_task_as_snoozed( $task_id, $time );
 	}
 
 	/**
@@ -228,15 +362,10 @@ class Suggested_Tasks {
 		}
 		$current_time = \time();
 
-		$update = false;
-		foreach ( $option['snoozed'] as $key => $task ) {
+		foreach ( $option['snoozed'] as $task ) {
 			if ( $task['time'] < $current_time ) {
-				unset( $option['snoozed'][ $key ] );
-				$update = true;
+				$this->remove_task_from( 'snoozed', $task['id'] );
 			}
-		}
-		if ( $update ) {
-			\update_option( self::OPTION_NAME, $option );
 		}
 	}
 
@@ -260,13 +389,18 @@ class Suggested_Tasks {
 
 		switch ( $action ) {
 			case 'complete':
-				$this->mark_task_as_completed( $task_id );
+				$this->mark_task_as_pending_celebration( $task_id );
 				$updated = true;
 				break;
 
 			case 'snooze':
 				$duration = isset( $_POST['duration'] ) ? \sanitize_text_field( \wp_unslash( $_POST['duration'] ) ) : '';
-				$updated  = $this->mark_task_as_snoozed( $task_id, $duration );
+				$updated  = $this->snooze_task( $task_id, $duration );
+				break;
+
+			case 'celebrated':
+				$this->transition_task_status( $task_id, 'pending_celebration', 'completed' );
+				$updated = true;
 				break;
 
 			default:

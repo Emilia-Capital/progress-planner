@@ -80,7 +80,10 @@ $prpl_location = false !== strpos( $prpl_css_class, 'in-popover' ) ? 'popover' :
 							class="prpl-badge prpl-badge-<?php echo \esc_attr( $prpl_badge->get_id() ); ?>"
 							data-value="<?php echo \esc_attr( $prpl_badge->progress_callback()['progress'] ); ?>"
 						>
-							<?php $prpl_badge->the_icon( 100 === (int) $prpl_badge->progress_callback()['progress'] ); ?>
+							<prpl-badge
+								complete="<?php echo 100 === (int) $prpl_badge->progress_callback()['progress'] ? 'true' : 'false'; ?>"
+								badge-id="<?php echo esc_attr( $prpl_badge->get_id() ); ?>"
+							></prpl-badge>
 							<p><?php echo \esc_html( $prpl_badge->get_name() ); ?></p>
 						</span>
 					<?php endforeach; ?>
