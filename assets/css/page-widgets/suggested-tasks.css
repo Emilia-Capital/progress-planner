@@ -91,6 +91,20 @@
 	}
 }
 
+.prpl-dashboard-widget-suggested-tasks {
+
+	&:has(.prpl-suggested-tasks-list li) {
+
+		.prpl-widget-title {
+			display: block;
+		}
+	}
+
+	.prpl-widget-title {
+		display: none;
+	}
+}
+
 .prpl-suggested-tasks-list {
 	list-style: none;
 	padding: 0;
