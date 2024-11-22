@@ -36,8 +36,9 @@ $prpl_badge  = \progress_planner()->get_badges()->get_badge( 'monthly-' . gmdate
 		<?php \esc_html_e( 'Ravi\'s recommendations', 'progress-planner' ); ?>
 	</h2>
 
-<ul style="display:none"></ul>
-<ul class="prpl-suggested-tasks-list"></ul>
+	<ul style="display:none"></ul>
+	<ul class="prpl-suggested-tasks-list"></ul>
+</div>
 
 <div class="prpl-widget-content">
 	<?php if ( 2024 === (int) gmdate( 'Y' ) ) : ?>
