@@ -234,34 +234,6 @@ class Chart {
 	 * @return void
 	 */
 	public function render_chart( $type, $data ) {
-		switch ( $type ) {
-			case 'bar':
-				$this->render_bar_chart_native( $data );
-				break;
-
-			default:
-				echo '<prpl-chart-line data="' . \esc_attr( \wp_json_encode( $data ) ) . '"></prpl-chart-line>';
-				break;
-		}
-	}
-
-	/**
-	 * Render the contents of a bar chart.
-	 *
-	 * @param array $data The data for the chart.
-	 *
-	 * @return void
-	 */
-	public function render_bar_chart_native( $data ) {
-		?>
-		<div style="display: flex; max-width: 600px; height: 200px; width: 100%; align-items: flex-end; gap: 5px; margin: 1rem 0;">
-			<?php foreach ( $data['datasets'][0]['data'] as $i => $score ) : ?>
-				<div style="flex: auto; display: flex; flex-direction: column; justify-content: flex-end; height: 100%;">
-					<div style="display:block;width:100%;height: <?php echo esc_attr( $score ); ?>%; background: <?php echo esc_attr( $data['datasets'][0]['backgroundColor'][ $i ] ); ?>" title="<?php echo esc_attr( $score ); ?>%"></div>
-					<span style="text-align:center;display:block;width:100%;font-size: 0.75em;"><?php echo esc_html( $data['labels'][ $i ] ); ?></span>
-				</div>
-			<?php endforeach; ?>
-		</div>
-		<?php
+		echo '<prpl-chart-' . esc_attr( $type ) . ' data="' . \esc_attr( \wp_json_encode( $data ) ) . '"></prpl-chart-' . esc_attr( $type ) . '>';
 	}
 }
