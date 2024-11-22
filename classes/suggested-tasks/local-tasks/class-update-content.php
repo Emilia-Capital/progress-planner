@@ -31,7 +31,7 @@ class Update_Content extends \Progress_Planner\Suggested_Tasks\Local_Tasks {
 	 *
 	 * @param string $task_id The task ID.
 	 *
-	 * @return bool
+	 * @return bool|string
 	 */
 	public function evaluate_task( $task_id ) {
 		$data = $this->get_data_from_task_id( $task_id );
@@ -135,12 +135,15 @@ class Update_Content extends \Progress_Planner\Suggested_Tasks\Local_Tasks {
 	 * @return array
 	 */
 	public function get_tasks_to_create_posts() {
-		$items                = [];
-		$snoozed_post_lengths = $this->get_snoozed_post_lengths();
 
-		// We have both long and short posts snoozed.
-		if ( ! empty( $snoozed_post_lengths ) && \in_array( 'long', $snoozed_post_lengths, true ) && \in_array( 'short', $snoozed_post_lengths, true ) ) {
-			return $items;
+		// Early exit if we have both long and short posts snoozed.
+		if ( true === \progress_planner()->get_suggested_tasks()->check_task_condition(
+			[
+				'type'         => 'snoozed-post-length',
+				'post_lengths' => [ 'long', 'short' ],
+			]
+		) ) {
+			return [];
 		}
 
 		// Get the post that was created last.
@@ -159,9 +162,14 @@ class Update_Content extends \Progress_Planner\Suggested_Tasks\Local_Tasks {
 			&& \progress_planner()->get_activities__content_helpers()->is_post_long( $last_created_posts[0]->ID )
 		);
 
-		// If the last post is snoozed, don't add a task.
-		if ( ! empty( $snoozed_post_lengths ) && \in_array( $is_last_post_long ? 'long' : 'short', $snoozed_post_lengths, true ) ) {
-			return $items;
+		// If the task with this length is snoozed, don't add a task.
+		if ( true === \progress_planner()->get_suggested_tasks()->check_task_condition(
+			[
+				'type'         => 'snoozed-post-length',
+				'post_lengths' => [ $is_last_post_long ? 'short' : 'long' ],
+			]
+		) ) {
+			return [];
 		}
 
 		$task_id = $this->get_task_id(
@@ -172,9 +180,17 @@ class Update_Content extends \Progress_Planner\Suggested_Tasks\Local_Tasks {
 			]
 		);
 
-		$items[] = $this->get_task_details( $task_id );
+		// If the task with this length and id is completed, don't add a task.
+		if ( true === \progress_planner()->get_suggested_tasks()->check_task_condition(
+			[
+				'type'    => 'completed',
+				'task_id' => $task_id,
+			]
+		) ) {
+			return [];
+		}
 
-		return $items;
+		return [ $this->get_task_details( $task_id ) ];
 	}
 
 	/**
@@ -309,27 +325,6 @@ class Update_Content extends \Progress_Planner\Suggested_Tasks\Local_Tasks {
 		}
 
 		return $data;
-	}
-
-	/**
-	 * Get the snoozed post lengths.
-	 *
-	 * @return array
-	 */
-	public function get_snoozed_post_lengths() {
-		$snoozed              = \progress_planner()->get_suggested_tasks()->get_snoozed_tasks();
-		$snoozed_post_lengths = [];
-
-		if ( \is_array( $snoozed ) && ! empty( $snoozed ) ) {
-			foreach ( $snoozed as $task ) {
-				$data = $this->get_data_from_task_id( $task['id'] );
-				if ( isset( $data['type'] ) && 'create-post' === $data['type'] ) {
-					$snoozed_post_lengths[] = true === $data['long'] ? 'long' : 'short';
-				}
-			}
-		}
-
-		return $snoozed_post_lengths;
 	}
 
 	/**

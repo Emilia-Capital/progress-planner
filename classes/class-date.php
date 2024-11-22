@@ -84,7 +84,7 @@ class Date {
 	 *
 	 * @param string $date The date.
 	 *
-	 * @return \DateTime
+	 * @return \DateTime|false
 	 */
 	public function get_datetime_from_mysql_date( $date ) {
 		return \DateTime::createFromFormat( 'U', (string) \mysql2date( 'U', $date ) );

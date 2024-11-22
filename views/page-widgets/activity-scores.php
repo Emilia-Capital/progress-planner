@@ -37,7 +37,7 @@ $prpl_record = $prpl_widget->personal_record_callback();
 </h2>
 
 <div style="--background: var(--prpl-background-orange)">
-	<prpl-gauge background="var(--prpl-background-orange)" color="<?php echo esc_attr( $prpl_widget->get_gauge_color( $prpl_widget->get_score() ) ); ?>" contentFontSize="var(--prpl-font-size-6xl)">
+	<prpl-gauge background="var(--prpl-background-green)" color="<?php echo esc_attr( $prpl_widget->get_gauge_color( $prpl_widget->get_score() ) ); ?>" contentFontSize="var(--prpl-font-size-6xl)">
 		<progress max="100" value="<?php echo (float) $prpl_widget->get_score(); ?>">
 			<?php echo \esc_html( $prpl_widget->get_score() ); ?>
 		</progress>
@@ -51,31 +51,13 @@ $prpl_record = $prpl_widget->personal_record_callback();
 	<?php
 	\progress_planner()->get_chart()->the_chart(
 		[
+			'type'           => 'bar',
 			'query_params'   => [],
 			'dates_params'   => [
 				'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) )->modify( $prpl_widget->get_range() ),
 				'end'       => new \DateTime(),
 				'frequency' => $prpl_widget->get_frequency(),
 				'format'    => 'M',
-			],
-			'chart_params'   => [
-				'type'    => 'bar',
-				'options' => [
-					'responsive'          => true,
-					'maintainAspectRatio' => false,
-					'pointStyle'          => false,
-					'plugins'             => [
-						'legend' => [
-							'display' => false,
-						],
-					],
-					'scales'              => [
-						'yAxis' => [
-							'min' => 0,
-							'max' => 100,
-						],
-					],
-				],
 			],
 			'count_callback' => function ( $activities, $date ) {
 				$score = 0;

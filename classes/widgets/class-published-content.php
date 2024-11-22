@@ -96,6 +96,7 @@ final class Published_Content extends \Progress_Planner\Widget {
 	 */
 	public function get_chart_args() {
 		return [
+			'type'           => 'line',
 			'query_params'   => [
 				'category' => 'content',
 				'type'     => 'publish',
@@ -105,9 +106,6 @@ final class Published_Content extends \Progress_Planner\Widget {
 				'end'       => new \DateTime(),
 				'frequency' => $this->get_frequency(),
 				'format'    => 'M',
-			],
-			'chart_params'   => [
-				'type' => 'line',
 			],
 			'compound'       => false,
 			'filter_results' => [ $this, 'filter_activities' ],

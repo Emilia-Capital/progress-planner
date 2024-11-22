@@ -115,7 +115,7 @@ class Base {
 	/**
 	 * Get the activation date.
 	 *
-	 * @return \DateTime
+	 * @return \DateTime|false
 	 */
 	public function get_activation_date() {
 		$activation_date = $this->get_settings()->get( 'activation_date' );
@@ -149,7 +149,10 @@ class Base {
 	 * @return void
 	 */
 	public function the_view( $template, $args = [] ) {
-		$this->the_file( [ $template, "/views/{$template}" ], $args );
+		$templates = ( is_string( $template ) )
+			? [ $template, "/views/{$template}" ]
+			: $template;
+		$this->the_file( $templates, $args );
 	}
 
 	/**
@@ -162,7 +165,28 @@ class Base {
 	 * @return void
 	 */
 	public function the_asset( $asset, $args = [] ) {
-		$this->the_file( [ $asset, "/assets/{$asset}" ], $args );
+		$assets = ( is_string( $asset ) )
+			? [ $asset, "/assets/{$asset}" ]
+			: $asset;
+		$this->the_file( $assets, $args );
+	}
+
+	/**
+	 * Get an asset.
+	 *
+	 * @param string|array $asset The asset to include.
+	 *                            If an array, go through each item until the asset exists.
+	 * @param array        $args  The arguments to pass to the template.
+	 *
+	 * @return string|false
+	 */
+	public function get_asset( $asset, $args = [] ) {
+		ob_start();
+		$assets = ( is_string( $asset ) )
+			? [ $asset, "/assets/{$asset}" ]
+			: $asset;
+		$this->the_file( $assets, $args );
+		return ob_get_clean();
 	}
 
 	/**

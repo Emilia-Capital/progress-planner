@@ -380,6 +380,9 @@ class Page_Types {
 		}
 
 		foreach ( $children as $child ) {
+			if ( ! $child instanceof \WP_Post ) {
+				continue;
+			}
 			\wp_set_object_terms( $child->ID, $term_id, self::TAXONOMY_NAME );
 		}
 	}
@@ -410,6 +413,9 @@ class Page_Types {
 	 */
 	public function is_page_needed( $type ) {
 		$term = $this->get_term_by_type( $type );
+		if ( ! $term || ! $term instanceof \WP_Term ) {
+			return false;
+		}
 		return '' !== get_term_meta( $term->term_id, '_progress_planner_no_page', true ) ? false : true;
 	}
 

@@ -124,24 +124,15 @@ class Page {
 			'progress-planner-document-ready',
 			PROGRESS_PLANNER_URL . '/assets/js/document-ready.js',
 			[],
-			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/document-ready.js' ),
+			(string) filemtime( PROGRESS_PLANNER_DIR . '/assets/js/document-ready.js' ),
 			true
-		);
-
-		// Register Chart.js.
-		\wp_register_script(
-			'chart-js',
-			PROGRESS_PLANNER_URL . '/assets/js/vendor/chart.min.js',
-			[],
-			'4.4.2',
-			false
 		);
 
 		\wp_register_script(
 			'progress-planner-grid-masonry',
 			PROGRESS_PLANNER_URL . '/assets/js/grid-masonry.js',
 			[ 'progress-planner-document-ready' ],
-			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/grid-masonry.js' ),
+			(string) filemtime( PROGRESS_PLANNER_DIR . '/assets/js/grid-masonry.js' ),
 			true
 		);
 
@@ -149,7 +140,23 @@ class Page {
 			'progress-planner-web-components-badge',
 			PROGRESS_PLANNER_URL . '/assets/js/web-components/prpl-badge.js',
 			[],
-			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/web-components/prpl-badge.js' ),
+			(string) filemtime( PROGRESS_PLANNER_DIR . '/assets/js/web-components/prpl-badge.js' ),
+			true
+		);
+
+		\wp_register_script(
+			'progress-planner-web-components-chart-bar',
+			PROGRESS_PLANNER_URL . '/assets/js/web-components/prpl-chart-bar.js',
+			[],
+			(string) filemtime( PROGRESS_PLANNER_DIR . '/assets/js/web-components/prpl-chart-bar.js' ),
+			true
+		);
+
+		\wp_register_script(
+			'progress-planner-web-components-chart-line',
+			PROGRESS_PLANNER_URL . '/assets/js/web-components/prpl-chart-line.js',
+			[],
+			(string) filemtime( PROGRESS_PLANNER_DIR . '/assets/js/web-components/prpl-chart-line.js' ),
 			true
 		);
 
@@ -157,7 +164,7 @@ class Page {
 			'progress-planner-web-components-gauge',
 			PROGRESS_PLANNER_URL . '/assets/js/web-components/prpl-gauge.js',
 			[ 'progress-planner-web-components-badge' ],
-			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/web-components/prpl-gauge.js' ),
+			(string) filemtime( PROGRESS_PLANNER_DIR . '/assets/js/web-components/prpl-gauge.js' ),
 			true
 		);
 
@@ -165,7 +172,7 @@ class Page {
 			'progress-planner-web-components-suggested-task',
 			PROGRESS_PLANNER_URL . '/assets/js/web-components/prpl-suggested-task.js',
 			[],
-			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/web-components/prpl-gauge.js' ),
+			(string) filemtime( PROGRESS_PLANNER_DIR . '/assets/js/web-components/prpl-gauge.js' ),
 			true
 		);
 		\wp_localize_script(
@@ -195,7 +202,7 @@ class Page {
 			'progress-planner-web-components-todo-item',
 			PROGRESS_PLANNER_URL . '/assets/js/web-components/prpl-todo-item.js',
 			[],
-			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/web-components/prpl-todo-item.js' ),
+			(string) filemtime( PROGRESS_PLANNER_DIR . '/assets/js/web-components/prpl-todo-item.js' ),
 			true
 		);
 
@@ -225,7 +232,7 @@ class Page {
 			'progress-planner-ajax',
 			PROGRESS_PLANNER_URL . '/assets/js/ajax-request.js',
 			[],
-			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/ajax-request.js' ),
+			(string) filemtime( PROGRESS_PLANNER_DIR . '/assets/js/ajax-request.js' ),
 			true
 		);
 
@@ -234,7 +241,7 @@ class Page {
 			'progress-planner-scanner',
 			PROGRESS_PLANNER_URL . '/assets/js/scan-posts.js',
 			[ 'progress-planner-ajax' ],
-			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/scan-posts.js' ),
+			(string) filemtime( PROGRESS_PLANNER_DIR . '/assets/js/scan-posts.js' ),
 			true
 		);
 
@@ -243,7 +250,7 @@ class Page {
 			'progress-planner-onboard',
 			PROGRESS_PLANNER_URL . '/assets/js/onboard.js',
 			[ 'progress-planner-ajax', 'progress-planner-scanner' ],
-			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/onboard.js' ),
+			(string) filemtime( PROGRESS_PLANNER_DIR . '/assets/js/onboard.js' ),
 			true
 		);
 
@@ -252,7 +259,7 @@ class Page {
 			'progress-planner-settings',
 			PROGRESS_PLANNER_URL . '/assets/js/settings.js',
 			[ 'progress-planner-ajax', 'wp-util' ],
-			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/settings.js' ),
+			(string) filemtime( PROGRESS_PLANNER_DIR . '/assets/js/settings.js' ),
 			true
 		);
 
@@ -261,7 +268,7 @@ class Page {
 			'progress-planner-settings-page',
 			PROGRESS_PLANNER_URL . '/assets/js/settings-page.js',
 			[ 'wp-util' ],
-			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/settings-page.js' ),
+			(string) filemtime( PROGRESS_PLANNER_DIR . '/assets/js/settings-page.js' ),
 			true
 		);
 
@@ -270,7 +277,7 @@ class Page {
 			'progress-planner-admin',
 			PROGRESS_PLANNER_URL . '/assets/js/header-filters.js',
 			[],
-			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/header-filters.js' ),
+			(string) filemtime( PROGRESS_PLANNER_DIR . '/assets/js/header-filters.js' ),
 			true
 		);
 
@@ -285,7 +292,7 @@ class Page {
 				'progress-planner-web-components-todo-item',
 				'progress-planner-document-ready',
 			],
-			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/todo.js' ),
+			(string) filemtime( PROGRESS_PLANNER_DIR . '/assets/js/todo.js' ),
 			true
 		);
 
@@ -333,7 +340,7 @@ class Page {
 			'particles-confetti-js',
 			PROGRESS_PLANNER_URL . '/assets/js/vendor/tsparticles.confetti.bundle.min.js',
 			[],
-			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/vendor/tsparticles.confetti.bundle.min.js' ),
+			(string) filemtime( PROGRESS_PLANNER_DIR . '/assets/js/vendor/tsparticles.confetti.bundle.min.js' ),
 			true
 		);
 
@@ -352,7 +359,7 @@ class Page {
 			'progress-planner-suggested-tasks',
 			PROGRESS_PLANNER_URL . '/assets/js/suggested-tasks.js',
 			$deps,
-			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/suggested-tasks.js' ),
+			(string) filemtime( PROGRESS_PLANNER_DIR . '/assets/js/suggested-tasks.js' ),
 			true
 		);
 
@@ -397,7 +404,8 @@ class Page {
 
 		if ( 'toplevel_page_progress-planner' === $current_screen->id ) {
 			\wp_enqueue_script( 'progress-planner-web-components-gauge' );
-			\wp_enqueue_script( 'chart-js' );
+			\wp_enqueue_script( 'progress-planner-web-components-chart-bar' );
+			\wp_enqueue_script( 'progress-planner-web-components-chart-line' );
 			\wp_enqueue_script( 'progress-planner-onboard' );
 			\wp_enqueue_script( 'progress-planner-admin' );
 			\wp_enqueue_script( 'progress-planner-todo' );
@@ -426,7 +434,7 @@ class Page {
 			'progress-planner-admin',
 			PROGRESS_PLANNER_URL . '/assets/css/admin.css',
 			[],
-			filemtime( PROGRESS_PLANNER_DIR . '/assets/css/admin.css' )
+			(string) filemtime( PROGRESS_PLANNER_DIR . '/assets/css/admin.css' )
 		);
 
 		if ( 'progress-planner_page_progress-planner-settings' === $current_screen->id ) {
@@ -434,7 +442,7 @@ class Page {
 				'progress-planner-settings-page',
 				PROGRESS_PLANNER_URL . '/assets/css/settings-page.css',
 				[ 'progress-planner-document-ready' ],
-				filemtime( PROGRESS_PLANNER_DIR . '/assets/css/settings-page.css' )
+				(string) filemtime( PROGRESS_PLANNER_DIR . '/assets/css/settings-page.css' )
 			);
 		}
 	}
