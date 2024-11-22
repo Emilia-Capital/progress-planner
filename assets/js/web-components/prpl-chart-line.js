@@ -119,14 +119,12 @@ customElements.define(
 				}">${ yLabel }</text></g>`;
 
 				// Draw the ruler.
-				if ( 1 !== iYLabel ) {
+				if ( 0 !== iYLabel ) {
 					yAxisLabelsAndRulers += `<g><line x1="${
 						axisOffset * 2
 					}" x2="${
-						axisOffset * 2
-					}" y1="${ yLabelCoordinate }" y2="${
-						height - axisOffset
-					}" stroke="var(--prpl-color-gray-1)" stroke-width="1" /></g>`;
+						aspectRatio * height
+					}" y1="${ yLabelCoordinate }" y2="${ yLabelCoordinate }" stroke="var(--prpl-color-gray-2)" stroke-width="1" /></g>`;
 				}
 
 				++iYLabel;
