@@ -145,6 +145,14 @@ class Page {
 		);
 
 		\wp_register_script(
+			'progress-planner-web-components-chart-line',
+			PROGRESS_PLANNER_URL . '/assets/js/web-components/prpl-chart-line.js',
+			[],
+			filemtime( PROGRESS_PLANNER_DIR . '/assets/js/web-components/prpl-chart-line.js' ),
+			true
+		);
+
+		\wp_register_script(
 			'progress-planner-web-components-gauge',
 			PROGRESS_PLANNER_URL . '/assets/js/web-components/prpl-gauge.js',
 			[ 'progress-planner-web-components-badge' ],
@@ -388,6 +396,7 @@ class Page {
 
 		if ( 'toplevel_page_progress-planner' === $current_screen->id ) {
 			\wp_enqueue_script( 'progress-planner-web-components-gauge' );
+			\wp_enqueue_script( 'progress-planner-web-components-chart-line' );
 			\wp_enqueue_script( 'progress-planner-onboard' );
 			\wp_enqueue_script( 'progress-planner-admin' );
 			\wp_enqueue_script( 'progress-planner-todo' );
