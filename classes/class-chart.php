@@ -310,14 +310,14 @@ class Chart {
 
 		// Calculate the Y axis labels.
 		$y_labels = [];
-		if ( 100 === $max ) {
+		if ( 100 === $max || 15 > $max ) {
 			for ( $i = 0; $i <= 4; $i++ ) {
-				$y_labels[] = $y_labels_step * $i;
+				$y_labels[] = (int) ( $y_labels_step * $i );
 			}
 		} else {
 			// Round the values to the nearest 10.
 			for ( $i = 0; $i <= 4; $i++ ) {
-				$y_labels[] = min( $max, round( $y_labels_step * $i, -1 ) );
+				$y_labels[] = (int) min( $max, round( $y_labels_step * $i, -1 ) );
 			}
 		}
 
