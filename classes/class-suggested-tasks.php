@@ -312,6 +312,18 @@ class Suggested_Tasks {
 	}
 
 	/**
+	 * Get the completed tasks.
+	 *
+	 * @return array
+	 */
+	public function get_completed_tasks() {
+		$option    = \get_option( self::OPTION_NAME, [] );
+		$completed = $option['completed'] ?? [];
+
+		return $completed;
+	}
+
+	/**
 	 * Mark a task as snoozed.
 	 *
 	 * @param string $task_id The task ID.
@@ -347,6 +359,9 @@ class Suggested_Tasks {
 				break;
 		}
 
+		// Remove the task from the pending local tasks list.
+		$this->local->remove_pending_task( $task_id );
+
 		return $this->mark_task_as_snoozed( $task_id, $time );
 	}
 
@@ -367,6 +382,82 @@ class Suggested_Tasks {
 				$this->remove_task_from( 'snoozed', $task['id'] );
 			}
 		}
+	}
+
+	/**
+	 * Check if a task meets a condition.
+	 *
+	 * @param array $condition The condition.
+	 *                         [
+	 *                           string  'type'         The condition type.
+	 *                           string  'task_id'      The task id (optional, used for completed and snoozed conditions).
+	 *                           array   'post_lengths' The post lengths (optional, used for snoozed-post-length condition).
+	 *                         ].
+	 *
+	 * @return bool
+	 */
+	public function check_task_condition( $condition ) {
+
+		if ( ! \is_array( $condition ) ) {
+			$condition['type'] = $condition;
+		}
+
+		$parsed_condition = \wp_parse_args(
+			$condition,
+			[
+				'type'         => '',
+				'task_id'      => '',
+				'post_lengths' => [],
+			]
+		);
+
+		if ( 'completed' === $parsed_condition['type'] ) {
+			$completed_tasks = $this->get_completed_tasks();
+
+			if ( \in_array( $parsed_condition['task_id'], $completed_tasks, true ) ) {
+				return true;
+			}
+		}
+
+		if ( 'snoozed' === $parsed_condition['type'] ) {
+			$snoozed_tasks = $this->get_snoozed_tasks();
+
+			if ( \in_array( $parsed_condition['task_id'], $snoozed_tasks, true ) ) {
+				return true;
+			}
+		}
+
+		if ( 'snoozed-post-length' === $parsed_condition['type'] && isset( $parsed_condition['post_lengths'] ) ) {
+			if ( ! \is_array( $parsed_condition['post_lengths'] ) ) {
+				$parsed_condition['post_lengths'] = [ $parsed_condition['post_lengths'] ];
+			}
+
+			$snoozed_tasks        = $this->get_snoozed_tasks();
+			$snoozed_post_lengths = [];
+
+			// Get the post lengths of the snoozed tasks.
+			foreach ( $snoozed_tasks as $task ) {
+				$data = $this->local->get_data_from_task_id( $task['id'] );
+				if ( isset( $data['type'] ) && 'create-post' === $data['type'] ) {
+					$key = true === $data['long'] ? 'long' : 'short';
+					if ( ! isset( $snoozed_post_lengths[ $key ] ) ) {
+						$snoozed_post_lengths[ $key ] = true;
+					}
+				}
+			}
+
+			// Check if the snoozed post lengths match the condition.
+			foreach ( $parsed_condition['post_lengths'] as $post_length ) {
+				if ( ! isset( $snoozed_post_lengths[ $post_length ] ) ) {
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+		// If no condition is met, return false.
+		return false;
 	}
 
 	/**
