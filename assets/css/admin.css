@@ -95,6 +95,8 @@
 
 .prpl-widget-title {
 	margin-top: 0;
+	font-size: 1.375rem;
+	line-height: 1.2;
 
 	&:has(.prpl-info-icon) {
 		display: flex;
@@ -139,6 +141,34 @@ button.prpl-info-icon {
 	align-items: center;
 }
 
+.prpl-tour-icon,
+.prpl-settings-icon {
+	width: 1.1rem;
+	height: 1.1rem;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0.4em;
+
+	border: 1px solid var(--prpl-color-gray-2);
+	border-radius: var(--prpl-border-radius);
+
+	svg {
+		width: 1rem;
+		height: 1rem;
+
+		& path {
+			fill: currentcolor;
+		}
+	}
+
+	&:hover {
+		color: var(--prpl-color-link);
+		border-color: var(--prpl-color-link);
+		background-color: var(--prpl-background-blue);
+	}
+}
+
 /*------------------------------------*\
 	Layout for widgets.
 \*------------------------------------*/
@@ -172,8 +202,8 @@ button.prpl-info-icon {
 	box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.07), -2px 0 6px rgba(0, 0, 0, 0.07);
 
 	hr {
-		margin-top: 1em;
-		margin-bottom: 1em;
+		margin-top: 1.25rem;
+		margin-bottom: 1.25rem;
 	}
 }
 
