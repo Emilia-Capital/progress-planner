@@ -25,14 +25,10 @@ customElements.define(
 			const max = Math.max( ...data.datasets[ 0 ].data );
 			const maxValue = 100 > max && 70 < max ? 100 : max;
 
-			let html = `<svg viewBox="0 0 ${ parseInt(
-				height * aspectRatio + axisOffset * 2
-			) } ${ parseInt( height + axisOffset * 2 ) }">`;
-
 			const calcYCoordinate = ( value ) => {
 				const multiplier = ( height - axisOffset * 2 ) / height;
 				const yCoordinate =
-					( maxValue - value * multiplier ) * ( height / maxValue ) +
+					( maxValue - value * multiplier ) * ( height / maxValue ) -
 					axisOffset;
 				return yCoordinate - strokeWidth / 2;
 			};
@@ -63,14 +59,14 @@ customElements.define(
 			);
 
 			// X-axis line.
-			html += `<g><line x1="${ axisOffset * 2 }" x2="${
+			const xAxisLine = `<g><line x1="${ axisOffset * 2 }" x2="${
 				aspectRatio * height
 			}" y1="${ height - axisOffset }" y2="${
 				height - axisOffset
 			}" stroke="var(--prpl-color-gray-2)" stroke-width="1" /></g>`;
 
 			// Y-axis line.
-			html += `<g><line x1="${ axisOffset * 2 }" x2="${
+			const yAxisLine = `<g><line x1="${ axisOffset * 2 }" x2="${
 				axisOffset * 2
 			}" y1="${ axisOffset }" y2="${
 				height - axisOffset
@@ -81,6 +77,7 @@ customElements.define(
 			const labelsXCount = data.labels.length;
 			const labelsXDivider = Math.round( labelsXCount / 6 );
 			let i = 0;
+			let xAxisLabelsAndRulers = '';
 			for ( const label of data.labels ) {
 				labelXCoordinate = xDistanceBetweenPoints * i + axisOffset;
 				++i;
@@ -95,13 +92,13 @@ customElements.define(
 					continue;
 				}
 
-				html += `<g><text class="x-axis-label" x="${ labelXCoordinate }" y="${
+				xAxisLabelsAndRulers += `<g><text class="x-axis-label" x="${ labelXCoordinate }" y="${
 					height + axisOffset
 				}">${ label }</text></g>`;
 
 				// Draw the ruler.
 				if ( 1 !== i ) {
-					html += `<g><line x1="${
+					xAxisLabelsAndRulers += `<g><line x1="${
 						labelXCoordinate + axisOffset
 					}" x2="${
 						labelXCoordinate + axisOffset
@@ -114,16 +111,19 @@ customElements.define(
 			// Y-axis labels and rulers.
 			let yLabelCoordinate = 0;
 			let iYLabel = 0;
+			let yAxisLabelsAndRulers = '';
 			for ( const yLabel of yLabels ) {
 				yLabelCoordinate = calcYCoordinate( yLabel );
 
-				html += `<g><text class="y-axis-label" x="0" y="${
+				yAxisLabelsAndRulers += `<g><text class="y-axis-label" x="0" y="${
 					yLabelCoordinate + axisOffset / 2
 				}">${ yLabel }</text></g>`;
 
 				// Draw the ruler.
 				if ( 1 !== iYLabel ) {
-					html += `<g><line x1="${ axisOffset * 2 }" x2="${
+					yAxisLabelsAndRulers += `<g><line x1="${
+						axisOffset * 2
+					}" x2="${
 						axisOffset * 2
 					}" y1="${ yLabelCoordinate }" y2="${
 						height - axisOffset
@@ -134,24 +134,31 @@ customElements.define(
 			}
 
 			// Line chart.
-			for ( const dataset of data.datasets ) {
-				const points = [];
-				let xCoordinate = axisOffset * 2;
-				for ( const point of dataset.data ) {
-					points.push( [ xCoordinate, calcYCoordinate( point ) ] );
-					xCoordinate += xDistanceBetweenPoints;
-				}
-
-				html += `<g><polyline fill="none" stroke="${
-					dataset.borderColor[ 0 ]
-				}" stroke-width="${ strokeWidth }" points="${ points
-					.map( ( point ) => point.join( ',' ) )
-					.join( ' ' ) }" /></g>`;
+			const polylinePoints = [];
+			let xCoordinate = axisOffset * 2;
+			for ( const point of data.datasets[ 0 ].data ) {
+				polylinePoints.push( [
+					xCoordinate,
+					calcYCoordinate( point ),
+				] );
+				xCoordinate += xDistanceBetweenPoints;
 			}
 
-			html += `</svg>`;
+			const polyLine = `<g><polyline fill="none" stroke="${
+				data.datasets[ 0 ].borderColor[ 0 ]
+			}" stroke-width="${ strokeWidth }" points="${ polylinePoints
+				.map( ( point ) => point.join( ',' ) )
+				.join( ' ' ) }" /></g>`;
 
-			this.innerHTML = html;
+			this.innerHTML = `<svg viewBox="0 0 ${ parseInt(
+				height * aspectRatio + axisOffset * 2
+			) } ${ parseInt( height + axisOffset * 2 ) }">
+				${ xAxisLine }
+				${ yAxisLine }
+				${ xAxisLabelsAndRulers }
+				${ yAxisLabelsAndRulers }
+				${ polyLine }
+			</svg>`;
 		}
 	}
 );
