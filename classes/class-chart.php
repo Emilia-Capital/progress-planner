@@ -254,28 +254,14 @@ class Chart {
 	 */
 	public function render_bar_chart_native( $data ) {
 		?>
-		<table style="width:100%;border-collapse:collapse;">
-			<tbody>
-				<tr>
-					<?php foreach ( $data['datasets'][0]['data'] as $i => $score ) : ?>
-						<td valign="bottom" style="height:200px;">
-							<div style="
-								height: <?php echo esc_attr( $score ); ?>%;
-								width: 90%;
-								background: <?php echo esc_attr( $data['datasets'][0]['backgroundColor'][ $i ] ); ?>
-							"></div>
-						</td>
-					<?php endforeach; ?>
-				</tr>
-			</tbody>
-			<tfoot>
-				<tr>
-					<?php foreach ( $data['labels'] as $label ) : ?>
-						<td style="text-align: center; font-size:0.75em;"><?php echo esc_html( $label ); ?></td>
-					<?php endforeach; ?>
-				</tr>
-			</tfoot>
-		</table>
+		<div style="display: flex; max-width: 600px; height: 200px; width: 100%; align-items: flex-end; gap: 5px; margin: 1rem 0;">
+			<?php foreach ( $data['datasets'][0]['data'] as $i => $score ) : ?>
+				<div style="flex: auto; display: flex; flex-direction: column; justify-content: flex-end; height: 100%;">
+					<div style="display:block;width:100%;height: <?php echo esc_attr( $score ); ?>%; background: <?php echo esc_attr( $data['datasets'][0]['backgroundColor'][ $i ] ); ?>" title="<?php echo esc_attr( $score ); ?>%"></div>
+					<span style="text-align:center;display:block;width:100%;font-size: 0.75em;"><?php echo esc_html( $data['labels'][ $i ] ); ?></span>
+				</div>
+			<?php endforeach; ?>
+		</div>
 		<?php
 	}
 
@@ -288,10 +274,11 @@ class Chart {
 	 * @return void
 	 */
 	public function render_line_chart_svg( $data, $max = 100 ) {
-		$aspect_ratio = 1.7;
+		$aspect_ratio = 2;
 		$height       = 300;
 		$axis_offset  = 16;
 		$width        = $height * $aspect_ratio;
+		$stroke_width = 4;
 
 		echo '<svg viewBox="0 0 ' . (int) ( $height * $aspect_ratio + $axis_offset * 2 ) . ' ' . (int) ( $height + $axis_offset * 2 ) . '">';
 
@@ -304,16 +291,17 @@ class Chart {
 				$data['datasets']
 			)
 		);
+		$max = ( 100 > $max && 70 < $max ) ? 100 : $max;
 
 		// Calculate the Y coordinate for a given value.
-		$calc_y_coordinate = function ( $value ) use ( $max, $axis_offset, $height ) {
+		$calc_y_coordinate = function ( $value ) use ( $max, $axis_offset, $height, $stroke_width ) {
 			// Calculate scaled coordinates because of the offset and the aspect ratio.
 			$multiplier   = ( $height - $axis_offset * 2 ) / $height;
 			$y_coordinate = ( $max - $value * $multiplier ) * ( $height / $max ) + $axis_offset;
 			// Offset the Y coordinate to account for the axis offset.
 			$y_coordinate -= $axis_offset * 2;
-			// Remove the last 1px of the line to account for the stroke width.
-			return $y_coordinate - 1;
+			// Account for the stroke width.
+			return $y_coordinate - $stroke_width / 2;
 		};
 
 		// Calculate the Y axis labels.
@@ -364,48 +352,66 @@ class Chart {
 			/>
 		</g>
 
-		<!-- X-axis labels. -->
-		<g>
+		<!-- X-axis labels and rulers. -->
+		<?php
+		$label_x_coordinate = 0;
+		$labels_x_count     = count( $data['labels'] );
+		$labels_x_divider   = intval( round( $labels_x_count / 6, 0, PHP_ROUND_HALF_UP ) );
+		$i                  = 0;
+		?>
+		<?php foreach ( $data['labels'] as $label ) : ?>
+			<?php $label_x_coordinate = $x_distance_between_points * $i + $axis_offset; ?>
+			<?php ++$i; ?>
 			<?php
-			$label_x_coordinate = 0;
-			$labels_x_count     = count( $data['labels'] );
-			$labels_x_divider   = intval( round( $labels_x_count / 6, 0, PHP_ROUND_HALF_UP ) );
-			$i                  = 0;
+			// Only allow up to 6 labels to prevent overlapping.
+			// If there are more than 6 labels, find the alternate labels.
+			if ( 6 < $labels_x_count && 1 !== $i && ( $i - 1 ) % $labels_x_divider !== 0 ) {
+				continue;
+			}
 			?>
-			<?php foreach ( $data['labels'] as $label ) : ?>
-				<?php $label_x_coordinate = $x_distance_between_points * $i + $axis_offset; ?>
-				<?php ++$i; ?>
-				<?php
-				// Only allow up to 6 labels to prevent overlapping.
-				// If there are more than 6 labels, find the alternate labels.
-				if ( 6 < $labels_x_count && 1 !== $i && ( $i - 1 ) % $labels_x_divider !== 0 ) {
-					continue;
-				}
-				?>
-				<text
-					class="x-axis-label"
-					x="<?php echo (int) $label_x_coordinate; ?>"
-					y="<?php echo (int) $height + $axis_offset; ?>"
-				>
-					<?php echo \esc_html( (string) $label ); ?>
-				</text>
-			<?php endforeach; ?>
-		</g>
+			<g><text
+				class="x-axis-label"
+				x="<?php echo (int) $label_x_coordinate; ?>"
+				y="<?php echo (int) $height + $axis_offset; ?>"
+			>
+				<?php echo \esc_html( (string) $label ); ?>
+			</text></g>
 
-		<!-- Y-axis labels. -->
-		<g>
-			<?php $i = 0; ?>
-			<?php foreach ( $y_labels as $y_label ) : ?>
-				<text
-					class="y-axis-label"
-					x="0"
-					y="<?php echo (int) $calc_y_coordinate( $y_label ) + $axis_offset / 2; ?>"
-				>
-					<?php echo \esc_html( (string) $y_label ); ?>
-				</text>
-				<?php ++$i; ?>
-			<?php endforeach; ?>
-		</g>
+			<?php if ( 1 !== $i ) : ?>
+				<g><line
+					x1="<?php echo (int) $label_x_coordinate + $axis_offset; ?>"
+					x2="<?php echo (int) $label_x_coordinate + $axis_offset; ?>"
+					y1="<?php echo (int) $axis_offset; ?>"
+					y2="<?php echo (int) $height - $axis_offset; ?>"
+					stroke="var(--prpl-color-gray-1)"
+					stroke-width="1"
+				/></g>
+			<?php endif; ?>
+		<?php endforeach; ?>
+
+		<!-- Y-axis labels and rulers. -->
+		<?php $i = 0; ?>
+		<?php foreach ( $y_labels as $y_label ) : ?>
+			<?php $y_label_coordinate = $calc_y_coordinate( $y_label ); ?>
+			<g><text
+				class="y-axis-label"
+				x="0"
+				y="<?php echo (int) $y_label_coordinate + $axis_offset / 2; ?>"
+			>
+				<?php echo \esc_html( (string) $y_label ); ?>
+			</text></g>
+			<?php ++$i; ?>
+			<?php if ( 1 !== $i ) : ?>
+				<g><line
+					x1="<?php echo (int) $axis_offset * 2; ?>"
+					x2="<?php echo (int) $aspect_ratio * $height; ?>"
+					y1="<?php echo (int) $y_label_coordinate; ?>"
+					y2="<?php echo (int) $y_label_coordinate; ?>"
+					stroke="var(--prpl-color-gray-2)"
+					stroke-width="1"
+				/></g>
+			<?php endif; ?>
+		<?php endforeach; ?>
 
 		<!-- Line chart. -->
 		<?php foreach ( $data['datasets'] as $dataset ) : ?>
@@ -413,17 +419,16 @@ class Chart {
 			$points       = [];
 			$x_coordinate = $axis_offset * 2;
 			foreach ( $dataset['data'] as $point ) {
-				$points[]      = [ $x_coordinate, $calc_y_coordinate( $point ) ];
+				$points[]      = [ $x_coordinate, round( $calc_y_coordinate( $point ) ) ];
 				$x_coordinate += $x_distance_between_points;
 			}
 			?>
-
 			<g><polyline
 				fill="none"
 				stroke="<?php echo \esc_attr( $dataset['borderColor'][0] ); ?>"
-				stroke-width="2"
+				stroke-width="<?php echo (int) $stroke_width; ?>"
 				points="
-					<?php foreach ( $points as $point ) : ?>
+					<?php foreach ( $points as $i => $point ) : ?>
 						<?php echo \esc_attr( implode( ',', $point ) ); ?>
 					<?php endforeach; ?>
 				"
