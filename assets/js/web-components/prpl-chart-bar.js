@@ -17,18 +17,10 @@ customElements.define(
 			const labelsDivider =
 				data.length > 6 ? parseInt( data.length / 6 ) : 1;
 
-			let html = `<div style="
-				display: grid;
-				grid-template-columns: repeat(${ data.length }, 1fr);
-				height: 200px;
-				width: 100%;
-				max-width: 100%;
-				gap: 5px;
-				margin: 1rem 0;
-			">`;
+			let html = `<div style="display: flex; max-width: 600px; height: 200px; width: 100%; align-items: flex-end; gap: 5px; margin: 1rem 0;">`;
 			let i = 0;
 			data.forEach( ( item ) => {
-				html += `<div style="display: flex; flex-direction: column; justify-content: flex-end; height: 100%;">`;
+				html += `<div style="flex: auto; display: flex; flex-direction: column; justify-content: flex-end; height: 100%;">`;
 				html += `<div style="
 					display: block;
 					width: 100%;
@@ -37,11 +29,9 @@ customElements.define(
 					title="${ item.label } - ${ item.score }%
 				"></div>`;
 				// Only display up to 6 labels.
-				html += `<span class="prpl-chart-bar-label" style="height:1rem;overflow:visible;text-align:center;font-size: 0.75em;">`;
+				html += `<span style="width:0!important;height:1rem;overflow:visible;text-align:center;display:block;width:100%;font-size: 0.75em;">`;
 				if ( i % labelsDivider === 0 ) {
-					html += `<span class="visible">${ item.label }</span>`;
-				} else {
-					html += `<span style="visibility: hidden;">${ item.label }</span>`;
+					html += `${ item.label }`;
 				}
 				html += `</span>`;
 				html += `</div>`;
@@ -50,23 +40,6 @@ customElements.define(
 			html += `</div>`;
 
 			this.innerHTML = html;
-
-			// Center labels.
-			// This is needed in order to avoid uneven spacing
-			// when there are many items in the chart.
-			this.querySelectorAll( '.prpl-chart-bar-label .visible' ).forEach(
-				( label ) => {
-					const marginLeft =
-						( label.parentElement.offsetWidth -
-							label.offsetWidth ) /
-						2;
-					label.style.width = 0;
-					label.style.display = 'block';
-					if ( 0 <= marginLeft ) {
-						label.style.marginLeft = `${ marginLeft }px`;
-					}
-				}
-			);
 		}
 	}
 );
