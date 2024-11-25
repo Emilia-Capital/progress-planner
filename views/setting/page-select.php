@@ -27,7 +27,17 @@ if ( is_numeric( $prpl_setting_value ) && 0 < $prpl_setting_value ) {
 	data-page-item="<?php echo esc_attr( $prpl_setting['page'] ); ?>"
 >
 	<div class="item-description">
-		<h3><?php echo esc_html( $prpl_setting['title'] ); ?></h3>
+		<h3>
+			<span class="icon icon-check-circle">
+				<?php \progress_planner()->the_asset( 'images/icon_check_circle.svg' ); ?>
+			</span>
+			<span class="icon icon-exclamation-circle">
+				<?php \progress_planner()->the_asset( 'images/icon_pages.svg' ); ?>
+			</span>
+			<span>
+				<?php echo esc_html( $prpl_setting['title'] ); ?>
+			</span>
+		</h3>
 		<p><?php echo esc_html( $prpl_setting['description'] ); ?></p>
 	</div>
 	<div>
@@ -40,59 +50,66 @@ if ( is_numeric( $prpl_setting_value ) && 0 < $prpl_setting_value ) {
 					'not-applicable' => esc_html__( 'I don\'t need this page', 'progress-planner' ),
 				] as $prpl_r_value => $prpl_r_label ) :
 					?>
-					<label>
-						<input
+					<div class="prpl-radio-wrapper">
+						<label>
+							<input
 							type="radio"
 							id="<?php echo esc_attr( 'pages[' . esc_attr( $prpl_setting['id'] ) . '][have_page]' ); ?>"
 							name="<?php echo esc_attr( 'pages[' . esc_attr( $prpl_setting['id'] ) . '][have_page]' ); ?>"
-							value="<?php echo esc_attr( $prpl_r_value ); ?>"
-							data-page="<?php echo esc_attr( $prpl_setting['page'] ); ?>"
-							<?php checked( $prpl_radio_value, $prpl_r_value ); ?>
-						>
-						<?php echo esc_html( $prpl_r_label ); ?>
-					</label>
+								value="<?php echo esc_attr( $prpl_r_value ); ?>"
+								data-page="<?php echo esc_attr( $prpl_setting['page'] ); ?>"
+								<?php checked( $prpl_radio_value, $prpl_r_value ); ?>
+							>
+							<?php echo esc_html( $prpl_r_label ); ?>
+						</label>
+
+						<?php if ( 'yes' === $prpl_r_value ) : ?>
+							<div class="prpl-select-page">
+								<div data-action="select">
+									<?php
+									wp_dropdown_pages(
+										[
+											'name'     => 'pages[' . esc_attr( $prpl_setting['id'] ) . '][id]',
+											'show_option_none' => '&mdash; ' . esc_html__( 'Select page', 'progress-planner' ) . ' &mdash;',
+											'selected' => esc_attr( $prpl_setting['value'] ),
+										]
+									);
+									?>
+								</div>
+								<div data-action="edit">
+									<a
+										target="_blank"
+										class="prpl-button"
+										href=""
+										data-page="<?php echo esc_attr( $prpl_setting['page'] ); ?>"
+									>
+										<?php esc_html_e( 'Edit', 'progress-planner' ); ?>
+									</a>
+								</div>
+							</div>
+						<?php endif; ?>
+
+						<?php if ( 'no' === $prpl_r_value ) : ?>
+							<div data-action="create">
+								<?php
+								/**
+								 * TODO: Find a way to assign the term for the new page.
+								 */
+								?>
+								<a
+									target="_blank"
+									class="prpl-button"
+									href="<?php echo esc_url( admin_url( 'post-new.php?post_type=page' ) ); ?>"
+								>
+									<?php esc_html_e( 'Create', 'progress-planner' ); ?>
+								</a>
+							</div>
+						<?php endif; ?>
+
+
+					</div>
 				<?php endforeach; ?>
 			</div>
 		</fieldset>
-	</div>
-	<div class="item-actions">
-		<div class="prpl-select-page">
-			<div data-action="select">
-				<?php
-				wp_dropdown_pages(
-					[
-						'name'             => 'pages[' . esc_attr( $prpl_setting['id'] ) . '][id]',
-						'show_option_none' => '&mdash; ' . esc_html__( 'Select page', 'progress-planner' ) . ' &mdash;',
-						'selected'         => esc_attr( $prpl_setting['value'] ),
-					]
-				);
-				?>
-			</div>
-			<div data-action="edit">
-				<a
-					target="_blank"
-					class="button"
-					href=""
-					data-page="<?php echo esc_attr( $prpl_setting['page'] ); ?>"
-				>
-					<?php esc_html_e( 'Edit', 'progress-planner' ); ?>
-				</a>
-			</div>
-		</div>
-
-		<div data-action="create">
-			<?php
-			/**
-			 * TODO: Find a way to assign the term for the new page.
-			 */
-			?>
-			<a
-				target="_blank"
-				class="button"
-				href="<?php echo esc_url( admin_url( 'post-new.php?post_type=page' ) ); ?>"
-			>
-				<?php esc_html_e( 'Create', 'progress-planner' ); ?>
-			</a>
-		</div>
 	</div>
 </div>

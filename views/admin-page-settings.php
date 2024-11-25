@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	</div>
 	<h1>
 		<span class="icon">
-			<?php \progress_planner()->the_asset( 'images/settings_icon.svg' ); ?>
+			<?php \progress_planner()->the_asset( 'images/icon_settings.svg' ); ?>
 		</span>
 		<span>
 			<?php esc_html_e( 'Your Progress Planner settings', 'progress-planner' ); ?>
@@ -31,7 +31,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<div class="prpl-widget-wrapper">
 				<h2 class="prpl-settings-section-title">
 					<span class="icon">
-						<?php \progress_planner()->the_asset( 'images/settings_icon.svg' ); ?>
+						<?php \progress_planner()->the_asset( 'images/icon_pages.svg' ); ?>
 					</span>
 					<span>
 						<?php esc_html_e( 'Your pages', 'progress-planner' ); ?>
