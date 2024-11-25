@@ -29,40 +29,28 @@ class Scripts {
 
 		// Register web components.
 		foreach ( $this->get_files_in_directory( 'assets/js/web-components' ) as $file ) {
+			$handle = 'progress-planner-web-components-' . $file;
 			\wp_register_script(
-				'progress-planner-web-components-' . $file,
+				$handle,
 				PROGRESS_PLANNER_URL . "/assets/js/web-components/{$file}.js",
 				$this->get_dependencies( 'web-components/' . $file ),
 				(string) filemtime( PROGRESS_PLANNER_DIR . "/assets/js/web-components/{$file}.js" ),
 				true
 			);
-			$localized_data = $this->get_localized_data( 'web-components/' . $file );
-			if ( null !== $localized_data ) {
-				\wp_localize_script(
-					'progress-planner-web-components-' . $file,
-					$localized_data['name'],
-					$localized_data['data']
-				);
-			}
+			$this->localize_script( $handle );
 		}
 
 		// Register main scripts.
 		foreach ( $this->get_files_in_directory( 'assets/js' ) as $file ) {
+			$handle = 'progress-planner-' . $file;
 			\wp_register_script(
-				'progress-planner-' . $file,
+				$handle,
 				PROGRESS_PLANNER_URL . '/assets/js/' . $file . '.js',
 				$this->get_dependencies( $file ),
 				(string) filemtime( PROGRESS_PLANNER_DIR . '/assets/js/' . $file . '.js' ),
 				true
 			);
-			$localized_data = $this->get_localized_data( $file );
-			if ( null !== $localized_data ) {
-				\wp_localize_script(
-					'progress-planner-' . $file,
-					$localized_data['name'],
-					$localized_data['data']
-				);
-			}
+			$this->localize_script( $handle );
 		}
 	}
 
@@ -124,17 +112,18 @@ class Scripts {
 	}
 
 	/**
-	 * Get localized data for a script.
+	 * Localize a script
 	 *
-	 * @param string $file The file name.
-	 * @return array|null
+	 * @param string $handle The script handle.
+	 * @return void
 	 */
-	public function get_localized_data( $file ) {
-		switch ( $file ) {
-			case 'web-components/prpl-suggested-task':
-				return [
-					'name' => 'progressPlannerSuggestedTask',
-					'data' => [
+	public function localize_script( $handle ) {
+		switch ( $handle ) {
+			case 'progress-planner-web-components-prpl-suggested-task':
+				\wp_localize_script(
+					$handle,
+					'progressPlannerSuggestedTask',
+					[
 						'nonce' => \wp_create_nonce( 'progress_planner' ),
 						'i18n'  => [
 							'info'           => \esc_html__( 'Info', 'progress-planner' ),
@@ -151,13 +140,15 @@ class Scripts {
 							],
 							'close'          => \esc_html__( 'Close', 'progress-planner' ),
 						],
-					],
-				];
+					]
+				);
+				break;
 
-			case 'web-components/prpl-todo-item':
-				return [
-					'name' => 'progressPlannerTodoItem',
-					'data' => [
+			case 'progress-planner-web-components-prpl-todo-item':
+				\wp_localize_script(
+					$handle,
+					'progressPlannerTodoItem',
+					[
 						'i18n' => [
 							/* translators: %s: The task content. */
 							'taskDelete'       => \esc_html__( "Delete task '%s'", 'progress-planner' ),
@@ -172,13 +163,15 @@ class Scripts {
 							/* translators: %s: The task content. */
 							'taskNotCompleted' => \esc_html__( "Task '%s' marked as not completed and moved to the top", 'progress-planner' ),
 						],
-					],
-				];
+					]
+				);
+				break;
 
-			case 'tour':
-				return [
-					'name' => 'progressPlannerTour',
-					'data' => [
+			case 'progress-planner-tour':
+				\wp_localize_script(
+					$handle,
+					'progressPlannerTour',
+					[
 						'steps'        => \progress_planner()->get_admin__tour()->get_steps(),
 						'progressText' => sprintf(
 							/* translators: %1$s: The current step number. %2$s: The total number of steps. */
@@ -189,50 +182,53 @@ class Scripts {
 						'nextBtnText'  => \esc_html__( 'Next &rarr;', 'progress-planner' ),
 						'prevBtnText'  => \esc_html__( '&larr; Previous', 'progress-planner' ),
 						'doneBtnText'  => \esc_html__( 'Finish', 'progress-planner' ),
-					],
-				];
+					]
+				);
+				break;
 
-			case 'onboard':
-			case 'header-filters':
-			case 'settings':
+			case 'progress-planner-onboard':
+			case 'progress-planner-header-filters':
+			case 'progress-planner-settings':
 				$data = [
 					'onboardNonceURL' => \progress_planner()->get_onboard()->get_remote_nonce_url(),
 					'onboardAPIUrl'   => \progress_planner()->get_onboard()->get_remote_url(),
 					'ajaxUrl'         => \admin_url( 'admin-ajax.php' ),
 					'nonce'           => \wp_create_nonce( 'progress_planner' ),
 				];
-				if ( 'settings' === $file ) {
+				if ( 'progress-planner-settings' === $handle ) {
 					$data['l10n'] = [
 						'saving'      => \esc_html__( 'Saving...', 'progress-planner' ),
 						'subscribing' => \esc_html__( 'Subscribing...', 'progress-planner' ),
 						'subscribed'  => \esc_html__( 'Subscribed...', 'progress-planner' ),
 					];
 				}
-				return [
-					'name' => 'progressPlanner',
-					'data' => $data,
-				];
+				\wp_localize_script( $handle, 'progressPlanner', $data );
+				break;
 
-			case 'todo':
-				return [
-					'name' => 'progressPlannerTodo',
-					'data' => [
+			case 'progress-planner-todo':
+				\wp_localize_script(
+					$handle,
+					'progressPlannerTodo',
+					[
 						'ajaxUrl'   => \admin_url( 'admin-ajax.php' ),
 						'nonce'     => \wp_create_nonce( 'progress_planner_todo' ),
 						'listItems' => \progress_planner()->get_todo()->get_items(),
-					],
-				];
+					]
+				);
+				break;
 
-			case 'settings-page':
-				return [
-					'name' => 'progressPlannerSettingsPage',
-					'data' => [
+			case 'progress-planner-settings-page':
+				\wp_localize_script(
+					$handle,
+					'progressPlannerSettingsPage',
+					[
 						'siteUrl'    => \get_site_url(),
 						'savingText' => \esc_html__( 'Saving...', 'progress-planner' ),
-					],
-				];
+					]
+				);
+				break;
 
-			case 'suggested-tasks':
+			case 'progress-planner-suggested-tasks':
 				// Get all saved tasks (completed, pending celebration, snoozed).
 				$tasks = \progress_planner()->get_suggested_tasks()->get_saved_tasks();
 
@@ -251,17 +247,19 @@ class Scripts {
 					}
 				}
 
-				return [
-					'name' => 'progressPlannerSuggestedTasks',
-					'data' => [
+				\wp_localize_script(
+					$handle,
+					'progressPlannerSuggestedTasks',
+					[
 						'ajaxUrl' => \admin_url( 'admin-ajax.php' ),
 						'nonce'   => \wp_create_nonce( 'progress_planner' ),
 						'tasks'   => $tasks,
-					],
-				];
+					]
+				);
+				break;
 
 			default:
-				return null;
+				return;
 		}
 	}
 
