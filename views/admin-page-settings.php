@@ -17,13 +17,29 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<?php \progress_planner()->the_asset( 'images/logo_progress_planner.svg' ); ?>
 		</div>
 	</div>
-
-	<h1><?php esc_html_e( 'Your Progress Planner settings', 'progress-planner' ); ?></h1>
+	<h1>
+		<span class="icon">
+			<?php \progress_planner()->the_asset( 'images/settings_icon.svg' ); ?>
+		</span>
+		<span>
+			<?php esc_html_e( 'Your Progress Planner settings', 'progress-planner' ); ?>
+		</span>
+	</h1>
 
 	<form id="prpl-settings">
 		<div class="prpl-column">
 			<div class="prpl-widget-wrapper">
-				<?php esc_html_e( 'Your pages', 'progress-planner' ); ?>
+				<h2 class="prpl-settings-section-title">
+					<span class="icon">
+						<?php \progress_planner()->the_asset( 'images/settings_icon.svg' ); ?>
+					</span>
+					<span>
+						<?php esc_html_e( 'Your pages', 'progress-planner' ); ?>
+					</span>
+				</h2>
+				<p>
+					<?php esc_html_e( 'Let us know if you have following pages.', 'progress-planner' ); ?>
+				</p>
 				<div class="prpl-pages-list">
 					<?php
 					foreach ( \progress_planner()->get_admin__page_settings()->get_settings() as $prpl_setting ) {
