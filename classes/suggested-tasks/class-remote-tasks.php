@@ -91,6 +91,9 @@ class Remote_Tasks {
 	 * @return string
 	 */
 	protected function get_api_endpoint() {
-		return self::REMOTE_SERVER_ROOT_URL . '/wp-json/progress-planner-saas/v1/suggested-todo/';
+		return apply_filters(
+			'progress_planner_suggested_tasks_remote_api_endpoint',
+			self::REMOTE_SERVER_ROOT_URL . '/wp-json/progress-planner-saas/v1/suggested-todo/'
+		);
 	}
 }
