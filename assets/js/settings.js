@@ -57,8 +57,11 @@ if ( !! settingsLicenseForm ) {
 								'submit-license-key'
 							).innerHTML = progressPlanner.l10n.subscribed;
 
-							// Reload the page.
-							window.location.reload();
+							// Timeout so the license key is saved.
+							setTimeout( () => {
+								// Reload the page.
+								window.location.reload();
+							}, 500 );
 						},
 						failAction: ( apiResponse ) => {
 							// eslint-disable-next-line no-console
