@@ -32,7 +32,7 @@ if ( is_numeric( $prpl_setting_value ) && 0 < $prpl_setting_value ) {
 				<?php \progress_planner()->the_asset( 'images/icon_check_circle.svg' ); ?>
 			</span>
 			<span class="icon icon-exclamation-circle">
-				<?php \progress_planner()->the_asset( 'images/icon_pages.svg' ); ?>
+				<?php \progress_planner()->the_asset( 'images/icon_exclamation_circle.svg' ); ?>
 			</span>
 			<span>
 				<?php echo esc_html( $prpl_setting['title'] ); ?>
