@@ -1,7 +1,7 @@
 /* global customElements, HTMLElement */
 
 /**
- * Gauge.
+ * Register the custom web component.
  */
 customElements.define(
 	'prpl-chart-bar',

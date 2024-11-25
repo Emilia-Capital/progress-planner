@@ -13,14 +13,11 @@ $prpl_widget     = \progress_planner()->get_widgets__published_content();
 $prpl_stats      = $prpl_widget->get_stats();
 $prpl_sum_weekly = array_sum( $prpl_stats['weekly'] );
 ?>
-<div class="prpl-counter-big-wrapper">
-	<span class="counter-big-number">
-		<?php echo \esc_html( \number_format_i18n( (int) array_sum( $prpl_stats['weekly'] ) ) ); ?>
-	</span>
-	<span class="counter-big-text">
-		<?php echo \esc_html_e( 'content published', 'progress-planner' ); ?>
-	</span>
-</div>
+<prpl-big-counter
+	number="<?php echo \esc_html( \number_format_i18n( (int) array_sum( $prpl_stats['weekly'] ) ) ); ?>"
+	content="<?php echo \esc_attr_e( 'content published', 'progress-planner' ); ?>"
+	background-color="var(--prpl-background-purple)"
+></prpl-big-counter>
 
 <div class="prpl-widget-content">
 	<p>
@@ -69,14 +66,12 @@ $prpl_sum_weekly = array_sum( $prpl_stats['weekly'] );
 
 <hr>
 
-<div class="prpl-counter-big-wrapper">
-	<span class="counter-big-number">
-		<?php echo \esc_html( \number_format_i18n( (int) $prpl_widget->get_weekly_activities_density() ) ); ?>
-	</span>
-	<span class="counter-big-text">
-		<?php echo \esc_html_e( 'content density', 'progress-planner' ); ?>
-	</span>
-</div>
+<prpl-big-counter
+	number="<?php echo \esc_html( \number_format_i18n( (int) $prpl_widget->get_weekly_activities_density() ) ); ?>"
+	content="<?php echo \esc_attr_e( 'content density', 'progress-planner' ); ?>"
+	background-color="var(--prpl-background-purple)"
+></prpl-big-counter>
+
 <p>
 	<?php
 	if ( 0 === $prpl_widget->get_weekly_words() ) {

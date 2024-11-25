@@ -76,12 +76,11 @@ $prpl_record = $prpl_widget->personal_record_callback();
 
 <hr>
 
-<div class="prpl-counter-big-wrapper prpl-personal-record-content">
-	<span class="counter-big-number">
-		<?php echo \esc_html( \number_format_i18n( (int) $prpl_record['max_streak'] ) ); ?>
-	</span>
-	<span class="counter-big-text"><?php \esc_html_e( 'personal record', 'progress-planner' ); ?></span>
-</div>
+<prpl-big-counter
+	number="<?php echo \esc_html( \number_format_i18n( (int) $prpl_record['max_streak'] ) ); ?>"
+	content="<?php echo \esc_attr_e( 'personal record', 'progress-planner' ); ?>"
+	background-color="var(--prpl-background-green)"
+></prpl-big-counter>
 
 <div class="prpl-widget-content">
 	<?php

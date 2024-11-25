@@ -130,6 +130,7 @@ class Page {
 			\wp_enqueue_script( 'progress-planner-web-components-prpl-gauge' );
 			\wp_enqueue_script( 'progress-planner-web-components-prpl-chart-bar' );
 			\wp_enqueue_script( 'progress-planner-web-components-prpl-chart-line' );
+			\wp_enqueue_script( 'progress-planner-web-components-prpl-big-counter' );
 			\wp_enqueue_script( 'progress-planner-onboard' );
 			\wp_enqueue_script( 'progress-planner-header-filters' );
 			\wp_enqueue_script( 'progress-planner-todo' );

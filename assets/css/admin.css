@@ -208,32 +208,6 @@ button.prpl-info-icon {
 }
 
 /*------------------------------------*\
-	The big counters in widgets.
-\*------------------------------------*/
-.prpl-counter-big-wrapper {
-	background-color: var(--prpl-background-purple);
-	padding: var(--prpl-padding);
-	border-radius: var(--prpl-border-radius-big);
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	text-align: center;
-	align-content: center;
-	justify-content: center;
-	height: calc(var(--prpl-font-size-5xl) + var(--prpl-font-size-2xl) + var(--prpl-padding) * 2);
-
-	.counter-big-number {
-		font-size: var(--prpl-font-size-5xl);
-		line-height: 1;
-		font-weight: 600;
-	}
-
-	.counter-big-text {
-		font-size: var(--prpl-font-size-2xl);
-	}
-}
-
-/*------------------------------------*\
 	Generic styles for the graph wrappers.
 \*------------------------------------*/
 .prpl-graph-wrapper {
