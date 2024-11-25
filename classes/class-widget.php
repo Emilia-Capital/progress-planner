@@ -62,10 +62,6 @@ abstract class Widget {
 	 * @return void
 	 */
 	public function render() {
-		if ( ! $this->should_render() ) {
-			return;
-		}
-
 		$stylesheet = "/assets/css/page-widgets/{$this->id}.css";
 		if ( \file_exists( PROGRESS_PLANNER_DIR . $stylesheet ) ) {
 			\wp_enqueue_style(
@@ -75,34 +71,12 @@ abstract class Widget {
 				(string) filemtime( PROGRESS_PLANNER_DIR . $stylesheet )
 			);
 		}
-		$classes = [
-			'prpl-widget-wrapper',
-			'prpl-' . \esc_attr( $this->id ),
-		];
 		?>
-		<div class="<?php echo \esc_attr( \implode( ' ', $classes ) ); ?>">
+		<div class="prpl-widget-wrapper prpl-<?php echo \esc_attr( $this->id ); ?>">
 			<div class="widget-inner-container">
-				<?php $this->the_content(); ?>
+				<?php \progress_planner()->the_view( "page-widgets/{$this->id}.php" ); ?>
 			</div>
 		</div>
 		<?php
-	}
-
-	/**
-	 * Whether we should render the widget or not.
-	 *
-	 * @return bool
-	 */
-	protected function should_render() {
-		return true;
-	}
-
-	/**
-	 * Render the widget content.
-	 *
-	 * @return void
-	 */
-	public function the_content() {
-		\progress_planner()->the_view( "page-widgets/{$this->id}.php" );
 	}
 }
