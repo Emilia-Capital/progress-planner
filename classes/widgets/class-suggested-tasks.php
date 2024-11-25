@@ -33,16 +33,7 @@ final class Suggested_Tasks extends \Progress_Planner\Widget {
 			]
 		);
 
-		/*
-		If we need to get the pending activities count, we can use the following code:
-
-		$pending_activities = \get_option( \Progress_Planner\Suggested_Tasks::OPTION_NAME, [] );
-		$pending_activities_count = count( $pending_activities );
-		$total_count = $activities_count + $pending_activities_count;
-		 */
-
 		$score = 0;
-
 		foreach ( $activities as $activity ) {
 			$score += $activity->get_points( $activity->date );
 		}
