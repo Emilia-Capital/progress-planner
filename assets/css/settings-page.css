@@ -91,6 +91,7 @@
 		.item-actions,
 		.prpl-select-page {
 			display: flex;
+			align-items: center;
 			gap: 1rem;
 		}
 
@@ -123,10 +124,6 @@
 			margin-block-end: 1rem;
 		}
 
-		&:last-child {
-			border-bottom: none;
-		}
-
 		.radios {
 			margin-bottom: 1rem;
 		}
@@ -134,6 +131,7 @@
 		.prpl-radio-wrapper {
 			display: flex;
 			justify-content: space-between;
+			align-items: center;
 
 			[data-action="select"],
 			[data-action="create"] {
@@ -172,8 +170,8 @@
 
 	.prpl-pages-list {
 		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: 1rem;
+		grid-template-columns: repeat(auto-fit, minmax(33rem, 1fr));
+		gap: var(--prpl-gap);
 
 		.item-description {
 
@@ -199,6 +197,7 @@
 		border: 1px solid var(--prpl-color-gray-2);
 		border-radius: var(--prpl-border-radius);
 		padding: 0.5em 1em;
+		display: inline-flex;
 
 		&:hover,
 		&:focus {
