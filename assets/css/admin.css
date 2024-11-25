@@ -139,33 +139,33 @@ button.prpl-info-icon {
 	display: flex;
 	gap: var(--prpl-padding);
 	align-items: center;
-}
 
-.prpl-tour-icon,
-.prpl-settings-icon {
-	width: 1.1rem;
-	height: 1.1rem;
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	padding: 0.4em;
+	.prpl-info-icon {
+		width: 2rem;
+		height: 2rem;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0.4em;
 
-	border: 1px solid var(--prpl-color-gray-2);
-	border-radius: var(--prpl-border-radius);
+		/* color: var(--prpl-color-gray-2); */
+		border: 1px solid var(--prpl-color-gray-2);
+		border-radius: var(--prpl-border-radius);
 
-	svg {
-		width: 1rem;
-		height: 1rem;
+		svg {
+			width: 1rem;
+			height: 1rem;
 
-		& path {
-			fill: currentcolor;
+			& path {
+				fill: currentcolor;
+			}
 		}
-	}
 
-	&:hover {
-		color: var(--prpl-color-link);
-		border-color: var(--prpl-color-link);
-		background-color: var(--prpl-background-blue);
+		&:hover {
+			color: var(--prpl-color-link);
+			border-color: var(--prpl-color-link);
+			background-color: var(--prpl-background-blue);
+		}
 	}
 }
 

@@ -9,6 +9,10 @@
 		display: flex;
 		align-items: center;
 		gap: 0.5rem;
+		font-size: 1.3rem;
+		background: var(--prpl-background-red);
+		padding: 0.5rem 1rem;
+		border-radius: 0.5rem;
 
 		.icon {
 			width: 1.25em;
