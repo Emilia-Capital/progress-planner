@@ -15,28 +15,28 @@ customElements.define(
 			}
 
 			const labelsDivider =
-				data.labels.length > 6 ? parseInt( data.labels.length / 6 ) : 1;
+				data.length > 6 ? parseInt( data.length / 6 ) : 1;
 
 			let html = `<div style="display: flex; max-width: 600px; height: 200px; width: 100%; align-items: flex-end; gap: 5px; margin: 1rem 0;">`;
 			let i = 0;
-			for ( const score of data.data ) {
+			data.forEach( ( item ) => {
 				html += `<div style="flex: auto; display: flex; flex-direction: column; justify-content: flex-end; height: 100%;">`;
 				html += `<div style="
 					display: block;
 					width: 100%;
-					height: ${ score }%;
-					background: ${ data.color[ i ] }"
-					title="${ data.labels[ i ] } - ${ score }%
+					height: ${ item.score }%;
+					background: ${ item.color }"
+					title="${ item.label } - ${ item.score }%
 				"></div>`;
 				// Only display up to 6 labels.
 				html += `<span style="width:0!important;height:1rem;overflow:visible;text-align:center;display:block;width:100%;font-size: 0.75em;">`;
 				if ( i % labelsDivider === 0 ) {
-					html += `${ data.labels[ i ] }`;
+					html += `${ item.label }`;
 				}
 				html += `</span>`;
 				html += `</div>`;
 				i++;
-			}
+			} );
 			html += `</div>`;
 
 			this.innerHTML = html;

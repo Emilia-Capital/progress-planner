@@ -37,9 +37,7 @@ class Chart {
 	 *                                    ['start']     The start date for the chart.
 	 *                                    ['end']       The end date for the chart.
 	 *                                    ['frequency'] The frequency for the chart nodes.
-	 *                                    ['format']    The format for the label
-	 *
-	 *                     [compound]       Whether to add the stats for next node to the previous one.
+	 *                                    ['format']    The format for the label.
 	 *
 	 * @return array
 	 */
@@ -55,7 +53,6 @@ class Chart {
 				'query_params'   => [],
 				'filter_results' => null,
 				'dates_params'   => [],
-				'compound'       => false,
 				'normalized'     => false,
 				'color'          => function () {
 					return '#534786';
@@ -76,57 +73,17 @@ class Chart {
 			$args['dates_params']['frequency']
 		);
 
-		// Prepare the data for the chart.
-		$data    = [
-			'labels' => [],
-		];
-		$dataset = [
-			'data'  => [],
-			'color' => [],
-		];
-
-		/*
-		 * Calculate zero stats to be used as the baseline.
-		 *
-		 * If this is an "compound" chart,
-		 * we need to calculate the score for all activities before the first period.
-		 */
-		$score = 0;
-		if ( $args['compound'] ) {
-			$oldest_activity = \progress_planner()->get_query()->get_oldest_activity();
-			if ( null !== $oldest_activity ) {
-				// Get the activities before the first period.
-				// We need to subtract one day from the start date to get the activities before the first period.
-				// Get all activities before the first period.
-				$activities = \progress_planner()->get_query()->query_activities(
-					array_merge(
-						$args['query_params'],
-						[
-							'start_date' => $oldest_activity->date,
-							'end_date'   => ( clone $periods[0]['start'] )->modify( '-1 day' ),
-						]
-					)
-				);
-				// Filter the results if a callback is provided.
-				if ( $args['filter_results'] ) {
-					$activities = $args['filter_results']( $activities );
-				}
-				// Calculate the score for the activities.
-				$score = $args['count_callback']( $activities );
-			}
-		}
-
 		/*
 		 * "Normalized" charts decay the score of previous months activities,
 		 * and add them to the current month score.
 		 * This means that for "normalized" charts, we need to get activities
 		 * for the month prior to the first period.
 		 */
-		$previous_month_activities = [];
+		$previous_period_activities = [];
 		if ( $args['normalized'] ) {
-			$previous_month_start      = ( clone $periods[0]['start'] )->modify( '-1 month' );
-			$previous_month_end        = ( clone $periods[0]['start'] )->modify( '-1 day' );
-			$previous_month_activities = \progress_planner()->get_query()->query_activities(
+			$previous_month_start       = ( clone $periods[0]['start'] )->modify( '-1 month' );
+			$previous_month_end         = ( clone $periods[0]['start'] )->modify( '-1 day' );
+			$previous_period_activities = \progress_planner()->get_query()->query_activities(
 				array_merge(
 					$args['query_params'],
 					[
@@ -140,32 +97,32 @@ class Chart {
 			}
 		}
 
+		$data = [];
+
 		// Loop through the periods and calculate the score for each period.
 		foreach ( $periods as $period ) {
-			$period_data = $this->get_period_data( $period, $data, $dataset, $args, $score, $previous_month_activities );
-
-			$data                      = $period_data['data'];
-			$score                     = $period_data['score'];
-			$dataset                   = $period_data['dataset'];
-			$previous_month_activities = $period_data['previous_month_activities'];
+			$period_data                = $this->get_period_data( $period, $args, $previous_period_activities );
+			$previous_period_activities = $period_data['previous_period_activities'];
+			$data[]                     = [
+				'label' => $period_data['label'],
+				'score' => $period_data['score'],
+				'color' => $period_data['color'],
+			];
 		}
 
-		return array_merge( $data, $dataset );
+		return $data;
 	}
 
 	/**
 	 * Get the data for a period.
 	 *
 	 * @param array $period                    The period.
-	 * @param array $data                      The data for the chart.
-	 * @param array $dataset                   The dataset for the chart.
 	 * @param array $args                      The arguments for the chart.
-	 * @param int   $score                     The score for the period.
-	 * @param array $previous_month_activities The activities for the previous month.
+	 * @param array $previous_period_activities The activities for the previous month.
 	 *
 	 * @return array
 	 */
-	public function get_period_data( $period, $data, $dataset, $args, $score, $previous_month_activities ) {
+	public function get_period_data( $period, $args, $previous_period_activities ) {
 		// Get the activities for the period.
 		$activities = \progress_planner()->get_query()->query_activities(
 			array_merge(
@@ -181,36 +138,24 @@ class Chart {
 			$activities = $args['filter_results']( $activities );
 		}
 
-		// Add the label for the period.
-		$data['labels'][] = $period['start']->format( $args['dates_params']['format'] );
-
 		// Calculate the score for the period.
 		$period_score = $args['count_callback']( $activities, $period['start'] );
 
 		// If this is a "normalized" chart, we need to calculate the score for the previous month activities.
 		if ( $args['normalized'] ) {
 			// Add the previous month activities to the current month score.
-			$period_score += $args['count_callback']( $previous_month_activities, $period['start'] );
+			$period_score += $args['count_callback']( $previous_period_activities, $period['start'] );
 			// Update the previous month activities for the next iteration of the loop.
-			$previous_month_activities = $activities;
+			$previous_period_activities = $activities;
 		}
 
-		// "Additive" charts add the score for the period to the previous score.
-		$score = $args['compound'] ? $score + $period_score : $period_score;
-
-		// Apply a "max" limit to the score if max is defined in the arguments.
-		$dataset['data'][] = null === $args['max']
-			? $score
-			: min( $score, $args['max'] );
-
-		// Calculate the colors for the score.
-		$dataset['color'][] = $args['color']( $score, $period['start'] );
-
 		return [
-			'data'                      => $data,
-			'dataset'                   => $dataset,
-			'score'                     => $score,
-			'previous_month_activities' => $previous_month_activities,
+			'label'                      => $period['start']->format( $args['dates_params']['format'] ),
+			'score'                      => null === $args['max']
+				? $period_score
+				: min( $period_score, $args['max'] ),
+			'color'                      => $args['color']( $period_score, $period['start'] ),
+			'previous_period_activities' => $previous_period_activities,
 		];
 	}
 

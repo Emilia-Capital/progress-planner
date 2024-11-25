@@ -66,7 +66,6 @@ $prpl_record = $prpl_widget->personal_record_callback();
 				}
 				return $score * 100 / \Progress_Planner\Base::SCORE_TARGET;
 			},
-			'compound'       => false,
 			'normalized'     => true,
 			'color'          => [ $prpl_widget, 'get_color' ],
 			'max'            => 100,

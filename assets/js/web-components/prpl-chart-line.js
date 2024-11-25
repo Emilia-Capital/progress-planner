@@ -22,7 +22,7 @@ customElements.define(
 			const strokeWidth = 4;
 
 			// Determine the maximum value for the chart.
-			const max = Math.max( ...data.data );
+			const max = Math.max( ...data.map( ( item ) => item.score ) );
 			const maxValue = 100 > max && 70 < max ? 100 : max;
 
 			const calcYCoordinate = ( value ) => {
@@ -54,7 +54,7 @@ customElements.define(
 
 			// Calculate the distance between the points in the X axis.
 			const xDistanceBetweenPoints = Math.round(
-				( width - 2 * axisOffset ) / ( data.data.length - 1 )
+				( width - 2 * axisOffset ) / ( data.length - 1 )
 			);
 
 			// X-axis line.
@@ -73,27 +73,26 @@ customElements.define(
 
 			// X-axis labels and rulers.
 			let labelXCoordinate = 0;
-			const labelsXCount = data.labels.length;
-			const labelsXDivider = Math.round( labelsXCount / 6 );
+			const labelsXDivider = Math.round( data.length / 6 );
 			let i = 0;
 			let xAxisLabelsAndRulers = '';
-			for ( const label of data.labels ) {
+			data.forEach( ( item ) => {
 				labelXCoordinate = xDistanceBetweenPoints * i + axisOffset;
 				++i;
 
 				// Only allow up to 6 labels to prevent overlapping.
 				// If there are more than 6 labels, find the alternate labels.
 				if (
-					6 < labelsXCount &&
+					6 < data.length &&
 					1 !== i &&
 					( i - 1 ) % labelsXDivider !== 0
 				) {
-					continue;
+					return;
 				}
 
 				xAxisLabelsAndRulers += `<g><text class="x-axis-label" x="${ labelXCoordinate }" y="${
 					height + axisOffset
-				}">${ label }</text></g>`;
+				}">${ item.label }</text></g>`;
 
 				// Draw the ruler.
 				if ( 1 !== i ) {
@@ -105,13 +104,13 @@ customElements.define(
 						height - axisOffset
 					}" stroke="var(--prpl-color-gray-1)" stroke-width="1" /></g>`;
 				}
-			}
+			} );
 
 			// Y-axis labels and rulers.
 			let yLabelCoordinate = 0;
 			let iYLabel = 0;
 			let yAxisLabelsAndRulers = '';
-			for ( const yLabel of yLabels ) {
+			yLabels.forEach( ( yLabel ) => {
 				yLabelCoordinate = calcYCoordinate( yLabel );
 
 				yAxisLabelsAndRulers += `<g><text class="y-axis-label" x="0" y="${
@@ -128,21 +127,21 @@ customElements.define(
 				}
 
 				++iYLabel;
-			}
+			} );
 
 			// Line chart.
 			const polylinePoints = [];
 			let xCoordinate = axisOffset * 2;
-			for ( const point of data.data ) {
+			data.forEach( ( item ) => {
 				polylinePoints.push( [
 					xCoordinate,
-					calcYCoordinate( point ),
+					calcYCoordinate( item.score ),
 				] );
 				xCoordinate += xDistanceBetweenPoints;
-			}
+			} );
 
 			const polyLine = `<g><polyline fill="none" stroke="${
-				data.color[ 0 ]
+				data[ 0 ].color
 			}" stroke-width="${ strokeWidth }" points="${ polylinePoints
 				.map( ( point ) => point.join( ',' ) )
 				.join( ' ' ) }" /></g>`;
