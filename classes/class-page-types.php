@@ -47,6 +47,7 @@ class Page_Types {
 			self::TAXONOMY_NAME,
 			\array_keys( \get_post_types( [ 'public' => true ] ) ),
 			[
+				'public'            => false,
 				'hierarchical'      => false,
 				'labels'            => [], // Hidden taxonomy, no need for labels.
 				'show_ui'           => false,
