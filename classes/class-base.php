@@ -57,7 +57,7 @@ class Base {
 		$this->cached['actions__maintenance']  = new \Progress_Planner\Actions\Maintenance();
 
 		// REST API.
-		$this->cached['rest_api'] = new Rest_API();
+		$this->cached['rest_api_stats'] = new Rest_API_Stats();
 
 		// Onboarding.
 		$this->cached['onboard'] = new Onboard();
