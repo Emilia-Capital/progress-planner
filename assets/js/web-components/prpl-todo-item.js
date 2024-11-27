@@ -1,7 +1,7 @@
 /* global customElements, HTMLElement, progressPlannerTodoItem, progressPlannerInjectTodoItem, progressPlannerSaveTodoList */
 
 /**
- * TODO item.
+ * Register the custom web component.
  */
 customElements.define(
 	'prpl-todo-item',

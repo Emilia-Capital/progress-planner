@@ -144,11 +144,9 @@ class Badges {
 	/**
 	 * Clear the progress of all badges.
 	 *
-	 * @param string $activity_id The activity ID.
-	 *
 	 * @return void
 	 */
-	public function clear_content_progress( $activity_id ) {
+	public function clear_content_progress() {
 
 		// Clear content saved progress.
 		foreach ( $this->content as $badge ) {

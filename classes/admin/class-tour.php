@@ -131,34 +131,6 @@ class Tour {
 			return;
 		}
 
-		// Register driver.js.
-		\wp_register_script(
-			'driver-js',
-			PROGRESS_PLANNER_URL . '/assets/js/vendor/driver.js.iife.js',
-			[],
-			'1.3.1',
-			true
-		);
-
-		\wp_register_script(
-			'progress-planner-tour',
-			PROGRESS_PLANNER_URL . '/assets/js/tour.js',
-			[ 'driver-js' ],
-			(string) filemtime( PROGRESS_PLANNER_DIR . '/assets/js/tour.js' ),
-			true
-		);
-		\wp_localize_script(
-			'progress-planner-tour',
-			'progressPlannerTour',
-			[
-				'steps'        => $this->get_steps(),
-				'progressText' => __( 'Step {{current}} of {{total}}', 'progress-planner' ),
-				'nextBtnText'  => __( 'Next &rarr;', 'progress-planner' ),
-				'prevBtnText'  => __( '&larr; Previous', 'progress-planner' ),
-				'doneBtnText'  => __( 'Finish', 'progress-planner' ),
-			]
-		);
-
 		\wp_enqueue_script( 'progress-planner-tour' );
 
 		\wp_enqueue_style(

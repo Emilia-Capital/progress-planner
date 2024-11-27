@@ -23,7 +23,9 @@ class Page_Types {
 	 * Constructor
 	 */
 	public function __construct() {
-		\add_action( 'init', [ $this, 'init' ] );
+		\add_action( 'init', [ $this, 'create_taxonomy' ] );
+		\add_action( 'init', [ $this, 'maybe_add_terms' ] );
+		\add_action( 'init', [ $this, 'maybe_update_terms' ] );
 
 		// Add hook when updating the `page_on_front` option.
 		\add_action( 'update_option_page_on_front', [ $this, 'update_option_page_on_front' ] );
@@ -32,17 +34,6 @@ class Page_Types {
 		\add_action( 'post_updated', [ $this, 'post_updated' ], 10, 2 );
 		\add_action( 'wp_insert_post', [ $this, 'post_updated' ], 10, 2 );
 		\add_action( 'transition_post_status', [ $this, 'transition_post_status' ], 10, 3 );
-	}
-
-	/**
-	 * Initialize the class.
-	 *
-	 * @return void
-	 */
-	public function init() {
-		$this->create_taxonomy();
-		$this->maybe_add_terms();
-		$this->maybe_update_terms();
 	}
 
 	/**

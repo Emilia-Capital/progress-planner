@@ -1,7 +1,7 @@
 /* global customElements, progressPlannerSuggestedTask, HTMLElement */
 
 /**
- * Suggested task.
+ * Register the custom web component.
  */
 customElements.define(
 	'prpl-suggested-task',

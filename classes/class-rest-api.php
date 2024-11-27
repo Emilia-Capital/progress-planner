@@ -129,7 +129,6 @@ class Rest_API {
 					}
 					return $score * 100 / Base::SCORE_TARGET;
 				},
-				'compound'       => false,
 				'normalized'     => true,
 				'max'            => 100,
 			]
