@@ -7,9 +7,6 @@
 
 namespace Progress_Planner\Goals;
 
-use Progress_Planner\Date;
-use Progress_Planner\Goals\Goal;
-
 /**
  * A recurring goal.
  */
@@ -53,7 +50,7 @@ class Goal_Recurring {
 	/**
 	 * An array of occurences.
 	 *
-	 * @var Goal[]
+	 * @var \Progress_Planner\Goals\Goal[]
 	 */
 	private $occurences = [];
 
@@ -106,7 +103,7 @@ class Goal_Recurring {
 	/**
 	 * Get the goal title.
 	 *
-	 * @return Goal
+	 * @return \Progress_Planner\Goals\Goal
 	 */
 	public function get_goal() {
 		return $this->goal;
@@ -115,14 +112,13 @@ class Goal_Recurring {
 	/**
 	 * Build an array of occurences for the goal.
 	 *
-	 * @return Goal[]
+	 * @return \Progress_Planner\Goals\Goal[]
 	 */
 	public function get_occurences() {
 		if ( ! empty( $this->occurences ) ) {
 			return $this->occurences;
 		}
-		$date   = new Date();
-		$ranges = $date->get_periods( $this->start, $this->end, $this->frequency );
+		$ranges = \progress_planner()->get_date()->get_periods( $this->start, $this->end, $this->frequency );
 
 		if ( empty( $ranges ) ) {
 			return $this->occurences;
@@ -130,7 +126,7 @@ class Goal_Recurring {
 
 		// If the last range ends before today, add a new range.
 		if ( (int) gmdate( 'Ymd' ) > (int) end( $ranges )['end']->format( 'Ymd' ) ) {
-			$ranges[] = $date->get_range(
+			$ranges[] = \progress_planner()->get_date()->get_range(
 				end( $ranges )['end'],
 				new \DateTime( 'tomorrow' )
 			);

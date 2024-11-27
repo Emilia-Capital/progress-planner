@@ -1,19 +1,14 @@
 <?php
 /**
- * Scan existing posts and populate the options.
+ * Content actions.
  *
  * @package Progress_Planner
  */
 
 namespace Progress_Planner\Actions;
 
-use Progress_Planner\Activities\Content_Helpers;
-use Progress_Planner\Activities\Content as Content_Activity;
-use Progress_Planner\Date;
-use Progress_Planner\Settings;
-
 /**
- * Scan existing posts and populate the options.
+ * Content actions.
  */
 class Content {
 
@@ -59,7 +54,7 @@ class Content {
 		}
 
 		// Reset the words count.
-		Settings::set( [ 'word_count', $post_id ], false );
+		\progress_planner()->get_settings()->set( [ 'word_count', $post_id ], false );
 
 		if ( 'publish' !== $post->post_status ) {
 			return;
@@ -70,9 +65,9 @@ class Content {
 			[
 				'category'   => 'content',
 				'type'       => 'update',
-				'data_id'    => $post_id,
-				'start_date' => Date::get_datetime_from_mysql_date( $post->post_modified )->modify( '-12 hours' ),
-				'end_date'   => Date::get_datetime_from_mysql_date( $post->post_modified )->modify( '+12 hours' ),
+				'data_id'    => (string) $post_id,
+				'start_date' => \progress_planner()->get_date()->get_datetime_from_mysql_date( $post->post_modified )->modify( '-12 hours' ),
+				'end_date'   => \progress_planner()->get_date()->get_datetime_from_mysql_date( $post->post_modified )->modify( '+12 hours' ),
 			],
 			'RAW'
 		);
@@ -109,7 +104,7 @@ class Content {
 			[
 				'category' => 'content',
 				'type'     => 'publish',
-				'data_id'  => $post_id,
+				'data_id'  => (string) $post_id,
 			],
 			'RAW'
 		);
@@ -164,7 +159,7 @@ class Content {
 		$this->add_post_activity( $post, 'trash' );
 
 		// Reset the words count.
-		Settings::set( [ 'word_count', $post_id ], false );
+		\progress_planner()->get_settings()->set( [ 'word_count', $post_id ], false );
 	}
 
 	/**
@@ -184,15 +179,15 @@ class Content {
 		}
 
 		// Reset the words count.
-		Settings::set( [ 'word_count', $post_id ], false );
+		\progress_planner()->get_settings()->set( [ 'word_count', $post_id ], false );
 
 		// Add activity.
-		$activity           = new Content_Activity();
+		$activity           = new \Progress_Planner\Activities\Content();
 		$activity->category = 'content';
 		$activity->type     = 'delete';
-		$activity->data_id  = $post_id;
+		$activity->data_id  = (string) $post_id;
 		$activity->date     = new \DateTime();
-		$activity->user_id  = get_current_user_id();
+		$activity->user_id  = \get_current_user_id();
 		$activity->save();
 	}
 
@@ -207,7 +202,7 @@ class Content {
 		// Bail if the post is not included in the post-types we're tracking.
 		if ( ! \in_array(
 			$post->post_type,
-			Content_Helpers::get_post_types_names(),
+			\progress_planner()->get_activities__content_helpers()->get_post_types_names(),
 			true
 		) ) {
 			return true;
@@ -235,37 +230,41 @@ class Content {
 	 * Add an update activity.
 	 *
 	 * @param \WP_Post $post The post object.
-	 * @param string   $type The type of activity.
+	 * @param string   $type The type of activity (ie publish, update, trash, delete etc).
 	 *
 	 * @return void
 	 */
 	private function add_post_activity( $post, $type ) {
-		if ( 'update' === $type ) {
-			if ( 'publish' === $post->post_status ) {
-				// Check if there is a publish activity for this post.
-				$existing = \progress_planner()->get_query()->query_activities(
-					[
-						'category' => 'content',
-						'type'     => 'publish',
-						'data_id'  => $post->ID,
-					],
-					'RAW'
-				);
 
-				// If there is no publish activity for this post, add it.
-				if ( empty( $existing ) ) {
-					$this->add_post_activity( $post, 'publish' );
-					return;
-				}
+		// Post was updated to publish for the first time, ie draft was published.
+		if ( 'update' === $type && 'publish' === $post->post_status ) {
+			// Check if there is a publish activity for this post.
+			$existing = \progress_planner()->get_query()->query_activities(
+				[
+					'category' => 'content',
+					'type'     => 'publish',
+					'data_id'  => (string) $post->ID,
+				],
+				'RAW'
+			);
+
+			// If there is no publish activity for this post, add it.
+			if ( empty( $existing ) ) {
+				$this->add_post_activity( $post, 'publish' );
+				return;
 			}
+		}
+
+		// Post was updated, but it was published previously.
+		if ( 'update' === $type ) {
 
 			// Check if there are any activities for this post, on this date.
 			$existing = \progress_planner()->get_query()->query_activities(
 				[
 					'category'   => 'content',
-					'data_id'    => $post->ID,
-					'start_date' => Date::get_datetime_from_mysql_date( $post->post_modified )->modify( '-12 hours' ),
-					'end_date'   => Date::get_datetime_from_mysql_date( $post->post_modified )->modify( '+12 hours' ),
+					'data_id'    => (string) $post->ID,
+					'start_date' => \progress_planner()->get_date()->get_datetime_from_mysql_date( $post->post_modified )->modify( '-12 hours' ),
+					'end_date'   => \progress_planner()->get_date()->get_datetime_from_mysql_date( $post->post_modified )->modify( '+12 hours' ),
 				],
 				'RAW'
 			);
@@ -273,35 +272,24 @@ class Content {
 			// If there are activities for this post, on this date, bail.
 			if ( ! empty( $existing ) ) {
 				// Reset the words count.
-				Settings::set( [ 'word_count', $post->ID ], false );
+				\progress_planner()->get_settings()->set( [ 'word_count', $post->ID ], false );
 
 				return;
 			}
 		}
 
-		$activity       = Content_Helpers::get_activity_from_post( $post );
+		$activity       = \progress_planner()->get_activities__content_helpers()->get_activity_from_post( $post );
 		$activity->type = $type;
 
 		// Update the badges.
 		if ( 'publish' === $type ) {
-			$badge_ids = [ 'wonderful-writer', 'bold-blogger', 'awesome-author' ];
-			foreach ( $badge_ids as $badge_id ) {
-
-				// If the badge is already complete, skip it.
-				if ( 100 === Settings::get( [ 'badges', $badge_id, 'progress' ], 0 ) ) {
-					continue;
-				}
-
-				// Delete the badge value so it can be re-calculated.
-				Settings::set( [ 'badges', $badge_id ], [] );
-			}
 
 			// Check if there is a publish activity for this post.
 			$existing = \progress_planner()->get_query()->query_activities(
 				[
 					'category' => 'content',
 					'type'     => 'publish',
-					'data_id'  => $post->ID,
+					'data_id'  => (string) $post->ID,
 				],
 				'RAW'
 			);
@@ -309,6 +297,8 @@ class Content {
 			// If there is no publish activity for this post, add it.
 			if ( empty( $existing ) ) {
 				$activity->save();
+
+				\do_action( 'progress_planner_activity_content_publish_saved', $activity->data_id );
 				return;
 			}
 		}
@@ -316,6 +306,6 @@ class Content {
 		$activity->save();
 
 		// Reset the words count.
-		Settings::set( [ 'word_count', $post->ID ], false );
+		\progress_planner()->get_settings()->set( [ 'word_count', $post->ID ], false );
 	}
 }

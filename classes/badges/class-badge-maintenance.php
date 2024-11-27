@@ -7,10 +7,6 @@
 
 namespace Progress_Planner\Badges;
 
-use Progress_Planner\Base;
-use Progress_Planner\Goals\Goal_Recurring;
-use Progress_Planner\Goals\Goal;
-
 /**
  * Badge class.
  */
@@ -19,13 +15,13 @@ abstract class Badge_Maintenance extends Badge {
 	/**
 	 * Get a recurring goal for any type of weekly activity.
 	 *
-	 * @return Goal_Recurring
+	 * @return \Progress_Planner\Goals\Goal_Recurring
 	 */
 	public function get_goal() {
-		return Goal_Recurring::get_instance(
+		return \Progress_Planner\Goals\Goal_Recurring::get_instance(
 			'weekly_activity',
 			[
-				'class_name'  => Goal::class,
+				'class_name'  => \Progress_Planner\Goals\Goal::class,
 				'id'          => 'weekly_activity',
 				'title'       => \esc_html__( 'Weekly activity', 'progress-planner' ),
 				'description' => \esc_html__( 'Streak: The number of weeks this goal has been accomplished consistently.', 'progress-planner' ),
@@ -44,7 +40,7 @@ abstract class Badge_Maintenance extends Badge {
 			],
 			[
 				'frequency'     => 'weekly',
-				'start'         => Base::get_activation_date(),
+				'start'         => \progress_planner()->get_activation_date(),
 				'end'           => new \DateTime(), // Today.
 				'allowed_break' => 1, // Allow break in the streak for 1 week.
 			]
@@ -72,5 +68,14 @@ abstract class Badge_Maintenance extends Badge {
 		}
 
 		return [];
+	}
+
+	/**
+	 * Get the background color for the badge.
+	 *
+	 * @return string
+	 */
+	public function get_background() {
+		return 'var(--prpl-background-red)';
 	}
 }

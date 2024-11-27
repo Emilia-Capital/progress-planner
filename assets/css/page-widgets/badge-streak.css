@@ -1,0 +1,78 @@
+
+
+#popover-badge-streak-content,
+#popover-badge-streak-maintenance {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-gap: var(--prpl-padding);
+
+	.inner {
+		border-radius: var(--prpl-border-radius-big);
+		padding: var(--prpl-padding);
+		font-size: var(--prpl-font-size-small);
+		text-align: center;
+	}
+}
+
+#popover-badge-streak-content .inner {
+	background: var(--prpl-background-red);
+}
+
+#popover-badge-streak-maintenance .inner {
+	background: var(--prpl-background-blue);
+}
+
+.badges-popover-progress-total {
+	display: block;
+	width: 100%;
+	height: 20px;
+	background: var(--prpl-color-gray-1);
+
+	> span {
+		display: block;
+		height: 100%;
+		background: var(--prpl-color-accent-red);
+	}
+}
+
+/*------------------------------------*\
+	Badges popover.
+\*------------------------------------*/
+
+#prpl-popover-badge-streak {
+
+	.indicators {
+		display: grid;
+		grid-template-columns: 1fr 1fr 1fr;
+		grid-gap: var(--prpl-padding);
+
+		.indicator {
+			text-align: center;
+			line-height: 1.2;
+			margin-top: 5px;
+
+			.number {
+				font-size: var(--prpl-font-size-2xl);
+				font-weight: 500;
+				display: block;
+			}
+		}
+	}
+
+	.prpl-widgets-container.in-popover {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(var(--prpl-column-min-width), 1fr));
+		grid-gap: var(--prpl-gap);
+		grid-auto-rows: auto;
+
+		.prpl-widget-wrapper {
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+		}
+	}
+}
+
+.string-freeze-explain {
+	max-width: 42em;
+}

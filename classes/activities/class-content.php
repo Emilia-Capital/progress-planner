@@ -1,21 +1,16 @@
 <?php
 /**
- * Handler for posts activities.
+ * Handler for content activities.
  *
  * @package Progress_Planner
  */
 
 namespace Progress_Planner\Activities;
 
-use Progress_Planner\Base;
-use Progress_Planner\Activity;
-use Progress_Planner\Date;
-use Progress_Planner\Activities\Content_Helpers;
-
 /**
- * Handler for posts activities.
+ * Handler for content activities.
  */
-class Content extends Activity {
+class Content extends \Progress_Planner\Activity {
 
 	/**
 	 * Category of the activity.
@@ -24,13 +19,30 @@ class Content extends Activity {
 	 */
 	public $category = 'content';
 
+
+	/**
+	 * Points configuration for content activities.
+	 *
+	 * @var array
+	 */
+	public static $points_config = [
+		'publish'          => 50,
+		'update'           => 10,
+		'delete'           => 5,
+		'word-multipliers' => [
+			100  => 1.1,
+			350  => 1.25,
+			1000 => 0.8,
+		],
+	];
+
 	/**
 	 * Get WP_Post from the activity.
 	 *
 	 * @return \WP_Post|null
 	 */
 	public function get_post() {
-		return \get_post( $this->data_id );
+		return \get_post( (int) $this->data_id );
 	}
 
 	/**
@@ -47,7 +59,7 @@ class Content extends Activity {
 		}
 
 		// Get the number of days between the activity date and the given date.
-		$days = absint( Date::get_days_between_dates( $date, $this->date ) );
+		$days = absint( \progress_planner()->get_date()->get_days_between_dates( $date, $this->date ) );
 
 		// Maximum range for awarded points is 30 days.
 		if ( $days >= 30 ) {
@@ -77,9 +89,9 @@ class Content extends Activity {
 	 * @return int
 	 */
 	public function get_points_on_publish_date() {
-		$points = Base::$points_config['content']['publish'];
-		if ( isset( Base::$points_config['content'][ $this->type ] ) ) {
-			$points = Base::$points_config['content'][ $this->type ];
+		$points = self::$points_config['publish'];
+		if ( isset( self::$points_config[ $this->type ] ) ) {
+			$points = self::$points_config[ $this->type ];
 		}
 		$post = $this->get_post();
 
@@ -88,8 +100,8 @@ class Content extends Activity {
 		}
 
 		// Modify the score based on the words count.
-		$words       = Content_Helpers::get_word_count( $post->post_content, $post->ID );
-		$multipliers = Base::$points_config['content']['word-multipliers'];
+		$words       = \progress_planner()->get_activities__content_helpers()->get_word_count( $post->post_content, $post->ID );
+		$multipliers = self::$points_config['word-multipliers'];
 		if ( $words > 1000 ) {
 			return (int) ( $points * $multipliers[1000] );
 		}

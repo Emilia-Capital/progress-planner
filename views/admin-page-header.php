@@ -15,22 +15,37 @@ $progress_planner_active_range = isset( $_GET['range'] ) ? \sanitize_text_field(
 // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 $progress_planner_active_frequency = isset( $_GET['frequency'] ) ? \sanitize_text_field( \wp_unslash( $_GET['frequency'] ) ) : 'monthly';
 
-do_action( 'progress_planner_admin_page_header_before' );
+\do_action( 'progress_planner_admin_page_header_before' );
 ?>
 <div class="prpl-header">
 	<div class="prpl-header-logo">
-		<?php
-		// phpcs:ignore PEAR.Files.IncludingFile.UseRequire
-		include PROGRESS_PLANNER_DIR . '/assets/images/logo_progress_planner.svg';
-		?>
+		<?php \progress_planner()->the_asset( 'images/logo_progress_planner.svg' ); ?>
 	</div>
 
 	<div class="prpl-header-right">
 		<button class="prpl-info-icon" id="prpl-start-tour-icon-button" onclick="prplStartTour()">
-			<span class="dashicons dashicons-lightbulb"></span>
+			<?php \progress_planner()->the_asset( 'images/icon_tour.svg' ); ?>
 			<span class="screen-reader-text"><?php \esc_html_e( 'Start tour', 'progress-planner' ); ?>
 		</button>
-		<?php new \Progress_Planner\Popups\Settings(); ?>
+		<?php
+		// Render the settings button.
+		\progress_planner()->get_popover()->the_popover( 'settings' )->render_button(
+			'',
+			\progress_planner()->get_asset( 'images/icon_settings.svg' ) . '<span class="screen-reader-text">' . \esc_html__( 'Settings', 'progress-planner' ) . '</span>'
+		);
+		// Render the settings popover.
+		\progress_planner()->get_popover()->the_popover( 'settings' )->render();
+
+		// Render the subscribe form button and popover if the license key is not set.
+		if ( 'no-license' === \get_option( 'progress_planner_license_key', 'no-license' ) ) {
+			\progress_planner()->get_popover()->the_popover( 'subscribe-form' )->render_button(
+				'',
+				\progress_planner()->get_asset( 'images/register_icon.svg' ) . '<span class="screen-reader-text">' . \esc_html__( 'Subscribe', 'progress-planner' ) . '</span>'
+			);
+			// Render the subscribe form popover.
+			\progress_planner()->get_popover()->the_popover( 'subscribe-form' )->render();
+		}
+		?>
 		<div class="prpl-header-select-range">
 			<label for="prpl-select-range" class="screen-reader-text">
 				<?php \esc_html_e( 'Select range:', 'progress-planner' ); ?>

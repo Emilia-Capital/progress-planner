@@ -39,6 +39,9 @@ function prplMakePopoverBackdropTransparent( popover ) {
 // eslint-disable-next-line no-unused-vars -- This is called on a few buttons.
 function prplStartTour() {
 	const settingsPopover = document.getElementById( 'prpl-popover-settings' );
+	const monthlyBadgesPopover = document.getElementById(
+		'prpl-popover-monthly-badges'
+	);
 	const progressPlannerTourSteps = progressPlannerTour.steps;
 	progressPlannerTourSteps[ 3 ].popover.onNextClick = function () {
 		settingsPopover.showPopover();
@@ -49,6 +52,21 @@ function prplStartTour() {
 		settingsPopover.hidePopover();
 		document
 			.getElementById( settingsPopover.id + '-backdrop-transparency' )
+			.remove();
+		prplDriverObj.moveNext();
+	};
+
+	progressPlannerTourSteps[ 6 ].popover.onNextClick = function () {
+		monthlyBadgesPopover.showPopover();
+		prplMakePopoverBackdropTransparent( monthlyBadgesPopover );
+		prplDriverObj.moveNext();
+	};
+	progressPlannerTourSteps[ 7 ].popover.onNextClick = function () {
+		monthlyBadgesPopover.hidePopover();
+		document
+			.getElementById(
+				monthlyBadgesPopover.id + '-backdrop-transparency'
+			)
 			.remove();
 		prplDriverObj.moveNext();
 	};

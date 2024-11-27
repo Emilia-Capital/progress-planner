@@ -7,10 +7,8 @@
 
 namespace Progress_Planner\Actions;
 
-use Progress_Planner\Activities\Maintenance as Activity_Maintenance;
-
 /**
- * Handle activities for Core updates.
+ * Handle activities for updates.
  */
 class Maintenance {
 
@@ -57,9 +55,7 @@ class Maintenance {
 		if ( 'install' !== $options['action'] ) {
 			return;
 		}
-		$activity       = new Activity_Maintenance();
-		$activity->type = 'install_' . $this->get_install_type( $options );
-		$activity->save();
+		$this->create_maintenance_activity( 'install_' . $this->get_install_type( $options ) );
 	}
 
 	/**
@@ -74,9 +70,7 @@ class Maintenance {
 		if ( 'update' !== $options['action'] ) {
 			return;
 		}
-		$activity       = new Activity_Maintenance();
-		$activity->type = 'update_' . $this->get_update_type( $options );
-		$activity->save();
+		$this->create_maintenance_activity( 'update_' . $this->get_update_type( $options ) );
 	}
 
 	/**
@@ -85,9 +79,7 @@ class Maintenance {
 	 * @return void
 	 */
 	public function on_delete_plugin() {
-		$activity       = new Activity_Maintenance();
-		$activity->type = 'delete_plugin';
-		$activity->save();
+		$this->create_maintenance_activity( 'delete_plugin' );
 	}
 
 	/**
@@ -96,9 +88,7 @@ class Maintenance {
 	 * @return void
 	 */
 	public function on_delete_theme() {
-		$activity       = new Activity_Maintenance();
-		$activity->type = 'delete_theme';
-		$activity->save();
+		$this->create_maintenance_activity( 'delete_theme' );
 	}
 
 	/**
@@ -107,9 +97,7 @@ class Maintenance {
 	 * @return void
 	 */
 	public function on_activate_plugin() {
-		$activity       = new Activity_Maintenance();
-		$activity->type = 'activate_plugin';
-		$activity->save();
+		$this->create_maintenance_activity( 'activate_plugin' );
 	}
 
 	/**
@@ -118,9 +106,7 @@ class Maintenance {
 	 * @return void
 	 */
 	public function on_deactivate_plugin() {
-		$activity       = new Activity_Maintenance();
-		$activity->type = 'deactivate_plugin';
-		$activity->save();
+		$this->create_maintenance_activity( 'deactivate_plugin' );
 	}
 
 	/**
@@ -129,8 +115,19 @@ class Maintenance {
 	 * @return void
 	 */
 	public function on_switch_theme() {
-		$activity       = new Activity_Maintenance();
-		$activity->type = 'switch_theme';
+		$this->create_maintenance_activity( 'switch_theme' );
+	}
+
+	/**
+	 * Create a new maintenance activity.
+	 *
+	 * @param string $type The type of the activity.
+	 *
+	 * @return void
+	 */
+	protected function create_maintenance_activity( $type ) {
+		$activity       = new \Progress_Planner\Activities\Maintenance();
+		$activity->type = $type;
 		$activity->save();
 	}
 

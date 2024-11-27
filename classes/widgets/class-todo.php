@@ -1,6 +1,6 @@
-<?php
+<?php // phpcs:disable Generic.Commenting.Todo
 /**
- * Progress_Planner widget.
+ * A widget class.
  *
  * @package Progress_Planner
  */
@@ -8,9 +8,9 @@
 namespace Progress_Planner\Widgets;
 
 /**
- * Published Content Widget.
+ * ToDo class.
  */
-final class ToDo extends Widget {
+final class ToDo extends \Progress_Planner\Widget {
 
 	/**
 	 * The widget ID.
@@ -20,31 +20,13 @@ final class ToDo extends Widget {
 	protected $id = 'todo';
 
 	/**
-	 * Render the widget content.
-	 *
-	 * @return void
-	 */
-	protected function the_content() {
-		?>
-		<h2 class="prpl-widget-title">
-			<?php \esc_html_e( 'To-do list', 'progress-planner' ); ?>
-		</h2>
-		<?php
-		self::print_content();
-	}
-
-	/**
 	 * Print the widget content.
 	 *
 	 * @return void
 	 */
-	public static function print_content() {
-		?>
-		<p>
-			<?php \esc_html_e( 'Write down all your website maintenance tasks you want to get done!', 'progress-planner' ); ?>
-		</p>
-		<?php
-		self::the_todo_list();
+	public function print_content() {
+		echo '<p>' . \esc_html__( 'Write down all the website maintenance tasks you want to get done!', 'progress-planner' ) . '</p>';
+		$this->the_todo_list();
 	}
 
 	/**
@@ -52,18 +34,19 @@ final class ToDo extends Widget {
 	 *
 	 * @return void
 	 */
-	public static function the_todo_list() {
+	public function the_todo_list() {
 		?>
 		<div id="todo-aria-live-region" aria-live="polite" style="position: absolute; left: -9999px;"></div>
 
 		<ul id="todo-list" class="prpl-todo-list"></ul>
 
 		<form id="create-todo-item">
-			<input type="text" id="new-todo-content" placeholder="<?php esc_attr_e( 'Add a new task', 'progress-planner' ); ?>" aria-label="<?php esc_attr_e( 'Add a new task', 'progress-planner' ); ?>" required />
-			<button type="submit" title="<?php esc_attr_e( 'Add', 'progress-planner' ); ?>">
+			<input type="text" id="new-todo-content" placeholder="<?php \esc_attr_e( 'Add a new task', 'progress-planner' ); ?>" aria-label="<?php \esc_attr_e( 'Add a new task', 'progress-planner' ); ?>" required />
+			<button type="submit" title="<?php \esc_attr_e( 'Add', 'progress-planner' ); ?>">
 				<span class="dashicons dashicons-plus-alt2"></span>
 			</button>
 		</form>
 		<?php
 	}
 }
+// phpcs:enable Generic.Commenting.Todo

@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:disable Generic.Commenting.Todo
 /**
  * Progress Planner main plugin class.
  *
@@ -7,81 +7,24 @@
 
 namespace Progress_Planner;
 
-use Progress_Planner\Query;
-use Progress_Planner\Admin\Page as Admin_page;
-use Progress_Planner\Admin\Dashboard_Widget_Score;
-use Progress_Planner\Admin\Tour;
-use Progress_Planner\Admin\Dashboard_Widget_Todo;
-use Progress_Planner\Actions\Content as Actions_Content;
-use Progress_Planner\Actions\Content_Scan as Actions_Content_Scan;
-use Progress_Planner\Actions\Maintenance as Actions_Maintenance;
-use Progress_Planner\Settings;
-use Progress_Planner\Badges\Badge\Wonderful_Writer as Badge_Wonderful_Writer;
-use Progress_Planner\Badges\Badge\Bold_Blogger as Badge_Bold_Blogger;
-use Progress_Planner\Badges\Badge\Awesome_Author as Badge_Awesome_Author;
-use Progress_Planner\Badges\Badge\Progress_Padawan as Badge_Progress_Padawan;
-use Progress_Planner\Badges\Badge\Maintenance_Maniac as Badge_Maintenance_Maniac;
-use Progress_Planner\Badges\Badge\Super_Site_Specialist as Badge_Super_Site_Specialist;
-use Progress_Planner\Rest_API;
-use Progress_Planner\Todo;
-
 /**
  * Main plugin class.
  */
 class Base {
 
 	/**
-	 * An instance of this class.
+	 * The target score.
 	 *
-	 * @var \Progress_Planner\Base
+	 * @var int
 	 */
-	private static $instance;
+	const SCORE_TARGET = 200;
 
 	/**
-	 * An array of configuration values for points awarded by action-type.
+	 * An array of instantiated objects.
 	 *
-	 * @var array
+	 * @var array<string, object>
 	 */
-	public static $points_config = [
-		'content'      => [
-			'publish'          => 50,
-			'update'           => 10,
-			'delete'           => 5,
-			'word-multipliers' => [
-				100  => 1.1,
-				350  => 1.25,
-				1000 => 0.8,
-			],
-		],
-		'maintenance'  => 10,
-		'todo'         => [
-			'add'     => 1,
-			'delete'  => 1,
-			'update'  => 3, // Handles marking as done, and updating the content.
-			'default' => 1,
-		],
-		'score-target' => 200,
-	];
-
-	/**
-	 * Get the single instance of this class.
-	 *
-	 * @return \Progress_Planner\Base
-	 */
-	public static function get_instance() {
-		if ( null === self::$instance ) {
-			self::$instance = new self();
-		}
-
-		return self::$instance;
-	}
-
-	/**
-	 * Constructor.
-	 */
-	private function __construct() {
-		$this->init();
-	}
+	private $cached = [];
 
 	/**
 	 * Init.
@@ -102,56 +45,77 @@ class Base {
 
 		// Basic classes.
 		if ( \is_admin() && \current_user_can( 'publish_posts' ) ) {
-			new Admin_Page();
-			new Tour();
-			new Dashboard_Widget_Score();
-			new Dashboard_Widget_Todo();
+			$this->cached['admin__page']                   = new \Progress_Planner\Admin\Page();
+			$this->cached['admin__tour']                   = new \Progress_Planner\Admin\Tour();
+			$this->cached['admin__dashboard_widget_score'] = new \Progress_Planner\Admin\Dashboard_Widget_Score();
+			$this->cached['admin__dashboard_widget_todo']  = new \Progress_Planner\Admin\Dashboard_Widget_Todo();
 		}
-		new Actions_Content();
-		new Actions_Maintenance();
-		new Actions_Content_Scan();
+		$this->cached['admin__editor'] = new \Progress_Planner\Admin\Editor();
 
-		// Content badges.
-		new Badge_Wonderful_Writer();
-		new Badge_Bold_Blogger();
-		new Badge_Awesome_Author();
-
-		// Maintenance badges.
-		new Badge_Progress_Padawan();
-		new Badge_Maintenance_Maniac();
-		new Badge_Super_Site_Specialist();
+		$this->cached['actions__content']      = new \Progress_Planner\Actions\Content();
+		$this->cached['actions__content_scan'] = new \Progress_Planner\Actions\Content_Scan();
+		$this->cached['actions__maintenance']  = new \Progress_Planner\Actions\Maintenance();
 
 		// REST API.
-		new Rest_API();
+		$this->cached['rest_api_stats'] = new Rest_API_Stats();
 
 		// Onboarding.
-		new Onboard();
+		$this->cached['onboard'] = new Onboard();
 
 		// To-do.
-		new Todo();
+		$this->cached['todo'] = new Todo();
 
-		add_filter( 'plugin_action_links_' . plugin_basename( PROGRESS_PLANNER_FILE ), [ $this, 'add_action_links' ] );
+		\add_filter( 'plugin_action_links_' . plugin_basename( PROGRESS_PLANNER_FILE ), [ $this, 'add_action_links' ] );
+
+		// We need to initialize some classes early.
+		$this->cached['page_types']      = new Page_Types();
+		$this->cached['settings']        = new Settings();
+		$this->cached['settings_page']   = new \Progress_Planner\Admin\Page_Settings();
+		$this->cached['suggested_tasks'] = new Suggested_Tasks();
+		$this->cached['badges']          = new Badges();
 	}
 
 	/**
-	 * Get the query object.
+	 * Magic method to get properties.
+	 * We use this to avoid a lot of code duplication.
 	 *
-	 * @return \Progress_Planner\Query
+	 * Use a double underscore to separate namespaces:
+	 * - get_foo() will return an instance of Progress_Planner\Foo.
+	 * - get_foo_bar() will return an instance of Progress_Planner\Foo_Bar.
+	 * - get_foo_bar__baz() will return an instance of Progress_Planner\Foo_Bar\Baz.
+	 *
+	 * @param string $name The name of the property.
+	 * @param array  $arguments The arguments passed to the class constructor.
+	 *
+	 * @return mixed
 	 */
-	public function get_query() {
-		return Query::get_instance();
+	public function __call( $name, $arguments ) {
+		if ( 0 === strpos( $name, 'get_' ) ) {
+			$cache_name = substr( $name, 4 );
+		}
+
+		if ( isset( $this->cached[ $cache_name ] ) ) {
+			return $this->cached[ $cache_name ];
+		}
+
+		$class_name = implode( '\\', explode( '__', $cache_name ) );
+		$class_name = 'Progress_Planner\\' . implode( '_', array_map( 'ucfirst', explode( '_', $class_name ) ) );
+		if ( class_exists( $class_name ) ) {
+			$this->cached[ $cache_name ] = new $class_name( $arguments );
+			return $this->cached[ $cache_name ];
+		}
 	}
 
 	/**
 	 * Get the activation date.
 	 *
-	 * @return \DateTime
+	 * @return \DateTime|false
 	 */
-	public static function get_activation_date() {
-		$activation_date = Settings::get( 'activation_date' );
+	public function get_activation_date() {
+		$activation_date = $this->get_settings()->get( 'activation_date' );
 		if ( ! $activation_date ) {
 			$activation_date = new \DateTime();
-			Settings::set( 'activation_date', $activation_date->format( 'Y-m-d' ) );
+			$this->get_settings()->set( 'activation_date', $activation_date->format( 'Y-m-d' ) );
 			return $activation_date;
 		}
 		return \DateTime::createFromFormat( 'Y-m-d', $activation_date );
@@ -169,4 +133,82 @@ class Base {
 		$actions     = array_merge( $action_link, $actions );
 		return $actions;
 	}
+
+	/**
+	 * Include a template.
+	 *
+	 * @param string|array $template The template to include.
+	 *                               If an array, go through each item until the template exists.
+	 * @param array        $args   The arguments to pass to the template.
+	 * @return void
+	 */
+	public function the_view( $template, $args = [] ) {
+		$templates = ( is_string( $template ) )
+			? [ $template, "/views/{$template}" ]
+			: $template;
+		$this->the_file( $templates, $args );
+	}
+
+	/**
+	 * Include an asset.
+	 *
+	 * @param string|array $asset The asset to include.
+	 *                            If an array, go through each item until the asset exists.
+	 * @param array        $args  The arguments to pass to the template.
+	 *
+	 * @return void
+	 */
+	public function the_asset( $asset, $args = [] ) {
+		$assets = ( is_string( $asset ) )
+			? [ $asset, "/assets/{$asset}" ]
+			: $asset;
+		$this->the_file( $assets, $args );
+	}
+
+	/**
+	 * Get an asset.
+	 *
+	 * @param string|array $asset The asset to include.
+	 *                            If an array, go through each item until the asset exists.
+	 * @param array        $args  The arguments to pass to the template.
+	 *
+	 * @return string|false
+	 */
+	public function get_asset( $asset, $args = [] ) {
+		ob_start();
+		$assets = ( is_string( $asset ) )
+			? [ $asset, "/assets/{$asset}" ]
+			: $asset;
+		$this->the_file( $assets, $args );
+		return ob_get_clean();
+	}
+
+	/**
+	 * Include a file.
+	 *
+	 * @param string|array $files The file to include.
+	 *                           If an array, go through each item until the file exists.
+	 * @param array        $args  The arguments to pass to the template.
+	 * @return void
+	 */
+	public function the_file( $files, $args = [] ) {
+		/**
+		 * Allow filtering the files to include.
+		 *
+		 * @param array $files The files to include.
+		 */
+		$files = apply_filters( 'progress_planner_the_file', (array) $files );
+		foreach ( $files as $file ) {
+			$path = $file;
+			if ( ! \file_exists( $path ) ) {
+				$path = \PROGRESS_PLANNER_DIR . "/{$file}";
+			}
+			if ( \file_exists( $path ) ) {
+				extract( $args ); // phpcs:ignore WordPress.PHP.DontExtract.extract_extract
+				include $path; // phpcs:ignore PEAR.Files.IncludingFile.UseRequire
+				break;
+			}
+		}
+	}
 }
+// phpcs:enable Generic.Commenting.Todo

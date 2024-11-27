@@ -2,13 +2,12 @@
 /**
  * Class Date_Test
  *
- * @package FewerTags
+ * @package Progress_Planner\Tests
  */
 
 namespace Progress_Planner\Tests;
 
 use Progress_Planner\Activity;
-use Progress_Planner\Query;
 
 /**
  * Date test case.
@@ -34,7 +33,7 @@ class Activity_Test extends \WP_UnitTestCase {
 		$this->activity->category = 'test_category';
 		$this->activity->type     = 'test_type';
 		$this->activity->date     = new \DateTime();
-		$this->activity->data_id  = 100;
+		$this->activity->data_id  = '100';
 		$this->activity->user_id  = 1;
 	}
 

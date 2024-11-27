@@ -1,20 +1,16 @@
 <?php
 /**
- * Progress_Planner widget.
+ * A widget class.
  *
  * @package Progress_Planner
  */
 
 namespace Progress_Planner\Widgets;
 
-use Progress_Planner\Widgets\Widget;
-use Progress_Planner\Chart;
-use Progress_Planner\Activities\Content_Helpers;
-
 /**
- * Published Content Widget.
+ * Published_Content class.
  */
-final class Published_Content extends Widget {
+final class Published_Content extends \Progress_Planner\Widget {
 
 	/**
 	 * The widget ID.
@@ -24,74 +20,16 @@ final class Published_Content extends Widget {
 	protected $id = 'published-content';
 
 	/**
-	 * Render the widget content.
-	 *
-	 * @return void
-	 */
-	protected function the_content() {
-		$post_types = Content_Helpers::get_post_types_names();
-		$stats      = $this->get_stats();
-		$sum_weekly = array_sum( $stats['weekly'] );
-		?>
-		<div class="two-col">
-			<div class="prpl-top-counter-bottom-content">
-				<?php $this->render_big_counter( (int) array_sum( $stats['weekly'] ), __( 'content published', 'progress-planner' ) ); ?>
-				<div class="prpl-widget-content">
-					<p>
-						<?php if ( 0 === $sum_weekly ) : ?>
-							<?php \esc_html_e( 'You didn\'t publish new content last week. You can do better!', 'progress-planner' ); ?>
-						<?php else : ?>
-							<?php
-							printf(
-								\esc_html(
-									/* translators: %1$s: number of posts/pages published this week + "pieces". %2$s: Total number of posts. */
-									\_n(
-										'Nice! You published %1$s piece of new content last week. You now have %2$s in total. Keep up the good work!',
-										'Nice! You published %1$s pieces of new content last week. You now have %2$s in total. Keep up the good work!',
-										$sum_weekly,
-										'progress-planner'
-									)
-								),
-								\esc_html( \number_format_i18n( $sum_weekly ) ),
-								\esc_html( \number_format_i18n( array_sum( $stats['all'] ) ) )
-							);
-							?>
-						<?php endif; ?>
-					</p>
-				</div>
-				<div class="prpl-graph-wrapper">
-					<?php ( new Chart() )->the_chart( $this->get_chart_args() ); ?>
-				</div>
-			</div>
-			<table>
-				<thead>
-					<tr>
-						<th><?php \esc_html_e( 'Content type', 'progress-planner' ); ?></th>
-						<th><?php \esc_html_e( 'Last week', 'progress-planner' ); ?></th>
-						<th><?php \esc_html_e( 'Total', 'progress-planner' ); ?></th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php foreach ( $post_types as $post_type ) : ?>
-						<tr>
-							<td><?php echo \esc_html( \get_post_type_object( $post_type )->labels->name ); ?></td>
-							<td><?php echo \esc_html( \number_format_i18n( $stats['weekly'][ $post_type ] ) ); ?></td>
-							<td><?php echo \esc_html( \number_format_i18n( $stats['all'][ $post_type ] ) ); ?></td>
-						</tr>
-					<?php endforeach; ?>
-				</tbody>
-			</table>
-		</div>
-		<?php
-	}
-
-	/**
 	 * Get stats for posts, by post-type.
 	 *
 	 * @return array The stats.
 	 */
 	public function get_stats() {
-		$post_types = Content_Helpers::get_post_types_names();
+		static $stats;
+		if ( null !== $stats ) {
+			return $stats;
+		}
+		$post_types = \progress_planner()->get_activities__content_helpers()->get_post_types_names();
 		$weekly     = [];
 		$all        = [];
 		foreach ( $post_types as $post_type ) {
@@ -114,10 +52,41 @@ final class Published_Content extends Widget {
 			$all[ $post_type ] = \wp_count_posts( $post_type )->publish;
 		}
 
-		return [
+		$stats = [
 			'weekly' => $weekly,
 			'all'    => $all,
 		];
+		return $stats;
+	}
+
+	/**
+	 * Get the chart args.
+	 *
+	 * @return array The chart args.
+	 */
+	public function get_chart_args_content_density() {
+		return array_merge(
+			$this->get_chart_args(),
+			[
+				'count_callback' => [ $this, 'count_density' ],
+			]
+		);
+	}
+
+	/**
+	 * Get the chart args.
+	 *
+	 * @return array The chart args.
+	 */
+	public function get_chart_args_content_count() {
+		return array_merge(
+			$this->get_chart_args(),
+			[
+				'count_callback' => function ( $activities, $date = null ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
+					return count( $activities );
+				},
+			]
+		);
 	}
 
 	/**
@@ -127,6 +96,7 @@ final class Published_Content extends Widget {
 	 */
 	public function get_chart_args() {
 		return [
+			'type'           => 'line',
 			'query_params'   => [
 				'category' => 'content',
 				'type'     => 'publish',
@@ -137,10 +107,6 @@ final class Published_Content extends Widget {
 				'frequency' => $this->get_frequency(),
 				'format'    => 'M',
 			],
-			'chart_params'   => [
-				'type' => 'line',
-			],
-			'compound'       => false,
 			'filter_results' => [ $this, 'filter_activities' ],
 		];
 	}
@@ -156,8 +122,111 @@ final class Published_Content extends Widget {
 		return array_filter(
 			$activities,
 			function ( $activity ) {
-				return \in_array( $activity->get_post()->post_type, Content_Helpers::get_post_types_names(), true );
+				$post = $activity->get_post();
+				return is_object( $post )
+					&& \in_array( $post->post_type, \progress_planner()->get_activities__content_helpers()->get_post_types_names(), true );
 			}
 		);
+	}
+
+	/**
+	 * Callback to count the words in the activities.
+	 *
+	 * @param \Progress_Planner\Activities\Content[] $activities The activities array.
+	 *
+	 * @return int
+	 */
+	public function count_words( $activities ) {
+		$words = 0;
+		foreach ( $activities as $activity ) {
+			if ( null === $activity->get_post() ) {
+				continue;
+			}
+			$words += \progress_planner()->get_activities__content_helpers()->get_word_count(
+				$activity->get_post()->post_content,
+				(int) $activity->data_id
+			);
+		}
+		return $words;
+	}
+
+	/**
+	 * Callback to count the density of the activities.
+	 *
+	 * Returns the average number of words per activity.
+	 *
+	 * @param \Progress_Planner\Activities\Content[] $activities The activities array.
+	 *
+	 * @return int
+	 */
+	public function count_density( $activities ) {
+		$words = $this->count_words( $activities );
+		$count = count( $activities );
+		return (int) round( $words / max( 1, $count ) );
+	}
+
+	/**
+	 * Get the density of all activities.
+	 *
+	 * @return int
+	 */
+	public function get_all_activities_density() {
+		// Get the all-time average.
+		static $density;
+		if ( null === $density ) {
+			$activities = $this->filter_activities(
+				\progress_planner()->get_query()->query_activities(
+					[
+						'category' => 'content',
+						'type'     => 'publish',
+					]
+				)
+			);
+			$density    = $this->count_density( $activities );
+		}
+		return $density;
+	}
+
+	/**
+	 * Get the weekly activities density.
+	 *
+	 * @return int
+	 */
+	public function get_weekly_activities_density() {
+		static $density;
+		if ( null === $density ) {
+			// Get the weekly average.
+			$density = $this->count_density(
+				\progress_planner()->get_query()->query_activities(
+					[
+						'category'   => 'content',
+						'type'       => 'publish',
+						'start_date' => new \DateTime( '-7 days' ),
+					]
+				)
+			);
+		}
+		return $density;
+	}
+
+	/**
+	 * Get the weekly words count.
+	 *
+	 * @return int The weekly words count.
+	 */
+	public function get_weekly_words() {
+		static $weekly_words;
+		if ( null === $weekly_words ) {
+			$weekly_words = $this->count_words(
+				\progress_planner()->get_query()->query_activities(
+					[
+						'category'   => 'content',
+						'type'       => 'publish',
+						'start_date' => new \DateTime( '-7 days' ),
+					]
+				)
+			);
+		}
+		return $weekly_words;
 	}
 }

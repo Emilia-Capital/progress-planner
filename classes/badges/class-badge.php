@@ -7,9 +7,6 @@
 
 namespace Progress_Planner\Badges;
 
-use Progress_Planner\Badges;
-use Progress_Planner\Settings;
-
 /**
  * Badge class.
  */
@@ -23,28 +20,11 @@ abstract class Badge {
 	protected $id;
 
 	/**
-	 * Constructor.
-	 */
-	public function __construct() {
-		$this->register_badge();
-	}
-
-	/**
-	 * Register the badge.
+	 * The icon URL.
 	 *
-	 * @return void
+	 * @var string
 	 */
-	public function register_badge() {
-		Badges::register_badge(
-			$this->id,
-			[
-				'name'              => $this->get_name(),
-				'description'       => $this->get_description(),
-				'icons-svg'         => $this->get_icons_svg(),
-				'progress_callback' => [ $this, 'progress_callback' ],
-			]
-		);
-	}
+	protected $icon_url;
 
 	/**
 	 * Get the badge ID.
@@ -70,13 +50,6 @@ abstract class Badge {
 	abstract public function get_description();
 
 	/**
-	 * Get the badge icons.
-	 *
-	 * @return array
-	 */
-	abstract public function get_icons_svg();
-
-	/**
 	 * Progress callback.
 	 *
 	 * @return array
@@ -89,7 +62,16 @@ abstract class Badge {
 	 * @return array
 	 */
 	protected function get_saved() {
-		return Settings::get( [ 'badges', $this->id ], [] );
+		return \progress_planner()->get_settings()->get( [ 'badges', $this->id ], [] );
+	}
+
+	/**
+	 * Get the badge progress.
+	 *
+	 * @return array
+	 */
+	public function get_progress() {
+		return $this->progress_callback();
 	}
 
 	/**
@@ -101,6 +83,15 @@ abstract class Badge {
 	 */
 	protected function save_progress( $progress ) {
 		$progress['date'] = ( new \DateTime() )->format( 'Y-m-d H:i:s' );
-		Settings::set( [ 'badges', $this->id ], $progress );
+		\progress_planner()->get_settings()->set( [ 'badges', $this->id ], $progress );
+	}
+
+	/**
+	 * Clear the saved progress.
+	 *
+	 * @return void
+	 */
+	public function clear_progress() {
+		\progress_planner()->get_settings()->set( [ 'badges', $this->id ], [] );
 	}
 }

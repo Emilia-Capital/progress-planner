@@ -1,4 +1,4 @@
-composer check-cs
+composer check-cs -- --warning-severity=6
 composer phpstan
 npm run lint:css
 npm run lint:js

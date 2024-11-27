@@ -2,7 +2,7 @@
 /**
  * PHPUnit bootstrap file.
  *
- * @package FewerTags
+ * @package Progress_Planner\Tests
  */
 
 $_tests_dir = getenv( 'WP_TESTS_DIR' );
