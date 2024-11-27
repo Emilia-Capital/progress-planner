@@ -10,7 +10,7 @@ namespace Progress_Planner\Suggested_Tasks;
 /**
  * Local_Tasks interface.
  */
-interface Local_Tasks {
+interface Local_Tasks_Interface {
 
 	/**
 	 * Get tasks to inject.
