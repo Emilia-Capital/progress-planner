@@ -206,15 +206,15 @@ class Update_Content implements \Progress_Planner\Suggested_Tasks\Local_Tasks_In
 
 		return [
 			'task_id'     => $task_id,
-			'title'       => $data['long']
+			'title'       => isset( $data['long'] ) && $data['long']
 				? esc_html__( 'Create a long post', 'progress-planner' )
 				: esc_html__( 'Create a short post', 'progress-planner' ),
 			'parent'      => 0,
 			'priority'    => 'medium',
 			'type'        => 'writing',
-			'points'      => $data['long'] ? 2 : 1,
+			'points'      => isset( $data['long'] ) && $data['long'] ? 2 : 1,
 			'url'         => \esc_url( \admin_url( 'post-new.php?post_type=post' ) ),
-			'description' => $data['long']
+			'description' => isset( $data['long'] ) && $data['long']
 				? sprintf(
 					/* translators: %d: The threshold (number, words count) for a long post. */
 					esc_html__( 'Create a new short post (no longer than %d words).', 'progress-planner' ),
