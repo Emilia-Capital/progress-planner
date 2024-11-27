@@ -10,7 +10,7 @@ namespace Progress_Planner\Suggested_Tasks\Local_Tasks;
 /**
  * Add tasks for content updates.
  */
-class Update_Content extends \Progress_Planner\Suggested_Tasks\Local_Tasks {
+class Update_Content implements \Progress_Planner\Suggested_Tasks\Local_Tasks {
 
 	/**
 	 * The number of items to inject.

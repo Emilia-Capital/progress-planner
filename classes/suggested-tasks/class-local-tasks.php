@@ -1,6 +1,6 @@
 <?php
 /**
- * Abstract class for local tasks.
+ * Interface for local tasks.
  *
  * @package Progress_Planner
  */
@@ -8,16 +8,16 @@
 namespace Progress_Planner\Suggested_Tasks;
 
 /**
- * Local_Tasks class.
+ * Local_Tasks interface.
  */
-abstract class Local_Tasks {
+interface Local_Tasks {
 
 	/**
 	 * Get tasks to inject.
 	 *
 	 * @return array
 	 */
-	abstract protected function get_tasks_to_inject();
+	public function get_tasks_to_inject();
 
 	/**
 	 * Evaluate a task.
@@ -26,7 +26,7 @@ abstract class Local_Tasks {
 	 *
 	 * @return bool
 	 */
-	abstract protected function evaluate_task( $task );
+	public function evaluate_task( $task );
 
 	/**
 	 * Get the task details.
@@ -35,7 +35,7 @@ abstract class Local_Tasks {
 	 *
 	 * @return array
 	 */
-	abstract public function get_task_details( $task_id );
+	public function get_task_details( $task_id );
 
 	/**
 	 * Get the task details.
@@ -44,5 +44,5 @@ abstract class Local_Tasks {
 	 *
 	 * @return array
 	 */
-	abstract public function get_data_from_task_id( $task_id );
+	public function get_data_from_task_id( $task_id );
 }
