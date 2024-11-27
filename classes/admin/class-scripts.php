@@ -81,7 +81,7 @@ class Scripts {
 				return [ 'progress-planner-ajax-request', 'wp-util' ];
 
 			case 'settings-page':
-				return [ 'wp-util' ];
+				return [ 'wp-util', 'progress-planner-document-ready' ];
 
 			case 'todo':
 				return [
