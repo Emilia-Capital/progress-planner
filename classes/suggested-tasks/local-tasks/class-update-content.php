@@ -204,28 +204,48 @@ class Update_Content implements \Progress_Planner\Suggested_Tasks\Local_Tasks_In
 
 		$data = $this->get_data_from_task_id( $task_id );
 
-		return [
-			'task_id'     => $task_id,
-			'title'       => $data['long']
-				? esc_html__( 'Create a long post', 'progress-planner' )
-				: esc_html__( 'Create a short post', 'progress-planner' ),
-			'parent'      => 0,
-			'priority'    => 'medium',
-			'type'        => 'writing',
-			'points'      => $data['long'] ? 2 : 1,
-			'url'         => \esc_url( \admin_url( 'post-new.php?post_type=post' ) ),
-			'description' => $data['long']
-				? sprintf(
-					/* translators: %d: The threshold (number, words count) for a long post. */
-					esc_html__( 'Create a new short post (no longer than %d words).', 'progress-planner' ),
-					\Progress_Planner\Activities\Content_Helpers::LONG_POST_THRESHOLD
-				)
-				: sprintf(
-					/* translators: %d: The threshold (number, words count) for a long post. */
-					esc_html__( 'Create a new long post (longer than %d words).', 'progress-planner' ),
-					\Progress_Planner\Activities\Content_Helpers::LONG_POST_THRESHOLD
-				),
-		];
+		if ( 'create-post' === $data['type'] ) {
+			$task_details = [
+				'task_id'     => $task_id,
+				'title'       => isset( $data['long'] ) && $data['long']
+					? esc_html__( 'Create a long post', 'progress-planner' )
+					: esc_html__( 'Create a short post', 'progress-planner' ),
+				'parent'      => 0,
+				'priority'    => 'medium',
+				'type'        => 'writing',
+				'points'      => isset( $data['long'] ) && $data['long'] ? 2 : 1,
+				'url'         => \esc_url( \admin_url( 'post-new.php?post_type=post' ) ),
+				'description' => isset( $data['long'] ) && $data['long']
+					? sprintf(
+						/* translators: %d: The threshold (number, words count) for a long post. */
+						esc_html__( 'Create a new short post (no longer than %d words).', 'progress-planner' ),
+						\Progress_Planner\Activities\Content_Helpers::LONG_POST_THRESHOLD
+					)
+					: sprintf(
+						/* translators: %d: The threshold (number, words count) for a long post. */
+						esc_html__( 'Create a new long post (longer than %d words).', 'progress-planner' ),
+						\Progress_Planner\Activities\Content_Helpers::LONG_POST_THRESHOLD
+					),
+			];
+		} elseif ( 'update-post' === $data['type'] ) {
+			$post         = \get_post( $data['post_id'] );
+			$task_details = [
+				'task_id'     => $task_id,
+				'title'       => sprintf( 'Update post "%s"', \esc_html( $post->post_title ) ),
+				'parent'      => 0,
+				'priority'    => 'high',
+				'type'        => 'writing',
+				'points'      => 1,
+				'url'         => \esc_url( \get_edit_post_link( $post->ID ) ),
+				'description' => '<p>' . sprintf(
+					/* translators: %s: The post title. */
+					\esc_html__( 'Update the post "%s" as it was last updated more than 6 months ago.', 'progress-planner' ),
+					\esc_html( $post->post_title )
+				) . '</p><p><a href="' . \esc_url( \get_edit_post_link( $post->ID ) ) . '">' . \esc_html__( 'Edit the post', 'progress-planner' ) . '</a>.</p>',
+			];
+		}
+
+		return $task_details;
 	}
 
 	/**
@@ -264,19 +284,7 @@ class Update_Content implements \Progress_Planner\Suggested_Tasks\Local_Tasks_In
 					'post_id' => $post->ID,
 				]
 			);
-			$items[] = [
-				'task_id'     => $task_id,
-				'title'       => sprintf( 'Update post "%s"', \esc_html( $post->post_title ) ),
-				'parent'      => 0,
-				'priority'    => 'high',
-				'type'        => 'writing',
-				'points'      => 1,
-				'description' => '<p>' . sprintf(
-					/* translators: %s: The post title. */
-					\esc_html__( 'Update the post "%s" as it was last updated more than 6 months ago.', 'progress-planner' ),
-					\esc_html( $post->post_title )
-				) . '</p><p><a href="' . \esc_url( \get_edit_post_link( $post->ID ) ) . '">' . \esc_html__( 'Edit the post', 'progress-planner' ) . '</a>.</p>',
-			];
+			$items[] = $this->get_task_details( $task_id );
 
 		}
 		return $items;
