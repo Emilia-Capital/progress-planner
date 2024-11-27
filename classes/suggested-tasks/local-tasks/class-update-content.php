@@ -271,6 +271,7 @@ class Update_Content extends \Progress_Planner\Suggested_Tasks\Local_Tasks {
 				'priority'    => 'high',
 				'type'        => 'writing',
 				'points'      => 1,
+				'url'         => \esc_url( \get_edit_post_link( $post->ID ) ),
 				'description' => '<p>' . sprintf(
 					/* translators: %s: The post title. */
 					\esc_html__( 'Update the post "%s" as it was last updated more than 6 months ago.', 'progress-planner' ),
