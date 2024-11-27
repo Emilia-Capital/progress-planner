@@ -4,7 +4,7 @@ Tags: planning, maintenance, writing, blogging
 Requires at least: 6.3
 Tested up to: 6.6
 Requires PHP: 7.4
-Stable tag: 0.9.6
+Stable tag: 1.0.0
 License: GPL3+
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -77,6 +77,12 @@ https://youtu.be/e1bmxZYyXFY
 7. Get a weekly email with stats on how well you're doing on your site!
 
 == Changelog ==
+
+= 1.0.0 =
+
+We added Ravi's Recommendations: recommendations on what you should do next on your site!
+
+We also fixed all previous bugs (most of them twice) and probably introduced new ones ;-) 
 
 = 0.9.5 =
 
