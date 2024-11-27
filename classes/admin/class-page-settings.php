@@ -117,10 +117,6 @@ class Page_Settings {
 
 				// Add the term to the `progress_planner_page_types` taxonomy.
 				\progress_planner()->get_page_types()->set_page_type_by_id( (int) $page_args['id'], $type );
-
-				/**
-				 * TODO: Handle the $page_args['assign-user'] and $page_args['plan-date'] values.
-				 */
 			}
 		}
 

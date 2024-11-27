@@ -129,7 +129,6 @@ class Rest_API {
 					}
 					return $score * 100 / Base::SCORE_TARGET;
 				},
-				'compound'       => false,
 				'normalized'     => true,
 				'max'            => 100,
 			]
@@ -139,7 +138,7 @@ class Rest_API {
 		foreach ( $scores['labels'] as $key => $label ) {
 			$data['scores'][] = [
 				'label' => $label,
-				'value' => $scores['datasets'][0]['data'][ $key ],
+				'value' => $scores['data'][ $key ],
 			];
 		}
 

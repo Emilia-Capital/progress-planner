@@ -18,6 +18,13 @@
 		font-weight: 500;
 	}
 
+	.prpl-suggested-task {
+
+		h3 {
+			margin-bottom: 0;
+		}
+	}
+
 	.prpl-dashboard-widget-latest-activities {
 		margin-top: 1em;
 		padding-top: 1em;

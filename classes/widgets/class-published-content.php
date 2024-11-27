@@ -107,7 +107,6 @@ final class Published_Content extends \Progress_Planner\Widget {
 				'frequency' => $this->get_frequency(),
 				'format'    => 'M',
 			],
-			'compound'       => false,
 			'filter_results' => [ $this, 'filter_activities' ],
 		];
 	}

@@ -25,15 +25,6 @@ class Todo {
 	 * @return void
 	 */
 	public function __construct() {
-		$this->register_hooks();
-	}
-
-	/**
-	 * Register the hooks.
-	 *
-	 * @return void
-	 */
-	private function register_hooks() {
 		\add_action( 'wp_ajax_progress_planner_save_todo_list', [ $this, 'save' ] );
 	}
 
