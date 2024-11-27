@@ -13,9 +13,9 @@
 namespace Progress_Planner;
 
 /**
- * Rest_API class.
+ * Rest_API_Stats class.
  */
-class Rest_API {
+class Rest_API_Stats {
 	/**
 	 * Constructor.
 	 */
