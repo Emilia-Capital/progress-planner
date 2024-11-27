@@ -102,7 +102,7 @@ class Scripts {
 					'progress-planner-document-ready',
 				];
 				if ( ! empty( $pending_celebration ) ) {
-					$deps[] = 'particles-confetti-js';
+					$deps[] = 'particles-confetti';
 				}
 				return $deps;
 

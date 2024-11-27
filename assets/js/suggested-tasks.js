@@ -75,8 +75,6 @@ const progressPlannerGetNextItem = () => {
 const progressPlannerInjectNextItem = () => {
 	const nextItem = progressPlannerGetNextItem();
 	if ( ! nextItem ) {
-		const event = new Event( 'prplResizeAllGridItemsEvent' );
-		document.dispatchEvent( event );
 		return;
 	}
 
@@ -262,6 +260,9 @@ document.addEventListener( 'DOMContentLoaded', () => {
 	) {
 		progressPlannerInjectNextItem();
 	}
+
+	const event = new Event( 'prplResizeAllGridItemsEvent' );
+	document.dispatchEvent( event );
 } );
 
 // Handle the monthly badges scrolling.
@@ -413,6 +414,9 @@ document.addEventListener(
 		) {
 			progressPlannerInjectNextItem();
 		}
+
+		const event = new Event( 'prplResizeAllGridItemsEvent' );
+		document.dispatchEvent( event );
 	},
 	false
 );
