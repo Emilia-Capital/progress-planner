@@ -24,12 +24,14 @@ customElements.define(
 			// Determine the maximum value for the chart.
 			const max = Math.max( ...data.map( ( item ) => item.score ) );
 			const maxValue = 100 > max && 70 < max ? 100 : max;
-			const maxValuePadded = 100 === maxValue ? 100 : parseInt( maxValue * 1.1 );
+			const maxValuePadded =
+				100 === maxValue ? 100 : parseInt( maxValue * 1.1 );
 
 			const calcYCoordinate = ( value ) => {
 				const multiplier = ( height - axisOffset * 2 ) / height;
 				const yCoordinate =
-					( maxValuePadded - value * multiplier ) * ( height / maxValuePadded ) -
+					( maxValuePadded - value * multiplier ) *
+						( height / maxValuePadded ) -
 					axisOffset;
 				return yCoordinate - strokeWidth / 2;
 			};
@@ -48,7 +50,10 @@ customElements.define(
 				// Round the values to the nearest 10.
 				for ( let i = 0; i <= 4; i++ ) {
 					yLabels.push(
-						Math.min( maxValuePadded, Math.round( yLabelsStep * i, -1 ) )
+						Math.min(
+							maxValuePadded,
+							Math.round( yLabelsStep * i, -1 )
+						)
 					);
 				}
 			}

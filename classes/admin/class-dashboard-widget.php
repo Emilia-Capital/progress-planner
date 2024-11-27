@@ -33,7 +33,7 @@ abstract class Dashboard_Widget {
 	 */
 	public function add_dashboard_widget() {
 		\wp_add_dashboard_widget(
-			"progress_planner_dashboard_widget_{$this->id}",
+			"prpl_dashboard_widget_{$this->id}",
 			$this->get_title(),
 			[ $this, 'render_widget' ]
 		);

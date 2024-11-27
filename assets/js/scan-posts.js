@@ -1,7 +1,7 @@
-/* global progressPlanner, progressPlannerAjaxRequest */
+/* global prpl, prplAjaxRequest */
 
 // eslint-disable-next-line no-unused-vars
-const progressPlannerTriggerScan = () => {
+const prplTriggerScan = () => {
 	document.getElementById( 'progress-planner-scan-progress' ).style.display =
 		'block';
 
@@ -41,36 +41,36 @@ const progressPlannerTriggerScan = () => {
 			return;
 		}
 
-		progressPlannerTriggerScan();
+		prplTriggerScan();
 	};
 
 	const failAction = ( response ) => {
-		// If the window.progressPlannerFailScanCount is not defined, set it to 1.
-		if ( ! window.progressPlannerFailScanCount ) {
-			window.progressPlannerFailScanCount = 1;
+		// If the window.prplFailScanCount is not defined, set it to 1.
+		if ( ! window.prplFailScanCount ) {
+			window.prplFailScanCount = 1;
 		} else {
-			window.progressPlannerFailScanCount++;
+			window.prplFailScanCount++;
 		}
 
 		// If the scan has failed more than 10 times, stop retrying.
-		if ( window.progressPlannerFailScanCount > 10 ) {
+		if ( window.prplFailScanCount > 10 ) {
 			return;
 		}
 
 		console.warn( 'Failed to scan posts. Retrying...' ); // eslint-disable-line no-console
 		console.log( response ); // eslint-disable-line no-console
 		// Retry after 200ms.
-		setTimeout( progressPlannerTriggerScan, 200 );
+		setTimeout( prplTriggerScan, 200 );
 	};
 
 	/**
 	 * The AJAX request to run.
 	 */
-	progressPlannerAjaxRequest( {
-		url: progressPlanner.ajaxUrl,
+	prplAjaxRequest( {
+		url: prpl.ajaxUrl,
 		data: {
-			action: 'progress_planner_scan_posts',
-			_ajax_nonce: progressPlanner.nonce,
+			action: 'prpl_scan_posts',
+			_ajax_nonce: prpl.nonce,
 		},
 		successAction,
 		failAction,
@@ -83,14 +83,14 @@ if ( document.getElementById( 'prpl-scan-button' ) ) {
 		.addEventListener( 'click', ( event ) => {
 			event.preventDefault();
 			document.getElementById( 'prpl-scan-button' ).disabled = true;
-			progressPlannerAjaxRequest( {
-				url: progressPlanner.ajaxUrl,
+			prplAjaxRequest( {
+				url: prpl.ajaxUrl,
 				data: {
-					action: 'progress_planner_reset_posts_data',
-					_ajax_nonce: progressPlanner.nonce,
+					action: 'prpl_reset_posts_data',
+					_ajax_nonce: prpl.nonce,
 				},
-				successAction: progressPlannerTriggerScan,
-				failAction: progressPlannerTriggerScan,
+				successAction: prplTriggerScan,
+				failAction: prplTriggerScan,
 			} );
 		} );
 }

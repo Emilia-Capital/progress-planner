@@ -33,8 +33,8 @@ class Content_Scan extends \Progress_Planner\Actions\Content {
 	 */
 	public function register_hooks() {
 		// Add hooks to handle scanning existing posts.
-		\add_action( 'wp_ajax_progress_planner_scan_posts', [ $this, 'ajax_scan' ] );
-		\add_action( 'wp_ajax_progress_planner_reset_posts_data', [ $this, 'ajax_reset_posts_data' ] );
+		\add_action( 'wp_ajax_prpl_scan_posts', [ $this, 'ajax_scan' ] );
+		\add_action( 'wp_ajax_prpl_reset_posts_data', [ $this, 'ajax_reset_posts_data' ] );
 	}
 
 	/**
@@ -44,7 +44,7 @@ class Content_Scan extends \Progress_Planner\Actions\Content {
 	 */
 	public function ajax_scan() {
 		// Check the nonce.
-		if ( ! \check_ajax_referer( 'progress_planner', 'nonce', false ) ) {
+		if ( ! \check_ajax_referer( 'prpl', 'nonce', false ) ) {
 			\wp_send_json_error( [ 'message' => \esc_html__( 'Invalid nonce.', 'progress-planner' ) ] );
 		}
 
@@ -70,7 +70,7 @@ class Content_Scan extends \Progress_Planner\Actions\Content {
 	 */
 	public function ajax_reset_posts_data() {
 		// Check the nonce.
-		if ( ! \check_ajax_referer( 'progress_planner', 'nonce', false ) ) {
+		if ( ! \check_ajax_referer( 'prpl', 'nonce', false ) ) {
 			\wp_send_json_error( [ 'message' => \esc_html__( 'Invalid nonce.', 'progress-planner' ) ] );
 		}
 

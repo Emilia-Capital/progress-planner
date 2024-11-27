@@ -42,7 +42,7 @@ class Suggested_Tasks {
 		$this->local  = new \Progress_Planner\Suggested_Tasks\Local_Tasks_Manager();
 		$this->remote = new \Progress_Planner\Suggested_Tasks\Remote_Tasks();
 
-		\add_action( 'wp_ajax_progress_planner_suggested_task_action', [ $this, 'suggested_task_action' ] );
+		\add_action( 'wp_ajax_prpl_suggested_task_action', [ $this, 'suggested_task_action' ] );
 
 		if ( \is_admin() ) {
 			\add_action( 'init', [ $this, 'init' ], 1 );
@@ -73,7 +73,7 @@ class Suggested_Tasks {
 			$activity->save();
 
 			// Allow other classes to react to the completion of a suggested task.
-			do_action( 'progress_planner_suggested_task_completed', $task_id );
+			do_action( 'prpl_suggested_task_completed', $task_id );
 		}
 	}
 
@@ -108,7 +108,7 @@ class Suggested_Tasks {
 		 * @param array $tasks The suggested tasks.
 		 * @return array
 		 */
-		return \apply_filters( 'progress_planner_suggested_tasks_items', $tasks );
+		return \apply_filters( 'prpl_suggested_tasks_items', $tasks );
 	}
 
 	/**
@@ -467,7 +467,7 @@ class Suggested_Tasks {
 	 */
 	public function suggested_task_action() {
 		// Check the nonce.
-		if ( ! \check_ajax_referer( 'progress_planner', 'nonce', false ) ) {
+		if ( ! \check_ajax_referer( 'prpl', 'nonce', false ) ) {
 			\wp_send_json_error( [ 'message' => \esc_html__( 'Invalid nonce.', 'progress-planner' ) ] );
 		}
 

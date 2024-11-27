@@ -17,7 +17,7 @@ class Cache {
 	 *
 	 * @var string
 	 */
-	const CACHE_PREFIX = 'progress_planner_';
+	const CACHE_PREFIX = 'prpl_';
 
 	/**
 	 * Get a cached value.

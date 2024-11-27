@@ -17,7 +17,7 @@ class Page_Types {
 	 *
 	 * @var string
 	 */
-	const TAXONOMY_NAME = 'progress_planner_page_types';
+	const TAXONOMY_NAME = 'prpl_page_types';
 
 	/**
 	 * Constructor
@@ -37,7 +37,7 @@ class Page_Types {
 	}
 
 	/**
-	 * Create the `progress_planner_page_types` taxonomy.
+	 * Create the `prpl_page_types` taxonomy.
 	 *
 	 * @return void
 	 */
@@ -60,7 +60,7 @@ class Page_Types {
 	}
 
 	/**
-	 * Maybe add terms to the `progress_planner_page_types` taxonomy.
+	 * Maybe add terms to the `prpl_page_types` taxonomy.
 	 *
 	 * @return void
 	 */
@@ -407,11 +407,11 @@ class Page_Types {
 		if ( ! $term || ! $term instanceof \WP_Term ) {
 			return false;
 		}
-		return '' !== get_term_meta( $term->term_id, '_progress_planner_no_page', true ) ? false : true;
+		return '' !== get_term_meta( $term->term_id, '_prpl_no_page', true ) ? false : true;
 	}
 
 	/**
-	 * Set or delete the `_progress_planner_no_page` term-meta.
+	 * Set or delete the `_prpl_no_page` term-meta.
 	 *
 	 * @param string $type  The type.
 	 * @param bool   $value The value. `true` to set, `false` to delete.
@@ -425,9 +425,9 @@ class Page_Types {
 		}
 
 		if ( $value ) {
-			\update_term_meta( $term->term_id, '_progress_planner_no_page', '1' );
+			\update_term_meta( $term->term_id, '_prpl_no_page', '1' );
 		} else {
-			\delete_term_meta( $term->term_id, '_progress_planner_no_page' );
+			\delete_term_meta( $term->term_id, '_prpl_no_page' );
 		}
 	}
 }

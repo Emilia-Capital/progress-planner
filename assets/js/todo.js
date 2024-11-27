@@ -1,9 +1,9 @@
-/* global progressPlannerTodo, customElements, prplDocumentReady */
+/* global prplTodo, customElements, prplDocumentReady */
 
 /**
  * Save the todo list to the database.
  */
-const progressPlannerSaveTodoList = () => {
+const prplSaveTodoList = () => {
 	let todoList = [];
 
 	document
@@ -23,9 +23,9 @@ const progressPlannerSaveTodoList = () => {
 	}
 
 	// Save the todo list to the database
-	wp.ajax.post( 'progress_planner_save_todo_list', {
+	wp.ajax.post( 'prpl_save_todo_list', {
 		todo_list: todoList,
-		nonce: progressPlannerTodo.nonce,
+		nonce: prplTodo.nonce,
 	} );
 
 	const event = new Event( 'prplResizeAllGridItemsEvent' );
@@ -40,7 +40,7 @@ const progressPlannerSaveTodoList = () => {
  * @param {boolean} addToStart Whether to add the todo item to the start of the list.
  * @param {boolean} save       Whether to save the todo list to the database.
  */
-const progressPlannerInjectTodoItem = ( content, done, addToStart, save ) => {
+const prplInjectTodoItem = ( content, done, addToStart, save ) => {
 	const Item = customElements.get( 'prpl-todo-item' );
 	const todoItemElement = new Item( content, done );
 
@@ -56,14 +56,14 @@ const progressPlannerInjectTodoItem = ( content, done, addToStart, save ) => {
 	}, 0 );
 
 	if ( save ) {
-		progressPlannerSaveTodoList();
+		prplSaveTodoList();
 	}
 };
 
 prplDocumentReady( () => {
 	// Inject the existing todo list items into the DOM
-	progressPlannerTodo.listItems.forEach( ( todoItem, index, array ) => {
-		progressPlannerInjectTodoItem(
+	prplTodo.listItems.forEach( ( todoItem, index, array ) => {
+		prplInjectTodoItem(
 			todoItem.content,
 			todoItem.done,
 			false,
@@ -83,7 +83,7 @@ prplDocumentReady( () => {
 		.getElementById( 'create-todo-item' )
 		.addEventListener( 'submit', ( event ) => {
 			event.preventDefault();
-			progressPlannerInjectTodoItem(
+			prplInjectTodoItem(
 				document.getElementById( 'new-todo-content' ).value,
 				false, // Not done.
 				true, // Add to start.

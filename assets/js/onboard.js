@@ -1,18 +1,18 @@
-/* global progressPlanner, progressPlannerAjaxRequest, progressPlannerTriggerScan */
+/* global prpl, prplAjaxRequest, prplTriggerScan */
 
 /**
  * Make a request to save the license key.
  *
  * @param {string} licenseKey The license key.
  */
-const progressPlannerSaveLicenseKey = ( licenseKey ) => {
+const prplSaveLicenseKey = ( licenseKey ) => {
 	// eslint-disable-next-line no-console
 	console.log( 'License key: ' + licenseKey );
-	progressPlannerAjaxRequest( {
-		url: progressPlanner.ajaxUrl,
+	prplAjaxRequest( {
+		url: prpl.ajaxUrl,
 		data: {
-			action: 'progress_planner_save_onboard_data',
-			_ajax_nonce: progressPlanner.nonce,
+			action: 'prpl_save_onboard_data',
+			_ajax_nonce: prpl.nonce,
 			key: licenseKey,
 		},
 	} );
@@ -23,9 +23,9 @@ const progressPlannerSaveLicenseKey = ( licenseKey ) => {
  *
  * @param {Object} data The data to send with the request.
  */
-const progressPlannerAjaxAPIRequest = ( data ) => {
-	progressPlannerAjaxRequest( {
-		url: progressPlanner.onboardAPIUrl,
+const prplAjaxAPIRequest = ( data ) => {
+	prplAjaxRequest( {
+		url: prpl.onboardAPIUrl,
 		data,
 		successAction: ( response ) => {
 			// Show success message.
@@ -38,10 +38,10 @@ const progressPlannerAjaxAPIRequest = ( data ) => {
 				'none';
 
 			// Make a local request to save the response data.
-			progressPlannerSaveLicenseKey( response.license_key );
+			prplSaveLicenseKey( response.license_key );
 
 			// Start scanning posts.
-			progressPlannerTriggerScan();
+			prplTriggerScan();
 		},
 		failAction: ( response ) => {
 			// eslint-disable-next-line no-console
@@ -58,9 +58,9 @@ const progressPlannerAjaxAPIRequest = ( data ) => {
  *
  * @param {Object} data The data to send with the request.
  */
-const progressPlannerOnboardCall = ( data ) => {
-	progressPlannerAjaxRequest( {
-		url: progressPlanner.onboardNonceURL,
+const prplOnboardCall = ( data ) => {
+	prplAjaxRequest( {
+		url: prpl.onboardNonceURL,
 		data,
 		successAction: ( response ) => {
 			if ( 'ok' === response.status ) {
@@ -68,7 +68,7 @@ const progressPlannerOnboardCall = ( data ) => {
 				data.nonce = response.nonce;
 
 				// Make the request to the API.
-				progressPlannerAjaxAPIRequest( data );
+				prplAjaxAPIRequest( data );
 			}
 		},
 	} );
@@ -122,9 +122,9 @@ if ( document.getElementById( 'prpl-onboarding-form' ) ) {
 			).value;
 			if ( 'no' === withEmail ) {
 				// Save a value in the license field.
-				progressPlannerSaveLicenseKey( 'no-license' );
+				prplSaveLicenseKey( 'no-license' );
 				// Start scanning posts.
-				progressPlannerTriggerScan();
+				prplTriggerScan();
 				return;
 			}
 
@@ -137,6 +137,6 @@ if ( document.getElementById( 'prpl-onboarding-form' ) ) {
 					data[ input.name ] = input.value;
 				}
 			} );
-			progressPlannerOnboardCall( data );
+			prplOnboardCall( data );
 		} );
 }

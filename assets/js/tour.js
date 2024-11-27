@@ -1,14 +1,14 @@
-/* global progressPlannerTour */
+/* global prplTour */
 const prplDriver = window.driver.js.driver;
 
 const prplDriverObj = prplDriver( {
 	showProgress: true,
 	popoverClass: 'prpl-driverjs-theme',
-	progressText: progressPlannerTour.progressText,
-	nextBtnText: progressPlannerTour.nextBtnText,
-	prevBtnText: progressPlannerTour.prevBtnText,
-	doneBtnText: progressPlannerTour.doneBtnText,
-	steps: progressPlannerTour.steps,
+	progressText: prplTour.progressText,
+	nextBtnText: prplTour.nextBtnText,
+	prevBtnText: prplTour.prevBtnText,
+	doneBtnText: prplTour.doneBtnText,
+	steps: prplTour.steps,
 	onDestroyStarted: () => {
 		if ( ! prplDriverObj.hasNextStep() ) {
 			const scanFinishedNotice = document.getElementById(
@@ -42,13 +42,13 @@ function prplStartTour() {
 	const monthlyBadgesPopover = document.getElementById(
 		'prpl-popover-monthly-badges'
 	);
-	const progressPlannerTourSteps = progressPlannerTour.steps;
-	progressPlannerTourSteps[ 3 ].popover.onNextClick = function () {
+	const prplTourSteps = prplTour.steps;
+	prplTourSteps[ 3 ].popover.onNextClick = function () {
 		settingsPopover.showPopover();
 		prplMakePopoverBackdropTransparent( settingsPopover );
 		prplDriverObj.moveNext();
 	};
-	progressPlannerTourSteps[ 4 ].popover.onNextClick = function () {
+	prplTourSteps[ 4 ].popover.onNextClick = function () {
 		settingsPopover.hidePopover();
 		document
 			.getElementById( settingsPopover.id + '-backdrop-transparency' )
@@ -56,12 +56,12 @@ function prplStartTour() {
 		prplDriverObj.moveNext();
 	};
 
-	progressPlannerTourSteps[ 6 ].popover.onNextClick = function () {
+	prplTourSteps[ 6 ].popover.onNextClick = function () {
 		monthlyBadgesPopover.showPopover();
 		prplMakePopoverBackdropTransparent( monthlyBadgesPopover );
 		prplDriverObj.moveNext();
 	};
-	progressPlannerTourSteps[ 7 ].popover.onNextClick = function () {
+	prplTourSteps[ 7 ].popover.onNextClick = function () {
 		monthlyBadgesPopover.hidePopover();
 		document
 			.getElementById(

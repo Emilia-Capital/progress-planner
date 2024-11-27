@@ -1,4 +1,4 @@
-/* global customElements, progressPlannerSuggestedTask, HTMLElement */
+/* global customElements, prplSuggestedTask, HTMLElement */
 
 /**
  * Register the custom web component.
@@ -36,10 +36,10 @@ customElements.define(
 							data-task-title="${ taskTitle }"
 							data-action="info"
 							data-target="info"
-							title="${ progressPlannerSuggestedTask.i18n.info }"
+							title="${ prplSuggestedTask.i18n.info }"
 						>
 							<span class="dashicons dashicons-info"></span>
-							<span class="screen-reader-text">${ progressPlannerSuggestedTask.i18n.info }</span>
+							<span class="screen-reader-text">${ prplSuggestedTask.i18n.info }</span>
 						</button>
 						<button
 							type="button"
@@ -48,10 +48,10 @@ customElements.define(
 							data-task-title="${ taskTitle }"
 							data-action="snooze"
 							data-target="snooze"
-							title="${ progressPlannerSuggestedTask.i18n.snooze }"
+							title="${ prplSuggestedTask.i18n.snooze }"
 						>
 							<span class="dashicons dashicons-clock"></span>
-							<span class="screen-reader-text">${ progressPlannerSuggestedTask.i18n.snooze }</span>
+							<span class="screen-reader-text">${ prplSuggestedTask.i18n.snooze }</span>
 						</button>
 
 						<div class="prpl-suggested-task-snooze prpl-tooltip">
@@ -59,11 +59,11 @@ customElements.define(
 							<fieldset>
 								<legend>
 									<span>
-										${ progressPlannerSuggestedTask.i18n.snoozeThisTask }
+										${ prplSuggestedTask.i18n.snoozeThisTask }
 									</span>
 									<button type="button" class="prpl-toggle-radio-group">
 										<span class="prpl-toggle-radio-group-text">
-											${ progressPlannerSuggestedTask.i18n.howLong }
+											${ prplSuggestedTask.i18n.howLong }
 										</span>
 										<span class="prpl-toggle-radio-group-arrow">
 											&rsaquo;
@@ -74,41 +74,41 @@ customElements.define(
 								<div class="prpl-snooze-duration-radio-group">
 									<label>
 										<input type="radio" name="snooze-duration-${ taskId }" value="1-week">
-										${ progressPlannerSuggestedTask.i18n.snoozeDuration.oneWeek }
+										${ prplSuggestedTask.i18n.snoozeDuration.oneWeek }
 									</label>
 									<label>
 										<input type="radio" name="snooze-duration-${ taskId }" value="1-month">
-										${ progressPlannerSuggestedTask.i18n.snoozeDuration.oneMonth }
+										${ prplSuggestedTask.i18n.snoozeDuration.oneMonth }
 									</label>
 									<label>
 										<input type="radio" name="snooze-duration-${ taskId }" value="3-months">
-										${ progressPlannerSuggestedTask.i18n.snoozeDuration.threeMonths }
+										${ prplSuggestedTask.i18n.snoozeDuration.threeMonths }
 									</label>
 									<label>
 										<input type="radio" name="snooze-duration-${ taskId }" value="6-months">
-										${ progressPlannerSuggestedTask.i18n.snoozeDuration.sixMonths }
+										${ prplSuggestedTask.i18n.snoozeDuration.sixMonths }
 									</label>
 									<label>
 										<input type="radio" name="snooze-duration-${ taskId }" value="1-year">
-										${ progressPlannerSuggestedTask.i18n.snoozeDuration.oneYear }
+										${ prplSuggestedTask.i18n.snoozeDuration.oneYear }
 									</label>
 									<label>
 										<input type="radio" name="snooze-duration-${ taskId }" value="forever">
-										${ progressPlannerSuggestedTask.i18n.snoozeDuration.forever }
+										${ prplSuggestedTask.i18n.snoozeDuration.forever }
 									</label>
 								</div>
 							</fieldset>
 
 							<button type="button" class="prpl-suggested-task-button prpl-tooltip-close" data-action="close-snooze" data-target="snooze">
 								<span class="dashicons dashicons-no-alt"></span>
-								<span class="screen-reader-text">${ progressPlannerSuggestedTask.i18n.close }</span>
+								<span class="screen-reader-text">${ prplSuggestedTask.i18n.close }</span>
 							</button>
 						</div>
 						<div class="prpl-suggested-task-info prpl-tooltip" data-target="info">
 							${ taskDescription }
 							<button type="button" class="prpl-suggested-task-button prpl-tooltip-close" data-action="close-info" data-target="info">
 								<span class="dashicons dashicons-no-alt"></span>
-								<span class="screen-reader-text">${ progressPlannerSuggestedTask.i18n.close }</span>
+								<span class="screen-reader-text">${ prplSuggestedTask.i18n.close }</span>
 							</button>
 						</div>
 					</div>
@@ -247,10 +247,10 @@ customElements.define(
 			taskId = taskId.toString();
 			// Save the todo list to the database
 			const request = wp.ajax.post(
-				'progress_planner_suggested_task_action',
+				'prpl_suggested_task_action',
 				{
 					task_id: taskId,
-					nonce: progressPlannerSuggestedTask.nonce,
+					nonce: prplSuggestedTask.nonce,
 					action_type: 'snooze',
 					duration,
 				}
@@ -266,11 +266,11 @@ customElements.define(
 
 				// Update the global var.
 				if (
-					window.progressPlannerSuggestedTasks.tasks.snoozed.indexOf(
+					window.prplSuggestedTasks.tasks.snoozed.indexOf(
 						taskId
 					) === -1
 				) {
-					window.progressPlannerSuggestedTasks.tasks.snoozed.push(
+					window.prplSuggestedTasks.tasks.snoozed.push(
 						taskId
 					);
 				}

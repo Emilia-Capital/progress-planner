@@ -27,7 +27,7 @@ class Page {
 	private function register_hooks() {
 		\add_action( 'admin_menu', [ $this, 'add_page' ] );
 		\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
-		\add_action( 'wp_ajax_progress_planner_save_cpt_settings', [ $this, 'save_cpt_settings' ] );
+		\add_action( 'wp_ajax_prpl_save_cpt_settings', [ $this, 'save_cpt_settings' ] );
 	}
 
 	/**
@@ -53,7 +53,7 @@ class Page {
 		 *
 		 * @return array<\Progress_Planner\Widget>
 		 */
-		return \apply_filters( 'progress_planner_admin_widgets', $widgets );
+		return \apply_filters( 'prpl_admin_widgets', $widgets );
 	}
 
 	/**
@@ -178,7 +178,7 @@ class Page {
 	 * @return void
 	 */
 	public function save_cpt_settings() {
-		\check_ajax_referer( 'progress_planner', 'nonce', false );
+		\check_ajax_referer( 'prpl', 'nonce', false );
 		$include_post_types = isset( $_POST['include_post_types'] ) ? \sanitize_text_field( \wp_unslash( $_POST['include_post_types'] ) ) : 'post,page';
 		$include_post_types = \explode( ',', $include_post_types );
 		\progress_planner()->get_settings()->set( 'include_post_types', $include_post_types );

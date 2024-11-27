@@ -1,4 +1,4 @@
-/* global progressPlanner, progressPlannerAjaxRequest, progressPlannerSaveLicenseKey */
+/* global prpl, prplAjaxRequest, prplSaveLicenseKey */
 document
 	.getElementById( 'prpl-settings-form' )
 	.addEventListener( 'submit', function ( event ) {
@@ -7,8 +7,8 @@ document
 		const data = form.getAll( 'prpl-settings-post-types-include[]' );
 
 		// Save the options.
-		const request = wp.ajax.post( 'progress_planner_save_cpt_settings', {
-			_ajax_nonce: progressPlanner.nonce,
+		const request = wp.ajax.post( 'prpl_save_cpt_settings', {
+			_ajax_nonce: prpl.nonce,
 			include_post_types: data.join( ',' ),
 		} );
 		request.done( () => {
@@ -17,7 +17,7 @@ document
 
 		document.getElementById( 'submit-include-post-types' ).disabled = true;
 		document.getElementById( 'submit-include-post-types' ).innerHTML =
-			progressPlanner.l10n.saving;
+			prpl.l10n.saving;
 	} );
 
 // Submit the email.
@@ -35,8 +35,8 @@ if ( !! settingsLicenseForm ) {
 			data[ key ] = value;
 		}
 
-		progressPlannerAjaxRequest( {
-			url: progressPlanner.onboardNonceURL,
+		prplAjaxRequest( {
+			url: prpl.onboardNonceURL,
 			data,
 			successAction: ( response ) => {
 				if ( 'ok' === response.status ) {
@@ -44,18 +44,18 @@ if ( !! settingsLicenseForm ) {
 					data.nonce = response.nonce;
 
 					// Make the request to the API.
-					progressPlannerAjaxRequest( {
-						url: progressPlanner.onboardAPIUrl,
+					prplAjaxRequest( {
+						url: prpl.onboardAPIUrl,
 						data,
 						successAction: ( apiResponse ) => {
 							// Make a local request to save the response data.
-							progressPlannerSaveLicenseKey(
+							prplSaveLicenseKey(
 								apiResponse.license_key
 							);
 
 							document.getElementById(
 								'submit-license-key'
-							).innerHTML = progressPlanner.l10n.subscribed;
+							).innerHTML = prpl.l10n.subscribed;
 
 							// Timeout so the license key is saved.
 							setTimeout( () => {
@@ -74,6 +74,6 @@ if ( !! settingsLicenseForm ) {
 
 		document.getElementById( 'submit-license-key' ).disabled = true;
 		document.getElementById( 'submit-license-key' ).innerHTML =
-			progressPlanner.l10n.subscribing;
+			prpl.l10n.subscribing;
 	} );
 }

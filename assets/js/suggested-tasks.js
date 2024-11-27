@@ -1,4 +1,4 @@
-/* global customElements, progressPlannerSuggestedTasks, confetti, prplDocumentReady, progressPlannerSuggestedTask */
+/* global customElements, prplSuggestedTasks, confetti, prplDocumentReady, prplSuggestedTask */
 const PRPL_SUGGESTED_TASKS_MAX_ITEMS = 5;
 
 /**
@@ -6,7 +6,7 @@ const PRPL_SUGGESTED_TASKS_MAX_ITEMS = 5;
  *
  * @return {number} The number of items in the list.
  */
-const progressPlannerCountItems = () => {
+const prplCountItems = () => {
 	const items = document.querySelectorAll( '.prpl-suggested-task' );
 	return items.length;
 };
@@ -16,9 +16,9 @@ const progressPlannerCountItems = () => {
  *
  * @return {Object} The next item to inject.
  */
-const progressPlannerGetNextItem = () => {
+const prplGetNextItem = () => {
 	// Remove completed and snoozed items.
-	const tasks = progressPlannerSuggestedTasks.tasks;
+	const tasks = prplSuggestedTasks.tasks;
 	const items = tasks.details;
 	const completed = tasks.completed;
 	const snoozed = tasks.snoozed;
@@ -72,15 +72,15 @@ const progressPlannerGetNextItem = () => {
 /**
  * Inject the next item.
  */
-const progressPlannerInjectNextItem = () => {
-	const nextItem = progressPlannerGetNextItem();
+const prplInjectNextItem = () => {
+	const nextItem = prplGetNextItem();
 	if ( ! nextItem ) {
 		const event = new Event( 'prplResizeAllGridItemsEvent' );
 		document.dispatchEvent( event );
 		return;
 	}
 
-	progressPlannerInjectSuggestedTodoItem( nextItem );
+	prplInjectSuggestedTodoItem( nextItem );
 };
 
 /**
@@ -88,7 +88,7 @@ const progressPlannerInjectNextItem = () => {
  *
  * @param {Object} details The details of the todo item.
  */
-const progressPlannerInjectSuggestedTodoItem = ( details ) => {
+const prplInjectSuggestedTodoItem = ( details ) => {
 	// Clone the template element.
 	const Item = customElements.get( 'prpl-suggested-task' );
 	const item = new Item(
@@ -116,15 +116,15 @@ const progressPlannerInjectSuggestedTodoItem = ( details ) => {
 			`.prpl-suggested-task[data-task-id="${ parent }"]`
 		);
 		// If we could not find the parent item, try again after 500ms.
-		window.progressPlannerRenderAttempts =
-			window.progressPlannerRenderAttempts || 0;
-		if ( window.progressPlannerRenderAttempts > 500 ) {
+		window.prplRenderAttempts =
+			window.prplRenderAttempts || 0;
+		if ( window.prplRenderAttempts > 500 ) {
 			return;
 		}
 		if ( ! parentItem ) {
 			setTimeout( () => {
-				progressPlannerInjectSuggestedTodoItem( details );
-				window.progressPlannerRenderAttempts++;
+				prplInjectSuggestedTodoItem( details );
+				window.prplRenderAttempts++;
 			}, 10 );
 			return;
 		}
@@ -154,7 +154,7 @@ const prplTriggerConfetti = () => {
 		colors: [ 'FFE400', 'FFBD00', 'E89400', 'FFCA6C', 'FDFFB8' ],
 	};
 
-	const progressPlannerRenderAttemptshoot = () => {
+	const prplRenderAttemptshoot = () => {
 		confetti( {
 			...prplConfettiDefaults,
 			particleCount: 40,
@@ -170,9 +170,9 @@ const prplTriggerConfetti = () => {
 		} );
 	};
 
-	setTimeout( progressPlannerRenderAttemptshoot, 0 );
-	setTimeout( progressPlannerRenderAttemptshoot, 100 );
-	setTimeout( progressPlannerRenderAttemptshoot, 200 );
+	setTimeout( prplRenderAttemptshoot, 0 );
+	setTimeout( prplRenderAttemptshoot, 100 );
+	setTimeout( prplRenderAttemptshoot, 200 );
 };
 
 /**
@@ -195,10 +195,10 @@ const prplStrikeCompletedTasks = () => {
 				const taskId = item.getAttribute( 'data-task-id' );
 
 				const request = wp.ajax.post(
-					'progress_planner_suggested_task_action',
+					'prpl_suggested_task_action',
 					{
 						task_id: taskId,
-						nonce: progressPlannerSuggestedTask.nonce,
+						nonce: prplSuggestedTask.nonce,
 						action_type: 'celebrated',
 					}
 				);
@@ -212,18 +212,18 @@ const prplStrikeCompletedTasks = () => {
 					}
 
 					// Remove the task from the pending celebration.
-					window.progressPlannerSuggestedTasks.tasks.pending_celebration =
-						window.progressPlannerSuggestedTasks.tasks.pending_celebration.filter(
+					window.prplSuggestedTasks.tasks.pending_celebration =
+						window.prplSuggestedTasks.tasks.pending_celebration.filter(
 							( id ) => id !== taskId
 						);
 
 					// Add the task to the completed tasks.
 					if (
-						window.progressPlannerSuggestedTasks.tasks.completed.indexOf(
+						window.prplSuggestedTasks.tasks.completed.indexOf(
 							taskId
 						) === -1
 					) {
-						window.progressPlannerSuggestedTasks.tasks.completed.push(
+						window.prplSuggestedTasks.tasks.completed.push(
 							taskId
 						);
 					}
@@ -239,7 +239,7 @@ const prplStrikeCompletedTasks = () => {
 };
 
 const prplPendingCelebration =
-	progressPlannerSuggestedTasks.tasks.pending_celebration;
+	prplSuggestedTasks.tasks.pending_celebration;
 if ( prplPendingCelebration && prplPendingCelebration.length ) {
 	setTimeout( () => {
 		// Trigger the celebration event.
@@ -257,10 +257,10 @@ document.addEventListener( 'prplCelebrateTasks', () => {
 document.addEventListener( 'DOMContentLoaded', () => {
 	// Inject items, until we reach the maximum number of items.
 	while (
-		progressPlannerCountItems() <= PRPL_SUGGESTED_TASKS_MAX_ITEMS &&
-		progressPlannerGetNextItem()
+		prplCountItems() <= PRPL_SUGGESTED_TASKS_MAX_ITEMS &&
+		prplGetNextItem()
 	) {
-		progressPlannerInjectNextItem();
+		prplInjectNextItem();
 	}
 } );
 
@@ -408,10 +408,10 @@ document.addEventListener(
 	'prplMaybeInjectSuggestedTaskEvent',
 	() => {
 		while (
-			progressPlannerCountItems() <= PRPL_SUGGESTED_TASKS_MAX_ITEMS &&
-			progressPlannerGetNextItem()
+			prplCountItems() <= PRPL_SUGGESTED_TASKS_MAX_ITEMS &&
+			prplGetNextItem()
 		) {
-			progressPlannerInjectNextItem();
+			prplInjectNextItem();
 		}
 	},
 	false

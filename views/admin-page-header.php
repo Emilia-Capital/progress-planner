@@ -11,11 +11,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-$progress_planner_active_range = isset( $_GET['range'] ) ? \sanitize_text_field( \wp_unslash( $_GET['range'] ) ) : '-6 months';
+$prpl_active_range = isset( $_GET['range'] ) ? \sanitize_text_field( \wp_unslash( $_GET['range'] ) ) : '-6 months';
 // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-$progress_planner_active_frequency = isset( $_GET['frequency'] ) ? \sanitize_text_field( \wp_unslash( $_GET['frequency'] ) ) : 'monthly';
+$prpl_active_frequency = isset( $_GET['frequency'] ) ? \sanitize_text_field( \wp_unslash( $_GET['frequency'] ) ) : 'monthly';
 
-\do_action( 'progress_planner_admin_page_header_before' );
+\do_action( 'prpl_admin_page_header_before' );
 ?>
 <div class="prpl-header">
 	<div class="prpl-header-logo">
@@ -58,12 +58,12 @@ $progress_planner_active_frequency = isset( $_GET['frequency'] ) ? \sanitize_tex
 					'-12 months' => \esc_html__( 'Activity over the past 12 months', 'progress-planner' ),
 					'-18 months' => \esc_html__( 'Activity over the past 18 months', 'progress-planner' ),
 					'-24 months' => \esc_html__( 'Activity over the past 24 months', 'progress-planner' ),
-				] as $progress_planner_range => $progress_planner_label ) {
+				] as $prpl_range => $prpl_label ) {
 					printf(
 						'<option value="%1$s" %2$s>%3$s</option>',
-						\esc_attr( $progress_planner_range ),
-						\selected( $progress_planner_active_range, $progress_planner_range, false ),
-						\esc_html( $progress_planner_label )
+						\esc_attr( $prpl_range ),
+						\selected( $prpl_active_range, $prpl_range, false ),
+						\esc_html( $prpl_label )
 					);
 				}
 				?>
@@ -76,12 +76,12 @@ $progress_planner_active_frequency = isset( $_GET['frequency'] ) ? \sanitize_tex
 				foreach ( [
 					'weekly'  => \esc_html__( 'Weekly', 'progress-planner' ),
 					'monthly' => \esc_html__( 'Monthly', 'progress-planner' ),
-				] as $progress_planner_frequency => $progress_planner_label ) {
+				] as $prpl_frequency => $prpl_label ) {
 					printf(
 						'<option value="%1$s" %2$s>%3$s</option>',
-						\esc_attr( $progress_planner_frequency ),
-						\selected( $progress_planner_active_frequency, $progress_planner_frequency, false ),
-						\esc_html( $progress_planner_label )
+						\esc_attr( $prpl_frequency ),
+						\selected( $prpl_active_frequency, $prpl_frequency, false ),
+						\esc_html( $prpl_label )
 					);
 				}
 				?>

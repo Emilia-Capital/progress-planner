@@ -1,4 +1,4 @@
-/* global customElements, HTMLElement, progressPlannerTodoItem, progressPlannerInjectTodoItem, progressPlannerSaveTodoList */
+/* global customElements, HTMLElement, prplTodoItem, prplInjectTodoItem, prplSaveTodoList */
 
 /**
  * Register the custom web component.
@@ -17,17 +17,17 @@ customElements.define(
 				.replace( '"', '&quot;' );
 
 			const deleteTaskAriaLabel =
-				progressPlannerTodoItem.i18n.taskDelete.replace(
+				prplTodoItem.i18n.taskDelete.replace(
 					'%s',
 					content
 				);
 			const moveUpTaskAriaLabel =
-				progressPlannerTodoItem.i18n.taskMoveUp.replace(
+				prplTodoItem.i18n.taskMoveUp.replace(
 					'%s',
 					content
 				);
 			const moveDownTaskAriaLabel =
-				progressPlannerTodoItem.i18n.taskMoveDown.replace(
+				prplTodoItem.i18n.taskMoveDown.replace(
 					'%s',
 					content
 				);
@@ -58,7 +58,7 @@ customElements.define(
 					).checked;
 
 					thisObject.remove();
-					progressPlannerInjectTodoItem(
+					prplInjectTodoItem(
 						thisObject.innerText,
 						todoItemDone,
 						! todoItemDone,
@@ -67,11 +67,11 @@ customElements.define(
 
 					// Announce the status change and move focus to the moved item
 					const announcement = todoItemDone
-						? progressPlannerTodoItem.i18n.taskCompleted.replace(
+						? prplTodoItem.i18n.taskCompleted.replace(
 								'%s',
 								thisObject.innerText
 						  )
-						: progressPlannerTodoItem.i18n.taskNotCompleted.replace(
+						: prplTodoItem.i18n.taskNotCompleted.replace(
 								'%s',
 								thisObject.innerText
 						  );
@@ -87,8 +87,8 @@ customElements.define(
 					thisObject,
 					thisObject.previousElementSibling
 				);
-				progressPlannerSaveTodoList();
-				wp.a11y.speak( progressPlannerTodoItem.i18n.taskMovedUp );
+				prplSaveTodoList();
+				wp.a11y.speak( prplTodoItem.i18n.taskMovedUp );
 			} );
 
 			// When the move down button is clicked, move the todo item down the list
@@ -99,8 +99,8 @@ customElements.define(
 						thisObject.nextElementSibling,
 						thisObject
 					);
-					progressPlannerSaveTodoList();
-					wp.a11y.speak( progressPlannerTodoItem.i18n.taskMovedDown );
+					prplSaveTodoList();
+					wp.a11y.speak( prplTodoItem.i18n.taskMovedDown );
 				}
 			);
 
@@ -110,7 +110,7 @@ customElements.define(
 				const prevItem = thisObject.previousElementSibling;
 
 				thisObject.remove();
-				progressPlannerSaveTodoList();
+				prplSaveTodoList();
 
 				// Shift focus to the next item if available, otherwise to the previous item, otherwise to the input field
 				if ( nextItem ) {
@@ -125,7 +125,7 @@ customElements.define(
 			// When an item's contenteditable element is edited,
 			// save the new content to the database
 			this.querySelector( '.content' ).addEventListener( 'input', () => {
-				progressPlannerSaveTodoList();
+				prplSaveTodoList();
 			} );
 		}
 	}

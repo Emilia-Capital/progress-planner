@@ -30,7 +30,7 @@ class Remote_Tasks {
 	 * Constructor.
 	 */
 	public function __construct() {
-		\add_filter( 'progress_planner_suggested_tasks_items', [ $this, 'inject_tasks' ] );
+		\add_filter( 'prpl_suggested_tasks_items', [ $this, 'inject_tasks' ] );
 	}
 
 	/**
@@ -92,7 +92,7 @@ class Remote_Tasks {
 	 */
 	protected function get_api_endpoint() {
 		return apply_filters(
-			'progress_planner_suggested_tasks_remote_api_endpoint',
+			'prpl_suggested_tasks_remote_api_endpoint',
 			self::REMOTE_SERVER_ROOT_URL . '/wp-json/progress-planner-saas/v1/suggested-todo/'
 		);
 	}

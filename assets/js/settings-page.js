@@ -1,4 +1,4 @@
-/* global progressPlannerSettingsPage, alert, prplDocumentReady */
+/* global prplSettingsPage, alert, prplDocumentReady */
 
 /**
  * Toggle the visibility of the edit action,
@@ -24,7 +24,7 @@ const prplToggleEditActionVisibility = function ( page ) {
 		editEl.style.visibility = 'visible';
 		editEl.querySelector(
 			'a'
-		).href = `${ progressPlannerSettingsPage.siteUrl }/wp-admin/post.php?post=${ value }&action=edit`;
+		).href = `${ prplSettingsPage.siteUrl }/wp-admin/post.php?post=${ value }&action=edit`;
 	}
 };
 

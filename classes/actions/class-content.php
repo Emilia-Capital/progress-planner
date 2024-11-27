@@ -298,7 +298,7 @@ class Content {
 			if ( empty( $existing ) ) {
 				$activity->save();
 
-				\do_action( 'progress_planner_activity_content_publish_saved', $activity->data_id );
+				\do_action( 'prpl_activity_content_publish_saved', $activity->data_id );
 				return;
 			}
 		}

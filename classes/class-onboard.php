@@ -32,7 +32,7 @@ class Onboard {
 	public function __construct() {
 
 		// Handle saving data from the onboarding form response.
-		\add_action( 'wp_ajax_progress_planner_save_onboard_data', [ $this, 'save_onboard_response' ] );
+		\add_action( 'wp_ajax_prpl_save_onboard_data', [ $this, 'save_onboard_response' ] );
 
 		if ( \get_option( 'progress_planner_license_key' ) ) {
 			return;
@@ -67,7 +67,7 @@ class Onboard {
 	 */
 	public function save_onboard_response() {
 		// Check the nonce.
-		if ( ! \check_ajax_referer( 'progress_planner', 'nonce', false ) ) {
+		if ( ! \check_ajax_referer( 'prpl', 'nonce', false ) ) {
 			\wp_send_json_error( [ 'message' => \esc_html__( 'Invalid nonce.', 'progress-planner' ) ] );
 		}
 

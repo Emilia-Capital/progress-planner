@@ -44,9 +44,9 @@ class Playground {
 			);
 			\update_option( 'progress_planner_demo_data_generated', true );
 		}
-		\add_action( 'progress_planner_admin_page_header_before', [ $this, 'show_header_notice' ] );
-		\add_action( 'wp_ajax_progress_planner_hide_onboarding', [ $this, 'hide_onboarding' ] );
-		\add_action( 'wp_ajax_progress_planner_show_onboarding', [ $this, 'show_onboarding' ] );
+		\add_action( 'prpl_admin_page_header_before', [ $this, 'show_header_notice' ] );
+		\add_action( 'wp_ajax_prpl_hide_onboarding', [ $this, 'hide_onboarding' ] );
+		\add_action( 'wp_ajax_prpl_show_onboarding', [ $this, 'show_onboarding' ] );
 	}
 
 	/**
@@ -57,7 +57,7 @@ class Playground {
 	 * @return void
 	 */
 	private function toggle_onboarding( $action ) {
-		$nonce_action = "progress_planner_{$action}_onboarding";
+		$nonce_action = "prpl_{$action}_onboarding";
 		\check_ajax_referer( $nonce_action, 'nonce' );
 
 		if ( ! \current_user_can( 'manage_options' ) ) {
@@ -109,7 +109,7 @@ class Playground {
 		$show_onboarding = \get_option( 'progress_planner_force_show_onboarding', false );
 		$button_text     = $show_onboarding ? __( 'Hide onboarding', 'progress-planner' ) : __( 'Show onboarding', 'progress-planner' );
 		$action          = $show_onboarding ? 'hide' : 'show';
-		$nonce           = \wp_create_nonce( "progress_planner_{$action}_onboarding" );
+		$nonce           = \wp_create_nonce( "prpl_{$action}_onboarding" );
 		?>
 
 		<div class="prpl-widget-wrapper prpl-top-notice" id="prpl-playground-notice">
@@ -130,7 +130,7 @@ class Playground {
 				</p>
 				<script>
 				document.getElementById( 'progress-planner-toggle-onboarding' ).addEventListener( 'click', function() {
-					const request = wp.ajax.post( 'progress_planner_<?php echo \esc_attr( $action ); ?>_onboarding', {
+					const request = wp.ajax.post( 'prpl_<?php echo \esc_attr( $action ); ?>_onboarding', {
 						_ajax_nonce: '<?php echo \esc_attr( $nonce ); ?>',
 					} );
 					request.done( () => {

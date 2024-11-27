@@ -44,7 +44,7 @@ class Local_Tasks_Manager {
 		$this->update_content = new \Progress_Planner\Suggested_Tasks\Local_Tasks\Update_Content();
 		$this->update_core    = new \Progress_Planner\Suggested_Tasks\Local_Tasks\Update_Core();
 
-		\add_filter( 'progress_planner_suggested_tasks_items', [ $this, 'inject_tasks' ] );
+		\add_filter( 'prpl_suggested_tasks_items', [ $this, 'inject_tasks' ] );
 	}
 
 	/**

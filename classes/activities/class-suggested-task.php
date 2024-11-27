@@ -36,7 +36,7 @@ class Suggested_Task extends \Progress_Planner\Activity {
 		$this->user_id = \get_current_user_id();
 
 		\progress_planner()->get_query()->insert_activity( $this );
-		\do_action( 'progress_planner_activity_saved', $this );
+		\do_action( 'prpl_activity_saved', $this );
 	}
 
 	/**

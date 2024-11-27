@@ -41,15 +41,15 @@ class Editor {
 
 		\wp_localize_script(
 			'progress-planner-editor',
-			'progressPlannerEditor',
+			'prplEditor',
 			[
 				'lessons'         => \progress_planner()->get_lessons()->get_items(),
 				'pageTypes'       => \progress_planner()->get_page_types()->get_page_types(),
 				'defaultPageType' => \progress_planner()->get_page_types()->get_default_page_type( (string) \get_post_type(), (int) \get_the_ID() ),
 				'i18n'            => [
 					'pageType'                     => \esc_html__( 'Page type', 'progress-planner' ),
-					'progressPlannerSidebar'       => \esc_html__( 'Progress Planner Sidebar', 'progress-planner' ),
-					'progressPlanner'              => \esc_html__( 'Progress Planner', 'progress-planner' ),
+					'prplSidebar'                  => \esc_html__( 'Progress Planner Sidebar', 'progress-planner' ),
+					'prpl'              => \esc_html__( 'Progress Planner', 'progress-planner' ),
 					'watchVideo'                   => \esc_html__( 'Watch video', 'progress-planner' ),
 					'video'                        => \esc_html__( 'Video', 'progress-planner' ),
 					'checklistProgressDescription' => sprintf(

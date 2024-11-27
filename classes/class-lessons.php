@@ -33,7 +33,7 @@ class Lessons {
 		 *
 		 * @param array $lessons The lessons.
 		 */
-		return apply_filters( 'progress_planner_lessons', $lessons );
+		return apply_filters( 'prpl_lessons', $lessons );
 	}
 
 	/**
@@ -49,7 +49,7 @@ class Lessons {
 		 * @param string $endpoint The endpoint url.
 		 */
 		$url = apply_filters(
-			'progress_planner_lessons_endpoint',
+			'prpl_lessons_endpoint',
 			'https://progressplanner.com/wp-json/progress-planner-saas/v1/free-lessons'
 		);
 

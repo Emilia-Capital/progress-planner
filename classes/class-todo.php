@@ -25,7 +25,7 @@ class Todo {
 	 * @return void
 	 */
 	public function __construct() {
-		\add_action( 'wp_ajax_progress_planner_save_todo_list', [ $this, 'save' ] );
+		\add_action( 'wp_ajax_prpl_save_todo_list', [ $this, 'save' ] );
 	}
 
 	/**
@@ -52,7 +52,7 @@ class Todo {
 	 */
 	public function save() {
 		// Check the nonce.
-		if ( ! \check_ajax_referer( 'progress_planner_todo', 'nonce', false ) ) {
+		if ( ! \check_ajax_referer( 'prpl_todo', 'nonce', false ) ) {
 			\wp_send_json_error( [ 'message' => \esc_html__( 'Invalid nonce.', 'progress-planner' ) ] );
 		}
 

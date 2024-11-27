@@ -167,7 +167,7 @@ prpl-todo-item {
 /*------------------------------------*\
 	Progress Planner TODO Dashboard widget styles.
 \*------------------------------------*/
-#progress_planner_dashboard_widget_todo {
+#prpl_dashboard_widget_todo {
 
 	#todo-list {
 		margin-left: -5px;

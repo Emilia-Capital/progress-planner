@@ -68,8 +68,8 @@ class Badges {
 			];
 		}
 
-		\add_action( 'progress_planner_suggested_task_completed', [ $this, 'clear_monthly_progress' ] );
-		\add_action( 'progress_planner_activity_content_publish_saved', [ $this, 'clear_content_progress' ] );
+		\add_action( 'prpl_suggested_task_completed', [ $this, 'clear_monthly_progress' ] );
+		\add_action( 'prpl_activity_content_publish_saved', [ $this, 'clear_content_progress' ] );
 	}
 
 	/**

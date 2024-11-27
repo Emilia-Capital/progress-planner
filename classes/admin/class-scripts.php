@@ -122,9 +122,9 @@ class Scripts {
 			case 'progress-planner-web-components-prpl-suggested-task':
 				\wp_localize_script(
 					$handle,
-					'progressPlannerSuggestedTask',
+					'prplSuggestedTask',
 					[
-						'nonce' => \wp_create_nonce( 'progress_planner' ),
+						'nonce' => \wp_create_nonce( 'prpl' ),
 						'i18n'  => [
 							'info'           => \esc_html__( 'Info', 'progress-planner' ),
 							'snooze'         => \esc_html__( 'Snooze', 'progress-planner' ),
@@ -147,7 +147,7 @@ class Scripts {
 			case 'progress-planner-web-components-prpl-todo-item':
 				\wp_localize_script(
 					$handle,
-					'progressPlannerTodoItem',
+					'prplTodoItem',
 					[
 						'i18n' => [
 							/* translators: %s: The task content. */
@@ -170,7 +170,7 @@ class Scripts {
 			case 'progress-planner-tour':
 				\wp_localize_script(
 					$handle,
-					'progressPlannerTour',
+					'prplTour',
 					[
 						'steps'        => \progress_planner()->get_admin__tour()->get_steps(),
 						'progressText' => sprintf(
@@ -193,7 +193,7 @@ class Scripts {
 					'onboardNonceURL' => \progress_planner()->get_onboard()->get_remote_nonce_url(),
 					'onboardAPIUrl'   => \progress_planner()->get_onboard()->get_remote_url(),
 					'ajaxUrl'         => \admin_url( 'admin-ajax.php' ),
-					'nonce'           => \wp_create_nonce( 'progress_planner' ),
+					'nonce'           => \wp_create_nonce( 'prpl' ),
 				];
 				if ( 'progress-planner-settings' === $handle ) {
 					$data['l10n'] = [
@@ -202,16 +202,16 @@ class Scripts {
 						'subscribed'  => \esc_html__( 'Subscribed...', 'progress-planner' ),
 					];
 				}
-				\wp_localize_script( $handle, 'progressPlanner', $data );
+				\wp_localize_script( $handle, 'prpl', $data );
 				break;
 
 			case 'progress-planner-todo':
 				\wp_localize_script(
 					$handle,
-					'progressPlannerTodo',
+					'prplTodo',
 					[
 						'ajaxUrl'   => \admin_url( 'admin-ajax.php' ),
-						'nonce'     => \wp_create_nonce( 'progress_planner_todo' ),
+						'nonce'     => \wp_create_nonce( 'prpl_todo' ),
 						'listItems' => \progress_planner()->get_todo()->get_items(),
 					]
 				);
@@ -220,7 +220,7 @@ class Scripts {
 			case 'progress-planner-settings-page':
 				\wp_localize_script(
 					$handle,
-					'progressPlannerSettingsPage',
+					'prplSettingsPage',
 					[
 						'siteUrl'    => \get_site_url(),
 						'savingText' => \esc_html__( 'Saving...', 'progress-planner' ),
@@ -249,10 +249,10 @@ class Scripts {
 
 				\wp_localize_script(
 					$handle,
-					'progressPlannerSuggestedTasks',
+					'prplSuggestedTasks',
 					[
 						'ajaxUrl' => \admin_url( 'admin-ajax.php' ),
-						'nonce'   => \wp_create_nonce( 'progress_planner' ),
+						'nonce'   => \wp_create_nonce( 'prpl' ),
 						'tasks'   => $tasks,
 					]
 				);

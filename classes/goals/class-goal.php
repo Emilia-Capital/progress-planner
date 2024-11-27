@@ -118,9 +118,22 @@ class Goal {
 	}
 
 	/**
-	 * Get the goal ID.
+	 * Get the goal details.
 	 *
-	 * @return array
+	 * @return array {
+	 *     Goal details.
+	 *
+	 *     @type string          $id          The goal ID.
+	 *     @type string          $title       The goal title.
+	 *     @type string          $description The goal description.
+	 *     @type string          $type        The goal type.
+	 *     @type string          $start_date  The goal start date.
+	 *     @type string          $end_date    The goal end date.
+	 *     @type string          $status      The goal status.
+	 *     @type string          $priority    The goal priority.
+	 *     @type string          $progress    The goal progress.
+	 *     @type string|callable $evaluate    The goal evaluation function.
+	 * }
 	 */
 	public function get_details() {
 		return [

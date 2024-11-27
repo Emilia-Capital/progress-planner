@@ -197,11 +197,11 @@ class Base {
 		 *
 		 * @param array $files The files to include.
 		 */
-		$files = apply_filters( 'progress_planner_the_file', (array) $files );
+		$files = apply_filters( 'prpl_the_file', (array) $files );
 		foreach ( $files as $file ) {
 			$path = $file;
 			if ( ! \file_exists( $path ) ) {
-				$path = \PROGRESS_PLANNER_DIR . "/{$file}";
+				$path = \trailingslashit( \PROGRESS_PLANNER_DIR ) . "{$file}";
 			}
 			if ( \file_exists( $path ) ) {
 				extract( $args ); // phpcs:ignore WordPress.PHP.DontExtract.extract_extract

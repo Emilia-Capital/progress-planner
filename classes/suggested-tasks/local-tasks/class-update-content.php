@@ -23,7 +23,7 @@ class Update_Content extends \Progress_Planner\Suggested_Tasks\Local_Tasks {
 	 * Constructor.
 	 */
 	public function __construct() {
-		\add_filter( 'progress_planner_update_posts_tasks_args', [ $this, 'filter_update_posts_args' ] );
+		\add_filter( 'prpl_update_posts_tasks_args', [ $this, 'filter_update_posts_args' ] );
 	}
 
 	/**
@@ -236,7 +236,7 @@ class Update_Content extends \Progress_Planner\Suggested_Tasks\Local_Tasks {
 	public function get_tasks_to_update_posts() {
 
 		$args = apply_filters(
-			'progress_planner_update_posts_tasks_args',
+			'prpl_update_posts_tasks_args',
 			[
 				'posts_per_page' => self::ITEMS_TO_INJECT,
 				'post_status'    => 'publish',

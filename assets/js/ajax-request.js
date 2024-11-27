@@ -10,7 +10,7 @@
  * @param {Function} params.failAction    The callback to run on failure.
  */
 // eslint-disable-next-line no-unused-vars
-const progressPlannerAjaxRequest = ( {
+const prplAjaxRequest = ( {
 	url,
 	data,
 	successAction,

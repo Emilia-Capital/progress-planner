@@ -29,7 +29,7 @@ class Page_Types_Test extends \WP_UnitTestCase {
 	 * @return void
 	 */
 	public static function setUpBeforeClass(): void {
-		\set_site_transient( 'progress_planner_lessons', self::get_lessons(), WEEK_IN_SECONDS );
+		\set_site_transient( 'prpl_lessons', self::get_lessons(), WEEK_IN_SECONDS );
 
 		\progress_planner()->get_page_types()->create_taxonomy();
 		\progress_planner()->get_page_types()->maybe_add_terms();

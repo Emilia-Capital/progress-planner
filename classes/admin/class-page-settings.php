@@ -71,7 +71,7 @@ class Page_Settings {
 			];
 		}
 
-		return apply_filters( 'progress_planner_settings', $settings );
+		return apply_filters( 'prpl_settings', $settings );
 	}
 
 	/**
@@ -106,7 +106,7 @@ class Page_Settings {
 						continue;
 					}
 
-					// Remove the assigned terms from the `progress_planner_page_types` taxonomy.
+					// Remove the assigned terms from the `prpl_page_types` taxonomy.
 					\wp_remove_object_terms( $post->ID, $term->term_id, \Progress_Planner\Page_Types::TAXONOMY_NAME );
 				}
 
@@ -115,12 +115,12 @@ class Page_Settings {
 					continue;
 				}
 
-				// Add the term to the `progress_planner_page_types` taxonomy.
+				// Add the term to the `prpl_page_types` taxonomy.
 				\progress_planner()->get_page_types()->set_page_type_by_id( (int) $page_args['id'], $type );
 			}
 		}
 
-		do_action( 'progress_planner_settings_form_options_stored' );
+		do_action( 'prpl_settings_form_options_stored' );
 
 		\wp_send_json_success( \esc_html__( 'Options stored successfully', 'progress-planner' ) );
 	}
