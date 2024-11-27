@@ -24,14 +24,14 @@ $progress_planner_active_frequency = isset( $_GET['frequency'] ) ? \sanitize_tex
 
 	<div class="prpl-header-right">
 		<button class="prpl-info-icon" id="prpl-start-tour-icon-button" onclick="prplStartTour()">
-			<?php \progress_planner()->the_asset( 'images/tour_icon.svg' ); ?>
+			<?php \progress_planner()->the_asset( 'images/icon_tour.svg' ); ?>
 			<span class="screen-reader-text"><?php \esc_html_e( 'Start tour', 'progress-planner' ); ?>
 		</button>
 		<?php
 		// Render the settings button.
 		\progress_planner()->get_popover()->the_popover( 'settings' )->render_button(
 			'',
-			\progress_planner()->get_asset( 'images/settings_icon.svg' ) . '<span class="screen-reader-text">' . \esc_html__( 'Settings', 'progress-planner' ) . '</span>'
+			\progress_planner()->get_asset( 'images/icon_settings.svg' ) . '<span class="screen-reader-text">' . \esc_html__( 'Settings', 'progress-planner' ) . '</span>'
 		);
 		// Render the settings popover.
 		\progress_planner()->get_popover()->the_popover( 'settings' )->render();

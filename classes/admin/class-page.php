@@ -166,7 +166,7 @@ class Page {
 			\wp_enqueue_style(
 				'progress-planner-settings-page',
 				PROGRESS_PLANNER_URL . '/assets/css/settings-page.css',
-				[ 'progress-planner-document-ready' ],
+				[],
 				(string) filemtime( PROGRESS_PLANNER_DIR . '/assets/css/settings-page.css' )
 			);
 		}

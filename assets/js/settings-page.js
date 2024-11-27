@@ -7,21 +7,21 @@
  * @param {string} page The page.
  */
 const prplToggleEditActionVisibility = function ( page ) {
-	const itemActionsEl = document.querySelector(
-		`.prpl-pages-item[data-page-item="${ page }"] .item-actions`
+	const itemRadiosWrapperEl = document.querySelector(
+		`.prpl-pages-item[data-page-item="${ page }"] .radios`
 	);
-	if ( ! itemActionsEl ) {
+	if ( ! itemRadiosWrapperEl ) {
 		return;
 	}
-	const selectEl = itemActionsEl.querySelector(
+	const selectEl = itemRadiosWrapperEl.querySelector(
 		'[data-action="select"] select'
 	);
-	const editEl = itemActionsEl.querySelector( '[data-action="edit"]' );
+	const editEl = itemRadiosWrapperEl.querySelector( '[data-action="edit"]' );
 	const value = selectEl.value;
 	if ( ! value || value.length === 0 ) {
-		editEl.style.display = 'none';
+		editEl.style.visibility = 'hidden';
 	} else {
-		editEl.style.display = 'block';
+		editEl.style.visibility = 'visible';
 		editEl.querySelector(
 			'a'
 		).href = `${ progressPlannerSettingsPage.siteUrl }/wp-admin/post.php?post=${ value }&action=edit`;
@@ -49,66 +49,36 @@ prplDocumentReady( function () {
 } );
 
 const prplTogglePageSelectorSettingVisibility = function ( page, value ) {
-	const itemActionsWrapperEl = document.querySelector(
-		`.prpl-pages-item-${ page } .item-actions`
+	const itemRadiosWrapperEl = document.querySelector(
+		`.prpl-pages-item-${ page } .radios`
 	);
 
-	if ( ! itemActionsWrapperEl ) {
+	if ( ! itemRadiosWrapperEl ) {
 		return;
 	}
 
-	// Hide entire page selector setting if needed.
-	if ( 'not-applicable' === value ) {
-		// Hide actions wrapper.
-		itemActionsWrapperEl.style.display = 'none';
-
-		// Clear the <select> element value.
-		itemActionsWrapperEl.querySelector( 'select' ).value = '';
-
-		// Hide edit button.
-		itemActionsWrapperEl.querySelector(
-			'[data-action="edit"]'
-		).style.display = 'none';
-	}
-
 	// Show only create button.
-	if ( 'no' === value ) {
-		// Show actions wrapper.
-		itemActionsWrapperEl.style.display = 'flex';
-
+	if ( 'no' === value || 'not-applicable' === value ) {
 		// Clear the <select> element value.
-		itemActionsWrapperEl.querySelector( 'select' ).value = '';
+		itemRadiosWrapperEl.querySelector( 'select' ).value = '';
 
 		// Hide edit button.
-		itemActionsWrapperEl.querySelector(
+		itemRadiosWrapperEl.querySelector(
 			'[data-action="edit"]'
-		).style.display = 'none';
+		).style.visibility = 'hidden';
 
 		// Hide <select> and Edit wrapper.
-		itemActionsWrapperEl.querySelector(
+		itemRadiosWrapperEl.querySelector(
 			'.prpl-select-page'
-		).style.display = 'none';
-
-		// Show create button.
-		itemActionsWrapperEl.querySelector(
-			'[data-action="create"]'
-		).style.display = 'block';
+		).style.visibility = 'hidden';
 	}
 
 	// Show only select and edit button.
 	if ( 'yes' === value ) {
-		// Show actions wrapper.
-		itemActionsWrapperEl.style.display = 'flex';
-
 		// Show <select> and Edit wrapper.
-		itemActionsWrapperEl.querySelector(
+		itemRadiosWrapperEl.querySelector(
 			'.prpl-select-page'
-		).style.display = 'flex';
-
-		// Hide create button.
-		itemActionsWrapperEl.querySelector(
-			'[data-action="create"]'
-		).style.display = 'none';
+		).style.visibility = 'visible';
 	}
 };
 
