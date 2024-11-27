@@ -135,10 +135,10 @@ class Rest_API {
 		);
 
 		$data['scores'] = [];
-		foreach ( $scores['labels'] as $key => $label ) {
+		foreach ( $scores as $item ) {
 			$data['scores'][] = [
-				'label' => $label,
-				'value' => $scores['data'][ $key ],
+				'label' => $item['label'],
+				'value' => $item['score'],
 			];
 		}
 
