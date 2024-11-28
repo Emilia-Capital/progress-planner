@@ -210,5 +210,69 @@ class Base {
 			}
 		}
 	}
+
+	/**
+	 * Check if the site is considered a local one.
+	 *
+	 * This method is inspired by the `is_local_url` function from the
+	 * EDD - Software Licensing plugin.
+	 *
+	 * @return boolean If we're considering the site local or not.
+	 */
+	public function is_local_site() {
+		$url       = \get_home_url();
+		$url_parts = \wp_parse_url( $url );
+		$host      = ! empty( $url_parts['host'] ) ? $url_parts['host'] : false;
+
+		if ( ! empty( $url ) && ! empty( $host ) ) {
+			if (
+				'localhost' === $host
+				|| (
+					false !== \ip2long( $host )
+					&& ! \filter_var( $host, \FILTER_VALIDATE_IP, \FILTER_FLAG_NO_PRIV_RANGE | \FILTER_FLAG_NO_RES_RANGE )
+				)
+			) {
+				return true;
+			}
+
+			foreach ( [ '.local', '.test' ] as $tld ) {
+				if ( false !== \strpos( $host, $tld ) ) {
+					return true;
+				}
+			}
+
+			if ( \substr_count( $host, '.' ) > 1 ) {
+				$subdomains_to_check = [
+					'dev.',
+					'*.staging.',
+					'*.test.',
+					'staging-*.',
+					'*.wpengine.com',
+					'*.instawp.xyz',
+					'*.cloudwaysapps.com',
+					'*.flywheelsites.com',
+					'*.flywheelstaging.com',
+					'*.myftpupload.com',
+					'*.kinsta.cloud',
+				];
+
+				foreach ( $subdomains_to_check as $subdomain ) {
+					$subdomain = \str_replace( '.', '(.)', $subdomain );
+					$subdomain = \str_replace( [ '*', '(.)' ], '(.*)', $subdomain );
+
+					if ( \preg_match( '/^(' . $subdomain . ')/', $host ) ) {
+						return true;
+					}
+				}
+			}
+
+			// Some Hosting providers do subdirectory staging sites.
+			if ( \preg_match( '/\/staging\/\d{3,}/', $url ) ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 }
 // phpcs:enable Generic.Commenting.Todo

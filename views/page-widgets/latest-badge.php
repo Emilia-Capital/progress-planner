@@ -34,7 +34,7 @@ $prpl_latest_badge = \progress_planner()->get_badges()->get_latest_completed_bad
 		width="1200"
 		height="675"
 	/>
-	<?php if ( 'no-license' !== \get_option( 'progress_planner_license_key', 'no-license' ) ) : ?>
+	<?php if ( 'no-license' !== \get_option( 'progress_planner_license_key', 'no-license' ) && ! \progress_planner()->is_local_site() ) : ?>
 		<?php
 		// Generate the share badge URL.
 		$prpl_share_badge_url = \add_query_arg(
@@ -53,7 +53,7 @@ $prpl_latest_badge = \progress_planner()->get_badges()->get_latest_completed_bad
 				</span>
 			</a>
 		</div>
-	<?php else : ?>
+	<?php elseif ( ! \progress_planner()->is_local_site() ) : ?>
 		<?php
 		\progress_planner()->get_popover()->the_popover( 'subscribe-form' )->render_button(
 			'',
