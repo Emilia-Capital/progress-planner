@@ -214,7 +214,10 @@ class Base {
 	/**
 	 * Check if the site is considered a local one.
 	 *
-	 * @return boolean If we're considering the site local or not
+	 * This method is inspired by the `is_local_url` function from the
+	 * EDD - Software Licensing plugin.
+	 *
+	 * @return boolean If we're considering the site local or not.
 	 */
 	public function is_local_site() {
 		$url       = \get_home_url();
