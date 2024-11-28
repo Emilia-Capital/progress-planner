@@ -109,9 +109,35 @@ if ( document.getElementById( 'prpl-onboarding-form' ) ) {
 		} );
 
 	document
+		.querySelector( '#prpl-onboarding-form input[name="privacy-policy"]' )
+		.addEventListener( 'change', function () {
+			const privacyPolicyAccepted = !! this.checked;
+
+			if ( privacyPolicyAccepted ) {
+				document.getElementById(
+					'prpl-onboarding-submit-wrapper'
+				).style.display = 'block';
+			} else {
+				document.getElementById(
+					'prpl-onboarding-submit-wrapper'
+				).style.display = 'none';
+			}
+		} );
+
+	document
 		.getElementById( 'prpl-onboarding-form' )
 		.addEventListener( 'submit', function ( event ) {
 			event.preventDefault();
+
+			const privacyPolicyAccepted = !! document.querySelector(
+				'#prpl-onboarding-form input[name="privacy-policy"]'
+			).checked;
+
+			// Make sure the user accepted the privacy policy.
+			if ( ! privacyPolicyAccepted ) {
+				return;
+			}
+
 			document.querySelector(
 				'#prpl-onboarding-form input[type="submit"]'
 			).disabled = true;
