@@ -25,7 +25,7 @@ final class ToDo extends \Progress_Planner\Widget {
 	 * @return void
 	 */
 	public function print_content() {
-		echo '<p>' . \esc_html__( 'Write down all your website maintenance tasks you want to get done!', 'progress-planner' ) . '</p>';
+		echo '<p>' . \esc_html__( 'Write down all the website maintenance tasks you want to get done!', 'progress-planner' ) . '</p>';
 		$this->the_todo_list();
 	}
 
