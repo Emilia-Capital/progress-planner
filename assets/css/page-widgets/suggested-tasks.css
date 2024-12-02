@@ -293,76 +293,76 @@
 		grid-gap: var(--prpl-gap);
 		grid-auto-rows: auto;
 	}
+}
 
-	.prpl-widget-wrapper {
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
+.prpl-widget-wrapper.prpl-badge-streak {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 
-		&.prpl-badge-streak {
+	&.prpl-badge-streak {
 
-			.progress-label {
-				display: inline-block;
+		.progress-label {
+			display: inline-block;
+		}
+
+		.progress-wrapper {
+			display: grid;
+			grid-template-columns: 1fr 1fr 1fr;
+			gap: calc(var(--prpl-gap) / 2);
+			padding: calc(var(--prpl-padding) / 2);
+
+			.prpl-badge {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: space-between;
+				flex-wrap: wrap;
+				min-width: 0;
 			}
 
-			.progress-wrapper {
-				display: grid;
-				grid-template-columns: 1fr 1fr 1fr;
-				gap: calc(var(--prpl-gap) / 2);
-				padding: calc(var(--prpl-padding) / 2);
-
-				.prpl-badge {
-					display: flex;
-					flex-direction: column;
-					align-items: center;
-					justify-content: space-between;
-					flex-wrap: wrap;
-					min-width: 0;
-				}
-
-				p {
-					margin: 0;
-					font-size: var(--prpl-font-size-xs);
-					text-align: center;
-					line-height: 1.2;
-				}
-
-				prpl-badge {
-					width: 100%;
-					margin-bottom: 1rem;
-				}
-
+			p {
+				margin: 0;
+				font-size: var(--prpl-font-size-xs);
+				text-align: center;
+				line-height: 1.2;
 			}
 
-			.prpl-widget-content {
-				margin-bottom: 1em;
+			prpl-badge {
+				width: 100%;
+				margin-bottom: 1rem;
 			}
+
+		}
+
+		.prpl-widget-content {
+			margin-bottom: 1em;
 		}
 	}
+}
+
+.prpl-widget-title {
+	padding: 0.5rem 1rem;
+	border-radius: 0.5rem;
+	background: var(--prpl-background-orange);
+}
+
+.prpl-widget-wrapper-writing {
 
 	.prpl-widget-title {
-		padding: 0.5rem 1rem;
-		border-radius: 0.5rem;
-		background: var(--prpl-background-orange);
+		background: var(--prpl-background-blue);
 	}
+}
 
-	.prpl-widget-wrapper-writing {
+.prpl-widget-wrapper-maintenance {
 
-		.prpl-widget-title {
-			background: var(--prpl-background-blue);
-		}
+	.prpl-widget-title {
+		background: var(--prpl-background-red);
 	}
+}
 
-	.prpl-widget-wrapper-maintenance {
-
-		.prpl-widget-title {
-			background: var(--prpl-background-red);
-		}
-	}
-
-	.badge-group-monthly {
-		background-color: transparent;
-	}
+.badge-group-monthly {
+	background-color: transparent;
 }
 
 .prpl-ravi-reward-container {
