@@ -142,27 +142,9 @@ if ( document.getElementById( 'prpl-onboarding-form' ) ) {
 				'#prpl-onboarding-form input[type="submit"]'
 			).disabled = true;
 
-			// Figure out whether the user chose to register or not.
-			const withEmail = document.querySelector(
-				'input[name="with-email"]:checked'
-			).value;
-			if ( 'no' === withEmail ) {
-				// Save a value in the license field.
-				progressPlannerSaveLicenseKey( 'no-license' );
-				// Start scanning posts.
-				progressPlannerTriggerScan();
-				return;
-			}
+			// Get all form data.
+			const data = Object.fromEntries( new FormData( event.target ) );
 
-			const inputs = this.querySelectorAll( 'input' );
-
-			// Build the data object.
-			const data = {};
-			inputs.forEach( ( input ) => {
-				if ( input.name ) {
-					data[ input.name ] = input.value;
-				}
-			} );
 			progressPlannerOnboardCall( data );
 		} );
 }
