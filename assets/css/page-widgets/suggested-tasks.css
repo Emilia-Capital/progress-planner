@@ -329,25 +329,9 @@
 
 				prpl-badge {
 					width: 100%;
-					transform: scale(var(--multiplier));
 					margin-bottom: 1rem;
 				}
 
-			}
-
-			.prpl-badge {
-
-				/* Change this number to adjust the rate of growth of the badges size. */
-				--multiplier-default: 1.05;
-				--multiplier: var(--multiplier-default);
-
-				+.prpl-badge {
-					--multiplier: calc(var(--multiplier-default) * var(--multiplier-default));
-
-					+.prpl-badge {
-						--multiplier: calc(var(--multiplier-default) * var(--multiplier-default) * var(--multiplier-default));
-					}
-				}
 			}
 
 			.prpl-widget-content {
