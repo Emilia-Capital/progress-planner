@@ -12,12 +12,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 $prpl_widget = \progress_planner()->get_widgets__suggested_tasks();
 $prpl_badge  = \progress_planner()->get_badges()->get_badge( 'monthly-' . gmdate( 'Y' ) . '-m' . (int) gmdate( 'm' ) );
 ?>
+<?php if ( $prpl_badge ) : ?>
 <h2 class="prpl-widget-title">
 	<?php \esc_html_e( 'Your monthly badge', 'progress-planner' ); ?>
 </h2>
 
-<prpl-gauge background="var(--prpl-background-orange)" color="var(--prpl-color-accent-orange)">
-	<progress max="<?php echo (int) \Progress_Planner\Badges\Monthly::TARGET_POINTS; ?>" value="<?php echo (float) $prpl_widget->get_score(); ?>">
+	<prpl-gauge background="var(--prpl-background-orange)" color="var(--prpl-color-accent-orange)">
+		<progress max="<?php echo (int) \Progress_Planner\Badges\Monthly::TARGET_POINTS; ?>" value="<?php echo (float) $prpl_widget->get_score(); ?>">
 		<prpl-badge complete="true" badge-id="<?php echo esc_attr( $prpl_badge->get_id() ); ?>"></prpl-badge>
 	</progress>
 </prpl-gauge>
@@ -30,6 +31,7 @@ $prpl_badge  = \progress_planner()->get_badges()->get_badge( 'monthly-' . gmdate
 </div>
 
 <hr>
+<?php endif; ?>
 
 <div class="prpl-dashboard-widget-suggested-tasks">
 	<h2 class="prpl-widget-title">

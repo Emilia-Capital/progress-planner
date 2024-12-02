@@ -10,6 +10,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $prpl_badge           = \progress_planner()->get_badges()->get_badge( 'monthly-2024-m12' );
+if ( ! $prpl_badge ) {
+	return;
+}
 $prpl_badge_progress  = $prpl_badge->get_progress();
 $prpl_badge_completed = 100 === (int) $prpl_badge_progress['progress'];
 
@@ -31,7 +34,7 @@ $prpl_title_tag = isset( $args['title_tag'] ) ? \esc_attr( $args['title_tag'] ) 
 
 <div class="<?php echo \esc_attr( $prpl_css_class ); ?>">
 	<<?php echo \esc_html( $prpl_title_tag ); ?> class="prpl-widget-title">
-		<?php \esc_html_e( 'Your monthly badge 2024', 'progress-planner' ); ?>
+		<?php \esc_html_e( 'Monthly badges 2024', 'progress-planner' ); ?>
 	</<?php echo \esc_html( $prpl_title_tag ); ?>>
 	<div class="prpl-ravi-reward-container">
 		<img
