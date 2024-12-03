@@ -38,11 +38,22 @@ class Local_Tasks_Manager {
 	private $update_core;
 
 	/**
+	 * The yoast task.
+	 *
+	 * @var \Progress_Planner\Suggested_Tasks\Local_Tasks\Yoast
+	 */
+	private $yoast;
+
+	/**
 	 * Constructor.
 	 */
 	public function __construct() {
 		$this->update_content = new \Progress_Planner\Suggested_Tasks\Local_Tasks\Update_Content();
 		$this->update_core    = new \Progress_Planner\Suggested_Tasks\Local_Tasks\Update_Core();
+
+		if ( defined( 'WPSEO_FILE' ) ) {
+			$this->yoast = new \Progress_Planner\Suggested_Tasks\Local_Tasks\Yoast();
+		}
 
 		\add_filter( 'progress_planner_suggested_tasks_items', [ $this, 'inject_tasks' ] );
 	}
@@ -66,6 +77,15 @@ class Local_Tasks_Manager {
 	}
 
 	/**
+	 * Get the Yoast task.
+	 *
+	 * @return \Progress_Planner\Suggested_Tasks\Local_Tasks\Yoast
+	 */
+	public function get_yoast() {
+		return $this->yoast;
+	}
+
+	/**
 	 * Inject tasks.
 	 *
 	 * @param array $tasks The tasks.
@@ -75,7 +95,8 @@ class Local_Tasks_Manager {
 	public function inject_tasks( $tasks ) {
 		$tasks_to_inject = \array_merge(
 			$this->update_content->get_tasks_to_inject(),
-			$this->update_core->get_tasks_to_inject()
+			$this->update_core->get_tasks_to_inject(),
+			$this->yoast->get_tasks_to_inject()
 		);
 
 		// Add the tasks to the pending tasks option, it will not add duplicates.
@@ -103,7 +124,6 @@ class Local_Tasks_Manager {
 		foreach ( $tasks as $task_id ) {
 
 			$task_result = $this->evaluate_task( $task_id );
-
 			if ( false !== $task_result ) {
 				$this->remove_pending_task( $task_id );
 				$completed_tasks[] = $task_id;
@@ -123,6 +143,8 @@ class Local_Tasks_Manager {
 	public function evaluate_task( $task_id ) {
 		if ( \str_contains( $task_id, '|' ) ) {
 			return $this->update_content->evaluate_task( $task_id );
+		} elseif ( \str_contains( $task_id, 'yoast' ) ) {
+			return $this->yoast->evaluate_task( $task_id );
 		} else {
 			return $this->update_core->evaluate_task( $task_id );
 		}
@@ -138,6 +160,8 @@ class Local_Tasks_Manager {
 	public function get_task_details( $task_id ) {
 		if ( \str_contains( $task_id, '|' ) ) {
 			return $this->update_content->get_task_details( $task_id );
+		} elseif ( \str_contains( $task_id, 'yoast' ) ) {
+			return $this->yoast->get_task_details( $task_id );
 		} else {
 			return $this->update_core->get_task_details( $task_id );
 		}
