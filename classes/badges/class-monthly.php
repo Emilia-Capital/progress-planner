@@ -84,12 +84,12 @@ final class Monthly extends Badge {
 			'm4'  => __( 'Avery April', 'progress-planner' ),
 			'm5'  => __( 'Matteo May', 'progress-planner' ),
 			'm6'  => __( 'Jasmine June', 'progress-planner' ),
-			'm7'  => __( 'July', 'progress-planner' ),
-			'm8'  => __( 'August', 'progress-planner' ),
-			'm9'  => __( 'September', 'progress-planner' ),
-			'm10' => __( 'October', 'progress-planner' ),
-			'm11' => __( 'November', 'progress-planner' ),
-			'm12' => __( 'December', 'progress-planner' ),
+			'm7'  => __( 'Joey July', 'progress-planner' ),
+			'm8'  => __( 'Abed August', 'progress-planner' ),
+			'm9'  => __( 'Sam September', 'progress-planner' ),
+			'm10' => __( 'Oksana October', 'progress-planner' ),
+			'm11' => __( 'Noah November', 'progress-planner' ),
+			'm12' => __( 'Daisy December', 'progress-planner' ),
 		];
 		return $months;
 	}
