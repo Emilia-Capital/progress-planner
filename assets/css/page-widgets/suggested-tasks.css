@@ -301,6 +301,28 @@
 		border-radius: 0.5rem;
 		background: var(--prpl-background-orange);
 	}
+
+	.prpl-widget-wrapper-content {
+
+		.prpl-widget-title {
+			background: var(--prpl-background-blue);
+		}
+
+		.badge-group-content {
+			background-color: transparent;
+		}
+	}
+
+	.prpl-widget-wrapper-maintenance {
+
+		.prpl-widget-title {
+			background: var(--prpl-background-red);
+		}
+
+		.badge-group-maintenance {
+			background-color: transparent;
+		}
+	}
 }
 
 .prpl-widget-wrapper.prpl-badge-streak {
@@ -308,58 +330,54 @@
 	flex-direction: column;
 	justify-content: space-between;
 
-	&.prpl-badge-streak {
 
-		.progress-label {
-			display: inline-block;
-		}
-
-		.progress-wrapper {
-			display: grid;
-			grid-template-columns: 1fr 1fr 1fr;
-			gap: calc(var(--prpl-gap) / 2);
-			padding: calc(var(--prpl-padding) / 2);
-
-			.prpl-badge {
-				display: flex;
-				flex-direction: column;
-				align-items: center;
-				justify-content: space-between;
-				flex-wrap: wrap;
-				min-width: 0;
-			}
-
-			p {
-				margin: 0;
-				font-size: var(--prpl-font-size-xs);
-				text-align: center;
-				line-height: 1.2;
-			}
-
-			prpl-badge {
-				width: 100%;
-				margin-bottom: 1rem;
-			}
-
-		}
-
-		.prpl-widget-content {
-			margin-bottom: 1em;
-		}
+	.progress-label {
+		display: inline-block;
 	}
 
-	&.prpl-widget-wrapper-content {
+	.progress-wrapper {
+		display: grid;
+		grid-template-columns: 1fr 1fr 1fr;
+		gap: calc(var(--prpl-gap) / 2);
+		padding: calc(var(--prpl-padding) / 2);
+		border-radius: var(--prpl-border-radius-big);
 
-		.prpl-widget-title {
+		&:not(:first-child) {
+			margin-top: var(--prpl-padding);
+		}
+
+		&.badge-group-content {
 			background: var(--prpl-background-blue);
 		}
-	}
 
-	&.prpl-widget-wrapper-maintenance {
-
-		.prpl-widget-title {
+		&.badge-group-maintenance {
 			background: var(--prpl-background-red);
 		}
+
+		.prpl-badge {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: space-between;
+			flex-wrap: wrap;
+			min-width: 0;
+		}
+
+		p {
+			margin: 0;
+			font-size: var(--prpl-font-size-xs);
+			text-align: center;
+			line-height: 1.2;
+		}
+
+		prpl-badge {
+			width: 100%;
+			margin-bottom: 1rem;
+		}
+	}
+
+	.prpl-widget-content {
+		margin-bottom: 1em;
 	}
 
 	.badge-group-monthly {
