@@ -51,11 +51,20 @@ class Local_Tasks_Manager {
 		$this->update_content = new \Progress_Planner\Suggested_Tasks\Local_Tasks\Update_Content();
 		$this->update_core    = new \Progress_Planner\Suggested_Tasks\Local_Tasks\Update_Core();
 
+		\add_filter( 'progress_planner_suggested_tasks_items', [ $this, 'inject_tasks' ] );
+
+		\add_action( 'plugins_loaded', [ $this, 'add_plugin_integration' ] );
+	}
+
+	/**
+	 * Add the Yoast task if the plugin is active.
+	 *
+	 * @return void
+	 */
+	public function add_plugin_integration() {
 		if ( defined( 'WPSEO_FILE' ) ) {
 			$this->yoast = new \Progress_Planner\Suggested_Tasks\Local_Tasks\Yoast();
 		}
-
-		\add_filter( 'progress_planner_suggested_tasks_items', [ $this, 'inject_tasks' ] );
 	}
 
 	/**
