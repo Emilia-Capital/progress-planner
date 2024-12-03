@@ -104,9 +104,12 @@ class Local_Tasks_Manager {
 	public function inject_tasks( $tasks ) {
 		$tasks_to_inject = \array_merge(
 			$this->update_content->get_tasks_to_inject(),
-			$this->update_core->get_tasks_to_inject(),
-			$this->yoast->get_tasks_to_inject()
+			$this->update_core->get_tasks_to_inject()
 		);
+
+		if ( null !== $this->yoast ) {
+			$tasks_to_inject = \array_merge( $tasks_to_inject, $this->yoast->get_tasks_to_inject() );
+		}
 
 		// Add the tasks to the pending tasks option, it will not add duplicates.
 		foreach ( $tasks_to_inject as $task ) {
