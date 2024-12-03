@@ -38,7 +38,7 @@ customElements.define(
 							data-target="info"
 							title="${ progressPlannerSuggestedTask.i18n.info }"
 						>
-							<span class="dashicons dashicons-info"></span>
+							<img src="${ progressPlannerSuggestedTask.assets.infoIcon }" alt="${ progressPlannerSuggestedTask.i18n.info }" class="icon">
 							<span class="screen-reader-text">${ progressPlannerSuggestedTask.i18n.info }</span>
 						</button>
 						<button
@@ -50,7 +50,7 @@ customElements.define(
 							data-target="snooze"
 							title="${ progressPlannerSuggestedTask.i18n.snooze }"
 						>
-							<span class="dashicons dashicons-clock"></span>
+							<img src="${ progressPlannerSuggestedTask.assets.snoozeIcon }" alt="${ progressPlannerSuggestedTask.i18n.snooze }" class="icon">
 							<span class="screen-reader-text">${ progressPlannerSuggestedTask.i18n.snooze }</span>
 						</button>
 

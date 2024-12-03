@@ -3,6 +3,7 @@
 	.badge-group-monthly {
 		padding: calc(var(--prpl-padding) / 2);
 		border-radius: var(--prpl-border-radius);
+		background-color: var(--prpl-background-orange);
 
 		.prpl-badge-row-wrapper {
 			overflow: hidden;
@@ -94,7 +95,7 @@
 	&:has(.prpl-suggested-tasks-list li) {
 
 		.prpl-widget-title {
-			display: block;
+			display: flex;
 		}
 	}
 
@@ -196,6 +197,12 @@
 			cursor: pointer;
 		}
 
+		.icon {
+			width: 1rem;
+			height: 1rem;
+			display: inline-block;
+		}
+
 		.prpl-suggested-task-snooze {
 			margin-left: 5px;
 
@@ -278,6 +285,14 @@
 
 		.prpl-suggested-task-info {
 			margin-left: -30px;
+
+			p {
+				margin-bottom: 0;
+			}
+
+			p:first-child {
+				margin-top: 0;
+			}
 		}
 
 	}
@@ -299,6 +314,10 @@
 		padding: 0.5rem 1rem;
 		border-radius: 0.5rem;
 		background: var(--prpl-background-orange);
+	}
+
+	.badge-group-monthly {
+		background-color: transparent;
 	}
 
 	.prpl-widget-wrapper-content {
