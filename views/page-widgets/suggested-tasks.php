@@ -46,7 +46,7 @@ $prpl_badge  = \progress_planner()->get_badges()->get_badge( 'monthly-' . gmdate
 	<?php if ( 2024 === (int) gmdate( 'Y' ) ) : ?>
 		<?php
 		\progress_planner()->the_view(
-			'page-widgets/parts/monthly-badge-2024.php',
+			'page-widgets/parts/monthly-badges-2024.php',
 			[
 				'title_tag' => 'h2',
 			]

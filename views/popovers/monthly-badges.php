@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<div class="prpl-popover-column">
 		<?php
 		\progress_planner()->the_view(
-			'page-widgets/parts/monthly-badge-2024.php',
+			'page-widgets/parts/monthly-badges-2024.php',
 			[
 				'css_class' => 'prpl-widget-wrapper in-popover',
 				'title_tag' => 'h3',

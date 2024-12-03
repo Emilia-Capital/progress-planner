@@ -60,8 +60,6 @@ class Badges {
 		if ( 2024 === (int) gmdate( 'Y' ) ) {
 			$monthly_badges_2025 = \Progress_Planner\Badges\Monthly::get_instances( 2025 );
 			$this->monthly       = [
-				$this->monthly[10],
-				$this->monthly[11],
 				$monthly_badges_2025[0],
 				$monthly_badges_2025[1],
 				$monthly_badges_2025[2],

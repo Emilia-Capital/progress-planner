@@ -4,7 +4,6 @@
 		padding: calc(var(--prpl-padding) / 2);
 		border-radius: var(--prpl-border-radius);
 		margin-bottom: var(--prpl-padding);
-		background: var(--prpl-background-orange);
 
 		.prpl-badge-row-wrapper {
 			overflow: hidden;
@@ -296,6 +295,12 @@
 		grid-gap: var(--prpl-gap);
 		grid-auto-rows: auto;
 	}
+
+	.prpl-widget-title {
+		padding: 0.5rem 1rem;
+		border-radius: 0.5rem;
+		background: var(--prpl-background-orange);
+	}
 }
 
 .prpl-widget-wrapper.prpl-badge-streak {
@@ -342,50 +347,26 @@
 			margin-bottom: 1em;
 		}
 	}
-}
 
-.prpl-widget-title {
-	padding: 0.5rem 1rem;
-	border-radius: 0.5rem;
-	background: var(--prpl-background-orange);
-}
+	&.prpl-widget-wrapper-content {
 
-.prpl-widget-wrapper-writing {
-
-	.prpl-widget-title {
-		background: var(--prpl-background-blue);
-	}
-}
-
-.prpl-widget-wrapper-maintenance {
-
-	.prpl-widget-title {
-		background: var(--prpl-background-red);
-	}
-}
-
-.badge-group-monthly {
-	background-color: transparent;
-}
-
-.prpl-ravi-reward-container {
-	margin-bottom: var(--prpl-padding);
-
-	.in-popover & {
-		margin-bottom: 0;
-	}
-
-	img {
-		border: 1px solid var(--prpl-color-gray-2);
-		border-radius: var(--prpl-border-radius);
-
-		&.incomplete {
-			filter: grayscale(1);
-			opacity: 0.25;
+		.prpl-widget-title {
+			background: var(--prpl-background-blue);
 		}
 	}
 
+	&.prpl-widget-wrapper-maintenance {
+
+		.prpl-widget-title {
+			background: var(--prpl-background-red);
+		}
+	}
+
+	.badge-group-monthly {
+		background-color: transparent;
+	}
 }
+
 
 #prpl-popover-monthly-badges-trigger {
 	font-size: var(--prpl-font-size-base);
