@@ -145,6 +145,12 @@ if ( document.getElementById( 'prpl-onboarding-form' ) ) {
 			// Get all form data.
 			const data = Object.fromEntries( new FormData( event.target ) );
 
+			// If the user doesn't want to use email, remove the email and name.
+			if ( 'no' === data.with_email ) {
+				data.email = '';
+				data.name = '';
+			}
+
 			progressPlannerOnboardCall( data );
 		} );
 }
