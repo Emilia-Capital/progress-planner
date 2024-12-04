@@ -121,11 +121,9 @@ class Local_Tasks_Manager {
 	 * @return bool|string
 	 */
 	public function evaluate_task( $task_id ) {
-		if ( \str_contains( $task_id, '|' ) ) {
-			return $this->update_content->evaluate_task( $task_id );
-		} else {
-			return $this->update_core->evaluate_task( $task_id );
-		}
+		return ( \str_contains( $task_id, '|' ) )
+			? $this->update_content->evaluate_task( $task_id )
+			: $this->update_core->evaluate_task( $task_id );
 	}
 
 	/**
@@ -136,11 +134,9 @@ class Local_Tasks_Manager {
 	 * @return array
 	 */
 	public function get_task_details( $task_id ) {
-		if ( \str_contains( $task_id, '|' ) ) {
-			return $this->update_content->get_task_details( $task_id );
-		} else {
-			return $this->update_core->get_task_details( $task_id );
-		}
+		return ( \str_contains( $task_id, '|' ) )
+			? $this->update_content->get_task_details( $task_id )
+			: $this->update_core->get_task_details( $task_id );
 	}
 
 	/**
@@ -151,11 +147,9 @@ class Local_Tasks_Manager {
 	 * @return array
 	 */
 	public function get_data_from_task_id( $task_id ) {
-		if ( \str_contains( $task_id, '|' ) ) {
-			return $this->update_content->get_data_from_task_id( $task_id );
-		} else {
-			return $this->update_core->get_data_from_task_id( $task_id );
-		}
+		return ( \str_contains( $task_id, '|' ) )
+			? $this->update_content->get_data_from_task_id( $task_id )
+			: $this->update_core->get_data_from_task_id( $task_id );
 	}
 
 
