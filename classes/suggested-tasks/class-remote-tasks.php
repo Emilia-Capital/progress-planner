@@ -46,7 +46,13 @@ class Remote_Tasks {
 			$inject_items = [];
 		}
 
-		return \array_merge( $inject_items, $tasks );
+		$items = [];
+		foreach ( $inject_items as $item ) {
+			$item['task_id'] = "remote-task-{$item['task_id']}";
+			$items[]         = $item;
+		}
+
+		return \array_merge( $items, $tasks );
 	}
 
 	/**

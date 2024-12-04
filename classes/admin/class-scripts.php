@@ -139,6 +139,7 @@ class Scripts {
 								'forever'     => \esc_html__( 'forever', 'progress-planner' ),
 							],
 							'close'          => \esc_html__( 'Close', 'progress-planner' ),
+							'markAsComplete' => \esc_html__( 'Mark as completed', 'progress-planner' ),
 						],
 					]
 				);
