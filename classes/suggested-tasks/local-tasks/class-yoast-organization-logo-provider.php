@@ -1,6 +1,6 @@
 <?php
 /**
- * Add tasks for Core updates.
+ * Add tasks for Yoast integration.
  *
  * @package Progress_Planner
  */
@@ -8,9 +8,25 @@
 namespace Progress_Planner\Suggested_Tasks\Local_Tasks;
 
 /**
- * Add tasks for Core updates.
+ * Add tasks for Yoast integration.
  */
-class Update_Core implements \Progress_Planner\Suggested_Tasks\Local_Tasks_Interface {
+class Yoast_Organization_Logo_Provider implements \Progress_Planner\Suggested_Tasks\Local_Tasks_Provider_Interface {
+
+	/**
+	 * The provider ID.
+	 *
+	 * @var string
+	 */
+	const TYPE = 'yoast-organization-logo';
+
+	/**
+	 * Get the provider ID.
+	 *
+	 * @return string
+	 */
+	public function get_provider_type() {
+		return self::TYPE;
+	}
 
 	/**
 	 * Evaluate a task.
@@ -20,7 +36,7 @@ class Update_Core implements \Progress_Planner\Suggested_Tasks\Local_Tasks_Inter
 	 * @return bool|string
 	 */
 	public function evaluate_task( $task_id ) {
-		if ( 0 === strpos( $task_id, 'update-core' ) && 0 === \wp_get_update_data()['counts']['total'] ) {
+		if ( 0 === strpos( $task_id, self::TYPE ) && class_exists( '\WPSEO_Options' ) && '' !== \WPSEO_Options::get( 'company_logo' ) ) {
 			return $task_id;
 		}
 		return false;
@@ -32,22 +48,22 @@ class Update_Core implements \Progress_Planner\Suggested_Tasks\Local_Tasks_Inter
 	 * @return array
 	 */
 	public function get_tasks_to_inject() {
-		return true !== $this->is_task_type_snoozed() ? $this->get_tasks_to_update_core() : [];
+		return true !== $this->is_task_type_snoozed() ? $this->get_tasks() : [];
 	}
 
 	/**
-	 * Get the tasks to update core.
+	 * Get the tasks to set Yoast organization logo.
 	 *
 	 * @return array
 	 */
-	public function get_tasks_to_update_core() {
-		// If all updates are performed, do not add the task.
-		if ( 0 === \wp_get_update_data()['counts']['total'] ) {
+	public function get_tasks() {
+		// If all options are set, do not add the task.
+		if ( class_exists( '\WPSEO_Options' ) && '' !== \WPSEO_Options::get( 'company_logo' ) ) {
 			return [];
 		}
 
 		return [
-			$this->get_task_details( 'update-core-' . \gmdate( 'YW' ) ),
+			$this->get_task_details( self::TYPE . '-' . \gmdate( 'YW' ) ),
 		];
 	}
 
@@ -62,12 +78,12 @@ class Update_Core implements \Progress_Planner\Suggested_Tasks\Local_Tasks_Inter
 
 		return [
 			'task_id'     => $task_id,
-			'title'       => \esc_html__( 'Perform all updates', 'progress-planner' ),
+			'title'       => \esc_html__( 'Yoast: Set organization logo', 'progress-planner' ),
 			'parent'      => 0,
 			'priority'    => 'high',
 			'type'        => 'maintenance',
 			'points'      => 1,
-			'description' => '<p>' . \esc_html__( 'Perform all updates to ensure your website is secure and up-to-date.', 'progress-planner' ) . '</p>',
+			'description' => '<p>' . \esc_html__( 'Set organization logo to make your website look more professional.', 'progress-planner' ) . '</p>',
 		];
 	}
 
@@ -80,7 +96,7 @@ class Update_Core implements \Progress_Planner\Suggested_Tasks\Local_Tasks_Inter
 	 */
 	public function get_data_from_task_id( $task_id ) {
 		$data = [
-			'type' => 'update-core',
+			'type' => self::TYPE,
 			'id'   => $task_id,
 		];
 
@@ -99,7 +115,7 @@ class Update_Core implements \Progress_Planner\Suggested_Tasks\Local_Tasks_Inter
 		}
 
 		foreach ( $snoozed as $task ) {
-			if ( 'update-core' === $task['id'] ) {
+			if ( self::TYPE === $task['id'] ) {
 				return true;
 			}
 		}
