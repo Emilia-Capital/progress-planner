@@ -48,15 +48,10 @@ class Update_Core_Provider implements \Progress_Planner\Suggested_Tasks\Local_Ta
 	 * @return array
 	 */
 	public function get_tasks_to_inject() {
-		return true !== $this->is_task_type_snoozed() ? $this->get_tasks_to_update_core() : [];
-	}
+		if ( true === $this->is_task_type_snoozed() ) {
+			return [];
+		}
 
-	/**
-	 * Get the tasks to update core.
-	 *
-	 * @return array
-	 */
-	public function get_tasks_to_update_core() {
 		// If all updates are performed, do not add the task.
 		if ( 0 === \wp_get_update_data()['counts']['total'] ) {
 			return [];
