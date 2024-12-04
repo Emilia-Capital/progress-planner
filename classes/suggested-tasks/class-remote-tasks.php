@@ -91,9 +91,17 @@ class Remote_Tasks {
 	 * @return string
 	 */
 	protected function get_api_endpoint() {
-		return apply_filters(
-			'progress_planner_suggested_tasks_remote_api_endpoint',
-			self::REMOTE_SERVER_ROOT_URL . '/wp-json/progress-planner-saas/v1/suggested-todo/'
-		);
+		$url             = self::REMOTE_SERVER_ROOT_URL . '/wp-json/progress-planner-saas/v1/suggested-todo/';
+		$pro_license_key = \get_option( 'progress_planner_pro_license_key' );
+		if ( $pro_license_key ) {
+			$url = \add_query_arg(
+				[
+					'license_key' => $pro_license_key,
+					'site'        => \get_site_url(),
+				],
+				$url
+			);
+		}
+		return \apply_filters( 'progress_planner_suggested_tasks_remote_api_endpoint', $url );
 	}
 }
