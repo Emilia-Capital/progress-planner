@@ -154,6 +154,13 @@ if ( false !== \get_option( 'progress_planner_license_key', false ) ) {
 					);
 					?>
 				</p>
+				<p id="prpl-account-not-created-message" style="display:none;">
+					<?php
+					printf(
+						\esc_html__( 'Success! Enjoy using the Progress Planner plugin!', 'progress-planner' ),
+					);
+					?>
+				</p>
 				<div id="progress-planner-scan-progress" style="display:none;">
 					<progress value="0" max="100"></progress>
 				</div>
