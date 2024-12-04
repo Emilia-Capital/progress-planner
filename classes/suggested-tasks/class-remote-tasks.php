@@ -60,7 +60,7 @@ class Remote_Tasks {
 	 *
 	 * @return array
 	 */
-	protected function get_tasks_to_inject() {
+	public function get_tasks_to_inject() {
 		// Check if we have a cached response.
 		$tasks = \progress_planner()->get_cache()->get( self::CACHE_KEY );
 

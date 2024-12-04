@@ -101,8 +101,16 @@ class Scripts {
 					'progress-planner-web-components-prpl-suggested-task',
 					'progress-planner-document-ready',
 				];
+
+				// Check if need to load confetti.
 				if ( ! empty( $pending_celebration ) ) {
 					$deps[] = 'particles-confetti';
+				} else {
+					// Check if there are remote tasks to inject, checking here as it might involve an API call.
+					$remote_tasks = \progress_planner()->get_suggested_tasks()->get_remote_tasks();
+					if ( ! empty( $remote_tasks ) ) {
+						$deps[] = 'particles-confetti';
+					}
 				}
 				return $deps;
 

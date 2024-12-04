@@ -313,7 +313,18 @@ customElements.define(
 						break;
 
 					case 'complete':
-						el.remove();
+						// Add the task to the pending celebration.
+						window.progressPlannerSuggestedTasks.tasks.pending_celebration.push(
+							taskId
+						);
+						// Set the task action to celebrate.
+						el.setAttribute( 'data-task-action', 'celebrate' );
+
+						// Trigger the celebration event.
+						document.dispatchEvent(
+							new Event( 'prplCelebrateTasks' )
+						);
+
 						break;
 				}
 
