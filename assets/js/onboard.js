@@ -29,9 +29,15 @@ const progressPlannerAjaxAPIRequest = ( data ) => {
 		data,
 		successAction: ( response ) => {
 			// Show success message.
-			document.getElementById(
-				'prpl-account-created-message'
-			).style.display = 'block';
+			if ( 'no-license' === response.license_key ) {
+				document.getElementById(
+					'prpl-account-not-created-message'
+				).style.display = 'block';
+			} else {
+				document.getElementById(
+					'prpl-account-created-message'
+				).style.display = 'block';
+			}
 
 			// Hide the form.
 			document.getElementById( 'prpl-onboarding-form' ).style.display =
@@ -109,34 +115,48 @@ if ( document.getElementById( 'prpl-onboarding-form' ) ) {
 		} );
 
 	document
+		.querySelector( '#prpl-onboarding-form input[name="privacy-policy"]' )
+		.addEventListener( 'change', function () {
+			const privacyPolicyAccepted = !! this.checked;
+
+			if ( privacyPolicyAccepted ) {
+				document.getElementById(
+					'prpl-onboarding-submit-wrapper'
+				).style.display = 'block';
+			} else {
+				document.getElementById(
+					'prpl-onboarding-submit-wrapper'
+				).style.display = 'none';
+			}
+		} );
+
+	document
 		.getElementById( 'prpl-onboarding-form' )
 		.addEventListener( 'submit', function ( event ) {
 			event.preventDefault();
+
+			const privacyPolicyAccepted = !! document.querySelector(
+				'#prpl-onboarding-form input[name="privacy-policy"]'
+			).checked;
+
+			// Make sure the user accepted the privacy policy.
+			if ( ! privacyPolicyAccepted ) {
+				return;
+			}
+
 			document.querySelector(
 				'#prpl-onboarding-form input[type="submit"]'
 			).disabled = true;
 
-			// Figure out whether the user chose to register or not.
-			const withEmail = document.querySelector(
-				'input[name="with-email"]:checked'
-			).value;
-			if ( 'no' === withEmail ) {
-				// Save a value in the license field.
-				progressPlannerSaveLicenseKey( 'no-license' );
-				// Start scanning posts.
-				progressPlannerTriggerScan();
-				return;
+			// Get all form data.
+			const data = Object.fromEntries( new FormData( event.target ) );
+
+			// If the user doesn't want to use email, remove the email and name.
+			if ( 'no' === data.with_email ) {
+				data.email = '';
+				data.name = '';
 			}
 
-			const inputs = this.querySelectorAll( 'input' );
-
-			// Build the data object.
-			const data = {};
-			inputs.forEach( ( input ) => {
-				if ( input.name ) {
-					data[ input.name ] = input.value;
-				}
-			} );
 			progressPlannerOnboardCall( data );
 		} );
 }

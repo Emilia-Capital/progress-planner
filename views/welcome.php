@@ -106,21 +106,42 @@ if ( false !== \get_option( 'progress_planner_license_key', false ) ) {
 						value="<?php echo (float) ( \wp_timezone()->getOffset( new \DateTime( 'midnight' ) ) / 3600 ); ?>"
 					>
 				</div>
-				<div id="prpl-onboarding-submit-grid-wrapper">
-					<span></span><!-- Empty span for styling (grid layout). -->
-					<span>
+				<br>
+				<div class="prpl-form-notice">
+					<label>
 						<input
-							type="submit"
-							value="<?php \esc_attr_e( 'Get going and send me weekly emails', 'progress-planner' ); ?>"
-							class="prpl-button-primary"
+							type="checkbox"
+							name="privacy-policy"
+							class="prpl-input"
+							required="required"
+							value="1"
 						>
-					</span>
+						<?php
+						printf(
+						/* translators: %s: progressplanner.com/privacy-policy link */
+							\esc_html__( 'By clicking the button below, you agree to the %s.', 'progress-planner' ),
+							'<a href="https://progressplanner.com/privacy-policy/#h-plugin-privacy-policy" target="_blank">Privacy policy</a>'
+						);
+						?>
+					</label>
 				</div>
-				<input
-					type="submit"
-					value="<?php \esc_attr_e( 'Continue without emailing me', 'progress-planner' ); ?>"
-					class="prpl-button-secondary prpl-button-secondary--no-email prpl-hidden"
-				>
+				<br>
+				<div id="prpl-onboarding-submit-wrapper" style="display: none;">
+					<div id="prpl-onboarding-submit-grid-wrapper">
+						<span>
+							<input
+								type="submit"
+								value="<?php \esc_attr_e( 'Get going and send me weekly emails', 'progress-planner' ); ?>"
+								class="prpl-button-primary"
+							>
+						</span>
+					</div>
+					<input
+						type="submit"
+						value="<?php \esc_attr_e( 'Continue without emailing me', 'progress-planner' ); ?>"
+						class="prpl-button-secondary prpl-button-secondary--no-email prpl-hidden"
+					>
+				</div>
 			</form>
 
 			<div>
@@ -130,6 +151,13 @@ if ( false !== \get_option( 'progress_planner_license_key', false ) ) {
 						/* translators: %s: progressplanner.com link */
 						\esc_html__( 'Success! We saved your data on %s so we can email you every week.', 'progress-planner' ),
 						'<a href="https://prpl.fyi/home">ProgressPlanner.com</a>'
+					);
+					?>
+				</p>
+				<p id="prpl-account-not-created-message" style="display:none;">
+					<?php
+					printf(
+						\esc_html__( 'Success! Enjoy using the Progress Planner plugin!', 'progress-planner' ),
 					);
 					?>
 				</p>
