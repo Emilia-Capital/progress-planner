@@ -160,6 +160,15 @@ class Suggested_Tasks {
 	}
 
 	/**
+	 * Get remote tasks.
+	 *
+	 * @return array
+	 */
+	public function get_remote_tasks() {
+		return $this->remote->get_tasks_to_inject();
+	}
+
+	/**
 	 * Mark a task as completed.
 	 *
 	 * @param string $task_id The task ID.
@@ -480,7 +489,7 @@ class Suggested_Tasks {
 
 		switch ( $action ) {
 			case 'complete':
-				$this->mark_task_as_pending_celebration( $task_id );
+				// We dont need to do anything here, since we trigger the celebrate action.
 				$updated = true;
 				break;
 

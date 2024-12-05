@@ -3,7 +3,7 @@
 	min-height: 1px;
 }
 
-#prpl-onboarding-form label,
+#prpl-onboarding-form .prpl-form-fields label,
 #prpl-onboarding-submit-grid-wrapper {
 	display: grid;
 	grid-template-columns: 1fr 3fr;

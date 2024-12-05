@@ -46,7 +46,13 @@ class Remote_Tasks {
 			$inject_items = [];
 		}
 
-		return \array_merge( $inject_items, $tasks );
+		$items = [];
+		foreach ( $inject_items as $item ) {
+			$item['task_id'] = "remote-task-{$item['task_id']}";
+			$items[]         = $item;
+		}
+
+		return \array_merge( $items, $tasks );
 	}
 
 	/**
@@ -54,7 +60,7 @@ class Remote_Tasks {
 	 *
 	 * @return array
 	 */
-	protected function get_tasks_to_inject() {
+	public function get_tasks_to_inject() {
 		// Check if we have a cached response.
 		$tasks = \progress_planner()->get_cache()->get( self::CACHE_KEY );
 
@@ -91,9 +97,17 @@ class Remote_Tasks {
 	 * @return string
 	 */
 	protected function get_api_endpoint() {
-		return apply_filters(
-			'progress_planner_suggested_tasks_remote_api_endpoint',
-			self::REMOTE_SERVER_ROOT_URL . '/wp-json/progress-planner-saas/v1/suggested-todo/'
-		);
+		$url             = self::REMOTE_SERVER_ROOT_URL . '/wp-json/progress-planner-saas/v1/suggested-todo/';
+		$pro_license_key = \get_option( 'progress_planner_pro_license_key' );
+		if ( $pro_license_key ) {
+			$url = \add_query_arg(
+				[
+					'license_key' => $pro_license_key,
+					'site'        => \get_site_url(),
+				],
+				$url
+			);
+		}
+		return \apply_filters( 'progress_planner_suggested_tasks_remote_api_endpoint', $url );
 	}
 }
