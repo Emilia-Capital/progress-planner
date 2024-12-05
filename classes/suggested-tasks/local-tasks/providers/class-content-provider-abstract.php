@@ -5,7 +5,7 @@
  * @package Progress_Planner
  */
 
-namespace Progress_Planner\Suggested_Tasks\Local_Tasks;
+namespace Progress_Planner\Suggested_Tasks\Local_Tasks\Providers;
 
 /**
  * Add tasks for content updates.

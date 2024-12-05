@@ -1,23 +1,23 @@
 <?php
 /**
- * Add tasks for Yoast integration.
+ * Add tasks for Core blogdescription.
  *
  * @package Progress_Planner
  */
 
-namespace Progress_Planner\Suggested_Tasks\Local_Tasks;
+namespace Progress_Planner\Suggested_Tasks\Local_Tasks\Providers;
 
 /**
- * Add tasks for Yoast integration.
+ * Add tasks for Core blogdescription.
  */
-class Yoast_Organization_Logo_Provider implements \Progress_Planner\Suggested_Tasks\Local_Tasks_Provider_Interface {
+class Core_Blogdescription_Provider implements \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Local_Tasks_Provider_Interface {
 
 	/**
 	 * The provider ID.
 	 *
 	 * @var string
 	 */
-	const TYPE = 'yoast-organization-logo';
+	const TYPE = 'core-blogdescription';
 
 	/**
 	 * Get the provider ID.
@@ -36,7 +36,7 @@ class Yoast_Organization_Logo_Provider implements \Progress_Planner\Suggested_Ta
 	 * @return bool|string
 	 */
 	public function evaluate_task( $task_id ) {
-		if ( 0 === strpos( $task_id, self::TYPE ) && class_exists( '\WPSEO_Options' ) && '' !== \WPSEO_Options::get( 'company_logo' ) ) {
+		if ( 0 === strpos( $task_id, self::TYPE ) && '' !== \get_bloginfo( 'description' ) ) {
 			return $task_id;
 		}
 		return false;
@@ -52,13 +52,13 @@ class Yoast_Organization_Logo_Provider implements \Progress_Planner\Suggested_Ta
 	}
 
 	/**
-	 * Get the tasks to set Yoast organization logo.
+	 * Get the tasks to set the blogdescription.
 	 *
 	 * @return array
 	 */
 	public function get_tasks() {
 		// If all options are set, do not add the task.
-		if ( class_exists( '\WPSEO_Options' ) && '' !== \WPSEO_Options::get( 'company_logo' ) ) {
+		if ( '' !== \get_bloginfo( 'description' ) ) {
 			return [];
 		}
 
@@ -78,12 +78,12 @@ class Yoast_Organization_Logo_Provider implements \Progress_Planner\Suggested_Ta
 
 		return [
 			'task_id'     => $task_id,
-			'title'       => \esc_html__( 'Yoast: Set organization logo', 'progress-planner' ),
+			'title'       => \esc_html__( 'Core: Set blogdescription', 'progress-planner' ),
 			'parent'      => 0,
 			'priority'    => 'high',
 			'type'        => 'maintenance',
 			'points'      => 1,
-			'description' => '<p>' . \esc_html__( 'Set organization logo to make your website look more professional.', 'progress-planner' ) . '</p>',
+			'description' => '<p>' . \esc_html__( 'Set the blogdescription to make your website look more professional.', 'progress-planner' ) . '</p>',
 		];
 	}
 

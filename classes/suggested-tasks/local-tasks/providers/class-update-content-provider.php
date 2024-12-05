@@ -5,12 +5,12 @@
  * @package Progress_Planner
  */
 
-namespace Progress_Planner\Suggested_Tasks\Local_Tasks;
+namespace Progress_Planner\Suggested_Tasks\Local_Tasks\Providers;
 
 /**
  * Add tasks for content updates.
  */
-class Update_Content_Provider extends Content_Provider_Abstract implements \Progress_Planner\Suggested_Tasks\Local_Tasks_Provider_Interface {
+class Update_Content_Provider extends Content_Provider_Abstract implements \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Local_Tasks_Provider_Interface {
 
 	/**
 	 * The provider ID.

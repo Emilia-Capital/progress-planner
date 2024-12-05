@@ -1,23 +1,23 @@
 <?php
 /**
- * Add tasks for Core blogdescription.
+ * Add tasks for Core updates.
  *
  * @package Progress_Planner
  */
 
-namespace Progress_Planner\Suggested_Tasks\Local_Tasks;
+namespace Progress_Planner\Suggested_Tasks\Local_Tasks\Providers;
 
 /**
- * Add tasks for Core blogdescription.
+ * Add tasks for Core updates.
  */
-class Core_Blogdescription_Provider implements \Progress_Planner\Suggested_Tasks\Local_Tasks_Provider_Interface {
+class Update_Core_Provider implements \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Local_Tasks_Provider_Interface {
 
 	/**
 	 * The provider ID.
 	 *
 	 * @var string
 	 */
-	const TYPE = 'core-blogdescription';
+	const TYPE = 'update-core';
 
 	/**
 	 * Get the provider ID.
@@ -36,7 +36,7 @@ class Core_Blogdescription_Provider implements \Progress_Planner\Suggested_Tasks
 	 * @return bool|string
 	 */
 	public function evaluate_task( $task_id ) {
-		if ( 0 === strpos( $task_id, self::TYPE ) && '' !== \get_bloginfo( 'description' ) ) {
+		if ( 0 === strpos( $task_id, self::TYPE ) && 0 === \wp_get_update_data()['counts']['total'] ) {
 			return $task_id;
 		}
 		return false;
@@ -48,17 +48,12 @@ class Core_Blogdescription_Provider implements \Progress_Planner\Suggested_Tasks
 	 * @return array
 	 */
 	public function get_tasks_to_inject() {
-		return true !== $this->is_task_type_snoozed() ? $this->get_tasks() : [];
-	}
+		if ( true === $this->is_task_type_snoozed() ) {
+			return [];
+		}
 
-	/**
-	 * Get the tasks to set the blogdescription.
-	 *
-	 * @return array
-	 */
-	public function get_tasks() {
-		// If all options are set, do not add the task.
-		if ( '' !== \get_bloginfo( 'description' ) ) {
+		// If all updates are performed, do not add the task.
+		if ( 0 === \wp_get_update_data()['counts']['total'] ) {
 			return [];
 		}
 
@@ -78,12 +73,12 @@ class Core_Blogdescription_Provider implements \Progress_Planner\Suggested_Tasks
 
 		return [
 			'task_id'     => $task_id,
-			'title'       => \esc_html__( 'Core: Set blogdescription', 'progress-planner' ),
+			'title'       => \esc_html__( 'Perform all updates', 'progress-planner' ),
 			'parent'      => 0,
 			'priority'    => 'high',
 			'type'        => 'maintenance',
 			'points'      => 1,
-			'description' => '<p>' . \esc_html__( 'Set the blogdescription to make your website look more professional.', 'progress-planner' ) . '</p>',
+			'description' => '<p>' . \esc_html__( 'Perform all updates to ensure your website is secure and up-to-date.', 'progress-planner' ) . '</p>',
 		];
 	}
 

@@ -1,23 +1,23 @@
 <?php
 /**
- * Add tasks for Core updates.
+ * Add tasks for Yoast integration.
  *
  * @package Progress_Planner
  */
 
-namespace Progress_Planner\Suggested_Tasks\Local_Tasks;
+namespace Progress_Planner\Suggested_Tasks\Local_Tasks\Providers;
 
 /**
- * Add tasks for Core updates.
+ * Add tasks for Yoast integration.
  */
-class Update_Core_Provider implements \Progress_Planner\Suggested_Tasks\Local_Tasks_Provider_Interface {
+class Yoast_Organization_Logo_Provider implements \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Local_Tasks_Provider_Interface {
 
 	/**
 	 * The provider ID.
 	 *
 	 * @var string
 	 */
-	const TYPE = 'update-core';
+	const TYPE = 'yoast-organization-logo';
 
 	/**
 	 * Get the provider ID.
@@ -36,7 +36,7 @@ class Update_Core_Provider implements \Progress_Planner\Suggested_Tasks\Local_Ta
 	 * @return bool|string
 	 */
 	public function evaluate_task( $task_id ) {
-		if ( 0 === strpos( $task_id, self::TYPE ) && 0 === \wp_get_update_data()['counts']['total'] ) {
+		if ( 0 === strpos( $task_id, self::TYPE ) && class_exists( '\WPSEO_Options' ) && '' !== \WPSEO_Options::get( 'company_logo' ) ) {
 			return $task_id;
 		}
 		return false;
@@ -48,12 +48,17 @@ class Update_Core_Provider implements \Progress_Planner\Suggested_Tasks\Local_Ta
 	 * @return array
 	 */
 	public function get_tasks_to_inject() {
-		if ( true === $this->is_task_type_snoozed() ) {
-			return [];
-		}
+		return true !== $this->is_task_type_snoozed() ? $this->get_tasks() : [];
+	}
 
-		// If all updates are performed, do not add the task.
-		if ( 0 === \wp_get_update_data()['counts']['total'] ) {
+	/**
+	 * Get the tasks to set Yoast organization logo.
+	 *
+	 * @return array
+	 */
+	public function get_tasks() {
+		// If all options are set, do not add the task.
+		if ( class_exists( '\WPSEO_Options' ) && '' !== \WPSEO_Options::get( 'company_logo' ) ) {
 			return [];
 		}
 
@@ -73,12 +78,12 @@ class Update_Core_Provider implements \Progress_Planner\Suggested_Tasks\Local_Ta
 
 		return [
 			'task_id'     => $task_id,
-			'title'       => \esc_html__( 'Perform all updates', 'progress-planner' ),
+			'title'       => \esc_html__( 'Yoast: Set organization logo', 'progress-planner' ),
 			'parent'      => 0,
 			'priority'    => 'high',
 			'type'        => 'maintenance',
 			'points'      => 1,
-			'description' => '<p>' . \esc_html__( 'Perform all updates to ensure your website is secure and up-to-date.', 'progress-planner' ) . '</p>',
+			'description' => '<p>' . \esc_html__( 'Set organization logo to make your website look more professional.', 'progress-planner' ) . '</p>',
 		];
 	}
 
