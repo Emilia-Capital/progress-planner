@@ -93,7 +93,7 @@ const progressPlannerInjectSuggestedTodoItem = ( details ) => {
 		details.task_id,
 		details.title,
 		details.description,
-		details.points,
+		details.points ?? 1,
 		details.action ?? '',
 		details.url ?? ''
 	);
