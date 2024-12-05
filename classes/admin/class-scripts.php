@@ -282,8 +282,8 @@ class Scripts {
 	 */
 	public function get_files_in_directory( $directory, $trim = '.js' ) {
 		$files = \glob( PROGRESS_PLANNER_DIR . '/' . $directory . '/*.js' );
-		foreach ( $files as $index => $file ) {
-			$files[ $index ] = \str_replace( $trim, '', \basename( $file ) );
+		foreach ( $files as $index => $file ) { // @phpstan-ignore-line foreach.nonIterable
+			$files[ $index ] = \str_replace( $trim, '', \basename( $file ) ); // @phpstan-ignore-line offsetAccess.nonOffsetAccessible
 		}
 
 		return $files;

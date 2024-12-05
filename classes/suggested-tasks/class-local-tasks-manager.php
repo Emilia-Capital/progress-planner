@@ -122,11 +122,7 @@ class Local_Tasks_Manager {
 	 * @return array
 	 */
 	public function evaluate_tasks() {
-		$tasks = $this->get_pending_tasks();
-		if ( ! is_array( $tasks ) ) {
-			$tasks = [];
-		}
-
+		$tasks           = (array) $this->get_pending_tasks();
 		$completed_tasks = [];
 
 		$tasks = \array_unique( $tasks );
@@ -153,6 +149,10 @@ class Local_Tasks_Manager {
 		$task_object   = \Progress_Planner\Suggested_Tasks\Local_Tasks\Local_Task_Factory::create( $task_id );
 		$task_provider = $this->get_task_provider( $task_object->get_provider_type() );
 
+		if ( ! $task_provider ) {
+			return false;
+		}
+
 		return $task_provider->evaluate_task( $task_id );
 	}
 
@@ -161,11 +161,15 @@ class Local_Tasks_Manager {
 	 *
 	 * @param string $task_id The task ID.
 	 *
-	 * @return array
+	 * @return array|false
 	 */
 	public function get_task_details( $task_id ) {
 		$task_object   = \Progress_Planner\Suggested_Tasks\Local_Tasks\Local_Task_Factory::create( $task_id );
 		$task_provider = $this->get_task_provider( $task_object->get_provider_type() );
+
+		if ( ! $task_provider ) {
+			return false;
+		}
 
 		return $task_provider->get_task_details( $task_id );
 	}
@@ -200,10 +204,7 @@ class Local_Tasks_Manager {
 	 * @return bool
 	 */
 	public function add_pending_task( $task ) {
-		$tasks = $this->get_pending_tasks();
-		if ( ! is_array( $tasks ) ) {
-			$tasks = [];
-		}
+		$tasks = (array) $this->get_pending_tasks();
 		if ( \in_array( $task, $tasks, true ) ) {
 			return true;
 		}
@@ -219,10 +220,7 @@ class Local_Tasks_Manager {
 	 * @return bool
 	 */
 	public function remove_pending_task( $task ) {
-		$tasks = $this->get_pending_tasks();
-		if ( ! is_array( $tasks ) ) {
-			$tasks = [];
-		}
+		$tasks = (array) $this->get_pending_tasks();
 		$tasks = \array_diff( $tasks, [ $task ] );
 		return \update_option( self::OPTION_NAME, $tasks );
 	}

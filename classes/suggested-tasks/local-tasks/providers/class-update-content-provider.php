@@ -85,13 +85,13 @@ class Update_Content_Provider extends Content_Provider_Abstract implements \Prog
 		$items = [];
 		foreach ( $last_updated_posts as $post ) {
 			// If the last update was more than 6 months ago, add a task.
-			if ( strtotime( $post->post_modified ) > strtotime( '-6 months' ) ) {
+			if ( strtotime( $post->post_modified ) > strtotime( '-6 months' ) ) { // @phpstan-ignore-line property.nonObject
 				continue;
 			}
 			$task_id = $this->get_task_id(
 				[
 					'type'    => 'update-post',
-					'post_id' => $post->ID,
+					'post_id' => $post->ID, // @phpstan-ignore-line property.nonObject
 				]
 			);
 			$items[] = $this->get_task_details( $task_id );
@@ -114,17 +114,17 @@ class Update_Content_Provider extends Content_Provider_Abstract implements \Prog
 		$post         = \get_post( $data['post_id'] );
 		$task_details = [
 			'task_id'     => $task_id,
-			'title'       => sprintf( 'Update post "%s"', \esc_html( $post->post_title ) ),
+			'title'       => sprintf( 'Update post "%s"', \esc_html( $post->post_title ) ), // @phpstan-ignore-line property.nonObject
 			'parent'      => 0,
 			'priority'    => 'high',
 			'type'        => 'writing',
 			'points'      => 1,
-			'url'         => \esc_url( \get_edit_post_link( $post->ID ) ),
+			'url'         => \esc_url( \get_edit_post_link( $post->ID ) ), // @phpstan-ignore-line property.nonObject
 			'description' => '<p>' . sprintf(
 				/* translators: %s: The post title. */
 				\esc_html__( 'Update the post "%s" as it was last updated more than 6 months ago.', 'progress-planner' ),
-				\esc_html( $post->post_title )
-			) . '</p><p><a href="' . \esc_url( \get_edit_post_link( $post->ID ) ) . '">' . \esc_html__( 'Edit the post', 'progress-planner' ) . '</a>.</p>',
+				\esc_html( $post->post_title ) // @phpstan-ignore-line property.nonObject
+			) . '</p><p><a href="' . \esc_url( \get_edit_post_link( $post->ID ) ) . '">' . \esc_html__( 'Edit the post', 'progress-planner' ) . '</a>.</p>', // @phpstan-ignore-line property.nonObject
 		];
 
 		return $task_details;

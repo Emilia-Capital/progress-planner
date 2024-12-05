@@ -258,16 +258,16 @@ class Query {
 		foreach ( $results as $result ) {
 			$class_name         = $this->get_activity_class_name( $result->category );
 			$activity           = new $class_name();
-			$activity->date     = new \DateTime( $result->date );
-			$activity->category = $result->category;
-			$activity->type     = $result->type;
-			$activity->data_id  = (string) $result->data_id;
-			$activity->id       = (int) $result->id;
-			$activity->user_id  = (int) $result->user_id;
+			$activity->date     = new \DateTime( $result->date ); // @phpstan-ignore-line property.notFound
+			$activity->category = $result->category; // @phpstan-ignore-line property.notFound
+			$activity->type     = $result->type; // @phpstan-ignore-line property.notFound
+			$activity->data_id  = (string) $result->data_id; // @phpstan-ignore-line property.notFound
+			$activity->id       = (int) $result->id; // @phpstan-ignore-line property.notFound
+			$activity->user_id  = (int) $result->user_id; // @phpstan-ignore-line property.notFound
 			$activities[]       = $activity;
 		}
 
-		return $activities;
+		return $activities; // @phpstan-ignore-line return.type
 	}
 
 	/**
@@ -411,14 +411,14 @@ class Query {
 
 		$class_name         = $this->get_activity_class_name( $result->category );
 		$activity           = new $class_name();
-		$activity->date     = new \DateTime( $result->date );
-		$activity->category = $result->category;
-		$activity->type     = $result->type;
-		$activity->data_id  = (string) $result->data_id;
-		$activity->id       = (int) $result->id;
-		$activity->user_id  = (int) $result->user_id;
+		$activity->date     = new \DateTime( $result->date ); // @phpstan-ignore-line property.notFound
+		$activity->category = $result->category; // @phpstan-ignore-line property.notFound
+		$activity->type     = $result->type; // @phpstan-ignore-line property.notFound
+		$activity->data_id  = (string) $result->data_id; // @phpstan-ignore-line property.notFound
+		$activity->id       = (int) $result->id; // @phpstan-ignore-line property.notFound
+		$activity->user_id  = (int) $result->user_id; // @phpstan-ignore-line property.notFound
 
-		return $activity;
+		return $activity; // @phpstan-ignore-line return.type
 	}
 
 	/**

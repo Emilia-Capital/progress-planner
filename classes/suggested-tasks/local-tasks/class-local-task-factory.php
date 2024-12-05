@@ -16,7 +16,7 @@ class Local_Task_Factory {
 	 *
 	 * @param string $task_id The task ID.
 	 *
-	 * @return Task_Local
+	 * @return \Progress_Planner\Suggested_Tasks\Local_Tasks\Task_Local
 	 */
 	public static function create( string $task_id ): Task_Local {
 		if ( str_contains( $task_id, '|' ) ) {

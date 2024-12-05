@@ -42,11 +42,7 @@ class Remote_Tasks {
 	 */
 	public function inject_tasks( $tasks ) {
 		$inject_items = $this->get_tasks_to_inject();
-		if ( ! is_array( $inject_items ) ) {
-			$inject_items = [];
-		}
-
-		$items = [];
+		$items        = [];
 		foreach ( $inject_items as $item ) {
 			$item['task_id'] = "remote-task-{$item['task_id']}";
 			$items[]         = $item;

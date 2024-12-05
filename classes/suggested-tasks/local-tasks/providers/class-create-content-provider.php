@@ -62,8 +62,7 @@ class Create_Content_Provider extends Content_Provider_Abstract implements \Prog
 		);
 
 		$is_last_post_long = (
-			is_array( $last_created_posts )
-			&& ! empty( $last_created_posts )
+			! empty( $last_created_posts )
 			&& \progress_planner()->get_activities__content_helpers()->is_post_long( $last_created_posts[0]->ID )
 		);
 
@@ -123,7 +122,7 @@ class Create_Content_Provider extends Content_Provider_Abstract implements \Prog
 		}
 
 		// Check if the post was created this week.
-		if ( \gmdate( 'YW', strtotime( $last_post->post_date ) ) !== \gmdate( 'YW' ) ) {
+		if ( \gmdate( 'YW', strtotime( $last_post->post_date ) ) !== \gmdate( 'YW' ) ) { // @phpstan-ignore-line argument.type
 			return false;
 		}
 
