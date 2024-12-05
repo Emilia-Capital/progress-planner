@@ -2,10 +2,10 @@ parameters:
   level: 8
   reportUnmatchedIgnoredErrors: false
   paths:
-    - .
-  excludePaths:
-    - vendor
-    - tests
+    - ./classes
+    - ./views
+    - ./progress-planner.php
+    - ./uninstall.php
   ignoreErrors:
     - identifier: constant.notFound
     - identifier: missingType.iterableValue
