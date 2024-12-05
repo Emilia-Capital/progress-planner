@@ -24,12 +24,10 @@ customElements.define(
 				taskHeading = `<a href="${ taskUrl }">${ taskTitle }</a>`;
 			}
 
-			this.innerHTML = `
-			<li class="prpl-suggested-task" data-task-id="${ taskId }" data-task-action="${ taskAction }" data-task-url="${ taskUrl }">
-				<h3>${ taskHeading }</h3>
-				<div class="prpl-suggested-task-actions">
-					<div class="tooltip-actions">
-						<button
+			const isRemoteTask = taskId.startsWith( 'remote-task-' );
+
+			const actionButtons = {
+				info: `<button
 							type="button"
 							class="prpl-suggested-task-button"
 							data-task-id="${ taskId }"
@@ -40,8 +38,8 @@ customElements.define(
 						>
 							<img src="${ progressPlannerSuggestedTask.assets.infoIcon }" alt="${ progressPlannerSuggestedTask.i18n.info }" class="icon">
 							<span class="screen-reader-text">${ progressPlannerSuggestedTask.i18n.info }</span>
-						</button>
-						<button
+						</button>`,
+				snooze: `<button
 							type="button"
 							class="prpl-suggested-task-button"
 							data-task-id="${ taskId }"
@@ -52,7 +50,31 @@ customElements.define(
 						>
 							<img src="${ progressPlannerSuggestedTask.assets.snoozeIcon }" alt="${ progressPlannerSuggestedTask.i18n.snooze }" class="icon">
 							<span class="screen-reader-text">${ progressPlannerSuggestedTask.i18n.snooze }</span>
-						</button>
+						</button>`,
+				complete: isRemoteTask
+					? `<button
+							type="button"
+							class="prpl-suggested-task-button"
+							data-task-id="${ taskId }"
+							data-task-title="${ taskTitle }"
+							data-action="complete"
+							data-target="complete"
+							title="${ progressPlannerSuggestedTask.i18n.markAsComplete }"
+						>
+							<span class="dashicons dashicons-saved"></span>
+							<span class="screen-reader-text">${ progressPlannerSuggestedTask.i18n.markAsComplete }</span>
+						</button>`
+					: '',
+			};
+
+			this.innerHTML = `
+			<li class="prpl-suggested-task" data-task-id="${ taskId }" data-task-action="${ taskAction }" data-task-url="${ taskUrl }">
+				<h3>${ taskHeading }</h3>
+				<div class="prpl-suggested-task-actions">
+					<div class="tooltip-actions">
+						${ actionButtons.info }
+						${ actionButtons.snooze }
+						${ actionButtons.complete }
 
 						<div class="prpl-suggested-task-snooze prpl-tooltip">
 
@@ -209,6 +231,13 @@ customElements.define(
 									)
 									.removeAttribute( 'data-tooltip-visible' );
 								break;
+
+							case 'complete':
+								thisObj.runTaskAction(
+									item.getAttribute( 'data-task-id' ),
+									'complete'
+								);
+								break;
 						}
 					} );
 				}
@@ -229,8 +258,9 @@ customElements.define(
 				'.prpl-snooze-duration-radio-group input[type="radio"]'
 			).forEach( ( radioElement ) => {
 				radioElement.addEventListener( 'change', function () {
-					thisObj.snoozeTask(
+					thisObj.runTaskAction(
 						item.getAttribute( 'data-task-id' ),
+						'snooze',
 						this.value
 					);
 				} );
@@ -240,39 +270,62 @@ customElements.define(
 		/**
 		 * Snooze a task.
 		 *
-		 * @param {string} taskId   The task ID.
-		 * @param {string} duration The duration to snooze the task for.
+		 * @param {string} taskId         The task ID.
+		 * @param {string} actionType     The action type.
+		 * @param {string} snoozeDuration If the action is `snooze`,
+		 *                                the duration to snooze the task for.
 		 */
-		snoozeTask = ( taskId, duration ) => {
+		runTaskAction = ( taskId, actionType, snoozeDuration ) => {
 			taskId = taskId.toString();
-			// Save the todo list to the database
+
+			const data = {
+				task_id: taskId,
+				nonce: progressPlannerSuggestedTask.nonce,
+				action_type: actionType,
+			};
+			if ( 'snooze' === actionType ) {
+				data.duration = snoozeDuration;
+			}
+
+			// Save the todo list to the database.
 			const request = wp.ajax.post(
 				'progress_planner_suggested_task_action',
-				{
-					task_id: taskId,
-					nonce: progressPlannerSuggestedTask.nonce,
-					action_type: 'snooze',
-					duration,
-				}
+				data
 			);
 			request.done( () => {
 				const el = document.querySelector(
 					`.prpl-suggested-task[data-task-id="${ taskId }"]`
 				);
 
-				if ( el ) {
-					el.remove();
-				}
+				switch ( actionType ) {
+					case 'snooze':
+						el.remove();
+						// Update the global var.
+						if (
+							window.progressPlannerSuggestedTasks.tasks.snoozed.indexOf(
+								taskId
+							) === -1
+						) {
+							window.progressPlannerSuggestedTasks.tasks.snoozed.push(
+								taskId
+							);
+						}
+						break;
 
-				// Update the global var.
-				if (
-					window.progressPlannerSuggestedTasks.tasks.snoozed.indexOf(
-						taskId
-					) === -1
-				) {
-					window.progressPlannerSuggestedTasks.tasks.snoozed.push(
-						taskId
-					);
+					case 'complete':
+						// Add the task to the pending celebration.
+						window.progressPlannerSuggestedTasks.tasks.pending_celebration.push(
+							taskId
+						);
+						// Set the task action to celebrate.
+						el.setAttribute( 'data-task-action', 'celebrate' );
+
+						// Trigger the celebration event.
+						document.dispatchEvent(
+							new Event( 'prplCelebrateTasks' )
+						);
+
+						break;
 				}
 
 				const event = new Event( 'prplMaybeInjectSuggestedTaskEvent' );
