@@ -68,7 +68,7 @@ abstract class Widget {
 				'prpl-widget-' . $this->id,
 				PROGRESS_PLANNER_URL . $stylesheet,
 				[],
-				(string) filemtime( PROGRESS_PLANNER_DIR . $stylesheet )
+				\Progress_Planner\Base::get_file_version( PROGRESS_PLANNER_DIR . $stylesheet )
 			);
 		}
 		?>
