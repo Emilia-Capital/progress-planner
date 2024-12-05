@@ -92,11 +92,7 @@ class Local_Tasks_Manager {
 	 * @return array
 	 */
 	public function evaluate_tasks() {
-		$tasks = $this->get_pending_tasks();
-		if ( ! is_array( $tasks ) ) {
-			$tasks = [];
-		}
-
+		$tasks           = (array) $this->get_pending_tasks();
 		$completed_tasks = [];
 
 		$tasks = \array_unique( $tasks );
@@ -171,10 +167,7 @@ class Local_Tasks_Manager {
 	 * @return bool
 	 */
 	public function add_pending_task( $task ) {
-		$tasks = $this->get_pending_tasks();
-		if ( ! is_array( $tasks ) ) {
-			$tasks = [];
-		}
+		$tasks = (array) $this->get_pending_tasks();
 		if ( \in_array( $task, $tasks, true ) ) {
 			return true;
 		}
@@ -190,10 +183,7 @@ class Local_Tasks_Manager {
 	 * @return bool
 	 */
 	public function remove_pending_task( $task ) {
-		$tasks = $this->get_pending_tasks();
-		if ( ! is_array( $tasks ) ) {
-			$tasks = [];
-		}
+		$tasks = (array) $this->get_pending_tasks();
 		$tasks = \array_diff( $tasks, [ $task ] );
 		return \update_option( self::OPTION_NAME, $tasks );
 	}
