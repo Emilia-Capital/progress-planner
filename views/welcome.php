@@ -80,7 +80,7 @@ if ( false !== \get_option( 'progress_planner_license_key', false ) ) {
 							name="name"
 							class="prpl-input"
 							required
-							value="<?php echo \esc_attr( \get_user_meta( \wp_get_current_user()->ID, 'first_name', true ) ); ?>"
+							value="<?php echo \esc_attr( \get_user_meta( \wp_get_current_user()->ID, 'first_name', true ) ); // @phpstan-ignore-line argument.type ?>"
 						>
 					</label>
 					<label>
