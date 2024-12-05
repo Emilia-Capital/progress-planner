@@ -56,7 +56,7 @@ $prpl_sum_weekly = array_sum( $prpl_stats['weekly'] );
 	<tbody>
 		<?php foreach ( \progress_planner()->get_activities__content_helpers()->get_post_types_names() as $prpl_post_type_item ) : ?>
 			<tr>
-				<td><?php echo \esc_html( \get_post_type_object( $prpl_post_type_item )->labels->name ); ?></td>
+				<td><?php echo \esc_html( \get_post_type_object( $prpl_post_type_item )->labels->name ); // @phpstan-ignore-line property.nonObject ?></td>
 				<td><?php echo \esc_html( \number_format_i18n( $prpl_stats['weekly'][ $prpl_post_type_item ] ) ); ?></td>
 				<td><?php echo \esc_html( \number_format_i18n( $prpl_stats['all'][ $prpl_post_type_item ] ) ); ?></td>
 			</tr>

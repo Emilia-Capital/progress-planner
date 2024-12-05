@@ -33,10 +33,10 @@ class Base {
 	 */
 	public function init() {
 		if ( ! function_exists( 'current_user_can' ) ) {
-			require_once ABSPATH . 'wp-includes/capabilities.php';
+			require_once ABSPATH . 'wp-includes/capabilities.php'; // @phpstan-ignore requireOnce.fileNotFound
 		}
 		if ( ! function_exists( 'wp_get_current_user' ) ) {
-			require_once ABSPATH . 'wp-includes/pluggable.php';
+			require_once ABSPATH . 'wp-includes/pluggable.php'; // @phpstan-ignore requireOnce.fileNotFound
 		}
 
 		if ( defined( '\IS_PLAYGROUND_PREVIEW' ) && constant( '\IS_PLAYGROUND_PREVIEW' ) === true ) {
@@ -90,10 +90,10 @@ class Base {
 	 * @return mixed
 	 */
 	public function __call( $name, $arguments ) {
-		if ( 0 === strpos( $name, 'get_' ) ) {
-			$cache_name = substr( $name, 4 );
+		if ( 0 !== strpos( $name, 'get_' ) ) {
+			return;
 		}
-
+		$cache_name = substr( $name, 4 );
 		if ( isset( $this->cached[ $cache_name ] ) ) {
 			return $this->cached[ $cache_name ];
 		}

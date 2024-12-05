@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$prpl_badges = \progress_planner()->get_badges()->get_badges( $prpl_context );
+$prpl_badges = \progress_planner()->get_badges()->get_badges( $prpl_context ); // @phpstan-ignore-line variable.undefined
 ?>
 <div class="progress-badges">
 	<span class="badges-popover-progress-total">
@@ -26,7 +26,7 @@ $prpl_badges = \progress_planner()->get_badges()->get_badges( $prpl_context );
 					<?php else : ?>
 						<?php
 						printf(
-							'content' === $prpl_context
+							'content' === $prpl_context // @phpstan-ignore-line variable.undefined
 								? \esc_html(
 									/* translators: The number of weeks remaining to complete the badge. */
 									_n(

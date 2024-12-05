@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 ?>
-<?php foreach ( \progress_planner()->get_badges()->get_badges( $prpl_category ) as $prpl_badge ) : ?>
+<?php foreach ( \progress_planner()->get_badges()->get_badges( $prpl_category ) as $prpl_badge ) : // @phpstan-ignore-line variable.undefined ?>
 	<?php $prpl_badge_progress = $prpl_badge->get_progress(); ?>
 	<span
 		class="prpl-badge"

@@ -151,6 +151,10 @@ class Content {
 	public function trash_post( $post_id ) {
 		$post = \get_post( $post_id );
 
+		if ( null === $post ) {
+			return;
+		}
+
 		// Bail if we should skip saving.
 		if ( $this->should_skip_saving( $post ) ) {
 			return;
@@ -172,6 +176,10 @@ class Content {
 	 */
 	public function delete_post( $post_id ) {
 		$post = \get_post( $post_id );
+
+		if ( null === $post ) {
+			return;
+		}
 
 		// Bail if we should skip saving.
 		if ( $this->should_skip_saving( $post ) ) {
