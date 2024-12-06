@@ -10,7 +10,7 @@ namespace Progress_Planner\Suggested_Tasks\Local_Tasks\Providers;
 /**
  * Add tasks for content updates.
  */
-abstract class Content_Provider_Abstract {
+abstract class Content_Abstract {
 
 	/**
 	 * Get the task ID.
