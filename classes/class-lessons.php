@@ -42,16 +42,21 @@ class Lessons {
 	 * @return array
 	 */
 	public function get_remote_api_items() {
+		$url             = \add_query_arg(
+			[ 'site' => \get_site_url() ],
+			'https://progressplanner.com/wp-json/progress-planner-saas/v1/lessons'
+		);
+		$pro_license_key = \get_option( 'progress_planner_pro_license_key' );
+		if ( $pro_license_key ) {
+			$url = \add_query_arg( [ 'license_key' => $pro_license_key ], $url );
+		}
 
 		/**
 		 * Filter the endpoint url for the lessons.
 		 *
 		 * @param string $endpoint The endpoint url.
 		 */
-		$url = apply_filters(
-			'progress_planner_lessons_endpoint',
-			'https://progressplanner.com/wp-json/progress-planner-saas/v1/free-lessons'
-		);
+		$url = apply_filters( 'progress_planner_lessons_endpoint', $url );
 
 		$cache_key = 'lessons-' . md5( $url );
 
