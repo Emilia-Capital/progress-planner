@@ -46,8 +46,20 @@ class Update_Core implements \Progress_Planner\Suggested_Tasks\Local_Tasks_Inter
 			return [];
 		}
 
+		$task_id = 'update-core-' . \gmdate( 'YW' );
+
+		// If the task with this id is completed, don't add a task.
+		if ( true === \progress_planner()->get_suggested_tasks()->check_task_condition(
+			[
+				'type'    => 'completed',
+				'task_id' => $task_id,
+			]
+		) ) {
+			return [];
+		}
+
 		return [
-			$this->get_task_details( 'update-core-' . \gmdate( 'YW' ) ),
+			$this->get_task_details( $task_id ),
 		];
 	}
 
