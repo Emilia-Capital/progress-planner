@@ -484,7 +484,7 @@ class Suggested_Tasks {
 
 		switch ( $action ) {
 			case 'complete':
-				// We dont need to do anything here, since we trigger the celebrate action.
+				$this->mark_task_as( 'completed', $task_id );
 				$updated = true;
 				break;
 
@@ -494,7 +494,7 @@ class Suggested_Tasks {
 				break;
 
 			case 'celebrated':
-				$this->transition_task_status( $task_id, 'pending_celebration', 'completed' );
+				// We dont need to do anything here, since the task is already marked as completed.
 				$updated = true;
 				break;
 
