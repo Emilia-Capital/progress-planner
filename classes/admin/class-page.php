@@ -67,7 +67,7 @@ class Page {
 	public function remove_widgets_if_privacy_policy_not_accepted( $widgets ) {
 
 		// When privacy policy is accepted also the license key is set.
-		$privacy_policy_accepted = false !== get_option( 'progress_planner_license_key', false );
+		$privacy_policy_accepted = \progress_planner()->is_privacy_policy_accepted();
 
 		if ( true === $privacy_policy_accepted ) {
 			return $widgets;
