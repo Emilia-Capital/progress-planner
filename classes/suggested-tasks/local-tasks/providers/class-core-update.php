@@ -5,12 +5,28 @@
  * @package Progress_Planner
  */
 
-namespace Progress_Planner\Suggested_Tasks\Local_Tasks;
+namespace Progress_Planner\Suggested_Tasks\Local_Tasks\Providers;
 
 /**
  * Add tasks for Core updates.
  */
-class Update_Core implements \Progress_Planner\Suggested_Tasks\Local_Tasks_Interface {
+class Core_Update implements \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Local_Tasks_Interface {
+
+	/**
+	 * The provider ID.
+	 *
+	 * @var string
+	 */
+	const TYPE = 'update-core';
+
+	/**
+	 * Get the provider ID.
+	 *
+	 * @return string
+	 */
+	public function get_provider_type() {
+		return self::TYPE;
+	}
 
 	/**
 	 * Evaluate a task.
@@ -20,7 +36,7 @@ class Update_Core implements \Progress_Planner\Suggested_Tasks\Local_Tasks_Inter
 	 * @return bool|string
 	 */
 	public function evaluate_task( $task_id ) {
-		if ( 0 === strpos( $task_id, 'update-core' ) && 0 === \wp_get_update_data()['counts']['total'] ) {
+		if ( 0 === strpos( $task_id, self::TYPE ) && 0 === \wp_get_update_data()['counts']['total'] ) {
 			return $task_id;
 		}
 		return false;
@@ -32,22 +48,17 @@ class Update_Core implements \Progress_Planner\Suggested_Tasks\Local_Tasks_Inter
 	 * @return array
 	 */
 	public function get_tasks_to_inject() {
-		return true !== $this->is_task_type_snoozed() ? $this->get_tasks_to_update_core() : [];
-	}
+		if ( true === $this->is_task_type_snoozed() ) {
+			return [];
+		}
 
-	/**
-	 * Get the tasks to update core.
-	 *
-	 * @return array
-	 */
-	public function get_tasks_to_update_core() {
 		// If all updates are performed, do not add the task.
 		if ( 0 === \wp_get_update_data()['counts']['total'] ) {
 			return [];
 		}
 
 		return [
-			$this->get_task_details( 'update-core-' . \gmdate( 'YW' ) ),
+			$this->get_task_details( self::TYPE . '-' . \gmdate( 'YW' ) ),
 		];
 	}
 
@@ -80,7 +91,7 @@ class Update_Core implements \Progress_Planner\Suggested_Tasks\Local_Tasks_Inter
 	 */
 	public function get_data_from_task_id( $task_id ) {
 		$data = [
-			'type' => 'update-core',
+			'type' => self::TYPE,
 			'id'   => $task_id,
 		];
 
@@ -99,7 +110,7 @@ class Update_Core implements \Progress_Planner\Suggested_Tasks\Local_Tasks_Inter
 		}
 
 		foreach ( $snoozed as $task ) {
-			if ( 'update-core' === $task['id'] ) {
+			if ( self::TYPE === $task['id'] ) {
 				return true;
 			}
 		}
