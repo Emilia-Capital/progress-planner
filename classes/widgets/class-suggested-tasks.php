@@ -47,7 +47,7 @@ final class Suggested_Tasks extends \Progress_Planner\Widget {
 	 * @return void
 	 */
 	public function register_scripts() {
-		$handle = 'progress-planner-suggested-tasks';
+		$handle = 'progress-planner-' . $this->id;
 
 		$pending_celebration = \progress_planner()->get_suggested_tasks()->get_pending_celebration();
 		$deps                = [
@@ -83,12 +83,10 @@ final class Suggested_Tasks extends \Progress_Planner\Widget {
 	 * @return void
 	 */
 	public function enqueue_scripts() {
-		$handle = 'progress-planner-suggested-tasks';
+		$handle = 'progress-planner-' . $this->id;
 
 		// Enqueue the script.
 		\wp_enqueue_script( $handle );
-
-		// Localize the script.
 
 		// Get all saved tasks (completed, pending celebration, snoozed).
 		$tasks = \progress_planner()->get_suggested_tasks()->get_saved_tasks();
@@ -108,6 +106,7 @@ final class Suggested_Tasks extends \Progress_Planner\Widget {
 			}
 		}
 
+		// Localize the script.
 		\wp_localize_script(
 			$handle,
 			'progressPlannerSuggestedTasks',
