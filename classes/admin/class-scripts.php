@@ -254,6 +254,9 @@ class Scripts {
 						$task_details['action']   = 'celebrate';
 						$tasks['details'][]       = $task_details;
 					}
+
+					// Mark the pending celebration tasks as completed.
+					\progress_planner()->get_suggested_tasks()->transition_task_status( $task_id, 'pending_celebration', 'completed' );
 				}
 
 				\wp_localize_script(
