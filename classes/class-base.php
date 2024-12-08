@@ -51,7 +51,7 @@ class Base {
 		}
 
 		// Basic classes.
-		if ( \is_admin() && \current_user_can( 'publish_posts' ) ) {
+		if ( \is_admin() && \current_user_can( 'edit_others_posts' ) ) {
 			$this->cached['admin__page']                   = new \Progress_Planner\Admin\Page();
 			$this->cached['admin__tour']                   = new \Progress_Planner\Admin\Tour();
 			$this->cached['admin__dashboard_widget_score'] = new \Progress_Planner\Admin\Dashboard_Widget_Score();
