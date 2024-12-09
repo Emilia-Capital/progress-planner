@@ -78,7 +78,7 @@ class Content_Helpers {
 					// Fall through.
 
 				case 'characters_including_spaces':
-					$count = \strlen( $content );
+					$count = \strlen( (string) $content );
 					break;
 
 				default:
@@ -86,8 +86,8 @@ class Content_Helpers {
 			}
 		}
 
-		if ( $post_id && \is_int( $post_id ) ) {
-			\progress_planner()->get_settings()->set( [ 'word_count', $post_id ], $count );
+		if ( $post_id ) {
+			\progress_planner()->get_settings()->set( [ 'word_count', (int) $post_id ], $count );
 		}
 
 		return $count;

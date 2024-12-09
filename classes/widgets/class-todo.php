@@ -48,5 +48,52 @@ final class ToDo extends \Progress_Planner\Widget {
 		</form>
 		<?php
 	}
+
+	/**
+	 * Register scripts.
+	 *
+	 * @return void
+	 */
+	public function register_scripts() {
+		$handle = 'progress-planner-' . $this->id;
+
+		\wp_register_script(
+			$handle,
+			PROGRESS_PLANNER_URL . '/assets/js/widgets/todo.js',
+			[
+				'wp-util',
+				'wp-a11y',
+				'progress-planner-ajax-request',
+				'progress-planner-grid-masonry',
+				'progress-planner-web-components-prpl-todo-item',
+				'progress-planner-document-ready',
+			],
+			\Progress_Planner\Base::get_file_version( PROGRESS_PLANNER_DIR . '/assets/js/widgets/todo.js' ),
+			true
+		);
+	}
+
+	/**
+	 * Enqueue scripts.
+	 *
+	 * @return void
+	 */
+	public function enqueue_scripts() {
+		$handle = 'progress-planner-' . $this->id;
+
+		// Enqueue the script.
+		\wp_enqueue_script( $handle );
+
+		// Localize the script.
+		\wp_localize_script(
+			$handle,
+			'progressPlannerTodo',
+			[
+				'ajaxUrl'   => \admin_url( 'admin-ajax.php' ),
+				'nonce'     => \wp_create_nonce( 'progress_planner_todo' ),
+				'listItems' => \progress_planner()->get_todo()->get_items(),
+			]
+		);
+	}
 }
 // phpcs:enable Generic.Commenting.Todo

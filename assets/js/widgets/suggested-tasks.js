@@ -93,7 +93,7 @@ const progressPlannerInjectSuggestedTodoItem = ( details ) => {
 		details.task_id,
 		details.title,
 		details.description,
-		details.points,
+		details.points ?? 1,
 		details.action ?? '',
 		details.url ?? ''
 	);
@@ -253,6 +253,11 @@ document.addEventListener( 'prplCelebrateTasks', () => {
 
 // Populate the list on load.
 document.addEventListener( 'DOMContentLoaded', () => {
+	// Do nothing if the list does not exist.
+	if ( ! document.querySelector( '.prpl-suggested-tasks-list' ) ) {
+		return;
+	}
+
 	// Inject items, until we reach the maximum number of items.
 	while (
 		progressPlannerCountItems() <= PRPL_SUGGESTED_TASKS_MAX_ITEMS &&

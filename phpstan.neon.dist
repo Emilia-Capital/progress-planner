@@ -1,30 +1,18 @@
 parameters:
-  level: 6
+  level: 8
   reportUnmatchedIgnoredErrors: false
   paths:
-    - .
-  excludePaths:
-    - vendor
-    - node_modules
-    - tests
+    - ./classes
+    - ./views
+    - ./progress-planner.php
+    - ./uninstall.php
   ignoreErrors:
+    - identifier: constant.notFound
+    - identifier: missingType.iterableValue
     - identifier: missingType.generics
-    - '#Constant PROGRESS_PLANNER_URL not found.#'
-    - '#Property [a-zA-Z0-9\\_]+::\$[a-zA-Z0-9\\_]+ type has no value type specified in iterable type array.#'
-    - '#Method [a-zA-Z0-9\\_\:\(\)]+ return type has no value type specified in iterable type array.#'
-    - '#Method [a-zA-Z0-9\\_\:\(\)]+ has parameter \$[a-zA-Z0-9\\_]+ with no value type specified in iterable type array.#'
-    - '#Variable \$[a-zA-Z0-9\\_]+ might not be defined.#'
-    - '#Call to an undefined method Progress_Planner\\Base\:\:get_[a-zA-Z0-9\\_\:\(\)]+.#'
-    - '#Cannot call method [a-zA-Z0-9\\_\:\(\)]+ on DateTime\|false.#'
-    - '#Cannot access property \$[a-zA-Z0-9\\_]+ on int\|WP_Post.#'
-    - '#Parameter \#2 \$timestamp of function gmdate expects int, int\|false given.#'
-    - '#Parameter \#1 \$goal of class Progress_Planner\\Goals\\Goal_Recurring constructor expects Progress_Planner\\Goals\\Goal, object given.#'
-    - '#Method Progress_Planner\\Query::get_oldest_activity\(\) should return Progress_Planner\\Activity\|null but returns object.#'
-    - '#Access to an undefined property object::\$user_id.#'
-    - '#Access to an undefined property object::\$id.#'
-    - '#Access to an undefined property object::\$data_id.#'
-    - '#Access to an undefined property object::\$type.#'
-    - '#Access to an undefined property object::\$category.#'
-    - '#Access to an undefined property object::\$date.#'
-    - '#Access to an undefined property object::\$type.#'
-    - '#Method Progress_Planner\\Query::get_activities_from_results\(\) should return array\<Progress_Planner\\Activity\> but returns array\<int\<0, max\>, object\>.#'
+    - '#Variable \$prpl_setting might not be defined.#'
+    - '#Call to an undefined method Progress_Planner\\Base\:\:get_[a-zA-Z0-9\\_]+().#'
+    - '#Cannot call method modify\(\) on DateTime\|false.#'
+    - '#Cannot call method format\(\) on DateTime\|false.#'
+    - '#Parameter \#1 \$[a-zA-Z0-9\\_]+ of function esc_attr expects string, mixed given.#'
+    - '#Parameter \#1 \$[a-zA-Z0-9\\_]+ of function sanitize_text_field expects string, mixed given.#'
