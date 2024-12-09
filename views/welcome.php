@@ -21,7 +21,7 @@ if ( false !== \get_option( 'progress_planner_license_key', false ) ) {
 	'progress-planner-welcome',
 	PROGRESS_PLANNER_URL . '/assets/css/welcome.css',
 	[],
-	(string) filemtime( PROGRESS_PLANNER_DIR . '/assets/css/welcome.css' )
+	\Progress_Planner\Base::get_file_version( PROGRESS_PLANNER_DIR . '/assets/css/welcome.css' )
 );
 
 // Enqueue onboarding styles.
@@ -29,7 +29,7 @@ if ( false !== \get_option( 'progress_planner_license_key', false ) ) {
 	'progress-planner-onboard',
 	PROGRESS_PLANNER_URL . '/assets/css/onboard.css',
 	[],
-	(string) filemtime( PROGRESS_PLANNER_DIR . '/assets/css/onboard.css' )
+	\Progress_Planner\Base::get_file_version( PROGRESS_PLANNER_DIR . '/assets/css/onboard.css' )
 );
 
 
