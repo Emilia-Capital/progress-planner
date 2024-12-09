@@ -68,16 +68,6 @@
 		padding: var(--prpl-padding);
 
 		&:has(input[type="radio"][value="yes"]:checked),
-		&:has(input[type="radio"][value="not-applicable"]:checked) {
-
-			h3 {
-
-				.icon-check-circle {
-					display: block;
-				}
-			}
-		}
-
 		&:has(input[type="radio"][value="no"]:checked) {
 
 			h3 {
@@ -85,8 +75,28 @@
 				.icon-exclamation-circle {
 					display: block;
 				}
+
+				.icon-check-circle {
+					display: none;
+				}
 			}
 		}
+
+		&:has(option[value=""]:not(:checked)),
+		&:has(input[type="radio"][value="not-applicable"]:checked) {
+
+			h3 {
+
+				.icon-check-circle {
+					display: block;
+				}
+
+				.icon-exclamation-circle {
+					display: none;
+				}
+			}
+		}
+
 
 		.item-actions,
 		.prpl-select-page {
