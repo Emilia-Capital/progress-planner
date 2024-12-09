@@ -14,23 +14,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 <div class="prpl-widgets-container in-popover">
 	<div class="prpl-popover-column">
 		<?php
-		\progress_planner()->the_view(
-			'page-widgets/parts/monthly-badges-2024.php',
-			[
-				'css_class' => 'prpl-widget-wrapper in-popover',
-				'title_tag' => 'h3',
-			]
-		);
-		?>
 
-		<?php
-		\progress_planner()->the_view(
-			'page-widgets/parts/monthly-badges.php',
-			[
-				'css_class'  => 'in-popover',
-				'title_year' => 2025,
-			]
-		);
+		$prpl_monthly_badges = \progress_planner()->get_badges()->get_badges( 'monthly' );
+
+		foreach ( $prpl_monthly_badges as $prpl_year => $prpl_monthly_badges ) {
+			\progress_planner()->the_view(
+				'page-widgets/parts/monthly-badges.php',
+				[
+					'css_class'  => 'in-popover',
+					'title_year' => $prpl_year,
+				]
+			);
+		}
 		?>
 	</div>
 

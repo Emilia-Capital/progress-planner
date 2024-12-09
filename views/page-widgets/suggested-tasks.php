@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $prpl_widget = \progress_planner()->get_widgets__suggested_tasks();
-$prpl_badge  = \progress_planner()->get_badges()->get_badge( 'monthly-' . gmdate( 'Y' ) . '-m' . (int) gmdate( 'm' ) );
+$prpl_badge  = \progress_planner()->get_badges()->get_badge( 'monthly-' . \gmdate( 'Y' ) . '-m' . (int) \gmdate( 'n' ) );
 ?>
 <?php if ( $prpl_badge ) : ?>
 <h2 class="prpl-widget-title">
@@ -66,7 +66,7 @@ $prpl_badge  = \progress_planner()->get_badges()->get_badge( 'monthly-' . gmdate
 <hr>
 
 <div class="prpl-widget-content">
-	<?php if ( 2024 === (int) gmdate( 'Y' ) ) : ?>
+	<?php if ( 2024 === (int) \gmdate( 'Y' ) ) : ?>
 		<?php
 		\progress_planner()->the_view(
 			'page-widgets/parts/monthly-badges-2024.php',

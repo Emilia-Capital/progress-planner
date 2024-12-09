@@ -68,6 +68,36 @@ final class Monthly extends Badge {
 	}
 
 	/**
+	 * Get an array of instances (one for each month).
+	 *
+	 * @param \DateTime $start_date The start date.
+	 * @param \DateTime $end_date The end date.
+	 *
+	 * @return array
+	 */
+	public static function get_instances_from_range( $start_date, $end_date ) {
+
+		$dates = iterator_to_array( new \DatePeriod( $start_date, new \DateInterval( 'P1M' ), $end_date ), false );
+
+		// To make sure keys are defined only once and consistent.
+		$self_months = array_keys( self::get_months() );
+
+		foreach ( $dates as $date ) {
+			$year  = (int) $date->format( 'Y' );
+			$month = (int) $date->format( 'n' );
+			$id    = 'monthly-' . $year . '-' . $self_months[ $month - 1 ];
+
+			if ( ! isset( self::$instances[ $year ] ) ) {
+				self::$instances[ $year ] = [];
+			}
+
+			self::$instances[ $year ][] = new self( $id );
+		}
+
+		return self::$instances;
+	}
+
+	/**
 	 * Get an array of months.
 	 *
 	 * @return array
