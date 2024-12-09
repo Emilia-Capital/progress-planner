@@ -166,7 +166,6 @@ class Page {
 			\wp_enqueue_script( 'progress-planner-header-filters' );
 			\wp_enqueue_script( 'progress-planner-todo' );
 			\wp_enqueue_script( 'progress-planner-settings' );
-			\wp_enqueue_script( 'progress-planner-suggested-tasks' );
 			\wp_enqueue_script( 'progress-planner-grid-masonry' );
 		}
 

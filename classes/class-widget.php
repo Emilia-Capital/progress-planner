@@ -15,6 +15,13 @@ namespace Progress_Planner;
 abstract class Widget {
 
 	/**
+	 * Constructor.
+	 */
+	public function __construct() {
+		$this->register_scripts();
+	}
+
+	/**
 	 * The widget ID.
 	 *
 	 * @var string
@@ -62,6 +69,23 @@ abstract class Widget {
 	 * @return void
 	 */
 	public function render() {
+		$this->enqueue_styles();
+		$this->enqueue_scripts();
+		?>
+		<div class="prpl-widget-wrapper prpl-<?php echo \esc_attr( $this->id ); ?>">
+			<div class="widget-inner-container">
+				<?php \progress_planner()->the_view( "page-widgets/{$this->id}.php" ); ?>
+			</div>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Enqueue styles.
+	 *
+	 * @return void
+	 */
+	public function enqueue_styles() {
 		$stylesheet = "/assets/css/page-widgets/{$this->id}.css";
 		if ( \file_exists( PROGRESS_PLANNER_DIR . $stylesheet ) ) {
 			\wp_enqueue_style(
@@ -71,12 +95,21 @@ abstract class Widget {
 				\Progress_Planner\Base::get_file_version( PROGRESS_PLANNER_DIR . $stylesheet )
 			);
 		}
-		?>
-		<div class="prpl-widget-wrapper prpl-<?php echo \esc_attr( $this->id ); ?>">
-			<div class="widget-inner-container">
-				<?php \progress_planner()->the_view( "page-widgets/{$this->id}.php" ); ?>
-			</div>
-		</div>
-		<?php
+	}
+
+	/**
+	 * Register scripts.
+	 *
+	 * @return void
+	 */
+	public function register_scripts() {
+	}
+
+	/**
+	 * Enqueue scripts.
+	 *
+	 * @return void
+	 */
+	public function enqueue_scripts() {
 	}
 }
