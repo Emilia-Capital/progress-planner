@@ -41,7 +41,7 @@ class Dashboard_Widget_Todo extends \Progress_Planner\Admin\Dashboard_Widget {
 			'prpl-widget-todo',
 			PROGRESS_PLANNER_URL . '/assets/css/page-widgets/todo.css',
 			[],
-			(string) filemtime( PROGRESS_PLANNER_DIR . '/assets/css/page-widgets/todo.css' )
+			\Progress_Planner\Base::get_file_version( PROGRESS_PLANNER_DIR . '/assets/css/page-widgets/todo.css' )
 		);
 
 		\progress_planner()->the_view( "dashboard-widgets/{$this->id}.php" );
