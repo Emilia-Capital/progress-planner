@@ -5,12 +5,28 @@
  * @package Progress_Planner
  */
 
-namespace Progress_Planner\Suggested_Tasks\Local_Tasks;
+namespace Progress_Planner\Suggested_Tasks\Local_Tasks\Providers;
 
 /**
  * Add tasks for Core updates.
  */
-class Update_Core implements \Progress_Planner\Suggested_Tasks\Local_Tasks_Interface {
+class Core_Update implements \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Local_Tasks_Interface {
+
+	/**
+	 * The provider ID.
+	 *
+	 * @var string
+	 */
+	const TYPE = 'update-core';
+
+	/**
+	 * Get the provider ID.
+	 *
+	 * @return string
+	 */
+	public function get_provider_type() {
+		return self::TYPE;
+	}
 
 	/**
 	 * Evaluate a task.
@@ -26,7 +42,7 @@ class Update_Core implements \Progress_Planner\Suggested_Tasks\Local_Tasks_Inter
 			require_once ABSPATH . 'wp-admin/includes/update.php'; // @phpstan-ignore requireOnce.fileNotFound
 		}
 
-		if ( 0 === strpos( $task_id, 'update-core' ) && 0 === \wp_get_update_data()['counts']['total'] ) {
+		if ( 0 === strpos( $task_id, self::TYPE ) && 0 === \wp_get_update_data()['counts']['total'] ) {
 			return $task_id;
 		}
 		return false;
@@ -38,7 +54,23 @@ class Update_Core implements \Progress_Planner\Suggested_Tasks\Local_Tasks_Inter
 	 * @return array
 	 */
 	public function get_tasks_to_inject() {
-		return true !== $this->is_task_type_snoozed() ? $this->get_tasks_to_update_core() : [];
+		if ( true === $this->is_task_type_snoozed() ) {
+			return [];
+		}
+
+		// Without this \wp_get_update_data() might not return correct data for the core updates (depending on the timing).
+		if ( ! function_exists( 'get_core_updates' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/update.php'; // @phpstan-ignore requireOnce.fileNotFound
+		}
+
+		// If all updates are performed, do not add the task.
+		if ( 0 === \wp_get_update_data()['counts']['total'] ) {
+			return [];
+		}
+
+		return [
+			$this->get_task_details( self::TYPE . '-' . \gmdate( 'YW' ) ),
+		];
 	}
 
 	/**
@@ -58,7 +90,7 @@ class Update_Core implements \Progress_Planner\Suggested_Tasks\Local_Tasks_Inter
 			return [];
 		}
 
-		$task_id = 'update-core-' . \gmdate( 'YW' );
+		$task_id = self::TYPE . '-' . \gmdate( 'YW' );
 
 		// If the task with this id is completed, don't add a task.
 		if ( true === \progress_planner()->get_suggested_tasks()->check_task_condition(
@@ -104,7 +136,7 @@ class Update_Core implements \Progress_Planner\Suggested_Tasks\Local_Tasks_Inter
 	 */
 	public function get_data_from_task_id( $task_id ) {
 		$data = [
-			'type' => 'update-core',
+			'type' => self::TYPE,
 			'id'   => $task_id,
 		];
 
@@ -123,7 +155,7 @@ class Update_Core implements \Progress_Planner\Suggested_Tasks\Local_Tasks_Inter
 		}
 
 		foreach ( $snoozed as $task ) {
-			if ( 'update-core' === $task['id'] ) {
+			if ( self::TYPE === $task['id'] ) {
 				return true;
 			}
 		}
