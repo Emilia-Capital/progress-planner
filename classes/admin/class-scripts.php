@@ -83,37 +83,6 @@ class Scripts {
 			case 'settings-page':
 				return [ 'wp-util', 'progress-planner-document-ready' ];
 
-			case 'todo':
-				return [
-					'wp-util',
-					'wp-a11y',
-					'progress-planner-ajax-request',
-					'progress-planner-grid-masonry',
-					'progress-planner-web-components-prpl-todo-item',
-					'progress-planner-document-ready',
-				];
-
-			case 'suggested-tasks':
-				$pending_celebration = \progress_planner()->get_suggested_tasks()->get_pending_celebration();
-				$deps                = [
-					'progress-planner-todo',
-					'progress-planner-grid-masonry',
-					'progress-planner-web-components-prpl-suggested-task',
-					'progress-planner-document-ready',
-				];
-
-				// Check if need to load confetti.
-				if ( ! empty( $pending_celebration ) ) {
-					$deps[] = 'particles-confetti';
-				} else {
-					// Check if there are remote tasks to inject, checking here as it might involve an API call.
-					$remote_tasks = \progress_planner()->get_suggested_tasks()->get_remote_tasks();
-					if ( ! empty( $remote_tasks ) ) {
-						$deps[] = 'particles-confetti';
-					}
-				}
-				return $deps;
-
 			default:
 				return [];
 		}
@@ -214,18 +183,6 @@ class Scripts {
 				\wp_localize_script( $handle, 'progressPlanner', $data );
 				break;
 
-			case 'progress-planner-todo':
-				\wp_localize_script(
-					$handle,
-					'progressPlannerTodo',
-					[
-						'ajaxUrl'   => \admin_url( 'admin-ajax.php' ),
-						'nonce'     => \wp_create_nonce( 'progress_planner_todo' ),
-						'listItems' => \progress_planner()->get_todo()->get_items(),
-					]
-				);
-				break;
-
 			case 'progress-planner-settings-page':
 				\wp_localize_script(
 					$handle,
@@ -233,39 +190,6 @@ class Scripts {
 					[
 						'siteUrl'    => \get_site_url(),
 						'savingText' => \esc_html__( 'Saving...', 'progress-planner' ),
-					]
-				);
-				break;
-
-			case 'progress-planner-suggested-tasks':
-				// Get all saved tasks (completed, pending celebration, snoozed).
-				$tasks = \progress_planner()->get_suggested_tasks()->get_saved_tasks();
-
-				// Get pending tasks.
-				$tasks['details'] = \progress_planner()->get_suggested_tasks()->get_tasks();
-
-				// Insert the pending celebration tasks as high priority tasks, so they are shown always.
-				foreach ( $tasks['pending_celebration'] as $task_id ) {
-
-					$task_details = \progress_planner()->get_suggested_tasks()->get_local()->get_task_details( $task_id );
-
-					if ( $task_details ) {
-						$task_details['priority'] = 'high'; // Celebrate tasks are always on top.
-						$task_details['action']   = 'celebrate';
-						$tasks['details'][]       = $task_details;
-					}
-
-					// Mark the pending celebration tasks as completed.
-					\progress_planner()->get_suggested_tasks()->transition_task_status( $task_id, 'pending_celebration', 'completed' );
-				}
-
-				\wp_localize_script(
-					$handle,
-					'progressPlannerSuggestedTasks',
-					[
-						'ajaxUrl' => \admin_url( 'admin-ajax.php' ),
-						'nonce'   => \wp_create_nonce( 'progress_planner' ),
-						'tasks'   => $tasks,
 					]
 				);
 				break;
