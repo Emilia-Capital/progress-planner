@@ -43,14 +43,14 @@ class Dashboard_Widget_Score extends \Progress_Planner\Admin\Dashboard_Widget {
 			'prpl-widget-suggested-tasks',
 			PROGRESS_PLANNER_URL . '/assets/css/page-widgets/suggested-tasks.css',
 			[],
-			(string) filemtime( PROGRESS_PLANNER_DIR . '/assets/css/page-widgets/suggested-tasks.css' )
+			\Progress_Planner\Base::get_file_version( PROGRESS_PLANNER_DIR . '/assets/css/page-widgets/suggested-tasks.css' )
 		);
 
 		\wp_enqueue_style(
 			'prpl-dashboard-widget-' . $this->id,
 			PROGRESS_PLANNER_URL . "/assets/css/dashboard-widgets/{$this->id}.css",
 			[],
-			(string) filemtime( PROGRESS_PLANNER_DIR . "/assets/css/dashboard-widgets/{$this->id}.css" )
+			\Progress_Planner\Base::get_file_version( PROGRESS_PLANNER_DIR . "/assets/css/dashboard-widgets/{$this->id}.css" )
 		);
 
 		\progress_planner()->the_view( "dashboard-widgets/{$this->id}.php" );
