@@ -171,12 +171,12 @@ class Content_Create extends Content_Abstract implements \Progress_Planner\Sugge
 			'description' => isset( $data['long'] ) && $data['long']
 				? sprintf(
 					/* translators: %d: The threshold (number, words count) for a long post. */
-					esc_html__( 'Create a new short post (no longer than %d words).', 'progress-planner' ),
+					esc_html__( 'Create a new long post (longer than %d words).', 'progress-planner' ),
 					\Progress_Planner\Activities\Content_Helpers::LONG_POST_THRESHOLD
 				)
 				: sprintf(
 					/* translators: %d: The threshold (number, words count) for a long post. */
-					esc_html__( 'Create a new long post (longer than %d words).', 'progress-planner' ),
+					esc_html__( 'Create a new short post (no longer than %d words).', 'progress-planner' ),
 					\Progress_Planner\Activities\Content_Helpers::LONG_POST_THRESHOLD
 				),
 		];
