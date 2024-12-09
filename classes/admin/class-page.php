@@ -67,7 +67,7 @@ class Page {
 	public function remove_widgets_if_privacy_policy_not_accepted( $widgets ) {
 
 		// When privacy policy is accepted also the license key is set.
-		$privacy_policy_accepted = false !== get_option( 'progress_planner_license_key', false );
+		$privacy_policy_accepted = \progress_planner()->is_privacy_policy_accepted();
 
 		if ( true === $privacy_policy_accepted ) {
 			return $widgets;
@@ -166,7 +166,6 @@ class Page {
 			\wp_enqueue_script( 'progress-planner-header-filters' );
 			\wp_enqueue_script( 'progress-planner-todo' );
 			\wp_enqueue_script( 'progress-planner-settings' );
-			\wp_enqueue_script( 'progress-planner-suggested-tasks' );
 			\wp_enqueue_script( 'progress-planner-grid-masonry' );
 		}
 
