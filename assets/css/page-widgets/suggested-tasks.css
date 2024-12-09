@@ -156,7 +156,7 @@
 
 		.prpl-suggested-task-points {
 			font-size: var(--prpl-font-size-xs);
-			font-weight: 600;
+			font-weight: 700;
 			color: var(--prpl-color-headings);
 			background-color: var(--prpl-color-accent-orange);
 			width: 1.5rem;
