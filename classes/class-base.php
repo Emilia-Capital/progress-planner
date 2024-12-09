@@ -27,6 +27,13 @@ class Base {
 	private $cached = [];
 
 	/**
+	 * The plugin version.
+	 *
+	 * @var string
+	 */
+	private static $plugin_version;
+
+	/**
 	 * Init.
 	 *
 	 * @return void
@@ -209,6 +216,30 @@ class Base {
 				break;
 			}
 		}
+	}
+
+	/**
+	 * Get the version of a file.
+	 *
+	 * @param string $file The file path.
+	 * @return string
+	 */
+	public static function get_file_version( $file ) {
+		// If we're in debug mode, use filemtime.
+		if ( defined( 'WP_SCRIPT_DEBUG' ) && WP_SCRIPT_DEBUG ) {
+			return (string) filemtime( $file );
+		}
+
+		// Otherwise, use the plugin header.
+		if ( ! function_exists( 'get_file_data' ) ) {
+			require_once ABSPATH . 'wp-includes/functions.php'; // @phpstan-ignore requireOnce.fileNotFound
+		}
+
+		if ( ! self::$plugin_version ) {
+			self::$plugin_version = \get_file_data( PROGRESS_PLANNER_FILE, [ 'Version' => 'Version' ] )['Version'];
+		}
+
+		return self::$plugin_version;
 	}
 
 	/**

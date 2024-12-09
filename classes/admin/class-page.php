@@ -190,7 +190,7 @@ class Page {
 			'progress-planner-header-filters',
 			PROGRESS_PLANNER_URL . '/assets/css/admin.css',
 			[],
-			(string) filemtime( PROGRESS_PLANNER_DIR . '/assets/css/admin.css' )
+			\Progress_Planner\Base::get_file_version( PROGRESS_PLANNER_DIR . '/assets/css/admin.css' )
 		);
 
 		if ( 'progress-planner_page_progress-planner-settings' === $current_screen->id ) {
@@ -198,7 +198,7 @@ class Page {
 				'progress-planner-settings-page',
 				PROGRESS_PLANNER_URL . '/assets/css/settings-page.css',
 				[],
-				(string) filemtime( PROGRESS_PLANNER_DIR . '/assets/css/settings-page.css' )
+				\Progress_Planner\Base::get_file_version( PROGRESS_PLANNER_DIR . '/assets/css/settings-page.css' )
 			);
 		}
 	}
