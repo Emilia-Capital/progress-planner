@@ -120,13 +120,13 @@ if ( document.getElementById( 'prpl-onboarding-form' ) ) {
 			const privacyPolicyAccepted = !! this.checked;
 
 			if ( privacyPolicyAccepted ) {
-				document.getElementById(
-					'prpl-onboarding-submit-wrapper'
-				).style.display = 'block';
+				document
+					.getElementById( 'prpl-onboarding-submit-wrapper' )
+					.classList.remove( 'prpl-disabled' );
 			} else {
-				document.getElementById(
-					'prpl-onboarding-submit-wrapper'
-				).style.display = 'none';
+				document
+					.getElementById( 'prpl-onboarding-submit-wrapper' )
+					.classList.add( 'prpl-disabled' );
 			}
 		} );
 

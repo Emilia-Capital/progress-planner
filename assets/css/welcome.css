@@ -1,11 +1,8 @@
-.prpl-welcome {
-
+.prpl-wrap.prpl-pp-not-accepted {
 	padding: 0;
-	overflow-x: hidden;
-	max-height: 80vh;
-	width: 80vw;
-	margin: 10vh 10vw;
-	z-index: 9999;
+}
+
+.prpl-welcome {
 
 	.inner-content {
 		padding: calc(var(--prpl-gap) * 1.5);
@@ -44,5 +41,10 @@
 				height: 100px;
 			}
 		}
+	}
+
+	.prpl-disabled {
+		opacity: 0.5;
+		pointer-events: none;
 	}
 }

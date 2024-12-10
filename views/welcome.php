@@ -34,7 +34,7 @@ if ( false !== \get_option( 'progress_planner_license_key', false ) ) {
 
 
 ?>
-<div class="prpl-widget-wrapper prpl-welcome" popover="manual">
+<div class="prpl-welcome">
 	<div class="welcome-header">
 		<h1><?php \esc_html_e( 'Welcome to the Progress Planner plugin!', 'progress-planner' ); ?></h1>
 		<span class="welcome-header-icon">
@@ -126,7 +126,7 @@ if ( false !== \get_option( 'progress_planner_license_key', false ) ) {
 					</label>
 				</div>
 				<br>
-				<div id="prpl-onboarding-submit-wrapper" style="display: none;">
+				<div id="prpl-onboarding-submit-wrapper" class="prpl-disabled">
 					<div id="prpl-onboarding-submit-grid-wrapper">
 						<span>
 							<input
@@ -175,4 +175,3 @@ if ( false !== \get_option( 'progress_planner_license_key', false ) ) {
 		</div>
 	</div>
 </div>
-<script>document.querySelector( '.prpl-widget-wrapper.prpl-welcome' ).showPopover();</script>
