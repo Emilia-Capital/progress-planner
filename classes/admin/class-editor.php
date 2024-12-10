@@ -35,7 +35,7 @@ class Editor {
 			'progress-planner-editor',
 			\plugins_url( '/assets/js/editor.js', PROGRESS_PLANNER_FILE ),
 			[ 'wp-plugins', 'wp-edit-post', 'wp-element' ],
-			\Progress_Planner\Base::get_file_version( PROGRESS_PLANNER_DIR . '/assets/js/editor.js' ),
+			\progress_planner()->get_file_version( PROGRESS_PLANNER_DIR . '/assets/js/editor.js' ),
 			true
 		);
 
@@ -64,7 +64,7 @@ class Editor {
 			'progress-planner-editor',
 			\plugins_url( '/assets/css/editor.css', PROGRESS_PLANNER_FILE ),
 			[],
-			\Progress_Planner\Base::get_file_version( PROGRESS_PLANNER_DIR . '/assets/css/editor.css' )
+			\progress_planner()->get_file_version( PROGRESS_PLANNER_DIR . '/assets/css/editor.css' )
 		);
 	}
 }
