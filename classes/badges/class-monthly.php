@@ -45,26 +45,68 @@ final class Monthly extends Badge {
 	/**
 	 * Get an array of instances (one for each month).
 	 *
-	 * @param int|null $year The year. If null, the current year is used.
-	 *
 	 * @return array
 	 */
-	public static function get_instances( $year = null ) {
-		$year = $year ? (int) $year : gmdate( 'Y' );
-		if ( ! isset( self::$instances[ $year ] ) ) {
-			self::$instances[ $year ] = [];
+	public static function init_badges() {
+
+		if ( ! empty( self::$instances ) ) {
+			return self::$instances;
 		}
 
-		if ( ! empty( self::$instances[ $year ] ) ) {
-			return self::$instances[ $year ];
+		$activation_date = \progress_planner()->get_base()->get_activation_date();
+		$start_date      = $activation_date->modify( 'first day of this month' );
+
+		// Year when plugin was released.
+		if ( 2024 === (int) $start_date->format( 'Y' ) ) {
+			$end_date = new \DateTime( 'last day of December next year' );
+		} else {
+			$end_date = new \DateTime( 'last day of December this year' );
 		}
 
-		foreach ( array_keys( self::get_months() ) as $month ) {
-			$id                         = 'monthly-' . $year . '-' . $month;
+		$dates = iterator_to_array( new \DatePeriod( $start_date, new \DateInterval( 'P1M' ), $end_date ), false );
+
+		// To make sure keys are defined only once and consistent.
+		$self_months = array_keys( self::get_months() );
+
+		foreach ( $dates as $date ) {
+			$year  = (int) $date->format( 'Y' );
+			$month = (int) $date->format( 'n' );
+			$id    = 'monthly-' . $year . '-' . $self_months[ $month - 1 ];
+
+			if ( ! isset( self::$instances[ $year ] ) ) {
+				self::$instances[ $year ] = [];
+			}
+
 			self::$instances[ $year ][] = new self( $id );
 		}
 
-		return self::$instances[ $year ];
+		return self::$instances;
+	}
+
+	/**
+	 * Get an array of instances (one for each month).
+	 *
+	 * @return array
+	 */
+	public static function get_instances() {
+		if ( empty( self::$instances ) ) {
+			self::$instances = self::init_badges();
+		}
+		return self::$instances;
+	}
+
+	/**
+	 * Get an array of instances (one for each month).
+	 *
+	 * @param int $year The year.
+	 *
+	 * @return array
+	 */
+	public static function get_instances_for_year( $year ) {
+		if ( empty( self::$instances ) ) {
+			self::$instances = self::init_badges();
+		}
+		return isset( self::$instances[ $year ] ) ? self::$instances[ $year ] : [];
 	}
 
 	/**
