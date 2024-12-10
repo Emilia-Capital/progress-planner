@@ -31,7 +31,7 @@
 
 <hr style="margin: 1em 0">
 
-<h3><?php \esc_html_e( 'Ravi\'s recommendations', 'progress-planner' ); ?></h3>
+<h3><?php \esc_html_e( 'Ravi\'s Recommendations', 'progress-planner' ); ?></h3>
 <ul style="display:none"></ul>
 <ul class="prpl-suggested-tasks-list"></ul>
 

@@ -52,6 +52,9 @@ prplDocumentReady( () => {
 
 window.addEventListener( 'resize', prplResizeAllGridItems );
 
+// Fire event after all images are loaded.
+window.addEventListener( 'load', prplResizeAllGridItems );
+
 const prplResizeAllGridItemsEvent = new Event( 'prplResizeAllGridItemsEvent' ); // eslint-disable-line no-unused-vars
 
 // Listen for the event.

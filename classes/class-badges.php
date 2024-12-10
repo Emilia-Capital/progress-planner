@@ -34,6 +34,13 @@ class Badges {
 	private $monthly = [];
 
 	/**
+	 * Monthly badges flat.
+	 *
+	 * @var array<\Progress_Planner\Badges\Badge>
+	 */
+	private $monthly_flat = [];
+
+	/**
 	 * Latest completed badge.
 	 *
 	 * @var \Progress_Planner\Badges\Badge|null
@@ -56,16 +63,10 @@ class Badges {
 			\progress_planner()->get_badges__maintenance__super_site_specialist(),
 		];
 
+		// Init monthly badges.
 		$this->monthly = \Progress_Planner\Badges\Monthly::get_instances();
-		if ( 2024 === (int) gmdate( 'Y' ) ) {
-			$monthly_badges_2025 = \Progress_Planner\Badges\Monthly::get_instances( 2025 );
-			$this->monthly       = [
-				$this->monthly[10],
-				$this->monthly[11],
-				$monthly_badges_2025[0],
-				$monthly_badges_2025[1],
-				$monthly_badges_2025[2],
-			];
+		foreach ( $this->monthly as $monthly_year_badges ) {
+			$this->monthly_flat = array_merge( $this->monthly_flat, $monthly_year_badges );
 		}
 
 		\add_action( 'progress_planner_suggested_task_completed', [ $this, 'clear_monthly_progress' ] );
@@ -95,7 +96,7 @@ class Badges {
 	 * @return \Progress_Planner\Badges\Badge|null
 	 */
 	public function get_badge( $badge_id ) {
-		foreach ( [ 'content', 'maintenance', 'monthly' ] as $context ) {
+		foreach ( [ 'content', 'maintenance', 'monthly_flat' ] as $context ) {
 			foreach ( $this->$context as $badge ) {
 				if ( $badge->get_id() === $badge_id ) {
 					return $badge;
@@ -177,7 +178,7 @@ class Badges {
 
 		$latest_date = null;
 
-		foreach ( [ 'content', 'maintenance', 'monthly' ] as $context ) {
+		foreach ( [ 'content', 'maintenance', 'monthly_flat' ] as $context ) {
 			foreach ( $this->$context as $badge ) {
 				// Skip if the badge has no date.
 				if ( ! isset( $settings[ $badge->get_id() ]['date'] ) ) {

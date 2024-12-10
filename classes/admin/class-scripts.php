@@ -101,8 +101,12 @@ class Scripts {
 					$handle,
 					'progressPlannerSuggestedTask',
 					[
-						'nonce' => \wp_create_nonce( 'progress_planner' ),
-						'i18n'  => [
+						'nonce'  => \wp_create_nonce( 'progress_planner' ),
+						'assets' => [
+							'infoIcon'   => PROGRESS_PLANNER_URL . '/assets/images/icon_info.svg',
+							'snoozeIcon' => PROGRESS_PLANNER_URL . '/assets/images/icon_snooze.svg',
+						],
+						'i18n'   => [
 							'info'           => \esc_html__( 'Info', 'progress-planner' ),
 							'snooze'         => \esc_html__( 'Snooze', 'progress-planner' ),
 							'snoozeThisTask' => \esc_html__( 'Snooze this task?', 'progress-planner' ),
