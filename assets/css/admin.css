@@ -3,6 +3,7 @@
 \*------------------------------------*/
 :root {
 	--prpl-gap: 32px;
+	--prpl-settings-page-gap: 1.5rem;
 	--prpl-padding: 20px;
 	--prpl-column-min-width: 22rem;
 	--prpl-max-columns: 3;
@@ -20,6 +21,7 @@
 
 	--prpl-color-accent-red: #f43f5e;
 	--prpl-color-accent-orange: #faa310;
+	--prpl-color-400-orange: #f9b23c;
 	--prpl-color-accent-purple: #0d6b9e;
 	--prpl-color-accent-green: #14b8a6;
 

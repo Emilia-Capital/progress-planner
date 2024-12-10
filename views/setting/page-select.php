@@ -101,7 +101,7 @@ if ( is_numeric( $prpl_setting_value ) && 0 < $prpl_setting_value ) {
 									class="prpl-button"
 									href="<?php echo esc_url( admin_url( 'post-new.php?post_type=page' ) ); ?>"
 								>
-									<?php esc_html_e( 'Create', 'progress-planner' ); ?>
+									<?php esc_html_e( 'Create this page', 'progress-planner' ); ?>
 								</a>
 							</div>
 						<?php endif; ?>

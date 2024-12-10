@@ -25,7 +25,7 @@
 			background: var(--prpl-background-orange);
 			padding: 1.2rem;
 			border-radius: 0.5rem;
-			margin-bottom: 1.5rem;
+			margin-bottom: 2rem;
 
 			.icon {
 				width: 1.25em;
@@ -36,11 +36,20 @@
 					fill: currentcolor;
 				}
 			}
+
+			span {
+				font-weight: 600;
+			}
 		}
 
 		#prpl-settings {
-			grid-template-columns: repeat(2, minmax(calc(var(--prpl-column-min-width) * 2), 1fr));
+
+			.prpl-widget-wrapper {
+				padding: var(--prpl-settings-page-gap) var(--prpl-settings-page-gap) 2rem var(--prpl-settings-page-gap);
+			}
 		}
+
+
 	}
 
 	.prpl-settings-section-title {
@@ -50,7 +59,11 @@
 		background: var(--prpl-background-purple);
 		padding: 1.2rem;
 		border-radius: 0.5rem;
-		margin-bottom: 1.5rem;
+		margin-bottom: var(--prpl-settings-page-gap);
+
+		&:first-child {
+			margin-top: 0;
+		}
 
 		.icon {
 			width: 1.25em;
@@ -66,6 +79,8 @@
 		border: 1px solid var(--prpl-color-gray-2);
 		border-radius: var(--prpl-border-radius);
 		padding: var(--prpl-padding);
+		flex-grow: 1;
+		width: 45%;
 
 		&:has(input[type="radio"][value="yes"]:checked),
 		&:has(input[type="radio"][value="no"]:checked) {
@@ -179,9 +194,9 @@
 	}
 
 	.prpl-pages-list {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(33rem, 1fr));
-		gap: var(--prpl-gap);
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--prpl-settings-page-gap);
 
 		.item-description {
 
