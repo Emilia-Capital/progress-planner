@@ -322,5 +322,16 @@ class Base {
 
 		return false;
 	}
+
+	/**
+	 * Check if this is a PRO site.
+	 *
+	 * @return bool
+	 */
+	public function is_pro_site() {
+		$pro_license_key = \get_option( 'progress_planner_pro_license_key' );
+		// TODO: Check if the license is valid.
+		return $pro_license_key ? true : false;
+	}
 }
 // phpcs:enable Generic.Commenting.Todo
