@@ -46,8 +46,8 @@ if ( is_numeric( $prpl_setting_value ) && 0 < $prpl_setting_value ) {
 				<?php
 				foreach ( [
 					'yes'            => esc_html__( 'I have this page', 'progress-planner' ),
-					'no'             => esc_html__( 'I don\'t have this page', 'progress-planner' ),
-					'not-applicable' => esc_html__( 'I don\'t need this page', 'progress-planner' ),
+					'no'             => esc_html__( 'I don\'t have this page yet', 'progress-planner' ),
+					'not-applicable' => esc_html__( 'My site doesn\'t need this page', 'progress-planner' ),
 				] as $prpl_r_value => $prpl_r_label ) :
 					?>
 					<div class="prpl-radio-wrapper">
