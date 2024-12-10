@@ -10,7 +10,7 @@ namespace Progress_Planner\Suggested_Tasks\Local_Tasks\Providers;
 /**
  * Add tasks for content creation.
  */
-class Create_Content_Provider extends Content_Provider_Abstract implements \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Local_Tasks_Provider_Interface {
+class Content_Create extends Content_Abstract implements \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Local_Tasks_Interface {
 
 	/**
 	 * The provider ID.
@@ -171,12 +171,12 @@ class Create_Content_Provider extends Content_Provider_Abstract implements \Prog
 			'description' => isset( $data['long'] ) && $data['long']
 				? sprintf(
 					/* translators: %d: The threshold (number, words count) for a long post. */
-					esc_html__( 'Create a new short post (no longer than %d words).', 'progress-planner' ),
+					esc_html__( 'Create a new long post (longer than %d words).', 'progress-planner' ),
 					\Progress_Planner\Activities\Content_Helpers::LONG_POST_THRESHOLD
 				)
 				: sprintf(
 					/* translators: %d: The threshold (number, words count) for a long post. */
-					esc_html__( 'Create a new long post (longer than %d words).', 'progress-planner' ),
+					esc_html__( 'Create a new short post (no longer than %d words).', 'progress-planner' ),
 					\Progress_Planner\Activities\Content_Helpers::LONG_POST_THRESHOLD
 				),
 		];

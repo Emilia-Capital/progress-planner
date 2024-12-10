@@ -10,7 +10,7 @@ namespace Progress_Planner\Suggested_Tasks\Local_Tasks\Providers;
 /**
  * Add tasks for Core updates.
  */
-class Update_Core_Provider implements \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Local_Tasks_Provider_Interface {
+class Core_Update implements \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Local_Tasks_Interface {
 
 	/**
 	 * The provider ID.
@@ -36,6 +36,12 @@ class Update_Core_Provider implements \Progress_Planner\Suggested_Tasks\Local_Ta
 	 * @return bool|string
 	 */
 	public function evaluate_task( $task_id ) {
+
+		// Without this \wp_get_update_data() might not return correct data for the core updates (depending on the timing).
+		if ( ! function_exists( 'get_core_updates' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/update.php'; // @phpstan-ignore requireOnce.fileNotFound
+		}
+
 		if ( 0 === strpos( $task_id, self::TYPE ) && 0 === \wp_get_update_data()['counts']['total'] ) {
 			return $task_id;
 		}
@@ -52,6 +58,11 @@ class Update_Core_Provider implements \Progress_Planner\Suggested_Tasks\Local_Ta
 			return [];
 		}
 
+		// Without this \wp_get_update_data() might not return correct data for the core updates (depending on the timing).
+		if ( ! function_exists( 'get_core_updates' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/update.php'; // @phpstan-ignore requireOnce.fileNotFound
+		}
+
 		// If all updates are performed, do not add the task.
 		if ( 0 === \wp_get_update_data()['counts']['total'] ) {
 			return [];
@@ -59,6 +70,40 @@ class Update_Core_Provider implements \Progress_Planner\Suggested_Tasks\Local_Ta
 
 		return [
 			$this->get_task_details( self::TYPE . '-' . \gmdate( 'YW' ) ),
+		];
+	}
+
+	/**
+	 * Get the tasks to update core.
+	 *
+	 * @return array
+	 */
+	public function get_tasks_to_update_core() {
+
+		// Without this \wp_get_update_data() might not return correct data for the core updates (depending on the timing).
+		if ( ! function_exists( 'get_core_updates' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/update.php'; // @phpstan-ignore requireOnce.fileNotFound
+		}
+
+		// If all updates are performed, do not add the task.
+		if ( 0 === \wp_get_update_data()['counts']['total'] ) {
+			return [];
+		}
+
+		$task_id = self::TYPE . '-' . \gmdate( 'YW' );
+
+		// If the task with this id is completed, don't add a task.
+		if ( true === \progress_planner()->get_suggested_tasks()->check_task_condition(
+			[
+				'type'    => 'completed',
+				'task_id' => $task_id,
+			]
+		) ) {
+			return [];
+		}
+
+		return [
+			$this->get_task_details( $task_id ),
 		];
 	}
 

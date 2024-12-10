@@ -36,10 +36,9 @@ class Local_Tasks_Manager {
 	public function __construct() {
 
 		$this->task_providers = [
-			new \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Create_Content_Provider(),
-			new \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Update_Content_Provider(),
-			new \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Update_Core_Provider(),
-			new \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Core_Blogdescription_Provider(),
+			new \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Content_Create(),
+			new \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Content_Update(),
+			new \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Core_Update(),
 		];
 
 		\add_filter( 'progress_planner_suggested_tasks_items', [ $this, 'inject_tasks' ] );
@@ -52,9 +51,7 @@ class Local_Tasks_Manager {
 	 * @return void
 	 */
 	public function add_plugin_integration() {
-		if ( defined( 'WPSEO_FILE' ) ) {
-			$this->task_providers[] = new \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Yoast_Organization_Logo_Provider();
-		}
+		// Add the plugin integration here.
 	}
 
 	/**
@@ -63,12 +60,12 @@ class Local_Tasks_Manager {
 	 * @param string $name The method name.
 	 * @param array  $arguments The arguments.
 	 *
-	 * @return \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Local_Tasks_Provider_Interface|null
+	 * @return \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Local_Tasks_Interface|null
 	 */
 	public function __call( $name, $arguments ) {
 		if ( 0 === strpos( $name, 'get_' ) ) {
 			$provider_type = substr( $name, 4 ); // Remove 'get_' prefix.
-			$provider_type = str_replace( '_', '-', strtolower( $provider_type ) ); // Transform 'update_code' to 'update-core'.
+			$provider_type = str_replace( '_', '-', strtolower( $provider_type ) ); // Transform 'update_core' to 'update-core'.
 
 			return $this->get_task_provider( $provider_type );
 		}
@@ -81,7 +78,7 @@ class Local_Tasks_Manager {
 	 *
 	 * @param string $provider_type The provider type.
 	 *
-	 * @return \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Local_Tasks_Provider_Interface|null
+	 * @return \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Local_Tasks_Interface|null
 	 */
 	public function get_task_provider( $provider_type ) {
 		foreach ( $this->task_providers as $provider_instance ) {
