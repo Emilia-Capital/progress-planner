@@ -76,16 +76,6 @@ if ( is_numeric( $prpl_setting_value ) && 0 < $prpl_setting_value ) {
 									);
 									?>
 								</div>
-								<div data-action="edit">
-									<a
-										target="_blank"
-										class="prpl-button"
-										href=""
-										data-page="<?php echo esc_attr( $prpl_setting['page'] ); ?>"
-									>
-										<?php esc_html_e( 'Edit', 'progress-planner' ); ?>
-									</a>
-								</div>
 							</div>
 						<?php endif; ?>
 
