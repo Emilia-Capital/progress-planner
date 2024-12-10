@@ -63,18 +63,8 @@ class Badges {
 			\progress_planner()->get_badges__maintenance__super_site_specialist(),
 		];
 
-		$activation_date = \progress_planner()->get_base()->get_activation_date();
-		$start_date      = $activation_date->modify( 'first day of this month' );
-
-		// Year when plugin was released.
-		if ( 2024 === (int) $start_date->format( 'Y' ) ) {
-			$end_date = new \DateTime( 'last day of December next year' );
-		} else {
-			$end_date = new \DateTime( 'last day of December this year' );
-		}
-
-		$this->monthly      = \Progress_Planner\Badges\Monthly::get_instances_from_range( $start_date, $end_date );
-		$this->monthly_flat = [];
+		// Init monthly badges.
+		$this->monthly = \Progress_Planner\Badges\Monthly::get_instances();
 		foreach ( $this->monthly as $monthly_year_badges ) {
 			$this->monthly_flat = array_merge( $this->monthly_flat, $monthly_year_badges );
 		}
