@@ -104,6 +104,40 @@
 		display: flex;
 		justify-content: space-between;
 	}
+
+	.icon {
+		width: 1.25rem;
+		height: 1.25rem;
+		display: inline-block;
+
+		/* Fake hover effect for the info icon */
+		&.prpl-info-icon {
+			position: relative;
+
+			&:hover {
+				border-radius: 50%;
+				background-color: var(--prpl-color-gray-4);
+
+				&::before {
+					content: "";
+					position: absolute;
+					top: 0;
+					left: 0;
+					width: 100%;
+					height: 100%;
+					border: 2px solid var(--prpl-color-gray-4);
+					border-radius: 50%;
+					box-sizing: border-box;
+				}
+
+				svg path {
+					fill: #fff;
+				}
+			}
+		}
+	}
+
+
 }
 
 .prpl-hidden {

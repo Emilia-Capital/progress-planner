@@ -3,8 +3,7 @@
 	.badge-group-monthly {
 		padding: calc(var(--prpl-padding) / 2);
 		border-radius: var(--prpl-border-radius);
-		margin-bottom: var(--prpl-padding);
-		background: var(--prpl-background-orange);
+		background-color: var(--prpl-background-orange);
 
 		.prpl-badge-row-wrapper {
 			overflow: hidden;
@@ -96,7 +95,7 @@
 	&:has(.prpl-suggested-tasks-list li) {
 
 		.prpl-widget-title {
-			display: block;
+			display: flex;
 		}
 	}
 
@@ -114,6 +113,13 @@
 		border-bottom: none;
 	}
 
+	prpl-suggested-task:nth-child(odd) {
+
+		.prpl-suggested-task {
+			background-color: #f9fafb;
+		}
+	}
+
 	.prpl-suggested-task {
 		margin: 0;
 		padding: 0.5rem 0.5rem;
@@ -121,10 +127,6 @@
 		justify-content: space-between;
 		align-items: center;
 		position: relative;
-
-		&:nth-child(odd) {
-			background-color: #f9fafb;
-		}
 
 		h3 {
 			font-size: 1rem;
@@ -154,7 +156,7 @@
 
 		.prpl-suggested-task-points {
 			font-size: var(--prpl-font-size-xs);
-			font-weight: 600;
+			font-weight: 700;
 			color: var(--prpl-color-headings);
 			background-color: var(--prpl-color-400-orange);
 			width: 1.5rem;
@@ -193,6 +195,12 @@
 			background: none;
 			border: none;
 			cursor: pointer;
+		}
+
+		.icon {
+			width: 1rem;
+			height: 1rem;
+			display: inline-block;
 		}
 
 		.prpl-suggested-task-snooze {
@@ -277,6 +285,14 @@
 
 		.prpl-suggested-task-info {
 			margin-left: -30px;
+
+			p {
+				margin-bottom: 0;
+			}
+
+			p:first-child {
+				margin-top: 0;
+			}
 		}
 
 	}
@@ -294,79 +310,24 @@
 		grid-auto-rows: auto;
 	}
 
-	.prpl-widget-wrapper {
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-
-		&.prpl-badge-streak {
-
-			.progress-label {
-				display: inline-block;
-			}
-
-			.progress-wrapper {
-				display: grid;
-				grid-template-columns: 1fr 1fr 1fr;
-				gap: calc(var(--prpl-gap) / 2);
-				padding: calc(var(--prpl-padding) / 2);
-				margin-bottom: var(--prpl-padding);
-
-				.prpl-badge {
-					display: flex;
-					flex-direction: column;
-					align-items: center;
-					justify-content: space-between;
-					flex-wrap: wrap;
-					min-width: 0;
-				}
-
-				p {
-					margin: 0;
-					font-size: var(--prpl-font-size-xs);
-					text-align: center;
-					line-height: 1.2;
-				}
-
-				prpl-badge {
-					width: 100%;
-					transform: scale(var(--multiplier));
-					margin-bottom: 1rem;
-				}
-
-			}
-
-			.prpl-badge {
-
-				/* Change this number to adjust the rate of growth of the badges size. */
-				--multiplier-default: 1.05;
-				--multiplier: var(--multiplier-default);
-
-				+.prpl-badge {
-					--multiplier: calc(var(--multiplier-default) * var(--multiplier-default));
-
-					+.prpl-badge {
-						--multiplier: calc(var(--multiplier-default) * var(--multiplier-default) * var(--multiplier-default));
-					}
-				}
-			}
-
-			.prpl-widget-content {
-				margin-bottom: 1em;
-			}
-		}
-	}
-
 	.prpl-widget-title {
 		padding: 0.5rem 1rem;
 		border-radius: 0.5rem;
 		background: var(--prpl-background-orange);
 	}
 
-	.prpl-widget-wrapper-writing {
+	.badge-group-monthly {
+		background-color: transparent;
+	}
+
+	.prpl-widget-wrapper-content {
 
 		.prpl-widget-title {
 			background: var(--prpl-background-blue);
+		}
+
+		.badge-group-content {
+			background-color: transparent;
 		}
 	}
 
@@ -375,6 +336,66 @@
 		.prpl-widget-title {
 			background: var(--prpl-background-red);
 		}
+
+		.badge-group-maintenance {
+			background-color: transparent;
+		}
+	}
+}
+
+.prpl-widget-wrapper.prpl-badge-streak {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+
+
+	.progress-label {
+		display: inline-block;
+	}
+
+	.progress-wrapper {
+		display: grid;
+		grid-template-columns: 1fr 1fr 1fr;
+		gap: calc(var(--prpl-gap) / 2);
+		padding: calc(var(--prpl-padding) / 2);
+		border-radius: var(--prpl-border-radius-big);
+
+		&:not(:first-child) {
+			margin-top: var(--prpl-padding);
+		}
+
+		&.badge-group-content {
+			background: var(--prpl-background-blue);
+		}
+
+		&.badge-group-maintenance {
+			background: var(--prpl-background-red);
+		}
+
+		.prpl-badge {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: space-between;
+			flex-wrap: wrap;
+			min-width: 0;
+		}
+
+		p {
+			margin: 0;
+			font-size: var(--prpl-font-size-xs);
+			text-align: center;
+			line-height: 1.2;
+		}
+
+		prpl-badge {
+			width: 100%;
+			margin-bottom: 1rem;
+		}
+	}
+
+	.prpl-widget-content {
+		margin-bottom: 1em;
 	}
 
 	.badge-group-monthly {
@@ -382,27 +403,10 @@
 	}
 }
 
-.prpl-ravi-reward-container {
-	margin-bottom: var(--prpl-padding);
-
-	.in-popover & {
-		margin-bottom: 0;
-	}
-
-	img {
-		border: 1px solid var(--prpl-color-gray-2);
-		border-radius: var(--prpl-border-radius);
-
-		&.incomplete {
-			filter: grayscale(1);
-			opacity: 0.25;
-		}
-	}
-
-}
 
 #prpl-popover-monthly-badges-trigger {
 	font-size: var(--prpl-font-size-base);
 	color: var(--prpl-color-link);
 	text-decoration: underline;
+	margin-top: var(--prpl-padding);
 }
