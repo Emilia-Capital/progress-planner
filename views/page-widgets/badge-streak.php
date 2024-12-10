@@ -51,7 +51,7 @@ if ( $prpl_widget->get_details( 'maintenance' ) ) {
 	\esc_html_e( 'Your streak badges', 'progress-planner' );
 	\progress_planner()->get_popover()->the_popover( 'badge-streak' )->render_button(
 		'',
-		'<span class="icon">' . \progress_planner()->get_asset( 'images/icon_info.svg' ) . '</span> <span class="screen-reader-text">' . \esc_html__( 'More info', 'progress-planner' ) . '</span>'
+		'<span class="icon prpl-info-icon">' . \progress_planner()->get_asset( 'images/icon_info.svg' ) . '</span> <span class="screen-reader-text">' . \esc_html__( 'More info', 'progress-planner' ) . '</span>'
 	);
 	\progress_planner()->get_popover()->the_popover( 'badge-streak' )->render();
 	?>
