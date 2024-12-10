@@ -212,3 +212,9 @@
 		gap: 3rem;
 	}
 }
+
+.prpl-license-keys-wrapper {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}

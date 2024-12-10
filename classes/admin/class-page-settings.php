@@ -120,6 +120,10 @@ class Page_Settings {
 			}
 		}
 
+		if ( isset( $_POST['prpl-pro-license-key'] ) ) {
+			\update_option( 'progress_planner_pro_license_key', \sanitize_text_field( \wp_unslash( $_POST['prpl-pro-license-key'] ) ) );
+		}
+
 		do_action( 'progress_planner_settings_form_options_stored' );
 
 		\wp_send_json_success( \esc_html__( 'Options stored successfully', 'progress-planner' ) );
