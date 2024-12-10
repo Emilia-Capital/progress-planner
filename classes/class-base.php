@@ -53,7 +53,7 @@ class Base {
 		// Basic classes.
 		if ( \is_admin() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
 
-			if ( \current_user_can( 'publish_posts' ) ) {
+			if ( \current_user_can( 'edit_others_posts' ) ) {
 				$this->cached['admin__page']                   = new \Progress_Planner\Admin\Page();
 				$this->cached['admin__tour']                   = new \Progress_Planner\Admin\Tour();
 				$this->cached['admin__dashboard_widget_score'] = new \Progress_Planner\Admin\Dashboard_Widget_Score();
@@ -74,9 +74,13 @@ class Base {
 
 			// We need to initialize some classes early.
 			$this->cached['settings']        = new Settings();
-			$this->cached['settings_page']   = new \Progress_Planner\Admin\Page_Settings();
 			$this->cached['suggested_tasks'] = new Suggested_Tasks();
 			$this->cached['badges']          = new Badges();
+
+			// Dont add the widget if the privacy policy is not accepted.
+			if ( true === $this->is_privacy_policy_accepted() ) {
+				$this->cached['settings_page'] = new \Progress_Planner\Admin\Page_Settings();
+			}
 		}
 
 		// Content actions.
@@ -132,6 +136,15 @@ class Base {
 			return $activation_date;
 		}
 		return \DateTime::createFromFormat( 'Y-m-d', $activation_date );
+	}
+
+	/**
+	 * Check if the privacy policy is accepted.
+	 *
+	 * @return bool
+	 */
+	public function is_privacy_policy_accepted() {
+		return false !== get_option( 'progress_planner_license_key', false );
 	}
 
 	/**
