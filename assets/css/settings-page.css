@@ -206,7 +206,7 @@
 		border: 1px solid var(--prpl-color-gray-2);
 		border-radius: var(--prpl-border-radius);
 		padding: 0.5em 0.5em;
-		font-size: var(--prpl-font-size-small);
+		font-size: 14px; /* It matches <select> font size, which comes from Core */
 		display: inline-flex;
 
 		&:hover,
