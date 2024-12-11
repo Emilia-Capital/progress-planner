@@ -157,6 +157,23 @@ class Local_Tasks_Manager {
 	}
 
 	/**
+	 * Removes pending tasks for which providers are not (longer) active.
+	 *
+	 * @return void
+	 */
+	public function cleanup_pending_tasks() {
+		$tasks = $this->get_pending_tasks();
+
+		foreach ( $tasks as $task ) {
+			$task_object = \Progress_Planner\Suggested_Tasks\Local_Tasks\Local_Task_Factory::create( $task );
+			$provider    = $this->get_task_provider( $task_object->get_provider_type() );
+			if ( ! $provider ) {
+				$this->remove_pending_task( $task );
+			}
+		}
+	}
+
+	/**
 	 * Wrapper function for getting task details.
 	 *
 	 * @param string $task_id The task ID.
