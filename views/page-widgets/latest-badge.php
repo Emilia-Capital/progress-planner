@@ -46,7 +46,7 @@ $prpl_latest_badge = \progress_planner()->get_badges()->get_latest_completed_bad
 				'badge' => $prpl_latest_badge->get_id(),
 				'url'   => \home_url(),
 			],
-			'https://progressplanner.com/wp-json/progress-planner-saas/v1/share-badge'
+			PROGRESS_PLANNER_REMOTE_SERVER_ROOT_URL . '/wp-json/progress-planner-saas/v1/share-badge'
 		);
 		?>
 		<div class="share-badge-wrapper">

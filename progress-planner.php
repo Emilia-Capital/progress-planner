@@ -26,6 +26,10 @@ define( 'PROGRESS_PLANNER_FILE', __FILE__ );
 define( 'PROGRESS_PLANNER_DIR', __DIR__ );
 define( 'PROGRESS_PLANNER_URL', untrailingslashit( plugin_dir_url( __FILE__ ) ) );
 
+if ( ! defined( 'PROGRESS_PLANNER_REMOTE_SERVER_ROOT_URL' ) ) {
+	define( 'PROGRESS_PLANNER_REMOTE_SERVER_ROOT_URL', 'https://progressplanner.com' );
+}
+
 /**
  * Autoload classes.
  */
