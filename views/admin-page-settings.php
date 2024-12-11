@@ -54,29 +54,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<div class="prpl-widget-wrapper">
 				<h2 class="prpl-settings-section-license">
 					<span>
-						<?php \esc_html_e( 'Your licenses', 'progress-planner' ); ?>
+						<?php \esc_html_e( 'Your PRO license', 'progress-planner' ); ?>
 					</span>
 				</h2>
 				<div class="prpl-license-keys-wrapper">
-					<div>
-						<label>
-							<?php
-							$prpl_free_license_key = \get_option( 'progress_planner_license_key', '' );
-							if ( 'no-license' === $prpl_free_license_key ) {
-								$prpl_free_license_key = '';
-							}
-							?>
-							<input type="text" value="<?php echo \esc_attr( $prpl_free_license_key ); ?>" disabled />
-							<?php if ( '' === $prpl_free_license_key ) : ?>
-								<a href="<?php echo \esc_url( \admin_url( 'admin.php?page=progress-planner#prpl-popover-subscribe-form-trigger' ) ); ?>">
-									<?php \esc_html_e( 'Please register to weekly emails to get a free license.', 'progress-planner' ); ?>
-								</a>
-							<?php else : ?>
-								<?php \esc_html_e( 'You automatically received a free license when you registered to weekly emails.', 'progress-planner' ); ?>
-							<?php endif; ?>
-						</label>
-					</div>
-					<div>
+					<?php
+					$prpl_free_license_key = \get_option( 'progress_planner_license_key', '' );
+					$prpl_free_license_key = ( 'no-license' === $prpl_free_license_key )
+						? ''
+						: $prpl_free_license_key;
+					?>
+
+					<?php if ( '' === $prpl_free_license_key ) : ?>
+						<a href="<?php echo \esc_url( \admin_url( 'admin.php?page=progress-planner#prpl-popover-subscribe-form-trigger' ) ); ?>">
+							<?php esc_html_e( 'Please complete the onboarding process, and register to weekly emails to allow registering for a PRO license.', 'progress-planner' ); ?>
+						</a>
+					<?php else : ?>
 						<label>
 							<?php
 							$prpl_pro_license        = \get_option( 'progress_planner_pro_license_key', '' );
@@ -103,7 +96,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 								</span>
 							<?php endif; ?>
 						</label>
-					</div>
+					<?php endif; ?>
 				</div>
 			</div>
 		</div>
