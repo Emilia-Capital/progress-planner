@@ -300,7 +300,7 @@ class Page_Types {
 			global $wpdb;
 			$posts     = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 				$wpdb->prepare(
-					"SELECT * FROM $wpdb->posts WHERE post_title LIKE %s",
+					"SELECT ID  FROM $wpdb->posts WHERE post_title LIKE %s",
 					'%' . $wpdb->esc_like( $title ) . '%'
 				)
 			);
