@@ -91,11 +91,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 							<?php \esc_html_e( 'Progress Planner Pro', 'progress-planner' ); ?>
 							<?php if ( ! empty( $prpl_pro_license ) ) : ?>
 								<span class="prpl-license-status prpl-license-status-<?php echo ( 'valid' === $prpl_pro_license_status ) ? 'valid' : 'invalid'; ?>">
-									<?php
-									echo ( 'valid' === $prpl_pro_license_status )
-										? esc_html__( 'Valid', 'progress-planner' )
-										: esc_html__( 'Invalid', 'progress-planner' );
-									?>
+									<?php if ( 'valid' === $prpl_pro_license_status ) : ?>
+										<span class="prpl-license-status-valid" title="<?php esc_attr_e( 'Valid', 'progress-planner' ); ?>">
+											<?php \progress_planner()->the_asset( 'images/icon_check_circle.svg' ); ?>
+										</span>
+									<?php else : ?>
+										<span class="prpl-license-status-invalid" title="<?php esc_attr_e( 'Invalid', 'progress-planner' ); ?>">
+											<?php \progress_planner()->the_asset( 'images/icon_exclamation_circle.svg' ); ?>
+										</span>
+									<?php endif; ?>
 								</span>
 							<?php endif; ?>
 						</label>
