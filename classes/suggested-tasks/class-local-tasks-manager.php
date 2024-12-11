@@ -39,6 +39,7 @@ class Local_Tasks_Manager {
 			new \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Content_Create(),
 			new \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Content_Update(),
 			new \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Core_Update(),
+			new \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Core_Blogdescription(),
 		];
 
 		\add_filter( 'progress_planner_suggested_tasks_items', [ $this, 'inject_tasks' ] );
@@ -51,7 +52,9 @@ class Local_Tasks_Manager {
 	 * @return void
 	 */
 	public function add_plugin_integration() {
-		// Add the plugin integration here.
+		if ( defined( 'WPSEO_FILE' ) ) {
+			$this->task_providers[] = new \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Yoast_Organization_Logo();
+		}
 	}
 
 	/**
