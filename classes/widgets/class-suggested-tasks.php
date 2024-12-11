@@ -72,7 +72,7 @@ final class Suggested_Tasks extends \Progress_Planner\Widget {
 			$handle,
 			PROGRESS_PLANNER_URL . '/assets/js/widgets/suggested-tasks.js',
 			$deps,
-			\Progress_Planner\Base::get_file_version( PROGRESS_PLANNER_DIR . '/assets/js/widgets/suggested-tasks.js' ),
+			\progress_planner()->get_file_version( PROGRESS_PLANNER_DIR . '/assets/js/widgets/suggested-tasks.js' ),
 			true
 		);
 	}

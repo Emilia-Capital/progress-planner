@@ -34,7 +34,7 @@ class Scripts {
 				$handle,
 				PROGRESS_PLANNER_URL . "/assets/js/web-components/{$file}.js",
 				$this->get_dependencies( 'web-components/' . $file ),
-				\Progress_Planner\Base::get_file_version( PROGRESS_PLANNER_DIR . '/assets/js/web-components/' . $file . '.js' ),
+				\progress_planner()->get_file_version( PROGRESS_PLANNER_DIR . '/assets/js/web-components/' . $file . '.js' ),
 				true
 			);
 			$this->localize_script( $handle );
@@ -47,7 +47,7 @@ class Scripts {
 				$handle,
 				PROGRESS_PLANNER_URL . '/assets/js/' . $file . '.js',
 				$this->get_dependencies( $file ),
-				\Progress_Planner\Base::get_file_version( PROGRESS_PLANNER_DIR . '/assets/js/' . $file . '.js' ),
+				\progress_planner()->get_file_version( PROGRESS_PLANNER_DIR . '/assets/js/' . $file . '.js' ),
 				true
 			);
 			$this->localize_script( $handle );
