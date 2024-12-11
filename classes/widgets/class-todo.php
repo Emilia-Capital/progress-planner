@@ -68,7 +68,7 @@ final class ToDo extends \Progress_Planner\Widget {
 				'progress-planner-web-components-prpl-todo-item',
 				'progress-planner-document-ready',
 			],
-			\Progress_Planner\Base::get_file_version( PROGRESS_PLANNER_DIR . '/assets/js/widgets/todo.js' ),
+			\progress_planner()->get_file_version( PROGRESS_PLANNER_DIR . '/assets/js/widgets/todo.js' ),
 			true
 		);
 	}

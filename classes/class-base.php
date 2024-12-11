@@ -243,7 +243,7 @@ class Base {
 	 * @param string $file The file path.
 	 * @return string
 	 */
-	public static function get_file_version( $file ) {
+	public function get_file_version( $file ) {
 		// If we're in debug mode, use filemtime.
 		if ( defined( 'WP_SCRIPT_DEBUG' ) && WP_SCRIPT_DEBUG ) {
 			return (string) filemtime( $file );

@@ -1,52 +1,4 @@
-/* global progressPlannerSettingsPage, alert, prplDocumentReady */
-
-/**
- * Toggle the visibility of the edit action,
- * depending on whether a page is selected.
- *
- * @param {string} page The page.
- */
-const prplToggleEditActionVisibility = function ( page ) {
-	const itemRadiosWrapperEl = document.querySelector(
-		`.prpl-pages-item[data-page-item="${ page }"] .radios`
-	);
-	if ( ! itemRadiosWrapperEl ) {
-		return;
-	}
-	const selectEl = itemRadiosWrapperEl.querySelector(
-		'[data-action="select"] select'
-	);
-	const editEl = itemRadiosWrapperEl.querySelector( '[data-action="edit"]' );
-	const value = selectEl.value;
-	if ( ! value || value.length === 0 ) {
-		editEl.style.visibility = 'hidden';
-	} else {
-		editEl.style.visibility = 'visible';
-		editEl.querySelector(
-			'a'
-		).href = `${ progressPlannerSettingsPage.siteUrl }/wp-admin/post.php?post=${ value }&action=edit`;
-	}
-};
-
-/**
- * Handle showing/hiding the edit action,
- * based on whether a page is selected.
- * Also changes the link of the edit action.
- */
-prplDocumentReady( function () {
-	document.querySelectorAll( 'select' ).forEach( function ( select ) {
-		const page = select
-			.closest( '.prpl-pages-item' )
-			.getAttribute( 'data-page-item' );
-
-		prplToggleEditActionVisibility( page );
-		if ( select ) {
-			select.addEventListener( 'change', function () {
-				prplToggleEditActionVisibility( page );
-			} );
-		}
-	} );
-} );
+/* global alert, prplDocumentReady */
 
 const prplTogglePageSelectorSettingVisibility = function ( page, value ) {
 	const itemRadiosWrapperEl = document.querySelector(
@@ -65,12 +17,7 @@ const prplTogglePageSelectorSettingVisibility = function ( page, value ) {
 			itemRadiosWrapperEl.querySelector( 'select' ).value = '';
 		}
 
-		// Hide edit button.
-		itemRadiosWrapperEl.querySelector(
-			'[data-action="edit"]'
-		).style.visibility = 'hidden';
-
-		// Hide <select> and Edit wrapper.
+		// Hide <select> wrapper.
 		itemRadiosWrapperEl.querySelector(
 			'.prpl-select-page'
 		).style.visibility = 'hidden';
@@ -78,7 +25,7 @@ const prplTogglePageSelectorSettingVisibility = function ( page, value ) {
 
 	// Show only select and edit button.
 	if ( 'yes' === value ) {
-		// Show <select> and Edit wrapper.
+		// Show <select> wrapper.
 		itemRadiosWrapperEl.querySelector(
 			'.prpl-select-page'
 		).style.visibility = 'visible';
