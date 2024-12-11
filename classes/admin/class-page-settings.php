@@ -63,7 +63,9 @@ class Page_Settings {
 			$value = '_no_page_needed';
 			if ( \progress_planner()->get_page_types()->is_page_needed( $page_type['slug'] ) ) {
 				$type_pages = \progress_planner()->get_page_types()->get_posts_by_type( 'any', $page_type['slug'] );
-				$value      = empty( $type_pages ) ? 0 : $type_pages[0]->ID;
+				$value      = empty( $type_pages )
+					? \progress_planner()->get_page_types()->get_default_page_id_by_type( $page_type['slug'] )
+					: $type_pages[0]->ID;
 			}
 			$settings[ $page_type['slug'] ] = [
 				'id'          => $page_type['slug'],
