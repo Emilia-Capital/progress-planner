@@ -165,7 +165,7 @@ class Page_Settings {
 		$previous = \get_option( 'progress_planner_pro_license_key' );
 		$is_new   = $previous !== $license;
 
-		if ( ! $is_new ) {
+		if ( ! $is_new || empty( $license ) ) {
 			return;
 		}
 
@@ -202,6 +202,10 @@ class Page_Settings {
 		}
 
 		\update_option( 'progress_planner_pro_license_status', $license_data['license'] );
+
+		if ( true === $license_data['success'] ) {
+			return;
+		}
 
 		if ( false !== $license_data['success'] ) {
 			\wp_send_json_error( \esc_html__( 'An error occurred, please try again.', 'progress-planner' ) );
