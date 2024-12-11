@@ -17,7 +17,7 @@ final class Monthly extends Badge {
 	 *
 	 * @var int
 	 */
-	const TARGET_POINTS = 7;
+	const TARGET_POINTS = 10;
 
 	/**
 	 * The badge ID.
@@ -120,18 +120,18 @@ final class Monthly extends Badge {
 		 * so that they are strings and not integers.
 		 */
 		$months = [
-			'm1'  => __( 'Jack January', 'progress-planner' ),
-			'm2'  => __( 'Felix February', 'progress-planner' ),
-			'm3'  => __( 'Mary March', 'progress-planner' ),
-			'm4'  => __( 'Avery April', 'progress-planner' ),
-			'm5'  => __( 'Matteo May', 'progress-planner' ),
-			'm6'  => __( 'Jasmine June', 'progress-planner' ),
-			'm7'  => __( 'Joey July', 'progress-planner' ),
-			'm8'  => __( 'Abed August', 'progress-planner' ),
-			'm9'  => __( 'Sam September', 'progress-planner' ),
-			'm10' => __( 'Oksana October', 'progress-planner' ),
-			'm11' => __( 'Noah November', 'progress-planner' ),
-			'm12' => __( 'Daisy December', 'progress-planner' ),
+			'm1'  => 'Jack January',
+			'm2'  => 'Felix February',
+			'm3'  => 'Mary March',
+			'm4'  => 'Avery April',
+			'm5'  => 'Matteo May',
+			'm6'  => 'Jasmine June',
+			'm7'  => 'Joey July',
+			'm8'  => 'Abed August',
+			'm9'  => 'Sam September',
+			'm10' => 'Oksana October',
+			'm11' => 'Noah November',
+			'm12' => 'Daisy December',
 		];
 		return $months;
 	}
