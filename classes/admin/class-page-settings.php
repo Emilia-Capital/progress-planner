@@ -167,12 +167,17 @@ class Page_Settings {
 		$previous = \get_option( 'progress_planner_pro_license_key' );
 		$is_new   = $previous !== $license;
 
-		if ( ! $is_new || empty( $license ) ) {
+		if ( ! $is_new ) {
 			return;
 		}
 
 		\update_option( 'progress_planner_pro_license_key', $license );
 		\update_option( 'progress_planner_pro_license_status', null );
+
+		// Do nothing if user just cleared the license.
+		if ( empty( $license ) ) {
+			return;
+		}
 
 		// Call the custom API.
 		$response = \wp_remote_post(
