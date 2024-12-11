@@ -54,7 +54,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<div class="prpl-widget-wrapper">
 				<h2 class="prpl-settings-section-license">
 					<span>
-						<?php \esc_html_e( 'Your PRO license', 'progress-planner' ); ?>
+						<?php \esc_html_e( 'Licenses', 'progress-planner' ); ?>
 					</span>
 				</h2>
 				<div class="prpl-license-keys-wrapper">
@@ -70,18 +70,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 							<?php esc_html_e( 'Please complete the onboarding process, and register to weekly emails to allow registering for a PRO license.', 'progress-planner' ); ?>
 						</a>
 					<?php else : ?>
-						<label>
-							<?php
-							$prpl_pro_license        = \get_option( 'progress_planner_pro_license_key', '' );
-							$prpl_pro_license_status = \get_option( 'progress_planner_pro_license_status', '' );
-							?>
+						<label for="prpl-setting-pro-license-key">
+							<?php \esc_html_e( 'Progress Planner Pro license key', 'progress-planner' ); ?>
+						</label>
+						<?php
+						$prpl_pro_license        = \get_option( 'progress_planner_pro_license_key', '' );
+						$prpl_pro_license_status = \get_option( 'progress_planner_pro_license_status', '' );
+						?>
+						<div class="prpl-license-key-wrapper">
 							<input
 								id="prpl-setting-pro-license-key"
 								name="prpl-pro-license-key"
 								type="text"
 								value="<?php echo \esc_attr( $prpl_pro_license ); ?>"
 							/>
-							<?php \esc_html_e( 'Progress Planner Pro', 'progress-planner' ); ?>
 							<?php if ( ! empty( $prpl_pro_license ) ) : ?>
 								<span class="prpl-license-status prpl-license-status-<?php echo ( 'valid' === $prpl_pro_license_status ) ? 'valid' : 'invalid'; ?>">
 									<?php if ( 'valid' === $prpl_pro_license_status ) : ?>
@@ -95,7 +97,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 									<?php endif; ?>
 								</span>
 							<?php endif; ?>
-						</label>
+						</div>
 					<?php endif; ?>
 				</div>
 			</div>

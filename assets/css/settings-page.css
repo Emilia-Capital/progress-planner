@@ -223,7 +223,7 @@
 	flex-direction: column;
 	gap: 1rem;
 
-	label {
+	.prpl-license-key-wrapper {
 		display: flex;
 		align-items: center;
 		gap: 0.5rem;
@@ -237,5 +237,10 @@
 				height: 1rem;
 			}
 		}
+	}
+
+	input {
+		width: 20rem;
+		max-width: calc(100% - 2rem);
 	}
 }
