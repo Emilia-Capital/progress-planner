@@ -96,7 +96,7 @@ class Page_Settings {
 			}
 		}
 
-		return false;
+		return true;
 	}
 
 	/**
