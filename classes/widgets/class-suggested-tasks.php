@@ -72,7 +72,7 @@ final class Suggested_Tasks extends \Progress_Planner\Widget {
 			$handle,
 			PROGRESS_PLANNER_URL . '/assets/js/widgets/suggested-tasks.js',
 			$deps,
-			\Progress_Planner\Base::get_file_version( PROGRESS_PLANNER_DIR . '/assets/js/widgets/suggested-tasks.js' ),
+			\progress_planner()->get_file_version( PROGRESS_PLANNER_DIR . '/assets/js/widgets/suggested-tasks.js' ),
 			true
 		);
 	}
@@ -104,6 +104,9 @@ final class Suggested_Tasks extends \Progress_Planner\Widget {
 				$task_details['action']   = 'celebrate';
 				$tasks['details'][]       = $task_details;
 			}
+
+			// Mark the pending celebration tasks as completed.
+			\progress_planner()->get_suggested_tasks()->transition_task_status( $task_id, 'pending_celebration', 'completed' );
 		}
 
 		// Localize the script.

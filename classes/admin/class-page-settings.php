@@ -56,6 +56,10 @@ class Page_Settings {
 	public function get_settings() {
 		$settings = [];
 		foreach ( \progress_planner()->get_page_types()->get_page_types() as $page_type ) {
+			if ( ! $this->should_show_setting( $page_type['slug'] ) ) {
+				continue;
+			}
+
 			$value = '_no_page_needed';
 			if ( \progress_planner()->get_page_types()->is_page_needed( $page_type['slug'] ) ) {
 				$type_pages = \progress_planner()->get_page_types()->get_posts_by_type( 'any', $page_type['slug'] );
@@ -72,6 +76,27 @@ class Page_Settings {
 		}
 
 		return apply_filters( 'progress_planner_settings', $settings );
+	}
+
+	/**
+	 * Determine whether the setting for a page-type should be shown or not.
+	 *
+	 * @param string $page_type The page-type slug.
+	 *
+	 * @return bool
+	 */
+	public function should_show_setting( $page_type ) {
+		static $lessons;
+		if ( ! $lessons ) {
+			$lessons = \progress_planner()->get_lessons()->get_items();
+		}
+		foreach ( $lessons as $lesson ) {
+			if ( $lesson['settings']['id'] === $page_type ) {
+				return 'no' !== $lesson['settings']['show_in_settings'];
+			}
+		}
+
+		return false;
 	}
 
 	/**
