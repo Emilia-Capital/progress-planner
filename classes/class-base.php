@@ -329,9 +329,8 @@ class Base {
 	 * @return bool
 	 */
 	public function is_pro_site() {
-		$pro_license_key = \get_option( 'progress_planner_pro_license_key' );
-		// TODO: Check if the license is valid.
-		return $pro_license_key ? true : false;
+		return \get_option( 'progress_planner_pro_license_key' )
+			&& 'valid' === \get_option( 'progress_planner_pro_license_status' );
 	}
 }
 // phpcs:enable Generic.Commenting.Todo
