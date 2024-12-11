@@ -69,7 +69,7 @@ customElements.define(
 
 			this.innerHTML = `
 			<li class="prpl-suggested-task" data-task-id="${ taskId }" data-task-action="${ taskAction }" data-task-url="${ taskUrl }">
-				<h3>${ taskHeading }</h3>
+				<h3><span>${ taskHeading }</span></h3>
 				<div class="prpl-suggested-task-actions">
 					<div class="tooltip-actions">
 						${ actionButtons.info }
