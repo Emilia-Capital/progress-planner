@@ -74,9 +74,15 @@ class Remote_Tasks {
 				$tasks = \json_decode( $body, true );
 
 				if ( \is_array( $tasks ) ) {
+					$valid_tasks = [];
+					foreach ( $tasks as $task ) {
+						if ( isset( $task['task_id'] ) ) {
+							$valid_tasks[] = $task;
+						}
+					}
 					// Cache the response for 1 day.
-					\progress_planner()->get_cache()->set( self::CACHE_KEY, $tasks, DAY_IN_SECONDS );
-					return $tasks;
+					\progress_planner()->get_cache()->set( self::CACHE_KEY, $valid_tasks, DAY_IN_SECONDS );
+					return $valid_tasks;
 				}
 			}
 		}
