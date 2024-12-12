@@ -24,5 +24,13 @@ final class Latest_Badge extends \Progress_Planner\Widget {
 	 *
 	 * @var string
 	 */
-	public $endpoint = 'https://progressplanner.com/wp-json/progress-planner-saas/v1/share-badge-image?badge=';
+	public $endpoint;
+
+	/**
+	 * Constructor.
+	 */
+	public function __construct() {
+		parent::__construct();
+		$this->endpoint = \Progress_Planner\Base::get_remote_server_root_url() . '/wp-json/progress-planner-saas/v1/share-badge-image?badge=';
+	}
 }
