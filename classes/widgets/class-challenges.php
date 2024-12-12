@@ -20,13 +20,6 @@ final class Challenges extends \Progress_Planner\Widget {
 	protected $id = 'challenges';
 
 	/**
-	 * The remote server ROOT URL.
-	 *
-	 * @var string
-	 */
-	const REMOTE_SERVER_ROOT_URL = 'https://progressplanner.com';
-
-	/**
 	 * The cache key.
 	 *
 	 * @var string
@@ -60,7 +53,7 @@ final class Challenges extends \Progress_Planner\Widget {
 		// Transient expired, fetch new feed.
 		if ( $feed_data['expires'] < time() ) {
 			// Get the feed using the REST API.
-			$response = \wp_remote_get( self::REMOTE_SERVER_ROOT_URL . '/wp-json/progress-planner-saas/v1/challenges' );
+			$response = \wp_remote_get( \progress_planner()->get_remote_server_root_url() . '/wp-json/progress-planner-saas/v1/challenges' );
 
 			if ( 200 !== wp_remote_retrieve_response_code( $response ) ) {
 				// If we cant fetch the feed, we will try again later.
