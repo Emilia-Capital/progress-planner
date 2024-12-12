@@ -21,7 +21,9 @@ $prpl_record = $prpl_widget->personal_record_callback();
 			class="prpl-info-icon"
 			onclick="this.closest( '.tooltip-actions' ).querySelector( '.prpl-tooltip' ).toggleAttribute( 'data-tooltip-visible' )"
 		>
-			<span class="dashicons dashicons-info-outline"></span>
+			<span class="icon prpl-info-icon">
+				<?php \progress_planner()->the_asset( 'images/icon_info.svg' ); ?>
+			</span>
 			<span class="screen-reader-text"><?php \esc_html_e( 'More info', 'progress-planner' ); ?></span>
 		</button>
 

@@ -30,7 +30,7 @@ unset( $prpl_post_types['elementor_library'] ); // Elementor templates are not a
 					value="<?php echo \esc_attr( $prpl_post_type ); ?>"
 					<?php checked( \in_array( $prpl_post_type, $prpl_saved_settings, true ) ); ?>
 				/>
-				<?php echo \esc_html( \get_post_type_object( $prpl_post_type )->labels->name ); ?>
+				<?php echo \esc_html( \get_post_type_object( $prpl_post_type )->labels->name ); // @phpstan-ignore-line property.nonObject ?>
 			</label>
 		<?php endforeach; ?>
 	</div>

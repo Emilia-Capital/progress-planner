@@ -73,7 +73,7 @@ class Goal_Recurring {
 	public static function get_instance( $id, $goal_args, $args ) {
 		if ( ! isset( self::$instances[ $id ] ) ) {
 			self::$instances[ $id ] = new self(
-				new $goal_args['class_name']( $goal_args ),
+				new $goal_args['class_name']( $goal_args ), // @phpstan-ignore-line argument.type
 				$args
 			);
 		}

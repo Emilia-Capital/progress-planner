@@ -114,7 +114,7 @@ const PrplSectionVideo = ( lessonSection ) => {
 				el(
 					Modal,
 					{
-						key: 'progress-planner-pro-sidebar-video-modal',
+						key: 'progress-planner-sidebar-video-modal',
 						title: progressPlannerEditor.i18n.video,
 						onRequestClose: closeModal,
 						shouldCloseOnClickOutside: true,
@@ -124,10 +124,10 @@ const PrplSectionVideo = ( lessonSection ) => {
 					el(
 						'div',
 						{
-							key: 'progress-planner-pro-sidebar-video-modal-content',
+							key: 'progress-planner-sidebar-video-modal-content',
 						},
 						el( 'div', {
-							key: 'progress-planner-pro-sidebar-video-modal-content-inner',
+							key: 'progress-planner-sidebar-video-modal-content-inner',
 							dangerouslySetInnerHTML: {
 								__html: lessonSection.video,
 							},
@@ -224,7 +224,7 @@ const PrplLessonItemsHTML = () => {
 			? el(
 					PanelBody,
 					{
-						key: `progress-planner-pro-sidebar-lesson-section-checklist-content`,
+						key: `progress-planner-sidebar-lesson-section-checklist-content`,
 						title: lesson.checklist.heading,
 						initialOpen: false,
 					},
@@ -381,8 +381,8 @@ const PrplCheckListItem = ( item, pageTodos ) =>
 			checked: pageTodos.split( ',' ).includes( item.id ),
 			label: item.todo_name,
 			className: item.todo_required
-				? 'progress-planner-pro-todo-item required'
-				: 'progress-planner-pro-todo-item',
+				? 'progress-planner-todo-item required'
+				: 'progress-planner-todo-item',
 			help: el( 'div', {
 				dangerouslySetInnerHTML: {
 					__html: item.todo_description,
@@ -417,14 +417,14 @@ const PrplCheckList = ( lessonSection, pageTodos ) =>
 		el(
 			PanelBody,
 			{
-				key: `progress-planner-pro-sidebar-lesson-section-${ toDoGroup.group_heading }`,
+				key: `progress-planner-sidebar-lesson-section-${ toDoGroup.group_heading }`,
 				title: toDoGroup.group_heading,
 				initialOpen: false,
 			},
 			el(
 				'div',
 				{
-					key: `progress-planner-pro-sidebar-lesson-section-${ toDoGroup.group_heading }-todos`,
+					key: `progress-planner-sidebar-lesson-section-${ toDoGroup.group_heading }-todos`,
 				},
 				toDoGroup.group_todos.map( ( item ) =>
 					PrplCheckListItem( item, pageTodos )

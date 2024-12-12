@@ -54,7 +54,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 		<button
 			id="prpl-settings-submit"
-			class="button button-primary"
+			class="prpl-button-primary"
 			type="button"
 			style="display:block;width:min-content;"
 		>

@@ -62,19 +62,19 @@ customElements.define(
 
 			// Calculate the distance between the points in the X axis.
 			const xDistanceBetweenPoints = Math.round(
-				( width - 2 * axisOffset ) / ( data.length - 1 )
+				( width - 3 * axisOffset ) / ( data.length - 1 )
 			);
 
 			// X-axis line.
-			const xAxisLine = `<g><line x1="${ axisOffset * 2 }" x2="${
+			const xAxisLine = `<g><line x1="${ axisOffset * 3 }" x2="${
 				aspectRatio * height
 			}" y1="${ height - axisOffset }" y2="${
 				height - axisOffset
 			}" stroke="var(--prpl-color-gray-2)" stroke-width="1" /></g>`;
 
 			// Y-axis line.
-			const yAxisLine = `<g><line x1="${ axisOffset * 2 }" x2="${
-				axisOffset * 2
+			const yAxisLine = `<g><line x1="${ axisOffset * 3 }" x2="${
+				axisOffset * 3
 			}" y1="${ axisOffset }" y2="${
 				height - axisOffset
 			}" stroke="var(--prpl-color-gray-2)" stroke-width="1" /></g>`;
@@ -85,7 +85,7 @@ customElements.define(
 			let i = 0;
 			let xAxisLabelsAndRulers = '';
 			data.forEach( ( item ) => {
-				labelXCoordinate = xDistanceBetweenPoints * i + axisOffset;
+				labelXCoordinate = xDistanceBetweenPoints * i + axisOffset * 2;
 				++i;
 
 				// Only allow up to 6 labels to prevent overlapping.
@@ -128,7 +128,7 @@ customElements.define(
 				// Draw the ruler.
 				if ( 0 !== iYLabel ) {
 					yAxisLabelsAndRulers += `<g><line x1="${
-						axisOffset * 2
+						axisOffset * 3
 					}" x2="${
 						aspectRatio * height
 					}" y1="${ yLabelCoordinate }" y2="${ yLabelCoordinate }" stroke="var(--prpl-color-gray-2)" stroke-width="1" /></g>`;
@@ -139,7 +139,7 @@ customElements.define(
 
 			// Line chart.
 			const polylinePoints = [];
-			let xCoordinate = axisOffset * 2;
+			let xCoordinate = axisOffset * 3;
 			data.forEach( ( item ) => {
 				polylinePoints.push( [
 					xCoordinate,

@@ -93,6 +93,10 @@ prpl-todo-item {
 		border-bottom: 1.5px solid transparent;
 	}
 
+	input[type="checkbox"]:checked + .content {
+		text-decoration: line-through;
+	}
+
 	.trash,
 	.move-up,
 	.move-down {

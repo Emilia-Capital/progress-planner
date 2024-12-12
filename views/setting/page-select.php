@@ -46,8 +46,8 @@ if ( is_numeric( $prpl_setting_value ) && 0 < $prpl_setting_value ) {
 				<?php
 				foreach ( [
 					'yes'            => esc_html__( 'I have this page', 'progress-planner' ),
-					'no'             => esc_html__( 'I don\'t have this page', 'progress-planner' ),
-					'not-applicable' => esc_html__( 'I don\'t need this page', 'progress-planner' ),
+					'no'             => esc_html__( 'I don\'t have this page yet', 'progress-planner' ),
+					'not-applicable' => esc_html__( 'My site doesn\'t need this page', 'progress-planner' ),
 				] as $prpl_r_value => $prpl_r_label ) :
 					?>
 					<div class="prpl-radio-wrapper">
@@ -76,16 +76,6 @@ if ( is_numeric( $prpl_setting_value ) && 0 < $prpl_setting_value ) {
 									);
 									?>
 								</div>
-								<div data-action="edit">
-									<a
-										target="_blank"
-										class="prpl-button"
-										href=""
-										data-page="<?php echo esc_attr( $prpl_setting['page'] ); ?>"
-									>
-										<?php esc_html_e( 'Edit', 'progress-planner' ); ?>
-									</a>
-								</div>
 							</div>
 						<?php endif; ?>
 
@@ -101,7 +91,7 @@ if ( is_numeric( $prpl_setting_value ) && 0 < $prpl_setting_value ) {
 									class="prpl-button"
 									href="<?php echo esc_url( admin_url( 'post-new.php?post_type=page' ) ); ?>"
 								>
-									<?php esc_html_e( 'Create', 'progress-planner' ); ?>
+									<?php esc_html_e( 'Create this page', 'progress-planner' ); ?>
 								</a>
 							</div>
 						<?php endif; ?>
