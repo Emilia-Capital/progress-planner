@@ -61,9 +61,9 @@ $prpl_badge  = \progress_planner()->get_badges()->get_badge( 'monthly-' . \gmdat
 
 	<ul style="display:none"></ul>
 	<ul class="prpl-suggested-tasks-list"></ul>
-</div>
 
-<hr>
+	<hr>
+</div>
 
 <div class="prpl-widget-content">
 	<?php if ( 2024 === (int) \gmdate( 'Y' ) ) : ?>
