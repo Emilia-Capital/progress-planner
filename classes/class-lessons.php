@@ -46,9 +46,8 @@ class Lessons {
 			[ 'site' => \get_site_url() ],
 			'https://progressplanner.com/wp-json/progress-planner-saas/v1/lessons'
 		);
-		$pro_license_key = \get_option( 'progress_planner_pro_license_key' );
-		if ( $pro_license_key && 'valid' === \get_option( 'progress_planner_pro_license_status' ) ) {
-			$url = \add_query_arg( [ 'license_key' => $pro_license_key ], $url );
+		if ( \progress_planner()->is_pro_site() ) {
+			$url = \add_query_arg( [ 'license_key' => \get_option( 'progress_planner_pro_license_key' ) ], $url );
 		}
 
 		/**
