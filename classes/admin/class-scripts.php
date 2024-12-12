@@ -101,7 +101,7 @@ class Scripts {
 					$handle,
 					'progressPlannerBadge',
 					[
-						'remoteServerRootUrl' => PROGRESS_PLANNER_REMOTE_SERVER_ROOT_URL,
+						'remoteServerRootUrl' => \progress_planner()->get_remote_server_root_url(),
 					]
 				);
 				break;

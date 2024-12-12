@@ -87,7 +87,7 @@ class Onboard {
 	 * @return string
 	 */
 	public function get_remote_nonce_url() {
-		return PROGRESS_PLANNER_REMOTE_SERVER_ROOT_URL . self::REMOTE_API_URL . 'get-nonce';
+		return \progress_planner()->get_remote_server_root_url() . self::REMOTE_API_URL . 'get-nonce';
 	}
 
 	/**
@@ -96,6 +96,6 @@ class Onboard {
 	 * @return string
 	 */
 	public function get_remote_url() {
-		return PROGRESS_PLANNER_REMOTE_SERVER_ROOT_URL . self::REMOTE_API_URL . 'onboard';
+		return \progress_planner()->get_remote_server_root_url() . self::REMOTE_API_URL . 'onboard';
 	}
 }

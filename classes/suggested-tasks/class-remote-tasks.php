@@ -95,7 +95,7 @@ class Remote_Tasks {
 	 * @return string
 	 */
 	protected function get_api_endpoint() {
-		$url             = PROGRESS_PLANNER_REMOTE_SERVER_ROOT_URL . '/wp-json/progress-planner-saas/v1/suggested-todo/';
+		$url             = \progress_planner()->get_remote_server_root_url() . '/wp-json/progress-planner-saas/v1/suggested-todo/';
 		$pro_license_key = \get_option( 'progress_planner_pro_license_key' );
 		if ( $pro_license_key ) {
 			$url = \add_query_arg(
