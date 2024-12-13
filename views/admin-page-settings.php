@@ -71,41 +71,36 @@ if ( ! defined( 'ABSPATH' ) ) {
 						</a>
 					<?php endif ?>
 
-					<?php if ( '' === $prpl_free_license_key ) : ?>
-						<div style="display: none;">
-					<?php endif ?>
-					<label for="prpl-setting-pro-license-key">
-						<?php \esc_html_e( 'Progress Planner Pro license key', 'progress-planner' ); ?>
-					</label>
-					<?php
-					$prpl_pro_license        = \get_option( 'progress_planner_pro_license_key', '' );
-					$prpl_pro_license_status = \get_option( 'progress_planner_pro_license_status', '' );
-					?>
-					<div class="prpl-license-key-wrapper">
-						<input
-							id="prpl-setting-pro-license-key"
-							name="prpl-pro-license-key"
-							type="text"
-							value="<?php echo \esc_attr( $prpl_pro_license ); ?>"
-						/>
-						<?php if ( ! empty( $prpl_pro_license ) ) : ?>
-							<span class="prpl-license-status prpl-license-status-<?php echo ( 'valid' === $prpl_pro_license_status ) ? 'valid' : 'invalid'; ?>">
-								<?php if ( 'valid' === $prpl_pro_license_status ) : ?>
-									<span class="prpl-license-status-valid" title="<?php esc_attr_e( 'Valid', 'progress-planner' ); ?>">
-										<?php \progress_planner()->the_asset( 'images/icon_check_circle.svg' ); ?>
-									</span>
-								<?php else : ?>
-									<span class="prpl-license-status-invalid" title="<?php esc_attr_e( 'Invalid', 'progress-planner' ); ?>">
-										<?php \progress_planner()->the_asset( 'images/icon_exclamation_circle.svg' ); ?>
-									</span>
-								<?php endif; ?>
-							</span>
-						<?php endif; ?>
-					</div>
-					<?php if ( '' === $prpl_free_license_key ) : ?>
+					<div style="<?php echo ( '' === $prpl_free_license_key ) ? 'display: none;' : ''; ?>">
+						<label for="prpl-setting-pro-license-key">
+							<?php \esc_html_e( 'Progress Planner Pro license key', 'progress-planner' ); ?>
+						</label>
+						<?php
+						$prpl_pro_license        = \get_option( 'progress_planner_pro_license_key', '' );
+						$prpl_pro_license_status = \get_option( 'progress_planner_pro_license_status', '' );
+						?>
+						<div class="prpl-license-key-wrapper">
+							<input
+								id="prpl-setting-pro-license-key"
+								name="prpl-pro-license-key"
+								type="text"
+								value="<?php echo \esc_attr( $prpl_pro_license ); ?>"
+							/>
+							<?php if ( ! empty( $prpl_pro_license ) ) : ?>
+								<span class="prpl-license-status prpl-license-status-<?php echo ( 'valid' === $prpl_pro_license_status ) ? 'valid' : 'invalid'; ?>">
+									<?php if ( 'valid' === $prpl_pro_license_status ) : ?>
+										<span class="prpl-license-status-valid" title="<?php esc_attr_e( 'Valid', 'progress-planner' ); ?>">
+											<?php \progress_planner()->the_asset( 'images/icon_check_circle.svg' ); ?>
+										</span>
+									<?php else : ?>
+										<span class="prpl-license-status-invalid" title="<?php esc_attr_e( 'Invalid', 'progress-planner' ); ?>">
+											<?php \progress_planner()->the_asset( 'images/icon_exclamation_circle.svg' ); ?>
+										</span>
+									<?php endif; ?>
+								</span>
+							<?php endif; ?>
 						</div>
-					<?php endif ?>
-
+					</div>
 				</div>
 			</div>
 		</div>
