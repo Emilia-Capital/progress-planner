@@ -300,7 +300,7 @@ class Page_Types {
 			global $wpdb;
 			$posts     = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 				$wpdb->prepare(
-					"SELECT ID  FROM $wpdb->posts WHERE post_title LIKE %s",
+					"SELECT ID FROM $wpdb->posts WHERE post_title LIKE %s",
 					'%' . $wpdb->esc_like( $title ) . '%'
 				)
 			);
@@ -337,7 +337,7 @@ class Page_Types {
 			return empty( $posts ) ? 0 : $posts[0];
 		}
 
-		if ( 'about-us' === $page_type ) {
+		if ( 'about' === $page_type ) {
 			$posts = $types_pages['about'];
 			// Exclude the homepage, contact pages and FAQ pages.
 			$posts = \array_filter(
