@@ -204,6 +204,15 @@ class Page_Types {
 				],
 			]
 		);
+		if ( empty( $posts ) && 'page' === $post_type ) {
+			$default_page_id = $this->get_default_page_id_by_type( $slug );
+			if ( 0 !== $default_page_id ) {
+				$post = \get_post( $default_page_id );
+				if ( $post instanceof \WP_Post ) {
+					$posts = [ $post ];
+				}
+			}
+		}
 
 		$cache[ $post_type ][ $slug ] = empty( $posts ) ? [] : $posts;
 		return $cache[ $post_type ][ $slug ];
@@ -272,6 +281,91 @@ class Page_Types {
 				$term = \get_term_by( 'slug', 'blog', self::TAXONOMY_NAME );
 				return $term instanceof \WP_Term ? $term->term_id : 0;
 		}
+	}
+
+	/**
+	 * Get the default page ID for a page-type.
+	 *
+	 * @param string $page_type The page-type slug.
+	 *
+	 * @return int
+	 */
+	public function get_default_page_id_by_type( $page_type ) {
+		if ( 'homepage' === $page_type ) {
+			return \get_option( 'page_on_front' );
+		}
+
+		// Get posts with a title similar to our query.
+		$get_posts_by_title = function ( $title ) {
+			global $wpdb;
+			$posts     = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+				$wpdb->prepare(
+					"SELECT ID FROM $wpdb->posts WHERE post_title LIKE %s",
+					'%' . $wpdb->esc_like( $title ) . '%'
+				)
+			);
+			$posts_ids = [];
+			foreach ( $posts as $post ) {
+				$posts_ids[] = (int) $post->ID;
+			}
+			return $posts_ids;
+		};
+
+		$types_pages = [
+			'homepage' => [ \get_post( \get_option( 'page_on_front' ) ) ],
+			'contact'  => $get_posts_by_title( __( 'Contact', 'progress-planner' ) ),
+			'about'    => $get_posts_by_title( __( 'About', 'progress-planner' ) ),
+			'faq'      => array_merge(
+				$get_posts_by_title( __( 'FAQ', 'progress-planner' ) ),
+				$get_posts_by_title( __( 'Frequently Asked Questions', 'progress-planner' ) ),
+			),
+		];
+
+		$homepage_id = isset( $types_pages['homepage'][0] ) ? (int) $types_pages['homepage'][0]->ID : 0;
+
+		if ( 'contact' === $page_type ) {
+			$posts = $types_pages['contact'];
+			// Exclude the homepage, about pages and FAQ pages.
+			$posts = \array_filter(
+				$posts,
+				function ( $post ) use ( $types_pages, $homepage_id ) {
+					return (int) $post !== (int) $homepage_id
+						&& ! \in_array( (int) $post, $types_pages['about'], true )
+						&& ! \in_array( (int) $post, $types_pages['faq'], true );
+				}
+			);
+			return empty( $posts ) ? 0 : $posts[0];
+		}
+
+		if ( 'about' === $page_type ) {
+			$posts = $types_pages['about'];
+			// Exclude the homepage, contact pages and FAQ pages.
+			$posts = \array_filter(
+				$posts,
+				function ( $post ) use ( $types_pages, $homepage_id ) {
+					return (int) $post !== (int) $homepage_id
+						&& ! \in_array( (int) $post, $types_pages['contact'], true )
+						&& ! \in_array( (int) $post, $types_pages['faq'], true );
+				}
+			);
+			return empty( $posts ) ? 0 : $posts[0];
+		}
+
+		if ( 'faq' === $page_type ) {
+			$posts = $types_pages['faq'];
+			// Exclude the homepage, contact pages and about pages.
+			$posts = \array_filter(
+				$posts,
+				function ( $post ) use ( $types_pages, $homepage_id ) {
+					return (int) $post !== (int) $homepage_id
+						&& ! \in_array( (int) $post, $types_pages['contact'], true )
+						&& ! \in_array( (int) $post, $types_pages['about'], true );
+				}
+			);
+			return empty( $posts ) ? 0 : $posts[0];
+		}
+
+		return 0;
 	}
 
 	/**
