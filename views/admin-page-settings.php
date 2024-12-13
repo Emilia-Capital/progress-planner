@@ -50,7 +50,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			</div>
 		</div>
 
-		<div class="prpl-column">
+		<div class="prpl-column" style="display:none;">
 			<div class="prpl-widget-wrapper">
 				<h2 class="prpl-settings-section-license">
 					<span>
