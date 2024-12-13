@@ -216,9 +216,6 @@ const PrplLessonItemsHTML = () => {
 		// Intro video & content.
 		PrplSectionHTML( lesson, 'intro', PanelBody ),
 
-		// Writers block video & content.
-		PrplSectionHTML( lesson, 'writers_block', PanelBody ),
-
 		// Checklist video & content.
 		lesson.checklist
 			? el(
@@ -238,7 +235,10 @@ const PrplLessonItemsHTML = () => {
 						PrplCheckList( lesson.checklist, pageTodos )
 					)
 			  )
-			: el( 'div', {}, '' )
+			: el( 'div', {}, '' ),
+
+		// Writers block video & content.
+		PrplSectionHTML( lesson, 'writers_block', PanelBody )
 	);
 };
 
