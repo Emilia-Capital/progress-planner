@@ -11,46 +11,63 @@ namespace Progress_Planner\Suggested_Tasks\Local_Tasks;
  * Local task factory.
  */
 class Local_Task_Factory {
+
 	/**
-	 * Create a task.
+	 * The task ID.
+	 *
+	 * @var string
+	 */
+	private $task_id;
+
+	/**
+	 * Constructor.
 	 *
 	 * @param string $task_id The task ID.
+	 */
+	public function __construct( string $task_id ) {
+		$this->task_id = $task_id;
+	}
+
+	/**
+	 * Get the task.
 	 *
 	 * @return \Progress_Planner\Suggested_Tasks\Local_Tasks\Task_Local
 	 */
-	public static function create( string $task_id ): Task_Local {
-		if ( str_contains( $task_id, '|' ) ) {
-			// Parse detailed format.
-			$parts = \explode( '|', $task_id );
-			$data  = [];
-			foreach ( $parts as $part ) {
-				$part = \explode( '/', $part );
-				if ( 2 !== \count( $part ) ) {
-					continue;
-				}
-				$data[ $part[0] ] = ( \is_numeric( $part[1] ) )
-					? (int) $part[1]
-					: $part[1];
-			}
-			\ksort( $data );
+	public function get_task(): Task_Local {
 
-			// Convert (int) 1 and (int) 0 to (bool) true and (bool) false.
-			if ( isset( $data['long'] ) ) {
-				$data['long'] = (bool) $data['long'];
+		// Parse simple format, e.g. 'update-core-202449'.
+		if ( ! str_contains( $this->task_id, '|' ) ) {
+			$last_pos = strrpos( $this->task_id, '-' );
+			if ( false === $last_pos ) {
+				return new Task_Local( [ 'task_id' => $this->task_id ] );
 			}
 
-			$data['task_id'] = $task_id;
-		} else {
-			$data = [];
+			return new Task_Local(
+				[
+					'type'      => substr( $this->task_id, 0, $last_pos ),
+					'year_week' => substr( $this->task_id, $last_pos + 1 ),
+				]
+			);
+		}
 
-			// Parse simple format, e.g. 'update-core-202449'.
-			$last_pos = strrpos( $task_id, '-' );
-			if ( false !== $last_pos ) {
-				$data['type']      = substr( $task_id, 0, $last_pos );
-				$data['year_week'] = substr( $task_id, $last_pos + 1 );
+		$data = [ 'task_id' => $this->task_id ];
+
+		// Parse detailed format.
+		$parts = \explode( '|', $this->task_id );
+		foreach ( $parts as $part ) {
+			$part = \explode( '/', $part );
+			if ( 2 !== \count( $part ) ) {
+				continue;
 			}
+			$data[ $part[0] ] = ( \is_numeric( $part[1] ) )
+				? (int) $part[1]
+				: $part[1];
+		}
+		\ksort( $data );
 
-			$data['task_id'] = $task_id;
+		// Convert (int) 1 and (int) 0 to (bool) true and (bool) false.
+		if ( isset( $data['long'] ) ) {
+			$data['long'] = (bool) $data['long'];
 		}
 
 		return new Task_Local( $data );
