@@ -1,6 +1,6 @@
 <?php
 /**
- * Add tasks for Core updates.
+ * Add tasks for settings saved.
  *
  * @package Progress_Planner
  */
@@ -8,16 +8,16 @@
 namespace Progress_Planner\Suggested_Tasks\Local_Tasks\Providers;
 
 /**
- * Add tasks for Core updates.
+ * Add tasks for settings saved.
  */
-class Core_Update implements \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Local_Tasks_Interface {
+class Settings_Saved implements \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Local_Tasks_Interface {
 
 	/**
 	 * The provider ID.
 	 *
 	 * @var string
 	 */
-	const TYPE = 'update-core';
+	const TYPE = 'settings-saved';
 
 	/**
 	 * Get the provider ID.
@@ -36,13 +36,7 @@ class Core_Update implements \Progress_Planner\Suggested_Tasks\Local_Tasks\Provi
 	 * @return bool|string
 	 */
 	public function evaluate_task( $task_id ) {
-
-		// Without this \wp_get_update_data() might not return correct data for the core updates (depending on the timing).
-		if ( ! function_exists( 'get_core_updates' ) ) {
-			require_once ABSPATH . 'wp-admin/includes/update.php'; // @phpstan-ignore requireOnce.fileNotFound
-		}
-
-		if ( 0 === strpos( $task_id, self::TYPE ) && 0 === \wp_get_update_data()['counts']['total'] ) {
+		if ( 0 === strpos( $task_id, self::TYPE ) && false !== \get_option( 'progress_planner_pro_license_key', false ) ) {
 			return $task_id;
 		}
 		return false;
@@ -58,13 +52,21 @@ class Core_Update implements \Progress_Planner\Suggested_Tasks\Local_Tasks\Provi
 			return [];
 		}
 
-		// Without this \wp_get_update_data() might not return correct data for the core updates (depending on the timing).
-		if ( ! function_exists( 'get_core_updates' ) ) {
-			require_once ABSPATH . 'wp-admin/includes/update.php'; // @phpstan-ignore requireOnce.fileNotFound
+		$prpl_pro_license_key = \get_option( 'progress_planner_pro_license_key', false );
+
+		if ( false !== $prpl_pro_license_key ) {
+			return [];
 		}
 
-		// If all updates are performed, do not add the task.
-		if ( 0 === \wp_get_update_data()['counts']['total'] ) {
+		$task_id = self::TYPE . '-' . \gmdate( 'YW' );
+
+		// If the task with this id is completed, don't add a task.
+		if ( true === \progress_planner()->get_suggested_tasks()->check_task_condition(
+			[
+				'type'    => 'completed',
+				'task_id' => $task_id,
+			]
+		) ) {
 			return [];
 		}
 
@@ -84,12 +86,13 @@ class Core_Update implements \Progress_Planner\Suggested_Tasks\Local_Tasks\Provi
 
 		return [
 			'task_id'     => $task_id,
-			'title'       => \esc_html__( 'Perform all updates', 'progress-planner' ),
+			'title'       => \esc_html__( 'Fill settings page', 'progress-planner' ),
 			'parent'      => 0,
 			'priority'    => 'high',
 			'type'        => 'maintenance',
 			'points'      => 1,
-			'description' => '<p>' . \esc_html__( 'Perform all updates to ensure your website is secure and up-to-date.', 'progress-planner' ) . '</p>',
+			'url'         => \esc_url( \admin_url( 'admin.php?page=progress-planner-settings' ) ),
+			'description' => '<p>' . \esc_html__( 'Head over to the settings page and fill in the required information.', 'progress-planner' ) . '</p>',
 		];
 	}
 
