@@ -337,7 +337,7 @@ class Page_Types {
 			return empty( $posts ) ? 0 : $posts[0];
 		}
 
-		if ( 'about-us' === $page_type ) {
+		if ( 'about' === $page_type ) {
 			$posts = $types_pages['about'];
 			// Exclude the homepage, contact pages and FAQ pages.
 			$posts = \array_filter(
