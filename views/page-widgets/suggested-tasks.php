@@ -28,7 +28,10 @@ $prpl_badge  = \progress_planner()->get_badges()->get_badge( 'monthly-' . \gmdat
 			</button>
 
 			<div class="prpl-tooltip">
-				<?php \esc_html_e( 'Collect 7 points by completing the tasks and earn this month\'s badge.', 'progress-planner' ); ?>
+				<?php
+				/* translators: %d: The target points. */
+				printf( \esc_html__( 'Collect %d points by completing the tasks and earn this month\'s badge.', 'progress-planner' ), (int) \Progress_Planner\Badges\Monthly::TARGET_POINTS );
+				?>
 
 				<button type="button" class="prpl-tooltip-close" onclick="this.closest( '.prpl-tooltip' ).removeAttribute( 'data-tooltip-visible' )">
 					<span class="dashicons dashicons-no-alt"></span>
