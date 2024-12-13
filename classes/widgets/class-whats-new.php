@@ -13,13 +13,6 @@ namespace Progress_Planner\Widgets;
 final class Whats_New extends \Progress_Planner\Widget {
 
 	/**
-	 * The remote server ROOT URL.
-	 *
-	 * @var string
-	 */
-	const REMOTE_SERVER_ROOT_URL = 'https://progressplanner.com';
-
-	/**
 	 * The cache key.
 	 *
 	 * @var string
@@ -60,7 +53,7 @@ final class Whats_New extends \Progress_Planner\Widget {
 		// Transient expired, fetch new feed.
 		if ( $feed_data['expires'] < time() ) {
 			// Get the feed using the REST API.
-			$response = \wp_remote_get( self::REMOTE_SERVER_ROOT_URL . '/wp-json/wp/v2/posts/?per_page=2' );
+			$response = \wp_remote_get( \progress_planner()->get_remote_server_root_url() . '/wp-json/wp/v2/posts/?per_page=2' );
 
 			if ( 200 !== wp_remote_retrieve_response_code( $response ) ) {
 				// If we cant fetch the feed, we will try again later.
@@ -72,7 +65,7 @@ final class Whats_New extends \Progress_Planner\Widget {
 					// Get the featured media.
 					$featured_media_id = $post['featured_media'];
 					if ( $featured_media_id ) {
-						$response = \wp_remote_get( self::REMOTE_SERVER_ROOT_URL . '/wp-json/wp/v2/media/' . $featured_media_id );
+						$response = \wp_remote_get( \progress_planner()->get_remote_server_root_url() . '/wp-json/wp/v2/media/' . $featured_media_id );
 						if ( ! \is_wp_error( $response ) ) {
 							$media = json_decode( \wp_remote_retrieve_body( $response ), true );
 
