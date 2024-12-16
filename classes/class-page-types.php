@@ -323,46 +323,30 @@ class Page_Types {
 
 		$homepage_id = isset( $types_pages['homepage'][0] ) ? (int) $types_pages['homepage'][0]->ID : 0;
 
-		if ( 'contact' === $page_type ) {
-			$posts = $types_pages['contact'];
-			// Exclude the homepage, about pages and FAQ pages.
-			$posts = \array_filter(
-				$posts,
-				function ( $post ) use ( $types_pages, $homepage_id ) {
-					return (int) $post !== (int) $homepage_id
-						&& ! \in_array( (int) $post, $types_pages['about'], true )
-						&& ! \in_array( (int) $post, $types_pages['faq'], true );
-				}
-			);
-			return empty( $posts ) ? 0 : $posts[0];
-		}
+		if ( 'contact' === $page_type || 'about' === $page_type || 'faq' === $page_type ) {
+			foreach ( [ 'contact', 'about', 'faq' ] as $page_type ) {
+				$filtered_type_pages = $types_pages;
+				unset( $filtered_type_pages[ $page_type ] );
+				unset( $filtered_type_pages['homepage'] );
 
-		if ( 'about' === $page_type ) {
-			$posts = $types_pages['about'];
-			// Exclude the homepage, contact pages and FAQ pages.
-			$posts = \array_filter(
-				$posts,
-				function ( $post ) use ( $types_pages, $homepage_id ) {
-					return (int) $post !== (int) $homepage_id
-						&& ! \in_array( (int) $post, $types_pages['contact'], true )
-						&& ! \in_array( (int) $post, $types_pages['faq'], true );
-				}
-			);
-			return empty( $posts ) ? 0 : $posts[0];
-		}
-
-		if ( 'faq' === $page_type ) {
-			$posts = $types_pages['faq'];
-			// Exclude the homepage, contact pages and about pages.
-			$posts = \array_filter(
-				$posts,
-				function ( $post ) use ( $types_pages, $homepage_id ) {
-					return (int) $post !== (int) $homepage_id
-						&& ! \in_array( (int) $post, $types_pages['contact'], true )
-						&& ! \in_array( (int) $post, $types_pages['about'], true );
-				}
-			);
-			return empty( $posts ) ? 0 : $posts[0];
+				$posts = $types_pages['contact'];
+				// Exclude the homepage and any pages that are already assigned to another page-type.
+				$posts = \array_filter(
+					$posts,
+					function ( $post ) use ( $homepage_id, $filtered_type_pages ) {
+						if ( (int) $post === (int) $homepage_id ) {
+							return false;
+						}
+						foreach ( $filtered_type_pages as $type_pages ) {
+							if ( \in_array( (int) $post, $type_pages, true ) ) {
+								return false;
+							}
+						}
+						return true;
+					}
+				);
+				return empty( $posts ) ? 0 : $posts[0];
+			}
 		}
 
 		return 0;
