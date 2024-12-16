@@ -76,6 +76,9 @@ class Base {
 		// To-do.
 		$this->cached['todo'] = new Todo();
 
+		// Post-meta.
+		$this->cached['page_todos'] = new Page_Todos();
+
 		\add_filter( 'plugin_action_links_' . plugin_basename( PROGRESS_PLANNER_FILE ), [ $this, 'add_action_links' ] );
 
 		// We need to initialize some classes early.
