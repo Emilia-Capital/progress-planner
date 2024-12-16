@@ -175,12 +175,10 @@ const PrplLessonItemsHTML = () => {
 	);
 	const pageType = prplGetPageTypeSlugFromId( pageTypeID );
 
-	const pageTodosMeta = useSelect(
-		( select ) =>
-			select( 'core/editor' ).getEditedPostAttribute( 'meta' )
-				.progress_planner_page_todos,
-		[]
-	);
+	const pageTodosMeta = useSelect( ( select ) => {
+		const meta = select( 'core/editor' ).getEditedPostAttribute( 'meta' );
+		return meta ? meta.progress_planner_page_todos : '';
+	}, [] );
 	const pageTodos = pageTodosMeta || '';
 
 	// Bail early if the page type is not set.
@@ -216,9 +214,6 @@ const PrplLessonItemsHTML = () => {
 		// Intro video & content.
 		PrplSectionHTML( lesson, 'intro', PanelBody ),
 
-		// Writers block video & content.
-		PrplSectionHTML( lesson, 'writers_block', PanelBody ),
-
 		// Checklist video & content.
 		lesson.checklist
 			? el(
@@ -238,7 +233,10 @@ const PrplLessonItemsHTML = () => {
 						PrplCheckList( lesson.checklist, pageTodos )
 					)
 			  )
-			: el( 'div', {}, '' )
+			: el( 'div', {}, '' ),
+
+		// Writers block video & content.
+		PrplSectionHTML( lesson, 'writers_block', PanelBody )
 	);
 };
 

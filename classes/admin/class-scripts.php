@@ -96,6 +96,15 @@ class Scripts {
 	 */
 	public function localize_script( $handle ) {
 		switch ( $handle ) {
+			case 'progress-planner-web-components-prpl-badge':
+				\wp_localize_script(
+					$handle,
+					'progressPlannerBadge',
+					[
+						'remoteServerRootUrl' => \progress_planner()->get_remote_server_root_url(),
+					]
+				);
+				break;
 			case 'progress-planner-web-components-prpl-suggested-task':
 				\wp_localize_script(
 					$handle,

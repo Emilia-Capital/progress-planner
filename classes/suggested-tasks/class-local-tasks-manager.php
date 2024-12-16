@@ -40,6 +40,7 @@ class Local_Tasks_Manager {
 			new \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Content_Update(),
 			new \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Core_Update(),
 			new \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Core_Blogdescription(),
+			new \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Settings_Saved(),
 		];
 
 		\add_filter( 'progress_planner_suggested_tasks_items', [ $this, 'inject_tasks' ] );
