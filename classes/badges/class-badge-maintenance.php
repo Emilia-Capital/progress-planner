@@ -40,8 +40,8 @@ abstract class Badge_Maintenance extends Badge {
 			],
 			[
 				'frequency'     => 'weekly',
-				'start'         => \progress_planner()->get_activation_date(),
-				'end'           => new \DateTime(), // Today.
+				'start_date'    => \progress_planner()->get_activation_date(),
+				'end_date'      => new \DateTime(), // Today.
 				'allowed_break' => 1, // Allow break in the streak for 1 week.
 			]
 		);
