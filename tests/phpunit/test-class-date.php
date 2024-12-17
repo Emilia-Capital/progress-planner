@@ -19,8 +19,8 @@ class Date_Test extends \WP_UnitTestCase {
 		$start_date = new \DateTime( '2020-01-01' );
 		$end_date   = new \DateTime( '2020-01-31' );
 		$range      = \progress_planner()->get_date()->get_range( $start_date, $end_date );
-		$this->assertEquals( '2020-01-01', $range['start']->format( 'Y-m-d' ) );
-		$this->assertEquals( '2020-01-30', $range['end']->format( 'Y-m-d' ) ); // Excludes end date.
+		$this->assertEquals( '2020-01-01', $range['start_date']->format( 'Y-m-d' ) );
+		$this->assertEquals( '2020-01-30', $range['end_date']->format( 'Y-m-d' ) ); // Excludes end date.
 	}
 
 	/**
@@ -28,14 +28,14 @@ class Date_Test extends \WP_UnitTestCase {
 	 *
 	 * @dataProvider data_get_periods
 	 *
-	 * @param \DateTime $start     The start date.
-	 * @param \DateTime $end       The end date.
-	 * @param string    $frequency The frequency.
+	 * @param \DateTime $start_date The start date.
+	 * @param \DateTime $end_date   The end date.
+	 * @param string    $frequency  The frequency.
 	 */
-	public function test_get_periods( $start, $end, $frequency ) {
-		$periods = \progress_planner()->get_date()->get_periods( $start, $end, $frequency );
-		$this->assertEquals( $start, $periods[0]['start'] );
-		$this->assertEquals( $end, end( $periods )['end']->modify( '+1 day' ) );
+	public function test_get_periods( $start_date, $end_date, $frequency ) {
+		$periods = \progress_planner()->get_date()->get_periods( $start_date, $end_date, $frequency );
+		$this->assertEquals( $start_date, $periods[0]['start_date'] );
+		$this->assertEquals( $end_date, end( $periods )['end_date']->modify( '+1 day' ) );
 	}
 
 	/**
@@ -57,14 +57,14 @@ class Date_Test extends \WP_UnitTestCase {
 	 *
 	 * @dataProvider data_get_days_between_dates
 	 *
-	 * @param \DateTime $start    The start date.
-	 * @param \DateTime $end      The end date.
-	 * @param int       $expected The expected number of days.
+	 * @param \DateTime $start_date The start date.
+	 * @param \DateTime $end_date   The end date.
+	 * @param int       $expected   The expected number of days.
 	 */
-	public function test_get_days_between_dates( $start, $end, $expected ) {
+	public function test_get_days_between_dates( $start_date, $end_date, $expected ) {
 		$this->assertEquals(
 			$expected,
-			\progress_planner()->get_date()->get_days_between_dates( $start, $end )
+			\progress_planner()->get_date()->get_days_between_dates( $start_date, $end_date )
 		);
 	}
 
