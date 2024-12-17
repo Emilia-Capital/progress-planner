@@ -43,10 +43,12 @@ final class Challenges extends \Progress_Planner\Widget {
 	/**
 	 * Get the feed from the blog.
 	 *
+	 * @param bool $force_free Whether to force the free version.
+	 *
 	 * @return array
 	 */
-	public function get_challenges() {
-		$cache_key = $this->get_cache_key();
+	public function get_challenges( $force_free = false ) {
+		$cache_key = $this->get_cache_key( $force_free );
 		$feed_data = \progress_planner()->get_cache()->get( $cache_key );
 
 		// Migrate old feed to new format.
@@ -68,9 +70,14 @@ final class Challenges extends \Progress_Planner\Widget {
 		// Transient expired, fetch new feed.
 		if ( $feed_data['expires'] < time() ) {
 			// Get the feed using the REST API.
-			$response = \wp_remote_get( \progress_planner()->get_remote_server_root_url() . '/wp-json/progress-planner-saas/v1/challenges' );
+			$response = \wp_remote_get( $this->get_remote_api_url( $force_free ) );
 
 			if ( 200 !== wp_remote_retrieve_response_code( $response ) ) {
+				// Fallback to free response if PRO but the license is invalid.
+				if ( ! $force_free && \progress_planner()->is_pro_site() ) {
+					return $this->get_challenges( true );
+				}
+
 				// If we cant fetch the feed, we will try again later.
 				$feed_data['expires'] = time() + 5 * MINUTE_IN_SECONDS;
 			} else {
@@ -102,20 +109,24 @@ final class Challenges extends \Progress_Planner\Widget {
 	/**
 	 * Get the cache key.
 	 *
+	 * @param bool $force_free Whether to force the free version.
+	 *
 	 * @return string
 	 */
-	public function get_cache_key() {
-		return md5( $this->get_remote_api_url() );
+	public function get_cache_key( $force_free = false ) {
+		return md5( $this->get_remote_api_url( $force_free ) );
 	}
 
 	/**
 	 * Get the remote-API URL.
 	 *
+	 * @param bool $force_free Whether to force the free version.
+	 *
 	 * @return string
 	 */
-	public function get_remote_api_url() {
+	public function get_remote_api_url( $force_free = false ) {
 		$url = \progress_planner()->get_remote_server_root_url() . '/wp-json/progress-planner-saas/v1/challenges';
-		$url = ( \progress_planner()->is_pro_site() )
+		$url = ( ! $force_free && \progress_planner()->is_pro_site() )
 			? \add_query_arg(
 				[
 					'license_key' => \get_option( 'progress_planner_pro_license_key' ),
