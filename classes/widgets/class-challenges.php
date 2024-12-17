@@ -27,6 +27,27 @@ final class Challenges extends \Progress_Planner\Widget {
 	const CACHE_KEY = 'challenges';
 
 	/**
+	 * Get the current challenge.
+	 *
+	 * @return array
+	 */
+	public function get_current_challenge() {
+		$challenges = $this->get_challenges();
+		$now        = new \DateTime();
+
+		foreach ( $challenges as $challenge ) {
+			$start_date = \DateTime::createFromFormat( 'd/m/Y', $challenge['start_date'] );
+			$end_date   = \DateTime::createFromFormat( 'd/m/Y', $challenge['end_date'] );
+
+			if ( $start_date <= $now && $end_date >= $now ) {
+				return $challenge;
+			}
+		}
+
+		return [];
+	}
+
+	/**
 	 * Get the feed from the blog.
 	 *
 	 * @return array
