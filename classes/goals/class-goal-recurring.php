@@ -31,14 +31,14 @@ class Goal_Recurring {
 	 *
 	 * @var \DateTime
 	 */
-	private $start;
+	private $start_date;
 
 	/**
 	 * The end date.
 	 *
 	 * @var \DateTime
 	 */
-	private $end;
+	private $end_date;
 
 	/**
 	 * The number of breaks in the streak that are allowed.
@@ -87,16 +87,16 @@ class Goal_Recurring {
 	 * @param array                        $args      The arguments.
 	 *                                     [
 	 *                                       string    'frequency'     The goal frequency.
-	 *                                       \DateTime 'start'         The start date.
-	 *                                       \DateTime 'end'           The end date.
+	 *                                       \DateTime 'start_date'    The start date.
+	 *                                       \DateTime 'end_date'      The end date.
 	 *                                       int       'allowed_break' The number of breaks in the streak that are allowed.
 	 *                                     ].
 	 */
 	private function __construct( $goal, $args ) {
 		$this->goal          = $goal;
 		$this->frequency     = $args['frequency'];
-		$this->start         = $args['start'];
-		$this->end           = $args['end'];
+		$this->start_date    = $args['start_date'];
+		$this->end_date      = $args['end_date'];
 		$this->allowed_break = $args['allowed_break'] ?? 0;
 	}
 
@@ -118,24 +118,24 @@ class Goal_Recurring {
 		if ( ! empty( $this->occurences ) ) {
 			return $this->occurences;
 		}
-		$ranges = \progress_planner()->get_date()->get_periods( $this->start, $this->end, $this->frequency );
+		$ranges = \progress_planner()->get_date()->get_periods( $this->start_date, $this->end_date, $this->frequency );
 
 		if ( empty( $ranges ) ) {
 			return $this->occurences;
 		}
 
 		// If the last range ends before today, add a new range.
-		if ( (int) gmdate( 'Ymd' ) > (int) end( $ranges )['end']->format( 'Ymd' ) ) {
+		if ( (int) gmdate( 'Ymd' ) > (int) end( $ranges )['end_date']->format( 'Ymd' ) ) {
 			$ranges[] = \progress_planner()->get_date()->get_range(
-				end( $ranges )['end'],
+				end( $ranges )['end_date'],
 				new \DateTime( 'tomorrow' )
 			);
 		}
 
 		foreach ( $ranges as $range ) {
 			$goal = clone $this->goal;
-			$goal->set_start_date( $range['start'] );
-			$goal->set_end_date( $range['end'] );
+			$goal->set_start_date( $range['start_date'] );
+			$goal->set_end_date( $range['end_date'] );
 			$this->occurences[] = $goal;
 		}
 

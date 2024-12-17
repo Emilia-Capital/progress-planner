@@ -187,8 +187,8 @@ final class Activity_Scores extends \Progress_Planner\Widget {
 			],
 			[
 				'frequency'     => 'weekly',
-				'start'         => new \DateTime( '-2 years' ),
-				'end'           => new \DateTime(), // Today.
+				'start_date'    => new \DateTime( '-2 years' ),
+				'end_date'      => new \DateTime(), // Today.
 				'allowed_break' => 0, // Do not allow breaks in the streak.
 			]
 		);
