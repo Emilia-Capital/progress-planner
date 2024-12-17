@@ -336,5 +336,15 @@ class Base {
 
 		return false;
 	}
+
+	/**
+	 * Check if this is a PRO site.
+	 *
+	 * @return bool
+	 */
+	public function is_pro_site() {
+		return \get_option( 'progress_planner_pro_license_key' )
+			&& 'valid' === \get_option( 'progress_planner_pro_license_status' );
+	}
 }
 // phpcs:enable Generic.Commenting.Todo
