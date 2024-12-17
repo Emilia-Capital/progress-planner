@@ -56,10 +56,10 @@ $prpl_record = $prpl_widget->personal_record_callback();
 			'type'           => 'bar',
 			'query_params'   => [],
 			'dates_params'   => [
-				'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) )->modify( $prpl_widget->get_range() ),
-				'end'       => new \DateTime(),
-				'frequency' => $prpl_widget->get_frequency(),
-				'format'    => 'M',
+				'start_date' => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) )->modify( $prpl_widget->get_range() ),
+				'end_date'   => new \DateTime(),
+				'frequency'  => $prpl_widget->get_frequency(),
+				'format'     => 'M',
 			],
 			'count_callback' => function ( $activities, $date ) {
 				$score = 0;
