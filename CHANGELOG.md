@@ -8,6 +8,7 @@ Fixed:
 * Confetti being triggered on every page load.
 * Assets versioning.
 * Duplicate update-core tasks.
+* Update old post task being celebrated as completed when post is trashed.
 * Information icon for 'Create a long post' task was showing text of 'create a short post' task.
 * Numerous other minor bugfixes.
 
