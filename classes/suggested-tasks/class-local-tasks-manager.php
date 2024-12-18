@@ -41,6 +41,7 @@ class Local_Tasks_Manager {
 			new \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Content_Create(),
 			new \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Content_Update(),
 			new \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Core_Update(),
+			new \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Core_Blogdescription(),
 			new \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Settings_Saved(),
 		];
 
@@ -54,7 +55,9 @@ class Local_Tasks_Manager {
 	 * @return void
 	 */
 	public function add_plugin_integration() {
-		// Add the plugin integration here.
+		if ( defined( 'WPSEO_FILE' ) ) {
+			$this->task_providers[] = new \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Yoast_Organization_Logo();
+		}
 	}
 
 	/**
@@ -154,6 +157,23 @@ class Local_Tasks_Manager {
 		}
 
 		return $task_provider->evaluate_task( $task_id );
+	}
+
+	/**
+	 * Removes pending tasks for which providers are not (longer) active.
+	 *
+	 * @return void
+	 */
+	public function cleanup_pending_tasks() {
+		$tasks = $this->get_pending_tasks();
+
+		foreach ( $tasks as $task ) {
+			$task_object = \Progress_Planner\Suggested_Tasks\Local_Tasks\Local_Task_Factory::create( $task );
+			$provider    = $this->get_task_provider( $task_object->get_provider_type() );
+			if ( ! $provider ) {
+				$this->remove_pending_task( $task );
+			}
+		}
 	}
 
 	/**
