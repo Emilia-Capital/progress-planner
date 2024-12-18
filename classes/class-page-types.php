@@ -179,7 +179,7 @@ class Page_Types {
 	 * Get the page ID, based on the slug of the post-meta.
 	 *
 	 * @param string $post_type The post-type for the query.
-	 * @param string $slug      The slug of the post-meta value.
+	 * @param string $slug      The slug of the taxonomy term.
 	 *
 	 * @return \WP_Post[] Return the posts.
 	 */
