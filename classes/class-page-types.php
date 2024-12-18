@@ -295,29 +295,13 @@ class Page_Types {
 			return \get_option( 'page_on_front' );
 		}
 
-		// Get posts with a title similar to our query.
-		$get_posts_by_title = function ( $title ) {
-			global $wpdb;
-			$posts     = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
-				$wpdb->prepare(
-					"SELECT ID FROM $wpdb->posts WHERE post_title LIKE %s",
-					'%' . $wpdb->esc_like( $title ) . '%'
-				)
-			);
-			$posts_ids = [];
-			foreach ( $posts as $post ) {
-				$posts_ids[] = (int) $post->ID;
-			}
-			return $posts_ids;
-		};
-
 		$types_pages = [
 			'homepage' => [ \get_post( \get_option( 'page_on_front' ) ) ],
-			'contact'  => $get_posts_by_title( __( 'Contact', 'progress-planner' ) ),
-			'about'    => $get_posts_by_title( __( 'About', 'progress-planner' ) ),
+			'contact'  => $this->get_posts_by_title( __( 'Contact', 'progress-planner' ) ),
+			'about'    => $this->get_posts_by_title( __( 'About', 'progress-planner' ) ),
 			'faq'      => array_merge(
-				$get_posts_by_title( __( 'FAQ', 'progress-planner' ) ),
-				$get_posts_by_title( __( 'Frequently Asked Questions', 'progress-planner' ) ),
+				$this->get_posts_by_title( __( 'FAQ', 'progress-planner' ) ),
+				$this->get_posts_by_title( __( 'Frequently Asked Questions', 'progress-planner' ) ),
 			),
 		];
 
@@ -508,5 +492,27 @@ class Page_Types {
 		} else {
 			\delete_term_meta( $term->term_id, '_progress_planner_no_page' );
 		}
+	}
+
+	/**
+	 * Get the posts by title.
+	 *
+	 * @param string $title The title.
+	 *
+	 * @return array
+	 */
+	private function get_posts_by_title( $title ) {
+		global $wpdb;
+		$posts     = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+			$wpdb->prepare(
+				"SELECT ID FROM $wpdb->posts WHERE post_title LIKE %s",
+				'%' . $wpdb->esc_like( $title ) . '%'
+			)
+		);
+		$posts_ids = [];
+		foreach ( $posts as $post ) {
+			$posts_ids[] = (int) $post->ID;
+		}
+		return $posts_ids;
 	}
 }
