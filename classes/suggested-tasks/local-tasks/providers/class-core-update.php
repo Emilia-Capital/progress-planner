@@ -7,10 +7,12 @@
 
 namespace Progress_Planner\Suggested_Tasks\Local_Tasks\Providers;
 
+use Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Local_Tasks_Interface;
+
 /**
  * Add tasks for Core updates.
  */
-class Core_Update implements \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Local_Tasks_Interface {
+class Core_Update implements Local_Tasks_Interface {
 
 	/**
 	 * The provider ID.
