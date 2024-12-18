@@ -175,12 +175,10 @@ const PrplLessonItemsHTML = () => {
 	);
 	const pageType = prplGetPageTypeSlugFromId( pageTypeID );
 
-	const pageTodosMeta = useSelect(
-		( select ) =>
-			select( 'core/editor' ).getEditedPostAttribute( 'meta' )
-				.progress_planner_page_todos,
-		[]
-	);
+	const pageTodosMeta = useSelect( ( select ) => {
+		const meta = select( 'core/editor' ).getEditedPostAttribute( 'meta' );
+		return meta ? meta.progress_planner_page_todos : '';
+	}, [] );
 	const pageTodos = pageTodosMeta || '';
 
 	// Bail early if the page type is not set.

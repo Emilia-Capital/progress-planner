@@ -295,74 +295,42 @@ class Page_Types {
 			return \get_option( 'page_on_front' );
 		}
 
-		// Get posts with a title similar to our query.
-		$get_posts_by_title = function ( $title ) {
-			global $wpdb;
-			$posts     = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
-				$wpdb->prepare(
-					"SELECT ID FROM $wpdb->posts WHERE post_title LIKE %s",
-					'%' . $wpdb->esc_like( $title ) . '%'
-				)
-			);
-			$posts_ids = [];
-			foreach ( $posts as $post ) {
-				$posts_ids[] = (int) $post->ID;
-			}
-			return $posts_ids;
-		};
-
 		$types_pages = [
 			'homepage' => [ \get_post( \get_option( 'page_on_front' ) ) ],
-			'contact'  => $get_posts_by_title( __( 'Contact', 'progress-planner' ) ),
-			'about'    => $get_posts_by_title( __( 'About', 'progress-planner' ) ),
+			'contact'  => $this->get_posts_by_title( __( 'Contact', 'progress-planner' ) ),
+			'about'    => $this->get_posts_by_title( __( 'About', 'progress-planner' ) ),
 			'faq'      => array_merge(
-				$get_posts_by_title( __( 'FAQ', 'progress-planner' ) ),
-				$get_posts_by_title( __( 'Frequently Asked Questions', 'progress-planner' ) ),
+				$this->get_posts_by_title( __( 'FAQ', 'progress-planner' ) ),
+				$this->get_posts_by_title( __( 'Frequently Asked Questions', 'progress-planner' ) ),
 			),
 		];
 
 		$homepage_id = isset( $types_pages['homepage'][0] ) ? (int) $types_pages['homepage'][0]->ID : 0;
 
-		if ( 'contact' === $page_type ) {
-			$posts = $types_pages['contact'];
-			// Exclude the homepage, about pages and FAQ pages.
-			$posts = \array_filter(
-				$posts,
-				function ( $post ) use ( $types_pages, $homepage_id ) {
-					return (int) $post !== (int) $homepage_id
-						&& ! \in_array( (int) $post, $types_pages['about'], true )
-						&& ! \in_array( (int) $post, $types_pages['faq'], true );
-				}
-			);
-			return empty( $posts ) ? 0 : $posts[0];
-		}
+		if ( 'contact' === $page_type || 'about' === $page_type || 'faq' === $page_type ) {
+			foreach ( [ 'contact', 'about', 'faq' ] as $page_type ) {
+				$filtered_type_pages = $types_pages;
+				unset( $filtered_type_pages[ $page_type ] );
+				unset( $filtered_type_pages['homepage'] );
 
-		if ( 'about' === $page_type ) {
-			$posts = $types_pages['about'];
-			// Exclude the homepage, contact pages and FAQ pages.
-			$posts = \array_filter(
-				$posts,
-				function ( $post ) use ( $types_pages, $homepage_id ) {
-					return (int) $post !== (int) $homepage_id
-						&& ! \in_array( (int) $post, $types_pages['contact'], true )
-						&& ! \in_array( (int) $post, $types_pages['faq'], true );
-				}
-			);
-			return empty( $posts ) ? 0 : $posts[0];
-		}
-
-		if ( 'faq' === $page_type ) {
-			$posts = $types_pages['faq'];
-			// Exclude the homepage, contact pages and about pages.
-			$posts = \array_filter(
-				$posts,
-				function ( $post ) use ( $types_pages, $homepage_id ) {
-					return (int) $post !== (int) $homepage_id
-						&& ! \in_array( (int) $post, $types_pages['contact'], true )
-						&& ! \in_array( (int) $post, $types_pages['about'], true );
-				}
-			);
-			return empty( $posts ) ? 0 : $posts[0];
+				$posts = $types_pages['contact'];
+				// Exclude the homepage and any pages that are already assigned to another page-type.
+				$posts = \array_filter(
+					$posts,
+					function ( $post ) use ( $homepage_id, $filtered_type_pages ) {
+						if ( (int) $post === (int) $homepage_id ) {
+							return false;
+						}
+						foreach ( $filtered_type_pages as $type_pages ) {
+							if ( \in_array( (int) $post, $type_pages, true ) ) {
+								return false;
+							}
+						}
+						return true;
+					}
+				);
+				return empty( $posts ) ? 0 : $posts[0];
+			}
 		}
 
 		return 0;
@@ -524,5 +492,27 @@ class Page_Types {
 		} else {
 			\delete_term_meta( $term->term_id, '_progress_planner_no_page' );
 		}
+	}
+
+	/**
+	 * Get the posts by title.
+	 *
+	 * @param string $title The title.
+	 *
+	 * @return array
+	 */
+	private function get_posts_by_title( $title ) {
+		global $wpdb;
+		$posts     = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+			$wpdb->prepare(
+				"SELECT ID FROM $wpdb->posts WHERE post_title LIKE %s",
+				'%' . $wpdb->esc_like( $title ) . '%'
+			)
+		);
+		$posts_ids = [];
+		foreach ( $posts as $post ) {
+			$posts_ids[] = (int) $post->ID;
+		}
+		return $posts_ids;
 	}
 }
