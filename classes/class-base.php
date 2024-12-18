@@ -86,7 +86,9 @@ class Base {
 		$this->cached['todo'] = new Todo();
 
 		// Post-meta.
-		$this->cached['page_todos'] = new Page_Todos();
+		if ( $this->is_pro_site() ) {
+			$this->cached['page_todos'] = new Page_Todos();
+		}
 
 		\add_filter( 'plugin_action_links_' . plugin_basename( PROGRESS_PLANNER_FILE ), [ $this, 'add_action_links' ] );
 
@@ -344,6 +346,16 @@ class Base {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Check if this is a PRO site.
+	 *
+	 * @return bool
+	 */
+	public function is_pro_site() {
+		return \get_option( 'progress_planner_pro_license_key' )
+			&& 'valid' === \get_option( 'progress_planner_pro_license_status' );
 	}
 }
 // phpcs:enable Generic.Commenting.Todo

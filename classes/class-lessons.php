@@ -42,13 +42,12 @@ class Lessons {
 	 * @return array
 	 */
 	public function get_remote_api_items() {
-		$url             = \add_query_arg(
+		$url = \add_query_arg(
 			[ 'site' => \get_site_url() ],
 			\progress_planner()->get_remote_server_root_url() . '/wp-json/progress-planner-saas/v1/lessons'
 		);
-		$pro_license_key = \get_option( 'progress_planner_pro_license_key' );
-		if ( $pro_license_key && 'valid' === \get_option( 'progress_planner_pro_license_status' ) ) {
-			$url = \add_query_arg( [ 'license_key' => $pro_license_key ], $url );
+		if ( \progress_planner()->is_pro_site() ) {
+			$url = \add_query_arg( [ 'license_key' => \get_option( 'progress_planner_pro_license_key' ) ], $url );
 		}
 
 		/**
