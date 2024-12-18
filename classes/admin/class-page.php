@@ -45,11 +45,8 @@ class Page {
 			\progress_planner()->get_widgets__badge_streak(),
 			\progress_planner()->get_widgets__published_content(),
 			\progress_planner()->get_widgets__whats_new(),
+			\progress_planner()->get_widgets__get_pro()
 		];
-
-		if ( ! \progress_planner()->is_pro_site() ) {
-			$widgets[] = \progress_planner()->get_widgets__get_pro();
-		}
 
 		/**
 		 * Filter the widgets.

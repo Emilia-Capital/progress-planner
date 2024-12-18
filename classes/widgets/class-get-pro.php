@@ -18,4 +18,16 @@ final class Get_Pro extends \Progress_Planner\Widget {
 	 * @var string
 	 */
 	protected $id = 'get-pro';
+
+	/**
+	 * Render the widget.
+	 *
+	 * @return void
+	 */
+	public function render() {
+		if ( \progress_planner()->is_pro_site() ) {
+			return;
+		}
+		parent::render();
+	}
 }
