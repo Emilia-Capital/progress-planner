@@ -7,6 +7,8 @@
 
 namespace Progress_Planner\Suggested_Tasks;
 
+use Progress_Planner\Suggested_Tasks\Local_Tasks\Local_Task_Factory;
+
 /**
  * Local_Tasks_Manager class.
  */
@@ -39,6 +41,7 @@ class Local_Tasks_Manager {
 			new \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Content_Create(),
 			new \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Content_Update(),
 			new \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Core_Update(),
+			new \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Settings_Saved(),
 		];
 
 		\add_filter( 'progress_planner_suggested_tasks_items', [ $this, 'inject_tasks' ] );
@@ -143,7 +146,7 @@ class Local_Tasks_Manager {
 	 * @return bool|string
 	 */
 	public function evaluate_task( $task_id ) {
-		$task_object   = \Progress_Planner\Suggested_Tasks\Local_Tasks\Local_Task_Factory::create( $task_id );
+		$task_object   = ( new Local_Task_Factory( $task_id ) )->get_task();
 		$task_provider = $this->get_task_provider( $task_object->get_provider_type() );
 
 		if ( ! $task_provider ) {
@@ -161,7 +164,7 @@ class Local_Tasks_Manager {
 	 * @return array|false
 	 */
 	public function get_task_details( $task_id ) {
-		$task_object   = \Progress_Planner\Suggested_Tasks\Local_Tasks\Local_Task_Factory::create( $task_id );
+		$task_object   = ( new Local_Task_Factory( $task_id ) )->get_task();
 		$task_provider = $this->get_task_provider( $task_object->get_provider_type() );
 
 		if ( ! $task_provider ) {
@@ -179,7 +182,7 @@ class Local_Tasks_Manager {
 	 * @return array
 	 */
 	public function get_data_from_task_id( $task_id ) {
-		$task_object = \Progress_Planner\Suggested_Tasks\Local_Tasks\Local_Task_Factory::create( $task_id );
+		$task_object = ( new Local_Task_Factory( $task_id ) )->get_task();
 
 		return $task_object->get_data();
 	}

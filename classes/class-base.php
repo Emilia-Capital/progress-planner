@@ -90,6 +90,28 @@ class Base {
 
 		// REST API.
 		$this->cached['rest_api_stats'] = new Rest_API_Stats();
+
+		// Onboarding.
+		$this->cached['onboard'] = new Onboard();
+
+		// To-do.
+		$this->cached['todo'] = new Todo();
+
+		// Post-meta.
+		$this->cached['page_todos'] = new Page_Todos();
+
+		\add_filter( 'plugin_action_links_' . plugin_basename( PROGRESS_PLANNER_FILE ), [ $this, 'add_action_links' ] );
+
+		// We need to initialize some classes early.
+		$this->cached['page_types']      = new Page_Types();
+		$this->cached['settings']        = new Settings();
+		$this->cached['suggested_tasks'] = new Suggested_Tasks();
+		$this->cached['badges']          = new Badges();
+
+		// Dont add the widget if the privacy policy is not accepted.
+		if ( true === $this->is_privacy_policy_accepted() ) {
+			$this->cached['settings_page'] = new \Progress_Planner\Admin\Page_Settings();
+		}
 	}
 
 	/**
@@ -121,6 +143,17 @@ class Base {
 			$this->cached[ $cache_name ] = new $class_name( $arguments );
 			return $this->cached[ $cache_name ];
 		}
+	}
+
+	/**
+	 * Get the remote server root URL.
+	 *
+	 * @return string
+	 */
+	public function get_remote_server_root_url() {
+		return defined( 'PROGRESS_PLANNER_REMOTE_SERVER_ROOT_URL' )
+			? PROGRESS_PLANNER_REMOTE_SERVER_ROOT_URL
+			: 'https://progressplanner.com';
 	}
 
 	/**

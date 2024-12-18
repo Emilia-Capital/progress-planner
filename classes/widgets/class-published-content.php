@@ -102,10 +102,10 @@ final class Published_Content extends \Progress_Planner\Widget {
 				'type'     => 'publish',
 			],
 			'dates_params'   => [
-				'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) )->modify( $this->get_range() ),
-				'end'       => new \DateTime(),
-				'frequency' => $this->get_frequency(),
-				'format'    => 'M',
+				'start_date' => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) )->modify( $this->get_range() ),
+				'end_date'   => new \DateTime(),
+				'frequency'  => $this->get_frequency(),
+				'format'     => 'M',
 			],
 			'filter_results' => [ $this, 'filter_activities' ],
 		];
