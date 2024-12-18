@@ -7,6 +7,8 @@
 
 namespace Progress_Planner\Suggested_Tasks\Local_Tasks\Providers;
 
+use Progress_Planner\Suggested_Tasks\Local_Tasks\Local_Task_Factory;
+
 /**
  * Add tasks for content updates.
  */
@@ -179,7 +181,7 @@ class Content_Update extends Content_Abstract implements \Progress_Planner\Sugge
 		}
 
 		foreach ( \progress_planner()->get_suggested_tasks()->get_local()->get_pending_tasks() as $task_id ) {
-			$task_object = \Progress_Planner\Suggested_Tasks\Local_Tasks\Local_Task_Factory::create( $task_id );
+			$task_object = ( new Local_Task_Factory( $task_id ) )->get_task();
 			$task_data   = $task_object->get_data();
 			if ( self::TYPE === $task_data['type'] && ( isset( $task_data['post_id'] ) && (int) $task_data['post_id'] === (int) $post->ID ) ) {
 				// Remove the task from the pending local tasks list.
