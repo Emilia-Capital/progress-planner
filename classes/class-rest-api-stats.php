@@ -117,10 +117,10 @@ class Rest_API_Stats {
 			[
 				'query_params'   => [],
 				'dates_params'   => [
-					'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) )->modify( '-6 months' ),
-					'end'       => new \DateTime(),
-					'frequency' => 'monthly',
-					'format'    => 'M',
+					'start_date' => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) )->modify( '-6 months' ),
+					'end_date'   => new \DateTime(),
+					'frequency'  => 'monthly',
+					'format'     => 'M',
 				],
 				'count_callback' => function ( $activities, $date ) {
 					$score = 0;

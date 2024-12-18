@@ -97,9 +97,14 @@
 		.prpl-widget-title {
 			display: flex;
 		}
+
+		hr {
+			display: initial;
+		}
 	}
 
-	.prpl-widget-title {
+	.prpl-widget-title,
+	hr {
 		display: none;
 	}
 }

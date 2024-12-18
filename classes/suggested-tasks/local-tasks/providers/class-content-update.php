@@ -7,6 +7,8 @@
 
 namespace Progress_Planner\Suggested_Tasks\Local_Tasks\Providers;
 
+use Progress_Planner\Suggested_Tasks\Local_Tasks\Local_Task_Factory;
+
 /**
  * Add tasks for content updates.
  */
@@ -31,6 +33,8 @@ class Content_Update extends Content_Abstract implements \Progress_Planner\Sugge
 	 */
 	public function __construct() {
 		\add_filter( 'progress_planner_update_posts_tasks_args', [ $this, 'filter_update_posts_args' ] );
+
+		\add_action( 'transition_post_status', [ $this, 'transition_post_status' ], 10, 3 );
 	}
 
 	/**
@@ -155,5 +159,34 @@ class Content_Update extends Content_Abstract implements \Progress_Planner\Sugge
 		}
 
 		return $args;
+	}
+
+	/**
+	 * Run actions when transitioning a post status.
+	 *
+	 * @param string   $new_status The new status.
+	 * @param string   $old_status The old status.
+	 * @param \WP_Post $post       The post object.
+	 *
+	 * @return void
+	 */
+	public function transition_post_status( $new_status, $old_status, $post ) {
+		$include_post_types = \progress_planner()->get_settings()->get( [ 'include_post_types' ], [ 'post', 'page' ] );
+
+		// Bail if we should skip saving.
+		if ( ( 'trash' !== $new_status )
+			|| ! \in_array( $post->post_type, $include_post_types, true )
+		) {
+			return;
+		}
+
+		foreach ( \progress_planner()->get_suggested_tasks()->get_local()->get_pending_tasks() as $task_id ) {
+			$task_object = ( new Local_Task_Factory( $task_id ) )->get_task();
+			$task_data   = $task_object->get_data();
+			if ( self::TYPE === $task_data['type'] && ( isset( $task_data['post_id'] ) && (int) $task_data['post_id'] === (int) $post->ID ) ) {
+				// Remove the task from the pending local tasks list.
+				\progress_planner()->get_suggested_tasks()->get_local()->remove_pending_task( $task_id ); // @phpstan-ignore-line method.nonObject
+			}
+		}
 	}
 }

@@ -103,6 +103,17 @@ abstract class Widget {
 	 * @return void
 	 */
 	public function register_scripts() {
+		if ( ! file_exists( PROGRESS_PLANNER_DIR . '/assets/js/widgets/' . $this->id . '.js' ) ) {
+			return;
+		}
+
+		\wp_register_script(
+			'progress-planner-' . $this->id,
+			PROGRESS_PLANNER_URL . '/assets/js/widgets/' . $this->id . '.js',
+			[],
+			\progress_planner()->get_file_version( PROGRESS_PLANNER_DIR . '/assets/js/widgets/' . $this->id . '.js' ),
+			true
+		);
 	}
 
 	/**
@@ -111,5 +122,10 @@ abstract class Widget {
 	 * @return void
 	 */
 	public function enqueue_scripts() {
+		if ( ! file_exists( PROGRESS_PLANNER_DIR . '/assets/js/widgets/' . $this->id . '.js' ) ) {
+			return;
+		}
+
+		\wp_enqueue_script( 'progress-planner-' . $this->id );
 	}
 }
