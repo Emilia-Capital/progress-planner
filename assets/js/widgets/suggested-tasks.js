@@ -206,7 +206,7 @@ const prplStrikeCompletedTasks = () => {
 					);
 
 					if ( el ) {
-						el.remove();
+						el.parentElement.remove();
 					}
 
 					// Remove the task from the pending celebration.
