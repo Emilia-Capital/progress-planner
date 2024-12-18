@@ -12,6 +12,8 @@
 
 namespace Progress_Planner;
 
+use Progress_Planner\Widgets\Activity_Scores;
+
 /**
  * Rest_API_Stats class.
  */
@@ -87,7 +89,7 @@ class Rest_API_Stats {
 		);
 
 		// Get the website activity score.
-		$activity_score           = new \Progress_Planner\Widgets\Activity_Scores();
+		$activity_score           = new Activity_Scores();
 		$data['website_activity'] = [
 			'score'     => $activity_score->get_score(),
 			'checklist' => $activity_score->get_checklist_results(),
