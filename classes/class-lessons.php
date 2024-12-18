@@ -42,7 +42,7 @@ class Lessons {
 	 * @return array
 	 */
 	public function get_remote_api_items() {
-		$url             = \add_query_arg(
+		$url = \add_query_arg(
 			[ 'site' => \get_site_url() ],
 			\progress_planner()->get_remote_server_root_url() . '/wp-json/progress-planner-saas/v1/lessons'
 		);

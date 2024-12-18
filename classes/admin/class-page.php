@@ -45,7 +45,7 @@ class Page {
 			\progress_planner()->get_widgets__badge_streak(),
 			\progress_planner()->get_widgets__published_content(),
 			\progress_planner()->get_widgets__whats_new(),
-			\progress_planner()->get_widgets__get_pro()
+			\progress_planner()->get_widgets__get_pro(),
 		];
 
 		/**
