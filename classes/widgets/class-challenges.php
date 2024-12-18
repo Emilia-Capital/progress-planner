@@ -100,7 +100,7 @@ final class Challenges extends \Progress_Planner\Widget {
 	 * @return void
 	 */
 	public function render() {
-		if ( ! \progress_planner()->is_pro_site() || empty( $this->get_challenges() ) ) {
+		if ( empty( $this->get_challenges() ) ) {
 			return;
 		}
 		parent::render();
