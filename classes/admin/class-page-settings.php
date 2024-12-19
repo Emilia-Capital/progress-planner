@@ -79,7 +79,7 @@ class Page_Settings {
 			];
 		}
 
-		return apply_filters( 'progress_planner_settings', $settings );
+		return $settings;
 	}
 
 	/**

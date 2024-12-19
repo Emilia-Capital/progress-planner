@@ -244,7 +244,7 @@ class Base {
 		 *
 		 * @param array $files The files to include.
 		 */
-		$files = apply_filters( 'progress_planner_the_file', (array) $files );
+		$files = (array) $files;
 		foreach ( $files as $file ) {
 			$path = $file;
 			if ( ! \file_exists( $path ) ) {

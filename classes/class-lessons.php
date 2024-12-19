@@ -27,13 +27,7 @@ class Lessons {
 	 * @return array
 	 */
 	public function get_items() {
-		$lessons = $this->get_remote_api_items();
-		/**
-		 * Filter the lessons.
-		 *
-		 * @param array $lessons The lessons.
-		 */
-		return apply_filters( 'progress_planner_lessons', $lessons );
+		return $this->get_remote_api_items();
 	}
 
 	/**
@@ -50,13 +44,6 @@ class Lessons {
 		if ( $pro_license_key && 'valid' === \get_option( 'progress_planner_pro_license_status' ) ) {
 			$url = \add_query_arg( [ 'license_key' => $pro_license_key ], $url );
 		}
-
-		/**
-		 * Filter the endpoint url for the lessons.
-		 *
-		 * @param string $endpoint The endpoint url.
-		 */
-		$url = apply_filters( 'progress_planner_lessons_endpoint', $url );
 
 		$cache_key = 'lessons-' . md5( $url );
 
