@@ -7,6 +7,15 @@
 
 namespace Progress_Planner;
 
+use Progress_Planner\Admin\Page as Admin_Page;
+use Progress_Planner\Admin\Tour as Admin_Tour;
+use Progress_Planner\Admin\Dashboard_Widget_Score as Admin_Dashboard_Widget_Score;
+use Progress_Planner\Admin\Dashboard_Widget_Todo as Admin_Dashboard_Widget_Todo;
+use Progress_Planner\Admin\Editor as Admin_Editor;
+use Progress_Planner\Actions\Content as Actions_Content;
+use Progress_Planner\Actions\Content_Scan as Actions_Content_Scan;
+use Progress_Planner\Actions\Maintenance as Actions_Maintenance;
+use Progress_Planner\Admin\Page_Settings as Admin_Page_Settings;
 /**
  * Main plugin class.
  */
@@ -52,20 +61,20 @@ class Base {
 
 		// Basic classes.
 		if ( \is_admin() && \current_user_can( 'edit_others_posts' ) ) {
-			$this->cached['admin__page'] = new \Progress_Planner\Admin\Page();
-			$this->cached['admin__tour'] = new \Progress_Planner\Admin\Tour();
+			$this->cached['admin__page'] = new Admin_Page();
+			$this->cached['admin__tour'] = new Admin_Tour();
 
 			// Dont add the widget if the privacy policy is not accepted.
 			if ( true === $this->is_privacy_policy_accepted() ) {
-				$this->cached['admin__dashboard_widget_score'] = new \Progress_Planner\Admin\Dashboard_Widget_Score();
-				$this->cached['admin__dashboard_widget_todo']  = new \Progress_Planner\Admin\Dashboard_Widget_Todo();
+				$this->cached['admin__dashboard_widget_score'] = new Admin_Dashboard_Widget_Score();
+				$this->cached['admin__dashboard_widget_todo']  = new Admin_Dashboard_Widget_Todo();
 			}
 		}
-		$this->cached['admin__editor'] = new \Progress_Planner\Admin\Editor();
+		$this->cached['admin__editor'] = new Admin_Editor();
 
-		$this->cached['actions__content']      = new \Progress_Planner\Actions\Content();
-		$this->cached['actions__content_scan'] = new \Progress_Planner\Actions\Content_Scan();
-		$this->cached['actions__maintenance']  = new \Progress_Planner\Actions\Maintenance();
+		$this->cached['actions__content']      = new Actions_Content();
+		$this->cached['actions__content_scan'] = new Actions_Content_Scan();
+		$this->cached['actions__maintenance']  = new Actions_Maintenance();
 
 		// REST API.
 		$this->cached['rest_api_stats'] = new Rest_API_Stats();
@@ -89,7 +98,7 @@ class Base {
 
 		// Dont add the widget if the privacy policy is not accepted.
 		if ( true === $this->is_privacy_policy_accepted() ) {
-			$this->cached['settings_page'] = new \Progress_Planner\Admin\Page_Settings();
+			$this->cached['settings_page'] = new Admin_Page_Settings();
 		}
 	}
 
@@ -131,7 +140,7 @@ class Base {
 	 */
 	public function get_remote_server_root_url() {
 		return defined( 'PROGRESS_PLANNER_REMOTE_SERVER_ROOT_URL' )
-			? PROGRESS_PLANNER_REMOTE_SERVER_ROOT_URL
+			? \PROGRESS_PLANNER_REMOTE_SERVER_ROOT_URL
 			: 'https://progressplanner.com';
 	}
 
@@ -235,7 +244,7 @@ class Base {
 		 *
 		 * @param array $files The files to include.
 		 */
-		$files = apply_filters( 'progress_planner_the_file', (array) $files );
+		$files = (array) $files;
 		foreach ( $files as $file ) {
 			$path = $file;
 			if ( ! \file_exists( $path ) ) {
@@ -257,7 +266,7 @@ class Base {
 	 */
 	public function get_file_version( $file ) {
 		// If we're in debug mode, use filemtime.
-		if ( defined( 'WP_SCRIPT_DEBUG' ) && WP_SCRIPT_DEBUG ) {
+		if ( defined( 'WP_SCRIPT_DEBUG' ) && \WP_SCRIPT_DEBUG ) {
 			return (string) filemtime( $file );
 		}
 
@@ -335,6 +344,16 @@ class Base {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Check if this is a PRO site.
+	 *
+	 * @return bool
+	 */
+	public function is_pro_site() {
+		return \get_option( 'progress_planner_pro_license_key' )
+			&& 'valid' === \get_option( 'progress_planner_pro_license_status' );
 	}
 }
 // phpcs:enable Generic.Commenting.Todo

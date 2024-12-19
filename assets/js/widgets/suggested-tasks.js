@@ -109,36 +109,38 @@ const progressPlannerInjectSuggestedTodoItem = ( details ) => {
 		document
 			.querySelector( '.prpl-suggested-tasks-list' )
 			.insertAdjacentElement( 'beforeend', item );
-	} else {
-		const parentItem = document.querySelector(
-			`.prpl-suggested-task[data-task-id="${ parent }"]`
-		);
-		// If we could not find the parent item, try again after 500ms.
-		window.progressPlannerRenderAttempts =
-			window.progressPlannerRenderAttempts || 0;
-		if ( window.progressPlannerRenderAttempts > 500 ) {
-			return;
-		}
-		if ( ! parentItem ) {
-			setTimeout( () => {
-				progressPlannerInjectSuggestedTodoItem( details );
-				window.progressPlannerRenderAttempts++;
-			}, 10 );
-			return;
-		}
 
-		// If the child list does not exist, create it.
-		if ( ! parentItem.querySelector( '.prpl-suggested-task-children' ) ) {
-			const childListElement = document.createElement( 'ul' );
-			childListElement.classList.add( 'prpl-suggested-task-children' );
-			parentItem.appendChild( childListElement );
-		}
-
-		// Inject the item into the child list.
-		parentItem
-			.querySelector( '.prpl-suggested-task-children' )
-			.insertAdjacentElement( 'beforeend', item );
+		return;
 	}
+
+	// If we could not find the parent item, try again after 500ms.
+	window.progressPlannerRenderAttempts =
+		window.progressPlannerRenderAttempts || 0;
+	if ( window.progressPlannerRenderAttempts > 500 ) {
+		return;
+	}
+	const parentItem = document.querySelector(
+		`.prpl-suggested-task[data-task-id="${ parent }"]`
+	);
+	if ( ! parentItem ) {
+		setTimeout( () => {
+			progressPlannerInjectSuggestedTodoItem( details );
+			window.progressPlannerRenderAttempts++;
+		}, 10 );
+		return;
+	}
+
+	// If the child list does not exist, create it.
+	if ( ! parentItem.querySelector( '.prpl-suggested-task-children' ) ) {
+		const childListElement = document.createElement( 'ul' );
+		childListElement.classList.add( 'prpl-suggested-task-children' );
+		parentItem.appendChild( childListElement );
+	}
+
+	// Inject the item into the child list.
+	parentItem
+		.querySelector( '.prpl-suggested-task-children' )
+		.insertAdjacentElement( 'beforeend', item );
 };
 
 const prplTriggerConfetti = () => {

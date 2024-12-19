@@ -29,15 +29,11 @@ const progressPlannerAjaxAPIRequest = ( data ) => {
 		data,
 		successAction: ( response ) => {
 			// Show success message.
-			if ( 'no-license' === response.license_key ) {
-				document.getElementById(
-					'prpl-account-not-created-message'
-				).style.display = 'block';
-			} else {
-				document.getElementById(
-					'prpl-account-created-message'
-				).style.display = 'block';
-			}
+			document.getElementById(
+				'no-license' === response.license_key
+					? 'prpl-account-not-created-message'
+					: 'prpl-account-created-message'
+			).style.display = 'block';
 
 			// Hide the form.
 			document.getElementById( 'prpl-onboarding-form' ).style.display =

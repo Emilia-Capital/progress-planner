@@ -8,6 +8,11 @@
 namespace Progress_Planner\Suggested_Tasks;
 
 use Progress_Planner\Suggested_Tasks\Local_Tasks\Local_Task_Factory;
+use Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Content_Create;
+use Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Content_Update;
+use Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Core_Update;
+use Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Settings_Saved;
+
 
 /**
  * Local_Tasks_Manager class.
@@ -38,10 +43,10 @@ class Local_Tasks_Manager {
 	public function __construct() {
 
 		$this->task_providers = [
-			new \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Content_Create(),
-			new \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Content_Update(),
-			new \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Core_Update(),
-			new \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Settings_Saved(),
+			new Content_Create(),
+			new Content_Update(),
+			new Core_Update(),
+			new Settings_Saved(),
 		];
 
 		\add_filter( 'progress_planner_suggested_tasks_items', [ $this, 'inject_tasks' ] );

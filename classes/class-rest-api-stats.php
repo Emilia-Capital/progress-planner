@@ -12,6 +12,8 @@
 
 namespace Progress_Planner;
 
+use Progress_Planner\Widgets\Activity_Scores;
+
 /**
  * Rest_API_Stats class.
  */
@@ -87,7 +89,7 @@ class Rest_API_Stats {
 		);
 
 		// Get the website activity score.
-		$activity_score           = new \Progress_Planner\Widgets\Activity_Scores();
+		$activity_score           = new Activity_Scores();
 		$data['website_activity'] = [
 			'score'     => $activity_score->get_score(),
 			'checklist' => $activity_score->get_checklist_results(),
@@ -158,8 +160,6 @@ class Rest_API_Stats {
 		$data['todo'] = $pending_todo_items;
 
 		$data['plugin_url'] = \esc_url( \get_admin_url( null, 'admin.php?page=progress-planner' ) );
-
-		$data = \apply_filters( 'progress_planner_rest_api_get_stats', $data );
 
 		return new \WP_REST_Response( $data );
 	}
