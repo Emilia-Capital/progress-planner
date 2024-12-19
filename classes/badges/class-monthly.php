@@ -57,11 +57,9 @@ final class Monthly extends Badge {
 		$start_date      = $activation_date->modify( 'first day of this month' );
 
 		// Year when plugin was released.
-		if ( 2024 === (int) $start_date->format( 'Y' ) ) {
-			$end_date = new \DateTime( 'last day of December next year' );
-		} else {
-			$end_date = new \DateTime( 'last day of December this year' );
-		}
+		$end_date = ( 2024 === (int) $start_date->format( 'Y' ) )
+			? new \DateTime( 'last day of December next year' )
+			: new \DateTime( 'last day of December this year' );
 
 		$dates = iterator_to_array( new \DatePeriod( $start_date, new \DateInterval( 'P1M' ), $end_date ), false );
 
@@ -209,17 +207,14 @@ final class Monthly extends Badge {
 			$points += $activity->get_points( $activity->date );
 		}
 
-		if ( $points > self::TARGET_POINTS ) {
-			$return_progress = [
+		$return_progress = ( $points > self::TARGET_POINTS )
+			? [
 				'progress'  => 100,
 				'remaining' => 0,
-			];
-		} else {
-			$return_progress = [
+			] : [
 				'progress'  => (int) max( 0, min( 100, floor( 100 * $points / self::TARGET_POINTS ) ) ),
 				'remaining' => self::TARGET_POINTS - $points,
 			];
-		}
 
 		$this->save_progress( $return_progress );
 

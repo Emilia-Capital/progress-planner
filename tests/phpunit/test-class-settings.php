@@ -26,11 +26,12 @@ class Settings_Test extends \WP_UnitTestCase {
 		\progress_planner()->get_settings()->set( $setting, $value );
 
 		$saved = \get_option( Settings::OPTION_NAME );
-		if ( \is_string( $setting ) ) {
-			$this->assertEquals( $value, $saved[ $setting ] );
-		} else {
-			$this->assertEquals( $value, \_wp_array_get( $saved, $setting ) );
-		}
+		$this->assertEquals(
+			$value,
+			\is_string( $setting )
+				? $saved[ $setting ]
+				: \_wp_array_get( $saved, $setting )
+		);
 
 		$this->assertEquals( $value, \progress_planner()->get_settings()->get( $setting ) );
 	}
