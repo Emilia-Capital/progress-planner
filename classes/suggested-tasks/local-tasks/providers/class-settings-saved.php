@@ -38,6 +38,12 @@ class Settings_Saved implements Local_Tasks_Interface {
 	 * @return bool|string
 	 */
 	public function evaluate_task( $task_id ) {
+
+		// Early bail if the user does not have the capability to manage options.
+		if ( ! $this->capability_required() ) {
+			return false;
+		}
+
 		if ( 0 === strpos( $task_id, self::TYPE ) && false !== \get_option( 'progress_planner_pro_license_key', false ) ) {
 			return $task_id;
 		}
@@ -50,7 +56,9 @@ class Settings_Saved implements Local_Tasks_Interface {
 	 * @return array
 	 */
 	public function get_tasks_to_inject() {
-		if ( true === $this->is_task_type_snoozed() ) {
+
+		// Early bail if the user does not have the capability to manage options or if the task is snoozed.
+		if ( true === $this->is_task_type_snoozed() || ! $this->capability_required() ) {
 			return [];
 		}
 
@@ -93,7 +101,7 @@ class Settings_Saved implements Local_Tasks_Interface {
 			'priority'    => 'high',
 			'type'        => 'maintenance',
 			'points'      => 1,
-			'url'         => \esc_url( \admin_url( 'admin.php?page=progress-planner-settings' ) ),
+			'url'         => \current_user_can( 'manage_options' ) ? \esc_url( \admin_url( 'admin.php?page=progress-planner-settings' ) ) : '',
 			'description' => '<p>' . \esc_html__( 'Head over to the settings page and fill in the required information.', 'progress-planner' ) . '</p>',
 		];
 	}
@@ -132,5 +140,14 @@ class Settings_Saved implements Local_Tasks_Interface {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Check if the user has the capability to manage options.
+	 *
+	 * @return bool
+	 */
+	public function capability_required() {
+		return \current_user_can( 'manage_options' );
 	}
 }

@@ -190,4 +190,13 @@ class Content_Update extends Content_Abstract implements Local_Tasks_Interface {
 			}
 		}
 	}
+
+	/**
+	 * Check if the user has the capability to update a post.
+	 *
+	 * @return bool
+	 */
+	public function capability_required() {
+		return \current_user_can( 'edit_others_posts' );
+	}
 }
