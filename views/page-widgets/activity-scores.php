@@ -5,6 +5,8 @@
  * @package Progress_Planner
  */
 
+use Progress_Planner\Base;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -21,7 +23,9 @@ $prpl_record = $prpl_widget->personal_record_callback();
 			class="prpl-info-icon"
 			onclick="this.closest( '.tooltip-actions' ).querySelector( '.prpl-tooltip' ).toggleAttribute( 'data-tooltip-visible' )"
 		>
-			<span class="dashicons dashicons-info-outline"></span>
+			<span class="icon prpl-info-icon">
+				<?php \progress_planner()->the_asset( 'images/icon_info.svg' ); ?>
+			</span>
 			<span class="screen-reader-text"><?php \esc_html_e( 'More info', 'progress-planner' ); ?></span>
 		</button>
 
@@ -54,17 +58,17 @@ $prpl_record = $prpl_widget->personal_record_callback();
 			'type'           => 'bar',
 			'query_params'   => [],
 			'dates_params'   => [
-				'start'     => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) )->modify( $prpl_widget->get_range() ),
-				'end'       => new \DateTime(),
-				'frequency' => $prpl_widget->get_frequency(),
-				'format'    => 'M',
+				'start_date' => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) )->modify( $prpl_widget->get_range() ),
+				'end_date'   => new \DateTime(),
+				'frequency'  => $prpl_widget->get_frequency(),
+				'format'     => 'M',
 			],
 			'count_callback' => function ( $activities, $date ) {
 				$score = 0;
 				foreach ( $activities as $activity ) {
 					$score += $activity->get_points( $date );
 				}
-				return $score * 100 / \Progress_Planner\Base::SCORE_TARGET;
+				return $score * 100 / Base::SCORE_TARGET;
 			},
 			'normalized'     => true,
 			'color'          => [ $prpl_widget, 'get_color' ],

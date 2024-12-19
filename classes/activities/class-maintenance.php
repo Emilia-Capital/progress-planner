@@ -7,10 +7,12 @@
 
 namespace Progress_Planner\Activities;
 
+use Progress_Planner\Activity;
+
 /**
  * Handle activities for maintenance activities.
  */
-class Maintenance extends \Progress_Planner\Activity {
+class Maintenance extends Activity {
 
 	/**
 	 * Points configuration.

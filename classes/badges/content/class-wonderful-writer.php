@@ -7,10 +7,12 @@
 
 namespace Progress_Planner\Badges\Content;
 
+use Progress_Planner\Badges\Badge_Content;
+
 /**
  * Badge class.
  */
-final class Wonderful_Writer extends \Progress_Planner\Badges\Badge_Content {
+final class Wonderful_Writer extends Badge_Content {
 
 	/**
 	 * The badge ID.

@@ -7,6 +7,8 @@
 
 namespace Progress_Planner\Actions;
 
+use Progress_Planner\Activities\Maintenance as Activities_Maintenance;
+
 /**
  * Handle activities for updates.
  */
@@ -126,7 +128,7 @@ class Maintenance {
 	 * @return void
 	 */
 	protected function create_maintenance_activity( $type ) {
-		$activity       = new \Progress_Planner\Activities\Maintenance();
+		$activity       = new Activities_Maintenance();
 		$activity->type = $type;
 		$activity->save();
 	}

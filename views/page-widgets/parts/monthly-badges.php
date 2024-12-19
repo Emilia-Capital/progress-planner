@@ -5,6 +5,8 @@
  * @package Progress_Planner
  */
 
+use Progress_Planner\Badges\Monthly;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -15,7 +17,8 @@ if ( isset( $args['css_class'] ) ) {
 	$prpl_css_class = \esc_attr( $args['css_class'] );
 }
 
-$prpl_location = false !== strpos( $prpl_css_class, 'in-popover' ) ? 'popover' : 'suggested-tasks';
+$prpl_location    = false !== strpos( $prpl_css_class, 'in-popover' ) ? 'popover' : 'suggested-tasks';
+$prpl_badges_year = (int) isset( $args['badges_year'] ) ? $args['badges_year'] : gmdate( 'Y' );
 ?>
 <div class="prpl-widget-wrapper <?php echo \esc_attr( $prpl_css_class ); ?>">
 	<h3 class="prpl-widget-title">
@@ -23,12 +26,12 @@ $prpl_location = false !== strpos( $prpl_css_class, 'in-popover' ) ? 'popover' :
 		printf(
 			/* translators: %d: year */
 			\esc_html__( 'Monthly badges %d', 'progress-planner' ),
-			\esc_html( isset( $args['title_year'] ) ? (string) $args['title_year'] : gmdate( 'Y' ) )
+			\esc_html( (string) $prpl_badges_year )
 		);
 		?>
 	</h3>
 
-	<?php $prpl_badges = \progress_planner()->get_badges()->get_badges( 'monthly' ); ?>
+	<?php $prpl_badges = Monthly::get_instances_for_year( $prpl_badges_year ); ?>
 	<?php if ( $prpl_badges ) : ?>
 		<?php
 		$prpl_badges_per_row = 3;

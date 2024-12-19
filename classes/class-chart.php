@@ -34,10 +34,10 @@ class Chart {
 	 *
 	 *                    ['filter_results'] The callback to filter the results. Leave empty/null to skip filtering.
 	 *                    ['dates_params']   The dates parameters for the query.
-	 *                                    ['start']     The start date for the chart.
-	 *                                    ['end']       The end date for the chart.
-	 *                                    ['frequency'] The frequency for the chart nodes.
-	 *                                    ['format']    The format for the label.
+	 *                                    ['start_date'] The start date for the chart.
+	 *                                    ['end_date']   The end date for the chart.
+	 *                                    ['frequency']  The frequency for the chart nodes.
+	 *                                    ['format']     The format for the label.
 	 *
 	 * @return array
 	 */
@@ -68,8 +68,8 @@ class Chart {
 
 		// Get the periods for the chart.
 		$periods = \progress_planner()->get_date()->get_periods(
-			$args['dates_params']['start'],
-			$args['dates_params']['end'],
+			$args['dates_params']['start_date'],
+			$args['dates_params']['end_date'],
 			$args['dates_params']['frequency']
 		);
 
@@ -81,8 +81,8 @@ class Chart {
 		 */
 		$previous_period_activities = [];
 		if ( $args['normalized'] ) {
-			$previous_month_start       = ( clone $periods[0]['start'] )->modify( '-1 month' );
-			$previous_month_end         = ( clone $periods[0]['start'] )->modify( '-1 day' );
+			$previous_month_start       = ( clone $periods[0]['start_date'] )->modify( '-1 month' );
+			$previous_month_end         = ( clone $periods[0]['start_date'] )->modify( '-1 day' );
 			$previous_period_activities = \progress_planner()->get_query()->query_activities(
 				array_merge(
 					$args['query_params'],
@@ -128,8 +128,8 @@ class Chart {
 			array_merge(
 				$args['query_params'],
 				[
-					'start_date' => $period['start'],
-					'end_date'   => $period['end'],
+					'start_date' => $period['start_date'],
+					'end_date'   => $period['end_date'],
 				]
 			)
 		);
@@ -139,22 +139,22 @@ class Chart {
 		}
 
 		// Calculate the score for the period.
-		$period_score = $args['count_callback']( $activities, $period['start'] );
+		$period_score = $args['count_callback']( $activities, $period['start_date'] );
 
 		// If this is a "normalized" chart, we need to calculate the score for the previous month activities.
 		if ( $args['normalized'] ) {
 			// Add the previous month activities to the current month score.
-			$period_score += $args['count_callback']( $previous_period_activities, $period['start'] );
+			$period_score += $args['count_callback']( $previous_period_activities, $period['start_date'] );
 			// Update the previous month activities for the next iteration of the loop.
 			$previous_period_activities = $activities;
 		}
 
 		return [
-			'label'                      => $period['start']->format( $args['dates_params']['format'] ),
+			'label'                      => $period['start_date']->format( $args['dates_params']['format'] ),
 			'score'                      => null === $args['max']
 				? $period_score
 				: min( $period_score, $args['max'] ),
-			'color'                      => $args['color']( $period_score, $period['start'] ),
+			'color'                      => $args['color']( $period_score, $period['start_date'] ),
 			'previous_period_activities' => $previous_period_activities,
 		];
 	}

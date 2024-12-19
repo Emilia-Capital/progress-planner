@@ -7,10 +7,12 @@
 
 namespace Progress_Planner\Badges\Maintenance;
 
+use Progress_Planner\Badges\Badge_Maintenance;
+
 /**
  * Badge class.
  */
-final class Progress_Padawan extends \Progress_Planner\Badges\Badge_Maintenance {
+final class Progress_Padawan extends Badge_Maintenance {
 
 	/**
 	 * The badge ID.

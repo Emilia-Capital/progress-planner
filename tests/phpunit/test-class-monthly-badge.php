@@ -41,7 +41,7 @@ class Monthly_Badge_Test extends \WP_UnitTestCase {
 	 */
 	public function test_monthly_badge_0_percent() {
 
-		foreach ( \progress_planner()->get_badges()->get_badges( 'monthly' ) as $badge ) {
+		foreach ( \progress_planner()->get_badges()->get_badges( 'monthly_flat' ) as $badge ) {
 			if ( 'monthly-' . $this->current_month === $badge->get_id() ) {
 				$this->assertEquals( 0, $badge->progress_callback()['progress'] );
 			}
@@ -59,7 +59,7 @@ class Monthly_Badge_Test extends \WP_UnitTestCase {
 			$this->insert_activity( 1000 + $i );
 		}
 
-		foreach ( \progress_planner()->get_badges()->get_badges( 'monthly' ) as $badge ) {
+		foreach ( \progress_planner()->get_badges()->get_badges( 'monthly_flat' ) as $badge ) {
 			if ( 'monthly-' . $this->current_month === $badge->get_id() ) {
 				$this->assertEquals( 100, $badge->progress_callback()['progress'] );
 			}
@@ -78,7 +78,7 @@ class Monthly_Badge_Test extends \WP_UnitTestCase {
 			$this->insert_activity( 1000 + $i );
 		}
 
-		foreach ( \progress_planner()->get_badges()->get_badges( 'monthly' ) as $badge ) {
+		foreach ( \progress_planner()->get_badges()->get_badges( 'monthly_flat' ) as $badge ) {
 			if ( 'monthly-' . $this->current_month === $badge->get_id() ) {
 				$this->assertEquals( 100, $badge->progress_callback()['progress'] );
 			}

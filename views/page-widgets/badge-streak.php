@@ -50,8 +50,8 @@ if ( $prpl_widget->get_details( 'maintenance' ) ) {
 	<?php
 	\esc_html_e( 'Your streak badges', 'progress-planner' );
 	\progress_planner()->get_popover()->the_popover( 'badge-streak' )->render_button(
-		'info-outline',
-		'<span class="screen-reader-text">' . \esc_html__( 'More info', 'progress-planner' ) . '</span>'
+		'',
+		'<span class="icon prpl-info-icon">' . \progress_planner()->get_asset( 'images/icon_info.svg' ) . '</span> <span class="screen-reader-text">' . \esc_html__( 'More info', 'progress-planner' ) . '</span>'
 	);
 	\progress_planner()->get_popover()->the_popover( 'badge-streak' )->render();
 	?>
@@ -76,5 +76,32 @@ if ( $prpl_widget->get_details( 'maintenance' ) ) {
 		<?php if ( $prpl_current_context < $prpl_contexts_count ) : ?>
 			<hr>
 		<?php endif; ?>
+	<?php endforeach; ?>
+</div>
+
+<h3><?php esc_html_e( 'Your achievements', 'progress-planner' ); ?></h3>
+<div class="prpl-badges-container-achievements">
+	<?php
+	foreach ( [ 'content', 'maintenance' ] as $prpl_badge_group ) :
+		$prpl_group_badges = \progress_planner()->get_badges()->get_badges( $prpl_badge_group );
+		?>
+		<div class="progress-wrapper badge-group-<?php echo \esc_attr( $prpl_badge_group ); ?>">
+			<?php foreach ( $prpl_group_badges as $prpl_badge ) : ?>
+				<?php
+				$prpl_badge_progress  = $prpl_badge->get_progress();
+				$prpl_badge_completed = 100 === (int) $prpl_badge_progress['progress'];
+				?>
+				<span
+					class="prpl-badge"
+					data-value="<?php echo \esc_attr( $prpl_badge_progress['progress'] ); ?>"
+				>
+					<prpl-badge
+						complete="<?php echo $prpl_badge_completed ? 'true' : 'false'; ?>"
+						badge-id="<?php echo esc_attr( $prpl_badge->get_id() ); ?>"
+					></prpl-badge>
+					<p><?php echo \esc_html( $prpl_badge->get_name() ); ?></p>
+				</span>
+			<?php endforeach; ?>
+		</div>
 	<?php endforeach; ?>
 </div>

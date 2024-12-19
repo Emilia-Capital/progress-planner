@@ -15,33 +15,33 @@ class Date {
 	/**
 	 * Get a range of dates.
 	 *
-	 * @param \DateTime $start The start date.
-	 * @param \DateTime $end   The end date.
+	 * @param \DateTime $start_date The start date.
+	 * @param \DateTime $end_date   The end date.
 	 *
 	 * @return array [
-	 *                 'start' => \DateTime,
-	 *                 'end'   => \DateTime,
+	 *                 'start_date' => \DateTime,
+	 *                 'end_date'   => \DateTime,
 	 *               ].
 	 */
-	public function get_range( $start, $end ) {
-		$dates = iterator_to_array( new \DatePeriod( $start, new \DateInterval( 'P1D' ), $end ), false );
+	public function get_range( $start_date, $end_date ) {
+		$dates = iterator_to_array( new \DatePeriod( $start_date, new \DateInterval( 'P1D' ), $end_date ), false );
 		return [
-			'start' => $dates[0],
-			'end'   => end( $dates ),
+			'start_date' => $dates[0],
+			'end_date'   => end( $dates ),
 		];
 	}
 
 	/**
 	 * Get an array of periods with start and end dates.
 	 *
-	 * @param \DateTime $start     The start date.
-	 * @param \DateTime $end       The end date.
-	 * @param string    $frequency The frequency. Can be 'daily', 'weekly', 'monthly'.
+	 * @param \DateTime $start_date The start date.
+	 * @param \DateTime $end_date   The end date.
+	 * @param string    $frequency  The frequency. Can be 'daily', 'weekly', 'monthly'.
 	 *
 	 * @return array
 	 */
-	public function get_periods( $start, $end, $frequency ) {
-		$end->modify( '+1 day' );
+	public function get_periods( $start_date, $end_date, $frequency ) {
+		$end_date->modify( '+1 day' );
 
 		switch ( $frequency ) {
 			case 'daily':
@@ -55,12 +55,12 @@ class Date {
 			default: // Default to weekly.
 				$interval = new \DateInterval( 'P1W' );
 				// Make sure we start and end on a Monday.
-				$start->modify( 'last Monday' );
-				$end->modify( 'next Monday' );
+				$start_date->modify( 'last Monday' );
+				$end_date->modify( 'next Monday' );
 				break;
 		}
 
-		$period = iterator_to_array( new \DatePeriod( $start, $interval, $end ), false );
+		$period = iterator_to_array( new \DatePeriod( $start_date, $interval, $end_date ), false );
 
 		$date_ranges = [];
 		foreach ( $period as $key => $date ) {
@@ -71,9 +71,9 @@ class Date {
 		if ( empty( $date_ranges ) ) {
 			return [];
 		}
-		if ( $end->format( 'z' ) !== end( $date_ranges )['end']->format( 'z' ) ) {
-			$final_end     = clone end( $date_ranges )['end'];
-			$date_ranges[] = $this->get_range( $final_end->modify( '+1 day' ), $end );
+		if ( $end_date->format( 'z' ) !== end( $date_ranges )['end_date']->format( 'z' ) ) {
+			$final_end     = clone end( $date_ranges )['end_date'];
+			$date_ranges[] = $this->get_range( $final_end->modify( '+1 day' ), $end_date );
 		}
 
 		return $date_ranges;

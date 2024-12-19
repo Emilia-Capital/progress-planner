@@ -114,7 +114,7 @@ const PrplSectionVideo = ( lessonSection ) => {
 				el(
 					Modal,
 					{
-						key: 'progress-planner-pro-sidebar-video-modal',
+						key: 'progress-planner-sidebar-video-modal',
 						title: progressPlannerEditor.i18n.video,
 						onRequestClose: closeModal,
 						shouldCloseOnClickOutside: true,
@@ -124,10 +124,10 @@ const PrplSectionVideo = ( lessonSection ) => {
 					el(
 						'div',
 						{
-							key: 'progress-planner-pro-sidebar-video-modal-content',
+							key: 'progress-planner-sidebar-video-modal-content',
 						},
 						el( 'div', {
-							key: 'progress-planner-pro-sidebar-video-modal-content-inner',
+							key: 'progress-planner-sidebar-video-modal-content-inner',
 							dangerouslySetInnerHTML: {
 								__html: lessonSection.video,
 							},
@@ -175,12 +175,10 @@ const PrplLessonItemsHTML = () => {
 	);
 	const pageType = prplGetPageTypeSlugFromId( pageTypeID );
 
-	const pageTodosMeta = useSelect(
-		( select ) =>
-			select( 'core/editor' ).getEditedPostAttribute( 'meta' )
-				.progress_planner_page_todos,
-		[]
-	);
+	const pageTodosMeta = useSelect( ( select ) => {
+		const meta = select( 'core/editor' ).getEditedPostAttribute( 'meta' );
+		return meta ? meta.progress_planner_page_todos : '';
+	}, [] );
 	const pageTodos = pageTodosMeta || '';
 
 	// Bail early if the page type is not set.
@@ -216,15 +214,12 @@ const PrplLessonItemsHTML = () => {
 		// Intro video & content.
 		PrplSectionHTML( lesson, 'intro', PanelBody ),
 
-		// Writers block video & content.
-		PrplSectionHTML( lesson, 'writers_block', PanelBody ),
-
 		// Checklist video & content.
 		lesson.checklist
 			? el(
 					PanelBody,
 					{
-						key: `progress-planner-pro-sidebar-lesson-section-checklist-content`,
+						key: `progress-planner-sidebar-lesson-section-checklist-content`,
 						title: lesson.checklist.heading,
 						initialOpen: false,
 					},
@@ -238,7 +233,10 @@ const PrplLessonItemsHTML = () => {
 						PrplCheckList( lesson.checklist, pageTodos )
 					)
 			  )
-			: el( 'div', {}, '' )
+			: el( 'div', {}, '' ),
+
+		// Writers block video & content.
+		PrplSectionHTML( lesson, 'writers_block', PanelBody )
 	);
 };
 
@@ -381,8 +379,8 @@ const PrplCheckListItem = ( item, pageTodos ) =>
 			checked: pageTodos.split( ',' ).includes( item.id ),
 			label: item.todo_name,
 			className: item.todo_required
-				? 'progress-planner-pro-todo-item required'
-				: 'progress-planner-pro-todo-item',
+				? 'progress-planner-todo-item required'
+				: 'progress-planner-todo-item',
 			help: el( 'div', {
 				dangerouslySetInnerHTML: {
 					__html: item.todo_description,
@@ -417,14 +415,14 @@ const PrplCheckList = ( lessonSection, pageTodos ) =>
 		el(
 			PanelBody,
 			{
-				key: `progress-planner-pro-sidebar-lesson-section-${ toDoGroup.group_heading }`,
+				key: `progress-planner-sidebar-lesson-section-${ toDoGroup.group_heading }`,
 				title: toDoGroup.group_heading,
 				initialOpen: false,
 			},
 			el(
 				'div',
 				{
-					key: `progress-planner-pro-sidebar-lesson-section-${ toDoGroup.group_heading }-todos`,
+					key: `progress-planner-sidebar-lesson-section-${ toDoGroup.group_heading }-todos`,
 				},
 				toDoGroup.group_todos.map( ( item ) =>
 					PrplCheckListItem( item, pageTodos )

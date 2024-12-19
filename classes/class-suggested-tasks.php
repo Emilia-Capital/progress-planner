@@ -7,6 +7,10 @@
 
 namespace Progress_Planner;
 
+use Progress_Planner\Suggested_Tasks\Local_Tasks_Manager;
+use Progress_Planner\Suggested_Tasks\Remote_Tasks;
+use Progress_Planner\Activities\Suggested_Task;
+
 /**
  * Suggested_Tasks class.
  */
@@ -39,8 +43,8 @@ class Suggested_Tasks {
 	 * @return void
 	 */
 	public function __construct() {
-		$this->local  = new \Progress_Planner\Suggested_Tasks\Local_Tasks_Manager();
-		$this->remote = new \Progress_Planner\Suggested_Tasks\Remote_Tasks();
+		$this->local  = new Local_Tasks_Manager();
+		$this->remote = new Remote_Tasks();
 
 		\add_action( 'wp_ajax_progress_planner_suggested_task_action', [ $this, 'suggested_task_action' ] );
 
@@ -59,13 +63,13 @@ class Suggested_Tasks {
 		$this->maybe_unsnooze_tasks();
 
 		// Check for completed tasks.
-		$completed_tasks = $this->local->evaluate_tasks();
+		$completed_tasks = $this->local->evaluate_tasks(); // @phpstan-ignore-line method.nonObject
 
 		foreach ( $completed_tasks as $task_id ) {
 			$this->mark_task_as_pending_celebration( $task_id );
 
 			// Insert an activity.
-			$activity          = new \Progress_Planner\Activities\Suggested_Task();
+			$activity          = new Suggested_Task();
 			$activity->type    = 'completed';
 			$activity->data_id = (string) $task_id;
 			$activity->date    = new \DateTime();
@@ -83,7 +87,7 @@ class Suggested_Tasks {
 	 * @return \Progress_Planner\Suggested_Tasks\Remote_Tasks
 	 */
 	public function get_remote() {
-		return $this->remote;
+		return $this->remote; // @phpstan-ignore-line return.type
 	}
 
 	/**
@@ -92,7 +96,7 @@ class Suggested_Tasks {
 	 * @return \Progress_Planner\Suggested_Tasks\Local_Tasks_Manager
 	 */
 	public function get_local() {
-		return $this->local;
+		return $this->local; // @phpstan-ignore-line return.type
 	}
 
 	/**
@@ -157,6 +161,15 @@ class Suggested_Tasks {
 	public function get_pending_celebration() {
 		$option = \get_option( self::OPTION_NAME, [] );
 		return $option['pending_celebration'] ?? [];
+	}
+
+	/**
+	 * Get remote tasks.
+	 *
+	 * @return array
+	 */
+	public function get_remote_tasks() {
+		return $this->remote->get_tasks_to_inject(); // @phpstan-ignore-line method.nonObject
 	}
 
 	/**
@@ -360,7 +373,7 @@ class Suggested_Tasks {
 		}
 
 		// Remove the task from the pending local tasks list.
-		$this->local->remove_pending_task( $task_id );
+		$this->local->remove_pending_task( $task_id ); // @phpstan-ignore-line method.nonObject
 
 		return $this->mark_task_as_snoozed( $task_id, $time );
 	}
@@ -397,11 +410,6 @@ class Suggested_Tasks {
 	 * @return bool
 	 */
 	public function check_task_condition( $condition ) {
-
-		if ( ! \is_array( $condition ) ) {
-			$condition['type'] = $condition;
-		}
-
 		$parsed_condition = \wp_parse_args(
 			$condition,
 			[
@@ -437,7 +445,7 @@ class Suggested_Tasks {
 
 			// Get the post lengths of the snoozed tasks.
 			foreach ( $snoozed_tasks as $task ) {
-				$data = $this->local->get_data_from_task_id( $task['id'] );
+				$data = $this->local->get_data_from_task_id( $task['id'] ); // @phpstan-ignore-line method.nonObject
 				if ( isset( $data['type'] ) && 'create-post' === $data['type'] ) {
 					$key = true === $data['long'] ? 'long' : 'short';
 					if ( ! isset( $snoozed_post_lengths[ $key ] ) ) {
@@ -480,7 +488,7 @@ class Suggested_Tasks {
 
 		switch ( $action ) {
 			case 'complete':
-				$this->mark_task_as_pending_celebration( $task_id );
+				$this->mark_task_as( 'completed', $task_id );
 				$updated = true;
 				break;
 
@@ -490,7 +498,7 @@ class Suggested_Tasks {
 				break;
 
 			case 'celebrated':
-				$this->transition_task_status( $task_id, 'pending_celebration', 'completed' );
+				// We dont need to do anything here, since the task is already marked as completed.
 				$updated = true;
 				break;
 

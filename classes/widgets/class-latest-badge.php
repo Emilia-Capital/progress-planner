@@ -7,10 +7,12 @@
 
 namespace Progress_Planner\Widgets;
 
+use Progress_Planner\Widget;
+
 /**
  * Latest_Badge class.
  */
-final class Latest_Badge extends \Progress_Planner\Widget {
+final class Latest_Badge extends Widget {
 
 	/**
 	 * The widget ID.
@@ -24,5 +26,13 @@ final class Latest_Badge extends \Progress_Planner\Widget {
 	 *
 	 * @var string
 	 */
-	public $endpoint = 'https://progressplanner.com/wp-json/progress-planner-saas/v1/share-badge-image?badge=';
+	public $endpoint;
+
+	/**
+	 * Constructor.
+	 */
+	public function __construct() {
+		parent::__construct();
+		$this->endpoint = \progress_planner()->get_remote_server_root_url() . '/wp-json/progress-planner-saas/v1/share-badge-image?badge=';
+	}
 }

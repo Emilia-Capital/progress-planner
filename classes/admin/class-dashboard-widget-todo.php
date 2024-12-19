@@ -7,10 +7,12 @@
 
 namespace Progress_Planner\Admin;
 
+use Progress_Planner\Admin\Dashboard_Widget;
+
 /**
  * Class Dashboard_Widget_Todo
  */
-class Dashboard_Widget_Todo extends \Progress_Planner\Admin\Dashboard_Widget {
+class Dashboard_Widget_Todo extends Dashboard_Widget {
 
 	/**
 	 * The widget ID.
@@ -36,13 +38,12 @@ class Dashboard_Widget_Todo extends \Progress_Planner\Admin\Dashboard_Widget {
 	public function render_widget() {
 		\progress_planner()->get_admin__page()->enqueue_styles();
 		\progress_planner()->get_admin__scripts()->register_scripts();
-		\wp_enqueue_script( 'progress-planner-todo' );
-		\wp_enqueue_style(
-			'prpl-widget-todo',
-			PROGRESS_PLANNER_URL . '/assets/css/page-widgets/todo.css',
-			[],
-			(string) filemtime( PROGRESS_PLANNER_DIR . '/assets/css/page-widgets/todo.css' )
-		);
+
+		$todo_widget = \progress_planner()->get_admin__page()->get_widget( 'todo' );
+		if ( $todo_widget ) {
+			$todo_widget->enqueue_styles();
+			$todo_widget->enqueue_scripts();
+		}
 
 		\progress_planner()->the_view( "dashboard-widgets/{$this->id}.php" );
 	}

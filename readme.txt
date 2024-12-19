@@ -2,9 +2,9 @@
 Contributors: joostdevalk, aristath, mariekerakt, irisguelen, samalderson
 Tags: planning, maintenance, writing, blogging
 Requires at least: 6.3
-Tested up to: 6.6
+Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPL3+
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -78,11 +78,38 @@ https://youtu.be/e1bmxZYyXFY
 
 == Changelog ==
 
+= 1.0.1 =
+
+Fixed:
+
+* Share buttons not working on localhost sites.
+* Non-translatable names for monthly badges.
+* Graphs appearance.
+* Confetti being triggered on every page load.
+* Assets versioning.
+* Duplicate update-core tasks.
+* Information icon for 'Create a long post' task was showing text of 'create a short post' task.
+* Numerous other minor bugfixes.
+
+Enhancements:
+
+* Improved the onboarding experience.
+* Internal refacture of local tasks.
+* Privacy policy improvements.
+* Removed "product" and "blog" page-types from the settings page.
+* Auto-detecting page-types in the settings page.
+
 = 1.0.0 =
 
 We added Ravi's Recommendations: recommendations on what you should do next on your site!
 
-We also fixed all previous bugs (most of them twice) and probably introduced new ones ;-) 
+We also fixed all previous bugs (most of them twice) and probably introduced new ones ;-)
+
+= 0.9.6 =
+
+Fixed:
+
+* Accessibility of the to-do list.
 
 = 0.9.5 =
 

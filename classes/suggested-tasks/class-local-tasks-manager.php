@@ -7,6 +7,13 @@
 
 namespace Progress_Planner\Suggested_Tasks;
 
+use Progress_Planner\Suggested_Tasks\Local_Tasks\Local_Task_Factory;
+use Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Content_Create;
+use Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Content_Update;
+use Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Core_Update;
+use Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Settings_Saved;
+
+
 /**
  * Local_Tasks_Manager class.
  */
@@ -24,45 +31,71 @@ class Local_Tasks_Manager {
 	const OPTION_NAME = 'progress_planner_local_tasks';
 
 	/**
-	 * The update content task.
+	 * The task providers.
 	 *
-	 * @var \Progress_Planner\Suggested_Tasks\Local_Tasks\Update_Content
+	 * @var array
 	 */
-	private $update_content;
-
-	/**
-	 * The update core task.
-	 *
-	 * @var \Progress_Planner\Suggested_Tasks\Local_Tasks\Update_Core
-	 */
-	private $update_core;
+	private $task_providers = [];
 
 	/**
 	 * Constructor.
 	 */
 	public function __construct() {
-		$this->update_content = new \Progress_Planner\Suggested_Tasks\Local_Tasks\Update_Content();
-		$this->update_core    = new \Progress_Planner\Suggested_Tasks\Local_Tasks\Update_Core();
+
+		$this->task_providers = [
+			new Content_Create(),
+			new Content_Update(),
+			new Core_Update(),
+			new Settings_Saved(),
+		];
 
 		\add_filter( 'progress_planner_suggested_tasks_items', [ $this, 'inject_tasks' ] );
+		\add_action( 'plugins_loaded', [ $this, 'add_plugin_integration' ] );
 	}
 
 	/**
-	 * Get the update content task.
+	 * Add the Yoast task if the plugin is active.
 	 *
-	 * @return \Progress_Planner\Suggested_Tasks\Local_Tasks\Update_Content
+	 * @return void
 	 */
-	public function get_update_content() {
-		return $this->update_content;
+	public function add_plugin_integration() {
+		// Add the plugin integration here.
 	}
 
 	/**
-	 * Get the update core task.
+	 * Get a task provider by its type.
 	 *
-	 * @return \Progress_Planner\Suggested_Tasks\Local_Tasks\Update_Core
+	 * @param string $name The method name.
+	 * @param array  $arguments The arguments.
+	 *
+	 * @return \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Local_Tasks_Interface|null
 	 */
-	public function get_update_core() {
-		return $this->update_core;
+	public function __call( $name, $arguments ) {
+		if ( 0 === strpos( $name, 'get_' ) ) {
+			$provider_type = substr( $name, 4 ); // Remove 'get_' prefix.
+			$provider_type = str_replace( '_', '-', strtolower( $provider_type ) ); // Transform 'update_core' to 'update-core'.
+
+			return $this->get_task_provider( $provider_type );
+		}
+
+		return null;
+	}
+
+	/**
+	 * Get a task provider by its type.
+	 *
+	 * @param string $provider_type The provider type.
+	 *
+	 * @return \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Local_Tasks_Interface|null
+	 */
+	public function get_task_provider( $provider_type ) {
+		foreach ( $this->task_providers as $provider_instance ) {
+			if ( $provider_instance->get_provider_type() === $provider_type ) {
+				return $provider_instance;
+			}
+		}
+
+		return null;
 	}
 
 	/**
@@ -73,10 +106,12 @@ class Local_Tasks_Manager {
 	 * @return array
 	 */
 	public function inject_tasks( $tasks ) {
-		$tasks_to_inject = \array_merge(
-			$this->update_content->get_tasks_to_inject(),
-			$this->update_core->get_tasks_to_inject()
-		);
+		$tasks_to_inject = [];
+
+		// Loop through all registered task providers and inject their tasks.
+		foreach ( $this->task_providers as $provider_instance ) {
+			$tasks_to_inject = \array_merge( $tasks_to_inject, $provider_instance->get_tasks_to_inject() );
+		}
 
 		// Add the tasks to the pending tasks option, it will not add duplicates.
 		foreach ( $tasks_to_inject as $task ) {
@@ -92,18 +127,13 @@ class Local_Tasks_Manager {
 	 * @return array
 	 */
 	public function evaluate_tasks() {
-		$tasks = $this->get_pending_tasks();
-		if ( ! is_array( $tasks ) ) {
-			$tasks = [];
-		}
-
+		$tasks           = (array) $this->get_pending_tasks();
 		$completed_tasks = [];
 
 		$tasks = \array_unique( $tasks );
 		foreach ( $tasks as $task_id ) {
 
 			$task_result = $this->evaluate_task( $task_id );
-
 			if ( false !== $task_result ) {
 				$this->remove_pending_task( $task_id );
 				$completed_tasks[] = $task_id;
@@ -121,11 +151,14 @@ class Local_Tasks_Manager {
 	 * @return bool|string
 	 */
 	public function evaluate_task( $task_id ) {
-		if ( \str_contains( $task_id, '|' ) ) {
-			return $this->update_content->evaluate_task( $task_id );
-		} else {
-			return $this->update_core->evaluate_task( $task_id );
+		$task_object   = ( new Local_Task_Factory( $task_id ) )->get_task();
+		$task_provider = $this->get_task_provider( $task_object->get_provider_type() );
+
+		if ( ! $task_provider ) {
+			return false;
 		}
+
+		return $task_provider->evaluate_task( $task_id );
 	}
 
 	/**
@@ -133,14 +166,17 @@ class Local_Tasks_Manager {
 	 *
 	 * @param string $task_id The task ID.
 	 *
-	 * @return array
+	 * @return array|false
 	 */
 	public function get_task_details( $task_id ) {
-		if ( \str_contains( $task_id, '|' ) ) {
-			return $this->update_content->get_task_details( $task_id );
-		} else {
-			return $this->update_core->get_task_details( $task_id );
+		$task_object   = ( new Local_Task_Factory( $task_id ) )->get_task();
+		$task_provider = $this->get_task_provider( $task_object->get_provider_type() );
+
+		if ( ! $task_provider ) {
+			return false;
 		}
+
+		return $task_provider->get_task_details( $task_id );
 	}
 
 	/**
@@ -151,14 +187,10 @@ class Local_Tasks_Manager {
 	 * @return array
 	 */
 	public function get_data_from_task_id( $task_id ) {
-		if ( \str_contains( $task_id, '|' ) ) {
-			return $this->update_content->get_data_from_task_id( $task_id );
-		} else {
-			return $this->update_core->get_data_from_task_id( $task_id );
-		}
+		$task_object = ( new Local_Task_Factory( $task_id ) )->get_task();
+
+		return $task_object->get_data();
 	}
-
-
 
 	/**
 	 * Get pending local tasks.
@@ -177,10 +209,7 @@ class Local_Tasks_Manager {
 	 * @return bool
 	 */
 	public function add_pending_task( $task ) {
-		$tasks = $this->get_pending_tasks();
-		if ( ! is_array( $tasks ) ) {
-			$tasks = [];
-		}
+		$tasks = (array) $this->get_pending_tasks();
 		if ( \in_array( $task, $tasks, true ) ) {
 			return true;
 		}
@@ -196,10 +225,7 @@ class Local_Tasks_Manager {
 	 * @return bool
 	 */
 	public function remove_pending_task( $task ) {
-		$tasks = $this->get_pending_tasks();
-		if ( ! is_array( $tasks ) ) {
-			$tasks = [];
-		}
+		$tasks = (array) $this->get_pending_tasks();
 		$tasks = \array_diff( $tasks, [ $task ] );
 		return \update_option( self::OPTION_NAME, $tasks );
 	}

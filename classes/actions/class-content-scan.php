@@ -7,10 +7,12 @@
 
 namespace Progress_Planner\Actions;
 
+use Progress_Planner\Actions\Content;
+
 /**
  * Content scan class.
  */
-class Content_Scan extends \Progress_Planner\Actions\Content {
+class Content_Scan extends Content {
 
 	/**
 	 * The option used to store the last scanned page.
