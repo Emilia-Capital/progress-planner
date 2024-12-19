@@ -186,4 +186,13 @@ class Content_Create extends Content_Abstract implements Local_Tasks_Interface {
 
 		return $task_details;
 	}
+
+	/**
+	 * Check if the user has the capability to create a post.
+	 *
+	 * @return bool
+	 */
+	public function capability_required() {
+		return \current_user_can( 'edit_others_posts' );
+	}
 }
