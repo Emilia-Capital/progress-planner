@@ -7,13 +7,12 @@
 
 namespace Progress_Planner\Suggested_Tasks\Local_Tasks\Providers;
 
-use Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Local_Tasks_Interface;
 use Progress_Planner\Activities\Content_Helpers;
 
 /**
  * Add tasks for content creation.
  */
-class Content_Create extends Content_Abstract implements Local_Tasks_Interface {
+class Content_Create extends Content_Abstract {
 
 	/**
 	 * The provider ID.
@@ -185,14 +184,5 @@ class Content_Create extends Content_Abstract implements Local_Tasks_Interface {
 		];
 
 		return $task_details;
-	}
-
-	/**
-	 * Check if the user has the capability to create a post.
-	 *
-	 * @return bool
-	 */
-	public function capability_required() {
-		return \current_user_can( 'edit_others_posts' );
 	}
 }

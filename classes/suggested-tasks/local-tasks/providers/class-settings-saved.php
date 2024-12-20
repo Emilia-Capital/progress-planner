@@ -7,12 +7,10 @@
 
 namespace Progress_Planner\Suggested_Tasks\Local_Tasks\Providers;
 
-use Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Local_Tasks_Interface;
-
 /**
  * Add tasks for settings saved.
  */
-class Settings_Saved implements Local_Tasks_Interface {
+class Settings_Saved extends Local_Tasks_Abstract {
 
 	/**
 	 * The provider ID.
@@ -140,14 +138,5 @@ class Settings_Saved implements Local_Tasks_Interface {
 		}
 
 		return false;
-	}
-
-	/**
-	 * Check if the user has the capability to manage options.
-	 *
-	 * @return bool
-	 */
-	public function capability_required() {
-		return \current_user_can( 'manage_options' );
 	}
 }

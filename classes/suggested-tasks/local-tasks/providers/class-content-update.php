@@ -8,12 +8,11 @@
 namespace Progress_Planner\Suggested_Tasks\Local_Tasks\Providers;
 
 use Progress_Planner\Suggested_Tasks\Local_Tasks\Local_Task_Factory;
-use Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Local_Tasks_Interface;
 
 /**
  * Add tasks for content updates.
  */
-class Content_Update extends Content_Abstract implements Local_Tasks_Interface {
+class Content_Update extends Content_Abstract {
 
 	/**
 	 * The provider ID.
@@ -189,14 +188,5 @@ class Content_Update extends Content_Abstract implements Local_Tasks_Interface {
 				\progress_planner()->get_suggested_tasks()->get_local()->remove_pending_task( $task_id ); // @phpstan-ignore-line method.nonObject
 			}
 		}
-	}
-
-	/**
-	 * Check if the user has the capability to update a post.
-	 *
-	 * @return bool
-	 */
-	public function capability_required() {
-		return \current_user_can( 'edit_others_posts' );
 	}
 }

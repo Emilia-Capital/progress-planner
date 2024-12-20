@@ -7,12 +7,17 @@
 
 namespace Progress_Planner\Suggested_Tasks\Local_Tasks\Providers;
 
-use Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Local_Tasks_Interface;
-
 /**
  * Add tasks for Core updates.
  */
-class Core_Update implements Local_Tasks_Interface {
+class Core_Update extends Local_Tasks_Abstract {
+
+	/**
+	 * The capability required to perform the task.
+	 *
+	 * @var string
+	 */
+	protected $capability = 'update_core';
 
 	/**
 	 * The provider ID.
@@ -137,14 +142,5 @@ class Core_Update implements Local_Tasks_Interface {
 		}
 
 		return false;
-	}
-
-	/**
-	 * Check if the user has the capability to update the core.
-	 *
-	 * @return bool
-	 */
-	public function capability_required() {
-		return \current_user_can( 'update_core' );
 	}
 }
