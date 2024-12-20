@@ -14,5 +14,3 @@ parameters:
     - '#Call to an undefined method Progress_Planner\\Base\:\:get_[a-zA-Z0-9\\_]+().#'
     - '#Cannot call method modify\(\) on DateTime\|false.#'
     - '#Cannot call method format\(\) on DateTime\|false.#'
-    - '#Parameter \#1 \$[a-zA-Z0-9\\_]+ of function esc_attr expects string, mixed given.#'
-    - '#Parameter \#1 \$[a-zA-Z0-9\\_]+ of function sanitize_text_field expects string, mixed given.#'
