@@ -98,7 +98,7 @@ class Query {
 		$args = \wp_parse_args( $args, $defaults );
 
 		$cache_key = 'progress-planner-activities-' . md5( (string) \wp_json_encode( $args ) );
-		$results   = \wp_cache_get( $cache_key );
+		$results   = \wp_cache_get( $cache_key, 'progress_planner_query' );
 
 		if ( false === $results ) {
 			$where_args   = [];
@@ -157,7 +157,7 @@ class Query {
 					)
 				);
 
-			\wp_cache_set( $cache_key, $results );
+			\wp_cache_set( $cache_key, $results, 'progress_planner_query' );
 		}
 
 		if ( ! $results ) {
@@ -238,7 +238,7 @@ class Query {
 			return false;
 		}
 
-		\wp_cache_flush();
+		\wp_cache_flush_group( 'progress_planner_query' );
 
 		return (int) $wpdb->insert_id;
 	}
@@ -299,7 +299,7 @@ class Query {
 			[ '%d' ]
 		);
 
-		\wp_cache_flush();
+		\wp_cache_flush_group( 'progress_planner_query' );
 	}
 
 	/**
@@ -343,7 +343,7 @@ class Query {
 			[ '%d' ]
 		);
 
-		\wp_cache_flush();
+		\wp_cache_flush_group( 'progress_planner_query' );
 	}
 
 	/**
@@ -363,7 +363,7 @@ class Query {
 			[ '%s' ]
 		);
 
-		\wp_cache_flush();
+		\wp_cache_flush_group( 'progress_planner_query' );
 	}
 
 	/**
