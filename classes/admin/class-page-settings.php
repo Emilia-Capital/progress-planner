@@ -7,6 +7,8 @@
 
 namespace Progress_Planner\Admin;
 
+use Progress_Planner\Page_Types;
+
 /**
  * Admin class.
  */
@@ -77,7 +79,7 @@ class Page_Settings {
 			];
 		}
 
-		return apply_filters( 'progress_planner_settings', $settings );
+		return $settings;
 	}
 
 	/**
@@ -128,13 +130,13 @@ class Page_Settings {
 					}
 
 					// Get the term-ID for the type.
-					$term = \get_term_by( 'slug', $type, \Progress_Planner\Page_Types::TAXONOMY_NAME );
+					$term = \get_term_by( 'slug', $type, Page_Types::TAXONOMY_NAME );
 					if ( ! $term instanceof \WP_Term ) {
 						continue;
 					}
 
 					// Remove the assigned terms from the `progress_planner_page_types` taxonomy.
-					\wp_remove_object_terms( $post->ID, $term->term_id, \Progress_Planner\Page_Types::TAXONOMY_NAME );
+					\wp_remove_object_terms( $post->ID, $term->term_id, Page_Types::TAXONOMY_NAME );
 				}
 
 				// Skip if the ID is not set.
