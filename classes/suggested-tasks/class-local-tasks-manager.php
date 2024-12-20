@@ -8,6 +8,13 @@
 namespace Progress_Planner\Suggested_Tasks;
 
 use Progress_Planner\Suggested_Tasks\Local_Tasks\Local_Task_Factory;
+use Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Content_Create;
+use Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Content_Update;
+use Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Core_Update;
+use Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Core_Blogdescription;
+use Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Settings_Saved;
+use Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Yoast_Organization_Logo;
+
 
 /**
  * Local_Tasks_Manager class.
@@ -38,11 +45,11 @@ class Local_Tasks_Manager {
 	public function __construct() {
 
 		$this->task_providers = [
-			new \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Content_Create(),
-			new \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Content_Update(),
-			new \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Core_Update(),
-			new \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Core_Blogdescription(),
-			new \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Settings_Saved(),
+			new Content_Create(),
+			new Content_Update(),
+			new Core_Update(),
+			new Core_Blogdescription(),
+			new Settings_Saved(),
 		];
 
 		\add_filter( 'progress_planner_suggested_tasks_items', [ $this, 'inject_tasks' ] );
@@ -56,7 +63,7 @@ class Local_Tasks_Manager {
 	 */
 	public function add_plugin_integration() {
 		if ( defined( 'WPSEO_FILE' ) ) {
-			$this->task_providers[] = new \Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Yoast_Organization_Logo();
+			$this->task_providers[] = new Yoast_Organization_Logo();
 		}
 	}
 
@@ -168,7 +175,7 @@ class Local_Tasks_Manager {
 		$tasks = $this->get_pending_tasks();
 
 		foreach ( $tasks as $task ) {
-			$task_object = \Progress_Planner\Suggested_Tasks\Local_Tasks\Local_Task_Factory::create( $task );
+			$task_object = ( new Local_Task_Factory( $task ) )->get_task();
 			$provider    = $this->get_task_provider( $task_object->get_provider_type() );
 			if ( ! $provider ) {
 				$this->remove_pending_task( $task );

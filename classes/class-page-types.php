@@ -179,7 +179,7 @@ class Page_Types {
 	 * Get the page ID, based on the slug of the post-meta.
 	 *
 	 * @param string $post_type The post-type for the query.
-	 * @param string $slug      The slug of the post-meta value.
+	 * @param string $slug      The slug of the taxonomy term.
 	 *
 	 * @return \WP_Post[] Return the posts.
 	 */
@@ -489,9 +489,9 @@ class Page_Types {
 
 		if ( $value ) {
 			\update_term_meta( $term->term_id, '_progress_planner_no_page', '1' );
-		} else {
-			\delete_term_meta( $term->term_id, '_progress_planner_no_page' );
+			return;
 		}
+		\delete_term_meta( $term->term_id, '_progress_planner_no_page' );
 	}
 
 	/**

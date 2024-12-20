@@ -5,6 +5,8 @@
  * @package Progress_Planner
  */
 
+use Progress_Planner\Badges\Monthly;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -29,7 +31,7 @@ $prpl_badges_year = (int) isset( $args['badges_year'] ) ? $args['badges_year'] :
 		?>
 	</h3>
 
-	<?php $prpl_badges = \Progress_Planner\Badges\Monthly::get_instances_for_year( $prpl_badges_year ); ?>
+	<?php $prpl_badges = Monthly::get_instances_for_year( $prpl_badges_year ); ?>
 	<?php if ( $prpl_badges ) : ?>
 		<?php
 		$prpl_badges_per_row = 3;
