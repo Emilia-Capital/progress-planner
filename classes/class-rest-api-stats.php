@@ -117,7 +117,14 @@ class Rest_API_Stats {
 
 		$scores = \progress_planner()->get_chart()->get_chart_data(
 			[
-				'query_params'   => [],
+				'items_callback' => function ( $start_date, $end_date ) {
+					return \progress_planner()->get_query()->query_activities(
+						[
+							'start_date' => $start_date,
+							'end_date'   => $end_date,
+						]
+					);
+				},
 				'dates_params'   => [
 					'start_date' => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) )->modify( '-6 months' ),
 					'end_date'   => new \DateTime(),
