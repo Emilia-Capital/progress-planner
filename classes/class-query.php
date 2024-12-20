@@ -243,6 +243,8 @@ class Query {
 			return false;
 		}
 
+		\wp_cache_flush();
+
 		return (int) $wpdb->insert_id;
 	}
 
@@ -301,6 +303,8 @@ class Query {
 			],
 			[ '%d' ]
 		);
+
+		\wp_cache_flush();
 	}
 
 	/**
@@ -343,6 +347,8 @@ class Query {
 			[ 'id' => $id ],
 			[ '%d' ]
 		);
+
+		\wp_cache_flush();
 	}
 
 	/**
@@ -361,6 +367,8 @@ class Query {
 			[ 'category' => $category ],
 			[ '%s' ]
 		);
+
+		\wp_cache_flush();
 	}
 
 	/**
