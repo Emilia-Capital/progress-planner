@@ -52,4 +52,11 @@ interface Local_Tasks_Interface {
 	 * @return string
 	 */
 	public function get_provider_type();
+
+	/**
+	 * Check if the user has the capability to perform the task.
+	 *
+	 * @return bool
+	 */
+	public function capability_required();
 }

@@ -10,7 +10,14 @@ namespace Progress_Planner\Suggested_Tasks\Local_Tasks\Providers;
 /**
  * Add tasks for content updates.
  */
-abstract class Content_Abstract {
+abstract class Content_Abstract extends Local_Tasks_Abstract {
+
+	/**
+	 * The capability required to perform the task.
+	 *
+	 * @var string
+	 */
+	protected $capability = 'edit_others_posts';
 
 	/**
 	 * Get the task ID.
