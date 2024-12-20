@@ -179,7 +179,7 @@ class Page_Types {
 	 * Get the page ID, based on the slug of the post-meta.
 	 *
 	 * @param string $post_type The post-type for the query.
-	 * @param string $slug      The slug of the post-meta value.
+	 * @param string $slug      The slug of the taxonomy term.
 	 *
 	 * @return \WP_Post[] Return the posts.
 	 */
@@ -204,6 +204,15 @@ class Page_Types {
 				],
 			]
 		);
+		if ( empty( $posts ) && 'page' === $post_type ) {
+			$default_page_id = $this->get_default_page_id_by_type( $slug );
+			if ( 0 !== $default_page_id ) {
+				$post = \get_post( $default_page_id );
+				if ( $post instanceof \WP_Post ) {
+					$posts = [ $post ];
+				}
+			}
+		}
 
 		$cache[ $post_type ][ $slug ] = empty( $posts ) ? [] : $posts;
 		return $cache[ $post_type ][ $slug ];
@@ -272,6 +281,59 @@ class Page_Types {
 				$term = \get_term_by( 'slug', 'blog', self::TAXONOMY_NAME );
 				return $term instanceof \WP_Term ? $term->term_id : 0;
 		}
+	}
+
+	/**
+	 * Get the default page ID for a page-type.
+	 *
+	 * @param string $page_type The page-type slug.
+	 *
+	 * @return int
+	 */
+	public function get_default_page_id_by_type( $page_type ) {
+		if ( 'homepage' === $page_type ) {
+			return \get_option( 'page_on_front' );
+		}
+
+		$types_pages = [
+			'homepage' => [ \get_post( \get_option( 'page_on_front' ) ) ],
+			'contact'  => $this->get_posts_by_title( __( 'Contact', 'progress-planner' ) ),
+			'about'    => $this->get_posts_by_title( __( 'About', 'progress-planner' ) ),
+			'faq'      => array_merge(
+				$this->get_posts_by_title( __( 'FAQ', 'progress-planner' ) ),
+				$this->get_posts_by_title( __( 'Frequently Asked Questions', 'progress-planner' ) ),
+			),
+		];
+
+		$homepage_id = isset( $types_pages['homepage'][0] ) ? (int) $types_pages['homepage'][0]->ID : 0;
+
+		if ( 'contact' === $page_type || 'about' === $page_type || 'faq' === $page_type ) {
+			foreach ( [ 'contact', 'about', 'faq' ] as $page_type ) {
+				$filtered_type_pages = $types_pages;
+				unset( $filtered_type_pages[ $page_type ] );
+				unset( $filtered_type_pages['homepage'] );
+
+				$posts = $types_pages['contact'];
+				// Exclude the homepage and any pages that are already assigned to another page-type.
+				$posts = \array_filter(
+					$posts,
+					function ( $post ) use ( $homepage_id, $filtered_type_pages ) {
+						if ( (int) $post === (int) $homepage_id ) {
+							return false;
+						}
+						foreach ( $filtered_type_pages as $type_pages ) {
+							if ( \in_array( (int) $post, $type_pages, true ) ) {
+								return false;
+							}
+						}
+						return true;
+					}
+				);
+				return empty( $posts ) ? 0 : $posts[0];
+			}
+		}
+
+		return 0;
 	}
 
 	/**
@@ -405,7 +467,7 @@ class Page_Types {
 	 */
 	public function is_page_needed( $type ) {
 		$term = $this->get_term_by_type( $type );
-		if ( ! $term || ! $term instanceof \WP_Term ) {
+		if ( ! $term ) {
 			return false;
 		}
 		return '' !== get_term_meta( $term->term_id, '_progress_planner_no_page', true ) ? false : true;
@@ -427,8 +489,30 @@ class Page_Types {
 
 		if ( $value ) {
 			\update_term_meta( $term->term_id, '_progress_planner_no_page', '1' );
-		} else {
-			\delete_term_meta( $term->term_id, '_progress_planner_no_page' );
+			return;
 		}
+		\delete_term_meta( $term->term_id, '_progress_planner_no_page' );
+	}
+
+	/**
+	 * Get the posts by title.
+	 *
+	 * @param string $title The title.
+	 *
+	 * @return array
+	 */
+	private function get_posts_by_title( $title ) {
+		global $wpdb;
+		$posts     = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+			$wpdb->prepare(
+				"SELECT ID FROM $wpdb->posts WHERE post_title LIKE %s",
+				'%' . $wpdb->esc_like( $title ) . '%'
+			)
+		);
+		$posts_ids = [];
+		foreach ( $posts as $post ) {
+			$posts_ids[] = (int) $post->ID;
+		}
+		return $posts_ids;
 	}
 }

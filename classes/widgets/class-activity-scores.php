@@ -7,10 +7,14 @@
 
 namespace Progress_Planner\Widgets;
 
+use Progress_Planner\Widget;
+use Progress_Planner\Goals\Goal_Recurring;
+use Progress_Planner\Goals\Goal;
+
 /**
  * A widget class.
  */
-final class Activity_Scores extends \Progress_Planner\Widget {
+final class Activity_Scores extends Widget {
 
 	/**
 	 * The widget ID.
@@ -163,10 +167,10 @@ final class Activity_Scores extends \Progress_Planner\Widget {
 	 * @return array
 	 */
 	public function personal_record_callback() {
-		$goal = \Progress_Planner\Goals\Goal_Recurring::get_instance(
+		$goal = Goal_Recurring::get_instance(
 			'weekly_post_record',
 			[
-				'class_name'  => \Progress_Planner\Goals\Goal::class,
+				'class_name'  => Goal::class,
 				'id'          => 'weekly_post',
 				'title'       => \esc_html__( 'Write a weekly blog post', 'progress-planner' ),
 				'description' => \esc_html__( 'Streak: The number of weeks this goal has been accomplished consistently.', 'progress-planner' ),
@@ -187,8 +191,8 @@ final class Activity_Scores extends \Progress_Planner\Widget {
 			],
 			[
 				'frequency'     => 'weekly',
-				'start'         => new \DateTime( '-2 years' ),
-				'end'           => new \DateTime(), // Today.
+				'start_date'    => new \DateTime( '-2 years' ),
+				'end_date'      => new \DateTime(), // Today.
 				'allowed_break' => 0, // Do not allow breaks in the streak.
 			]
 		);

@@ -7,6 +7,8 @@
 
 namespace Progress_Planner\Actions;
 
+use Progress_Planner\Activities\Content as Activities_Content;
+
 /**
  * Content actions.
  */
@@ -151,6 +153,10 @@ class Content {
 	public function trash_post( $post_id ) {
 		$post = \get_post( $post_id );
 
+		if ( null === $post ) {
+			return;
+		}
+
 		// Bail if we should skip saving.
 		if ( $this->should_skip_saving( $post ) ) {
 			return;
@@ -173,6 +179,10 @@ class Content {
 	public function delete_post( $post_id ) {
 		$post = \get_post( $post_id );
 
+		if ( null === $post ) {
+			return;
+		}
+
 		// Bail if we should skip saving.
 		if ( $this->should_skip_saving( $post ) ) {
 			return;
@@ -182,7 +192,7 @@ class Content {
 		\progress_planner()->get_settings()->set( [ 'word_count', $post_id ], false );
 
 		// Add activity.
-		$activity           = new \Progress_Planner\Activities\Content();
+		$activity           = new Activities_Content();
 		$activity->category = 'content';
 		$activity->type     = 'delete';
 		$activity->data_id  = (string) $post_id;

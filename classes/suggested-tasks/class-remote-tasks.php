@@ -13,13 +13,6 @@ namespace Progress_Planner\Suggested_Tasks;
 class Remote_Tasks {
 
 	/**
-	 * The remote server URL.
-	 *
-	 * @var string
-	 */
-	const REMOTE_SERVER_ROOT_URL = 'https://progressplanner.com';
-
-	/**
 	 * The cache key to use for remote-API tasks.
 	 *
 	 * @var string
@@ -42,11 +35,16 @@ class Remote_Tasks {
 	 */
 	public function inject_tasks( $tasks ) {
 		$inject_items = $this->get_tasks_to_inject();
-		if ( ! is_array( $inject_items ) ) {
-			$inject_items = [];
+		$items        = [];
+		foreach ( $inject_items as $item ) {
+			if ( ! is_array( $item ) ) {
+				continue;
+			}
+			$item['task_id'] = "remote-task-{$item['task_id']}";
+			$items[]         = $item;
 		}
 
-		return \array_merge( $inject_items, $tasks );
+		return \array_merge( $items, $tasks );
 	}
 
 	/**
@@ -54,7 +52,7 @@ class Remote_Tasks {
 	 *
 	 * @return array
 	 */
-	protected function get_tasks_to_inject() {
+	public function get_tasks_to_inject() {
 		// Check if we have a cached response.
 		$tasks = \progress_planner()->get_cache()->get( self::CACHE_KEY );
 
@@ -76,9 +74,15 @@ class Remote_Tasks {
 				$tasks = \json_decode( $body, true );
 
 				if ( \is_array( $tasks ) ) {
+					$valid_tasks = [];
+					foreach ( $tasks as $task ) {
+						if ( isset( $task['task_id'] ) ) {
+							$valid_tasks[] = $task;
+						}
+					}
 					// Cache the response for 1 day.
-					\progress_planner()->get_cache()->set( self::CACHE_KEY, $tasks, DAY_IN_SECONDS );
-					return $tasks;
+					\progress_planner()->get_cache()->set( self::CACHE_KEY, $valid_tasks, DAY_IN_SECONDS );
+					return $valid_tasks;
 				}
 			}
 		}
@@ -91,9 +95,17 @@ class Remote_Tasks {
 	 * @return string
 	 */
 	protected function get_api_endpoint() {
-		return apply_filters(
-			'progress_planner_suggested_tasks_remote_api_endpoint',
-			self::REMOTE_SERVER_ROOT_URL . '/wp-json/progress-planner-saas/v1/suggested-todo/'
-		);
+		$url             = \progress_planner()->get_remote_server_root_url() . '/wp-json/progress-planner-saas/v1/suggested-todo/';
+		$pro_license_key = \get_option( 'progress_planner_pro_license_key' );
+		if ( $pro_license_key ) {
+			$url = \add_query_arg(
+				[
+					'license_key' => $pro_license_key,
+					'site'        => \get_site_url(),
+				],
+				$url
+			);
+		}
+		return $url;
 	}
 }

@@ -7,6 +7,15 @@
 
 namespace Progress_Planner;
 
+use Progress_Planner\Admin\Page as Admin_Page;
+use Progress_Planner\Admin\Tour as Admin_Tour;
+use Progress_Planner\Admin\Dashboard_Widget_Score as Admin_Dashboard_Widget_Score;
+use Progress_Planner\Admin\Dashboard_Widget_Todo as Admin_Dashboard_Widget_Todo;
+use Progress_Planner\Admin\Editor as Admin_Editor;
+use Progress_Planner\Actions\Content as Actions_Content;
+use Progress_Planner\Actions\Content_Scan as Actions_Content_Scan;
+use Progress_Planner\Actions\Maintenance as Actions_Maintenance;
+use Progress_Planner\Admin\Page_Settings as Admin_Page_Settings;
 /**
  * Main plugin class.
  */
@@ -27,16 +36,23 @@ class Base {
 	private $cached = [];
 
 	/**
+	 * The plugin version.
+	 *
+	 * @var string
+	 */
+	private static $plugin_version;
+
+	/**
 	 * Init.
 	 *
 	 * @return void
 	 */
 	public function init() {
 		if ( ! function_exists( 'current_user_can' ) ) {
-			require_once ABSPATH . 'wp-includes/capabilities.php';
+			require_once ABSPATH . 'wp-includes/capabilities.php'; // @phpstan-ignore requireOnce.fileNotFound
 		}
 		if ( ! function_exists( 'wp_get_current_user' ) ) {
-			require_once ABSPATH . 'wp-includes/pluggable.php';
+			require_once ABSPATH . 'wp-includes/pluggable.php'; // @phpstan-ignore requireOnce.fileNotFound
 		}
 
 		if ( defined( '\IS_PLAYGROUND_PREVIEW' ) && constant( '\IS_PLAYGROUND_PREVIEW' ) === true ) {
@@ -44,17 +60,21 @@ class Base {
 		}
 
 		// Basic classes.
-		if ( \is_admin() && \current_user_can( 'publish_posts' ) ) {
-			$this->cached['admin__page']                   = new \Progress_Planner\Admin\Page();
-			$this->cached['admin__tour']                   = new \Progress_Planner\Admin\Tour();
-			$this->cached['admin__dashboard_widget_score'] = new \Progress_Planner\Admin\Dashboard_Widget_Score();
-			$this->cached['admin__dashboard_widget_todo']  = new \Progress_Planner\Admin\Dashboard_Widget_Todo();
-		}
-		$this->cached['admin__editor'] = new \Progress_Planner\Admin\Editor();
+		if ( \is_admin() && \current_user_can( 'edit_others_posts' ) ) {
+			$this->cached['admin__page'] = new Admin_Page();
+			$this->cached['admin__tour'] = new Admin_Tour();
 
-		$this->cached['actions__content']      = new \Progress_Planner\Actions\Content();
-		$this->cached['actions__content_scan'] = new \Progress_Planner\Actions\Content_Scan();
-		$this->cached['actions__maintenance']  = new \Progress_Planner\Actions\Maintenance();
+			// Dont add the widget if the privacy policy is not accepted.
+			if ( true === $this->is_privacy_policy_accepted() ) {
+				$this->cached['admin__dashboard_widget_score'] = new Admin_Dashboard_Widget_Score();
+				$this->cached['admin__dashboard_widget_todo']  = new Admin_Dashboard_Widget_Todo();
+			}
+		}
+		$this->cached['admin__editor'] = new Admin_Editor();
+
+		$this->cached['actions__content']      = new Actions_Content();
+		$this->cached['actions__content_scan'] = new Actions_Content_Scan();
+		$this->cached['actions__maintenance']  = new Actions_Maintenance();
 
 		// REST API.
 		$this->cached['rest_api_stats'] = new Rest_API_Stats();
@@ -65,14 +85,21 @@ class Base {
 		// To-do.
 		$this->cached['todo'] = new Todo();
 
+		// Post-meta.
+		$this->cached['page_todos'] = new Page_Todos();
+
 		\add_filter( 'plugin_action_links_' . plugin_basename( PROGRESS_PLANNER_FILE ), [ $this, 'add_action_links' ] );
 
 		// We need to initialize some classes early.
 		$this->cached['page_types']      = new Page_Types();
 		$this->cached['settings']        = new Settings();
-		$this->cached['settings_page']   = new \Progress_Planner\Admin\Page_Settings();
 		$this->cached['suggested_tasks'] = new Suggested_Tasks();
 		$this->cached['badges']          = new Badges();
+
+		// Dont add the widget if the privacy policy is not accepted.
+		if ( true === $this->is_privacy_policy_accepted() ) {
+			$this->cached['settings_page'] = new Admin_Page_Settings();
+		}
 	}
 
 	/**
@@ -90,10 +117,10 @@ class Base {
 	 * @return mixed
 	 */
 	public function __call( $name, $arguments ) {
-		if ( 0 === strpos( $name, 'get_' ) ) {
-			$cache_name = substr( $name, 4 );
+		if ( 0 !== strpos( $name, 'get_' ) ) {
+			return;
 		}
-
+		$cache_name = substr( $name, 4 );
 		if ( isset( $this->cached[ $cache_name ] ) ) {
 			return $this->cached[ $cache_name ];
 		}
@@ -104,6 +131,17 @@ class Base {
 			$this->cached[ $cache_name ] = new $class_name( $arguments );
 			return $this->cached[ $cache_name ];
 		}
+	}
+
+	/**
+	 * Get the remote server root URL.
+	 *
+	 * @return string
+	 */
+	public function get_remote_server_root_url() {
+		return defined( 'PROGRESS_PLANNER_REMOTE_SERVER_ROOT_URL' )
+			? \PROGRESS_PLANNER_REMOTE_SERVER_ROOT_URL
+			: 'https://progressplanner.com';
 	}
 
 	/**
@@ -119,6 +157,15 @@ class Base {
 			return $activation_date;
 		}
 		return \DateTime::createFromFormat( 'Y-m-d', $activation_date );
+	}
+
+	/**
+	 * Check if the privacy policy is accepted.
+	 *
+	 * @return bool
+	 */
+	public function is_privacy_policy_accepted() {
+		return false !== get_option( 'progress_planner_license_key', false );
 	}
 
 	/**
@@ -197,7 +244,7 @@ class Base {
 		 *
 		 * @param array $files The files to include.
 		 */
-		$files = apply_filters( 'progress_planner_the_file', (array) $files );
+		$files = (array) $files;
 		foreach ( $files as $file ) {
 			$path = $file;
 			if ( ! \file_exists( $path ) ) {
@@ -209,6 +256,104 @@ class Base {
 				break;
 			}
 		}
+	}
+
+	/**
+	 * Get the version of a file.
+	 *
+	 * @param string $file The file path.
+	 * @return string
+	 */
+	public function get_file_version( $file ) {
+		// If we're in debug mode, use filemtime.
+		if ( defined( 'WP_SCRIPT_DEBUG' ) && \WP_SCRIPT_DEBUG ) {
+			return (string) filemtime( $file );
+		}
+
+		// Otherwise, use the plugin header.
+		if ( ! function_exists( 'get_file_data' ) ) {
+			require_once ABSPATH . 'wp-includes/functions.php'; // @phpstan-ignore requireOnce.fileNotFound
+		}
+
+		if ( ! self::$plugin_version ) {
+			self::$plugin_version = \get_file_data( PROGRESS_PLANNER_FILE, [ 'Version' => 'Version' ] )['Version'];
+		}
+
+		return self::$plugin_version;
+	}
+
+	/**
+	 * Check if the site is considered a local one.
+	 *
+	 * This method is inspired by the `is_local_url` function from the
+	 * EDD - Software Licensing plugin.
+	 *
+	 * @return boolean If we're considering the site local or not.
+	 */
+	public function is_local_site() {
+		$url       = \get_home_url();
+		$url_parts = \wp_parse_url( $url );
+		$host      = ! empty( $url_parts['host'] ) ? $url_parts['host'] : false;
+
+		if ( ! empty( $url ) && ! empty( $host ) ) {
+			if (
+				'localhost' === $host
+				|| (
+					false !== \ip2long( $host )
+					&& ! \filter_var( $host, \FILTER_VALIDATE_IP, \FILTER_FLAG_NO_PRIV_RANGE | \FILTER_FLAG_NO_RES_RANGE )
+				)
+			) {
+				return true;
+			}
+
+			foreach ( [ '.local', '.test' ] as $tld ) {
+				if ( false !== \strpos( $host, $tld ) ) {
+					return true;
+				}
+			}
+
+			if ( \substr_count( $host, '.' ) > 1 ) {
+				$subdomains_to_check = [
+					'dev.',
+					'*.staging.',
+					'*.test.',
+					'staging-*.',
+					'*.wpengine.com',
+					'*.instawp.xyz',
+					'*.cloudwaysapps.com',
+					'*.flywheelsites.com',
+					'*.flywheelstaging.com',
+					'*.myftpupload.com',
+					'*.kinsta.cloud',
+				];
+
+				foreach ( $subdomains_to_check as $subdomain ) {
+					$subdomain = \str_replace( '.', '(.)', $subdomain );
+					$subdomain = \str_replace( [ '*', '(.)' ], '(.*)', $subdomain );
+
+					if ( \preg_match( '/^(' . $subdomain . ')/', $host ) ) {
+						return true;
+					}
+				}
+			}
+
+			// Some Hosting providers do subdirectory staging sites.
+			if ( \preg_match( '/\/staging\/\d{3,}/', $url ) ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Check if this is a PRO site.
+	 *
+	 * @return bool
+	 */
+	public function is_pro_site() {
+		return \get_option( 'progress_planner_pro_license_key' )
+			&& 'valid' === \get_option( 'progress_planner_pro_license_status' );
 	}
 }
 // phpcs:enable Generic.Commenting.Todo

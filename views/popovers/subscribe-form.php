@@ -60,6 +60,11 @@ $prpl_current_user = \wp_get_current_user();
 			name="timezone_offset"
 			value="<?php echo (float) ( \wp_timezone()->getOffset( new \DateTime( 'midnight' ) ) / 3600 ); ?>"
 		>
+		<input
+			type="hidden"
+			name="with-email"
+			value="yes"
+		>
 	</div>
 	<button id="submit-license-key" class="button button-primary"><?php \esc_html_e( 'Subscribe', 'progress-planner' ); ?></button>
 </form>

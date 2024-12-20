@@ -20,13 +20,17 @@ $prpl_latest_badge = \progress_planner()->get_badges()->get_latest_completed_bad
 	<p><?php \esc_html_e( 'You haven\'t unlocked any badges yet. Hang on, you\'ll get there!', 'progress-planner' ); ?></p>
 <?php else : ?>
 	<p>
-		<?php
-		printf(
-			/* translators: %s: The badge name. */
-			\esc_html__( 'Wooohoooo! Congratulations! You have earned a new badge. You are now a %s.', 'progress-planner' ),
-			'<strong>' . \esc_html( $prpl_latest_badge->get_name() ) . '</strong>'
-		);
-		?>
+		<?php if ( str_starts_with( $prpl_latest_badge->get_id(), 'monthly-' ) ) : ?>
+			<?php \esc_html_e( 'Wooohoooo! Congratulations! You have earned a new badge.', 'progress-planner' ); ?>
+		<?php else : ?>
+			<?php
+			printf(
+				/* translators: %s: The badge name. */
+				\esc_html__( 'Wooohoooo! Congratulations! You have earned a new badge. You are now a %s.', 'progress-planner' ),
+				'<strong>' . \esc_html( $prpl_latest_badge->get_name() ) . '</strong>'
+			);
+			?>
+		<?php endif; ?>
 	</p>
 	<img
 		src="<?php echo \esc_url( \progress_planner()->get_widgets__latest_badge()->endpoint . $prpl_latest_badge->get_id() ); ?>"
@@ -34,7 +38,7 @@ $prpl_latest_badge = \progress_planner()->get_badges()->get_latest_completed_bad
 		width="1200"
 		height="675"
 	/>
-	<?php if ( 'no-license' !== \get_option( 'progress_planner_license_key', 'no-license' ) ) : ?>
+	<?php if ( 'no-license' !== \get_option( 'progress_planner_license_key', 'no-license' ) && ! \progress_planner()->is_local_site() ) : ?>
 		<?php
 		// Generate the share badge URL.
 		$prpl_share_badge_url = \add_query_arg(
@@ -42,7 +46,7 @@ $prpl_latest_badge = \progress_planner()->get_badges()->get_latest_completed_bad
 				'badge' => $prpl_latest_badge->get_id(),
 				'url'   => \home_url(),
 			],
-			'https://progressplanner.com/wp-json/progress-planner-saas/v1/share-badge'
+			\progress_planner()->get_remote_server_root_url() . '/wp-json/progress-planner-saas/v1/share-badge'
 		);
 		?>
 		<div class="share-badge-wrapper">
@@ -53,7 +57,7 @@ $prpl_latest_badge = \progress_planner()->get_badges()->get_latest_completed_bad
 				</span>
 			</a>
 		</div>
-	<?php else : ?>
+	<?php elseif ( ! \progress_planner()->is_local_site() ) : ?>
 		<?php
 		\progress_planner()->get_popover()->the_popover( 'subscribe-form' )->render_button(
 			'',

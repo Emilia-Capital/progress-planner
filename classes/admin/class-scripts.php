@@ -34,7 +34,7 @@ class Scripts {
 				$handle,
 				PROGRESS_PLANNER_URL . "/assets/js/web-components/{$file}.js",
 				$this->get_dependencies( 'web-components/' . $file ),
-				(string) filemtime( PROGRESS_PLANNER_DIR . "/assets/js/web-components/{$file}.js" ),
+				\progress_planner()->get_file_version( PROGRESS_PLANNER_DIR . '/assets/js/web-components/' . $file . '.js' ),
 				true
 			);
 			$this->localize_script( $handle );
@@ -47,7 +47,7 @@ class Scripts {
 				$handle,
 				PROGRESS_PLANNER_URL . '/assets/js/' . $file . '.js',
 				$this->get_dependencies( $file ),
-				(string) filemtime( PROGRESS_PLANNER_DIR . '/assets/js/' . $file . '.js' ),
+				\progress_planner()->get_file_version( PROGRESS_PLANNER_DIR . '/assets/js/' . $file . '.js' ),
 				true
 			);
 			$this->localize_script( $handle );
@@ -83,29 +83,6 @@ class Scripts {
 			case 'settings-page':
 				return [ 'wp-util', 'progress-planner-document-ready' ];
 
-			case 'todo':
-				return [
-					'wp-util',
-					'wp-a11y',
-					'progress-planner-ajax-request',
-					'progress-planner-grid-masonry',
-					'progress-planner-web-components-prpl-todo-item',
-					'progress-planner-document-ready',
-				];
-
-			case 'suggested-tasks':
-				$pending_celebration = \progress_planner()->get_suggested_tasks()->get_pending_celebration();
-				$deps                = [
-					'progress-planner-todo',
-					'progress-planner-grid-masonry',
-					'progress-planner-web-components-prpl-suggested-task',
-					'progress-planner-document-ready',
-				];
-				if ( ! empty( $pending_celebration ) ) {
-					$deps[] = 'particles-confetti';
-				}
-				return $deps;
-
 			default:
 				return [];
 		}
@@ -119,13 +96,26 @@ class Scripts {
 	 */
 	public function localize_script( $handle ) {
 		switch ( $handle ) {
+			case 'progress-planner-web-components-prpl-badge':
+				\wp_localize_script(
+					$handle,
+					'progressPlannerBadge',
+					[
+						'remoteServerRootUrl' => \progress_planner()->get_remote_server_root_url(),
+					]
+				);
+				break;
 			case 'progress-planner-web-components-prpl-suggested-task':
 				\wp_localize_script(
 					$handle,
 					'progressPlannerSuggestedTask',
 					[
-						'nonce' => \wp_create_nonce( 'progress_planner' ),
-						'i18n'  => [
+						'nonce'  => \wp_create_nonce( 'progress_planner' ),
+						'assets' => [
+							'infoIcon'   => PROGRESS_PLANNER_URL . '/assets/images/icon_info.svg',
+							'snoozeIcon' => PROGRESS_PLANNER_URL . '/assets/images/icon_snooze.svg',
+						],
+						'i18n'   => [
 							'info'           => \esc_html__( 'Info', 'progress-planner' ),
 							'snooze'         => \esc_html__( 'Snooze', 'progress-planner' ),
 							'snoozeThisTask' => \esc_html__( 'Snooze this task?', 'progress-planner' ),
@@ -139,6 +129,7 @@ class Scripts {
 								'forever'     => \esc_html__( 'forever', 'progress-planner' ),
 							],
 							'close'          => \esc_html__( 'Close', 'progress-planner' ),
+							'markAsComplete' => \esc_html__( 'Mark as completed', 'progress-planner' ),
 						],
 					]
 				);
@@ -205,18 +196,6 @@ class Scripts {
 				\wp_localize_script( $handle, 'progressPlanner', $data );
 				break;
 
-			case 'progress-planner-todo':
-				\wp_localize_script(
-					$handle,
-					'progressPlannerTodo',
-					[
-						'ajaxUrl'   => \admin_url( 'admin-ajax.php' ),
-						'nonce'     => \wp_create_nonce( 'progress_planner_todo' ),
-						'listItems' => \progress_planner()->get_todo()->get_items(),
-					]
-				);
-				break;
-
 			case 'progress-planner-settings-page':
 				\wp_localize_script(
 					$handle,
@@ -224,36 +203,6 @@ class Scripts {
 					[
 						'siteUrl'    => \get_site_url(),
 						'savingText' => \esc_html__( 'Saving...', 'progress-planner' ),
-					]
-				);
-				break;
-
-			case 'progress-planner-suggested-tasks':
-				// Get all saved tasks (completed, pending celebration, snoozed).
-				$tasks = \progress_planner()->get_suggested_tasks()->get_saved_tasks();
-
-				// Get pending tasks.
-				$tasks['details'] = \progress_planner()->get_suggested_tasks()->get_tasks();
-
-				// Insert the pending celebration tasks as high priority tasks, so they are shown always.
-				foreach ( $tasks['pending_celebration'] as $task_id ) {
-
-					$task_details = \progress_planner()->get_suggested_tasks()->get_local()->get_task_details( $task_id );
-
-					if ( $task_details ) {
-						$task_details['priority'] = 'high'; // Celebrate tasks are always on top.
-						$task_details['action']   = 'celebrate';
-						$tasks['details'][]       = $task_details;
-					}
-				}
-
-				\wp_localize_script(
-					$handle,
-					'progressPlannerSuggestedTasks',
-					[
-						'ajaxUrl' => \admin_url( 'admin-ajax.php' ),
-						'nonce'   => \wp_create_nonce( 'progress_planner' ),
-						'tasks'   => $tasks,
 					]
 				);
 				break;
@@ -273,8 +222,8 @@ class Scripts {
 	 */
 	public function get_files_in_directory( $directory, $trim = '.js' ) {
 		$files = \glob( PROGRESS_PLANNER_DIR . '/' . $directory . '/*.js' );
-		foreach ( $files as $index => $file ) {
-			$files[ $index ] = \str_replace( $trim, '', \basename( $file ) );
+		foreach ( $files as $index => $file ) { // @phpstan-ignore-line foreach.nonIterable
+			$files[ $index ] = \str_replace( $trim, '', \basename( $file ) ); // @phpstan-ignore-line offsetAccess.nonOffsetAccessible
 		}
 
 		return $files;

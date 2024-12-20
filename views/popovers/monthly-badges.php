@@ -14,23 +14,25 @@ if ( ! defined( 'ABSPATH' ) ) {
 <div class="prpl-widgets-container in-popover">
 	<div class="prpl-popover-column">
 		<?php
-		\progress_planner()->the_view(
-			'page-widgets/parts/monthly-badge-2024.php',
-			[
-				'css_class' => 'prpl-widget-wrapper in-popover',
-				'title_tag' => 'h3',
-			]
-		);
-		?>
 
-		<?php
-		\progress_planner()->the_view(
-			'page-widgets/parts/monthly-badges.php',
-			[
-				'css_class'  => 'in-popover',
-				'title_year' => 2025,
-			]
-		);
+		/**
+		 * Get the monthly badges.
+		 *
+		 * @var array<\Progress_Planner\Badges\Badge>
+		 *
+		 * This is an associative array where the key is the year and the elements are arrays of \Progress_Planner\Badges\Badge objects.
+		 */
+		$prpl_badges = \progress_planner()->get_badges()->get_badges( 'monthly' );
+
+		foreach ( $prpl_badges as $prpl_badges_year => $prpl_monthly_badges ) {
+			\progress_planner()->the_view(
+				'page-widgets/parts/monthly-badges.php',
+				[
+					'css_class'   => 'in-popover',
+					'badges_year' => $prpl_badges_year,
+				]
+			);
+		}
 		?>
 	</div>
 

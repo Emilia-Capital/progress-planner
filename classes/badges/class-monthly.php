@@ -17,7 +17,7 @@ final class Monthly extends Badge {
 	 *
 	 * @var int
 	 */
-	const TARGET_POINTS = 7;
+	const TARGET_POINTS = 10;
 
 	/**
 	 * The badge ID.
@@ -45,26 +45,66 @@ final class Monthly extends Badge {
 	/**
 	 * Get an array of instances (one for each month).
 	 *
-	 * @param int|null $year The year. If null, the current year is used.
-	 *
 	 * @return array
 	 */
-	public static function get_instances( $year = null ) {
-		$year = $year ? (int) $year : gmdate( 'Y' );
-		if ( ! isset( self::$instances[ $year ] ) ) {
-			self::$instances[ $year ] = [];
+	public static function init_badges() {
+
+		if ( ! empty( self::$instances ) ) {
+			return self::$instances;
 		}
 
-		if ( ! empty( self::$instances[ $year ] ) ) {
-			return self::$instances[ $year ];
-		}
+		$activation_date = \progress_planner()->get_base()->get_activation_date();
+		$start_date      = $activation_date->modify( 'first day of this month' );
 
-		foreach ( array_keys( self::get_months() ) as $month ) {
-			$id                         = 'monthly-' . $year . '-' . $month;
+		// Year when plugin was released.
+		$end_date = ( 2024 === (int) $start_date->format( 'Y' ) )
+			? new \DateTime( 'last day of December next year' )
+			: new \DateTime( 'last day of December this year' );
+
+		$dates = iterator_to_array( new \DatePeriod( $start_date, new \DateInterval( 'P1M' ), $end_date ), false );
+
+		// To make sure keys are defined only once and consistent.
+		$self_months = array_keys( self::get_months() );
+
+		foreach ( $dates as $date ) {
+			$year  = (int) $date->format( 'Y' );
+			$month = (int) $date->format( 'n' );
+			$id    = 'monthly-' . $year . '-' . $self_months[ $month - 1 ];
+
+			if ( ! isset( self::$instances[ $year ] ) ) {
+				self::$instances[ $year ] = [];
+			}
+
 			self::$instances[ $year ][] = new self( $id );
 		}
 
-		return self::$instances[ $year ];
+		return self::$instances;
+	}
+
+	/**
+	 * Get an array of instances (one for each month).
+	 *
+	 * @return array
+	 */
+	public static function get_instances() {
+		if ( empty( self::$instances ) ) {
+			self::$instances = self::init_badges();
+		}
+		return self::$instances;
+	}
+
+	/**
+	 * Get an array of instances (one for each month).
+	 *
+	 * @param int $year The year.
+	 *
+	 * @return array
+	 */
+	public static function get_instances_for_year( $year ) {
+		if ( empty( self::$instances ) ) {
+			self::$instances = self::init_badges();
+		}
+		return isset( self::$instances[ $year ] ) ? self::$instances[ $year ] : [];
 	}
 
 	/**
@@ -78,18 +118,18 @@ final class Monthly extends Badge {
 		 * so that they are strings and not integers.
 		 */
 		$months = [
-			'm1'  => __( 'Jack January', 'progress-planner' ),
-			'm2'  => __( 'Felix February', 'progress-planner' ),
-			'm3'  => __( 'Mary March', 'progress-planner' ),
-			'm4'  => __( 'Avery April', 'progress-planner' ),
-			'm5'  => __( 'Matteo May', 'progress-planner' ),
-			'm6'  => __( 'Jasmine June', 'progress-planner' ),
-			'm7'  => __( 'July', 'progress-planner' ),
-			'm8'  => __( 'August', 'progress-planner' ),
-			'm9'  => __( 'September', 'progress-planner' ),
-			'm10' => __( 'October', 'progress-planner' ),
-			'm11' => __( 'November', 'progress-planner' ),
-			'm12' => __( 'December', 'progress-planner' ),
+			'm1'  => 'Jack January',
+			'm2'  => 'Felix February',
+			'm3'  => 'Mary March',
+			'm4'  => 'Avery April',
+			'm5'  => 'Matteo May',
+			'm6'  => 'Jasmine June',
+			'm7'  => 'Joey July',
+			'm8'  => 'Abed August',
+			'm9'  => 'Sam September',
+			'm10' => 'Oksana October',
+			'm11' => 'Noah November',
+			'm12' => 'Daisy December',
 		];
 		return $months;
 	}
@@ -167,17 +207,14 @@ final class Monthly extends Badge {
 			$points += $activity->get_points( $activity->date );
 		}
 
-		if ( $points > self::TARGET_POINTS ) {
-			$return_progress = [
+		$return_progress = ( $points > self::TARGET_POINTS )
+			? [
 				'progress'  => 100,
 				'remaining' => 0,
-			];
-		} else {
-			$return_progress = [
+			] : [
 				'progress'  => (int) max( 0, min( 100, floor( 100 * $points / self::TARGET_POINTS ) ) ),
 				'remaining' => self::TARGET_POINTS - $points,
 			];
-		}
 
 		$this->save_progress( $return_progress );
 
