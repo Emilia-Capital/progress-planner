@@ -24,6 +24,13 @@ class Query {
 	const TABLE_NAME = 'progress_planner_activities';
 
 	/**
+	 * The cache group.
+	 *
+	 * @var string
+	 */
+	const CACHE_GROUP = 'progress_planner_query';
+
+	/**
 	 * Constructor.
 	 */
 	public function __construct() {
@@ -98,12 +105,7 @@ class Query {
 		$args = \wp_parse_args( $args, $defaults );
 
 		$cache_key = 'progress-planner-activities-' . md5( (string) \wp_json_encode( $args ) );
-		$results   = \wp_cache_get( $cache_key );
-
-		// Disable caching in unit tests.
-		if ( defined( 'PHPUNIT_COMPOSER_INSTALL' ) && \PHPUNIT_COMPOSER_INSTALL ) {
-			$results = false;
-		}
+		$results   = \wp_cache_get( $cache_key, static::CACHE_GROUP );
 
 		if ( false === $results ) {
 			$where_args   = [];
@@ -162,7 +164,7 @@ class Query {
 					)
 				);
 
-			\wp_cache_set( $cache_key, $results );
+			\wp_cache_set( $cache_key, $results, static::CACHE_GROUP );
 		}
 
 		if ( ! $results ) {
@@ -243,6 +245,8 @@ class Query {
 			return false;
 		}
 
+		\wp_cache_flush_group( static::CACHE_GROUP );
+
 		return (int) $wpdb->insert_id;
 	}
 
@@ -301,6 +305,8 @@ class Query {
 			],
 			[ '%d' ]
 		);
+
+		\wp_cache_flush_group( static::CACHE_GROUP );
 	}
 
 	/**
@@ -343,6 +349,8 @@ class Query {
 			[ 'id' => $id ],
 			[ '%d' ]
 		);
+
+		\wp_cache_flush_group( static::CACHE_GROUP );
 	}
 
 	/**
@@ -361,6 +369,8 @@ class Query {
 			[ 'category' => $category ],
 			[ '%s' ]
 		);
+
+		\wp_cache_flush_group( static::CACHE_GROUP );
 	}
 
 	/**
