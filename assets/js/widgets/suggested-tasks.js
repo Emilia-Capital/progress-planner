@@ -1,5 +1,4 @@
 /* global customElements, progressPlannerSuggestedTasks, confetti, prplDocumentReady, progressPlannerSuggestedTask */
-const PRPL_SUGGESTED_TASKS_MAX_ITEMS = 5;
 
 /**
  * Count the number of items in the list.
@@ -262,7 +261,8 @@ document.addEventListener( 'DOMContentLoaded', () => {
 
 	// Inject items, until we reach the maximum number of items.
 	while (
-		progressPlannerCountItems() <= PRPL_SUGGESTED_TASKS_MAX_ITEMS &&
+		progressPlannerCountItems() <
+			parseInt( progressPlannerSuggestedTasks.maxItems ) &&
 		progressPlannerGetNextItem()
 	) {
 		progressPlannerInjectNextItem();
@@ -416,7 +416,8 @@ document.addEventListener(
 	'prplMaybeInjectSuggestedTaskEvent',
 	() => {
 		while (
-			progressPlannerCountItems() <= PRPL_SUGGESTED_TASKS_MAX_ITEMS &&
+			progressPlannerCountItems() <
+				parseInt( progressPlannerSuggestedTasks.maxItems ) &&
 			progressPlannerGetNextItem()
 		) {
 			progressPlannerInjectNextItem();
