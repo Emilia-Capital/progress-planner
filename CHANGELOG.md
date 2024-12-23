@@ -1,3 +1,9 @@
+= 1.0.2 =
+
+Fixed:
+
+* Duplicate weekly suggested tasks.
+
 = 1.0.1 =
 
 Fixed:
