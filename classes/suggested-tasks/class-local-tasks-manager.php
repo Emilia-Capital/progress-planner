@@ -240,6 +240,13 @@ class Local_Tasks_Manager {
 	 * @return void
 	 */
 	public function cleanup_pending_tasks() {
+
+		$cleanup_recently_performed = \progress_planner()->get_cache()->get( 'cleanup_pending_tasks' );
+
+		if ( $cleanup_recently_performed ) {
+			return;
+		}
+
 		$tasks = (array) $this->get_pending_tasks();
 
 		if ( empty( $tasks ) ) {
@@ -265,5 +272,7 @@ class Local_Tasks_Manager {
 		if ( count( $tasks ) !== $task_count ) {
 			\update_option( self::OPTION_NAME, $tasks );
 		}
+
+		\progress_planner()->get_cache()->set( 'cleanup_pending_tasks', true, DAY_IN_SECONDS );
 	}
 }
