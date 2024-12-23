@@ -37,9 +37,11 @@ use Progress_Planner\Badges\Monthly;
 <ul style="display:none"></ul>
 <ul class="prpl-suggested-tasks-list"></ul>
 
-<div class="prpl-dashboard-widget-footer">
-	<img src="<?php echo \esc_attr( PROGRESS_PLANNER_URL . '/assets/images/icon_progress_planner.svg' ); ?>" style="width:1.5em;" alt="" />
-	<a href="<?php echo \esc_url( \get_admin_url( null, 'admin.php?page=progress-planner' ) ); ?>">
-		<?php \esc_html_e( 'Check out all your stats and badges', 'progress-planner' ); ?>
-	</a>
-</div>
+<?php if ( \current_user_can( 'manage_options' ) ) : ?>
+	<div class="prpl-dashboard-widget-footer">
+		<img src="<?php echo \esc_attr( PROGRESS_PLANNER_URL . '/assets/images/icon_progress_planner.svg' ); ?>" style="width:1.5em;" alt="" />
+		<a href="<?php echo \esc_url( \get_admin_url( null, 'admin.php?page=progress-planner' ) ); ?>">
+			<?php \esc_html_e( 'Check out all your stats and badges', 'progress-planner' ); ?>
+		</a>
+	</div>
+<?php endif; ?>

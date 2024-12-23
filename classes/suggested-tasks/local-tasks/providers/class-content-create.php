@@ -7,13 +7,12 @@
 
 namespace Progress_Planner\Suggested_Tasks\Local_Tasks\Providers;
 
-use Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Local_Tasks_Interface;
 use Progress_Planner\Activities\Content_Helpers;
 
 /**
  * Add tasks for content creation.
  */
-class Content_Create extends Content_Abstract implements Local_Tasks_Interface {
+class Content_Create extends Content_Abstract {
 
 	/**
 	 * The provider ID.
