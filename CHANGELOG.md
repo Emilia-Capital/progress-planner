@@ -3,6 +3,7 @@
 Fixed:
 
 * Duplicate weekly suggested tasks.
+* Fixed the REST API endpoint for getting stats.
 
 = 1.0.1 =
 
