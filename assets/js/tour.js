@@ -105,13 +105,11 @@ function prplStartTour() {
 	const urlParams = new URLSearchParams( window.location.search );
 	const savedStepIndex = urlParams.get( 'tour_step' );
 
-	if ( null !== savedStepIndex ) {
-		// Start from saved step.
-		prplDriverObj.drive( parseInt( savedStepIndex, 10 ) );
-	} else {
-		// Start from beginning.
-		prplDriverObj.drive( 0 );
-	}
+	prplDriverObj.drive(
+		null !== savedStepIndex
+			? parseInt( savedStepIndex, 10 ) // Start from saved step.
+			: 0 // Start from beginning.
+	);
 
 	// Remove `content-scan-finished=true` from the URL, without refreshing the page.
 	window.history.replaceState(

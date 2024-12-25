@@ -7,6 +7,8 @@
 
 namespace Progress_Planner;
 
+use Progress_Planner\Badges\Monthly;
+
 /**
  * Badges class.
  */
@@ -64,7 +66,7 @@ class Badges {
 		];
 
 		// Init monthly badges.
-		$this->monthly = \Progress_Planner\Badges\Monthly::get_instances();
+		$this->monthly = Monthly::get_instances();
 		foreach ( $this->monthly as $monthly_year_badges ) {
 			$this->monthly_flat = array_merge( $this->monthly_flat, $monthly_year_badges );
 		}

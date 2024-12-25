@@ -7,10 +7,12 @@
 
 namespace Progress_Planner\Activities;
 
+use Progress_Planner\Activity;
+
 /**
  * Handler for suggested tasks activities.
  */
-class Suggested_Task extends \Progress_Planner\Activity {
+class Suggested_Task extends Activity {
 
 	/**
 	 * Points configuration for suggested tasks activities.

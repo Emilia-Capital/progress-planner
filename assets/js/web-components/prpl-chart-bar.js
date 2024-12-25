@@ -30,11 +30,10 @@ customElements.define(
 				"></div>`;
 				// Only display up to 6 labels.
 				html += `<span class="label-container" style="height:1rem;overflow:visible;text-align:center;display:block;width:100%;font-size: 0.75em;">`;
-				if ( i % labelsDivider === 0 ) {
-					html += `<span class="label visible">${ item.label }</span>`;
-				} else {
-					html += `<span class="label invisible" style="visibility: hidden;">${ item.label }</span>`;
-				}
+				html +=
+					i % labelsDivider === 0
+						? `<span class="label visible">${ item.label }</span>`
+						: `<span class="label invisible" style="visibility: hidden;">${ item.label }</span>`;
 				html += `</span>`;
 				html += `</div>`;
 				i++;

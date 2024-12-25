@@ -34,7 +34,7 @@ if ( false !== \get_option( 'progress_planner_license_key', false ) ) {
 
 
 ?>
-<div class="prpl-widget-wrapper prpl-welcome" popover="manual">
+<div class="prpl-welcome">
 	<div class="welcome-header">
 		<h1><?php \esc_html_e( 'Welcome to the Progress Planner plugin!', 'progress-planner' ); ?></h1>
 		<span class="welcome-header-icon">
@@ -46,26 +46,48 @@ if ( false !== \get_option( 'progress_planner_license_key', false ) ) {
 		<div class="left">
 			<form id="prpl-onboarding-form">
 				<div class="prpl-form-notice">
+					<strong><?php \esc_html_e( 'Stay on track with weekly updates', 'progress-planner' ); ?></strong>
+					<ul>
+						<li>
+						<?php
+						/* translators: %s: <strong> tag */
+						printf( \esc_html__( '%1$s Personalized to-do’s %2$s to keep your site in great shape.', 'progress-planner' ), '<strong>', '</strong>' );
+						?>
+						</li>
+						<li>
+						<?php
+						/* translators: %s: <strong> tag */
+						printf( \esc_html__( '%1$s Activity stats %2$s so you can track your progress.', 'progress-planner' ), '<strong>', '</strong>' );
+						?>
+						</li>
+						<li>
+						<?php
+						/* translators: %s: <strong> tag */
+						printf( \esc_html__( '%1$s Helpful nudges %2$s to stay consistent with your website goals.', 'progress-planner' ), '<strong>', '</strong>' );
+						?>
+						</li>
+					</ul>
 					<?php
 					printf(
 						/* translators: %s: progressplanner.com link */
-						\esc_html__( 'We can send you weekly emails with your own to-do’s, your activity stats and nudges to keep you working on your site. To do this, we’ll create an account for you on %s.', 'progress-planner' ),
+						\esc_html__( 'To send these updates, we’ll create an account for you on %s.', 'progress-planner' ),
 						'<a href="https://prpl.fyi/home" target="_blank">progressplanner.com</a>'
 					)
 					?>
 				</div>
 				<br>
+				<strong><?php \esc_html_e( 'Choose your preference:', 'progress-planner' ); ?></strong>
 				<div class="prpl-onboard-form-radio-select">
 					<label>
 						<input type="radio" name="with-email" value="yes" checked>
 						<span class="prpl-label-content">
-							<?php \esc_html_e( 'Yes, send me weekly emails!', 'progress-planner' ); ?>
+							<?php \esc_html_e( 'Yes, send me weekly updates!', 'progress-planner' ); ?>
 						</span>
 					</label>
 					<label>
 						<input type="radio" name="with-email" value="no">
 						<span class="prpl-label-content">
-							<?php \esc_html_e( 'Please do not email me.', 'progress-planner' ); ?>
+							<?php \esc_html_e( 'No, I don’t want emails right now.', 'progress-planner' ); ?>
 						</span>
 					</label>
 				</div>
@@ -119,14 +141,14 @@ if ( false !== \get_option( 'progress_planner_license_key', false ) ) {
 						<?php
 						printf(
 						/* translators: %s: progressplanner.com/privacy-policy link */
-							\esc_html__( 'By clicking the button below, you agree to the %s.', 'progress-planner' ),
+							\esc_html__( 'I agree to the %s.', 'progress-planner' ),
 							'<a href="https://progressplanner.com/privacy-policy/#h-plugin-privacy-policy" target="_blank">Privacy policy</a>'
 						);
 						?>
 					</label>
 				</div>
 				<br>
-				<div id="prpl-onboarding-submit-wrapper" style="display: none;">
+				<div id="prpl-onboarding-submit-wrapper" class="prpl-disabled">
 					<div id="prpl-onboarding-submit-grid-wrapper">
 						<span>
 							<input
@@ -175,4 +197,3 @@ if ( false !== \get_option( 'progress_planner_license_key', false ) ) {
 		</div>
 	</div>
 </div>
-<script>document.querySelector( '.prpl-widget-wrapper.prpl-welcome' ).showPopover();</script>

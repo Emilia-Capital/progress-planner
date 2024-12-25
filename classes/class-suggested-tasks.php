@@ -7,6 +7,10 @@
 
 namespace Progress_Planner;
 
+use Progress_Planner\Suggested_Tasks\Local_Tasks_Manager;
+use Progress_Planner\Suggested_Tasks\Remote_Tasks;
+use Progress_Planner\Activities\Suggested_Task;
+
 /**
  * Suggested_Tasks class.
  */
@@ -39,8 +43,8 @@ class Suggested_Tasks {
 	 * @return void
 	 */
 	public function __construct() {
-		$this->local  = new \Progress_Planner\Suggested_Tasks\Local_Tasks_Manager();
-		$this->remote = new \Progress_Planner\Suggested_Tasks\Remote_Tasks();
+		$this->local  = new Local_Tasks_Manager();
+		$this->remote = new Remote_Tasks();
 
 		\add_action( 'wp_ajax_progress_planner_suggested_task_action', [ $this, 'suggested_task_action' ] );
 
@@ -65,7 +69,7 @@ class Suggested_Tasks {
 			$this->mark_task_as_pending_celebration( $task_id );
 
 			// Insert an activity.
-			$activity          = new \Progress_Planner\Activities\Suggested_Task();
+			$activity          = new Suggested_Task();
 			$activity->type    = 'completed';
 			$activity->data_id = (string) $task_id;
 			$activity->date    = new \DateTime();
