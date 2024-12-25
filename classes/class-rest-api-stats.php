@@ -99,7 +99,7 @@ class Rest_API_Stats {
 		$badges = array_merge(
 			\progress_planner()->get_badges()->get_badges( 'content' ),
 			\progress_planner()->get_badges()->get_badges( 'maintenance' ),
-			\progress_planner()->get_badges()->get_badges( 'monthly' )
+			\progress_planner()->get_badges()->get_badges( 'monthly_flat' )
 		);
 
 		$data['badges'] = [];
