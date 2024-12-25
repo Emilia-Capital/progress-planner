@@ -37,6 +37,7 @@ $prpl_latest_badge = \progress_planner()->get_badges()->get_latest_completed_bad
 		alt="<?php echo \esc_attr( $prpl_latest_badge->get_name() ); ?>"
 		width="1200"
 		height="675"
+		onerror="this.onerror=null;this.src='<?php echo \esc_url( \progress_planner()->get_placeholder_image_url()['default'] ); ?>';"
 	/>
 	<?php if ( 'no-license' !== \get_option( 'progress_planner_license_key', 'no-license' ) && ! \progress_planner()->is_local_site() ) : ?>
 		<?php

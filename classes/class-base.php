@@ -145,6 +145,18 @@ class Base {
 	}
 
 	/**
+	 * Get the placeholder image URL.
+	 *
+	 * @return array<string, string>
+	 */
+	public function get_placeholder_image_url() {
+		return [
+			'default' => 'https://placehold.co/400x300',
+			'badge'   => 'https://placehold.co/244x150',
+		];
+	}
+
+	/**
 	 * Get the activation date.
 	 *
 	 * @return \DateTime|false
