@@ -7,6 +7,7 @@
 
 namespace Progress_Planner\Suggested_Tasks\Local_Tasks\Providers;
 
+use Progress_Planner\Suggested_Tasks\Local_Tasks\Local_Task_Factory;
 /**
  * Add tasks for Core updates.
  */
@@ -54,7 +55,10 @@ class Core_Update extends Local_Tasks_Abstract {
 			require_once ABSPATH . 'wp-admin/includes/update.php'; // @phpstan-ignore requireOnce.fileNotFound
 		}
 
-		if ( 0 === strpos( $task_id, self::TYPE ) && 0 === \wp_get_update_data()['counts']['total'] ) {
+		$task_object = ( new Local_Task_Factory( $task_id ) )->get_task();
+		$task_data   = $task_object->get_data();
+
+		if ( $task_data['type'] === self::TYPE && \gmdate( 'YW' ) === $task_data['year_week'] && 0 === \wp_get_update_data()['counts']['total'] ) {
 			return $task_id;
 		}
 		return false;
@@ -136,7 +140,9 @@ class Core_Update extends Local_Tasks_Abstract {
 		}
 
 		foreach ( $snoozed as $task ) {
-			if ( self::TYPE === $task['id'] ) {
+			$task_object = ( new Local_Task_Factory( $task['id'] ) )->get_task();
+			$task_data   = $task_object->get_data();
+			if ( $task_data['type'] === self::TYPE ) {
 				return true;
 			}
 		}
