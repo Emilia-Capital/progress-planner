@@ -115,9 +115,15 @@ if ( document.getElementById( 'prpl-onboarding-form' ) ) {
 		.addEventListener( 'change', function () {
 			const privacyPolicyAccepted = !! this.checked;
 
-			document.getElementById(
-				'prpl-onboarding-submit-wrapper'
-			).style.display = privacyPolicyAccepted ? 'block' : 'none';
+			if ( privacyPolicyAccepted ) {
+				document
+					.getElementById( 'prpl-onboarding-submit-wrapper' )
+					.classList.remove( 'prpl-disabled' );
+			} else {
+				document
+					.getElementById( 'prpl-onboarding-submit-wrapper' )
+					.classList.add( 'prpl-disabled' );
+			}
 		} );
 
 	document
