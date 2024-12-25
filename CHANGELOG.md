@@ -1,3 +1,9 @@
+= 1.0.2 =
+
+Fixed:
+
+* Fixed the REST API endpoint for getting stats.
+
 = 1.0.1 =
 
 Fixed:
