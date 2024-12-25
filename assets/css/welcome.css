@@ -12,8 +12,13 @@
 		grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
 		gap: calc(var(--prpl-gap) * 2);
 
+		.left {
+			flex-grow: 1;
+		}
+
 		img {
 			max-width: 100%;
+			width: 550px;
 			height: auto;
 		}
 	}
