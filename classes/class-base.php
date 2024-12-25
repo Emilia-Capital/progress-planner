@@ -151,7 +151,7 @@ class Base {
 	 */
 	public function get_placeholder_image_url() {
 		return [
-			'default' => 'https://placehold.co/400x300',
+			'default' => 'https://placehold.co/1200x675',
 			'badge'   => 'https://placehold.co/244x150',
 		];
 	}
