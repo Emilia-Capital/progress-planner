@@ -325,9 +325,6 @@ class Page_Types {
 		}
 
 		// Exclude the homepage and any pages that are already assigned to another page-type.
-		$filtered_type_pages             = $types_pages;
-		$filtered_type_pages['homepage'] = [ $homepage_id ];
-
 		foreach ( $defined_page_types as $defined_page_type ) {
 
 			// Skip the current page-type.
@@ -335,7 +332,7 @@ class Page_Types {
 				continue;
 			}
 
-			$posts = \array_diff( $posts, $filtered_type_pages[ $defined_page_type ] );
+			$posts = \array_diff( $posts, $types_pages[ $defined_page_type ] );
 		}
 
 		return empty( $posts ) ? 0 : $posts[0];
