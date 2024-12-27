@@ -66,27 +66,8 @@ class Content {
 			return;
 		}
 
-		// Query arguments.
-		$query_args = [
-			'category' => 'content',
-			'type'     => $type,
-			'data_id'  => (string) $post_id,
-		];
-
-		// If it's an update add the start and end date. We don't want to add multiple update activities for the same post on the same day.
-		if ( 'update' === $type ) {
-			$query_args['start_date'] = \progress_planner()->get_date()->get_datetime_from_mysql_date( $post->post_modified )->modify( '-12 hours' );
-			$query_args['end_date']   = \progress_planner()->get_date()->get_datetime_from_mysql_date( $post->post_modified )->modify( '+12 hours' );
-		}
-
-		// Check if there is an activity for this post.
-		$existing = \progress_planner()->get_query()->query_activities(
-			$query_args,
-			'RAW'
-		);
-
-		// If there is an activity for this post, bail.
-		if ( ! empty( $existing ) ) {
+		// Bail if there is a recent activity for this post.
+		if ( $this->is_there_recent_activity( $post, $type ) ) {
 			return;
 		}
 
@@ -109,6 +90,11 @@ class Content {
 			$new_status === $old_status ||
 			( 'publish' !== $new_status && 'publish' !== $old_status )
 		) {
+			return;
+		}
+
+		// Bail if there is a recent activity for this post.
+		if ( $this->is_there_recent_activity( $post, $new_status ) ) {
 			return;
 		}
 
@@ -208,6 +194,38 @@ class Content {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Check if there is a recent activity for this post.
+	 *
+	 * @param \WP_Post $post The post object.
+	 * @param string   $type The type of activity (ie publish, update, trash, delete etc).
+	 *
+	 * @return bool
+	 */
+	private function is_there_recent_activity( $post, $type ) {
+		// Query arguments.
+		$query_args = [
+			'category' => 'content',
+			'type'     => $type,
+			'data_id'  => (string) $post->ID,
+		];
+
+		// If it's an update add the start and end date. We don't want to add multiple update activities for the same post on the same day.
+		if ( 'update' === $type ) {
+			$query_args['start_date'] = \progress_planner()->get_date()->get_datetime_from_mysql_date( $post->post_modified )->modify( '-12 hours' );
+			$query_args['end_date']   = \progress_planner()->get_date()->get_datetime_from_mysql_date( $post->post_modified )->modify( '+12 hours' );
+		}
+
+		// Check if there is an activity for this post.
+		$existing = \progress_planner()->get_query()->query_activities(
+			$query_args,
+			'RAW'
+		);
+
+		// If there is an activity for this post, bail.
+		return ! empty( $existing ) ? true : false;
 	}
 
 	/**
