@@ -16,6 +16,7 @@ use Progress_Planner\Actions\Content as Actions_Content;
 use Progress_Planner\Actions\Content_Scan as Actions_Content_Scan;
 use Progress_Planner\Actions\Maintenance as Actions_Maintenance;
 use Progress_Planner\Admin\Page_Settings as Admin_Page_Settings;
+use Progress_Planner\Admin\Slack_Settings as Admin_Slack_Settings;
 /**
  * Main plugin class.
  */
@@ -61,8 +62,9 @@ class Base {
 
 		// Basic classes.
 		if ( \is_admin() && \current_user_can( 'edit_others_posts' ) ) {
-			$this->cached['admin__page'] = new Admin_Page();
-			$this->cached['admin__tour'] = new Admin_Tour();
+			$this->cached['admin__page']           = new Admin_Page();
+			$this->cached['admin__tour']           = new Admin_Tour();
+			$this->cached['admin__slack_settings'] = new Admin_Slack_Settings();
 
 			// Dont add the widget if the privacy policy is not accepted.
 			if ( true === $this->is_privacy_policy_accepted() ) {
