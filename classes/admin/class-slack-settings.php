@@ -13,13 +13,6 @@ namespace Progress_Planner\Admin;
 class Slack_Settings {
 
 	/**
-	 * The Progress Planner API root URL.
-	 *
-	 * @var string
-	 */
-	const API_ROOT = 'https://prpl.fyi/api/v1';
-
-	/**
 	 * The Progress Planner OAuth endpoint.
 	 *
 	 * @var string
@@ -40,10 +33,6 @@ class Slack_Settings {
 		\add_action( 'wp_ajax_progress_planner_test_slack', [ $this, 'handle_test_message' ] );
 	}
 
-	private function get_api_root() {
-		return \defined( 'PRPL_API_ROOT' ) && \PRPL_API_ROOT ? \PRPL_API_ROOT : self::API_ROOT;
-	}
-
 	/**
 	 * Get the authorization URL for Slack OAuth.
 	 *
@@ -56,7 +45,7 @@ class Slack_Settings {
 			'site_name' => \rawurlencode( \get_bloginfo( 'name' ) ),
 		];
 
-		return $this->get_api_root() . self::OAUTH_ENDPOINT . '?' . \http_build_query( $params );
+		return \progress_planner()->get_remote_server_root_url() . '/wp-json/progress-planner/v1' . self::OAUTH_ENDPOINT . '?' . \http_build_query( $params );
 	}
 
 	/**
