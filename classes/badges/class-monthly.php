@@ -57,7 +57,7 @@ final class Monthly extends Badge {
 		$start_date      = $activation_date->modify( 'first day of this month' );
 
 		// Year when plugin was released.
-		$end_date = ( 2024 === (int) $start_date->format( 'Y' ) )
+		$end_date = ( 2024 === (int) $start_date->format( 'Y' ) && 2024 === (int) \gmdate( 'Y' ) )
 			? new \DateTime( 'last day of December next year' )
 			: new \DateTime( 'last day of December this year' );
 
