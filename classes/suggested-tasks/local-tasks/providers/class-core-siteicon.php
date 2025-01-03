@@ -62,13 +62,13 @@ class Core_Siteicon extends Local_Tasks_Abstract {
 		}
 
 		$site_icon = \get_option( 'site_icon' );
-		// If all options are set, do not add the task.
+		// If site icon is set, do not add the task.
 		if ( '' !== $site_icon && '0' !== $site_icon ) {
 			return [];
 		}
 
 		return [
-			$this->get_task_details( self::TYPE . '-' . \gmdate( 'YW' ) ),
+			$this->get_task_details( self::TYPE ),
 		];
 	}
 

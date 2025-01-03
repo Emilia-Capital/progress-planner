@@ -66,7 +66,7 @@ class Settings_Saved extends Local_Tasks_Abstract {
 			return [];
 		}
 
-		$task_id = self::TYPE . '-' . \gmdate( 'YW' );
+		$task_id = self::TYPE;
 
 		// If the task with this id is completed, don't add a task.
 		if ( true === \progress_planner()->get_suggested_tasks()->check_task_condition(
@@ -79,7 +79,7 @@ class Settings_Saved extends Local_Tasks_Abstract {
 		}
 
 		return [
-			$this->get_task_details( self::TYPE . '-' . \gmdate( 'YW' ) ),
+			$this->get_task_details( $task_id ),
 		];
 	}
 

@@ -60,13 +60,13 @@ class Core_Blogdescription extends Local_Tasks_Abstract {
 			return [];
 		}
 
-		// If all options are set, do not add the task.
+		// If tagline is set, do not add the task.
 		if ( '' !== \get_bloginfo( 'description' ) ) {
 			return [];
 		}
 
 		return [
-			$this->get_task_details( self::TYPE . '-' . \gmdate( 'YW' ) ),
+			$this->get_task_details( self::TYPE ),
 		];
 	}
 
