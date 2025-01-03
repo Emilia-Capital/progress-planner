@@ -11,8 +11,9 @@ use Progress_Planner\Suggested_Tasks\Local_Tasks\Local_Task_Factory;
 use Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Content_Create;
 use Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Content_Update;
 use Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Core_Update;
+use Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Core_Blogdescription;
 use Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Settings_Saved;
-
+use Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Core_Siteicon;
 
 /**
  * Local_Tasks_Manager class.
@@ -46,7 +47,9 @@ class Local_Tasks_Manager {
 			new Content_Create(),
 			new Content_Update(),
 			new Core_Update(),
+			new Core_Blogdescription(),
 			new Settings_Saved(),
+			new Core_Siteicon(),
 		];
 
 		\add_filter( 'progress_planner_suggested_tasks_items', [ $this, 'inject_tasks' ] );
