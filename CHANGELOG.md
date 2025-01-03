@@ -5,6 +5,10 @@ Fixed:
 * Duplicate weekly suggested tasks.
 * Fixed the REST API endpoint for getting stats.
 
+Enhancements:
+
+* Refocus the "add new task" input after ToDo item is added.
+
 = 1.0.1 =
 
 Fixed:
