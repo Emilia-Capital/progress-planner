@@ -5,6 +5,10 @@ Fixed:
 * Duplicate weekly suggested tasks.
 * Fixed the REST API endpoint for getting stats.
 
+Enhancements:
+
+* Added new task types for setting site icon and tagline.
+
 = 1.0.1 =
 
 Fixed:
