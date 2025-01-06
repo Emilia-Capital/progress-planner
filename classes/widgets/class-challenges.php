@@ -51,14 +51,6 @@ final class Challenges extends \Progress_Planner\Widget {
 		$cache_key = $this->get_cache_key( $force_free );
 		$feed_data = \progress_planner()->get_cache()->get( $cache_key );
 
-		// Migrate old feed to new format.
-		if ( is_array( $feed_data ) && ! isset( $feed_data['expires'] ) && ! isset( $feed_data['feed'] ) ) {
-			$feed_data = [
-				'feed'    => $feed_data,
-				'expires' => get_option( '_transient_timeout_' . \Progress_Planner\Cache::CACHE_PREFIX . $cache_key, 0 ),
-			];
-		}
-
 		// Transient not set.
 		if ( false === $feed_data ) {
 			$feed_data = [
