@@ -87,7 +87,11 @@ class Core_Blogdescription extends Local_Tasks_Abstract {
 			'type'        => 'maintenance',
 			'points'      => 1,
 			'url'         => $this->capability_required() ? \esc_url( \admin_url( 'options-general.php' ) ) : '',
-			'description' => '<p>' . \esc_html__( 'Set the tagline to make your website look more professional.', 'progress-planner' ) . '</p>',
+			'description' => '<p>' . sprintf(
+				/* translators: %s:<a href="https://prpl.fyi/home" target="_blank">tagline</a> link */
+				\esc_html__( 'Set the %s to make your website look more professional.', 'progress-planner' ),
+				'<a href="https://prpl.fyi/home" target="_blank">' . \esc_html__( 'tagline', 'progress-planner' ) . '</a>'
+			) . '</p>',
 		];
 	}
 
