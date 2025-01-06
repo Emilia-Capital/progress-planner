@@ -21,7 +21,7 @@ customElements.define(
 					alt="Badge"
 					${ false === complete ? 'style="filter: grayscale(1);opacity: 0.25;"' : '' }
 					onerror="this.onerror=null;this.src='${
-						progressPlannerBadge.placeholderImageUrl.badge
+						progressPlannerBadge.placeholderImageUrl
 					}';"
 				/>
 			`;
