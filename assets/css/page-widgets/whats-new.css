@@ -57,4 +57,5 @@
 	border-radius: var(--prpl-border-radius);
 	box-shadow: 5px 5px 5px var(--prpl-color-gray-2);
 	border: 1px solid var(--prpl-color-gray-2);
+	background-color: var(--prpl-color-gray-1); /* Fallback, if remote host image is not accessible */
 }

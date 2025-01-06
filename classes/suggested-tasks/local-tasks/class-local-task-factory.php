@@ -42,10 +42,15 @@ class Local_Task_Factory {
 				return new Task_Local( [ 'task_id' => $this->task_id ] );
 			}
 
+			$type        = substr( $this->task_id, 0, $last_pos );
+			$task_suffix = substr( $this->task_id, $last_pos + 1 );
+
+			$task_suffix_key = 'remote-task' === $type ? 'remote_task_id' : 'year_week';
+
 			return new Task_Local(
 				[
-					'type'      => substr( $this->task_id, 0, $last_pos ),
-					'year_week' => substr( $this->task_id, $last_pos + 1 ),
+					'type'           => $type,
+					$task_suffix_key => $task_suffix,
 				]
 			);
 		}

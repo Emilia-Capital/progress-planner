@@ -51,6 +51,9 @@ class Local_Tasks_Manager {
 
 		\add_filter( 'progress_planner_suggested_tasks_items', [ $this, 'inject_tasks' ] );
 		\add_action( 'plugins_loaded', [ $this, 'add_plugin_integration' ] );
+
+		// Add the cleanup action.
+		\add_action( 'admin_init', [ $this, 'cleanup_pending_tasks' ] );
 	}
 
 	/**
@@ -228,5 +231,48 @@ class Local_Tasks_Manager {
 		$tasks = (array) $this->get_pending_tasks();
 		$tasks = \array_diff( $tasks, [ $task ] );
 		return \update_option( self::OPTION_NAME, $tasks );
+	}
+
+	/**
+	 * Remove all tasks which have date set to the previous week.
+	 * Tasks for the current week will be added automatically.
+	 *
+	 * @return void
+	 */
+	public function cleanup_pending_tasks() {
+
+		$cleanup_recently_performed = \progress_planner()->get_cache()->get( 'cleanup_pending_tasks' );
+
+		if ( $cleanup_recently_performed ) {
+			return;
+		}
+
+		$tasks = (array) $this->get_pending_tasks();
+
+		if ( empty( $tasks ) ) {
+			return;
+		}
+
+		$task_count = count( $tasks );
+
+		$tasks = \array_filter(
+			$tasks,
+			function ( $task ) {
+				$task_object = ( new Local_Task_Factory( $task ) )->get_task();
+				$task_data   = $task_object->get_data();
+
+				if ( isset( $task_data['year_week'] ) ) {
+					return \gmdate( 'YW' ) === $task_data['year_week'];
+				}
+
+				return true;
+			}
+		);
+
+		if ( count( $tasks ) !== $task_count ) {
+			\update_option( self::OPTION_NAME, $tasks );
+		}
+
+		\progress_planner()->get_cache()->set( 'cleanup_pending_tasks', true, DAY_IN_SECONDS );
 	}
 }

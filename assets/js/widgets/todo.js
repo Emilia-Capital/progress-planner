@@ -50,11 +50,6 @@ const progressPlannerInjectTodoItem = ( content, done, addToStart, save ) => {
 		document.getElementById( 'todo-list' ).appendChild( todoItemElement );
 	}
 
-	// Focus the new task's content element after it is added to the DOM
-	setTimeout( () => {
-		todoItemElement.querySelector( 'input[type="checkbox"]' ).focus();
-	}, 0 );
-
 	if ( save ) {
 		progressPlannerSaveTodoList();
 	}
@@ -91,5 +86,8 @@ prplDocumentReady( () => {
 			);
 
 			document.getElementById( 'new-todo-content' ).value = '';
+
+			// Focus the new task input element.
+			document.getElementById( 'new-todo-content' ).focus();
 		} );
 } );
