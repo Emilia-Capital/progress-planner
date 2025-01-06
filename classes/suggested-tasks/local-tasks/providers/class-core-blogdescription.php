@@ -81,7 +81,7 @@ class Core_Blogdescription extends Local_Tasks_Abstract {
 
 		return [
 			'task_id'     => $task_id,
-			'title'       => \esc_html__( 'Set Tagline', 'progress-planner' ),
+			'title'       => \esc_html__( 'Set tagline', 'progress-planner' ),
 			'parent'      => 0,
 			'priority'    => 'high',
 			'type'        => 'maintenance',
