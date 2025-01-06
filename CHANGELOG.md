@@ -3,7 +3,9 @@
 Fixed:
 
 * Duplicate weekly suggested tasks.
-* Fixed the REST API endpoint for getting stats.
+* The REST API endpoint for getting stats.
+* Scrollable monthly badges widget height on page load.
+* 2026 monthly badges showing up
 
 Enhancements:
 

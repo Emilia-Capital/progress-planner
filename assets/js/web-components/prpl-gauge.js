@@ -16,6 +16,9 @@ customElements.define(
 				start: '270deg',
 				cutout: '57%',
 				contentFontSize: 'var(--prpl-font-size-6xl)',
+				contentPadding:
+					'var(--prpl-padding) var(--prpl-padding) calc(var(--prpl-padding) * 2) var(--prpl-padding)',
+				marginBottom: 'var(--prpl-padding)',
 			},
 			content = ''
 		) {
@@ -41,11 +44,18 @@ customElements.define(
 			props.cutout = this.getAttribute( 'cutout' ) || props.cutout;
 			props.contentFontSize =
 				this.getAttribute( 'contentFontSize' ) || props.contentFontSize;
+			props.contentPadding =
+				this.getAttribute( 'contentPadding' ) || props.contentPadding;
+			props.marginBottom =
+				this.getAttribute( 'marginBottom' ) || props.marginBottom;
 
 			this.innerHTML = `
-			<div style="padding: var(--prpl-padding) var(--prpl-padding) calc(var(--prpl-padding) * 2) var(--prpl-padding); background: ${
+			<div style="padding: ${ props.contentPadding };
+			background: ${
 				props.background
-			}; border-radius:var(--prpl-border-radius-big); aspect-ratio: 2 / 1; overflow: hidden; position: relative;margin-bottom: var(--prpl-padding);">
+			}; border-radius:var(--prpl-border-radius-big); aspect-ratio: 2 / 1; overflow: hidden; position: relative; margin-bottom: ${
+				props.marginBottom
+			};">
 				<div style="width: 100%; aspect-ratio: 1 / 1; border-radius: 100%; position: relative; background: radial-gradient(${
 					props.background
 				} 0 ${ props.cutout }, transparent ${
