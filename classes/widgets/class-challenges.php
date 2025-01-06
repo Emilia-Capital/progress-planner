@@ -100,7 +100,7 @@ final class Challenges extends \Progress_Planner\Widget {
 	 * @return void
 	 */
 	public function render() {
-		if ( empty( $this->get_challenges() ) ) {
+		if ( empty( $this->get_current_challenge() ) ) {
 			return;
 		}
 		parent::render();
