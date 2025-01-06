@@ -27,59 +27,14 @@ class Content {
 	 * @return void
 	 */
 	public function register_hooks() {
-		// Add activity when a post is updated.
-		\add_action( 'post_updated', [ $this, 'post_updated' ], 10, 2 );
 
-		// Add activity when a post is added.
-		\add_action( 'wp_insert_post', [ $this, 'insert_post' ], 10, 2 );
+		// Add activity when a post is added or updated.
+		\add_action( 'wp_insert_post', [ $this, 'insert_post' ], 10, 3 );
 		\add_action( 'transition_post_status', [ $this, 'transition_post_status' ], 10, 3 );
 
 		// Add activity when a post is trashed or deleted.
 		\add_action( 'wp_trash_post', [ $this, 'trash_post' ] );
 		\add_action( 'delete_post', [ $this, 'delete_post' ] );
-	}
-
-	/**
-	 * Post updated.
-	 *
-	 * Runs on post_updated hook.
-	 *
-	 * @param int      $post_id The post ID.
-	 * @param \WP_Post $post    The post object.
-	 *
-	 * @return void
-	 */
-	public function post_updated( $post_id, $post ) {
-		// Bail if we should skip saving.
-		if ( $this->should_skip_saving( $post ) ) {
-			return;
-		}
-
-		// Reset the words count.
-		\progress_planner()->get_settings()->set( [ 'word_count', $post_id ], false );
-
-		if ( 'publish' !== $post->post_status ) {
-			return;
-		}
-
-		// Check if there is an update activity for this post, on this date.
-		$existing = \progress_planner()->get_query()->query_activities(
-			[
-				'category'   => 'content',
-				'type'       => 'update',
-				'data_id'    => (string) $post_id,
-				'start_date' => \progress_planner()->get_date()->get_datetime_from_mysql_date( $post->post_modified )->modify( '-12 hours' ),
-				'end_date'   => \progress_planner()->get_date()->get_datetime_from_mysql_date( $post->post_modified )->modify( '+12 hours' ),
-			],
-			'RAW'
-		);
-
-		// If there is an update activity for this post, on this date, bail.
-		if ( ! empty( $existing ) ) {
-			return;
-		}
-
-		$this->add_post_activity( $post, 'update' );
 	}
 
 	/**
@@ -89,35 +44,35 @@ class Content {
 	 *
 	 * @param int      $post_id The post ID.
 	 * @param \WP_Post $post    The post object.
+	 * @param bool     $update  Whether this is an update.
 	 * @return void
 	 */
-	public function insert_post( $post_id, $post ) {
+	public function insert_post( $post_id, $post, $update ) {
 		// Bail if we should skip saving.
 		if ( $this->should_skip_saving( $post ) ) {
 			return;
 		}
 
+		// Set the type of activity.
+		$type = $update ? 'update' : 'publish';
+
+		// Reset the words count if it's an update.
+		if ( 'update' === $type ) {
+			\progress_planner()->get_settings()->set( [ 'word_count', $post_id ], false );
+		}
+
+		// Bail if the post is not published.
 		if ( 'publish' !== $post->post_status ) {
 			return;
 		}
 
-		// Check if there is a publish activity for this post.
-		$existing = \progress_planner()->get_query()->query_activities(
-			[
-				'category' => 'content',
-				'type'     => 'publish',
-				'data_id'  => (string) $post_id,
-			],
-			'RAW'
-		);
-
-		// If there is a publish activity for this post, bail.
-		if ( ! empty( $existing ) ) {
+		// Bail if there is a recent activity for this post.
+		if ( $this->is_there_recent_activity( $post, $type ) ) {
 			return;
 		}
 
-		// Add a publish activity.
-		$this->add_post_activity( $post, 'publish' );
+		// Finally add an activity.
+		$this->add_post_activity( $post, $type );
 	}
 
 	/**
@@ -135,6 +90,11 @@ class Content {
 			$new_status === $old_status ||
 			( 'publish' !== $new_status && 'publish' !== $old_status )
 		) {
+			return;
+		}
+
+		// Bail if there is a recent activity for this post.
+		if ( $this->is_there_recent_activity( $post, $new_status ) ) {
 			return;
 		}
 
@@ -234,6 +194,38 @@ class Content {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Check if there is a recent activity for this post.
+	 *
+	 * @param \WP_Post $post The post object.
+	 * @param string   $type The type of activity (ie publish, update, trash, delete etc).
+	 *
+	 * @return bool
+	 */
+	private function is_there_recent_activity( $post, $type ) {
+		// Query arguments.
+		$query_args = [
+			'category' => 'content',
+			'type'     => $type,
+			'data_id'  => (string) $post->ID,
+		];
+
+		// If it's an update add the start and end date. We don't want to add multiple update activities for the same post on the same day.
+		if ( 'update' === $type ) {
+			$query_args['start_date'] = \progress_planner()->get_date()->get_datetime_from_mysql_date( $post->post_modified )->modify( '-12 hours' );
+			$query_args['end_date']   = \progress_planner()->get_date()->get_datetime_from_mysql_date( $post->post_modified )->modify( '+12 hours' );
+		}
+
+		// Check if there is an activity for this post.
+		$existing = \progress_planner()->get_query()->query_activities(
+			$query_args,
+			'RAW'
+		);
+
+		// If there is an activity for this post, bail.
+		return ! empty( $existing ) ? true : false;
 	}
 
 	/**

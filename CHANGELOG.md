@@ -3,7 +3,13 @@
 Fixed:
 
 * Duplicate weekly suggested tasks.
-* Fixed the REST API endpoint for getting stats.
+* The REST API endpoint for getting stats.
+* Scrollable monthly badges widget height on page load.
+* 2026 monthly badges showing up
+
+Enhancements:
+
+* Refocus the "add new task" input after ToDo item is added.
 
 = 1.0.1 =
 
