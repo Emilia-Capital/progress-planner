@@ -110,6 +110,6 @@ class Remote_Tasks {
 				$url
 			);
 		}
-		return \apply_filters( 'progress_planner_suggested_tasks_remote_api_endpoint', $url );
+		return $url;
 	}
 }

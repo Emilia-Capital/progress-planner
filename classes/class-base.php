@@ -142,8 +142,20 @@ class Base {
 	 */
 	public function get_remote_server_root_url() {
 		return defined( 'PROGRESS_PLANNER_REMOTE_SERVER_ROOT_URL' )
-			? PROGRESS_PLANNER_REMOTE_SERVER_ROOT_URL
+			? \PROGRESS_PLANNER_REMOTE_SERVER_ROOT_URL
 			: 'https://progressplanner.com';
+	}
+
+	/**
+	 * Get the placeholder SVG.
+	 *
+	 * @param int $width The width of the placeholder image.
+	 * @param int $height The height of the placeholder image.
+	 *
+	 * @return string
+	 */
+	public function get_placeholder_svg( $width = 1200, $height = 675 ) {
+		return 'data:image/svg+xml;base64,' . base64_encode( sprintf( '<svg width="%1$d" height="%2$d" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="%3$d" height="%4$d" style="fill:#F6F5FB;stroke:#534786;stroke-width:2"/><text x="50%%" y="50%%" font-size="20" text-anchor="middle" alignment-baseline="middle" font-family="monospace" fill="#534786">progressplanner.com</text></svg>', $width, $height, ( $width - 4 ), ( $height - 4 ) ) );
 	}
 
 	/**
@@ -246,7 +258,7 @@ class Base {
 		 *
 		 * @param array $files The files to include.
 		 */
-		$files = apply_filters( 'progress_planner_the_file', (array) $files );
+		$files = (array) $files;
 		foreach ( $files as $file ) {
 			$path = $file;
 			if ( ! \file_exists( $path ) ) {
@@ -268,7 +280,7 @@ class Base {
 	 */
 	public function get_file_version( $file ) {
 		// If we're in debug mode, use filemtime.
-		if ( defined( 'WP_SCRIPT_DEBUG' ) && WP_SCRIPT_DEBUG ) {
+		if ( defined( 'WP_SCRIPT_DEBUG' ) && \WP_SCRIPT_DEBUG ) {
 			return (string) filemtime( $file );
 		}
 

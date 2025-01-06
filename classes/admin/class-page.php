@@ -28,7 +28,6 @@ class Page {
 		\add_action( 'admin_menu', [ $this, 'add_page' ] );
 		\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 		\add_action( 'wp_ajax_progress_planner_save_cpt_settings', [ $this, 'save_cpt_settings' ] );
-		\add_filter( 'progress_planner_admin_widgets', [ $this, 'remove_widgets_if_privacy_policy_not_accepted' ] );
 	}
 
 	/**
@@ -56,36 +55,6 @@ class Page {
 		 * @return array<\Progress_Planner\Widget>
 		 */
 		return \apply_filters( 'progress_planner_admin_widgets', $widgets );
-	}
-
-	/**
-	 * Remove the widgets if the license key is not set (user has not accepted the privacy policy).
-	 *
-	 * @param array<\Progress_Planner\Widget> $widgets The widgets.
-	 *
-	 * @return array<\Progress_Planner\Widget>
-	 */
-	public function remove_widgets_if_privacy_policy_not_accepted( $widgets ) {
-
-		// When privacy policy is accepted also the license key is set.
-		$privacy_policy_accepted = \progress_planner()->is_privacy_policy_accepted();
-
-		if ( true === $privacy_policy_accepted ) {
-			return $widgets;
-		}
-
-		$widgets_to_keep = [
-			'activity-scores',
-			'todo',
-			'published-content',
-		];
-
-		return \array_filter(
-			$widgets,
-			function ( $widget ) use ( $widgets_to_keep ) {
-				return \in_array( $widget->get_id(), $widgets_to_keep, true );
-			}
-		);
 	}
 
 	/**
@@ -159,15 +128,18 @@ class Page {
 		\progress_planner()->get_admin__scripts()->register_scripts();
 
 		if ( 'toplevel_page_progress-planner' === $current_screen->id ) {
-			\wp_enqueue_script( 'progress-planner-web-components-prpl-gauge' );
-			\wp_enqueue_script( 'progress-planner-web-components-prpl-chart-bar' );
-			\wp_enqueue_script( 'progress-planner-web-components-prpl-chart-line' );
-			\wp_enqueue_script( 'progress-planner-web-components-prpl-big-counter' );
-			\wp_enqueue_script( 'progress-planner-onboard' );
-			\wp_enqueue_script( 'progress-planner-header-filters' );
-			\wp_enqueue_script( 'progress-planner-todo' );
-			\wp_enqueue_script( 'progress-planner-settings' );
-			\wp_enqueue_script( 'progress-planner-grid-masonry' );
+
+			if ( true === \progress_planner()->is_privacy_policy_accepted() ) {
+				\wp_enqueue_script( 'progress-planner-web-components-prpl-gauge' );
+				\wp_enqueue_script( 'progress-planner-web-components-prpl-chart-bar' );
+				\wp_enqueue_script( 'progress-planner-web-components-prpl-chart-line' );
+				\wp_enqueue_script( 'progress-planner-web-components-prpl-big-counter' );
+				\wp_enqueue_script( 'progress-planner-header-filters' );
+				\wp_enqueue_script( 'progress-planner-settings' );
+				\wp_enqueue_script( 'progress-planner-grid-masonry' );
+			} else {
+				\wp_enqueue_script( 'progress-planner-onboard' );
+			}
 		}
 
 		if ( 'progress-planner_page_progress-planner-settings' === $current_screen->id ) {

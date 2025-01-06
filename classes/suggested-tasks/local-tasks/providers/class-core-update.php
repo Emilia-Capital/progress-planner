@@ -7,12 +7,18 @@
 
 namespace Progress_Planner\Suggested_Tasks\Local_Tasks\Providers;
 
-use Progress_Planner\Suggested_Tasks\Local_Tasks\Providers\Local_Tasks_Interface;
-
+use Progress_Planner\Suggested_Tasks\Local_Tasks\Local_Task_Factory;
 /**
  * Add tasks for Core updates.
  */
-class Core_Update implements Local_Tasks_Interface {
+class Core_Update extends Local_Tasks_Abstract {
+
+	/**
+	 * The capability required to perform the task.
+	 *
+	 * @var string
+	 */
+	protected $capability = 'update_core';
 
 	/**
 	 * The provider ID.
@@ -39,12 +45,20 @@ class Core_Update implements Local_Tasks_Interface {
 	 */
 	public function evaluate_task( $task_id ) {
 
+		// Early bail if the user does not have the capability to update the core, since \wp_get_update_data()['counts']['total'] will return 0.
+		if ( ! $this->capability_required() ) {
+			return false;
+		}
+
 		// Without this \wp_get_update_data() might not return correct data for the core updates (depending on the timing).
 		if ( ! function_exists( 'get_core_updates' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/update.php'; // @phpstan-ignore requireOnce.fileNotFound
 		}
 
-		if ( 0 === strpos( $task_id, self::TYPE ) && 0 === \wp_get_update_data()['counts']['total'] ) {
+		$task_object = ( new Local_Task_Factory( $task_id ) )->get_task();
+		$task_data   = $task_object->get_data();
+
+		if ( $task_data['type'] === self::TYPE && \gmdate( 'YW' ) === $task_data['year_week'] && 0 === \wp_get_update_data()['counts']['total'] ) {
 			return $task_id;
 		}
 		return false;
@@ -56,7 +70,9 @@ class Core_Update implements Local_Tasks_Interface {
 	 * @return array
 	 */
 	public function get_tasks_to_inject() {
-		if ( true === $this->is_task_type_snoozed() ) {
+
+		// Early bail if the user does not have the capability to update the core or if the task is snoozed.
+		if ( true === $this->is_task_type_snoozed() || ! $this->capability_required() ) {
 			return [];
 		}
 
@@ -91,6 +107,7 @@ class Core_Update implements Local_Tasks_Interface {
 			'priority'    => 'high',
 			'type'        => 'maintenance',
 			'points'      => 1,
+			'url'         => $this->capability_required() ? \esc_url( \admin_url( 'update-core.php' ) ) : '',
 			'description' => '<p>' . \esc_html__( 'Perform all updates to ensure your website is secure and up-to-date.', 'progress-planner' ) . '</p>',
 		];
 	}
@@ -123,7 +140,9 @@ class Core_Update implements Local_Tasks_Interface {
 		}
 
 		foreach ( $snoozed as $task ) {
-			if ( self::TYPE === $task['id'] ) {
+			$task_object = ( new Local_Task_Factory( $task['id'] ) )->get_task();
+			$task_data   = $task_object->get_data();
+			if ( $task_data['type'] === self::TYPE ) {
 				return true;
 			}
 		}

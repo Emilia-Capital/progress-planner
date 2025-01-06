@@ -99,10 +99,16 @@ final class Published_Content extends Widget {
 	public function get_chart_args() {
 		return [
 			'type'           => 'line',
-			'query_params'   => [
-				'category' => 'content',
-				'type'     => 'publish',
-			],
+			'items_callback' => function ( $start_date, $end_date ) {
+				return \progress_planner()->get_query()->query_activities(
+					[
+						'category'   => 'content',
+						'type'       => 'publish',
+						'start_date' => $start_date,
+						'end_date'   => $end_date,
+					]
+				);
+			},
 			'dates_params'   => [
 				'start_date' => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) )->modify( $this->get_range() ),
 				'end_date'   => new \DateTime(),

@@ -1,3 +1,16 @@
+= 1.0.2 =
+
+Fixed:
+
+* Remove duplicated weekly suggested tasks.
+* The REST API endpoint for getting stats was broken, causing the weekly emails not to work.
+* Scrollable monthly badges widget was the wrong height on page load.
+* 2026 monthly badges were showing up and shouldn't (yet).
+
+Enhancements:
+
+* Refocus the "add new task" input after a to-do item is added.
+
 = 1.0.1 =
 
 Fixed:

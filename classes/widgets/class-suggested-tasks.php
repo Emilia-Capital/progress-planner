@@ -9,6 +9,7 @@ namespace Progress_Planner\Widgets;
 
 use Progress_Planner\Widget;
 use Progress_Planner\Badges\Monthly;
+use Progress_Planner\Suggested_Tasks\Local_Tasks\Local_Task_Factory;
 
 /**
  * Suggested_Tasks class.
@@ -88,6 +89,8 @@ final class Suggested_Tasks extends Widget {
 	public function enqueue_scripts() {
 		$handle = 'progress-planner-' . $this->id;
 
+		$current_screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
+
 		// Enqueue the script.
 		\wp_enqueue_script( $handle );
 
@@ -100,16 +103,21 @@ final class Suggested_Tasks extends Widget {
 		// Insert the pending celebration tasks as high priority tasks, so they are shown always.
 		foreach ( $tasks['pending_celebration'] as $task_id ) {
 
-			$task_details = \progress_planner()->get_suggested_tasks()->get_local()->get_task_details( $task_id );
+			$task_object   = ( new Local_Task_Factory( $task_id ) )->get_task();
+			$task_provider = \progress_planner()->get_suggested_tasks()->get_local()->get_task_provider( $task_object->get_provider_type() );
 
-			if ( $task_details ) {
-				$task_details['priority'] = 'high'; // Celebrate tasks are always on top.
-				$task_details['action']   = 'celebrate';
-				$tasks['details'][]       = $task_details;
+			if ( $task_provider->capability_required() ) {
+				$task_details = \progress_planner()->get_suggested_tasks()->get_local()->get_task_details( $task_id );
+
+				if ( $task_details ) {
+					$task_details['priority'] = 'high'; // Celebrate tasks are always on top.
+					$task_details['action']   = 'celebrate';
+					$tasks['details'][]       = $task_details;
+				}
+
+				// Mark the pending celebration tasks as completed.
+				\progress_planner()->get_suggested_tasks()->transition_task_status( $task_id, 'pending_celebration', 'completed' );
 			}
-
-			// Mark the pending celebration tasks as completed.
-			\progress_planner()->get_suggested_tasks()->transition_task_status( $task_id, 'pending_celebration', 'completed' );
 		}
 
 		// Localize the script.
@@ -117,9 +125,10 @@ final class Suggested_Tasks extends Widget {
 			$handle,
 			'progressPlannerSuggestedTasks',
 			[
-				'ajaxUrl' => \admin_url( 'admin-ajax.php' ),
-				'nonce'   => \wp_create_nonce( 'progress_planner' ),
-				'tasks'   => $tasks,
+				'ajaxUrl'  => \admin_url( 'admin-ajax.php' ),
+				'nonce'    => \wp_create_nonce( 'progress_planner' ),
+				'tasks'    => $tasks,
+				'maxItems' => $current_screen && 'dashboard' === $current_screen->id ? 3 : 5,
 			]
 		);
 	}

@@ -102,6 +102,7 @@ class Scripts {
 					'progressPlannerBadge',
 					[
 						'remoteServerRootUrl' => \progress_planner()->get_remote_server_root_url(),
+						'placeholderImageUrl' => \progress_planner()->get_placeholder_svg(),
 					]
 				);
 				break;

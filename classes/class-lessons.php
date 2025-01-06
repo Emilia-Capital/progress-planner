@@ -27,13 +27,7 @@ class Lessons {
 	 * @return array
 	 */
 	public function get_items() {
-		$lessons = $this->get_remote_api_items();
-		/**
-		 * Filter the lessons.
-		 *
-		 * @param array $lessons The lessons.
-		 */
-		return apply_filters( 'progress_planner_lessons', $lessons );
+		return $this->get_remote_api_items();
 	}
 
 	/**
@@ -42,22 +36,18 @@ class Lessons {
 	 * @return array
 	 */
 	public function get_remote_api_items() {
-		$url = \add_query_arg(
-			[ 'site' => \get_site_url() ],
-			\progress_planner()->get_remote_server_root_url() . '/wp-json/progress-planner-saas/v1/lessons'
-		);
-		if ( \progress_planner()->is_pro_site() ) {
-			$url = \add_query_arg( [ 'license_key' => \get_option( 'progress_planner_pro_license_key' ) ], $url );
-		}
+		$url = \progress_planner()->get_remote_server_root_url() . '/wp-json/progress-planner-saas/v1/lessons';
+		$url = ( \progress_planner()->is_pro_site() )
+			? \add_query_arg(
+				[
+					'site'        => \get_site_url(),
+					'license_key' => \get_option( 'progress_planner_pro_license_key' ),
+				],
+				$url
+			)
+			: \add_query_arg( [ 'site' => \get_site_url() ], $url );
 
-		/**
-		 * Filter the endpoint url for the lessons.
-		 *
-		 * @param string $endpoint The endpoint url.
-		 */
-		$url = apply_filters( 'progress_planner_lessons_endpoint', $url );
-
-		$cache_key = 'lessons-' . md5( $url );
+		$cache_key = md5( $url );
 
 		$cached = \progress_planner()->get_cache()->get( $cache_key );
 		if ( is_array( $cached ) ) {

@@ -99,7 +99,7 @@ class Rest_API_Stats {
 		$badges = array_merge(
 			\progress_planner()->get_badges()->get_badges( 'content' ),
 			\progress_planner()->get_badges()->get_badges( 'maintenance' ),
-			\progress_planner()->get_badges()->get_badges( 'monthly' )
+			\progress_planner()->get_badges()->get_badges( 'monthly_flat' )
 		);
 
 		$data['badges'] = [];
@@ -117,7 +117,14 @@ class Rest_API_Stats {
 
 		$scores = \progress_planner()->get_chart()->get_chart_data(
 			[
-				'query_params'   => [],
+				'items_callback' => function ( $start_date, $end_date ) {
+					return \progress_planner()->get_query()->query_activities(
+						[
+							'start_date' => $start_date,
+							'end_date'   => $end_date,
+						]
+					);
+				},
 				'dates_params'   => [
 					'start_date' => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) )->modify( '-6 months' ),
 					'end_date'   => new \DateTime(),
@@ -160,8 +167,6 @@ class Rest_API_Stats {
 		$data['todo'] = $pending_todo_items;
 
 		$data['plugin_url'] = \esc_url( \get_admin_url( null, 'admin.php?page=progress-planner' ) );
-
-		$data = \apply_filters( 'progress_planner_rest_api_get_stats', $data );
 
 		return new \WP_REST_Response( $data );
 	}
