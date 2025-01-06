@@ -299,8 +299,18 @@ class BadgeScroller {
 	init() {
 		this.addEventListeners();
 
-		// On page load.
-		this.setWrapperHeight();
+		// On page load, when all images are loaded.
+		const images = [ ...this.element.querySelectorAll( 'img' ) ];
+		if ( images.length ) {
+			Promise.all(
+				images.map(
+					( im ) =>
+						new Promise( ( resolve ) => ( im.onload = resolve ) )
+				)
+			).then( () => {
+				this.setWrapperHeight();
+			} );
+		}
 
 		// When popover is opened.
 		document
