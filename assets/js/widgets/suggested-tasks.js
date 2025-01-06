@@ -1,5 +1,4 @@
 /* global customElements, progressPlannerSuggestedTasks, confetti, prplDocumentReady, progressPlannerSuggestedTask */
-const PRPL_SUGGESTED_TASKS_MAX_ITEMS = 5;
 
 /**
  * Count the number of items in the list.
@@ -262,7 +261,8 @@ document.addEventListener( 'DOMContentLoaded', () => {
 
 	// Inject items, until we reach the maximum number of items.
 	while (
-		progressPlannerCountItems() <= PRPL_SUGGESTED_TASKS_MAX_ITEMS &&
+		progressPlannerCountItems() <
+			parseInt( progressPlannerSuggestedTasks.maxItems ) &&
 		progressPlannerGetNextItem()
 	) {
 		progressPlannerInjectNextItem();
@@ -299,8 +299,18 @@ class BadgeScroller {
 	init() {
 		this.addEventListeners();
 
-		// On page load.
-		this.setWrapperHeight();
+		// On page load, when all images are loaded.
+		const images = [ ...this.element.querySelectorAll( 'img' ) ];
+		if ( images.length ) {
+			Promise.all(
+				images.map(
+					( im ) =>
+						new Promise( ( resolve ) => ( im.onload = resolve ) )
+				)
+			).then( () => {
+				this.setWrapperHeight();
+			} );
+		}
 
 		// When popover is opened.
 		document
@@ -416,7 +426,8 @@ document.addEventListener(
 	'prplMaybeInjectSuggestedTaskEvent',
 	() => {
 		while (
-			progressPlannerCountItems() <= PRPL_SUGGESTED_TASKS_MAX_ITEMS &&
+			progressPlannerCountItems() <
+				parseInt( progressPlannerSuggestedTasks.maxItems ) &&
 			progressPlannerGetNextItem()
 		) {
 			progressPlannerInjectNextItem();
