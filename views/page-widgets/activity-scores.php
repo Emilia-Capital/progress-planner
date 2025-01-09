@@ -5,6 +5,8 @@
  * @package Progress_Planner
  */
 
+use Progress_Planner\Base;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -54,7 +56,14 @@ $prpl_record = $prpl_widget->personal_record_callback();
 	\progress_planner()->get_chart()->the_chart(
 		[
 			'type'           => 'bar',
-			'query_params'   => [],
+			'items_callback' => function ( $start_date, $end_date ) {
+				return \progress_planner()->get_query()->query_activities(
+					[
+						'start_date' => $start_date,
+						'end_date'   => $end_date,
+					]
+				);
+			},
 			'dates_params'   => [
 				'start_date' => \DateTime::createFromFormat( 'Y-m-d', \gmdate( 'Y-m-01' ) )->modify( $prpl_widget->get_range() ),
 				'end_date'   => new \DateTime(),
@@ -66,7 +75,7 @@ $prpl_record = $prpl_widget->personal_record_callback();
 				foreach ( $activities as $activity ) {
 					$score += $activity->get_points( $date );
 				}
-				return $score * 100 / \Progress_Planner\Base::SCORE_TARGET;
+				return $score * 100 / Base::SCORE_TARGET;
 			},
 			'normalized'     => true,
 			'color'          => [ $prpl_widget, 'get_color' ],

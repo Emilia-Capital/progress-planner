@@ -28,7 +28,7 @@ class Suggested_Tasks_Test extends \WP_UnitTestCase {
 	 * @return void
 	 */
 	public function set_up() {
-		$this->suggested_tasks = new Suggested_Tasks();
+		$this->suggested_tasks = \progress_planner()->get_suggested_tasks();
 	}
 
 	/**
@@ -95,5 +95,39 @@ class Suggested_Tasks_Test extends \WP_UnitTestCase {
 	 * @return void
 	 */
 	public function test_maybe_unsnooze_tasks() {
+	}
+
+	/**
+	 * Test the task_cleanup method.
+	 *
+	 * @return void
+	 */
+	public function test_task_cleanup() {
+		// Tasks that should not be removed.
+		$tasks_to_keep = [
+			'remote-task-1234',
+			'post_id/14|type/update-post',
+			'date/202452|long/0|type/create-post',
+			'update-core-' . \gmdate( 'YW' ),
+			'settings-saved-' . \gmdate( 'YW' ),
+		];
+
+		foreach ( $tasks_to_keep as $task_id ) {
+			$this->suggested_tasks->get_local()->add_pending_task( $task_id );
+		}
+
+		// Tasks that should be removed.
+		$tasks_to_remove = [
+			'update-core-202451',
+			'settings-saved-202451',
+		];
+
+		foreach ( $tasks_to_remove as $task_id ) {
+			$this->suggested_tasks->get_local()->add_pending_task( $task_id );
+		}
+
+		$this->suggested_tasks->get_local()->cleanup_pending_tasks();
+
+		$this->assertEquals( count( $tasks_to_keep ), \count( $this->suggested_tasks->get_local()->get_pending_tasks() ) );
 	}
 }

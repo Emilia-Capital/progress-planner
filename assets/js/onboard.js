@@ -29,15 +29,11 @@ const progressPlannerAjaxAPIRequest = ( data ) => {
 		data,
 		successAction: ( response ) => {
 			// Show success message.
-			if ( 'no-license' === response.license_key ) {
-				document.getElementById(
-					'prpl-account-not-created-message'
-				).style.display = 'block';
-			} else {
-				document.getElementById(
-					'prpl-account-created-message'
-				).style.display = 'block';
-			}
+			document.getElementById(
+				'no-license' === response.license_key
+					? 'prpl-account-not-created-message'
+					: 'prpl-account-created-message'
+			).style.display = 'block';
 
 			// Hide the form.
 			document.getElementById( 'prpl-onboarding-form' ).style.display =
@@ -120,13 +116,13 @@ if ( document.getElementById( 'prpl-onboarding-form' ) ) {
 			const privacyPolicyAccepted = !! this.checked;
 
 			if ( privacyPolicyAccepted ) {
-				document.getElementById(
-					'prpl-onboarding-submit-wrapper'
-				).style.display = 'block';
+				document
+					.getElementById( 'prpl-onboarding-submit-wrapper' )
+					.classList.remove( 'prpl-disabled' );
 			} else {
-				document.getElementById(
-					'prpl-onboarding-submit-wrapper'
-				).style.display = 'none';
+				document
+					.getElementById( 'prpl-onboarding-submit-wrapper' )
+					.classList.add( 'prpl-disabled' );
 			}
 		} );
 

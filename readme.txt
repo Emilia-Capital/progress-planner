@@ -4,7 +4,7 @@ Tags: planning, maintenance, writing, blogging
 Requires at least: 6.3
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPL3+
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -77,6 +77,19 @@ https://youtu.be/e1bmxZYyXFY
 7. Get a weekly email with stats on how well you're doing on your site!
 
 == Changelog ==
+
+= 1.0.2 =
+
+Fixed:
+
+* Remove duplicated weekly suggested tasks.
+* The REST API endpoint for getting stats was broken, causing the weekly emails not to work.
+* Scrollable monthly badges widget was the wrong height on page load.
+* 2026 monthly badges were showing up and shouldn't (yet).
+
+Enhancements:
+
+* Refocus the "add new task" input after a to-do item is added.
 
 = 1.0.1 =
 

@@ -1,5 +1,4 @@
 /* global customElements, progressPlannerSuggestedTasks, confetti, prplDocumentReady, progressPlannerSuggestedTask */
-const PRPL_SUGGESTED_TASKS_MAX_ITEMS = 5;
 
 /**
  * Count the number of items in the list.
@@ -109,36 +108,38 @@ const progressPlannerInjectSuggestedTodoItem = ( details ) => {
 		document
 			.querySelector( '.prpl-suggested-tasks-list' )
 			.insertAdjacentElement( 'beforeend', item );
-	} else {
-		const parentItem = document.querySelector(
-			`.prpl-suggested-task[data-task-id="${ parent }"]`
-		);
-		// If we could not find the parent item, try again after 500ms.
-		window.progressPlannerRenderAttempts =
-			window.progressPlannerRenderAttempts || 0;
-		if ( window.progressPlannerRenderAttempts > 500 ) {
-			return;
-		}
-		if ( ! parentItem ) {
-			setTimeout( () => {
-				progressPlannerInjectSuggestedTodoItem( details );
-				window.progressPlannerRenderAttempts++;
-			}, 10 );
-			return;
-		}
 
-		// If the child list does not exist, create it.
-		if ( ! parentItem.querySelector( '.prpl-suggested-task-children' ) ) {
-			const childListElement = document.createElement( 'ul' );
-			childListElement.classList.add( 'prpl-suggested-task-children' );
-			parentItem.appendChild( childListElement );
-		}
-
-		// Inject the item into the child list.
-		parentItem
-			.querySelector( '.prpl-suggested-task-children' )
-			.insertAdjacentElement( 'beforeend', item );
+		return;
 	}
+
+	// If we could not find the parent item, try again after 500ms.
+	window.progressPlannerRenderAttempts =
+		window.progressPlannerRenderAttempts || 0;
+	if ( window.progressPlannerRenderAttempts > 500 ) {
+		return;
+	}
+	const parentItem = document.querySelector(
+		`.prpl-suggested-task[data-task-id="${ parent }"]`
+	);
+	if ( ! parentItem ) {
+		setTimeout( () => {
+			progressPlannerInjectSuggestedTodoItem( details );
+			window.progressPlannerRenderAttempts++;
+		}, 10 );
+		return;
+	}
+
+	// If the child list does not exist, create it.
+	if ( ! parentItem.querySelector( '.prpl-suggested-task-children' ) ) {
+		const childListElement = document.createElement( 'ul' );
+		childListElement.classList.add( 'prpl-suggested-task-children' );
+		parentItem.appendChild( childListElement );
+	}
+
+	// Inject the item into the child list.
+	parentItem
+		.querySelector( '.prpl-suggested-task-children' )
+		.insertAdjacentElement( 'beforeend', item );
 };
 
 const prplTriggerConfetti = () => {
@@ -260,7 +261,8 @@ document.addEventListener( 'DOMContentLoaded', () => {
 
 	// Inject items, until we reach the maximum number of items.
 	while (
-		progressPlannerCountItems() <= PRPL_SUGGESTED_TASKS_MAX_ITEMS &&
+		progressPlannerCountItems() <
+			parseInt( progressPlannerSuggestedTasks.maxItems ) &&
 		progressPlannerGetNextItem()
 	) {
 		progressPlannerInjectNextItem();
@@ -297,8 +299,18 @@ class BadgeScroller {
 	init() {
 		this.addEventListeners();
 
-		// On page load.
-		this.setWrapperHeight();
+		// On page load, when all images are loaded.
+		const images = [ ...this.element.querySelectorAll( 'img' ) ];
+		if ( images.length ) {
+			Promise.all(
+				images.map(
+					( im ) =>
+						new Promise( ( resolve ) => ( im.onload = resolve ) )
+				)
+			).then( () => {
+				this.setWrapperHeight();
+			} );
+		}
 
 		// When popover is opened.
 		document
@@ -414,7 +426,8 @@ document.addEventListener(
 	'prplMaybeInjectSuggestedTaskEvent',
 	() => {
 		while (
-			progressPlannerCountItems() <= PRPL_SUGGESTED_TASKS_MAX_ITEMS &&
+			progressPlannerCountItems() <
+				parseInt( progressPlannerSuggestedTasks.maxItems ) &&
 			progressPlannerGetNextItem()
 		) {
 			progressPlannerInjectNextItem();
