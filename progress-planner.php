@@ -17,6 +17,8 @@
  * Text Domain:       progress-planner
  */
 
+use Progress_Planner\Events\Task_Completed_Event;
+
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -68,3 +70,13 @@ function progress_planner() {
 	return $progress_planner;
 }
 \progress_planner();
+
+// WIP.
+add_action(
+	'progress_planner_suggested_task_completed',
+	function ( $task_id ) {
+		progress_planner()->get_event_dispatcher()->dispatch( new Task_Completed_Event( $task_id ) );
+	},
+	10,
+	1
+);

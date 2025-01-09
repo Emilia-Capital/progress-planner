@@ -16,6 +16,10 @@ use Progress_Planner\Actions\Content as Actions_Content;
 use Progress_Planner\Actions\Content_Scan as Actions_Content_Scan;
 use Progress_Planner\Actions\Maintenance as Actions_Maintenance;
 use Progress_Planner\Admin\Page_Settings as Admin_Page_Settings;
+use Progress_Planner\Events\Event_Dispatcher;
+use Progress_Planner\Events\Task_Completed_Event;
+use Progress_Planner\Events\Listeners\Send_Task_Completed_Message;
+
 /**
  * Main plugin class.
  */
@@ -100,6 +104,10 @@ class Base {
 		if ( true === $this->is_privacy_policy_accepted() ) {
 			$this->cached['settings_page'] = new Admin_Page_Settings();
 		}
+
+		// Events.
+		$this->cached['event_dispatcher'] = new Event_Dispatcher();
+		$this->cached['event_dispatcher']->listen( Task_Completed_Event::class, [ new Send_Task_Completed_Message(), 'handle' ] );
 	}
 
 	/**
