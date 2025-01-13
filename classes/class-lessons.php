@@ -74,7 +74,7 @@ class Lessons {
 			return [];
 		}
 
-		\progress_planner()->get_cache()->set( $cache_key, $json, WEEK_IN_SECONDS );
+		\progress_planner()->get_cache()->set( $cache_key, $json, DAY_IN_SECONDS );
 
 		return $json;
 	}

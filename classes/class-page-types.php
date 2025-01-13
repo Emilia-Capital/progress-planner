@@ -136,7 +136,7 @@ class Page_Types {
 			}
 		}
 
-		\progress_planner()->get_cache()->set( 'page_types_updated', true, \WEEK_IN_SECONDS );
+		\progress_planner()->get_cache()->set( 'page_types_updated', true, \DAY_IN_SECONDS );
 	}
 
 	/**
