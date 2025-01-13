@@ -8,37 +8,16 @@
 namespace Progress_Planner\Widgets;
 
 /**
- * Challenges class.
+ * Challenge class.
  */
-final class Challenges extends \Progress_Planner\Widget {
+final class Challenge extends \Progress_Planner\Widget {
 
 	/**
 	 * The widget ID.
 	 *
 	 * @var string
 	 */
-	protected $id = 'challenges';
-
-	/**
-	 * Get the current challenge.
-	 *
-	 * @return array
-	 */
-	public function get_current_challenge() {
-		$challenges = $this->get_challenges();
-		$now        = new \DateTime();
-
-		foreach ( $challenges as $challenge ) {
-			$start_date = \DateTime::createFromFormat( 'd/m/Y', $challenge['start_date'] );
-			$end_date   = \DateTime::createFromFormat( 'd/m/Y', $challenge['end_date'] );
-
-			if ( $start_date <= $now && $end_date >= $now ) {
-				return $challenge;
-			}
-		}
-
-		return [];
-	}
+	protected $id = 'challenge';
 
 	/**
 	 * Get the feed from the blog.
@@ -47,7 +26,7 @@ final class Challenges extends \Progress_Planner\Widget {
 	 *
 	 * @return array
 	 */
-	public function get_challenges( $force_free = false ) {
+	public function get_challenge( $force_free = false ) {
 		$cache_key = $this->get_cache_key( $force_free );
 		$feed_data = \progress_planner()->get_cache()->get( $cache_key );
 
@@ -67,7 +46,7 @@ final class Challenges extends \Progress_Planner\Widget {
 			if ( 200 !== wp_remote_retrieve_response_code( $response ) ) {
 				// Fallback to free response if PRO but the license is invalid.
 				if ( ! $force_free && \progress_planner()->is_pro_site() ) {
-					return $this->get_challenges( true );
+					return $this->get_challenge( true );
 				}
 
 				// If we cant fetch the feed, we will try again later.
@@ -92,7 +71,7 @@ final class Challenges extends \Progress_Planner\Widget {
 	 * @return void
 	 */
 	public function render() {
-		if ( empty( $this->get_current_challenge() ) ) {
+		if ( empty( $this->get_challenge() ) ) {
 			return;
 		}
 		parent::render();
