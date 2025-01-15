@@ -31,7 +31,7 @@ abstract class Badge_Maintenance extends Badge {
 				'status'      => 'active',
 				'priority'    => 'low',
 				'evaluate'    => function ( $goal_object ) {
-					return (bool) count(
+					return count(
 						\progress_planner()->get_query()->query_activities(
 							[
 								'start_date' => $goal_object->get_details()['start_date'],
