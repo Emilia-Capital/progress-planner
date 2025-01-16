@@ -78,6 +78,12 @@ https://youtu.be/e1bmxZYyXFY
 
 == Changelog ==
 
+= 1.0.3 =
+
+Fixed:
+
+* Detection of page-types in the settings page.
+
 = 1.0.2 =
 
 Fixed:
