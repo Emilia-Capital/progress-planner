@@ -62,21 +62,25 @@ class Page_Settings {
 				continue;
 			}
 
-			$value = '_no_page_needed';
+			$settings[ $page_type['slug'] ] = [
+				'id'    => $page_type['slug'],
+				'value' => '_no_page_needed',
+				'isset' => 'no',
+			];
+
 			if ( \progress_planner()->get_page_types()->is_page_needed( $page_type['slug'] ) ) {
 				$type_pages = \progress_planner()->get_page_types()->get_posts_by_type( 'any', $page_type['slug'] );
-				$value      = empty( $type_pages )
-					? \progress_planner()->get_page_types()->get_default_page_id_by_type( $page_type['slug'] )
-					: $type_pages[0]->ID;
+				if ( empty( $type_pages ) ) {
+					$settings[ $page_type['slug'] ]['value'] = \progress_planner()->get_page_types()->get_default_page_id_by_type( $page_type['slug'] );
+				} else {
+					$settings[ $page_type['slug'] ]['value'] = $type_pages[0]->ID;
+					$settings[ $page_type['slug'] ]['isset'] = 'yes';
+				}
 			}
-			$settings[ $page_type['slug'] ] = [
-				'id'          => $page_type['slug'],
-				'title'       => $page_type['title'],
-				'description' => $page_type['description'] ?? '',
-				'type'        => 'page-select',
-				'value'       => $value,
-				'page'        => $page_type['slug'],
-			];
+			$settings[ $page_type['slug'] ]['title']       = $page_type['title'];
+			$settings[ $page_type['slug'] ]['description'] = $page_type['description'] ?? '';
+			$settings[ $page_type['slug'] ]['type']        = 'page-select';
+			$settings[ $page_type['slug'] ]['page']        = $page_type['slug'];
 		}
 
 		return $settings;
