@@ -78,13 +78,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<?php endif ?>
 
 					<div style="<?php echo ( '' === $prpl_free_license_key ) ? 'display: none;' : ''; ?>">
-						<label for="prpl-setting-pro-license-key">
-							<?php \esc_html_e( 'Progress Planner Pro license key', 'progress-planner' ); ?>
-						</label>
 						<?php
 						$prpl_pro_license        = \get_option( 'progress_planner_pro_license_key', '' );
 						$prpl_pro_license_status = \get_option( 'progress_planner_pro_license_status', '' );
 						?>
+						<?php if ( empty( $prpl_pro_license ) || 'valid' !== $prpl_pro_license_status ) : ?>
+							<p>
+								<?php
+								printf(
+									// translators: %s is a link to the Pro page, with the text "Read more...".
+									\esc_html__( 'Get additional features, lessons and access to premium services with Pro! %s', 'progress-planner' ),
+									'<a href="https://progressplanner.com/pro" target="_blank">' . \esc_html__( 'Read more...', 'progress-planner' ) . '</a>'
+								);
+								?>
+							</p>
+						<?php endif; ?>
+						<label for="prpl-setting-pro-license-key">
+							<?php \esc_html_e( 'Progress Planner Pro license key', 'progress-planner' ); ?>
+						</label>
 						<div class="prpl-license-key-wrapper">
 							<input
 								id="prpl-setting-pro-license-key"
