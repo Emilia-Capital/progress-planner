@@ -1,6 +1,6 @@
 <?php
 /**
- * Add tasks for settings saved.
+ * Add tasks for Core siteicon.
  *
  * @package Progress_Planner
  */
@@ -8,16 +8,16 @@
 namespace Progress_Planner\Suggested_Tasks\Local_Tasks\Providers;
 
 /**
- * Add tasks for settings saved.
+ * Add tasks for Core siteicon.
  */
-class Settings_Saved extends Local_Tasks_Abstract {
+class Core_Siteicon extends Local_Tasks_Abstract {
 
 	/**
 	 * The provider ID.
 	 *
 	 * @var string
 	 */
-	const TYPE = 'settings-saved';
+	const TYPE = 'core-siteicon';
 
 	/**
 	 * Get the provider ID.
@@ -42,7 +42,8 @@ class Settings_Saved extends Local_Tasks_Abstract {
 			return false;
 		}
 
-		if ( 0 === strpos( $task_id, self::TYPE ) && false !== \get_option( 'progress_planner_pro_license_key', false ) ) {
+		$site_icon = \get_option( 'site_icon' );
+		if ( 0 === strpos( $task_id, self::TYPE ) && ( '' !== $site_icon && '0' !== $site_icon ) ) {
 			return $task_id;
 		}
 		return false;
@@ -60,26 +61,14 @@ class Settings_Saved extends Local_Tasks_Abstract {
 			return [];
 		}
 
-		$prpl_pro_license_key = \get_option( 'progress_planner_pro_license_key', false );
-
-		if ( false !== $prpl_pro_license_key ) {
-			return [];
-		}
-
-		$task_id = self::TYPE;
-
-		// If the task with this id is completed, don't add a task.
-		if ( true === \progress_planner()->get_suggested_tasks()->check_task_condition(
-			[
-				'type'    => 'completed',
-				'task_id' => $task_id,
-			]
-		) ) {
+		$site_icon = \get_option( 'site_icon' );
+		// If site icon is set, do not add the task.
+		if ( '' !== $site_icon && '0' !== $site_icon ) {
 			return [];
 		}
 
 		return [
-			$this->get_task_details( $task_id ),
+			$this->get_task_details( self::TYPE ),
 		];
 	}
 
@@ -94,13 +83,17 @@ class Settings_Saved extends Local_Tasks_Abstract {
 
 		return [
 			'task_id'     => $task_id,
-			'title'       => \esc_html__( 'Fill settings page', 'progress-planner' ),
+			'title'       => \esc_html__( 'Set site icon', 'progress-planner' ),
 			'parent'      => 0,
 			'priority'    => 'high',
 			'type'        => 'maintenance',
 			'points'      => 1,
-			'url'         => $this->capability_required() ? \esc_url( \admin_url( 'admin.php?page=progress-planner-settings' ) ) : '',
-			'description' => '<p>' . \esc_html__( 'Head over to the settings page and fill in the required information.', 'progress-planner' ) . '</p>',
+			'url'         => $this->capability_required() ? \esc_url( \admin_url( 'options-general.php' ) ) : '',
+			'description' => '<p>' . sprintf(
+				/* translators: %s:<a href="https://prpl.fyi/home" target="_blank">site icon</a> link */
+				\esc_html__( 'Set the %s to make your website look more professional.', 'progress-planner' ),
+				'<a href="https://prpl.fyi/home" target="_blank">' . \esc_html__( 'site icon', 'progress-planner' ) . '</a>'
+			) . '</p>',
 		];
 	}
 
