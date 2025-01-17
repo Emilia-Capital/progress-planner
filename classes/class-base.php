@@ -98,9 +98,10 @@ class Base {
 		$this->cached['suggested_tasks'] = new Suggested_Tasks();
 		$this->cached['badges']          = new Badges();
 
-		// Dont add the widget if the privacy policy is not accepted.
 		if ( true === $this->is_privacy_policy_accepted() ) {
 			$this->cached['settings_page'] = new Admin_Page_Settings();
+
+			new Plugin_Deactivation();
 		}
 	}
 
