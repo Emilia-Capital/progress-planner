@@ -129,7 +129,7 @@ class Page_Settings {
 				// Remove the post-meta from the existing posts.
 				$existing_posts = \progress_planner()->get_page_types()->get_posts_by_type( 'any', $type );
 				foreach ( $existing_posts as $post ) {
-					if ( $post->ID === (int) $page_args['id'] ) {
+					if ( $post->ID === (int) $page_args['id'] && 'no' !== $page_args['have_page'] ) {
 						continue;
 					}
 
@@ -148,8 +148,10 @@ class Page_Settings {
 					continue;
 				}
 
-				// Add the term to the `progress_planner_page_types` taxonomy.
-				\progress_planner()->get_page_types()->set_page_type_by_id( (int) $page_args['id'], $type );
+				if ( 'no' !== $page_args['have_page'] ) {
+					// Add the term to the `progress_planner_page_types` taxonomy.
+					\progress_planner()->get_page_types()->set_page_type_by_id( (int) $page_args['id'], $type );
+				}
 			}
 		}
 
