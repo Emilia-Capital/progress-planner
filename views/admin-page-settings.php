@@ -88,7 +88,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 								printf(
 									// translators: %s is a link to the Pro page, with the text "Progress Planner Pro".
 									\esc_html__( 'Take part in interactive challenges to solve website problems like broken links and sharpen your skills with in-context mini courses. Upgrade to %s!', 'progress-planner' ),
-									'<a href="https://progressplanner.com/pro" target="_blank">Progress Planner Pro</a>'
+									'<a href="https://progressplanner.com/pro/" target="_blank">Progress Planner Pro</a>'
 								);
 								?>
 							</p>
