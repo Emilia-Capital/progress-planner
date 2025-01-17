@@ -75,6 +75,21 @@ class Page_Settings {
 				} else {
 					$settings[ $page_type['slug'] ]['value'] = $type_pages[0]->ID;
 					$settings[ $page_type['slug'] ]['isset'] = 'yes';
+
+					// If there is more than one page, we need to check if the page has a parent with the same page-type assigned.
+					if ( 1 < count( $type_pages ) ) {
+						$type_pages_ids = [];
+						foreach ( $type_pages as $type_page ) {
+							$type_pages_ids[] = (int) $type_page->ID;
+						}
+						foreach ( $type_pages as $type_page ) {
+							$parent = \get_post_field( 'post_parent', $type_page->ID );
+							if ( $parent && in_array( (int) $parent, $type_pages_ids, true ) ) {
+								$settings[ $page_type['slug'] ]['value'] = $parent;
+								break;
+							}
+						}
+					}
 				}
 			}
 			$settings[ $page_type['slug'] ]['title']       = $page_type['title'];
