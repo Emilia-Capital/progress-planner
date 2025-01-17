@@ -11,6 +11,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 ?>
 
-<a class="button-get-pro-link" href="https://progressplanner.com/buy-pro" target="_blank">
+<a id="prpl-button-get-pro-link" class="prpl-button-primary" href="https://progressplanner.com/buy-pro" target="_blank">
 	<?php \esc_html_e( 'Get PRO', 'progress-planner' ); ?>
 </a>
