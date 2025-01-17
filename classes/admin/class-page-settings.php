@@ -63,9 +63,13 @@ class Page_Settings {
 			}
 
 			$settings[ $page_type['slug'] ] = [
-				'id'    => $page_type['slug'],
-				'value' => '_no_page_needed',
-				'isset' => 'no',
+				'id'          => $page_type['slug'],
+				'value'       => '_no_page_needed',
+				'isset'       => 'no',
+				'title'       => $page_type['title'],
+				'description' => $page_type['description'] ?? '',
+				'type'        => 'page-select',
+				'page'        => $page_type['slug'],
 			];
 
 			if ( \progress_planner()->get_page_types()->is_page_needed( $page_type['slug'] ) ) {
@@ -92,10 +96,6 @@ class Page_Settings {
 					}
 				}
 			}
-			$settings[ $page_type['slug'] ]['title']       = $page_type['title'];
-			$settings[ $page_type['slug'] ]['description'] = $page_type['description'] ?? '';
-			$settings[ $page_type['slug'] ]['type']        = 'page-select';
-			$settings[ $page_type['slug'] ]['page']        = $page_type['slug'];
 		}
 
 		return $settings;
