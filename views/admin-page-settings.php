@@ -60,7 +60,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<div class="prpl-widget-wrapper">
 				<h2 class="prpl-settings-section-license">
 					<span>
-						<?php \esc_html_e( 'Licenses', 'progress-planner' ); ?>
+						<?php \esc_html_e( 'License', 'progress-planner' ); ?>
 					</span>
 				</h2>
 				<div class="prpl-license-keys-wrapper">
