@@ -86,9 +86,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 							<p>
 								<?php
 								printf(
-									// translators: %s is a link to the Pro page, with the text "Read more...".
-									\esc_html__( 'Get additional features, lessons and access to premium services with Pro! %s', 'progress-planner' ),
-									'<a href="https://progressplanner.com/pro" target="_blank">' . \esc_html__( 'Read more...', 'progress-planner' ) . '</a>'
+									// translators: %s is a link to the Pro page, with the text "Progress Planner Pro".
+									\esc_html__( 'Take part in interactive challenges to solve website problems like broken links and sharpen your skills with in-context mini courses. Upgrade to %s!', 'progress-planner' ),
+									'<a href="https://progressplanner.com/pro" target="_blank">Progress Planner Pro</a>'
 								);
 								?>
 							</p>
